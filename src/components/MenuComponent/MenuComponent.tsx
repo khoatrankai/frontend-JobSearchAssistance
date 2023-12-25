@@ -281,38 +281,38 @@ const MenuComponent = (props: Props) => {
     fetchData();
   }, [language]);
 
-  const handleClickNoty = (
-    postId: number,
-    commentId: number,
-    applicationId: number,
-    typeText: string
-  ) => {
-    if (typeText === "recruiter") {
-      let res;
-      const fetchData = async () => {
-        res = (await historyRecruiter.GetAJobApplication(
-          postId,
-          applicationId.toString(),
-          "vi"
-        )) as unknown as INotification;
+  // const handleClickNoty = (
+  //   postId: number,
+  //   commentId: number,
+  //   applicationId: number,
+  //   typeText: string
+  // ) => {
+  //   if (typeText === "recruiter") {
+  //     let res;
+  //     const fetchData = async () => {
+  //       res = (await historyRecruiter.GetAJobApplication(
+  //         postId,
+  //         applicationId.toString(),
+  //         "vi"
+  //       )) as unknown as INotification;
 
-        if (res && res.code === 200) {
-          window.open(
-            `candidate-detail/${res?.data?.applicationProfile.account_id}?post-id=${postId}&application_id=${applicationId}`,
-            "_parent"
-          );
-        }
-      };
+  //       if (res && res.code === 200) {
+  //         window.open(
+  //           `candidate-detail/${res?.data?.applicationProfile.account_id}?post-id=${postId}&application_id=${applicationId}`,
+  //           "_parent"
+  //         );
+  //       }
+  //     };
 
-      fetchData();
-    }
-    if (typeText === "applicator") {
-      window.open(`post-detail/${postId}`, "_parent");
-    }
-    if (typeText === "communicationComment") {
-      window.open(`detail-community?post-community=${commentId}`, "_parent");
-    }
-  };
+  //     fetchData();
+  //   }
+  //   if (typeText === "applicator") {
+  //     window.open(`post-detail/${postId}`, "_parent");
+  //   }
+  //   if (typeText === "communicationComment") {
+  //     window.open(`detail-community?post-community=${commentId}`, "_parent");
+  //   }
+  // };
 
   const handleRedirect = () => {
     if (!profile?.companyInfomation) {
