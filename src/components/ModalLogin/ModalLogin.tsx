@@ -146,358 +146,350 @@ const ModalLogin = (props: Props) => {
 
   const handleResendCode = () => {};
 
-  useEffect(() => {
-    const start = () => {
-      gapi.client.init({
-        clientId: googleClient,
-        scope: "",
-      });
+  useEffect(() => {}, []);
+
+  const responseGoogle = async (response: any) => {
+    try {
+      if (response.accessToken) {
+        const res = (await signInEmailApi.signInGoogle(
+          response.tokenId
+        )) as unknown as IReponseGoogle;
+
+        if (res && res.code === 200) {
+          fetchDataProfile(res.data);
+        }
+      }
+    } catch (error) {
+      console.log("error gg", error);
+    }
+  };
+
+  const fetchDataProfile = async (auth: AuthReponse) => {
+    localStorage.setItem(
+      "accountId",
+      auth && auth.accountId ? auth.accountId : ""
+    );
+    localStorage.setItem(
+      "accessToken",
+      auth && auth.accessToken ? auth.accessToken : ""
+    );
+    localStorage.setItem(
+      "refreshToken",
+      auth && auth.refreshToken ? auth.refreshToken : ""
+    );
+
+    dispatch(fetchProfile("vi") as any);
+    handleClose();
+  };
+
+  const handleOnChageInputEmailOtp = (e: any) => {
+    setEmailOtp(e.target.value);
+  };
+
+  const handleSendOtp = async () => {
+    try {
+      const check = isEmailValid(emailOtp);
+
+      if (check) {
+        const res = (await signInEmailApi.signInEmail(
+          emailOtp
+        )) as unknown as IReponseGoogle;
+
+        if (res && res.code === 200) {
+          handleOpenVerifyCode();
+        } else {
+          toast.warning(
+            languageRedux === 1
+              ? "OTP vẫn còn hạn, vui lòng kiểm tra email"
+              : "OTP is still valid, please check your email",
+            {
+              position: "bottom-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            }
+          );
+          setOpenVerifyCode(true);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleLoginOtp = async () => {
+    try {
+      const res = (await signInEmailApi.verifyOtp(
+        emailOtp,
+        otp
+      )) as unknown as IReponseGoogle;
+
+      if (res && res.code === 200) {
+        fetchDataProfile(res.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string
+  ) => {
+    setAlignment(newAlignment);
+  };
+
+  const handleOnChageInputEmailRecruit = (e: any) => {
+    setEmailRecruit(e.target.value);
+  };
+
+  const handleOnChageInputPasswordRecruit = (e: any) => {
+    setPasswordRecruit(e.target.value);
+  };
+
+  const handleLoginRecruit = async () => {
+    try {
+      const res = (await signInEmailApi.signInRecruit(
+        emailRecruit,
+        passwordRecruit
+      )) as unknown as IReponseSignInRecruit;
+
+      if (res && res.code === 200) {
+        fetchDataProfile(res.data);
+      } else {
+        toast.error(
+          languageRedux === 1
+            ? "Sai email hoặc mật khẩu"
+            : "Wrong email or password",
+          {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          }
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleOnChageInputEmailOtpRecurit = (e: any) => {
+    setEmailOtpVefify(e.target.value);
+  };
+
+  const handleCloseModalOtpVerify = () => {
+    setIsOpenModalSendOtpRecruit(false);
+  };
+
+  const handleChangePassword = (e: any) => {
+    setPassword(e.target.value);
+  };
+
+  const handleComfirmPassword = (e: any) => {
+    setCofirmPassword(e.target.value);
+  };
+
+  const handleSendOtpRecruiter = async () => {
+    try {
+      const check = isEmailValid(emailOtpVefify);
+
+      if (check) {
+        const res = (await signInEmailApi.signInEmailRecruit(
+          emailOtpVefify
+        )) as unknown as IReponseSignInRecruit;
+
+        if (res && res.statusCode === 200) {
+          setIsOpenModalSendOtpRecruit(false);
+          setIsOpenVerifyOtpAndPassword(true);
+        } else {
+          toast.warning(
+            languageRedux === 1
+              ? "Email đã tồn tại trong hệ thống"
+              : "Email already exists in the system",
+            {
+              position: "bottom-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            }
+          );
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleOtpRecruitChange = (otpValue: string) => {
+    setOtpRecruit(otpValue);
+    setIsInputFilled(otpValue.length > 5);
+  };
+
+  const handleOtpForgotChange = (otpValue: string) => {
+    setOtpForgot(otpValue);
+    setIsInputFilled(otpValue.length > 5);
+  };
+
+  const handleVerifyOtpRecruit = async () => {
+    const res = (await signInEmailApi.verifyOtpRecruit(
+      emailOtpVefify,
+      otpRecruit
+    )) as unknown as IReponseSignInRecruit;
+
+    if (res && res.statusCode === 200) {
+      setIsOpenVerifyOtpAndPassword(false);
+      setIsOpenConfrimPassword(true);
+    } else {
+      toast.error(
+        languageRedux === 1 ? "Mã OTP không hợp lệ" : "Invalid OTP code",
+        {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        }
+      );
+    }
+  };
+
+  const handleVerifyConfirmPassword = async () => {
+    const res = (await signInEmailApi.verifyConfirmPassword(
+      emailOtpVefify,
+      password
+    )) as unknown as IReponseSignInRecruit;
+
+    if (res && res.statusCode === 200) {
+      fetchDataProfile(res.data);
+      setIsOpenConfrimPassword(false);
+    }
+  };
+
+  const handleBackLogin = () => {
+    setOpenVerifyCode(false);
+  };
+
+  const handleOnChageInputEmailOtpForgotPassword = (e: any) => {
+    setEmailForgot(e.target.value);
+  };
+
+  const handleSendOtpForgot = () => {
+    const fetchData = async () => {
+      const res = (await axiosClient.post(
+        `https://web-service-tkv2.onrender.com/api/v3/users/forgot-password`,
+        {
+          email: emailForgot,
+        }
+      )) as unknown as IReponseSignInRecruit;
+
+      if (res && res.statusCode === 200) {
+        setIsOpenModalSendOtpForgotPassword(false);
+        setIsOpenVerifyOtpAndPasswordForgot(true);
+        handleToggleModal();
+      } else {
+        toast.error(res?.message, {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
     };
-    gapi.load("client:auth2", start);
-  }, []);
 
-  // const responseGoogle = async (response: any) => {
-  //   try {
-  //     if (response.accessToken) {
-  //       const res = (await signInEmailApi.signInGoogle(
-  //         response.tokenId
-  //       )) as unknown as IReponseGoogle;
+    fetchData();
+  };
 
-  //       if (res && res.code === 200) {
-  //         fetchDataProfile(res.data);
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.log("error gg", error);
-  //   }
-  // };
+  const handleVerifyOtpForgot = () => {
+    setIsOpenVerifyOtpAndPasswordForgot(false);
+    const fetchData = async () => {
+      const res = (await axiosClient.post(
+        `https://web-service-tkv2.onrender.com/api/v3/users/forgot-password/confirm`,
+        {
+          email: emailForgot,
+          otp: otpForgot,
+        }
+      )) as unknown as IReponseSignInRecruit;
 
-  // const fetchDataProfile = async (auth: AuthReponse) => {
-  //   localStorage.setItem(
-  //     "accountId",
-  //     auth && auth.accountId ? auth.accountId : ""
-  //   );
-  //   localStorage.setItem(
-  //     "accessToken",
-  //     auth && auth.accessToken ? auth.accessToken : ""
-  //   );
-  //   localStorage.setItem(
-  //     "refreshToken",
-  //     auth && auth.refreshToken ? auth.refreshToken : ""
-  //   );
+      if (res && res.statusCode === 200) {
+        setIsOpenModalSendOtpForgotPassword(false);
+        setIsOpenConfrimPasswordForgot(true);
+        handleToggleModal();
+      } else {
+        toast.error(
+          languageRedux === 1 ? "Mã OTP không hợp lệ" : "Invalid OTP code",
+          {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          }
+        );
+      }
+    };
+    fetchData();
+  };
 
-  //   dispatch(fetchProfile("vi") as any);
-  //   handleClose();
-  // };
+  const handleVerifyConfirmPasswordForgot = () => {
+    const fetchData = async () => {
+      const res = (await axiosClient.post(
+        `https://web-service-tkv2.onrender.com/api/v3/users/forgot-password/modify`,
+        {
+          email: emailForgot,
+          password: passwordForgot,
+        }
+      )) as unknown as IReponseSignInRecruit;
 
-  // const handleOnChageInputEmailOtp = (e: any) => {
-  //   setEmailOtp(e.target.value);
-  // };
+      if (res && res.statusCode === 200) {
+        setIsOpenConfrimPasswordForgot(false);
+        handleToggleModal();
+        toast.success(
+          languageRedux === 1
+            ? "Cập nhật mật khẩu thành công"
+            : "Password update successful",
+          {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          }
+        );
+      }
+    };
 
-  // const handleSendOtp = async () => {
-  //   try {
-  //     const check = isEmailValid(emailOtp);
-
-  //     if (check) {
-  //       const res = (await signInEmailApi.signInEmail(
-  //         emailOtp
-  //       )) as unknown as IReponseGoogle;
-
-  //       if (res && res.code === 200) {
-  //         handleOpenVerifyCode();
-  //       } else {
-  //         toast.warning(
-  //           languageRedux === 1
-  //             ? "OTP vẫn còn hạn, vui lòng kiểm tra email"
-  //             : "OTP is still valid, please check your email",
-  //           {
-  //             position: "bottom-center",
-  //             autoClose: 2000,
-  //             hideProgressBar: false,
-  //             closeOnClick: true,
-  //             pauseOnHover: true,
-  //             draggable: true,
-  //             progress: undefined,
-  //             theme: "colored",
-  //           }
-  //         );
-  //         setOpenVerifyCode(true);
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // const handleLoginOtp = async () => {
-  //   try {
-  //     const res = (await signInEmailApi.verifyOtp(
-  //       emailOtp,
-  //       otp
-  //     )) as unknown as IReponseGoogle;
-
-  //     if (res && res.code === 200) {
-  //       fetchDataProfile(res.data);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // const handleChange = (
-  //   event: React.MouseEvent<HTMLElement>,
-  //   newAlignment: string
-  // ) => {
-  //   setAlignment(newAlignment);
-  // };
-
-  // const handleOnChageInputEmailRecruit = (e: any) => {
-  //   setEmailRecruit(e.target.value);
-  // };
-
-  // const handleOnChageInputPasswordRecruit = (e: any) => {
-  //   setPasswordRecruit(e.target.value);
-  // };
-
-  // const handleLoginRecruit = async () => {
-  //   try {
-  //     const res = (await signInEmailApi.signInRecruit(
-  //       emailRecruit,
-  //       passwordRecruit
-  //     )) as unknown as IReponseSignInRecruit;
-
-  //     if (res && res.code === 200) {
-  //       fetchDataProfile(res.data);
-  //     } else {
-  //       toast.error(
-  //         languageRedux === 1
-  //           ? "Sai email hoặc mật khẩu"
-  //           : "Wrong email or password",
-  //         {
-  //           position: "bottom-center",
-  //           autoClose: 2000,
-  //           hideProgressBar: false,
-  //           closeOnClick: true,
-  //           pauseOnHover: true,
-  //           draggable: true,
-  //           progress: undefined,
-  //           theme: "colored",
-  //         }
-  //       );
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // const handleOnChageInputEmailOtpRecurit = (e: any) => {
-  //   setEmailOtpVefify(e.target.value);
-  // };
-
-  // const handleCloseModalOtpVerify = () => {
-  //   setIsOpenModalSendOtpRecruit(false);
-  // };
-
-  // const handleChangePassword = (e: any) => {
-  //   setPassword(e.target.value);
-  // };
-
-  // const handleComfirmPassword = (e: any) => {
-  //   setCofirmPassword(e.target.value);
-  // };
-
-  // const handleSendOtpRecruiter = async () => {
-  //   try {
-  //     const check = isEmailValid(emailOtpVefify);
-
-  //     if (check) {
-  //       const res = (await signInEmailApi.signInEmailRecruit(
-  //         emailOtpVefify
-  //       )) as unknown as IReponseSignInRecruit;
-
-  //       if (res && res.statusCode === 200) {
-  //         setIsOpenModalSendOtpRecruit(false);
-  //         setIsOpenVerifyOtpAndPassword(true);
-  //       } else {
-  //         toast.warning(
-  //           languageRedux === 1
-  //             ? "Email đã tồn tại trong hệ thống"
-  //             : "Email already exists in the system",
-  //           {
-  //             position: "bottom-center",
-  //             autoClose: 2000,
-  //             hideProgressBar: false,
-  //             closeOnClick: true,
-  //             pauseOnHover: true,
-  //             draggable: true,
-  //             progress: undefined,
-  //             theme: "colored",
-  //           }
-  //         );
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // const handleOtpRecruitChange = (otpValue: string) => {
-  //   setOtpRecruit(otpValue);
-  //   setIsInputFilled(otpValue.length > 5);
-  // };
-
-  // const handleOtpForgotChange = (otpValue: string) => {
-  //   setOtpForgot(otpValue);
-  //   setIsInputFilled(otpValue.length > 5);
-  // };
-
-  // const handleVerifyOtpRecruit = async () => {
-  //   const res = (await signInEmailApi.verifyOtpRecruit(
-  //     emailOtpVefify,
-  //     otpRecruit
-  //   )) as unknown as IReponseSignInRecruit;
-
-  //   if (res && res.statusCode === 200) {
-  //     setIsOpenVerifyOtpAndPassword(false);
-  //     setIsOpenConfrimPassword(true);
-  //   } else {
-  //     toast.error(
-  //       languageRedux === 1 ? "Mã OTP không hợp lệ" : "Invalid OTP code",
-  //       {
-  //         position: "bottom-center",
-  //         autoClose: 2000,
-  //         hideProgressBar: false,
-  //         closeOnClick: true,
-  //         pauseOnHover: true,
-  //         draggable: true,
-  //         progress: undefined,
-  //         theme: "colored",
-  //       }
-  //     );
-  //   }
-  // };
-
-  // const handleVerifyConfirmPassword = async () => {
-  //   const res = (await signInEmailApi.verifyConfirmPassword(
-  //     emailOtpVefify,
-  //     password
-  //   )) as unknown as IReponseSignInRecruit;
-
-  //   if (res && res.statusCode === 200) {
-  //     fetchDataProfile(res.data);
-  //     setIsOpenConfrimPassword(false);
-  //   }
-  // };
-
-  // const handleBackLogin = () => {
-  //   setOpenVerifyCode(false);
-  // };
-
-  // const handleOnChageInputEmailOtpForgotPassword = (e: any) => {
-  //   setEmailForgot(e.target.value);
-  // };
-
-  // const handleSendOtpForgot = () => {
-  //   const fetchData = async () => {
-  //     const res = (await axiosClient.post(
-  //       `https://web-service-tkv2.onrender.com/api/v3/users/forgot-password`,
-  //       {
-  //         email: emailForgot,
-  //       }
-  //     )) as unknown as IReponseSignInRecruit;
-
-  //     if (res && res.statusCode === 200) {
-  //       setIsOpenModalSendOtpForgotPassword(false);
-  //       setIsOpenVerifyOtpAndPasswordForgot(true);
-  //       handleToggleModal();
-  //     } else {
-  //       toast.error(res?.message, {
-  //         position: "bottom-center",
-  //         autoClose: 2000,
-  //         hideProgressBar: false,
-  //         closeOnClick: true,
-  //         pauseOnHover: true,
-  //         draggable: true,
-  //         progress: undefined,
-  //         theme: "colored",
-  //       });
-  //     }
-  //   };
-
-  //   fetchData();
-  // };
-
-  // const handleVerifyOtpForgot = () => {
-  //   setIsOpenVerifyOtpAndPasswordForgot(false);
-  //   const fetchData = async () => {
-  //     const res = (await axiosClient.post(
-  //       `https://web-service-tkv2.onrender.com/api/v3/users/forgot-password/confirm`,
-  //       {
-  //         email: emailForgot,
-  //         otp: otpForgot,
-  //       }
-  //     )) as unknown as IReponseSignInRecruit;
-
-  //     if (res && res.statusCode === 200) {
-  //       setIsOpenModalSendOtpForgotPassword(false);
-  //       setIsOpenConfrimPasswordForgot(true);
-  //       handleToggleModal();
-  //     } else {
-  //       toast.error(
-  //         languageRedux === 1 ? "Mã OTP không hợp lệ" : "Invalid OTP code",
-  //         {
-  //           position: "bottom-center",
-  //           autoClose: 2000,
-  //           hideProgressBar: false,
-  //           closeOnClick: true,
-  //           pauseOnHover: true,
-  //           draggable: true,
-  //           progress: undefined,
-  //           theme: "colored",
-  //         }
-  //       );
-  //     }
-  //   };
-  //   fetchData();
-  // };
-
-  // const handleVerifyConfirmPasswordForgot = () => {
-  //   const fetchData = async () => {
-  //     const res = (await axiosClient.post(
-  //       `https://web-service-tkv2.onrender.com/api/v3/users/forgot-password/modify`,
-  //       {
-  //         email: emailForgot,
-  //         password: passwordForgot,
-  //       }
-  //     )) as unknown as IReponseSignInRecruit;
-
-  //     if (res && res.statusCode === 200) {
-  //       setIsOpenConfrimPasswordForgot(false);
-  //       handleToggleModal();
-  //       toast.success(
-  //         languageRedux === 1
-  //           ? "Cập nhật mật khẩu thành công"
-  //           : "Password update successful",
-  //         {
-  //           position: "bottom-center",
-  //           autoClose: 2000,
-  //           hideProgressBar: false,
-  //           closeOnClick: true,
-  //           pauseOnHover: true,
-  //           draggable: true,
-  //           progress: undefined,
-  //           theme: "colored",
-  //         }
-  //       );
-  //     }
-  //   };
-
-  //   fetchData();
-  // };
+    fetchData();
+  };
 
   return (
     <div>
-      {/* <Modal open={isOpen} onClose={handleClose} ref={modalRef}>
+      <Modal open={isOpen} onClose={handleClose} ref={modalRef}>
         <Box sx={style}>
           <Box sx={{ textAlign: "center", marginBottom: "3px" }}>
             <ToggleButtonGroup
@@ -734,7 +726,16 @@ const ModalLogin = (props: Props) => {
                     render={(renderProps) => (
                       <div
                         className="bnt-login_google bnt-login"
-                        onClick={renderProps.onClick}
+                        onClick={() => {
+                          const start = () => {
+                            gapi.client.init({
+                              clientId: googleClient,
+                              scope: "",
+                            });
+                          };
+                          gapi.load("client:auth2", start);
+                          renderProps.onClick;
+                        }}
                       >
                         <Typography
                           sx={{
@@ -1562,7 +1563,7 @@ const ModalLogin = (props: Props) => {
           </button>
         </Box>
       </Modal>
-      <ToastContainer /> */}
+      <ToastContainer />
     </div>
   );
 };
