@@ -481,7 +481,7 @@ const MenuComponent = (props: Props) => {
   return (
     <>
       <div className="h-20 relative" ref={ref_menu}>
-        <div className="fixed z-50 w-full bg-white border-b-2 flex flex-col items-center justify-center">
+        {/* <div className="fixed z-50 w-full bg-white border-b-2 flex flex-col items-center justify-center">
           <nav className="w-full max-w-6xl h-20 flex items-center justify-between z-30">
             <div
               className={`flex justify-start ${reponsiveMobile ? "w-10" : ""}`}
@@ -565,7 +565,6 @@ const MenuComponent = (props: Props) => {
                               <span className="item-search_text">
                                 {suggest.keyword}
                               </span>
-                              {/* <CloseOutlined onClick={handleDeleteKeyword}/> */}
                             </div>
                           ))}
                         </div>
@@ -954,9 +953,6 @@ const MenuComponent = (props: Props) => {
                   className={`${
                     openModalProfile ? "absolute" : "hidden"
                   } z-40 top-16 right-0 w-full h-full flex max-w-2xl`}
-                  // onClick={() => {
-                  //   setOpenModalProfile(false);
-                  // }}
                   ref={ref_btn_profile}
                 >
                   <div
@@ -1283,7 +1279,7 @@ const MenuComponent = (props: Props) => {
             setTabFilter={setTabFilter}
           />
         </div>
-        {/* {checkNav && checkPageLoad && (
+        {checkNav && checkPageLoad && (
           <div
             className={`w-full bg-white z-20 flex justify-center fixed top-20 border-b-2 transition-all duration-700 ${
               !checkScroll && "-translate-y-28"
@@ -1354,8 +1350,6 @@ const MenuComponent = (props: Props) => {
           isOpen={openModalLogin}
           handleToggleModal={handleToggleModal}
         /> */}
-
-        {/* create modal profile */}
       </div>
     </>
     // <ModalNoteCreateCompany
