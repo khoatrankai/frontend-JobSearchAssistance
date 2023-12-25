@@ -161,7 +161,7 @@ const FilterComponent = (props: Props) => {
   }, []);
 
   const handleReset = () => {
-    // localStorage.removeItem("dataRequest");
+    localStorage.removeItem("dataRequest");
     window.location.reload();
   };
 
@@ -253,12 +253,12 @@ const FilterComponent = (props: Props) => {
             checkSize ? "w-full" : "w-5/6"
           }`}
         >
-          {/* <PositionJob
+          <PositionJob
             checkSizeMin={checkSizeMin}
             dataRequest={dataRequest}
             setDataRequest={setDataRequest}
           />
-          <CategoryJob
+          {/* <CategoryJob
             checkSizeMin={checkSizeMin}
             dataRequest={dataRequest}
             setDataRequest={setDataRequest}
