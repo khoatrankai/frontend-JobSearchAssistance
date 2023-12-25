@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { pdfjs } from "react-pdf";

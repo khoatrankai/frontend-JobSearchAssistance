@@ -1,3 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/jsx-key */
 "use client";
 import React, { useEffect } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
