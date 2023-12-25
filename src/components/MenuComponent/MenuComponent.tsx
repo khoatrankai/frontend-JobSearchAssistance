@@ -395,87 +395,87 @@ const MenuComponent = (props: Props) => {
     },
   }));
 
-  // const handleOnchangeSearch = async (e: any) => {
-  //   if (profile.isSearch === 1) {
-  //     setOpenModalTurnOffStatus(true);
-  //   } else {
-  //     await profileAPi.putProfileJobV3(null, 1);
-  //     dispatch(fetchProfile("vi") as any);
-  //   }
-  // };
+  const handleOnchangeSearch = async (e: any) => {
+    if (profile.isSearch === 1) {
+      setOpenModalTurnOffStatus(true);
+    } else {
+      await profileAPi.putProfileJobV3(null, 1);
+      dispatch(fetchProfile("vi") as any);
+    }
+  };
 
-  // const handleCancel = () => {
-  //   setOpenModalTurnOffStatus(false);
-  // };
+  const handleCancel = () => {
+    setOpenModalTurnOffStatus(false);
+  };
 
-  // const handleTurnOff = async () => {
-  //   const res = (await profileAPi.putProfileJobV3(
-  //     null,
-  //     0
-  //   )) as unknown as ITurnOffSerach;
-  //   if (res && res.statusCode === 200) {
-  //     setOpenModalTurnOffStatus(false);
-  //     dispatch(fetchProfile("vi") as any);
-  //   }
-  // };
+  const handleTurnOff = async () => {
+    const res = (await profileAPi.putProfileJobV3(
+      null,
+      0
+    )) as unknown as ITurnOffSerach;
+    if (res && res.statusCode === 200) {
+      setOpenModalTurnOffStatus(false);
+      dispatch(fetchProfile("vi") as any);
+    }
+  };
 
-  // const handleSearch = (keyword?: string) => {
-  //   localStorage.setItem("dataRequest", JSON.stringify(dataRequest));
-  //   dispatch(
-  //     fetchSearchResult({
-  //       q: keyword ? keyword : dataRequest.q ? dataRequest.q.trim() : null,
-  //       page: 0,
-  //       moneyType: dataRequest.money_type ? dataRequest.money_type : null,
-  //       isWorkingWeekend: dataRequest.is_working_weekend
-  //         ? dataRequest.is_working_weekend
-  //         : null,
-  //       isDatePeriod: dataRequest.is_date_period
-  //         ? dataRequest.is_date_period
-  //         : null,
-  //       salaryMin: dataRequest.salary_min ? dataRequest.salary_min : 0,
-  //       salaryMax: dataRequest.salary_max ? dataRequest.salary_max : 1000000,
-  //       jobTypeId: dataRequest.jobTypeId ? [dataRequest.jobTypeId] : [],
-  //       categoryIds: dataRequest.category_ids ? dataRequest.category_ids : null,
-  //       districtIds: dataRequest.district_ids ? dataRequest.district_ids : null,
-  //       salaryType: dataRequest.salary_type ? dataRequest.salary_type : null,
-  //       lang: "vi",
-  //     }) as unknown as any
-  //   ).then(() => {
-  //     router.push("/search-result");
-  //   });
-  // };
+  const handleSearch = (keyword?: string) => {
+    localStorage.setItem("dataRequest", JSON.stringify(dataRequest));
+    dispatch(
+      fetchSearchResult({
+        q: keyword ? keyword : dataRequest.q ? dataRequest.q.trim() : null,
+        page: 0,
+        moneyType: dataRequest.money_type ? dataRequest.money_type : null,
+        isWorkingWeekend: dataRequest.is_working_weekend
+          ? dataRequest.is_working_weekend
+          : null,
+        isDatePeriod: dataRequest.is_date_period
+          ? dataRequest.is_date_period
+          : null,
+        salaryMin: dataRequest.salary_min ? dataRequest.salary_min : 0,
+        salaryMax: dataRequest.salary_max ? dataRequest.salary_max : 1000000,
+        jobTypeId: dataRequest.jobTypeId ? [dataRequest.jobTypeId] : [],
+        categoryIds: dataRequest.category_ids ? dataRequest.category_ids : null,
+        districtIds: dataRequest.district_ids ? dataRequest.district_ids : null,
+        salaryType: dataRequest.salary_type ? dataRequest.salary_type : null,
+        lang: "vi",
+      }) as unknown as any
+    ).then(() => {
+      router.push("/search-result");
+    });
+  };
 
-  // const handleModifyPassword = () => {
-  //   setOpenModalProfile(false);
-  //   router.push("/update-password");
-  // };
+  const handleModifyPassword = () => {
+    setOpenModalProfile(false);
+    router.push("/update-password");
+  };
 
-  // React.useEffect(() => {
-  //   if (socket.current === undefined && localStorage.getItem("accessToken")) {
-  //     socket.current = io("https://web-service-tkv.onrender.com", {
-  //       extraHeaders: {
-  //         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-  //       },
-  //     });
+  React.useEffect(() => {
+    if (socket.current === undefined && localStorage.getItem("accessToken")) {
+      socket.current = io("https://web-service-tkv.onrender.com", {
+        extraHeaders: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
 
-  //     socket.current.on("connect", () => {
-  //       // console.log('ket noi thanh cong');
-  //     });
-  //   }
-  // }, []);
+      socket.current.on("connect", () => {
+        // console.log('ket noi thanh cong');
+      });
+    }
+  }, []);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const res = await searchApi.getSuggestKeyWord(
-  //       10,
-  //       language === 1 ? "vi" : "en"
-  //     );
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await searchApi.getSuggestKeyWord(
+        10,
+        language === 1 ? "vi" : "en"
+      );
 
-  //     setDataSuggest(res && res.data);
-  //   };
+      setDataSuggest(res && res.data);
+    };
 
-  //   fetchData();
-  // }, []);
+    fetchData();
+  }, []);
 
   return (
     // <>
