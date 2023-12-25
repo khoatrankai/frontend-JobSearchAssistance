@@ -1284,20 +1284,6 @@ const MenuComponent = (props: Props) => {
           />
         </div>
         {/* {checkNav && checkPageLoad && (
-          <div className="flex">
-          <div className="relative max-w-6xl">
-            <div
-              className={`w-full bg-white z-20 flex h-8 fixed top-20 border-b-2 transition-all duration-700 ${
-                !checkScroll && '-translate-y-28'
-              }`}
-            >
-              TRANG CHỦ
-            </div>
-          </div>
-        </div>
-
-        )} */}
-        {checkNav && checkPageLoad && (
           <div
             className={`w-full bg-white z-20 flex justify-center fixed top-20 border-b-2 transition-all duration-700 ${
               !checkScroll && "-translate-y-28"
@@ -1367,7 +1353,7 @@ const MenuComponent = (props: Props) => {
         <ModalLogin
           isOpen={openModalLogin}
           handleToggleModal={handleToggleModal}
-        />
+        /> */}
 
         {/* create modal profile */}
       </div>
