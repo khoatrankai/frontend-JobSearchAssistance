@@ -45,7 +45,7 @@ const LanguageProfile = (props: Props) => {
     for (let item of dataArr) {
       let key = item.languageName + "|" + item.languageLevelId;
       if (seen.has(key)) {
-        duplicates.push(item);
+        duplicates.push(item as never);
       }
     }
     if (duplicates.length > 1) {
@@ -218,7 +218,7 @@ const LanguageProfile = (props: Props) => {
     for (let item of arr) {
       let key = item.languageName + "|" + item.languageLevelId;
       if (seen.has(key)) {
-        duplicates.push(item);
+        duplicates.push(item as never);
       } else {
         seen.add(key);
       }
