@@ -106,9 +106,9 @@ const MenuComponent = (props: Props) => {
   const language = useSelector((state: any) => state.changeLaguage.language);
   const [openModalNoteCreateCompany, setOpenModalNoteCreateCompany] =
     React.useState(false);
-  useEffect(() => {
-    handleLoadHrefPage();
-  }, [location.pathname]);
+  // useEffect(() => {
+  //   handleLoadHrefPage();
+  // }, [location.pathname]);
   // useEffect(() => {
   //   dispatch(fetchProfile(language === 1 ? "vi" : "en") as any);
   // }, [language]);
