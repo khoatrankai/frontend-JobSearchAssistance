@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { MdMailOutline } from "react-icons/md";

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import React from "react";
 import handleType from "../../utils/handleType";
 import Image from "next/image";

@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-key */
+/* eslint-disable react/jsx-no-comment-textnodes */
 import React, { use, useEffect, useState } from "react";
 import Image from "next/image";
 

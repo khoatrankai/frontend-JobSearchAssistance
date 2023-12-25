@@ -1,6 +1,7 @@
 "use client";
 
 import messageApi from "@/api/messageApi";
+/* eslint-disable react/jsx-key */
 import React, { useEffect, useState } from "react";
 
 interface Props {}

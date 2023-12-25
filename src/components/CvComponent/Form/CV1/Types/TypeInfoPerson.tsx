@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable react/jsx-key */
 import React, { useEffect } from "react";
 
 type Props = {

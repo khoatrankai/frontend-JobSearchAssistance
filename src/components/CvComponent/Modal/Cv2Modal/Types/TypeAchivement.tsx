@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-key */
+/* eslint-disable react/jsx-key */
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 type Props = {

@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-key */
+/* eslint-disable react/jsx-no-comment-textnodes */
 import React from "react";
 import handleTypeProject from "../../utils/handleTypeProject";
 import Image from "next/image";

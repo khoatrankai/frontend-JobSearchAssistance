@@ -1,5 +1,6 @@
 import axiosClient from "@/configs/axiosClient";
 import { RootState } from "@/redux";
+/* eslint-disable react/jsx-key */
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 

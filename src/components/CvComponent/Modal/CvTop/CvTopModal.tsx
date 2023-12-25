@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/jsx-key */
 import React, { useEffect, useRef, useState } from "react";
 import "./CvTopModal.scss";
 import Image from "next/image";

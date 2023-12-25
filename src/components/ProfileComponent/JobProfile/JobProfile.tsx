@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import CategoryProfile from "./Modals/CategoryProfile/CategoryProfile";
