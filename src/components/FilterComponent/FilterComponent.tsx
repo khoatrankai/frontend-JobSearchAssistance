@@ -27,6 +27,7 @@ const FilterComponent = (props: Props) => {
   const ref_tab_salary = useRef<any>();
   const ref_tab_workperiod = useRef<any>();
   const [checkSize, setCheckSize] = useState<boolean>(false);
+  const [dataRequestObj, setDataRequestObj] = useState<any>({});
   const [checkSizeMin, setCheckSizeMin] = useState<boolean>(false);
   const [tabFilterWorkperiod, setTabFilterWorkperiod] =
     useState<boolean>(false);
@@ -81,7 +82,7 @@ const FilterComponent = (props: Props) => {
     if (keyword) {
       setDataRequest({ ...dataRequest, q: keyword });
     }
-    // localStorage.setItem("dataRequest", JSON.stringify(dataRequest));
+    localStorage.setItem("dataRequest", JSON.stringify(dataRequest));
     dispatch(
       fetchSearchResult({
         q: keyword ? keyword : dataRequest.q ? dataRequest.q.trim() : null,
@@ -134,16 +135,16 @@ const FilterComponent = (props: Props) => {
     setDataRequest({ ...dataRequest, [name]: formattedNumber });
   };
 
-  // useEffect(() => {
-  //   setDataRequest({
-  //     ...dataRequest,
-  //     salary_min: dataRequestObj?.salary_min ? dataRequestObj?.salary_min : 0,
-  //   });
-  //   setDataRequest({
-  //     ...dataRequest,
-  //     salary_max: dataRequestObj?.salary_max ? dataRequestObj?.salary_max : 0,
-  //   });
-  // }, []);
+  useEffect(() => {
+    setDataRequest({
+      ...dataRequest,
+      salary_min: dataRequestObj?.salary_min ? dataRequestObj?.salary_min : 0,
+    });
+    setDataRequest({
+      ...dataRequest,
+      salary_max: dataRequestObj?.salary_max ? dataRequestObj?.salary_max : 0,
+    });
+  }, []);
   useEffect(() => {
     const handleBlurTab = (e: any) => {
       if (!ref_tab_salary.current.contains(e.target)) {
@@ -166,6 +167,9 @@ const FilterComponent = (props: Props) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setDataRequestObj(
+        JSON.parse(localStorage.getItem("dataRequest") || "{}")
+      );
       const res = await searchApi.getSuggestKeyWord(
         10,
         language === 1 ? "vi" : "en"
@@ -249,7 +253,7 @@ const FilterComponent = (props: Props) => {
             checkSize ? "w-full" : "w-5/6"
           }`}
         >
-          <PositionJob
+          {/* <PositionJob
             checkSizeMin={checkSizeMin}
             dataRequest={dataRequest}
             setDataRequest={setDataRequest}
@@ -268,7 +272,7 @@ const FilterComponent = (props: Props) => {
             checkSizeMin={checkSizeMin}
             dataRequest={dataRequest}
             setDataRequest={setDataRequest}
-          />
+          /> */}
           <div
             className={`flex border-black/30 border-[1px] p-1.5 h-12 rounded-2xl justify-between relative ${
               checkSizeMin ? "w-full" : "w-[32%] min-w-[302px]"
