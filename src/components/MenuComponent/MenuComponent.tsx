@@ -109,9 +109,9 @@ const MenuComponent = (props: Props) => {
   // useEffect(() => {
   //   handleLoadHrefPage();
   // }, [location.pathname]);
-  // useEffect(() => {
-  //   dispatch(fetchProfile(language === 1 ? "vi" : "en") as any);
-  // }, [language]);
+  useEffect(() => {
+    dispatch(fetchProfile(language === 1 ? "vi" : "en") as any);
+  }, [language]);
   const [dataSuggest, setDataSuggest] = React.useState<any>([]);
   // useEffect(() => {
   //   const handleBlurTab = (e: any) => {
