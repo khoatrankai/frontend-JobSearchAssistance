@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useRef } from "react";
+import React, { ReactNode, useRef } from "react";
 import Image from "next/image";
 import "./MenuComponent.scss";
 import { useState, useEffect } from "react";
@@ -67,7 +67,7 @@ interface ITurnOffSerach {
   statusCode: number;
   message: string;
 }
-const MenuComponent = (props: Props) => {
+const MenuComponent = ({ children }: { children: ReactNode }) => {
   const { scrollPosition, checkPage, handleLoadHrefPage } = useSrollContext();
   const ref_btn_notify = useRef<any>();
   const ref_btn_profile = useRef<any>();
@@ -1370,6 +1370,7 @@ const MenuComponent = (props: Props) => {
 
         {/* create modal profile */}
       </div>
+      {children}
       <ModalNoteCreateCompany
         openModalNoteCreateCompany={openModalNoteCreateCompany}
         setOpenModalNoteCreateCompany={setOpenModalNoteCreateCompany}

@@ -34,7 +34,7 @@ const Home = () => {
   // }, [categoryId]);
 
   return (
-    <></>
+    <>ok</>
     // <PersistGate loading={null} persistor={persistor}>
     //   <div className="w-full h-full bg-slate-50">
     //     <BannerComponent />

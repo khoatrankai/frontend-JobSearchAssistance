@@ -11,7 +11,6 @@ import React, {
 import { Provider, useSelector } from "react-redux";
 import { store } from "@/redux/store";
 import ChatContextProvider from "./ChatProvider";
-import MenuComponent from "@/components/MenuComponent/MenuComponent";
 type DataFilter = {
   positionJob: Array<{
     province_id: string;
@@ -75,8 +74,6 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
             checkPage,
           }}
         >
-          <MenuComponent />
-
           {children}
         </Context.Provider>
       </ChatContextProvider>

@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body suppressHydrationWarning={true} className={inter.className}>
         <ScrollContext>
-          {children}
+          <MenuComponent>{children}</MenuComponent>
           {/* <ChatRoll />
           <RollTop /> */}
         </ScrollContext>
