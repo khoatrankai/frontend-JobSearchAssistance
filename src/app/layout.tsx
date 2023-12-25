@@ -24,12 +24,12 @@ export default function RootLayout({
     <html lang="en">
       <body suppressHydrationWarning={true} className={inter.className}>
         {/* <Provider store={store}> */}
-        {/* <ScrollContext> */}
-        {/*   <MenuComponent /> */}
-        {children}
-        {/* <ChatRoll />
+        <ScrollContext>
+          {/*   <MenuComponent /> */}
+          {children}
+          {/* <ChatRoll />
           <RollTop /> */}
-        {/* </ScrollContext> */}
+        </ScrollContext>
         {/* </Provider> */}
       </body>
     </html>
