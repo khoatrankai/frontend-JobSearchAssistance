@@ -47,23 +47,25 @@ const ComunityCreatePost = () => {
   const searchParams: any = useSearchParams();
   const POST_COMMUNITY_ID = searchParams.get("post-community");
   const [communityPost, setCommunityPost] = React.useState<any>();
-  const [accountId, setAccountId] = useState<any>("");
+  // const [accountId, setAccountId] = useState<any>("");
   const [deleteImages, setDeleteImages] = React.useState<any[]>([]);
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
   const [messageApi, contextHolder] = message.useMessage();
   const router = useRouter();
-  useEffect(() => {
-    setAccountId(localStorage.getItem("accountId"));
-  }, []);
+  // useEffect(() => {
+  //   setAccountId(localStorage.getItem("accountId"));
+  // }, []);
   React.useEffect(() => {
     handleLoadHrefPage();
-
-    if (!accountId) {
-      window.open("/", "_parent");
+    if (typeof localStorage !== undefined) {
+      const accountId = localStorage.getItem("accountId");
+      if (!accountId) {
+        window.open("/", "_parent");
+      }
     }
-  }, [accountId]);
+  }, []);
 
   const handleGetDetailCommunityById = async () => {
     try {
@@ -87,14 +89,6 @@ const ComunityCreatePost = () => {
   React.useEffect(() => {
     handleGetDetailCommunityById();
   }, [POST_COMMUNITY_ID, languageRedux]);
-
-  const getBase64 = (file: RcFile): Promise<string> =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-    });
 
   const handleCancel = () => setPreviewOpen(false);
 
