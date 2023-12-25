@@ -399,7 +399,7 @@ const Page = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <Box>
+      {/* <Box>
         <NavbarComponent />
       </Box>
       <Stack
@@ -606,7 +606,7 @@ const Page = () => {
       <ModalLogin
         isOpen={openModalLogin}
         handleToggleModal={handleToggleModal}
-      />
+      /> */}
     </div>
   );
 };
