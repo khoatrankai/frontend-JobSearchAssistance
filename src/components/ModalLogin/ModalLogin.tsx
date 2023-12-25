@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import Modal from "@mui/material/Modal";
 import React, { useEffect, useRef, useState } from "react";

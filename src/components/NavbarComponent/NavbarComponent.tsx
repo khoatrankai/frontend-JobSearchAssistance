@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { useEffect } from "react";
