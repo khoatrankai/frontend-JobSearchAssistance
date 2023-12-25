@@ -78,7 +78,7 @@ const ModalLogin = (props: Props) => {
     ? process.env.REACT_APP_FACEBOOK_APP_ID
     : "";
   const googleClient =
-    "641648199940-a0iudlk08s6ocl4efrkh22cnuhsuortr.apps.googleusercontent.com";
+    "686234651686-l3kg72el7jcggpv1ldo0tv26mrmtu78j.apps.googleusercontent.com";
   const dispatch = useDispatch();
   const [emailOtp, setEmailOtp] = useState("");
   const [alignment, setAlignment] = React.useState("user");
@@ -646,7 +646,7 @@ const ModalLogin = (props: Props) => {
               >
                 {languageRedux === 1 ? "Đăng nhập" : "Login"}
               </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              {/* <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                 <Box
                   sx={{
                     display: "flex",
@@ -706,7 +706,7 @@ const ModalLogin = (props: Props) => {
                     )}
                   />
                 </Box>
-              </Typography>
+              </Typography> */}
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                 <Box
                   sx={{
@@ -721,11 +721,21 @@ const ModalLogin = (props: Props) => {
                   }}
                 >
                   <GoogleLogin
+                    onRequest={() => {
+                      const start = () => {
+                        gapi.client.init({
+                          clientId: googleClient,
+                          scope: "",
+                        });
+                      };
+                      gapi.load("client:auth2", start);
+                    }}
                     clientId="641648199940-a0iudlk08s6ocl4efrkh22cnuhsuortr.apps.googleusercontent.com"
                     scope="profile email"
                     render={(renderProps) => (
                       <div
                         className="bnt-login_google bnt-login"
+                        onMouseEnter={() => {}}
                         onClick={renderProps.onClick}
                       >
                         <Typography
