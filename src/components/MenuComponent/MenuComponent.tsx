@@ -930,9 +930,9 @@ const MenuComponent = (props: Props) => {
                     <>
                       <Image
                         onClick={() => {
-                          if (localStorage.getItem("accessToken") === null) {
-                            setOpenModalLogin(true);
-                          }
+                          // if (localStorage.getItem("accessToken") === null) {
+                          //   setOpenModalLogin(true);
+                          // }
                         }}
                         className="w-6"
                         src="/iconuser.svg"
