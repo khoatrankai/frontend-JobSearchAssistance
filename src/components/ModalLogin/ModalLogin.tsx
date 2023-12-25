@@ -67,12 +67,12 @@ const ModalLogin = (props: Props) => {
   const modalRef = useRef<any>();
   const [resendCode, setResendCode] = useState(true);
   const [widthModal, setWidthModal] = useState(
-    // window.innerWidth < 768 ? "80%" : "36rem"
-    "80%"
+    window.innerWidth < 768 ? "80%" : "36rem"
+    // "80%"
   );
   const [heightModal, setHeightModal] = useState(
-    // window.innerWidth < 768 ? "70%" : "56%"
-    "70%"
+    window.innerWidth < 768 ? "70%" : "56%"
+    // "70%"
   );
   const appId = process.env.REACT_APP_FACEBOOK_APP_ID
     ? process.env.REACT_APP_FACEBOOK_APP_ID
@@ -729,13 +729,13 @@ const ModalLogin = (props: Props) => {
                           className="bnt-login_google bnt-login"
                           onMouseEnter={() => {}}
                           onClick={() => {
-                            const start = () => {
-                              gapi.client.init({
-                                clientId: googleClient,
-                                scope: "",
-                              });
-                            };
-                            gapi.load("client:auth2", start);
+                            // const start = () => {
+                            //   gapi.client.init({
+                            //     clientId: googleClient,
+                            //     scope: "",
+                            //   });
+                            // };
+                            // gapi.load("client:auth2", start);
                             renderProps.onClick();
                           }}
                         >
