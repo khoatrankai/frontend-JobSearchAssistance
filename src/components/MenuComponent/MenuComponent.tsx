@@ -323,18 +323,18 @@ const MenuComponent = (props: Props) => {
     if (profile && profile.roleData === 3) {
       // logEvent(analytics, "select_post_recruitment");
       setTabMenu(false);
-      // router.push("/banner-recruiter");
+      router.push("/banner-recruiter");
     } else {
-      // toast.warning("Vui lòng đăng nhập bằng tài khoản tuyển dụng", {
-      //   position: "bottom-center",
-      //   autoClose: 2000,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      //   progress: undefined,
-      //   theme: "colored",
-      // });
+      toast.warning("Vui lòng đăng nhập bằng tài khoản tuyển dụng", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
       setOpenModalLogin(true);
     }
   };
