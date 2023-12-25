@@ -21,6 +21,8 @@ const PositionJob = (props: Props) => {
   const ref_position = useRef<any>();
   const { dataRequest, setDataRequest } = props;
   const [dataPosition, setDataPosition] = useState<any>([]);
+  const [dataRequestObj, setDataRequestObj] = useState<any>({});
+
   const [positionLocation, setPostionLocation] = useState<number>(-1);
   const [tabPosition, setTabPosition] = useState<boolean>(false);
   // const dataRequestObj = JSON.parse(
@@ -43,6 +45,9 @@ const PositionJob = (props: Props) => {
     };
     fetchData();
   }, [languageRedux]);
+  useEffect(() => {
+    setDataRequestObj(JSON.parse(localStorage.getItem("dataRequest") || "{}"));
+  }, []);
   useEffect(() => {
     const handleBlurTab = (e: any) => {
       if (

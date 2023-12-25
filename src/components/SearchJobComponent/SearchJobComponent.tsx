@@ -28,12 +28,14 @@ const SearchJobComponent: React.FC<Props> = (props) => {
   const searchResult = useSelector(
     (state: any) => state.dataSearchResult.searchResult
   );
+  const [dataRequestObj, setDataRequestObj] = useState<any>({});
+
   const [loading, setLoading] = useState(false);
   const [hasMoreData, setHasMoreData] = useState(true);
   const dispatch = useDispatch();
-  const dataRequestObj = JSON.parse(
-    localStorage.getItem("dataRequest") || "{}"
-  );
+  // const dataRequestObj = JSON.parse(
+  //   localStorage.getItem("dataRequest") || "{}"
+  // );
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
@@ -47,6 +49,7 @@ const SearchJobComponent: React.FC<Props> = (props) => {
 
   useEffect(() => {
     handleLoadHrefPage();
+    setDataRequestObj(JSON.parse(localStorage.getItem("dataRequest") || "{}"));
   }, []);
 
   const handleBookmarked = (id: number) => {
@@ -224,7 +227,7 @@ const SearchJobComponent: React.FC<Props> = (props) => {
     }
   };
 
-  console.log(listJob)
+  console.log(listJob);
 
   return (
     <div className="flex justify-center py-12">

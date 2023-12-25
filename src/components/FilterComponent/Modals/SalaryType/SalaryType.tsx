@@ -19,10 +19,12 @@ const SalaryType = (props: Props) => {
   const ref_salary_type = useRef<any>();
   const { checkSizeMin, dataRequest, setDataRequest } = props;
   const [dataType, setDataType] = useState<any>([]);
+  const [dataRequestObj, setDataRequestObj] = useState<any>({});
+
   const [tabType, setTabType] = useState<boolean>(false);
-  const dataRequestObj = JSON.parse(
-    localStorage.getItem("dataRequest") || "{}"
-  );
+  // const dataRequestObj = JSON.parse(
+  //   localStorage.getItem("dataRequest") || "{}"
+  // );
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
@@ -37,6 +39,9 @@ const SalaryType = (props: Props) => {
     };
     fetchData();
   }, [languageRedux]);
+  useEffect(() => {
+    setDataRequestObj(JSON.parse(localStorage.getItem("dataRequest") || "{}"));
+  }, []);
   const handleCheckName = (id: any) => {
     return dataType.filter((dt: any) => {
       return dt.id === id;
