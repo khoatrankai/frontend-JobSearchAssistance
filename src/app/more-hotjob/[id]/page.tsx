@@ -43,7 +43,7 @@ const page = (props: Props) => {
   const [pageNumber, setPageNumber] = React.useState(0);
   const [listHotJob, setListHotJob] = useState<any[]>([]);
   const [total, setTotal] = useState<number>(0);
-  const accountId = localStorage.getItem("accountId");
+
   const [bookmarked, setBookmarked] = React.useState(false);
   const [loading, setLoading] = useState(false);
   const [hasMoreData, setHasMoreData] = useState(true);
@@ -71,7 +71,10 @@ const page = (props: Props) => {
 
   // useParams
   const { id } = useParams();
-
+  const [accountId, setAccountId] = useState<any>("");
+  useEffect(() => {
+    setAccountId(localStorage.getItem("accountId"));
+  }, []);
   useEffect(() => {
     handleLoadHrefPage();
     const url = `https://web-service-tkv2.onrender.com/api/v3/posts/topic/${id}?a=394,370`;

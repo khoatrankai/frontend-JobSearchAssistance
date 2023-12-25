@@ -1,31 +1,31 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-'use client';
-import React, {useEffect, useMemo, useState} from 'react';
-import InfoPerson from '@/components/ProfileComponent/InfoPerson/InfoPerson';
-import JobProfile from '@/components/ProfileComponent/JobProfile/JobProfile';
-import EducationProfile from '@/components/ProfileComponent/EducationProfile/EducationProfile';
-import ExperienceProfile from '@/components/ProfileComponent/ExperienceProfile/ExperienceProfile';
-import AchivementProfile from '@/components/ProfileComponent/AchivementProfile/AchivementProfile';
-import ContactProfile from '@/components/ProfileComponent/ContactProfile/ContactProfile';
-import SkillProfile from '@/components/ProfileComponent/SkillProfile/SkillProfile';
-import LanguageProfile from '@/components/ProfileComponent/LanguageProfile/LanguageProfile';
-import AvatarProfile from '@/components/ProfileComponent/AvatarProfile/AvatarProfile';
-import NameProfile from '@/components/ProfileComponent/NameProfile/NameProfile';
-import {useDispatch} from 'react-redux';
-import {fetchProfile} from '@/redux/reducer/profileReducer/profileSlice';
-import profileAPi from '@/api/profiles/profileApi';
-import {ChatIcon, SaveIconFill, SaveIconOutline} from '@/icons';
-import candidateSearch from '@/api/candidate/apiCandidates';
-import {ToastContainer, toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import {useSearchParams} from 'next/navigation';
-import {Button} from '@mui/material';
-import historyRecruiter from '@/api/history/historyRecruiter';
-import SeenApplication from '@/components/CandidateDetail/ActionComponent/ActionComponent';
-import ApprovedApplication from '@/components/CandidateDetail/ApprovedApplication';
-import RejectedApplication from '@/components/CandidateDetail/RejectedApplication';
-import RecuitApplication from '@/components/CandidateDetail/RecuitApplication';
-import CvProfile from '@/components/ProfileComponent/CvProfile/CvProfile';
+"use client";
+import React, { useEffect, useMemo, useState } from "react";
+import InfoPerson from "@/components/ProfileComponent/InfoPerson/InfoPerson";
+import JobProfile from "@/components/ProfileComponent/JobProfile/JobProfile";
+import EducationProfile from "@/components/ProfileComponent/EducationProfile/EducationProfile";
+import ExperienceProfile from "@/components/ProfileComponent/ExperienceProfile/ExperienceProfile";
+import AchivementProfile from "@/components/ProfileComponent/AchivementProfile/AchivementProfile";
+import ContactProfile from "@/components/ProfileComponent/ContactProfile/ContactProfile";
+import SkillProfile from "@/components/ProfileComponent/SkillProfile/SkillProfile";
+import LanguageProfile from "@/components/ProfileComponent/LanguageProfile/LanguageProfile";
+import AvatarProfile from "@/components/ProfileComponent/AvatarProfile/AvatarProfile";
+import NameProfile from "@/components/ProfileComponent/NameProfile/NameProfile";
+import { useDispatch } from "react-redux";
+import { fetchProfile } from "@/redux/reducer/profileReducer/profileSlice";
+import profileAPi from "@/api/profiles/profileApi";
+import { ChatIcon, SaveIconFill, SaveIconOutline } from "@/icons";
+import candidateSearch from "@/api/candidate/apiCandidates";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useSearchParams } from "next/navigation";
+import { Button } from "@mui/material";
+import historyRecruiter from "@/api/history/historyRecruiter";
+import SeenApplication from "@/components/CandidateDetail/ActionComponent/ActionComponent";
+import ApprovedApplication from "@/components/CandidateDetail/ApprovedApplication";
+import RejectedApplication from "@/components/CandidateDetail/RejectedApplication";
+import RecuitApplication from "@/components/CandidateDetail/RecuitApplication";
+import CvProfile from "@/components/ProfileComponent/CvProfile/CvProfile";
 
 type Props = {};
 
@@ -40,18 +40,19 @@ const page = (props: Props) => {
   const [dataProfile, setDataProfile] = useState<any>({});
   const [resizePage, setResizePage] = useState<boolean>(false);
   const useSearch = useSearchParams();
-  const accountId = localStorage.getItem('accountId');
+  const [accountId, setAccountId] = useState<any>("");
   const [dataCandidate, setDataCandidate] = useState<any>(null);
   const [statusApplication, setStatusApplication] = useState<number>(
     // 1
-    dataCandidate?.applicationProfile?.application_status,
+    dataCandidate?.applicationProfile?.application_status
   );
 
   useEffect(() => {
     const fetchData = async () => {
+      setAccountId(localStorage.getItem("accountId"));
       const res = await profileAPi.getProfileByAccountId(
-        'vi',
-        useSearch.get('accountId') as string,
+        "vi",
+        useSearch.get("accountId") as string
       );
 
       if (res && res.status === 200) {
@@ -64,13 +65,13 @@ const page = (props: Props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const postId = parseInt(useSearch.get('post-id') ?? '');
-      const candidateId = useSearch.get('application_id') ?? '';
+      const postId = parseInt(useSearch.get("post-id") ?? "");
+      const candidateId = useSearch.get("application_id") ?? "";
 
       const detailCandidate = await historyRecruiter.GetAJobApplication(
         postId,
         candidateId,
-        'vi',
+        "vi"
       );
 
       if (detailCandidate) {
@@ -81,7 +82,7 @@ const page = (props: Props) => {
   }, []);
 
   const handleUpdateApi = () => {
-    dispatch(fetchProfile('vi') as any);
+    dispatch(fetchProfile("vi") as any);
   };
   useEffect(() => {
     setDataInfo({
@@ -118,9 +119,9 @@ const page = (props: Props) => {
       }
     };
     handleResize();
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -128,36 +129,36 @@ const page = (props: Props) => {
     try {
       const fetchData = async () => {
         const res = (await candidateSearch.postBookmarkCandidate(
-          useSearch.get('accountId') as string,
+          useSearch.get("accountId") as string
         )) as unknown as IBookmark;
 
         if (res && res.status === 201) {
-          toast.success('Save candidate success', {
-            position: 'bottom-center',
+          toast.success("Save candidate success", {
+            position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: 'dark',
+            theme: "dark",
           });
 
-          setDataProfile({...dataProfile, isBookmarked: true});
+          setDataProfile({ ...dataProfile, isBookmarked: true });
         }
       };
 
       fetchData();
     } catch (error) {
-      toast.error('You cannot bookmark your own post', {
-        position: 'bottom-center',
+      toast.error("You cannot bookmark your own post", {
+        position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: 'colored',
+        theme: "colored",
       });
     }
   };
@@ -166,36 +167,36 @@ const page = (props: Props) => {
     try {
       const fetchData = async () => {
         const res = (await candidateSearch.postBookmarkCandidate(
-          useSearch.get('accountId') as string,
+          useSearch.get("accountId") as string
         )) as unknown as IBookmark;
 
         if (res && res.status === 200) {
-          toast.success('Unsave candidate success', {
-            position: 'bottom-center',
+          toast.success("Unsave candidate success", {
+            position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: 'dark',
+            theme: "dark",
           });
 
-          setDataProfile({...dataProfile, isBookmarked: false});
+          setDataProfile({ ...dataProfile, isBookmarked: false });
         }
       };
 
       fetchData();
     } catch (error) {
-      toast.error('You cannot delete your own post', {
-        position: 'bottom-center',
+      toast.error("You cannot delete your own post", {
+        position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: 'colored',
+        theme: "colored",
       });
     }
   };
@@ -203,7 +204,7 @@ const page = (props: Props) => {
   useEffect(() => {
     if (dataCandidate) {
       setStatusApplication(
-        dataCandidate?.applicationProfile?.application_status,
+        dataCandidate?.applicationProfile?.application_status
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -258,9 +259,9 @@ const page = (props: Props) => {
           <div
             className="mb-10 w-12 h-12 flex justify-center items-center"
             style={{
-              border: '1px solid gray',
-              borderRadius: '50%',
-              cursor: 'pointer',
+              border: "1px solid gray",
+              borderRadius: "50%",
+              cursor: "pointer",
             }}
             onClick={() => {
               if (dataProfile.isBookmarked === false) {
@@ -286,9 +287,9 @@ const page = (props: Props) => {
               className="flex items-center w-10 -ml-2 h-10 border-2 border-yellow-500/70 mr-4 hover:border-yellow-500 rounded-lg justify-center"
               onClick={() =>
                 window.open(
-                  `/chat?user_id=${useSearch.get('post-id')}&post_id=${
-                    useSearch.get('post-id') as string
-                  }`,
+                  `/chat?user_id=${useSearch.get("post-id")}&post_id=${
+                    useSearch.get("post-id") as string
+                  }`
                 )
               }
             >
@@ -300,9 +301,9 @@ const page = (props: Props) => {
             {RecruitApply}
           </div>
 
-          <div className={`flex w-full ${resizePage ? 'flex-wrap px-16' : ''}`}>
+          <div className={`flex w-full ${resizePage ? "flex-wrap px-16" : ""}`}>
             <div
-              className={` ${resizePage ? 'min-w-full' : 'mr-9 basis-8/12'}`}
+              className={` ${resizePage ? "min-w-full" : "mr-9 basis-8/12"}`}
             >
               <InfoPerson
                 dataInfo={dataInfo}
@@ -332,7 +333,7 @@ const page = (props: Props) => {
               <CvProfile profile={dataProfile} />
             </div>
 
-            <div className={` ${resizePage ? 'min-w-full' : 'basis-4/12'}`}>
+            <div className={` ${resizePage ? "min-w-full" : "basis-4/12"}`}>
               <ContactProfile
                 dataInfo={dataInfo}
                 handleUpdateApi={handleUpdateApi}

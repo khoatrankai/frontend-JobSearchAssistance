@@ -29,12 +29,14 @@ const Page = () => {
   const [listJob, setListJob] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [hasMoreData, setHasMoreData] = useState(true);
-  const accountId = localStorage.getItem("accountId");
   const profile = useSelector((state: any) => state.profile.profile);
   const [thresholdNewJob, setThresholdNewJob] = useState<number>(0);
   const language = useSelector((state: any) => state.changeLaguage.language);
   const [loadingUi, setLoadingUi] = useState<boolean>(false);
-
+  const [accountId, setAccountId] = useState<any>("");
+  useEffect(() => {
+    setAccountId(localStorage.getItem("accountId"));
+  }, []);
   useEffect(() => {
     const fetchData = async () => {
       const res = (await nearByApi.getNearByJob(

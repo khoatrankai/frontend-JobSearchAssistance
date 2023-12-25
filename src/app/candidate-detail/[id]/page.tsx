@@ -35,10 +35,11 @@ const page = (props: Props) => {
   const [dataProfile, setDataProfile] = useState<any>({});
   const [resizePage, setResizePage] = useState<boolean>(false);
   const useSearchParams = useParams();
-  const accountId = localStorage.getItem("accountId");
+  const [accountId, setAccountId] = useState<any>();
 
   useEffect(() => {
     const fetchData = async () => {
+      setAccountId(localStorage.getItem("accountId"));
       const res = await profileAPi.getProfileByAccountId(
         "vi",
         useSearchParams.id as string
