@@ -1,15 +1,18 @@
-import React from 'react';
-import {UserOutlined} from '@ant-design/icons';
-import {Avatar, message} from 'antd';
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/jsx-key */
+import React from "react";
+import { UserOutlined } from "@ant-design/icons";
+import { Avatar, message } from "antd";
 // @ts-ignore
-import {Modal} from 'antd';
-import './style.scss';
-import {useDispatch, useSelector} from 'react-redux';
-import {Input} from 'antd';
-import {RootState} from '@/redux/reducer';
-import communityApi from '@/api/community/apiCommunity';
-import {getCookie, setCookie} from '@/cookies';
-import {setAlertCancleSave, setAlertSave} from '@/redux/reducer/alertReducer';
+import { Modal } from "antd";
+import "./style.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { Input } from "antd";
+import { RootState } from "@/redux/reducer";
+import communityApi from "@/api/community/apiCommunity";
+import { getCookie, setCookie } from "@/cookies";
+import { setAlertCancleSave, setAlertSave } from "@/redux/reducer/alertReducer";
 import {
   BackIcon,
   CommentIcon,
@@ -20,10 +23,10 @@ import {
   SaveIconOutline,
   SendComunityIcon,
   LikeIconWhite,
-} from '@/icons';
-import ShowCancleSave from '@/components/HistoryComponent/ShowCancelSave';
-import {useSearchParams} from 'next/navigation';
-const {TextArea} = Input;
+} from "@/icons";
+import ShowCancleSave from "@/components/HistoryComponent/ShowCancelSave";
+import { useSearchParams } from "next/navigation";
+const { TextArea } = Input;
 
 const Comunity = () => {
   const language = useSelector((state: RootState) => {
@@ -35,21 +38,21 @@ const Comunity = () => {
   const dataProfile = useSelector((state: RootState) => state.profile.profile);
   const [detail, setDetail] = React.useState<any>();
   const searchParams: any = useSearchParams();
-  const POST_COMMUNITY_ID = searchParams.get('post-community');
+  const POST_COMMUNITY_ID = searchParams.get("post-community");
   const [previewOpen, setPreviewOpen] = React.useState(false);
-  const [cmtContent, setCmtContent] = React.useState('');
-  const [previewImage, setPreviewImage] = React.useState('');
+  const [cmtContent, setCmtContent] = React.useState("");
+  const [previewImage, setPreviewImage] = React.useState("");
   const [like, setLike] = React.useState(false);
   const [bookmark, setBookmark] = React.useState(false);
   const [cmt, setCmt] = React.useState(false);
   const [deleteCmt, setDeleteCmt] = React.useState(false);
   const [openModalLogin, setOpenModalLogin] = React.useState(false);
-  const [fromHistory, setFromHistory] = React.useState<any>('0');
-  const {confirm} = Modal;
+  const [fromHistory, setFromHistory] = React.useState<any>("0");
+  const { confirm } = Modal;
   const dispatch = useDispatch();
 
   const handelChangeCmt = (event: any) => {
-    if (!localStorage.getItem('accessToken')) {
+    if (!localStorage.getItem("accessToken")) {
       setOpenModalLogin(true);
       return;
     }
@@ -70,7 +73,7 @@ const Comunity = () => {
       if (POST_COMMUNITY_ID) {
         const result = await communityApi.getCommunityDetailId(
           POST_COMMUNITY_ID,
-          languageRedux === 1 ? 'vi' : 'en',
+          languageRedux === 1 ? "vi" : "en"
         );
         if (result && result.status !== 400) {
           setLike(result?.data?.liked);
@@ -78,14 +81,14 @@ const Comunity = () => {
           setBookmark(result?.data?.bookmarked);
 
           if (result.data.type === 0) {
-            setCookie('hijobId', result.data.id, 365);
+            setCookie("hijobId", result.data.id, 365);
           } else {
-            setCookie('workingId', result.data.id, 365);
+            setCookie("workingId", result.data.id, 365);
           }
         } else {
-          POST_COMMUNITY_ID === '1'
-            ? window.open('/blog', '_parent')
-            : window.open('/blog', '_parent');
+          POST_COMMUNITY_ID === "1"
+            ? window.open("/blog", "_parent")
+            : window.open("/blog", "_parent");
         }
       }
     } catch (error) {
@@ -94,7 +97,7 @@ const Comunity = () => {
   };
 
   React.useEffect(() => {
-    setFromHistory(getCookie('fromHistory'));
+    setFromHistory(getCookie("fromHistory"));
   }, []);
 
   React.useEffect(() => {
@@ -115,26 +118,26 @@ const Comunity = () => {
       closable: true,
       title:
         languageRedux === 1
-          ? 'Bạn có chắc muốn xóa bình luận này'
-          : 'Are you sure delete this comment',
+          ? "Bạn có chắc muốn xóa bình luận này"
+          : "Are you sure delete this comment",
       content:
         languageRedux === 1
-          ? 'Sau khi xóa, bình luận này sẽ không còn xuất hiện nữa'
-          : 'Once deleted, this comment will no longer appear',
-      okText: languageRedux === 1 ? 'Có' : 'Yes',
-      okType: 'danger',
-      cancelText: languageRedux === 1 ? 'Không' : 'No',
+          ? "Sau khi xóa, bình luận này sẽ không còn xuất hiện nữa"
+          : "Once deleted, this comment will no longer appear",
+      okText: languageRedux === 1 ? "Có" : "Yes",
+      okType: "danger",
+      cancelText: languageRedux === 1 ? "Không" : "No",
       onOk() {
         handleDeleteCmt(postId, cmtId);
       },
       onCancel() {
-        console.log('Cancel');
+        console.log("Cancel");
       },
     });
   };
 
   const handleLikeCommunity = async (communicationId: number) => {
-    if (!localStorage.getItem('accessToken')) {
+    if (!localStorage.getItem("accessToken")) {
       setOpenModalLogin(true);
       return;
     }
@@ -164,14 +167,14 @@ const Comunity = () => {
   }, [detail]);
 
   const handleSaveCommunity = async (communicationId: number) => {
-    if (!localStorage.getItem('accessToken')) {
+    if (!localStorage.getItem("accessToken")) {
       setOpenModalLogin(true);
       return;
     }
 
     try {
       const result = await communityApi.postCommunityBookmarked(
-        communicationId,
+        communicationId
       );
       if (result) {
         if (result.status === 201) {
@@ -188,18 +191,18 @@ const Comunity = () => {
   };
 
   const handleCommentCommunity = async () => {
-    if (!localStorage.getItem('accessToken')) {
+    if (!localStorage.getItem("accessToken")) {
       setOpenModalLogin(true);
       return;
     }
 
-    if (cmtContent.trim() == '') {
+    if (cmtContent.trim() == "") {
       message.error(
         languageRedux === 1
-          ? 'Bạn chưa nhập bình luận'
-          : 'You have not entered a comment',
+          ? "Bạn chưa nhập bình luận"
+          : "You have not entered a comment"
       );
-      setCmtContent('');
+      setCmtContent("");
       return;
     }
     const form = {
@@ -211,7 +214,7 @@ const Comunity = () => {
       const result = await communityApi.postCommunityComment(form);
       if (result) {
         setCmt(!cmt);
-        setCmtContent('');
+        setCmtContent("");
       }
     } catch (error) {
       console.log(error);
@@ -226,13 +229,13 @@ const Comunity = () => {
   };
 
   const handleKeyPress = (e: any) => {
-    if (!localStorage.getItem('accessToken')) {
+    if (!localStorage.getItem("accessToken")) {
       setOpenModalLogin(true);
       return;
     }
 
     if (!e.shiftKey) {
-      if (e.key === 'Enter') {
+      if (e.key === "Enter") {
         e.preventDefault();
         handleCommentCommunity();
       }
@@ -240,16 +243,16 @@ const Comunity = () => {
   };
 
   const handleMoveToList = () => {
-    setCookie('fromHistory', '0', 365);
-    fromHistory === '31'
-      ? window.open('/history?community_post=31', '_parent')
-      : fromHistory === '30'
-      ? window.open('/history?community_post=30', '_parent')
-      : window.open(detail?.type === 1 ? '/blog' : '/blog', '_parent');
+    setCookie("fromHistory", "0", 365);
+    fromHistory === "31"
+      ? window.open("/history?community_post=31", "_parent")
+      : fromHistory === "30"
+      ? window.open("/history?community_post=30", "_parent")
+      : window.open(detail?.type === 1 ? "/blog" : "/blog", "_parent");
   };
 
   const hanleClickComment = () => {
-    if (!localStorage.getItem('accessToken')) {
+    if (!localStorage.getItem("accessToken")) {
       setOpenModalLogin(true);
     }
   };
@@ -263,15 +266,15 @@ const Comunity = () => {
               <BackIcon width={15} height={15} fill="white" />
             </div>
             <h3>
-              {fromHistory === '31' || fromHistory === '30'
+              {fromHistory === "31" || fromHistory === "30"
                 ? language?.history
                 : detail?.type === 1
                 ? languageRedux === 1
-                  ? 'Câu chuyện việc làm'
-                  : 'Working story'
+                  ? "Câu chuyện việc làm"
+                  : "Working story"
                 : languageRedux === 1
-                ? 'Tin tức'
-                : 'Recruitment news'}
+                ? "Tin tức"
+                : "Recruitment news"}
             </h3>
           </div>
           <div className="title-comunity">
@@ -294,19 +297,19 @@ const Comunity = () => {
                 src={
                   detail?.type === 1
                     ? detail?.profileData?.avatarPath
-                    : './images/logoHijobCommunity.jpg'
+                    : "./images/logoHijobCommunity.jpg"
                 }
                 icon={<UserOutlined />}
                 style={{
-                  filter: detail?.type === 1 ? 'blur(3px)' : 'none',
+                  filter: detail?.type === 1 ? "blur(3px)" : "none",
                 }}
               />
               <div className="info-actor_comunityDetail">
                 <p>{language?.community_page?.author}</p>
                 <p>
                   {detail?.type === 1
-                    ? detail?.profileData?.name.slice(0, 2) + '...'
-                    : 'HCMUTEJob'}
+                    ? detail?.profileData?.name.slice(0, 2) + "..."
+                    : "HCMUTEJob"}
                 </p>
               </div>
             </div>
@@ -315,8 +318,8 @@ const Comunity = () => {
           <div className="comunityDetail-wrap_content">
             <div className="comunityDetail-content">
               <div
-                dangerouslySetInnerHTML={{__html: detail?.content}}
-                style={{color: 'blue', fontSize: '16px'}}
+                dangerouslySetInnerHTML={{ __html: detail?.content }}
+                style={{ color: "blue", fontSize: "16px" }}
               />
             </div>
           </div>
@@ -367,17 +370,17 @@ const Comunity = () => {
                   onClick={hanleClickComment}
                   placeholder={
                     languageRedux === 1
-                      ? 'Nhập bình luận của bạn ...'
-                      : 'Enter your comment ...'
+                      ? "Nhập bình luận của bạn ..."
+                      : "Enter your comment ..."
                   }
                   autoSize
                 />
                 <div className="comment-interaction">
                   <div
                     className={
-                      cmtContent.trim() != ''
-                        ? 'comment-chaterInput_send active'
-                        : 'comment-chaterInput_send'
+                      cmtContent.trim() != ""
+                        ? "comment-chaterInput_send active"
+                        : "comment-chaterInput_send"
                     }
                     onClick={handleCommentCommunity}
                   >
@@ -404,7 +407,9 @@ const Comunity = () => {
                           <div className="comunityDetail-comment_top">
                             <div className="comunityDetail-comment_top__left">
                               <h3>
-                                {cmtData.profile.name ? cmtData?.profile?.name?.slice(0, 2) + '...' : 'Anonymous'}
+                                {cmtData.profile.name
+                                  ? cmtData?.profile?.name?.slice(0, 2) + "..."
+                                  : "Anonymous"}
                               </h3>
                               <h3>|</h3>
                               <p>{cmtData?.createdAtText}</p>
@@ -414,11 +419,11 @@ const Comunity = () => {
                               style={{
                                 display:
                                   detail?.profileData?.id ===
-                                    localStorage.getItem('accountId') ||
+                                    localStorage.getItem("accountId") ||
                                   cmtData?.profile?.id ===
-                                    localStorage.getItem('accountId')
-                                    ? 'block'
-                                    : 'none',
+                                    localStorage.getItem("accountId")
+                                    ? "block"
+                                    : "none",
                               }}
                               onClick={() =>
                                 showDeleteConfirm(detail?.id, cmtData?.id)
@@ -433,7 +438,7 @@ const Comunity = () => {
                         </div>
                       </div>
                     );
-                  },
+                  }
                 )}
             </div>
           </div>
@@ -445,7 +450,7 @@ const Comunity = () => {
         footer={null}
         onCancel={handleCancel}
       >
-        <img alt="example" style={{width: '100%'}} src={previewImage} />
+        <img alt="example" style={{ width: "100%" }} src={previewImage} />
       </Modal>
       <ShowCancleSave />
       {/* <ShowNotificativeSave /> */}
