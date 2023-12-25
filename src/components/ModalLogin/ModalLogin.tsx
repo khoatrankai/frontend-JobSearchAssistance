@@ -78,7 +78,7 @@ const ModalLogin = (props: Props) => {
     ? process.env.REACT_APP_FACEBOOK_APP_ID
     : "";
   const googleClient =
-    "436273589347-ot9ec9jhm235q3irsvjpnltr8hsun5cp.apps.googleusercontent.com";
+    "686234651686-l3kg72el7jcggpv1ldo0tv26mrmtu78j.apps.googleusercontent.com";
   const dispatch = useDispatch();
   const [emailOtp, setEmailOtp] = useState("");
   const [alignment, setAlignment] = React.useState("user");
@@ -730,7 +730,7 @@ const ModalLogin = (props: Props) => {
                       };
                       gapi.load("client:auth2", start);
                     }}
-                    clientId="436273589347-ot9ec9jhm235q3irsvjpnltr8hsun5cp.apps.googleusercontent.com"
+                    clientId="686234651686-l3kg72el7jcggpv1ldo0tv26mrmtu78j.apps.googleusercontent.com"
                     scope="profile email"
                     render={(renderProps) => (
                       <div
@@ -865,7 +865,7 @@ const ModalLogin = (props: Props) => {
             </Box>
           )}
         </Box>
-      </Modal>
+      </Modal> */}
 
       <Modal open={openVerifyCode} onClose={handleCloseVerifyCode}>
         <Box sx={style}>
@@ -1564,7 +1564,7 @@ const ModalLogin = (props: Props) => {
           </button>
         </Box>
       </Modal>
-      <ToastContainer /> */}
+      <ToastContainer />
     </div>
   );
 };
