@@ -489,7 +489,7 @@ const ModalLogin = (props: Props) => {
 
   return (
     <div>
-      {/* <Modal open={isOpen} onClose={handleClose} ref={modalRef}>
+      <Modal open={isOpen} onClose={handleClose} ref={modalRef}>
         <Box sx={style}>
           <Box sx={{ textAlign: "center", marginBottom: "3px" }}>
             <ToggleButtonGroup
@@ -646,7 +646,7 @@ const ModalLogin = (props: Props) => {
               >
                 {languageRedux === 1 ? "Đăng nhập" : "Login"}
               </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              {/* <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                 <Box
                   sx={{
                     display: "flex",
@@ -777,7 +777,7 @@ const ModalLogin = (props: Props) => {
                     // onFailure={responseFailFacebookAndGoogle}
                   />
                 </Box>
-              </Typography>
+              </Typography> */}
               <Typography
                 id="modal-modal-description"
                 sx={{
@@ -865,7 +865,7 @@ const ModalLogin = (props: Props) => {
             </Box>
           )}
         </Box>
-      </Modal> */}
+      </Modal>
 
       <Modal open={openVerifyCode} onClose={handleCloseVerifyCode}>
         <Box sx={style}>
