@@ -1293,7 +1293,7 @@ const MenuComponent = (props: Props) => {
           </div>
         )} */}
 
-        <Modal
+        {/* <Modal
           width={614}
           centered
           title={
@@ -1348,7 +1348,7 @@ const MenuComponent = (props: Props) => {
               {language === 1 ? `Hủy` : `Cancel`}
             </Button>
           </div>
-        </Modal>
+        </Modal> */}
 
         <ModalLogin
           isOpen={openModalLogin}
