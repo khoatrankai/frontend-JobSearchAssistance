@@ -199,7 +199,7 @@ const handleModal = (props: Props) => {
   };
   useEffect(() => {
     if (dataLoad) {
-      const dataPush = [];
+      const dataPush: any = [];
       for (let i = 0; i < 2; i++) {
         const newData: any = [];
         dataLoad?.forEach((dt: any) => {

@@ -51,7 +51,7 @@ const TypeInfoPerson = (props: Props) => {
       setImgAvatar(buffer);
     });
     reader.addEventListener("load", async function () {
-      const compressedImages = [];
+      const compressedImages: any = [];
       const compressedImage = await imageCompression(file, options);
       compressedImages.push(
         new File([compressedImage], compressedImage.name, {

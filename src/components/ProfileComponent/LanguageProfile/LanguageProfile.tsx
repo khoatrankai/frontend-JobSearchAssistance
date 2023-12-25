@@ -213,7 +213,7 @@ const LanguageProfile = (props: Props) => {
   };
   function checkDuplicates(arr: any) {
     let seen = new Set();
-    let duplicates = [];
+    let duplicates: any = [];
 
     for (let item of arr) {
       let key = item.languageName + "|" + item.languageLevelId;

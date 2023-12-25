@@ -10,7 +10,13 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/scrollbar";
 import "swiper/css/navigation";
-import { Navigation, Mousewheel, Pagination, Autoplay, A11y } from "swiper";
+import {
+  Navigation,
+  Mousewheel,
+  Pagination,
+  Autoplay,
+  A11y,
+} from "swiper/modules";
 import AppliedPostedJobCard from "./Components/AppliedPostedJobCard";
 import "./styles.scss";
 import { useSelector } from "react-redux";
