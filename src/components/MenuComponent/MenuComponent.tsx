@@ -487,7 +487,7 @@ const MenuComponent = (props: Props) => {
             >
               <Image
                 onClick={() => {
-                  window.location.href = "/";
+                  // window.location.href = "/";
                 }}
                 style={{ cursor: "pointer" }}
                 alt="logo"
