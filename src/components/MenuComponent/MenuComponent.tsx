@@ -321,7 +321,7 @@ const MenuComponent = (props: Props) => {
       return;
     }
     if (profile && profile.roleData === 3) {
-      logEvent(analytics, "select_post_recruitment");
+      // logEvent(analytics, "select_post_recruitment");
       setTabMenu(false);
       // router.push("/banner-recruiter");
     } else {
