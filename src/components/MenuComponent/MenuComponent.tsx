@@ -106,377 +106,377 @@ const MenuComponent = (props: Props) => {
   const language = useSelector((state: any) => state.changeLaguage.language);
   const [openModalNoteCreateCompany, setOpenModalNoteCreateCompany] =
     React.useState(false);
-  useEffect(() => {
-    handleLoadHrefPage();
-  }, [location.pathname]);
-  useEffect(() => {
-    dispatch(fetchProfile(language === 1 ? "vi" : "en") as any);
-  }, [language]);
-  const [dataSuggest, setDataSuggest] = React.useState<any>([]);
-  useEffect(() => {
-    const handleBlurTab = (e: any) => {
-      if (
-        !ref_menu.current.contains(e.target) &&
-        e.target.parentElement?.name !== "btn_close_filter"
-      ) {
-        setTabFilter(false);
-      }
-    };
-    document.addEventListener("click", handleBlurTab);
-    return () => {
-      document.removeEventListener("click", handleBlurTab);
-    };
-  }, []);
-  useEffect(() => {
-    const handleBlurTab = (e: any) => {
-      if (tabNotify && !ref_btn_notify.current.contains(e.target)) {
-        setTabNotify(false);
-      }
-    };
-    document.addEventListener("click", handleBlurTab);
-    return () => {
-      document.removeEventListener("click", handleBlurTab);
-    };
-  }, [tabNotify]);
-  useEffect(() => {
-    const handleBlurTab = (e: any) => {
-      if (tabMenu && !ref_btn_menu.current?.contains(e.target)) {
-        setTabMenu(false);
-      }
-    };
-    document.addEventListener("click", handleBlurTab);
-    return () => {
-      document.removeEventListener("click", handleBlurTab);
-    };
-  }, [tabMenu]);
-  useEffect(() => {
-    const handleBlurTab = (e: any) => {
-      if (tabSuggest && !ref_input.current?.contains(e.target)) {
-        setTabSuggest(false);
-      }
-    };
-    document.addEventListener("click", handleBlurTab);
-    return () => {
-      document.removeEventListener("click", handleBlurTab);
-    };
-  }, [tabSuggest]);
-  useEffect(() => {
-    const handleBlurTab = (e: any) => {
-      if (openModalProfile && !ref_btn_profile.current.contains(e.target)) {
-        setOpenModalProfile(false);
-      }
-    };
-    document.addEventListener("click", handleBlurTab);
-    return () => {
-      document.removeEventListener("click", handleBlurTab);
-    };
-  }, [openModalProfile]);
-  useEffect(() => {
-    setProfileData(profile);
-  }, [profile]);
-  useEffect(() => {
-    if (checkPage === "/") {
-      setCheckPageLoad(true);
-    } else {
-      setCheckPageLoad(false);
-    }
-  }, [checkPage]);
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 700) {
-        setCheckReponsive(true);
-      } else {
-        setCheckReponsive(false);
-      }
-      if (window.innerWidth < 480) {
-        setReponsiveMobile(true);
-      } else {
-        setReponsiveMobile(false);
-      }
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-  useEffect(() => {
-    if (scrollPosition != -1) {
-      setNav(true);
-    } else {
-      setNav(true);
-    }
-  }, [scrollPosition]);
-  const handleScroll = () => {
-    const scroll = window.pageYOffset;
-    if (scroll > positionScroll) {
-      setCheckScroll(false);
-    } else {
-      setCheckScroll(true);
-    }
-    setPositionScroll(scroll);
-  };
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [positionScroll, checkScroll, handleScroll]);
-  useEffect(() => {
-    set_bg_language(getCookie("languageId") === "2" ? false : true);
-  }, []);
+  // useEffect(() => {
+  //   handleLoadHrefPage();
+  // }, [location.pathname]);
+  // useEffect(() => {
+  //   dispatch(fetchProfile(language === 1 ? "vi" : "en") as any);
+  // }, [language]);
+  // const [dataSuggest, setDataSuggest] = React.useState<any>([]);
+  // useEffect(() => {
+  //   const handleBlurTab = (e: any) => {
+  //     if (
+  //       !ref_menu.current.contains(e.target) &&
+  //       e.target.parentElement?.name !== "btn_close_filter"
+  //     ) {
+  //       setTabFilter(false);
+  //     }
+  //   };
+  //   document.addEventListener("click", handleBlurTab);
+  //   return () => {
+  //     document.removeEventListener("click", handleBlurTab);
+  //   };
+  // }, []);
+  // useEffect(() => {
+  //   const handleBlurTab = (e: any) => {
+  //     if (tabNotify && !ref_btn_notify.current.contains(e.target)) {
+  //       setTabNotify(false);
+  //     }
+  //   };
+  //   document.addEventListener("click", handleBlurTab);
+  //   return () => {
+  //     document.removeEventListener("click", handleBlurTab);
+  //   };
+  // }, [tabNotify]);
+  // useEffect(() => {
+  //   const handleBlurTab = (e: any) => {
+  //     if (tabMenu && !ref_btn_menu.current?.contains(e.target)) {
+  //       setTabMenu(false);
+  //     }
+  //   };
+  //   document.addEventListener("click", handleBlurTab);
+  //   return () => {
+  //     document.removeEventListener("click", handleBlurTab);
+  //   };
+  // }, [tabMenu]);
+  // useEffect(() => {
+  //   const handleBlurTab = (e: any) => {
+  //     if (tabSuggest && !ref_input.current?.contains(e.target)) {
+  //       setTabSuggest(false);
+  //     }
+  //   };
+  //   document.addEventListener("click", handleBlurTab);
+  //   return () => {
+  //     document.removeEventListener("click", handleBlurTab);
+  //   };
+  // }, [tabSuggest]);
+  // useEffect(() => {
+  //   const handleBlurTab = (e: any) => {
+  //     if (openModalProfile && !ref_btn_profile.current.contains(e.target)) {
+  //       setOpenModalProfile(false);
+  //     }
+  //   };
+  //   document.addEventListener("click", handleBlurTab);
+  //   return () => {
+  //     document.removeEventListener("click", handleBlurTab);
+  //   };
+  // }, [openModalProfile]);
+  // useEffect(() => {
+  //   setProfileData(profile);
+  // }, [profile]);
+  // useEffect(() => {
+  //   if (checkPage === "/") {
+  //     setCheckPageLoad(true);
+  //   } else {
+  //     setCheckPageLoad(false);
+  //   }
+  // }, [checkPage]);
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     if (window.innerWidth < 700) {
+  //       setCheckReponsive(true);
+  //     } else {
+  //       setCheckReponsive(false);
+  //     }
+  //     if (window.innerWidth < 480) {
+  //       setReponsiveMobile(true);
+  //     } else {
+  //       setReponsiveMobile(false);
+  //     }
+  //   };
+  //   handleResize();
+  //   window.addEventListener("resize", handleResize);
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, []);
+  // useEffect(() => {
+  //   if (scrollPosition != -1) {
+  //     setNav(true);
+  //   } else {
+  //     setNav(true);
+  //   }
+  // }, [scrollPosition]);
+  // const handleScroll = () => {
+  //   const scroll = window.pageYOffset;
+  //   if (scroll > positionScroll) {
+  //     setCheckScroll(false);
+  //   } else {
+  //     setCheckScroll(true);
+  //   }
+  //   setPositionScroll(scroll);
+  // };
+  // useEffect(() => {
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, [positionScroll, checkScroll, handleScroll]);
+  // useEffect(() => {
+  //   set_bg_language(getCookie("languageId") === "2" ? false : true);
+  // }, []);
 
-  const handleOnChangeBackgroundLanguage = () => {
-    setCookie("languageId", bg_language ? "2" : "1", 1);
+  // const handleOnChangeBackgroundLanguage = () => {
+  //   setCookie("languageId", bg_language ? "2" : "1", 1);
 
-    if (bg_language === true) {
-      dispatch(setLanguage(0));
-    } else {
-      dispatch(setLanguage(1));
-    }
+  //   if (bg_language === true) {
+  //     dispatch(setLanguage(0));
+  //   } else {
+  //     dispatch(setLanguage(1));
+  //   }
 
-    set_bg_language(!bg_language);
-  };
+  //   set_bg_language(!bg_language);
+  // };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await jobApi.getTotalJob("vi");
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const res = await jobApi.getTotalJob("vi");
 
-      if (res) {
-        setTotalJob(res.data?.total);
-      }
-    };
+  //     if (res) {
+  //       setTotalJob(res.data?.total);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
-  const handleToggleModal = () => {
-    setOpenModalLogin(false);
-  };
+  // const handleToggleModal = () => {
+  //   setOpenModalLogin(false);
+  // };
 
-  const handleLogOut = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("id");
-    localStorage.removeItem("role");
-    localStorage.removeItem("accountId");
-    socket.current.disconnect();
-    window.location.href = "/";
-  };
+  // const handleLogOut = () => {
+  //   localStorage.removeItem("accessToken");
+  //   localStorage.removeItem("refreshToken");
+  //   localStorage.removeItem("id");
+  //   localStorage.removeItem("role");
+  //   localStorage.removeItem("accountId");
+  //   socket.current.disconnect();
+  //   window.location.href = "/";
+  // };
 
-  useEffect(() => {
-    const dataObj = JSON.parse(localStorage.getItem("dataRequest") || "{}");
-    setDataRequest({ ...dataRequest, q: dataObj.q || "" });
-    const fetchData = async () => {
-      const res = (await notificationApi.getNotification(
-        language === 1 ? "vi" : "en"
-      )) as unknown as INotification;
+  // useEffect(() => {
+  //   const dataObj = JSON.parse(localStorage.getItem("dataRequest") || "{}");
+  //   setDataRequest({ ...dataRequest, q: dataObj.q || "" });
+  //   const fetchData = async () => {
+  //     const res = (await notificationApi.getNotification(
+  //       language === 1 ? "vi" : "en"
+  //     )) as unknown as INotification;
 
-      if (res && res.code === 200) {
-        setDataNotification(res.data.notifications);
-      }
-    };
+  //     if (res && res.code === 200) {
+  //       setDataNotification(res.data.notifications);
+  //     }
+  //   };
 
-    fetchData();
-  }, [language]);
+  //   fetchData();
+  // }, [language]);
 
-  const handleClickNoty = (
-    postId: number,
-    commentId: number,
-    applicationId: number,
-    typeText: string
-  ) => {
-    if (typeText === "recruiter") {
-      let res;
-      const fetchData = async () => {
-        res = (await historyRecruiter.GetAJobApplication(
-          postId,
-          applicationId.toString(),
-          "vi"
-        )) as unknown as INotification;
+  // const handleClickNoty = (
+  //   postId: number,
+  //   commentId: number,
+  //   applicationId: number,
+  //   typeText: string
+  // ) => {
+  //   if (typeText === "recruiter") {
+  //     let res;
+  //     const fetchData = async () => {
+  //       res = (await historyRecruiter.GetAJobApplication(
+  //         postId,
+  //         applicationId.toString(),
+  //         "vi"
+  //       )) as unknown as INotification;
 
-        if (res && res.code === 200) {
-          window.open(
-            `candidate-detail/${res?.data?.applicationProfile.account_id}?post-id=${postId}&application_id=${applicationId}`,
-            "_parent"
-          );
-        }
-      };
+  //       if (res && res.code === 200) {
+  //         window.open(
+  //           `candidate-detail/${res?.data?.applicationProfile.account_id}?post-id=${postId}&application_id=${applicationId}`,
+  //           "_parent"
+  //         );
+  //       }
+  //     };
 
-      fetchData();
-    }
-    if (typeText === "applicator") {
-      window.open(`post-detail/${postId}`, "_parent");
-    }
-    if (typeText === "communicationComment") {
-      window.open(`detail-community?post-community=${commentId}`, "_parent");
-    }
-  };
+  //     fetchData();
+  //   }
+  //   if (typeText === "applicator") {
+  //     window.open(`post-detail/${postId}`, "_parent");
+  //   }
+  //   if (typeText === "communicationComment") {
+  //     window.open(`detail-community?post-community=${commentId}`, "_parent");
+  //   }
+  // };
 
-  const handleRedirect = () => {
-    if (!profile?.companyInfomation) {
-      setTabMenu(false);
-      setOpenModalNoteCreateCompany(true);
-      return;
-    }
-    if (profile && profile.roleData === 3) {
-      logEvent(analytics, "select_post_recruitment");
-      setTabMenu(false);
-      router.push("/banner-recruiter");
-    } else {
-      toast.warning("Vui lòng đăng nhập bằng tài khoản tuyển dụng", {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-      setOpenModalLogin(true);
-    }
-  };
+  // const handleRedirect = () => {
+  //   if (!profile?.companyInfomation) {
+  //     setTabMenu(false);
+  //     setOpenModalNoteCreateCompany(true);
+  //     return;
+  //   }
+  //   if (profile && profile.roleData === 3) {
+  //     logEvent(analytics, "select_post_recruitment");
+  //     setTabMenu(false);
+  //     router.push("/banner-recruiter");
+  //   } else {
+  //     toast.warning("Vui lòng đăng nhập bằng tài khoản tuyển dụng", {
+  //       position: "bottom-center",
+  //       autoClose: 2000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: "colored",
+  //     });
+  //     setOpenModalLogin(true);
+  //   }
+  // };
 
-  const IOSSwitch = styled((props: SwitchProps) => (
-    <Switch
-      focusVisibleClassName=".Mui-focusVisible"
-      disableRipple
-      {...props}
-    />
-  ))(({ theme }) => ({
-    width: 42,
-    height: 26,
-    padding: 0,
-    "& .MuiSwitch-switchBase": {
-      padding: 0,
-      margin: 2,
-      transitionDuration: "300ms",
-      "&.Mui-checked": {
-        transform: "translateX(16px)",
-        color: "#fff",
-        "& + .MuiSwitch-track": {
-          backgroundColor:
-            theme.palette.mode === "dark" ? "#2ECA45" : "#65C466",
-          opacity: 1,
-          border: 0,
-        },
-        "&.Mui-disabled + .MuiSwitch-track": {
-          opacity: 0.5,
-        },
-      },
-      "&.Mui-focusVisible .MuiSwitch-thumb": {
-        color: "#33cf4d",
-        border: "6px solid #fff",
-      },
-      "&.Mui-disabled .MuiSwitch-thumb": {
-        color:
-          theme.palette.mode === "light"
-            ? theme.palette.grey[100]
-            : theme.palette.grey[600],
-      },
-      "&.Mui-disabled + .MuiSwitch-track": {
-        opacity: theme.palette.mode === "light" ? 0.7 : 0.3,
-      },
-    },
-    "& .MuiSwitch-thumb": {
-      boxSizing: "border-box",
-      width: 22,
-      height: 22,
-    },
-    "& .MuiSwitch-track": {
-      borderRadius: 26 / 2,
-      backgroundColor: theme.palette.mode === "light" ? "#E9E9EA" : "#39393D",
-      opacity: 1,
-      transition: theme.transitions.create(["background-color"], {
-        duration: 500,
-      }),
-    },
-  }));
+  // const IOSSwitch = styled((props: SwitchProps) => (
+  //   <Switch
+  //     focusVisibleClassName=".Mui-focusVisible"
+  //     disableRipple
+  //     {...props}
+  //   />
+  // ))(({ theme }) => ({
+  //   width: 42,
+  //   height: 26,
+  //   padding: 0,
+  //   "& .MuiSwitch-switchBase": {
+  //     padding: 0,
+  //     margin: 2,
+  //     transitionDuration: "300ms",
+  //     "&.Mui-checked": {
+  //       transform: "translateX(16px)",
+  //       color: "#fff",
+  //       "& + .MuiSwitch-track": {
+  //         backgroundColor:
+  //           theme.palette.mode === "dark" ? "#2ECA45" : "#65C466",
+  //         opacity: 1,
+  //         border: 0,
+  //       },
+  //       "&.Mui-disabled + .MuiSwitch-track": {
+  //         opacity: 0.5,
+  //       },
+  //     },
+  //     "&.Mui-focusVisible .MuiSwitch-thumb": {
+  //       color: "#33cf4d",
+  //       border: "6px solid #fff",
+  //     },
+  //     "&.Mui-disabled .MuiSwitch-thumb": {
+  //       color:
+  //         theme.palette.mode === "light"
+  //           ? theme.palette.grey[100]
+  //           : theme.palette.grey[600],
+  //     },
+  //     "&.Mui-disabled + .MuiSwitch-track": {
+  //       opacity: theme.palette.mode === "light" ? 0.7 : 0.3,
+  //     },
+  //   },
+  //   "& .MuiSwitch-thumb": {
+  //     boxSizing: "border-box",
+  //     width: 22,
+  //     height: 22,
+  //   },
+  //   "& .MuiSwitch-track": {
+  //     borderRadius: 26 / 2,
+  //     backgroundColor: theme.palette.mode === "light" ? "#E9E9EA" : "#39393D",
+  //     opacity: 1,
+  //     transition: theme.transitions.create(["background-color"], {
+  //       duration: 500,
+  //     }),
+  //   },
+  // }));
 
-  const handleOnchangeSearch = async (e: any) => {
-    if (profile.isSearch === 1) {
-      setOpenModalTurnOffStatus(true);
-    } else {
-      await profileAPi.putProfileJobV3(null, 1);
-      dispatch(fetchProfile("vi") as any);
-    }
-  };
+  // const handleOnchangeSearch = async (e: any) => {
+  //   if (profile.isSearch === 1) {
+  //     setOpenModalTurnOffStatus(true);
+  //   } else {
+  //     await profileAPi.putProfileJobV3(null, 1);
+  //     dispatch(fetchProfile("vi") as any);
+  //   }
+  // };
 
-  const handleCancel = () => {
-    setOpenModalTurnOffStatus(false);
-  };
+  // const handleCancel = () => {
+  //   setOpenModalTurnOffStatus(false);
+  // };
 
-  const handleTurnOff = async () => {
-    const res = (await profileAPi.putProfileJobV3(
-      null,
-      0
-    )) as unknown as ITurnOffSerach;
-    if (res && res.statusCode === 200) {
-      setOpenModalTurnOffStatus(false);
-      dispatch(fetchProfile("vi") as any);
-    }
-  };
+  // const handleTurnOff = async () => {
+  //   const res = (await profileAPi.putProfileJobV3(
+  //     null,
+  //     0
+  //   )) as unknown as ITurnOffSerach;
+  //   if (res && res.statusCode === 200) {
+  //     setOpenModalTurnOffStatus(false);
+  //     dispatch(fetchProfile("vi") as any);
+  //   }
+  // };
 
-  const handleSearch = (keyword?: string) => {
-    localStorage.setItem("dataRequest", JSON.stringify(dataRequest));
-    dispatch(
-      fetchSearchResult({
-        q: keyword ? keyword : dataRequest.q ? dataRequest.q.trim() : null,
-        page: 0,
-        moneyType: dataRequest.money_type ? dataRequest.money_type : null,
-        isWorkingWeekend: dataRequest.is_working_weekend
-          ? dataRequest.is_working_weekend
-          : null,
-        isDatePeriod: dataRequest.is_date_period
-          ? dataRequest.is_date_period
-          : null,
-        salaryMin: dataRequest.salary_min ? dataRequest.salary_min : 0,
-        salaryMax: dataRequest.salary_max ? dataRequest.salary_max : 1000000,
-        jobTypeId: dataRequest.jobTypeId ? [dataRequest.jobTypeId] : [],
-        categoryIds: dataRequest.category_ids ? dataRequest.category_ids : null,
-        districtIds: dataRequest.district_ids ? dataRequest.district_ids : null,
-        salaryType: dataRequest.salary_type ? dataRequest.salary_type : null,
-        lang: "vi",
-      }) as unknown as any
-    ).then(() => {
-      router.push("/search-result");
-    });
-  };
+  // const handleSearch = (keyword?: string) => {
+  //   localStorage.setItem("dataRequest", JSON.stringify(dataRequest));
+  //   dispatch(
+  //     fetchSearchResult({
+  //       q: keyword ? keyword : dataRequest.q ? dataRequest.q.trim() : null,
+  //       page: 0,
+  //       moneyType: dataRequest.money_type ? dataRequest.money_type : null,
+  //       isWorkingWeekend: dataRequest.is_working_weekend
+  //         ? dataRequest.is_working_weekend
+  //         : null,
+  //       isDatePeriod: dataRequest.is_date_period
+  //         ? dataRequest.is_date_period
+  //         : null,
+  //       salaryMin: dataRequest.salary_min ? dataRequest.salary_min : 0,
+  //       salaryMax: dataRequest.salary_max ? dataRequest.salary_max : 1000000,
+  //       jobTypeId: dataRequest.jobTypeId ? [dataRequest.jobTypeId] : [],
+  //       categoryIds: dataRequest.category_ids ? dataRequest.category_ids : null,
+  //       districtIds: dataRequest.district_ids ? dataRequest.district_ids : null,
+  //       salaryType: dataRequest.salary_type ? dataRequest.salary_type : null,
+  //       lang: "vi",
+  //     }) as unknown as any
+  //   ).then(() => {
+  //     router.push("/search-result");
+  //   });
+  // };
 
-  const handleModifyPassword = () => {
-    setOpenModalProfile(false);
-    router.push("/update-password");
-  };
+  // const handleModifyPassword = () => {
+  //   setOpenModalProfile(false);
+  //   router.push("/update-password");
+  // };
 
-  let socket = useRef<any>();
+  // let socket = useRef<any>();
 
-  React.useEffect(() => {
-    if (socket.current === undefined && localStorage.getItem("accessToken")) {
-      socket.current = io("https://web-service-tkv.onrender.com", {
-        extraHeaders: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+  // React.useEffect(() => {
+  //   if (socket.current === undefined && localStorage.getItem("accessToken")) {
+  //     socket.current = io("https://web-service-tkv.onrender.com", {
+  //       extraHeaders: {
+  //         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+  //       },
+  //     });
 
-      socket.current.on("connect", () => {
-        // console.log('ket noi thanh cong');
-      });
-    }
-  }, []);
+  //     socket.current.on("connect", () => {
+  //       // console.log('ket noi thanh cong');
+  //     });
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await searchApi.getSuggestKeyWord(
-        10,
-        language === 1 ? "vi" : "en"
-      );
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const res = await searchApi.getSuggestKeyWord(
+  //       10,
+  //       language === 1 ? "vi" : "en"
+  //     );
 
-      setDataSuggest(res && res.data);
-    };
+  //     setDataSuggest(res && res.data);
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   return (
     // <>
