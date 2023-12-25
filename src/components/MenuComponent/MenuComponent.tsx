@@ -498,7 +498,7 @@ const MenuComponent = (props: Props) => {
               />
             </div>
 
-            <div
+            {/* <div
               className={`flex items-center justify-end max-w-2xl ${
                 reponsiveMobile ? "" : "flex-1 "
               }`}
@@ -1273,17 +1273,17 @@ const MenuComponent = (props: Props) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </nav>
-          <FilterComponent
+          {/* <FilterComponent
             dataRequest={dataRequest}
             setDataRequest={setDataRequest}
             checkReponsive={checkReponsive}
             tabSearchFilter={tabFilter}
             setTabFilter={setTabFilter}
-          />
+          /> */}
         </div>
-        {checkNav && checkPageLoad && (
+        {/* {checkNav && checkPageLoad && (
           <div
             className={`w-full bg-white z-20 flex justify-center fixed top-20 border-b-2 transition-all duration-700 ${
               !checkScroll && "-translate-y-28"
@@ -1291,9 +1291,9 @@ const MenuComponent = (props: Props) => {
           >
             <NavbarComponent />
           </div>
-        )}
+        )} */}
 
-        <Modal
+        {/* <Modal
           width={614}
           centered
           title={
@@ -1348,12 +1348,12 @@ const MenuComponent = (props: Props) => {
               {language === 1 ? `Hủy` : `Cancel`}
             </Button>
           </div>
-        </Modal>
+        </Modal> */}
 
-        <ModalLogin
+        {/* <ModalLogin
           isOpen={openModalLogin}
           handleToggleModal={handleToggleModal}
-        />
+        /> */}
       </div>
       <ModalNoteCreateCompany
         openModalNoteCreateCompany={openModalNoteCreateCompany}
