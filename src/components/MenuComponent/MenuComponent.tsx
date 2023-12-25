@@ -479,7 +479,7 @@ const MenuComponent = ({ children }: { children: ReactNode }) => {
 
   return (
     <>
-      <div className="h-20 relative" ref={ref_menu}>
+      {/* <div className="h-20 relative" ref={ref_menu}>
         <div className="fixed z-50 w-full bg-white border-b-2 flex flex-col items-center justify-center">
           <nav className="w-full max-w-6xl h-20 flex items-center justify-between z-30">
             <div
@@ -564,7 +564,6 @@ const MenuComponent = ({ children }: { children: ReactNode }) => {
                               <span className="item-search_text">
                                 {suggest.keyword}
                               </span>
-                              {/* <CloseOutlined onClick={handleDeleteKeyword}/> */}
                             </div>
                           ))}
                         </div>
@@ -1282,20 +1281,6 @@ const MenuComponent = ({ children }: { children: ReactNode }) => {
             setTabFilter={setTabFilter}
           />
         </div>
-        {/* {checkNav && checkPageLoad && (
-          <div className="flex">
-          <div className="relative max-w-6xl">
-            <div
-              className={`w-full bg-white z-20 flex h-8 fixed top-20 border-b-2 transition-all duration-700 ${
-                !checkScroll && '-translate-y-28'
-              }`}
-            >
-              TRANG CHỦ
-            </div>
-          </div>
-        </div>
-        
-        )} */}
         {checkNav && checkPageLoad && (
           <div
             className={`w-full bg-white z-20 flex justify-center fixed top-20 border-b-2 transition-all duration-700 ${
@@ -1367,14 +1352,12 @@ const MenuComponent = ({ children }: { children: ReactNode }) => {
           isOpen={openModalLogin}
           handleToggleModal={handleToggleModal}
         />
-
-        {/* create modal profile */}
-      </div>
+      </div> */}
       {children}
-      <ModalNoteCreateCompany
+      {/* <ModalNoteCreateCompany
         openModalNoteCreateCompany={openModalNoteCreateCompany}
         setOpenModalNoteCreateCompany={setOpenModalNoteCreateCompany}
-      />
+      /> */}
     </>
   );
 };
