@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import SwiperText from "@/util/SwiperText";
@@ -21,6 +22,8 @@ const PositionJob = (props: Props) => {
   const ref_category = useRef<any>();
   const { dataRequest, setDataRequest, checkSizeMin } = props;
   const [dataCategory, setDataCategory] = useState<any>([]);
+  const [dataRequestObj, setDataRequestObj] = useState<any>({});
+
   const [positionCategory, setPostionCategory] = useState<number>(-1);
   const [tabCategory, setTabCategory] = useState<boolean>(false);
   // const dataRequestObj = JSON.parse(
@@ -111,13 +114,17 @@ const PositionJob = (props: Props) => {
     return name;
   };
 
-  // useEffect(() => {
-  //   setDataRequest({
-  //     ...dataRequest,
-  //     category_ids: dataRequestObj.category_ids,
-  //   });
-  // }, []);
-
+  useEffect(() => {
+    if (dataRequestObj) {
+      setDataRequest({
+        ...dataRequest,
+        category_ids: dataRequestObj?.category_ids,
+      });
+    }
+  }, [dataRequestObj]);
+  useEffect(() => {
+    setDataRequestObj(JSON.parse(localStorage.getItem("dataRequest") || "{}"));
+  }, []);
   return (
     <div
       className={`items-center flex border-black/30 border-[1px] p-1.5 h-12 rounded-2xl justify-between relative ${

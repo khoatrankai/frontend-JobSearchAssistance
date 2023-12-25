@@ -258,7 +258,7 @@ const FilterComponent = (props: Props) => {
             dataRequest={dataRequest}
             setDataRequest={setDataRequest}
           />
-          {/* <CategoryJob
+          <CategoryJob
             checkSizeMin={checkSizeMin}
             dataRequest={dataRequest}
             setDataRequest={setDataRequest}
@@ -272,7 +272,7 @@ const FilterComponent = (props: Props) => {
             checkSizeMin={checkSizeMin}
             dataRequest={dataRequest}
             setDataRequest={setDataRequest}
-          /> */}
+          />
           <div
             className={`flex border-black/30 border-[1px] p-1.5 h-12 rounded-2xl justify-between relative ${
               checkSizeMin ? "w-full" : "w-[32%] min-w-[302px]"
