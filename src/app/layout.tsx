@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import "global";
 import { Inter } from "next/font/google";
 import { ScrollContext } from "@/context/AppProvider";
 
