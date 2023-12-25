@@ -1283,7 +1283,7 @@ const MenuComponent = (props: Props) => {
             setTabFilter={setTabFilter}
           /> */}
         </div>
-        {/* {checkNav && checkPageLoad && (
+        {checkNav && checkPageLoad && (
           <div
             className={`w-full bg-white z-20 flex justify-center fixed top-20 border-b-2 transition-all duration-700 ${
               !checkScroll && "-translate-y-28"
@@ -1291,7 +1291,7 @@ const MenuComponent = (props: Props) => {
           >
             <NavbarComponent />
           </div>
-        )} */}
+        )}
 
         {/* <Modal
           width={614}
@@ -1350,10 +1350,10 @@ const MenuComponent = (props: Props) => {
           </div>
         </Modal> */}
 
-        <ModalLogin
+        {/* <ModalLogin
           isOpen={openModalLogin}
           handleToggleModal={handleToggleModal}
-        />
+        /> */}
       </div>
       <ModalNoteCreateCompany
         openModalNoteCreateCompany={openModalNoteCreateCompany}
