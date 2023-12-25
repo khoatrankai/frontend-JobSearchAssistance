@@ -23,9 +23,9 @@ const PositionJob = (props: Props) => {
   const [dataPosition, setDataPosition] = useState<any>([]);
   const [positionLocation, setPostionLocation] = useState<number>(-1);
   const [tabPosition, setTabPosition] = useState<boolean>(false);
-  const dataRequestObj = JSON.parse(
-    localStorage.getItem("dataRequest") || "{}"
-  );
+  // const dataRequestObj = JSON.parse(
+  //   localStorage.getItem("dataRequest") || "{}"
+  // );
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
@@ -139,12 +139,12 @@ const PositionJob = (props: Props) => {
     ));
   };
 
-  useEffect(() => {
-    setDataRequest({
-      ...dataRequest,
-      district_ids: dataRequestObj.district_ids,
-    });
-  }, []);
+  // useEffect(() => {
+  //   setDataRequest({
+  //     ...dataRequest,
+  //     district_ids: dataRequestObj.district_ids,
+  //   });
+  // }, []);
 
   return (
     <div
@@ -156,10 +156,8 @@ const PositionJob = (props: Props) => {
       }}
       ref={ref_position}
     >
-      <div
-        className="w-6 mx-2"
-      >
-        <AddressFilterIcon/>
+      <div className="w-6 mx-2">
+        <AddressFilterIcon />
       </div>
       <div className="flex-1 overflow-hidden h-full flex items-center">
         {(!dataRequest?.district_ids ||

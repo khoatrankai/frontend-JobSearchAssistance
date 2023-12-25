@@ -20,9 +20,9 @@ const SalaryType = (props: Props) => {
   const { checkSizeMin, dataRequest, setDataRequest } = props;
   const [dataType, setDataType] = useState<any>([]);
   const [tabType, setTabType] = useState<boolean>(false);
-  const dataRequestObj = JSON.parse(
-    localStorage.getItem("dataRequest") || "{}"
-  );
+  // const dataRequestObj = JSON.parse(
+  //   localStorage.getItem("dataRequest") || "{}"
+  // );
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
@@ -67,10 +67,8 @@ const SalaryType = (props: Props) => {
       }}
     >
       <div className="flex items-center">
-        <div
-          className="w-6 mx-2"
-        >
-          <ClockFilterIcon/>
+        <div className="w-6 mx-2">
+          <ClockFilterIcon />
         </div>
         <h2>
           {(

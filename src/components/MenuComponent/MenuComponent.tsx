@@ -1275,13 +1275,13 @@ const MenuComponent = (props: Props) => {
               </div>
             </div>
           </nav>
-          <FilterComponent
+          {/* <FilterComponent
             dataRequest={dataRequest}
             setDataRequest={setDataRequest}
             checkReponsive={checkReponsive}
             tabSearchFilter={tabFilter}
             setTabFilter={setTabFilter}
-          />
+          /> */}
         </div>
         {checkNav && checkPageLoad && (
           <div
