@@ -325,16 +325,16 @@ const MenuComponent = (props: Props) => {
       setTabMenu(false);
       // router.push("/banner-recruiter");
     } else {
-      toast.warning("Vui lòng đăng nhập bằng tài khoản tuyển dụng", {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      // toast.warning("Vui lòng đăng nhập bằng tài khoản tuyển dụng", {
+      //   position: "bottom-center",
+      //   autoClose: 2000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      //   theme: "colored",
+      // });
       setOpenModalLogin(true);
     }
   };
