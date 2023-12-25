@@ -281,174 +281,174 @@ const MenuComponent = (props: Props) => {
     fetchData();
   }, [language]);
 
-  const handleClickNoty = (
-    postId: number,
-    commentId: number,
-    applicationId: number,
-    typeText: string
-  ) => {
-    if (typeText === "recruiter") {
-      let res;
-      const fetchData = async () => {
-        res = (await historyRecruiter.GetAJobApplication(
-          postId,
-          applicationId.toString(),
-          "vi"
-        )) as unknown as INotification;
+  // const handleClickNoty = (
+  //   postId: number,
+  //   commentId: number,
+  //   applicationId: number,
+  //   typeText: string
+  // ) => {
+  //   if (typeText === "recruiter") {
+  //     let res;
+  //     const fetchData = async () => {
+  //       res = (await historyRecruiter.GetAJobApplication(
+  //         postId,
+  //         applicationId.toString(),
+  //         "vi"
+  //       )) as unknown as INotification;
 
-        if (res && res.code === 200) {
-          window.open(
-            `candidate-detail/${res?.data?.applicationProfile.account_id}?post-id=${postId}&application_id=${applicationId}`,
-            "_parent"
-          );
-        }
-      };
+  //       if (res && res.code === 200) {
+  //         window.open(
+  //           `candidate-detail/${res?.data?.applicationProfile.account_id}?post-id=${postId}&application_id=${applicationId}`,
+  //           "_parent"
+  //         );
+  //       }
+  //     };
 
-      fetchData();
-    }
-    if (typeText === "applicator") {
-      window.open(`post-detail/${postId}`, "_parent");
-    }
-    if (typeText === "communicationComment") {
-      window.open(`detail-community?post-community=${commentId}`, "_parent");
-    }
-  };
+  //     fetchData();
+  //   }
+  //   if (typeText === "applicator") {
+  //     window.open(`post-detail/${postId}`, "_parent");
+  //   }
+  //   if (typeText === "communicationComment") {
+  //     window.open(`detail-community?post-community=${commentId}`, "_parent");
+  //   }
+  // };
 
-  const handleRedirect = () => {
-    if (!profile?.companyInfomation) {
-      setTabMenu(false);
-      setOpenModalNoteCreateCompany(true);
-      return;
-    }
-    if (profile && profile.roleData === 3) {
-      logEvent(analytics, "select_post_recruitment");
-      setTabMenu(false);
-      router.push("/banner-recruiter");
-    } else {
-      toast.warning("Vui lòng đăng nhập bằng tài khoản tuyển dụng", {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-      setOpenModalLogin(true);
-    }
-  };
+  // const handleRedirect = () => {
+  //   if (!profile?.companyInfomation) {
+  //     setTabMenu(false);
+  //     setOpenModalNoteCreateCompany(true);
+  //     return;
+  //   }
+  //   if (profile && profile.roleData === 3) {
+  //     logEvent(analytics, "select_post_recruitment");
+  //     setTabMenu(false);
+  //     router.push("/banner-recruiter");
+  //   } else {
+  //     toast.warning("Vui lòng đăng nhập bằng tài khoản tuyển dụng", {
+  //       position: "bottom-center",
+  //       autoClose: 2000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: "colored",
+  //     });
+  //     setOpenModalLogin(true);
+  //   }
+  // };
 
-  const IOSSwitch = styled((props: SwitchProps) => (
-    <Switch
-      focusVisibleClassName=".Mui-focusVisible"
-      disableRipple
-      {...props}
-    />
-  ))(({ theme }) => ({
-    width: 42,
-    height: 26,
-    padding: 0,
-    "& .MuiSwitch-switchBase": {
-      padding: 0,
-      margin: 2,
-      transitionDuration: "300ms",
-      "&.Mui-checked": {
-        transform: "translateX(16px)",
-        color: "#fff",
-        "& + .MuiSwitch-track": {
-          backgroundColor:
-            theme.palette.mode === "dark" ? "#2ECA45" : "#65C466",
-          opacity: 1,
-          border: 0,
-        },
-        "&.Mui-disabled + .MuiSwitch-track": {
-          opacity: 0.5,
-        },
-      },
-      "&.Mui-focusVisible .MuiSwitch-thumb": {
-        color: "#33cf4d",
-        border: "6px solid #fff",
-      },
-      "&.Mui-disabled .MuiSwitch-thumb": {
-        color:
-          theme.palette.mode === "light"
-            ? theme.palette.grey[100]
-            : theme.palette.grey[600],
-      },
-      "&.Mui-disabled + .MuiSwitch-track": {
-        opacity: theme.palette.mode === "light" ? 0.7 : 0.3,
-      },
-    },
-    "& .MuiSwitch-thumb": {
-      boxSizing: "border-box",
-      width: 22,
-      height: 22,
-    },
-    "& .MuiSwitch-track": {
-      borderRadius: 26 / 2,
-      backgroundColor: theme.palette.mode === "light" ? "#E9E9EA" : "#39393D",
-      opacity: 1,
-      transition: theme.transitions.create(["background-color"], {
-        duration: 500,
-      }),
-    },
-  }));
+  // const IOSSwitch = styled((props: SwitchProps) => (
+  //   <Switch
+  //     focusVisibleClassName=".Mui-focusVisible"
+  //     disableRipple
+  //     {...props}
+  //   />
+  // ))(({ theme }) => ({
+  //   width: 42,
+  //   height: 26,
+  //   padding: 0,
+  //   "& .MuiSwitch-switchBase": {
+  //     padding: 0,
+  //     margin: 2,
+  //     transitionDuration: "300ms",
+  //     "&.Mui-checked": {
+  //       transform: "translateX(16px)",
+  //       color: "#fff",
+  //       "& + .MuiSwitch-track": {
+  //         backgroundColor:
+  //           theme.palette.mode === "dark" ? "#2ECA45" : "#65C466",
+  //         opacity: 1,
+  //         border: 0,
+  //       },
+  //       "&.Mui-disabled + .MuiSwitch-track": {
+  //         opacity: 0.5,
+  //       },
+  //     },
+  //     "&.Mui-focusVisible .MuiSwitch-thumb": {
+  //       color: "#33cf4d",
+  //       border: "6px solid #fff",
+  //     },
+  //     "&.Mui-disabled .MuiSwitch-thumb": {
+  //       color:
+  //         theme.palette.mode === "light"
+  //           ? theme.palette.grey[100]
+  //           : theme.palette.grey[600],
+  //     },
+  //     "&.Mui-disabled + .MuiSwitch-track": {
+  //       opacity: theme.palette.mode === "light" ? 0.7 : 0.3,
+  //     },
+  //   },
+  //   "& .MuiSwitch-thumb": {
+  //     boxSizing: "border-box",
+  //     width: 22,
+  //     height: 22,
+  //   },
+  //   "& .MuiSwitch-track": {
+  //     borderRadius: 26 / 2,
+  //     backgroundColor: theme.palette.mode === "light" ? "#E9E9EA" : "#39393D",
+  //     opacity: 1,
+  //     transition: theme.transitions.create(["background-color"], {
+  //       duration: 500,
+  //     }),
+  //   },
+  // }));
 
-  const handleOnchangeSearch = async (e: any) => {
-    if (profile.isSearch === 1) {
-      setOpenModalTurnOffStatus(true);
-    } else {
-      await profileAPi.putProfileJobV3(null, 1);
-      dispatch(fetchProfile("vi") as any);
-    }
-  };
+  // const handleOnchangeSearch = async (e: any) => {
+  //   if (profile.isSearch === 1) {
+  //     setOpenModalTurnOffStatus(true);
+  //   } else {
+  //     await profileAPi.putProfileJobV3(null, 1);
+  //     dispatch(fetchProfile("vi") as any);
+  //   }
+  // };
 
-  const handleCancel = () => {
-    setOpenModalTurnOffStatus(false);
-  };
+  // const handleCancel = () => {
+  //   setOpenModalTurnOffStatus(false);
+  // };
 
-  const handleTurnOff = async () => {
-    const res = (await profileAPi.putProfileJobV3(
-      null,
-      0
-    )) as unknown as ITurnOffSerach;
-    if (res && res.statusCode === 200) {
-      setOpenModalTurnOffStatus(false);
-      dispatch(fetchProfile("vi") as any);
-    }
-  };
+  // const handleTurnOff = async () => {
+  //   const res = (await profileAPi.putProfileJobV3(
+  //     null,
+  //     0
+  //   )) as unknown as ITurnOffSerach;
+  //   if (res && res.statusCode === 200) {
+  //     setOpenModalTurnOffStatus(false);
+  //     dispatch(fetchProfile("vi") as any);
+  //   }
+  // };
 
-  const handleSearch = (keyword?: string) => {
-    localStorage.setItem("dataRequest", JSON.stringify(dataRequest));
-    dispatch(
-      fetchSearchResult({
-        q: keyword ? keyword : dataRequest.q ? dataRequest.q.trim() : null,
-        page: 0,
-        moneyType: dataRequest.money_type ? dataRequest.money_type : null,
-        isWorkingWeekend: dataRequest.is_working_weekend
-          ? dataRequest.is_working_weekend
-          : null,
-        isDatePeriod: dataRequest.is_date_period
-          ? dataRequest.is_date_period
-          : null,
-        salaryMin: dataRequest.salary_min ? dataRequest.salary_min : 0,
-        salaryMax: dataRequest.salary_max ? dataRequest.salary_max : 1000000,
-        jobTypeId: dataRequest.jobTypeId ? [dataRequest.jobTypeId] : [],
-        categoryIds: dataRequest.category_ids ? dataRequest.category_ids : null,
-        districtIds: dataRequest.district_ids ? dataRequest.district_ids : null,
-        salaryType: dataRequest.salary_type ? dataRequest.salary_type : null,
-        lang: "vi",
-      }) as unknown as any
-    ).then(() => {
-      router.push("/search-result");
-    });
-  };
+  // const handleSearch = (keyword?: string) => {
+  //   localStorage.setItem("dataRequest", JSON.stringify(dataRequest));
+  //   dispatch(
+  //     fetchSearchResult({
+  //       q: keyword ? keyword : dataRequest.q ? dataRequest.q.trim() : null,
+  //       page: 0,
+  //       moneyType: dataRequest.money_type ? dataRequest.money_type : null,
+  //       isWorkingWeekend: dataRequest.is_working_weekend
+  //         ? dataRequest.is_working_weekend
+  //         : null,
+  //       isDatePeriod: dataRequest.is_date_period
+  //         ? dataRequest.is_date_period
+  //         : null,
+  //       salaryMin: dataRequest.salary_min ? dataRequest.salary_min : 0,
+  //       salaryMax: dataRequest.salary_max ? dataRequest.salary_max : 1000000,
+  //       jobTypeId: dataRequest.jobTypeId ? [dataRequest.jobTypeId] : [],
+  //       categoryIds: dataRequest.category_ids ? dataRequest.category_ids : null,
+  //       districtIds: dataRequest.district_ids ? dataRequest.district_ids : null,
+  //       salaryType: dataRequest.salary_type ? dataRequest.salary_type : null,
+  //       lang: "vi",
+  //     }) as unknown as any
+  //   ).then(() => {
+  //     router.push("/search-result");
+  //   });
+  // };
 
-  const handleModifyPassword = () => {
-    setOpenModalProfile(false);
-    router.push("/update-password");
-  };
+  // const handleModifyPassword = () => {
+  //   setOpenModalProfile(false);
+  //   router.push("/update-password");
+  // };
 
   // React.useEffect(() => {
   //   if (socket.current === undefined && localStorage.getItem("accessToken")) {
