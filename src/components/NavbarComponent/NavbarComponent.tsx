@@ -1,12 +1,12 @@
-import React, {useRef, useState} from 'react';
-import Image from 'next/image';
-import {useEffect} from 'react';
-import categoryApi from '@/api/category/categoryApi';
-import {getCookie, setCookie} from '@/cookies';
-import useSwiperAutoSlider from '@/util/SwiperAutoSlider';
-import jsCookie from 'js-cookie';
-import {useDispatch, useSelector} from 'react-redux';
-import {setCategoryId} from '@/redux/reducer/categoryIdReducer';
+import React, { useRef, useState } from "react";
+import Image from "next/image";
+import { useEffect } from "react";
+import categoryApi from "@/api/category/categoryApi";
+import { getCookie, setCookie } from "@/cookies";
+import useSwiperAutoSlider from "@/util/SwiperAutoSlider";
+import jsCookie from "js-cookie";
+import { useDispatch, useSelector } from "react-redux";
+import { setCategoryId } from "@/redux/reducer/categoryIdReducer";
 
 type Props = {};
 
@@ -32,25 +32,25 @@ const NavbarComponent = (props: Props) => {
   } = useSwiperAutoSlider();
   const [checkLoadNav, setCheckLoadNav] = useState<any>(false);
   const [listParentCategory, setListParentCategory] = useState<any[]>([]);
-  const [languageId, setLanguageId] = useState<string>('0');
+  const [languageId, setLanguageId] = useState<string>("0");
   const [categoriesId, setCategoriesId] = useState<string>(
-    getCookie('categoryId') as any,
+    getCookie("categoryId") as any
   );
   const languageRedux = useSelector(
-    (state: any) => state.changeLaguage.language,
+    (state: any) => state.changeLaguage.language
   );
 
   const dispatch = useDispatch();
   useEffect(() => {
-    const positionNav = Number(getCookie('positionNav'));
+    const positionNav = Number(getCookie("positionNav"));
     if (positionNav !== position && checkLoadNav) {
-      setCookie('positionNav', position.toString(), 365);
+      setCookie("positionNav", position.toString(), 365);
     } else {
       setCheckLoadNav(true);
     }
   }, [position, checkLoadNav]);
   useEffect(() => {
-    const positionNavbar = Number(getCookie('positionNav'));
+    const positionNavbar = Number(getCookie("positionNav"));
     if (positionNavbar) {
       setPosition(positionNavbar);
     }
@@ -60,34 +60,34 @@ const NavbarComponent = (props: Props) => {
   }, [listParentCategory]);
   useEffect(() => {
     const fetch = () => {
-      setLanguageId(getCookie('languageId') as any);
+      setLanguageId(getCookie("languageId") as any);
     };
     fetch();
-  }, [getCookie('languageId'), categoriesId]);
+  }, [getCookie("languageId"), categoriesId]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = (await categoryApi.getParentCategory(
-          languageId as any,
+          languageId as any
         )) as unknown as ICategory;
 
         if (data && (data?.code as any) === 200) {
           setListParentCategory(data.data);
-          const id = jsCookie.get('categoryId') as any;
+          const id = jsCookie.get("categoryId") as any;
           const category = data?.data.find((item: any) => item.id === +id);
           if (category) {
             document.cookie = `categoryName=${category.name}`;
           }
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
     fetchData();
   }, [languageId, languageRedux]);
   const handleClickCategory = (id: number) => {
-    jsCookie.set('categoryId', id.toString());
+    jsCookie.set("categoryId", id.toString());
     const category = listParentCategory.find((item) => item.id === id);
     if (category) {
       document.cookie = `categoryName=${category.name}`;
@@ -99,18 +99,18 @@ const NavbarComponent = (props: Props) => {
     const handleScroll = () => {
       // console.log(ref_nav.current?.getBoundingClientRect());
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [ref_nav]);
   useEffect(() => {
     const handleScroll = () => {
       // console.log(ref_nav.current?.getBoundingClientRect());
     };
-    window.addEventListener('resize', handleScroll);
+    window.addEventListener("resize", handleScroll);
     return () => {
-      window.removeEventListener('resize', handleScroll);
+      window.removeEventListener("resize", handleScroll);
     };
   }, [ref_nav]);
   return (
@@ -126,7 +126,7 @@ const NavbarComponent = (props: Props) => {
           >
             <Image
               className="w-6"
-              src={'/iconleft.svg'}
+              src={"/iconleft.svg"}
               alt="left"
               width={200}
               height={200}
@@ -164,9 +164,9 @@ const NavbarComponent = (props: Props) => {
               <div
                 className="border-selected"
                 style={{
-                  backgroundColor: '#d4a650',
-                  height: '2px',
-                  width: '100%',
+                  backgroundColor: "#d4a650",
+                  height: "2px",
+                  width: "100%",
                 }}
               ></div>
             )}
@@ -182,7 +182,7 @@ const NavbarComponent = (props: Props) => {
           >
             <Image
               className="w-6"
-              src={'/iconright.svg'}
+              src={"/iconright.svg"}
               alt="left"
               width={200}
               height={200}
