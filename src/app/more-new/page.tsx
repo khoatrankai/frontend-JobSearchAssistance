@@ -64,20 +64,7 @@ const Page = () => {
     SelectProps["options"]
   >([]);
   const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
-  const [provincesData, setProvincesData] = React.useState<
-    [
-      {
-        id: string;
-        name: string;
-        name_en: string;
-        full_name: string;
-        full_name_en: string;
-        code_name: string;
-        administrative_unit_id: number;
-        administrative_region_id: number;
-      }
-    ]
-  >();
+  const [provincesData, setProvincesData] = React.useState<any>();
 
   const MAX_CHECKED_ITEMS = 3;
   const language = useSelector((state: any) => state.changeLaguage.language);
