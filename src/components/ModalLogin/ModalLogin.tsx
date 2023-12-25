@@ -721,21 +721,11 @@ const ModalLogin = (props: Props) => {
                   }}
                 >
                   <GoogleLogin
-                    onRequest={() => {
-                      const start = () => {
-                        gapi.client.init({
-                          clientId: googleClient,
-                          scope: "",
-                        });
-                      };
-                      gapi.load("client:auth2", start);
-                    }}
                     clientId="686234651686-l3kg72el7jcggpv1ldo0tv26mrmtu78j.apps.googleusercontent.com"
                     scope="profile email"
                     render={(renderProps) => (
                       <div
                         className="bnt-login_google bnt-login"
-                        onMouseEnter={() => {}}
                         onClick={renderProps.onClick}
                       >
                         <Typography
