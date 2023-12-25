@@ -498,7 +498,7 @@ const MenuComponent = (props: Props) => {
               />
             </div>
 
-            {/* <div
+            <div
               className={`flex items-center justify-end max-w-2xl ${
                 reponsiveMobile ? "" : "flex-1 "
               }`}
@@ -1273,15 +1273,15 @@ const MenuComponent = (props: Props) => {
                   </div>
                 </div>
               </div>
-            </div> */}
+            </div>
           </nav>
-          {/* <FilterComponent
+          <FilterComponent
             dataRequest={dataRequest}
             setDataRequest={setDataRequest}
             checkReponsive={checkReponsive}
             tabSearchFilter={tabFilter}
             setTabFilter={setTabFilter}
-          /> */}
+          />
         </div>
         {checkNav && checkPageLoad && (
           <div
