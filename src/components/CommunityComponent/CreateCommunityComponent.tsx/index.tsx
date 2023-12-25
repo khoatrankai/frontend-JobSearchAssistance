@@ -1,4 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, FormEvent, useEffect } from "react";
+import "global";
 import "./style.scss";
 import imageCompression from "browser-image-compression";
 import { Button, Input, message, Modal } from "antd";

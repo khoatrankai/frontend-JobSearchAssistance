@@ -1,4 +1,5 @@
-import React, { useMemo, useCallback } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useMemo, useCallback, useState, useEffect } from "react";
 import queryString from "query-string";
 import { Collapse } from "antd";
 import { Box } from "@mui/material";
@@ -23,7 +24,10 @@ const HistoryPost = () => {
   );
 
   const profile = useSelector((state: RootState) => state.profile.profile);
-  const queryParams = queryString.parse(window.location.search);
+  const [queryParams, setQueryParams] = useState<any>({});
+  useEffect(() => {
+    setQueryParams(queryString.parse(window.location.search));
+  }, []);
   const hotjobtype = Number(queryParams["post"]);
   const community_post = Number(queryParams["community_post"]);
   const saved_jobs = Number(queryParams["saved_jobs"]);
