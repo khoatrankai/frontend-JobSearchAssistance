@@ -67,10 +67,12 @@ const ModalLogin = (props: Props) => {
   const modalRef = useRef<any>();
   const [resendCode, setResendCode] = useState(true);
   const [widthModal, setWidthModal] = useState(
-    window.innerWidth < 768 ? "80%" : "36rem"
+    // window.innerWidth < 768 ? "80%" : "36rem"
+    "80%"
   );
   const [heightModal, setHeightModal] = useState(
-    window.innerWidth < 768 ? "70%" : "56%"
+    // window.innerWidth < 768 ? "70%" : "56%"
+    "70%"
   );
   const appId = process.env.REACT_APP_FACEBOOK_APP_ID
     ? process.env.REACT_APP_FACEBOOK_APP_ID
