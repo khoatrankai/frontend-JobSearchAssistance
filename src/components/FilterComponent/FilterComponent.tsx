@@ -43,9 +43,9 @@ const FilterComponent = (props: Props) => {
   const router = useRouter();
   const [page, setPage] = React.useState(0);
   const dispatch = useDispatch();
-  const dataRequestObj = JSON.parse(
-    localStorage.getItem("dataRequest") || "{}"
-  );
+  // const dataRequestObj = JSON.parse(
+  //   localStorage.getItem("dataRequest") || "{}"
+  // );
   const [tabSuggest, setTabSuggest] = useState<boolean>(false);
   const ref_input = useRef<any>();
   const handleUpdateWorkPeriod = (name: any) => {
@@ -81,7 +81,7 @@ const FilterComponent = (props: Props) => {
     if (keyword) {
       setDataRequest({ ...dataRequest, q: keyword });
     }
-    localStorage.setItem("dataRequest", JSON.stringify(dataRequest));
+    // localStorage.setItem("dataRequest", JSON.stringify(dataRequest));
     dispatch(
       fetchSearchResult({
         q: keyword ? keyword : dataRequest.q ? dataRequest.q.trim() : null,
@@ -134,16 +134,16 @@ const FilterComponent = (props: Props) => {
     setDataRequest({ ...dataRequest, [name]: formattedNumber });
   };
 
-  useEffect(() => {
-    setDataRequest({
-      ...dataRequest,
-      salary_min: dataRequestObj?.salary_min ? dataRequestObj?.salary_min : 0,
-    });
-    setDataRequest({
-      ...dataRequest,
-      salary_max: dataRequestObj?.salary_max ? dataRequestObj?.salary_max : 0,
-    });
-  }, []);
+  // useEffect(() => {
+  //   setDataRequest({
+  //     ...dataRequest,
+  //     salary_min: dataRequestObj?.salary_min ? dataRequestObj?.salary_min : 0,
+  //   });
+  //   setDataRequest({
+  //     ...dataRequest,
+  //     salary_max: dataRequestObj?.salary_max ? dataRequestObj?.salary_max : 0,
+  //   });
+  // }, []);
   useEffect(() => {
     const handleBlurTab = (e: any) => {
       if (!ref_tab_salary.current.contains(e.target)) {
@@ -160,7 +160,7 @@ const FilterComponent = (props: Props) => {
   }, []);
 
   const handleReset = () => {
-    localStorage.removeItem("dataRequest");
+    // localStorage.removeItem("dataRequest");
     window.location.reload();
   };
 
