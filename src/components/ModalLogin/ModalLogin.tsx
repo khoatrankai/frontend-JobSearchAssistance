@@ -47,33 +47,33 @@ interface IReponseSignInRecruit {
 }
 
 const ModalLogin = (props: Props) => {
-  // const { isOpen, handleToggleModal } = props;
-  // const [openVerifyCode, setOpenVerifyCode] = useState(false);
-  // const handleClose = () => handleToggleModal();
-  // const handleOpenVerifyCode = () => setOpenVerifyCode(true);
-  // const handleCloseVerifyCode = () => setOpenVerifyCode(false);
-  // const handleCloseConfirmPassword = () => setIsOpenConfrimPassword(false);
-  // const [isOpenVerifyOtpAndPassword, setIsOpenVerifyOtpAndPassword] =
-  //   useState(false);
-  // const [
-  //   isOpenVerifyOtpAndPasswordForgot,
-  //   setIsOpenVerifyOtpAndPasswordForgot,
-  // ] = useState(false);
-  // const [isInputFilled, setIsInputFilled] = useState(false);
-  // const [otp, setOTP] = useState("");
-  // const [isOpenConfrimPassword, setIsOpenConfrimPassword] = useState(false);
-  // const [isOpenConfrimPasswordForgot, setIsOpenConfrimPasswordForgot] =
-  //   useState(false);
-  // const modalRef = useRef<any>();
-  // const [resendCode, setResendCode] = useState(true);
-  // const [widthModal, setWidthModal] = useState(
-  //   // window.innerWidth < 768 ? "80%" : "36rem"
-  //   "80%"
-  // );
-  // const [heightModal, setHeightModal] = useState(
-  //   // window.innerWidth < 768 ? "70%" : "56%"
-  //   "70%"
-  // );
+  const { isOpen, handleToggleModal } = props;
+  const [openVerifyCode, setOpenVerifyCode] = useState(false);
+  const handleClose = () => handleToggleModal();
+  const handleOpenVerifyCode = () => setOpenVerifyCode(true);
+  const handleCloseVerifyCode = () => setOpenVerifyCode(false);
+  const handleCloseConfirmPassword = () => setIsOpenConfrimPassword(false);
+  const [isOpenVerifyOtpAndPassword, setIsOpenVerifyOtpAndPassword] =
+    useState(false);
+  const [
+    isOpenVerifyOtpAndPasswordForgot,
+    setIsOpenVerifyOtpAndPasswordForgot,
+  ] = useState(false);
+  const [isInputFilled, setIsInputFilled] = useState(false);
+  const [otp, setOTP] = useState("");
+  const [isOpenConfrimPassword, setIsOpenConfrimPassword] = useState(false);
+  const [isOpenConfrimPasswordForgot, setIsOpenConfrimPasswordForgot] =
+    useState(false);
+  const modalRef = useRef<any>();
+  const [resendCode, setResendCode] = useState(true);
+  const [widthModal, setWidthModal] = useState(
+    // window.innerWidth < 768 ? "80%" : "36rem"
+    "80%"
+  );
+  const [heightModal, setHeightModal] = useState(
+    // window.innerWidth < 768 ? "70%" : "56%"
+    "70%"
+  );
   // const appId = process.env.REACT_APP_FACEBOOK_APP_ID
   //   ? process.env.REACT_APP_FACEBOOK_APP_ID
   //   : "";

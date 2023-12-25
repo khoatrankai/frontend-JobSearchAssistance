@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from "react";
 
 interface PropsCountDown {
   setResendCode: React.Dispatch<React.SetStateAction<boolean>>;
@@ -33,15 +34,15 @@ const CountdownTimer: React.FC<PropsCountDown> = (props) => {
     const minutes = Math.floor(time / 60);
     const remainingSeconds = time % 60;
 
-    const formattedMinutes = minutes.toString().padStart(2, '0');
-    const formattedSeconds = remainingSeconds.toString().padStart(2, '0');
+    const formattedMinutes = minutes.toString().padStart(2, "0");
+    const formattedSeconds = remainingSeconds.toString().padStart(2, "0");
 
     return `${formattedMinutes}:${formattedSeconds}`;
   };
 
   return (
-    <p className="resend-otp_countDown" style={{ color: '#5d5d5d ' }}>
-      {' sau ' + formatTime(seconds)}
+    <p className="resend-otp_countDown" style={{ color: "#5d5d5d " }}>
+      {" sau " + formatTime(seconds)}
     </p>
   );
 };
