@@ -1,12 +1,14 @@
-'use client';
-import profileAPi from '@/api/profiles/profileApi';
-import { useSrollContext } from '@/context/AppProvider';
-import {Box, Button, TextField, Typography} from '@mui/material';
-import React, { useEffect } from 'react';
-import ReCAPTCHA from 'react-google-recaptcha';
-import {useSelector} from 'react-redux';
-import {ToastContainer, toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
+"use client";
+import profileAPi from "@/api/profiles/profileApi";
+import { useSrollContext } from "@/context/AppProvider";
+import { Box, Button, TextField, Typography } from "@mui/material";
+import React, { useEffect } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
+import { useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type Props = {};
 
@@ -19,39 +21,39 @@ interface IUpdatePassword {
 const page = (props: Props) => {
   const [checkVerify, setCheckVerify] = React.useState(false);
   const languageRedux = useSelector(
-    (state: any) => state.changeLaguage.language,
+    (state: any) => state.changeLaguage.language
   );
   const profile = useSelector((state: any) => state.profile.profile);
-  const [oldPassword, setOldPassword] = React.useState('');
-  const [newPassword, setNewPassword] = React.useState('');
-  const [confirmPassword, setConfirmPassword] = React.useState('');
+  const [oldPassword, setOldPassword] = React.useState("");
+  const [newPassword, setNewPassword] = React.useState("");
+  const [confirmPassword, setConfirmPassword] = React.useState("");
   const onChange = (e: any) => {
     if (e) {
       setCheckVerify(true);
     }
   };
-  const {handleLoadHrefPage} = useSrollContext();
+  const { handleLoadHrefPage } = useSrollContext();
 
   useEffect(() => {
     handleLoadHrefPage();
-  }, [])
+  }, []);
 
   const handleUpdatePassword = () => {
     if (newPassword !== confirmPassword) {
       toast.warning(
         languageRedux === 1
-          ? 'Mật khẩu nhập lại không trùng khớp'
-          : 'The re-entered password does not match',
+          ? "Mật khẩu nhập lại không trùng khớp"
+          : "The re-entered password does not match",
         {
-          position: 'bottom-center',
+          position: "bottom-center",
           autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: 'dark',
-        },
+          theme: "dark",
+        }
       );
 
       return;
@@ -62,34 +64,44 @@ const page = (props: Props) => {
         let res = (await profileAPi.recruitUpdatePassword(
           newPassword,
           oldPassword,
-          languageRedux === 1 ? 'vi' : 'en',
+          languageRedux === 1 ? "vi" : "en"
         )) as any as IUpdatePassword;
 
         if (res && res.statusCode === 200) {
-          toast.success(languageRedux === 1 ? 'Cập nhật mật khẩu thành công' : 'Updated password successfully', {
-            position: 'bottom-center',
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'dark',
-          });
-          setOldPassword('');
-          setNewPassword('');
-          setConfirmPassword('');
+          toast.success(
+            languageRedux === 1
+              ? "Cập nhật mật khẩu thành công"
+              : "Updated password successfully",
+            {
+              position: "bottom-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            }
+          );
+          setOldPassword("");
+          setNewPassword("");
+          setConfirmPassword("");
         } else {
-          toast.warning(languageRedux === 1 ? 'Vui lòng kiểm tra lại mật khẩu': 'Please check your password again', {
-            position: 'bottom-center',
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'dark',
-          });
+          toast.warning(
+            languageRedux === 1
+              ? "Vui lòng kiểm tra lại mật khẩu"
+              : "Please check your password again",
+            {
+              position: "bottom-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            }
+          );
         }
       } catch (error) {
         console.log(error);
@@ -101,19 +113,19 @@ const page = (props: Props) => {
   return (
     <div className="w-full flex flex-col justify-center items-center gap-9 mt-10 p-3">
       <Typography variant="h4" component="h4" fontWeight={500}>
-        {languageRedux !== 1 ? 'Update Password' : 'Cập nhật mật khẩu'}
+        {languageRedux !== 1 ? "Update Password" : "Cập nhật mật khẩu"}
       </Typography>
       <Box
         sx={{
           width: 500,
-          maxWidth: '100%',
+          maxWidth: "100%",
         }}
       >
         <TextField
           type="password"
           required
           id="outlined-required"
-          label={languageRedux !== 1 ? 'Old Password' : 'Mật khẩu cũ'}
+          label={languageRedux !== 1 ? "Old Password" : "Mật khẩu cũ"}
           fullWidth
           value={oldPassword}
           onChange={(e) => {
@@ -124,7 +136,7 @@ const page = (props: Props) => {
       <Box
         sx={{
           width: 500,
-          maxWidth: '100%',
+          maxWidth: "100%",
         }}
       >
         <TextField
@@ -132,7 +144,7 @@ const page = (props: Props) => {
           type="password"
           id="outlined-required"
           value={newPassword}
-          label={languageRedux !== 1 ? 'New Password' : 'Mật khẩu mới'}
+          label={languageRedux !== 1 ? "New Password" : "Mật khẩu mới"}
           fullWidth
           onChange={(e) => {
             setNewPassword(e.target.value);
@@ -142,7 +154,7 @@ const page = (props: Props) => {
       <Box
         sx={{
           width: 500,
-          maxWidth: '100%',
+          maxWidth: "100%",
         }}
       >
         <TextField
@@ -150,7 +162,7 @@ const page = (props: Props) => {
           type="password"
           id="outlined-required"
           value={confirmPassword}
-          label={languageRedux !== 1 ? 'Confirm Password' : 'Xác nhận mật khẩu'}
+          label={languageRedux !== 1 ? "Confirm Password" : "Xác nhận mật khẩu"}
           fullWidth
           onChange={(e) => {
             setConfirmPassword(e.target.value);
@@ -161,27 +173,27 @@ const page = (props: Props) => {
       <ReCAPTCHA
         sitekey="6Lf-Mg8pAAAAAJA0rxDngsb9imp09yJQJdVCUBpC"
         onChange={(e) => onChange(e)}
-        hl={languageRedux === 1 ? 'vi' : 'en'}
+        hl={languageRedux === 1 ? "vi" : "en"}
       />
 
       <Button
         variant="contained"
         disabled={
-          oldPassword.trim() === '' ||
-          newPassword.trim() === '' ||
-          confirmPassword.trim() === '' ||
+          oldPassword.trim() === "" ||
+          newPassword.trim() === "" ||
+          confirmPassword.trim() === "" ||
           !checkVerify
         }
         sx={{
           width: 500,
-          maxWidth: '100%',
-          backgroundColor: '#d4a650',
+          maxWidth: "100%",
+          backgroundColor: "#d4a650",
         }}
         onClick={() => {
           handleUpdatePassword();
         }}
       >
-        {languageRedux !== 1 ? 'Update' : 'Cập nhật'}
+        {languageRedux !== 1 ? "Update" : "Cập nhật"}
       </Button>
       <ToastContainer />
     </div>

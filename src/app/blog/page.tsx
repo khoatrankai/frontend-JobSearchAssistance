@@ -1,15 +1,17 @@
-'use client';
-import React, {useEffect} from 'react';
-import './page.scss';
-import Image from 'next/image';
-import communityApi from '@/api/community/apiCommunity';
-import {useRouter} from 'next/navigation';
-import {SaveIconFill, SaveIconOutline} from '@/icons';
-import 'react-toastify/dist/ReactToastify.css';
-import {ToastContainer, toast} from 'react-toastify';
-import {useSelector} from 'react-redux';
-import {RootState} from '@/redux';
-import {useSrollContext} from '@/context/AppProvider';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
+"use client";
+import React, { useEffect } from "react";
+import "./page.scss";
+import Image from "next/image";
+import communityApi from "@/api/community/apiCommunity";
+import { useRouter } from "next/navigation";
+import { SaveIconFill, SaveIconOutline } from "@/icons";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux";
+import { useSrollContext } from "@/context/AppProvider";
 
 type Props = {};
 
@@ -19,25 +21,25 @@ const page = (props: Props) => {
   const [bookmarked, setBookmarked] = React.useState(false);
   const router = useRouter();
   const languageRedux = useSelector(
-    (state: RootState) => state.changeLaguage.language,
+    (state: RootState) => state.changeLaguage.language
   );
-  const {handleLoadHrefPage} = useSrollContext();
+  const { handleLoadHrefPage } = useSrollContext();
 
   useEffect(() => {
     handleLoadHrefPage();
     const fetchData = async () => {
-      const res = await communityApi.getCommunityNews('0', '6', 'cm', 0, 'vi');
+      const res = await communityApi.getCommunityNews("0", "6", "cm", 0, "vi");
 
       if (res && res.status === 200) {
         setCommunityAdmin(res.data.communications);
       }
 
       const resUser = await communityApi.getCommunityNews(
-        '0',
-        '6',
-        'cm',
+        "0",
+        "6",
+        "cm",
         1,
-        languageRedux === 1 ? 'vi' : 'en',
+        languageRedux === 1 ? "vi" : "en"
       );
 
       if (resUser && resUser.status === 200) {
@@ -54,26 +56,26 @@ const page = (props: Props) => {
 
       if (res && res.status === 201) {
         setBookmarked(!bookmarked);
-        toast.success('Save post success', {
-          position: 'bottom-center',
+        toast.success("Save post success", {
+          position: "bottom-center",
           autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: 'dark',
+          theme: "dark",
         });
       } else {
-        toast.error('Save post failed', {
-          position: 'bottom-center',
+        toast.error("Save post failed", {
+          position: "bottom-center",
           autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: 'dark',
+          theme: "dark",
         });
       }
     };
@@ -86,26 +88,26 @@ const page = (props: Props) => {
 
       if (res && res.status === 200) {
         setBookmarked(!bookmarked);
-        toast.success('Unsave post success', {
-          position: 'bottom-center',
+        toast.success("Unsave post success", {
+          position: "bottom-center",
           autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: 'dark',
+          theme: "dark",
         });
       } else {
-        toast.error('Unsave post failed', {
-          position: 'bottom-center',
+        toast.error("Unsave post failed", {
+          position: "bottom-center",
           autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: 'dark',
+          theme: "dark",
         });
       }
     };
@@ -124,8 +126,8 @@ const page = (props: Props) => {
             </div>
             <h1 className="text-6xl text-white font-bold absolute inset-y-0 flex justify-center items-center pointer-events-none">
               {languageRedux === 1
-                ? 'Blog - Ý tưởng phát triển sự nghiệp IT của bạn'
-                : 'Blog - Your IT career development ideas'}
+                ? "Blog - Ý tưởng phát triển sự nghiệp IT của bạn"
+                : "Blog - Your IT career development ideas"}
             </h1>
           </div>
         </div>
@@ -143,7 +145,7 @@ const page = (props: Props) => {
                       className="w-[370px] group cursor-pointer bg-white shadow-[7px_8px_40px_6px_#00000024] mx-[10.5px] rounded-lg overflow-hidden flex flex-col justify-between gap-8"
                       onClick={(e) => {
                         router.push(
-                          `/detail-community?post-community=${item.id}&type=0`,
+                          `/detail-community?post-community=${item.id}&type=0`
                         );
                         e.stopPropagation();
                       }}
@@ -157,7 +159,7 @@ const page = (props: Props) => {
                           src={item?.images[0]?.image}
                           onError={(e: any) => {
                             e.target.onerror = null;
-                            e.target.src = '/logo/iphone15.png';
+                            e.target.src = "/logo/iphone15.png";
                           }}
                         />
                       </div>
@@ -166,7 +168,7 @@ const page = (props: Props) => {
                         <div className="max-h-20">
                           <p
                             className="text-sm max-h-20 overflow-hidden text-ellipsis"
-                            dangerouslySetInnerHTML={{__html: item?.content}}
+                            dangerouslySetInnerHTML={{ __html: item?.content }}
                           />
                         </div>
                       </div>
@@ -178,7 +180,7 @@ const page = (props: Props) => {
                           <Image
                             className="w-4"
                             alt=""
-                            src={'/iconheart.svg'}
+                            src={"/iconheart.svg"}
                             width={200}
                             height={200}
                           />
@@ -190,7 +192,7 @@ const page = (props: Props) => {
                           <Image
                             className="w-4"
                             alt=""
-                            src={'/iconcomment.svg'}
+                            src={"/iconcomment.svg"}
                             width={200}
                             height={200}
                           />
@@ -211,7 +213,7 @@ const page = (props: Props) => {
                             <>
                               <SaveIconFill width={22} height={22} />
                               <h2 className="text-base ml-2">
-                                {' '}
+                                {" "}
                                 {languageRedux === 1 ? `Đã lưu` : `Saved`}
                               </h2>
                             </>
@@ -219,7 +221,7 @@ const page = (props: Props) => {
                             <>
                               <SaveIconOutline width={22} height={22} />
                               <h2 className="text-base ml-2">
-                                {' '}
+                                {" "}
                                 {languageRedux === 1 ? `Lưu tin` : `Save news`}
                               </h2>
                             </>
@@ -234,7 +236,7 @@ const page = (props: Props) => {
           <div
             className="absolute top-0 right-0"
             onClick={() => {
-              router.push('/blog/see-all-admin');
+              router.push("/blog/see-all-admin");
             }}
           >
             <button className="font-bold text-yellow-600 text-lg border-b-4 border-yellow-500 hover:text-yellow-500">
@@ -257,7 +259,7 @@ const page = (props: Props) => {
                       className="w-[370px] group cursor-pointer bg-white shadow-[7px_8px_40px_6px_#00000024] mx-[10.5px] rounded-lg overflow-hidden flex flex-col justify-between gap-8"
                       onClick={(e) => {
                         router.push(
-                          `/detail-community?post-community=${item.id}&type=1`,
+                          `/detail-community?post-community=${item.id}&type=1`
                         );
                         e.stopPropagation();
                       }}
@@ -271,7 +273,7 @@ const page = (props: Props) => {
                           src={item?.images[0]?.image}
                           onError={(e: any) => {
                             e.target.onerror = null;
-                            e.target.src = '/logo/iphone15.png';
+                            e.target.src = "/logo/iphone15.png";
                           }}
                         />
                       </div>
@@ -280,7 +282,7 @@ const page = (props: Props) => {
                         <div className="max-h-20">
                           <p
                             className="text-sm max-h-20 overflow-hidden text-ellipsis"
-                            dangerouslySetInnerHTML={{__html: item?.content}}
+                            dangerouslySetInnerHTML={{ __html: item?.content }}
                           />
                           ...
                         </div>
@@ -293,7 +295,7 @@ const page = (props: Props) => {
                           <Image
                             className="w-4"
                             alt=""
-                            src={'/iconheart.svg'}
+                            src={"/iconheart.svg"}
                             width={200}
                             height={200}
                           />
@@ -305,7 +307,7 @@ const page = (props: Props) => {
                           <Image
                             className="w-4"
                             alt=""
-                            src={'/iconcomment.svg'}
+                            src={"/iconcomment.svg"}
                             width={200}
                             height={200}
                           />
@@ -326,7 +328,7 @@ const page = (props: Props) => {
                             <>
                               <SaveIconFill width={22} height={22} />
                               <h2 className="text-base ml-2">
-                                {' '}
+                                {" "}
                                 {languageRedux === 1 ? `Đã lưu` : `Saved`}
                               </h2>
                             </>
@@ -334,7 +336,7 @@ const page = (props: Props) => {
                             <>
                               <SaveIconOutline width={22} height={22} />
                               <h2 className="text-base ml-2">
-                                {' '}
+                                {" "}
                                 {languageRedux === 1 ? `Lưu tin` : `Save news`}
                               </h2>
                             </>
@@ -349,7 +351,7 @@ const page = (props: Props) => {
           <div
             className="absolute top-0 right-0"
             onClick={() => {
-              router.push('/blog/see-all');
+              router.push("/blog/see-all");
             }}
           >
             <button className="font-bold text-yellow-600 text-lg border-b-4 border-yellow-500 hover:text-yellow-500">
