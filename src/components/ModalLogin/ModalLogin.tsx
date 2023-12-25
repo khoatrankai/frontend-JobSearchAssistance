@@ -108,21 +108,19 @@ const ModalLogin = (props: Props) => {
   );
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setWidthModal("80%");
-        setHeightModal("70%");
-      } else {
-        setWidthModal("36rem");
-        setHeightModal("56%");
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    // const handleResize = () => {
+    //   if (window.innerWidth < 768) {
+    //     setWidthModal("80%");
+    //     setHeightModal("70%");
+    //   } else {
+    //     setWidthModal("36rem");
+    //     setHeightModal("56%");
+    //   }
+    // };
+    // window.addEventListener("resize", handleResize);
+    // return () => {
+    //   window.removeEventListener("resize", handleResize);
+    // };
   }, []);
 
   const style = {
