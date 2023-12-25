@@ -147,15 +147,15 @@ const ModalLogin = (props: Props) => {
 
   const handleResendCode = () => {};
 
-  // useEffect(() => {
-  //   const start = () => {
-  //     gapi.client.init({
-  //       clientId: googleClient,
-  //       scope: "",
-  //     });
-  //   };
-  //   gapi.load("client:auth2", start);
-  // }, []);
+  useEffect(() => {
+    const start = () => {
+      gapi.client.init({
+        clientId: googleClient,
+        scope: "",
+      });
+    };
+    gapi.load("client:auth2", start);
+  }, []);
 
   // const responseGoogle = async (response: any) => {
   //   try {
