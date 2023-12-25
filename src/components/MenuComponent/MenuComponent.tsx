@@ -1350,10 +1350,10 @@ const MenuComponent = (props: Props) => {
           </div>
         </Modal>
 
-        {/* <ModalLogin
+        <ModalLogin
           isOpen={openModalLogin}
           handleToggleModal={handleToggleModal}
-        /> */}
+        />
       </div>
       <ModalNoteCreateCompany
         openModalNoteCreateCompany={openModalNoteCreateCompany}
