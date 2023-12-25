@@ -44,358 +44,358 @@ interface IBookmark {
 }
 
 const Page = () => {
-  const { handleShortTextHome, handleShortValueNumber } = ShortText();
-  const [open, setOpen] = React.useState(false);
-  const [valueJobChild, setValueJobChild] = React.useState<any>([]);
-  const [arrayChild, setArrayChild] = useState<any>([]);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [checkedItems, setCheckedItems] = useState<any>([]);
-  const [childCatelories, setChildCatelories] = React.useState<any>(null);
-  const [checkItemsCount, setCheckItemsCount] = React.useState<number>(0);
-  const [nameCategory, setNameCategory] = useState<any>("");
-  const [listJob, setListJob] = useState<any>([]);
-  const [loading, setLoading] = useState(false);
-  const [hasMoreData, setHasMoreData] = useState(true);
-  const [arrayTotal, setArrayTotal] = useState<any>([]);
-  const [thresholdNewJob, setThresholdNewJob] = useState<number>(0);
-  const categoryId = useSelector((state: any) => state.categoryId);
-  const [idFilterProvinces, setIdFilterProvinces] = React.useState("");
-  const [optionsProvinces, setOptionsProvinces] = React.useState<
-    SelectProps["options"]
-  >([]);
-  const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
-  const [provincesData, setProvincesData] = React.useState<any>();
+  // const { handleShortTextHome, handleShortValueNumber } = ShortText();
+  // const [open, setOpen] = React.useState(false);
+  // const [valueJobChild, setValueJobChild] = React.useState<any>([]);
+  // const [arrayChild, setArrayChild] = useState<any>([]);
+  // const [isLoading, setIsLoading] = React.useState(false);
+  // const [checkedItems, setCheckedItems] = useState<any>([]);
+  // const [childCatelories, setChildCatelories] = React.useState<any>(null);
+  // const [checkItemsCount, setCheckItemsCount] = React.useState<number>(0);
+  // const [nameCategory, setNameCategory] = useState<any>("");
+  // const [listJob, setListJob] = useState<any>([]);
+  // const [loading, setLoading] = useState(false);
+  // const [hasMoreData, setHasMoreData] = useState(true);
+  // const [arrayTotal, setArrayTotal] = useState<any>([]);
+  // const [thresholdNewJob, setThresholdNewJob] = useState<number>(0);
+  // const categoryId = useSelector((state: any) => state.categoryId);
+  // const [idFilterProvinces, setIdFilterProvinces] = React.useState("");
+  // const [optionsProvinces, setOptionsProvinces] = React.useState<
+  //   SelectProps["options"]
+  // >([]);
+  // const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
+  // const [provincesData, setProvincesData] = React.useState<any>();
 
-  const MAX_CHECKED_ITEMS = 3;
-  const language = useSelector((state: any) => state.changeLaguage.language);
-  const [accountId, setAccountId] = useState<any>("");
-  useEffect(() => {
-    setAccountId(localStorage.getItem("accountId"));
-  }, []);
-  useEffect(() => {
-    setValueJobChild(categoryId);
-    setNameCategory(getCookie("categoryName"));
-  }, [categoryId, getCookie("categoryName"), language]);
+  // const MAX_CHECKED_ITEMS = 3;
+  // const language = useSelector((state: any) => state.changeLaguage.language);
+  // const [accountId, setAccountId] = useState<any>("");
+  // useEffect(() => {
+  //   setAccountId(localStorage.getItem("accountId"));
+  // }, []);
+  // useEffect(() => {
+  //   setValueJobChild(categoryId);
+  //   setNameCategory(getCookie("categoryName"));
+  // }, [categoryId, getCookie("categoryName"), language]);
 
-  const getAllChildCategoriesById = async () => {
-    try {
-      const result = await categoryApi.getAllChildCategories(
-        valueJobChild,
-        language === 1 ? "vi" : "en"
-      );
+  // const getAllChildCategoriesById = async () => {
+  //   try {
+  //     const result = await categoryApi.getAllChildCategories(
+  //       valueJobChild,
+  //       language === 1 ? "vi" : "en"
+  //     );
 
-      if (result) {
-        const newData = result.data.map((item: any) => {
-          return {
-            ...item,
-            checked: false,
-          };
-        });
-        setChildCatelories(newData);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //     if (result) {
+  //       const newData = result.data.map((item: any) => {
+  //         return {
+  //           ...item,
+  //           checked: false,
+  //         };
+  //       });
+  //       setChildCatelories(newData);
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    getAllChildCategoriesById();
-  }, [valueJobChild, language]);
+  // useEffect(() => {
+  //   getAllChildCategoriesById();
+  // }, [valueJobChild, language]);
 
-  const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    event.isPropagationStopped();
-    setOpen(!open);
-  };
+  // const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  //   event.isPropagationStopped();
+  //   setOpen(!open);
+  // };
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = event.target;
+  // const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, checked } = event.target;
 
-    setChildCatelories((prevState: any) => {
-      const newData = prevState.map((item: any) => {
-        if (item.id === Number(name)) {
-          return {
-            ...item,
-            checked: checked,
-          };
-        }
-        return item;
-      });
-      setCheckItemsCount(
-        newData.filter((item: any) => item.checked === true).length
-      );
+  //   setChildCatelories((prevState: any) => {
+  //     const newData = prevState.map((item: any) => {
+  //       if (item.id === Number(name)) {
+  //         return {
+  //           ...item,
+  //           checked: checked,
+  //         };
+  //       }
+  //       return item;
+  //     });
+  //     setCheckItemsCount(
+  //       newData.filter((item: any) => item.checked === true).length
+  //     );
 
-      return newData;
-    });
-  };
+  //     return newData;
+  //   });
+  // };
 
-  const handleClickChoose = async () => {
-    setOpen(false);
-    const arrayTotalFUC: any[] = [];
+  // const handleClickChoose = async () => {
+  //   setOpen(false);
+  //   const arrayTotalFUC: any[] = [];
 
-    const newData = childCatelories.filter(
-      (item: any) => item.checked === true
-    );
-    const newChildCatelories = newData.map((item: any) => {
-      arrayTotalFUC.push(item.id);
-    });
-    setCheckedItems(newChildCatelories);
-    setArrayChild(newData);
-    setArrayTotal(arrayTotalFUC);
-    setCheckItemsCount(0);
-  };
+  //   const newData = childCatelories.filter(
+  //     (item: any) => item.checked === true
+  //   );
+  //   const newChildCatelories = newData.map((item: any) => {
+  //     arrayTotalFUC.push(item.id);
+  //   });
+  //   setCheckedItems(newChildCatelories);
+  //   setArrayChild(newData);
+  //   setArrayTotal(arrayTotalFUC);
+  //   setCheckItemsCount(0);
+  // };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      const res = (await postsApi.getPostNewestV3(
-        arrayTotal,
-        valueJobChild ? Number(valueJobChild) : null,
-        null,
-        idFilterProvinces ? Number(idFilterProvinces) : null,
-        10,
-        thresholdNewJob,
-        language === 1 ? "vi" : "en"
-      )) as unknown as any;
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setIsLoading(true);
+  //     const res = (await postsApi.getPostNewestV3(
+  //       arrayTotal,
+  //       valueJobChild ? Number(valueJobChild) : null,
+  //       null,
+  //       idFilterProvinces ? Number(idFilterProvinces) : null,
+  //       10,
+  //       thresholdNewJob,
+  //       language === 1 ? "vi" : "en"
+  //     )) as unknown as any;
 
-      if (res && res.status === 200) {
-        setListJob(res.data);
-        setThresholdNewJob(res.data[res.data.length - 1]?.id);
-      }
-      setIsLoading(false);
-    };
-    fetchData();
-  }, [arrayTotal, valueJobChild, idFilterProvinces, language]);
+  //     if (res && res.status === 200) {
+  //       setListJob(res.data);
+  //       setThresholdNewJob(res.data[res.data.length - 1]?.id);
+  //     }
+  //     setIsLoading(false);
+  //   };
+  //   fetchData();
+  // }, [arrayTotal, valueJobChild, idFilterProvinces, language]);
 
-  React.useEffect(() => {
-    if (provincesData) {
-      const newOptionsProvinces = provincesData.map((provinces: any) => {
-        return {
-          value: provinces.id,
-          label: language === 1 ? provinces.full_name : provinces.full_name_en,
-        };
-      });
-      setOptionsProvinces(newOptionsProvinces);
-    }
-  }, [provincesData, language]);
+  // React.useEffect(() => {
+  //   if (provincesData) {
+  //     const newOptionsProvinces = provincesData.map((provinces: any) => {
+  //       return {
+  //         value: provinces.id,
+  //         label: language === 1 ? provinces.full_name : provinces.full_name_en,
+  //       };
+  //     });
+  //     setOptionsProvinces(newOptionsProvinces);
+  //   }
+  // }, [provincesData, language]);
 
-  const getProvinces = async () => {
-    try {
-      const result = await locationApi.getAllProvinces(
-        language === 1 ? "vi" : "en"
-      );
+  // const getProvinces = async () => {
+  //   try {
+  //     const result = await locationApi.getAllProvinces(
+  //       language === 1 ? "vi" : "en"
+  //     );
 
-      if (result) {
-        setProvincesData(result.data);
-      }
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
+  //     if (result) {
+  //       setProvincesData(result.data);
+  //     }
+  //   } catch (error) {
+  //     console.log("error", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    getProvinces();
-  }, [language]);
+  // useEffect(() => {
+  //   getProvinces();
+  // }, [language]);
 
-  const handleToggleModal = () => {
-    setOpenModalLogin(false);
-  };
+  // const handleToggleModal = () => {
+  //   setOpenModalLogin(false);
+  // };
 
-  const breadcrumbs = [
-    <Typography
-      key="2"
-      color="text.primary"
-      sx={{
-        cursor: "pointer",
-        padding: "4px 12px",
-        borderRadius: "12px",
-        display: "flex",
-        alignItems: "center",
-        border: "1px solid #d4a650",
-        color: "#d4a650",
-        background: "#ffffff",
-        fontSize: "12px",
-        lineHeight: "2",
-      }}
-    >
-      {nameCategory}
-    </Typography>,
-    valueJobChild?.id === 1 ? (
-      <React.Fragment key="3"></React.Fragment>
-    ) : (
-      <div
-        key="3"
-        style={{
-          position: "relative",
-        }}
-        className="button-breadcrumb"
-        onClick={(e) => handleClick(e)}
-      >
-        <Typography
-          color="text.primary"
-          sx={{
-            cursor: "pointer",
-            padding: "4px 12px",
-            borderRadius: "12px",
-            display: "flex",
-            alignItems: "center",
-            border: "1px solid #d4a650",
-            color: "#d4a650",
-            background: "#ffffff",
-            fontSize: "12px",
-            lineHeight: "2",
-          }}
-        >
-          {arrayChild?.length === 0 || arrayChild?.length === undefined
-            ? language === 1
-              ? `Tất cả`
-              : `All`
-            : arrayChild?.map(
-                (value: { id: number; name: string }, index: number) => (
-                  <div key={index}>
-                    {value.name} {index !== arrayChild.length - 1 ? "/ " : ""}
-                  </div>
-                )
-              )}
-          {open ? (
-            <ExpandLess className="icon-breadcrumb" />
-          ) : (
-            <ExpandMore className="icon-breadcrumb" />
-          )}
-        </Typography>
-      </div>
-    ),
-  ];
+  // const breadcrumbs = [
+  //   <Typography
+  //     key="2"
+  //     color="text.primary"
+  //     sx={{
+  //       cursor: "pointer",
+  //       padding: "4px 12px",
+  //       borderRadius: "12px",
+  //       display: "flex",
+  //       alignItems: "center",
+  //       border: "1px solid #d4a650",
+  //       color: "#d4a650",
+  //       background: "#ffffff",
+  //       fontSize: "12px",
+  //       lineHeight: "2",
+  //     }}
+  //   >
+  //     {nameCategory}
+  //   </Typography>,
+  //   valueJobChild?.id === 1 ? (
+  //     <React.Fragment key="3"></React.Fragment>
+  //   ) : (
+  //     <div
+  //       key="3"
+  //       style={{
+  //         position: "relative",
+  //       }}
+  //       className="button-breadcrumb"
+  //       onClick={(e) => handleClick(e)}
+  //     >
+  //       <Typography
+  //         color="text.primary"
+  //         sx={{
+  //           cursor: "pointer",
+  //           padding: "4px 12px",
+  //           borderRadius: "12px",
+  //           display: "flex",
+  //           alignItems: "center",
+  //           border: "1px solid #d4a650",
+  //           color: "#d4a650",
+  //           background: "#ffffff",
+  //           fontSize: "12px",
+  //           lineHeight: "2",
+  //         }}
+  //       >
+  //         {arrayChild?.length === 0 || arrayChild?.length === undefined
+  //           ? language === 1
+  //             ? `Tất cả`
+  //             : `All`
+  //           : arrayChild?.map(
+  //               (value: { id: number; name: string }, index: number) => (
+  //                 <div key={index}>
+  //                   {value.name} {index !== arrayChild.length - 1 ? "/ " : ""}
+  //                 </div>
+  //               )
+  //             )}
+  //         {open ? (
+  //           <ExpandLess className="icon-breadcrumb" />
+  //         ) : (
+  //           <ExpandMore className="icon-breadcrumb" />
+  //         )}
+  //       </Typography>
+  //     </div>
+  //   ),
+  // ];
 
-  const handleBookmarked = (id: number) => {
-    try {
-      const fetchData = async () => {
-        const res = (await bookMarkApi.createBookMark(
-          id
-        )) as unknown as IBookmark;
+  // const handleBookmarked = (id: number) => {
+  //   try {
+  //     const fetchData = async () => {
+  //       const res = (await bookMarkApi.createBookMark(
+  //         id
+  //       )) as unknown as IBookmark;
 
-        if (res && res.code === 200) {
-          toast.success("Save post success", {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
+  //       if (res && res.code === 200) {
+  //         toast.success("Save post success", {
+  //           position: "bottom-center",
+  //           autoClose: 2000,
+  //           hideProgressBar: false,
+  //           closeOnClick: true,
+  //           pauseOnHover: true,
+  //           draggable: true,
+  //           progress: undefined,
+  //           theme: "dark",
+  //         });
 
-          setListJob((prevList: any) =>
-            prevList.map((item: any) =>
-              item.id === id ? { ...item, bookmarked: true } : item
-            )
-          );
-        } else {
-          // toast.warning('Vui lòng đăng nhập trước khi lưu bài', {
-          //   position: 'bottom-center',
-          //   autoClose: 2000,
-          //   hideProgressBar: false,
-          //   closeOnClick: true,
-          //   pauseOnHover: true,
-          //   draggable: true,
-          //   progress: undefined,
-          //   theme: 'colored',
-          // });
-          setOpenModalLogin(true);
-        }
-      };
+  //         setListJob((prevList: any) =>
+  //           prevList.map((item: any) =>
+  //             item.id === id ? { ...item, bookmarked: true } : item
+  //           )
+  //         );
+  //       } else {
+  //         // toast.warning('Vui lòng đăng nhập trước khi lưu bài', {
+  //         //   position: 'bottom-center',
+  //         //   autoClose: 2000,
+  //         //   hideProgressBar: false,
+  //         //   closeOnClick: true,
+  //         //   pauseOnHover: true,
+  //         //   draggable: true,
+  //         //   progress: undefined,
+  //         //   theme: 'colored',
+  //         // });
+  //         setOpenModalLogin(true);
+  //       }
+  //     };
 
-      fetchData();
-    } catch (error) {
-      toast.error("You cannot bookmark your own post", {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-    }
-  };
+  //     fetchData();
+  //   } catch (error) {
+  //     toast.error("You cannot bookmark your own post", {
+  //       position: "bottom-center",
+  //       autoClose: 2000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: "colored",
+  //     });
+  //   }
+  // };
 
-  const handleDeleteBookmarked = (id: number) => {
-    try {
-      const fetchData = async () => {
-        const res = (await bookMarkApi.deleteBookMark(
-          id
-        )) as unknown as IBookmark;
+  // const handleDeleteBookmarked = (id: number) => {
+  //   try {
+  //     const fetchData = async () => {
+  //       const res = (await bookMarkApi.deleteBookMark(
+  //         id
+  //       )) as unknown as IBookmark;
 
-        if (res && res.code === 200) {
-          toast.success("Unsave post success", {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
+  //       if (res && res.code === 200) {
+  //         toast.success("Unsave post success", {
+  //           position: "bottom-center",
+  //           autoClose: 2000,
+  //           hideProgressBar: false,
+  //           closeOnClick: true,
+  //           pauseOnHover: true,
+  //           draggable: true,
+  //           progress: undefined,
+  //           theme: "dark",
+  //         });
 
-          setListJob((prevList: any) =>
-            prevList.map((item: any) =>
-              item.id === id ? { ...item, bookmarked: false } : item
-            )
-          );
-        }
-      };
+  //         setListJob((prevList: any) =>
+  //           prevList.map((item: any) =>
+  //             item.id === id ? { ...item, bookmarked: false } : item
+  //           )
+  //         );
+  //       }
+  //     };
 
-      fetchData();
-    } catch (error) {
-      toast.error("You cannot delete your own post", {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-    }
-  };
+  //     fetchData();
+  //   } catch (error) {
+  //     toast.error("You cannot delete your own post", {
+  //       position: "bottom-center",
+  //       autoClose: 2000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: "colored",
+  //     });
+  //   }
+  // };
 
-  const loadMore = async () => {
-    if (!loading && hasMoreData) {
-      setLoading(true);
+  // const loadMore = async () => {
+  //   if (!loading && hasMoreData) {
+  //     setLoading(true);
 
-      setTimeout(async () => {
-        const res = await postsApi.getPostNewestV3(
-          arrayTotal,
-          null,
-          null,
-          null,
-          10,
-          thresholdNewJob,
-          language === 1 ? "vi" : "en"
-        );
+  //     setTimeout(async () => {
+  //       const res = await postsApi.getPostNewestV3(
+  //         arrayTotal,
+  //         null,
+  //         null,
+  //         null,
+  //         10,
+  //         thresholdNewJob,
+  //         language === 1 ? "vi" : "en"
+  //       );
 
-        if (res && res.status === 200) {
-          setListJob([...listJob, ...res.data]);
-          setThresholdNewJob(listJob[listJob.length - 1]?.id);
+  //       if (res && res.status === 200) {
+  //         setListJob([...listJob, ...res.data]);
+  //         setThresholdNewJob(listJob[listJob.length - 1]?.id);
 
-          if (res.data?.length === 0) {
-            setHasMoreData(false);
-          }
-        }
+  //         if (res.data?.length === 0) {
+  //           setHasMoreData(false);
+  //         }
+  //       }
 
-        setLoading(false);
-      }, 0);
-    }
-  };
+  //       setLoading(false);
+  //     }, 0);
+  //   }
+  // };
 
-  const handleClickFilterJob = () => {};
+  // const handleClickFilterJob = () => {};
 
-  const handleChangeFilterJob = (value: string) => {
-    setIdFilterProvinces(value);
-  };
+  // const handleChangeFilterJob = (value: string) => {
+  //   setIdFilterProvinces(value);
+  // };
 
   return (
     <div className="flex flex-col items-center">
