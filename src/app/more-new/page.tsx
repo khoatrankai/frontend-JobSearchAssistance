@@ -54,7 +54,6 @@ const Page = () => {
   const [checkItemsCount, setCheckItemsCount] = React.useState<number>(0);
   const [nameCategory, setNameCategory] = useState<any>("");
   const [listJob, setListJob] = useState<any>([]);
-  const accountId = localStorage.getItem("accountId");
   const [loading, setLoading] = useState(false);
   const [hasMoreData, setHasMoreData] = useState(true);
   const [arrayTotal, setArrayTotal] = useState<any>([]);
@@ -82,7 +81,10 @@ const Page = () => {
 
   const MAX_CHECKED_ITEMS = 3;
   const language = useSelector((state: any) => state.changeLaguage.language);
-
+  const [accountId, setAccountId] = useState<any>("");
+  useEffect(() => {
+    setAccountId(localStorage.getItem("accountId"));
+  }, []);
   useEffect(() => {
     setValueJobChild(categoryId);
     setNameCategory(getCookie("categoryName"));
