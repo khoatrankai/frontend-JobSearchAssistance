@@ -80,72 +80,72 @@ const ModalLogin = (props: Props) => {
   const googleClient = process.env.REACT_APP_GOOGLE_CLIENT_ID
     ? process.env.REACT_APP_GOOGLE_CLIENT_ID
     : "";
-  // const dispatch = useDispatch();
-  // const [emailOtp, setEmailOtp] = useState("");
-  // const [alignment, setAlignment] = React.useState("user");
-  // const [emailRecruit, setEmailRecruit] = useState("");
-  // const [passwordRecruit, setPasswordRecruit] = useState("");
-  // const [emailOtpVefify, setEmailOtpVefify] = useState("");
-  // const [isOpenModalSendOtpRecruit, setIsOpenModalSendOtpRecruit] =
-  //   useState(false);
-  // const [
-  //   isOpenModalSendOtpForgotPassword,
-  //   setIsOpenModalSendOtpForgotPassword,
-  // ] = useState(false);
-  // const [password, setPassword] = useState("");
-  // const [cofirmPassword, setCofirmPassword] = useState("");
-  // const [passwordForgot, setPasswordForgot] = useState("");
-  // const [cofirmPasswordForgot, setCofirmPasswordForgot] = useState("");
-  // const [otpRecruit, setOtpRecruit] = useState("");
-  // const [otpForgot, setOtpForgot] = useState("");
-  // const [emailForgot, setEmailForgot] = useState("");
-  // const isEmailValid = (email: string): boolean => {
-  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  //   return email.trim() !== "" && emailRegex.test(email);
-  // };
-  // const languageRedux = useSelector(
-  //   (state: any) => state.changeLaguage.language
-  // );
+  const dispatch = useDispatch();
+  const [emailOtp, setEmailOtp] = useState("");
+  const [alignment, setAlignment] = React.useState("user");
+  const [emailRecruit, setEmailRecruit] = useState("");
+  const [passwordRecruit, setPasswordRecruit] = useState("");
+  const [emailOtpVefify, setEmailOtpVefify] = useState("");
+  const [isOpenModalSendOtpRecruit, setIsOpenModalSendOtpRecruit] =
+    useState(false);
+  const [
+    isOpenModalSendOtpForgotPassword,
+    setIsOpenModalSendOtpForgotPassword,
+  ] = useState(false);
+  const [password, setPassword] = useState("");
+  const [cofirmPassword, setCofirmPassword] = useState("");
+  const [passwordForgot, setPasswordForgot] = useState("");
+  const [cofirmPasswordForgot, setCofirmPasswordForgot] = useState("");
+  const [otpRecruit, setOtpRecruit] = useState("");
+  const [otpForgot, setOtpForgot] = useState("");
+  const [emailForgot, setEmailForgot] = useState("");
+  const isEmailValid = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return email.trim() !== "" && emailRegex.test(email);
+  };
+  const languageRedux = useSelector(
+    (state: any) => state.changeLaguage.language
+  );
 
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     if (window.innerWidth < 768) {
-  //       setWidthModal("80%");
-  //       setHeightModal("70%");
-  //     } else {
-  //       setWidthModal("36rem");
-  //       setHeightModal("56%");
-  //     }
-  //   };
-  //   window.addEventListener("resize", handleResize);
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, []);
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setWidthModal("80%");
+        setHeightModal("70%");
+      } else {
+        setWidthModal("36rem");
+        setHeightModal("56%");
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
-  // const style = {
-  //   minHeight: "fit-content",
-  //   position: "absolute" as "absolute",
-  //   top: "50%",
-  //   left: "50%",
-  //   transform: "translate(-50%, -50%)",
-  //   width: widthModal,
-  //   maxWidth: "576px",
-  //   bgcolor: "background.paper",
-  //   border: "none",
-  //   boxShadow: 24,
-  //   p: 4,
-  //   borderRadius: "10px",
-  //   // height: heightModal,
-  // };
+  const style = {
+    minHeight: "fit-content",
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: widthModal,
+    maxWidth: "576px",
+    bgcolor: "background.paper",
+    border: "none",
+    boxShadow: 24,
+    p: 4,
+    borderRadius: "10px",
+    // height: heightModal,
+  };
 
-  // const handleOtpChange = (otpValue: string) => {
-  //   setOTP(otpValue);
+  const handleOtpChange = (otpValue: string) => {
+    setOTP(otpValue);
 
-  //   setIsInputFilled(otpValue.length > 5);
-  // };
+    setIsInputFilled(otpValue.length > 5);
+  };
 
-  // const handleResendCode = () => {};
+  const handleResendCode = () => {};
 
   // useEffect(() => {
   //   const start = () => {
