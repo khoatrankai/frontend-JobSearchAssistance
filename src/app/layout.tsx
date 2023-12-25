@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-// import { ScrollContext } from "@/context/AppProvider";
+import { ScrollContext } from "@/context/AppProvider";
 // import MenuComponent from "@/components/MenuComponent/MenuComponent";
 // import RollTop from "@/components/RollTop";
 // import ChatRoll from "@/components/ChatRoll";
@@ -21,12 +21,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={inter.className}>
-        {/* <ScrollContext>
-          <MenuComponent /> */}
-        {children}
-        {/* <ChatRoll />
-          <RollTop />
-        </ScrollContext> */}
+        <ScrollContext>
+          {/*   <MenuComponent /> */}
+          {children}
+          {/* <ChatRoll />
+          <RollTop /> */}
+        </ScrollContext>
       </body>
     </html>
   );
