@@ -47,13 +47,16 @@ const Page = (props: Props) => {
   const [thresholdNewJob, setThresholdNewJob] = useState<number>(0);
   const [listJob, setListJob] = useState<any[]>([]);
   const [themeId, setThemeId] = useState<number>(120);
-  const accountId = localStorage.getItem("accountId");
+  const [accountId, setAccountId] = useState<any>("");
   const [loading, setLoading] = useState(false);
   const [hasMoreData, setHasMoreData] = useState(true);
   const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
   const language = useSelector((state: any) => state.changeLaguage.language);
   const [loadingUi, setLoadingUi] = useState<boolean>(false);
 
+  useEffect(() => {
+    setAccountId(localStorage.getItem("accountId"));
+  }, []);
   useEffect(() => {
     handleLoadHrefPage();
     const fetchData = async () => {
