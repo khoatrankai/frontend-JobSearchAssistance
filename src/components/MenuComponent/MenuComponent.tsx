@@ -40,8 +40,8 @@ import { Button, Modal } from "antd";
 import historyRecruiter from "@/api/history/historyRecruiter";
 import { fetchSearchResult } from "@/redux/reducer/searchReducer";
 import { setLanguage } from "@/redux/reducer/changeLanguageReducer/changeLanguage";
-// import { analytics } from "../../configs/firebase";
-// import { logEvent } from "firebase/analytics";
+import { analytics } from "../../configs/firebase";
+import { logEvent } from "firebase/analytics";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 import { io } from "socket.io-client";
 import ModalNoteCreateCompany from "../ModalNoteCreateCompany";
@@ -321,7 +321,7 @@ const MenuComponent = (props: Props) => {
       return;
     }
     if (profile && profile.roleData === 3) {
-      // logEvent(analytics, "select_post_recruitment");
+      logEvent(analytics, "select_post_recruitment");
       setTabMenu(false);
       router.push("/banner-recruiter");
     } else {
@@ -711,7 +711,7 @@ const MenuComponent = (props: Props) => {
                             </Typography>
                             <div
                               onClick={() => {
-                                // logEvent(analytics, "create_cv");
+                                logEvent(analytics, "create_cv");
                                 router.push("/cv-all");
                                 setTabMenu(false);
                               }}
