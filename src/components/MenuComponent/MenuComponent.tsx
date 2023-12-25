@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { ReactNode, useRef } from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
 import "./MenuComponent.scss";
 import { useState, useEffect } from "react";
@@ -67,7 +67,7 @@ interface ITurnOffSerach {
   statusCode: number;
   message: string;
 }
-const MenuComponent = ({ children }: { children: ReactNode }) => {
+const MenuComponent = (props: Props) => {
   const { scrollPosition, checkPage, handleLoadHrefPage } = useSrollContext();
   const ref_btn_notify = useRef<any>();
   const ref_btn_profile = useRef<any>();
@@ -478,887 +478,905 @@ const MenuComponent = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <>
-      {/* <div className="h-20 relative" ref={ref_menu}>
-        <div className="fixed z-50 w-full bg-white border-b-2 flex flex-col items-center justify-center">
-          <nav className="w-full max-w-6xl h-20 flex items-center justify-between z-30">
-            <div
-              className={`flex justify-start ${reponsiveMobile ? "w-10" : ""}`}
-            >
-              <Image
-                onClick={() => (window.location.href = "/")}
-                style={{ cursor: "pointer" }}
-                alt="logo"
-                className="w-24"
-                width="500"
-                height="500"
-                src="/logo/2023.png"
-              />
-            </div>
+    // <>
+    //   <div className="h-20 relative" ref={ref_menu}>
+    //     <div className="fixed z-50 w-full bg-white border-b-2 flex flex-col items-center justify-center">
+    //       <nav className="w-full max-w-6xl h-20 flex items-center justify-between z-30">
+    //         <div
+    //           className={`flex justify-start ${reponsiveMobile ? "w-10" : ""}`}
+    //         >
+    //           <Image
+    //             onClick={() => (window.location.href = "/")}
+    //             style={{ cursor: "pointer" }}
+    //             alt="logo"
+    //             className="w-24"
+    //             width="500"
+    //             height="500"
+    //             src="/logo/2023.png"
+    //           />
+    //         </div>
 
-            <div
-              className={`flex items-center justify-end max-w-2xl ${
-                reponsiveMobile ? "" : "flex-1 "
-              }`}
-            >
-              {checkReponsive ? (
-                <button
-                  className={`ml-4 bg-neutral-200 rounded-md hover:bg-neutral-300/80 ${
-                    reponsiveMobile ? "p-2" : "p-3 "
-                  }`}
-                  onClick={() => setTabFilter(!tabFilter)}
-                >
-                  <BlackSearchIcon width={24} height={24} />
-                </button>
-              ) : (
-                <div className="relative flex flex-1 mr-4 h-12 border-gray-300 shadow-gray-300 shadow-2xl border-2 border-opacity-40 rounded-full pr-4 focus-within:transition-all focus-within:shadow-gray-300 focus-within:border-opacity-70">
-                  <button className="p-2">
-                    <BlackSearchIcon width={24} height={24} />
-                  </button>
-                  <input
-                    value={dataRequest?.q ?? ""}
-                    onChange={(e: any) => {
-                      setDataRequest({ ...dataRequest, q: e.target.value });
-                    }}
-                    className="text-xs flex-1 outline-none bg-transparent"
-                    placeholder={`Tìm kiếm hơn ${numeral(totalJob).format(
-                      "0,0"
-                    )} công việc`}
-                    type="text"
-                    onKeyDown={(e: any) => {
-                      if (e.key === "Enter") {
-                        handleSearch();
-                        setTabSuggest(false);
-                      }
-                    }}
-                    onClick={() => {
-                      setTabSuggest(true);
-                    }}
-                  />
-                  <button
-                    className="p-2"
-                    onClick={() => setTabFilter(!tabFilter)}
-                  >
-                    <FilterIcon width={20} height={20} />
-                  </button>
+    //         <div
+    //           className={`flex items-center justify-end max-w-2xl ${
+    //             reponsiveMobile ? "" : "flex-1 "
+    //           }`}
+    //         >
+    //           {checkReponsive ? (
+    //             <button
+    //               className={`ml-4 bg-neutral-200 rounded-md hover:bg-neutral-300/80 ${
+    //                 reponsiveMobile ? "p-2" : "p-3 "
+    //               }`}
+    //               onClick={() => setTabFilter(!tabFilter)}
+    //             >
+    //               <BlackSearchIcon width={24} height={24} />
+    //             </button>
+    //           ) : (
+    //             <div className="relative flex flex-1 mr-4 h-12 border-gray-300 shadow-gray-300 shadow-2xl border-2 border-opacity-40 rounded-full pr-4 focus-within:transition-all focus-within:shadow-gray-300 focus-within:border-opacity-70">
+    //               <button className="p-2">
+    //                 <BlackSearchIcon width={24} height={24} />
+    //               </button>
+    //               <input
+    //                 value={dataRequest?.q ?? ""}
+    //                 onChange={(e: any) => {
+    //                   setDataRequest({ ...dataRequest, q: e.target.value });
+    //                 }}
+    //                 className="text-xs flex-1 outline-none bg-transparent"
+    //                 placeholder={`Tìm kiếm hơn ${numeral(totalJob).format(
+    //                   "0,0"
+    //                 )} công việc`}
+    //                 type="text"
+    //                 onKeyDown={(e: any) => {
+    //                   if (e.key === "Enter") {
+    //                     handleSearch();
+    //                     setTabSuggest(false);
+    //                   }
+    //                 }}
+    //                 onClick={() => {
+    //                   setTabSuggest(true);
+    //                 }}
+    //               />
+    //               <button
+    //                 className="p-2"
+    //                 onClick={() => setTabFilter(!tabFilter)}
+    //               >
+    //                 <FilterIcon width={20} height={20} />
+    //               </button>
 
-                  {tabSuggest && (
-                    <div
-                      className="absolute right-0 top-10 bg-white border-2 rounded-md w-full h-fit overflow-hidden z-40"
-                      ref={ref_input}
-                    >
-                      <div className="flex flex-col">
-                        <div className="text-center text-sm m-2 font-bold">
-                          Từ khoá gợi ý
-                        </div>
-                        <div className="wrap-items-history wrap-items-search">
-                          {dataSuggest?.map((suggest: any, index: number) => (
-                            <div
-                              className="item-history item-search"
-                              key={index}
-                              onClick={(e) => {
-                                handleSearch(suggest.keyword);
-                                setTabSuggest(false);
-                              }}
-                            >
-                              <span className="item-search_text">
-                                {suggest.keyword}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
+    //               {tabSuggest && (
+    //                 <div
+    //                   className="absolute right-0 top-10 bg-white border-2 rounded-md w-full h-fit overflow-hidden z-40"
+    //                   ref={ref_input}
+    //                 >
+    //                   <div className="flex flex-col">
+    //                     <div className="text-center text-sm m-2 font-bold">
+    //                       Từ khoá gợi ý
+    //                     </div>
+    //                     <div className="wrap-items-history wrap-items-search">
+    //                       {dataSuggest?.map((suggest: any, index: number) => (
+    //                         <div
+    //                           className="item-history item-search"
+    //                           key={index}
+    //                           onClick={(e) => {
+    //                             handleSearch(suggest.keyword);
+    //                             setTabSuggest(false);
+    //                           }}
+    //                         >
+    //                           <span className="item-search_text">
+    //                             {suggest.keyword}
+    //                           </span>
+    //                           {/* <CloseOutlined onClick={handleDeleteKeyword}/> */}
+    //                         </div>
+    //                       ))}
+    //                     </div>
+    //                   </div>
+    //                 </div>
+    //               )}
+    //             </div>
+    //           )}
 
-              {
-                <div className="relative">
-                  <button
-                    className={`mx-4 bg-neutral-200 rounded-md hover:bg-neutral-300/80 ${
-                      reponsiveMobile ? "p-2" : "p-3 "
-                    }`}
-                    onClick={() => {
-                      if (
-                        profile?.roleData === undefined ||
-                        profile?.roleData === null
-                      ) {
-                        setOpenModalLogin(true);
-                      } else {
-                        router.push("/chat");
-                      }
-                    }}
-                  >
-                    <ChatIcon width={19} height={18} />
-                  </button>
-                </div>
-              }
+    //           {
+    //             <div className="relative">
+    //               <button
+    //                 className={`mx-4 bg-neutral-200 rounded-md hover:bg-neutral-300/80 ${
+    //                   reponsiveMobile ? "p-2" : "p-3 "
+    //                 }`}
+    //                 onClick={() => {
+    //                   if (
+    //                     profile?.roleData === undefined ||
+    //                     profile?.roleData === null
+    //                   ) {
+    //                     setOpenModalLogin(true);
+    //                   } else {
+    //                     router.push("/chat");
+    //                   }
+    //                 }}
+    //               >
+    //                 <ChatIcon width={19} height={18} />
+    //               </button>
+    //             </div>
+    //           }
 
-              {
-                <div className="relative">
-                  <button
-                    className={` bg-neutral-200 rounded-md hover:bg-neutral-300/80 ${
-                      reponsiveMobile ? "p-2" : "p-3"
-                    }`}
-                    onClick={() => {
-                      if (
-                        profile?.roleData === undefined ||
-                        profile?.roleData === null
-                      ) {
-                        setOpenModalLogin(true);
-                      } else {
-                        setTabNotify(true);
-                      }
-                    }}
-                  >
-                    <BellIcon width={19} height={18} />
-                  </button>
-                  {tabNotify && (
-                    <div
-                      className={` right-0 bg-white border-2 rounded-md h-96 overflow-auto ${
-                        checkReponsive
-                          ? "fixed top-20 w-full"
-                          : "w-96 absolute top-11"
-                      }`}
-                      ref={ref_btn_notify}
-                    >
-                      {dataNotification &&
-                        dataNotification?.map(
-                          (notificate: any, index: number) => {
-                            return (
-                              <div
-                                key={index}
-                                className={`wrap-notificate_system ${
-                                  notificate.data.isRead === false
-                                    ? `bg-orange-100`
-                                    : ""
-                                }`}
-                                onClick={() => {
-                                  handleClickNoty(
-                                    notificate.data.postId,
-                                    notificate.data.communicationId,
-                                    notificate.data.applicationId,
-                                    notificate.data.typeText
-                                  );
-                                }}
-                              >
-                                <h3>{notificate.content_app.title}</h3>
-                                <h5
-                                  dangerouslySetInnerHTML={{
-                                    __html: notificate.content_app.body,
-                                  }}
-                                />
-                                <div className="wrap-time">
-                                  <p>
-                                    {new Date(
-                                      notificate.data.createdAt
-                                    ).toLocaleTimeString([], {
-                                      hour: "2-digit",
-                                      minute: "2-digit",
-                                    })}
-                                  </p>
-                                  <p>
-                                    {new Date(
-                                      notificate.data.createdAt
-                                    ).toLocaleDateString("en-GB")}
-                                  </p>
-                                </div>
-                              </div>
-                            );
-                          }
-                        )}
-                    </div>
-                  )}
-                </div>
-              }
+    //           {
+    //             <div className="relative">
+    //               <button
+    //                 className={` bg-neutral-200 rounded-md hover:bg-neutral-300/80 ${
+    //                   reponsiveMobile ? "p-2" : "p-3"
+    //                 }`}
+    //                 onClick={() => {
+    //                   if (
+    //                     profile?.roleData === undefined ||
+    //                     profile?.roleData === null
+    //                   ) {
+    //                     setOpenModalLogin(true);
+    //                   } else {
+    //                     setTabNotify(true);
+    //                   }
+    //                 }}
+    //               >
+    //                 <BellIcon width={19} height={18} />
+    //               </button>
+    //               {tabNotify && (
+    //                 <div
+    //                   className={` right-0 bg-white border-2 rounded-md h-96 overflow-auto ${
+    //                     checkReponsive
+    //                       ? "fixed top-20 w-full"
+    //                       : "w-96 absolute top-11"
+    //                   }`}
+    //                   ref={ref_btn_notify}
+    //                 >
+    //                   {dataNotification &&
+    //                     dataNotification?.map(
+    //                       (notificate: any, index: number) => {
+    //                         return (
+    //                           <div
+    //                             key={index}
+    //                             className={`wrap-notificate_system ${
+    //                               notificate.data.isRead === false
+    //                                 ? `bg-orange-100`
+    //                                 : ""
+    //                             }`}
+    //                             onClick={() => {
+    //                               handleClickNoty(
+    //                                 notificate.data.postId,
+    //                                 notificate.data.communicationId,
+    //                                 notificate.data.applicationId,
+    //                                 notificate.data.typeText
+    //                               );
+    //                             }}
+    //                           >
+    //                             <h3>{notificate.content_app.title}</h3>
+    //                             <h5
+    //                               dangerouslySetInnerHTML={{
+    //                                 __html: notificate.content_app.body,
+    //                               }}
+    //                             />
+    //                             <div className="wrap-time">
+    //                               <p>
+    //                                 {new Date(
+    //                                   notificate.data.createdAt
+    //                                 ).toLocaleTimeString([], {
+    //                                   hour: "2-digit",
+    //                                   minute: "2-digit",
+    //                                 })}
+    //                               </p>
+    //                               <p>
+    //                                 {new Date(
+    //                                   notificate.data.createdAt
+    //                                 ).toLocaleDateString("en-GB")}
+    //                               </p>
+    //                             </div>
+    //                           </div>
+    //                         );
+    //                       }
+    //                     )}
+    //                 </div>
+    //               )}
+    //             </div>
+    //           }
 
-              {
-                <div className="relative">
-                  <button
-                    onClick={() => {
-                      if (
-                        profile?.roleData === undefined ||
-                        profile?.roleData === null
-                      ) {
-                        setOpenModalLogin(true);
-                      } else {
-                        setTabMenu(true);
-                      }
-                    }}
-                    className={`mx-4 bg-neutral-200 rounded-md hover:bg-neutral-300/80 ${
-                      reponsiveMobile ? "p-2" : "p-3 "
-                    }`}
-                  >
-                    <IconMenu width={19} height={18} />
-                  </button>
-                  {tabMenu && (
-                    <div
-                      className={` right-0  bg-white border-2 rounded-md  h-fit overflow-hidden ${
-                        checkReponsive
-                          ? "top-20 fixed w-full"
-                          : "absolute top-11 w-80"
-                      }`}
-                      ref={ref_btn_menu}
-                    >
-                      {profile.roleData !== 3 && (
-                        <div className="w-full h-full overflow-hidden flex flex-col p-4 gap-3">
-                          <div className="flex flex-col gap-2">
-                            <Typography className="font-bold text-orange-400 italic ">
-                              CV
-                            </Typography>
-                            <div
-                              onClick={() => {
-                                logEvent(analytics, "create_cv");
-                                router.push("/cv-all");
-                                setTabMenu(false);
-                              }}
-                              className="basis-1/3 flex gap-2 bg-gray-200 items-center rounded-lg p-3 hover:text-orange-400 cursor-pointer font-bold"
-                            >
-                              <AddCircleIcon />
-                              <div>
-                                {language === 1 ? `Tạo CV` : `Create CV`}
-                              </div>
-                            </div>
-                            <div
-                              onClick={() => {
-                                router.push("/manage-cv");
-                                setTabMenu(false);
-                              }}
-                              className="basis-1/3 flex gap-2 bg-gray-200 items-center rounded-lg p-3 hover:text-orange-400 cursor-pointer font-bold"
-                            >
-                              <ManageSearchIcon />
-                              <div>
-                                {language === 1 ? `Quản lý CV` : `Manage CV`}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="flex flex-col gap-2">
-                            <Typography className="font-bold text-orange-400 italic">
-                              Blog
-                            </Typography>
-                            <div
-                              onClick={() => {
-                                router.push("/blog");
-                                setTabMenu(false);
-                              }}
-                              className="basis-1/3 flex gap-2 bg-gray-200  items-center rounded-lg p-3 hover:text-orange-400 cursor-pointer font-bold"
-                            >
-                              <RemoveRedEyeIcon />
-                              <div>
-                                {language === 1 ? `Xem bài Blog` : `View Blog`}
-                              </div>
-                            </div>
-                            <div
-                              onClick={() => {
-                                router.push("/community-create");
-                                setTabMenu(false);
-                              }}
-                              className="basis-1/3 flex gap-2 bg-gray-200  items-center rounded-lg p-3 hover:text-orange-400 cursor-pointer font-bold"
-                            >
-                              <BorderColorIcon />
-                              <div>
-                                {language === 1
-                                  ? `Tạo bài Blog`
-                                  : `Create Blog`}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
+    //           {
+    //             <div className="relative">
+    //               <button
+    //                 onClick={() => {
+    //                   if (
+    //                     profile?.roleData === undefined ||
+    //                     profile?.roleData === null
+    //                   ) {
+    //                     setOpenModalLogin(true);
+    //                   } else {
+    //                     setTabMenu(true);
+    //                   }
+    //                 }}
+    //                 className={`mx-4 bg-neutral-200 rounded-md hover:bg-neutral-300/80 ${
+    //                   reponsiveMobile ? "p-2" : "p-3 "
+    //                 }`}
+    //               >
+    //                 <IconMenu width={19} height={18} />
+    //               </button>
+    //               {tabMenu && (
+    //                 <div
+    //                   className={` right-0  bg-white border-2 rounded-md  h-fit overflow-hidden ${
+    //                     checkReponsive
+    //                       ? "top-20 fixed w-full"
+    //                       : "absolute top-11 w-80"
+    //                   }`}
+    //                   ref={ref_btn_menu}
+    //                 >
+    //                   {profile.roleData !== 3 && (
+    //                     <div className="w-full h-full overflow-hidden flex flex-col p-4 gap-3">
+    //                       <div className="flex flex-col gap-2">
+    //                         <Typography className="font-bold text-orange-400 italic ">
+    //                           CV
+    //                         </Typography>
+    //                         <div
+    //                           onClick={() => {
+    //                             logEvent(analytics, "create_cv");
+    //                             router.push("/cv-all");
+    //                             setTabMenu(false);
+    //                           }}
+    //                           className="basis-1/3 flex gap-2 bg-gray-200 items-center rounded-lg p-3 hover:text-orange-400 cursor-pointer font-bold"
+    //                         >
+    //                           <AddCircleIcon />
+    //                           <div>
+    //                             {language === 1 ? `Tạo CV` : `Create CV`}
+    //                           </div>
+    //                         </div>
+    //                         <div
+    //                           onClick={() => {
+    //                             router.push("/manage-cv");
+    //                             setTabMenu(false);
+    //                           }}
+    //                           className="basis-1/3 flex gap-2 bg-gray-200 items-center rounded-lg p-3 hover:text-orange-400 cursor-pointer font-bold"
+    //                         >
+    //                           <ManageSearchIcon />
+    //                           <div>
+    //                             {language === 1 ? `Quản lý CV` : `Manage CV`}
+    //                           </div>
+    //                         </div>
+    //                       </div>
+    //                       <div className="flex flex-col gap-2">
+    //                         <Typography className="font-bold text-orange-400 italic">
+    //                           Blog
+    //                         </Typography>
+    //                         <div
+    //                           onClick={() => {
+    //                             router.push("/blog");
+    //                             setTabMenu(false);
+    //                           }}
+    //                           className="basis-1/3 flex gap-2 bg-gray-200  items-center rounded-lg p-3 hover:text-orange-400 cursor-pointer font-bold"
+    //                         >
+    //                           <RemoveRedEyeIcon />
+    //                           <div>
+    //                             {language === 1 ? `Xem bài Blog` : `View Blog`}
+    //                           </div>
+    //                         </div>
+    //                         <div
+    //                           onClick={() => {
+    //                             router.push("/community-create");
+    //                             setTabMenu(false);
+    //                           }}
+    //                           className="basis-1/3 flex gap-2 bg-gray-200  items-center rounded-lg p-3 hover:text-orange-400 cursor-pointer font-bold"
+    //                         >
+    //                           <BorderColorIcon />
+    //                           <div>
+    //                             {language === 1
+    //                               ? `Tạo bài Blog`
+    //                               : `Create Blog`}
+    //                           </div>
+    //                         </div>
+    //                       </div>
+    //                     </div>
+    //                   )}
 
-                      {profile.roleData === 3 && (
-                        <div className="w-full h-full overflow-hidden flex flex-col p-4 gap-3">
-                          <div className="flex flex-col gap-2">
-                            <Typography className="font-bold text-orange-400 italic">
-                              {language === 1 ? "Quản lý" : "Manage"}
-                            </Typography>
-                            <div
-                              onClick={() => {
-                                router.push("/analytics");
-                                setTabMenu(false);
-                              }}
-                              className="basis-1/5 flex gap-2 bg-gray-200  items-center rounded-lg p-3 hover:text-orange-400 cursor-pointer font-bold"
-                            >
-                              <AnalyticsIcon />
-                              <div>
-                                {language === 1 ? `Thống kê` : `Statistical`}
-                              </div>
-                            </div>
-                            <div
-                              onClick={() => {
-                                router.push("/suggest");
-                                setTabMenu(false);
-                              }}
-                              className="basis-1/5 flex gap-2 bg-gray-200  items-center rounded-lg p-3 hover:text-orange-400 cursor-pointer font-bold"
-                            >
-                              <AssistantPhotoIcon />
-                              <div>{language === 1 ? `Gợi ý` : `Suggest`}</div>
-                            </div>
-                          </div>
+    //                   {profile.roleData === 3 && (
+    //                     <div className="w-full h-full overflow-hidden flex flex-col p-4 gap-3">
+    //                       <div className="flex flex-col gap-2">
+    //                         <Typography className="font-bold text-orange-400 italic">
+    //                           {language === 1 ? "Quản lý" : "Manage"}
+    //                         </Typography>
+    //                         <div
+    //                           onClick={() => {
+    //                             router.push("/analytics");
+    //                             setTabMenu(false);
+    //                           }}
+    //                           className="basis-1/5 flex gap-2 bg-gray-200  items-center rounded-lg p-3 hover:text-orange-400 cursor-pointer font-bold"
+    //                         >
+    //                           <AnalyticsIcon />
+    //                           <div>
+    //                             {language === 1 ? `Thống kê` : `Statistical`}
+    //                           </div>
+    //                         </div>
+    //                         <div
+    //                           onClick={() => {
+    //                             router.push("/suggest");
+    //                             setTabMenu(false);
+    //                           }}
+    //                           className="basis-1/5 flex gap-2 bg-gray-200  items-center rounded-lg p-3 hover:text-orange-400 cursor-pointer font-bold"
+    //                         >
+    //                           <AssistantPhotoIcon />
+    //                           <div>{language === 1 ? `Gợi ý` : `Suggest`}</div>
+    //                         </div>
+    //                       </div>
 
-                          <div className="flex flex-col gap-2">
-                            <Typography className="font-bold text-orange-400 italic">
-                              Blog
-                            </Typography>
-                            <div
-                              onClick={() => {
-                                router.push("/community-create");
-                                setTabMenu(false);
-                              }}
-                              className="basis-1/5 flex gap-2 bg-gray-200  items-center rounded-lg p-3 hover:text-orange-400 cursor-pointer font-bold"
-                            >
-                              <BorderColorIcon />
-                              <div>
-                                {language === 1
-                                  ? `Tạo bài Blog`
-                                  : `Create Blog`}
-                              </div>
-                            </div>
-                            <div
-                              onClick={() => {
-                                router.push("/blog");
-                                setTabMenu(false);
-                              }}
-                              className="basis-1/5 flex gap-2 bg-gray-200  items-center rounded-lg p-3 hover:text-orange-400 cursor-pointer font-bold"
-                            >
-                              <RemoveRedEyeIcon />
-                              <div>
-                                {language === 1 ? `Xem bài Blog` : `View Blog`}
-                              </div>
-                            </div>
-                          </div>
+    //                       <div className="flex flex-col gap-2">
+    //                         <Typography className="font-bold text-orange-400 italic">
+    //                           Blog
+    //                         </Typography>
+    //                         <div
+    //                           onClick={() => {
+    //                             router.push("/community-create");
+    //                             setTabMenu(false);
+    //                           }}
+    //                           className="basis-1/5 flex gap-2 bg-gray-200  items-center rounded-lg p-3 hover:text-orange-400 cursor-pointer font-bold"
+    //                         >
+    //                           <BorderColorIcon />
+    //                           <div>
+    //                             {language === 1
+    //                               ? `Tạo bài Blog`
+    //                               : `Create Blog`}
+    //                           </div>
+    //                         </div>
+    //                         <div
+    //                           onClick={() => {
+    //                             router.push("/blog");
+    //                             setTabMenu(false);
+    //                           }}
+    //                           className="basis-1/5 flex gap-2 bg-gray-200  items-center rounded-lg p-3 hover:text-orange-400 cursor-pointer font-bold"
+    //                         >
+    //                           <RemoveRedEyeIcon />
+    //                           <div>
+    //                             {language === 1 ? `Xem bài Blog` : `View Blog`}
+    //                           </div>
+    //                         </div>
+    //                       </div>
 
-                          <div className="flex flex-col gap-2">
-                            <Typography className="font-bold text-orange-400 italic">
-                              {language === 1 ? `Tuyển dụng` : `Recruitment`}
-                            </Typography>
-                            <div
-                              onClick={() => handleRedirect()}
-                              className="basis-1/5 flex gap-2 bg-gray-200 items-center rounded-lg p-3 hover:text-orange-400 cursor-pointer font-bold"
-                            >
-                              <AddCircleIcon />
-                              <div>
-                                {language === 1
-                                  ? `Đăng bài tuyển dụng`
-                                  : `Post recruitment posts`}
-                              </div>
-                            </div>
-                            <div
-                              onClick={() => {
-                                if (
-                                  profile?.roleData !== 3 ||
-                                  !profile?.companyInfomation
-                                ) {
-                                  setTabMenu(false);
-                                  setOpenModalNoteCreateCompany(true);
-                                  return;
-                                } else {
-                                  router.push("/candidate");
-                                  setTabMenu(false);
-                                }
-                              }}
-                              className="basis-1/5 flex gap-2 bg-gray-200 items-center rounded-lg p-3 hover:text-orange-400 cursor-pointer font-bold"
-                            >
-                              <AddCommentIcon />
-                              <div>
-                                {language === 1
-                                  ? `Quản lý ứng viên`
-                                  : `Manage candidates`}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              }
-            </div>
-            <div className="px-4 flex items-center">
-              <Image
-                className="w-8 h-8"
-                src={
-                  bg_language
-                    ? "https://res.cloudinary.com/ddwjnjssj/image/upload/v1697737787/images/icon-language/vi.png"
-                    : "https://res.cloudinary.com/ddwjnjssj/image/upload/v1697737787/images/icon-language/en.png"
-                }
-                onClick={() => handleOnChangeBackgroundLanguage()}
-                alt="anh"
-                width={1920}
-                height={1080}
-              />
+    //                       <div className="flex flex-col gap-2">
+    //                         <Typography className="font-bold text-orange-400 italic">
+    //                           {language === 1 ? `Tuyển dụng` : `Recruitment`}
+    //                         </Typography>
+    //                         <div
+    //                           onClick={() => handleRedirect()}
+    //                           className="basis-1/5 flex gap-2 bg-gray-200 items-center rounded-lg p-3 hover:text-orange-400 cursor-pointer font-bold"
+    //                         >
+    //                           <AddCircleIcon />
+    //                           <div>
+    //                             {language === 1
+    //                               ? `Đăng bài tuyển dụng`
+    //                               : `Post recruitment posts`}
+    //                           </div>
+    //                         </div>
+    //                         <div
+    //                           onClick={() => {
+    //                             if (
+    //                               profile?.roleData !== 3 ||
+    //                               !profile?.companyInfomation
+    //                             ) {
+    //                               setTabMenu(false);
+    //                               setOpenModalNoteCreateCompany(true);
+    //                               return;
+    //                             } else {
+    //                               router.push("/candidate");
+    //                               setTabMenu(false);
+    //                             }
+    //                           }}
+    //                           className="basis-1/5 flex gap-2 bg-gray-200 items-center rounded-lg p-3 hover:text-orange-400 cursor-pointer font-bold"
+    //                         >
+    //                           <AddCommentIcon />
+    //                           <div>
+    //                             {language === 1
+    //                               ? `Quản lý ứng viên`
+    //                               : `Manage candidates`}
+    //                           </div>
+    //                         </div>
+    //                       </div>
+    //                     </div>
+    //                   )}
+    //                 </div>
+    //               )}
+    //             </div>
+    //           }
+    //         </div>
+    //         <div className="px-4 flex items-center">
+    //           <Image
+    //             className="w-8 h-8"
+    //             src={
+    //               bg_language
+    //                 ? "https://res.cloudinary.com/ddwjnjssj/image/upload/v1697737787/images/icon-language/vi.png"
+    //                 : "https://res.cloudinary.com/ddwjnjssj/image/upload/v1697737787/images/icon-language/en.png"
+    //             }
+    //             onClick={() => handleOnChangeBackgroundLanguage()}
+    //             alt="anh"
+    //             width={1920}
+    //             height={1080}
+    //           />
 
-              <div className="ml-4 relative">
-                <div
-                  className={` flex rounded-3xl justify-center bg-neutral-200 hover:bg-neutral-300/80 cursor-pointer ${
-                    reponsiveMobile ? "w-6" : "p-3"
-                  }`}
-                >
-                  {profileData && profileData?.accountId ? (
-                    <Box
-                      onClick={() => {
-                        setOpenModalProfile(true);
-                      }}
-                      sx={{
-                        display: "flex",
-                        width: "100%",
-                      }}
-                    >
-                      <Image
-                        className="w-6 rounded-full"
-                        src={
-                          imageError
-                            ? "https://res.cloudinary.com/ddwjnjssj/image/upload/v1697830499/images/avatar/default.png"
-                            : profileData.avatarPath
-                            ? profileData.avatarPath
-                            : "https://res.cloudinary.com/ddwjnjssj/image/upload/v1697830499/images/avatar/default.png"
-                        }
-                        alt="user"
-                        width={"400"}
-                        height={"400"}
-                        style={{ marginRight: "5px" }}
-                        onError={() => setImageError(true)}
-                      />
-                      <p className="name-profile">
-                        {profileData.name ? profileData.name : ""}
-                      </p>
-                    </Box>
-                  ) : (
-                    <>
-                      <Image
-                        onClick={() => {
-                          if (localStorage.getItem("accessToken") === null) {
-                            setOpenModalLogin(true);
-                          }
-                        }}
-                        className="w-6"
-                        src="/iconuser.svg"
-                        alt="user"
-                        width={"200"}
-                        height={"200"}
-                      />
-                      <Image
-                        className="w-6 ml-1"
-                        src="/iconright.svg"
-                        alt="user"
-                        width={"200"}
-                        height={"200"}
-                      />
-                    </>
-                  )}
-                </div>
-                <div
-                  className={`${
-                    openModalProfile ? "absolute" : "hidden"
-                  } z-40 top-16 right-0 w-full h-full flex max-w-2xl`}
-                  // onClick={() => {
-                  //   setOpenModalProfile(false);
-                  // }}
-                  ref={ref_btn_profile}
-                >
-                  <div
-                    className={`   h-fit  right-0 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] ${
-                      reponsiveMobile ? "fixed w-full" : "absolute w-96"
-                    }`}
-                  >
-                    <div className="absolute top-0 right-0">
-                      <button
-                        className="p-2"
-                        onClick={() => {
-                          setOpenModalProfile(false);
-                        }}
-                      >
-                        <Image
-                          className="w-5"
-                          src="/iconclose.svg"
-                          width={"200"}
-                          height={"200"}
-                          alt="close"
-                        />
-                      </button>
-                    </div>
-                    <div className="flex flex-col items-start justify-center p-5">
-                      <div className="flex items-end gap-2">
-                        <div className="w-20 h-100 rounded-full bg-neutral-200 flex justify-center items-end">
-                          <Image
-                            className="w-20 rounded-full"
-                            src={
-                              imageError
-                                ? "https://res.cloudinary.com/ddwjnjssj/image/upload/v1697830499/images/avatar/default.png"
-                                : profileData.avatarPath
-                                ? profileData.avatarPath
-                                : "https://res.cloudinary.com/ddwjnjssj/image/upload/v1697830499/images/avatar/default.png"
-                            }
-                            alt="user"
-                            width={"400"}
-                            height={"400"}
-                            onError={() => setImageError(true)}
-                          />
-                        </div>
-                        <div>
-                          <p className="mt-4 text-xl font-bold">
-                            {profileData?.name}
-                          </p>
-                          <p className="mt-2 text-sm text-neutral-400">
-                            {profileData?.email}
-                          </p>
-                          <p className="mt-2 text-sm text-neutral-400">
-                            {profileData?.phone}
-                          </p>
-                        </div>
-                      </div>
+    //           <div className="ml-4 relative">
+    //             <div
+    //               className={` flex rounded-3xl justify-center bg-neutral-200 hover:bg-neutral-300/80 cursor-pointer ${
+    //                 reponsiveMobile ? "w-6" : "p-3"
+    //               }`}
+    //             >
+    //               {profileData && profileData?.accountId ? (
+    //                 <Box
+    //                   onClick={() => {
+    //                     setOpenModalProfile(true);
+    //                   }}
+    //                   sx={{
+    //                     display: "flex",
+    //                     width: "100%",
+    //                   }}
+    //                 >
+    //                   <Image
+    //                     className="w-6 rounded-full"
+    //                     src={
+    //                       imageError
+    //                         ? "https://res.cloudinary.com/ddwjnjssj/image/upload/v1697830499/images/avatar/default.png"
+    //                         : profileData.avatarPath
+    //                         ? profileData.avatarPath
+    //                         : "https://res.cloudinary.com/ddwjnjssj/image/upload/v1697830499/images/avatar/default.png"
+    //                     }
+    //                     alt="user"
+    //                     width={"400"}
+    //                     height={"400"}
+    //                     style={{ marginRight: "5px" }}
+    //                     onError={() => setImageError(true)}
+    //                   />
+    //                   <p className="name-profile">
+    //                     {profileData.name ? profileData.name : ""}
+    //                   </p>
+    //                 </Box>
+    //               ) : (
+    //                 <>
+    //                   <Image
+    //                     onClick={() => {
+    //                       if (localStorage.getItem("accessToken") === null) {
+    //                         setOpenModalLogin(true);
+    //                       }
+    //                     }}
+    //                     className="w-6"
+    //                     src="/iconuser.svg"
+    //                     alt="user"
+    //                     width={"200"}
+    //                     height={"200"}
+    //                   />
+    //                   <Image
+    //                     className="w-6 ml-1"
+    //                     src="/iconright.svg"
+    //                     alt="user"
+    //                     width={"200"}
+    //                     height={"200"}
+    //                   />
+    //                 </>
+    //               )}
+    //             </div>
+    //             <div
+    //               className={`${
+    //                 openModalProfile ? "absolute" : "hidden"
+    //               } z-40 top-16 right-0 w-full h-full flex max-w-2xl`}
+    //               // onClick={() => {
+    //               //   setOpenModalProfile(false);
+    //               // }}
+    //               ref={ref_btn_profile}
+    //             >
+    //               <div
+    //                 className={`   h-fit  right-0 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] ${
+    //                   reponsiveMobile ? "fixed w-full" : "absolute w-96"
+    //                 }`}
+    //               >
+    //                 <div className="absolute top-0 right-0">
+    //                   <button
+    //                     className="p-2"
+    //                     onClick={() => {
+    //                       setOpenModalProfile(false);
+    //                     }}
+    //                   >
+    //                     <Image
+    //                       className="w-5"
+    //                       src="/iconclose.svg"
+    //                       width={"200"}
+    //                       height={"200"}
+    //                       alt="close"
+    //                     />
+    //                   </button>
+    //                 </div>
+    //                 <div className="flex flex-col items-start justify-center p-5">
+    //                   <div className="flex items-end gap-2">
+    //                     <div className="w-20 h-100 rounded-full bg-neutral-200 flex justify-center items-end">
+    //                       <Image
+    //                         className="w-20 rounded-full"
+    //                         src={
+    //                           imageError
+    //                             ? "https://res.cloudinary.com/ddwjnjssj/image/upload/v1697830499/images/avatar/default.png"
+    //                             : profileData.avatarPath
+    //                             ? profileData.avatarPath
+    //                             : "https://res.cloudinary.com/ddwjnjssj/image/upload/v1697830499/images/avatar/default.png"
+    //                         }
+    //                         alt="user"
+    //                         width={"400"}
+    //                         height={"400"}
+    //                         onError={() => setImageError(true)}
+    //                       />
+    //                     </div>
+    //                     <div>
+    //                       <p className="mt-4 text-xl font-bold">
+    //                         {profileData?.name}
+    //                       </p>
+    //                       <p className="mt-2 text-sm text-neutral-400">
+    //                         {profileData?.email}
+    //                       </p>
+    //                       <p className="mt-2 text-sm text-neutral-400">
+    //                         {profileData?.phone}
+    //                       </p>
+    //                     </div>
+    //                   </div>
 
-                      {profile.roleData !== 3 && (
-                        <Box>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              mt: 2,
-                            }}
-                          >
-                            <FormControlLabel
-                              control={
-                                <IOSSwitch
-                                  sx={{ m: 1 }}
-                                  checked={profile.isSearch}
-                                  onChange={(e) => handleOnchangeSearch(e)}
-                                />
-                              }
-                              label=""
-                            />
+    //                   {profile.roleData !== 3 && (
+    //                     <Box>
+    //                       <Box
+    //                         sx={{
+    //                           display: "flex",
+    //                           alignItems: "center",
+    //                           mt: 2,
+    //                         }}
+    //                       >
+    //                         <FormControlLabel
+    //                           control={
+    //                             <IOSSwitch
+    //                               sx={{ m: 1 }}
+    //                               checked={profile.isSearch}
+    //                               onChange={(e) => handleOnchangeSearch(e)}
+    //                             />
+    //                           }
+    //                           label=""
+    //                         />
 
-                            <Typography
-                              sx={{
-                                color: "#7f878f!important",
-                              }}
-                            >
-                              {profile.isSearch
-                                ? language === 1
-                                  ? `Đang bật tìm việc`
-                                  : `Looking for a job`
-                                : language === 1
-                                ? `Đang Tắt tìm việc`
-                                : `Currently looking for a job`}
-                            </Typography>
-                          </Box>
-                          <Box>
-                            <Typography
-                              sx={{
-                                color: "#7f878f",
-                                fontSize: "12px",
-                              }}
-                            >
-                              {language === 1
-                                ? `Bật tìm việc giúp hồ sơ của bạn nổi bật hơn và
-                              được chú ý nhiều hơn trong danh sách tìm kiếm của
-                              NTD.`
-                                : `Turning on job search helps your profile stand out more and
-                              get more attention in your search listings
-                              NTD.`}
-                            </Typography>
-                          </Box>
-                        </Box>
-                      )}
+    //                         <Typography
+    //                           sx={{
+    //                             color: "#7f878f!important",
+    //                           }}
+    //                         >
+    //                           {profile.isSearch
+    //                             ? language === 1
+    //                               ? `Đang bật tìm việc`
+    //                               : `Looking for a job`
+    //                             : language === 1
+    //                             ? `Đang Tắt tìm việc`
+    //                             : `Currently looking for a job`}
+    //                         </Typography>
+    //                       </Box>
+    //                       <Box>
+    //                         <Typography
+    //                           sx={{
+    //                             color: "#7f878f",
+    //                             fontSize: "12px",
+    //                           }}
+    //                         >
+    //                           {language === 1
+    //                             ? `Bật tìm việc giúp hồ sơ của bạn nổi bật hơn và
+    //                           được chú ý nhiều hơn trong danh sách tìm kiếm của
+    //                           NTD.`
+    //                             : `Turning on job search helps your profile stand out more and
+    //                           get more attention in your search listings
+    //                           NTD.`}
+    //                         </Typography>
+    //                       </Box>
+    //                     </Box>
+    //                   )}
 
-                      <Box>
-                        <div className="mt-4 flex items-center justify-start">
-                          <Box
-                            sx={{
-                              display: "flex",
-                              gap: "10px",
-                              cursor: "pointer",
-                              alignItems: "center",
-                            }}
-                          >
-                            {profileData.roleData !== 3 &&
-                              profileData?.profileLocations?.length > 0 && (
-                                <BusinessIcon
-                                  sx={{
-                                    width: "16px",
-                                    height: "16px",
-                                    color: "#1b87f5",
-                                  }}
-                                />
-                              )}
+    //                   <Box>
+    //                     <div className="mt-4 flex items-center justify-start">
+    //                       <Box
+    //                         sx={{
+    //                           display: "flex",
+    //                           gap: "10px",
+    //                           cursor: "pointer",
+    //                           alignItems: "center",
+    //                         }}
+    //                       >
+    //                         {profileData.roleData !== 3 &&
+    //                           profileData?.profileLocations?.length > 0 && (
+    //                             <BusinessIcon
+    //                               sx={{
+    //                                 width: "16px",
+    //                                 height: "16px",
+    //                                 color: "#1b87f5",
+    //                               }}
+    //                             />
+    //                           )}
 
-                            <span
-                              style={{
-                                fontFamily:
-                                  "Roboto,-apple-system,sans-serif!important",
-                                fontSize: "15px",
-                                color: "#1b87f5",
-                              }}
-                            >
-                              {profileData &&
-                                profileData?.profileLocations &&
-                                profileData?.profileLocations?.map(
-                                  (item: any) => {
-                                    return item.fullName + " ";
-                                  }
-                                )}
-                            </span>
-                          </Box>
-                        </div>
-                      </Box>
-                      <Box>
-                        <div className="mt-4 flex items-center justify-start">
-                          <Box
-                            sx={{
-                              display: "flex",
-                              gap: "10px",
-                              cursor: "pointer",
-                              alignItems: "center",
-                            }}
-                          >
-                            {profileData.roleData !== 3 &&
-                              profileData?.profileCategories?.length > 0 && (
-                                <CardGiftcardIcon
-                                  sx={{
-                                    width: "16px",
-                                    height: "16px",
-                                    color: "#1b87f5",
-                                  }}
-                                />
-                              )}
-                            <span
-                              style={{
-                                fontFamily:
-                                  "Roboto,-apple-system,sans-serif!important",
-                                fontSize: "15px",
-                                color: "#1b87f5",
-                              }}
-                            >
-                              {profileData &&
-                                profileData.roleData !== 3 &&
-                                profileData?.profileCategories &&
-                                profileData?.profileCategories?.map(
-                                  (item: any) => {
-                                    return item.fullName + " ";
-                                  }
-                                )}
-                            </span>
-                          </Box>
-                        </div>
-                      </Box>
+    //                         <span
+    //                           style={{
+    //                             fontFamily:
+    //                               "Roboto,-apple-system,sans-serif!important",
+    //                             fontSize: "15px",
+    //                             color: "#1b87f5",
+    //                           }}
+    //                         >
+    //                           {profileData &&
+    //                             profileData?.profileLocations &&
+    //                             profileData?.profileLocations?.map(
+    //                               (item: any) => {
+    //                                 return item.fullName + " ";
+    //                               }
+    //                             )}
+    //                         </span>
+    //                       </Box>
+    //                     </div>
+    //                   </Box>
+    //                   <Box>
+    //                     <div className="mt-4 flex items-center justify-start">
+    //                       <Box
+    //                         sx={{
+    //                           display: "flex",
+    //                           gap: "10px",
+    //                           cursor: "pointer",
+    //                           alignItems: "center",
+    //                         }}
+    //                       >
+    //                         {profileData.roleData !== 3 &&
+    //                           profileData?.profileCategories?.length > 0 && (
+    //                             <CardGiftcardIcon
+    //                               sx={{
+    //                                 width: "16px",
+    //                                 height: "16px",
+    //                                 color: "#1b87f5",
+    //                               }}
+    //                             />
+    //                           )}
+    //                         <span
+    //                           style={{
+    //                             fontFamily:
+    //                               "Roboto,-apple-system,sans-serif!important",
+    //                             fontSize: "15px",
+    //                             color: "#1b87f5",
+    //                           }}
+    //                         >
+    //                           {profileData &&
+    //                             profileData.roleData !== 3 &&
+    //                             profileData?.profileCategories &&
+    //                             profileData?.profileCategories?.map(
+    //                               (item: any) => {
+    //                                 return item.fullName + " ";
+    //                               }
+    //                             )}
+    //                         </span>
+    //                       </Box>
+    //                     </div>
+    //                   </Box>
 
-                      <Box>
-                        <div className="mt-4 flex items-center justify-start">
-                          <Box
-                            onClick={() => {
-                              if (profileData.roleData !== 3) {
-                                router.push("/profile");
-                              } else {
-                                router.push("/company-infor");
-                              }
-                              setOpenModalProfile(false);
-                            }}
-                            sx={{
-                              display: "flex",
-                              gap: "10px",
-                              cursor: "pointer",
-                              alignItems: "center",
-                            }}
-                          >
-                            <SystemUpdateAltIcon
-                              sx={{ width: "16px", height: "16px" }}
-                            />
-                            <span
-                              style={{
-                                fontFamily:
-                                  "Roboto,-apple-system,sans-serif!important",
-                              }}
-                            >
-                              {profile.roleData === 1 ||
-                              profile.roleData === 2 ||
-                              profile.roleData === 0 ? (
-                                <span>
-                                  {language === 1
-                                    ? `Cập nhật thông tin`
-                                    : `Update information`}
-                                </span>
-                              ) : (
-                                <span>
-                                  {language === 1
-                                    ? `Cập nhật công ty`
-                                    : `Company updates`}
-                                </span>
-                              )}
-                            </span>
-                          </Box>
-                        </div>
-                        {profileData.roleData === 3 && (
-                          <div className="mt-4 flex items-center justify-start">
-                            <Box
-                              onClick={() => handleModifyPassword()}
-                              sx={{
-                                display: "flex",
-                                gap: "10px",
-                                cursor: "pointer",
-                                alignItems: "center",
-                              }}
-                            >
-                              <LogoutIcon
-                                sx={{ width: "16px", height: "16px" }}
-                              />
-                              <span
-                                style={{
-                                  fontFamily:
-                                    "Roboto,-apple-system,sans-serif!important",
-                                }}
-                              >
-                                {language === 1
-                                  ? `Đổi mật khẩu`
-                                  : `Change Password`}
-                              </span>
-                            </Box>
-                          </div>
-                        )}
+    //                   <Box>
+    //                     <div className="mt-4 flex items-center justify-start">
+    //                       <Box
+    //                         onClick={() => {
+    //                           if (profileData.roleData !== 3) {
+    //                             router.push("/profile");
+    //                           } else {
+    //                             router.push("/company-infor");
+    //                           }
+    //                           setOpenModalProfile(false);
+    //                         }}
+    //                         sx={{
+    //                           display: "flex",
+    //                           gap: "10px",
+    //                           cursor: "pointer",
+    //                           alignItems: "center",
+    //                         }}
+    //                       >
+    //                         <SystemUpdateAltIcon
+    //                           sx={{ width: "16px", height: "16px" }}
+    //                         />
+    //                         <span
+    //                           style={{
+    //                             fontFamily:
+    //                               "Roboto,-apple-system,sans-serif!important",
+    //                           }}
+    //                         >
+    //                           {profile.roleData === 1 ||
+    //                           profile.roleData === 2 ||
+    //                           profile.roleData === 0 ? (
+    //                             <span>
+    //                               {language === 1
+    //                                 ? `Cập nhật thông tin`
+    //                                 : `Update information`}
+    //                             </span>
+    //                           ) : (
+    //                             <span>
+    //                               {language === 1
+    //                                 ? `Cập nhật công ty`
+    //                                 : `Company updates`}
+    //                             </span>
+    //                           )}
+    //                         </span>
+    //                       </Box>
+    //                     </div>
+    //                     {profileData.roleData === 3 && (
+    //                       <div className="mt-4 flex items-center justify-start">
+    //                         <Box
+    //                           onClick={() => handleModifyPassword()}
+    //                           sx={{
+    //                             display: "flex",
+    //                             gap: "10px",
+    //                             cursor: "pointer",
+    //                             alignItems: "center",
+    //                           }}
+    //                         >
+    //                           <LogoutIcon
+    //                             sx={{ width: "16px", height: "16px" }}
+    //                           />
+    //                           <span
+    //                             style={{
+    //                               fontFamily:
+    //                                 "Roboto,-apple-system,sans-serif!important",
+    //                             }}
+    //                           >
+    //                             {language === 1
+    //                               ? `Đổi mật khẩu`
+    //                               : `Change Password`}
+    //                           </span>
+    //                         </Box>
+    //                       </div>
+    //                     )}
 
-                        <div className="mt-4 flex items-center justify-start">
-                          <Box
-                            onClick={() => {
-                              router.push("/history");
-                              setOpenModalProfile(false);
-                            }}
-                            sx={{
-                              display: "flex",
-                              gap: "10px",
-                              cursor: "pointer",
-                              alignItems: "center",
-                            }}
-                          >
-                            <ManageSearchIcon
-                              sx={{ width: "16px", height: "16px" }}
-                            />
-                            <span
-                              style={{
-                                fontFamily:
-                                  "Roboto,-apple-system,sans-serif!important",
-                              }}
-                            >
-                              {language === 1 ? `Lịch sử` : `History`}
-                            </span>
-                          </Box>
-                        </div>
+    //                     <div className="mt-4 flex items-center justify-start">
+    //                       <Box
+    //                         onClick={() => {
+    //                           router.push("/history");
+    //                           setOpenModalProfile(false);
+    //                         }}
+    //                         sx={{
+    //                           display: "flex",
+    //                           gap: "10px",
+    //                           cursor: "pointer",
+    //                           alignItems: "center",
+    //                         }}
+    //                       >
+    //                         <ManageSearchIcon
+    //                           sx={{ width: "16px", height: "16px" }}
+    //                         />
+    //                         <span
+    //                           style={{
+    //                             fontFamily:
+    //                               "Roboto,-apple-system,sans-serif!important",
+    //                           }}
+    //                         >
+    //                           {language === 1 ? `Lịch sử` : `History`}
+    //                         </span>
+    //                       </Box>
+    //                     </div>
 
-                        <div className="mt-4 flex items-center justify-start">
-                          <Box
-                            onClick={() => handleLogOut()}
-                            sx={{
-                              display: "flex",
-                              gap: "10px",
-                              cursor: "pointer",
-                              alignItems: "center",
-                            }}
-                          >
-                            <LogoutIcon
-                              sx={{ width: "16px", height: "16px" }}
-                            />
-                            <span
-                              style={{
-                                fontFamily:
-                                  "Roboto,-apple-system,sans-serif!important",
-                              }}
-                            >
-                              {language === 1 ? `Đăng xuất` : `Logout`}
-                            </span>
-                          </Box>
-                        </div>
-                      </Box>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </nav>
-          <FilterComponent
-            dataRequest={dataRequest}
-            setDataRequest={setDataRequest}
-            checkReponsive={checkReponsive}
-            tabSearchFilter={tabFilter}
-            setTabFilter={setTabFilter}
-          />
-        </div>
-        {checkNav && checkPageLoad && (
-          <div
-            className={`w-full bg-white z-20 flex justify-center fixed top-20 border-b-2 transition-all duration-700 ${
-              !checkScroll && "-translate-y-28"
-            }`}
-          >
-            <NavbarComponent />
-          </div>
-        )}
+    //                     <div className="mt-4 flex items-center justify-start">
+    //                       <Box
+    //                         onClick={() => handleLogOut()}
+    //                         sx={{
+    //                           display: "flex",
+    //                           gap: "10px",
+    //                           cursor: "pointer",
+    //                           alignItems: "center",
+    //                         }}
+    //                       >
+    //                         <LogoutIcon
+    //                           sx={{ width: "16px", height: "16px" }}
+    //                         />
+    //                         <span
+    //                           style={{
+    //                             fontFamily:
+    //                               "Roboto,-apple-system,sans-serif!important",
+    //                           }}
+    //                         >
+    //                           {language === 1 ? `Đăng xuất` : `Logout`}
+    //                         </span>
+    //                       </Box>
+    //                     </div>
+    //                   </Box>
+    //                 </div>
+    //               </div>
+    //             </div>
+    //           </div>
+    //         </div>
+    //       </nav>
+    //       <FilterComponent
+    //         dataRequest={dataRequest}
+    //         setDataRequest={setDataRequest}
+    //         checkReponsive={checkReponsive}
+    //         tabSearchFilter={tabFilter}
+    //         setTabFilter={setTabFilter}
+    //       />
+    //     </div>
+    //     {/* {checkNav && checkPageLoad && (
+    //       <div className="flex">
+    //       <div className="relative max-w-6xl">
+    //         <div
+    //           className={`w-full bg-white z-20 flex h-8 fixed top-20 border-b-2 transition-all duration-700 ${
+    //             !checkScroll && '-translate-y-28'
+    //           }`}
+    //         >
+    //           TRANG CHỦ
+    //         </div>
+    //       </div>
+    //     </div>
 
-        <Modal
-          width={614}
-          centered
-          title={
-            <h3
-              style={{
-                fontFamily: "Roboto",
-                fontSize: "24px",
-                lineHeight: "24px",
-                letterSpacing: "0em",
-                textAlign: "left",
-              }}
-            >
-              {language === 1
-                ? `Tắt trạng thái tìm việc`
-                : `Turn off job search status`}
-            </h3>
-          }
-          footer={null}
-          open={openModalTurnOffStatus}
-          // onOk={handleOk}
-          onCancel={handleCancel}
-        >
-          <p
-            style={{
-              fontFamily: "Roboto",
-              fontSize: "16px",
-              fontWeight: "400",
-              lineHeight: "24px",
-              letterSpacing: "0.5px",
-              textAlign: "left",
-            }}
-          >
-            {language === 1
-              ? `Sau khi tắt tìm kiếm việc làm, Nhà tuyển dụng có thể không tìm thấy
-            bạn và cơ hội tìm được công việc phù hợp với bạn sẽ giảm đi.`
-              : `After turning off job search, Employers may not be found
-            you and your chances of finding the right job for you will decrease.`}
-          </p>
-          <div className="share-buttons-choose-cv-modal">
-            <Button
-              type="default"
-              style={{
-                backgroundColor: "#d4a650",
-                marginRight: "10px",
-              }}
-              shape="round"
-              onClick={handleTurnOff}
-            >
-              {language === 1 ? `Tắt` : `Off`}
-            </Button>
-            <Button type="default" shape="round" onClick={handleCancel}>
-              {language === 1 ? `Hủy` : `Cancel`}
-            </Button>
-          </div>
-        </Modal>
+    //     )} */}
+    //     {checkNav && checkPageLoad && (
+    //       <div
+    //         className={`w-full bg-white z-20 flex justify-center fixed top-20 border-b-2 transition-all duration-700 ${
+    //           !checkScroll && "-translate-y-28"
+    //         }`}
+    //       >
+    //         <NavbarComponent />
+    //       </div>
+    //     )}
 
-        <ModalLogin
-          isOpen={openModalLogin}
-          handleToggleModal={handleToggleModal}
-        />
-      </div> */}
-      {children}
-      {/* <ModalNoteCreateCompany
-        openModalNoteCreateCompany={openModalNoteCreateCompany}
-        setOpenModalNoteCreateCompany={setOpenModalNoteCreateCompany}
-      /> */}
-    </>
+    //     <Modal
+    //       width={614}
+    //       centered
+    //       title={
+    //         <h3
+    //           style={{
+    //             fontFamily: "Roboto",
+    //             fontSize: "24px",
+    //             lineHeight: "24px",
+    //             letterSpacing: "0em",
+    //             textAlign: "left",
+    //           }}
+    //         >
+    //           {language === 1
+    //             ? `Tắt trạng thái tìm việc`
+    //             : `Turn off job search status`}
+    //         </h3>
+    //       }
+    //       footer={null}
+    //       open={openModalTurnOffStatus}
+    //       // onOk={handleOk}
+    //       onCancel={handleCancel}
+    //     >
+    //       <p
+    //         style={{
+    //           fontFamily: "Roboto",
+    //           fontSize: "16px",
+    //           fontWeight: "400",
+    //           lineHeight: "24px",
+    //           letterSpacing: "0.5px",
+    //           textAlign: "left",
+    //         }}
+    //       >
+    //         {language === 1
+    //           ? `Sau khi tắt tìm kiếm việc làm, Nhà tuyển dụng có thể không tìm thấy
+    //         bạn và cơ hội tìm được công việc phù hợp với bạn sẽ giảm đi.`
+    //           : `After turning off job search, Employers may not be found
+    //         you and your chances of finding the right job for you will decrease.`}
+    //       </p>
+    //       <div className="share-buttons-choose-cv-modal">
+    //         <Button
+    //           type="default"
+    //           style={{
+    //             backgroundColor: "#d4a650",
+    //             marginRight: "10px",
+    //           }}
+    //           shape="round"
+    //           onClick={handleTurnOff}
+    //         >
+    //           {language === 1 ? `Tắt` : `Off`}
+    //         </Button>
+    //         <Button type="default" shape="round" onClick={handleCancel}>
+    //           {language === 1 ? `Hủy` : `Cancel`}
+    //         </Button>
+    //       </div>
+    //     </Modal>
+
+    //     <ModalLogin
+    //       isOpen={openModalLogin}
+    //       handleToggleModal={handleToggleModal}
+    //     />
+
+    //     {/* create modal profile */}
+    //   </div>
+    //   <ModalNoteCreateCompany
+    //     openModalNoteCreateCompany={openModalNoteCreateCompany}
+    //     setOpenModalNoteCreateCompany={setOpenModalNoteCreateCompany}
+    //   />
+    // </>
+
+    <div>nice</div>
   );
 };
 
