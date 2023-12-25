@@ -479,7 +479,7 @@ const MenuComponent = (props: Props) => {
 
   return (
     <>
-      <div className="h-20 relative" ref={ref_menu}>
+      {/* <div className="h-20 relative" ref={ref_menu}>
         <div className="fixed z-50 w-full bg-white border-b-2 flex flex-col items-center justify-center">
           <nav className="w-full max-w-6xl h-20 flex items-center justify-between z-30">
             <div
@@ -564,7 +564,6 @@ const MenuComponent = (props: Props) => {
                               <span className="item-search_text">
                                 {suggest.keyword}
                               </span>
-                              {/* <CloseOutlined onClick={handleDeleteKeyword}/> */}
                             </div>
                           ))}
                         </div>
@@ -1353,9 +1352,7 @@ const MenuComponent = (props: Props) => {
           isOpen={openModalLogin}
           handleToggleModal={handleToggleModal}
         />
-
-        {/* create modal profile */}
-      </div>
+      </div> */}
       <ModalNoteCreateCompany
         openModalNoteCreateCompany={openModalNoteCreateCompany}
         setOpenModalNoteCreateCompany={setOpenModalNoteCreateCompany}
