@@ -74,12 +74,12 @@ const ModalLogin = (props: Props) => {
     // window.innerWidth < 768 ? "70%" : "56%"
     "70%"
   );
-  // const appId = process.env.REACT_APP_FACEBOOK_APP_ID
-  //   ? process.env.REACT_APP_FACEBOOK_APP_ID
-  //   : "";
-  // const googleClient = process.env.REACT_APP_GOOGLE_CLIENT_ID
-  //   ? process.env.REACT_APP_GOOGLE_CLIENT_ID
-  //   : "";
+  const appId = process.env.REACT_APP_FACEBOOK_APP_ID
+    ? process.env.REACT_APP_FACEBOOK_APP_ID
+    : "";
+  const googleClient = process.env.REACT_APP_GOOGLE_CLIENT_ID
+    ? process.env.REACT_APP_GOOGLE_CLIENT_ID
+    : "";
   // const dispatch = useDispatch();
   // const [emailOtp, setEmailOtp] = useState("");
   // const [alignment, setAlignment] = React.useState("user");
