@@ -450,19 +450,19 @@ const MenuComponent = (props: Props) => {
     router.push("/update-password");
   };
 
-  React.useEffect(() => {
-    if (socket.current === undefined && localStorage.getItem("accessToken")) {
-      socket.current = io("https://web-service-tkv.onrender.com", {
-        extraHeaders: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+  // React.useEffect(() => {
+  //   if (socket.current === undefined && localStorage.getItem("accessToken")) {
+  //     socket.current = io("https://web-service-tkv.onrender.com", {
+  //       extraHeaders: {
+  //         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+  //       },
+  //     });
 
-      socket.current.on("connect", () => {
-        // console.log('ket noi thanh cong');
-      });
-    }
-  }, []);
+  //     socket.current.on("connect", () => {
+  //       // console.log('ket noi thanh cong');
+  //     });
+  //   }
+  // }, []);
 
   // useEffect(() => {
   //   const fetchData = async () => {
