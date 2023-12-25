@@ -1,7 +1,8 @@
-'use client';
-import React, {useEffect} from 'react';
-import AllBlogComponent from '@/components/BlogComponent/AllBlogComponent/AllBlogComponent';
-import communityApi from '@/api/community/apiCommunity';
+/* eslint-disable react-hooks/rules-of-hooks */
+"use client";
+import React, { useEffect } from "react";
+import AllBlogComponent from "@/components/BlogComponent/AllBlogComponent/AllBlogComponent";
+import communityApi from "@/api/community/apiCommunity";
 
 type Props = {};
 
@@ -13,11 +14,11 @@ const page = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const resUser = await communityApi.getCommunityNews(
-        '0',
-        '10',
-        'cm',
+        "0",
+        "10",
+        "cm",
         1,
-        'vi',
+        "vi"
       );
 
       if (resUser && resUser.status === 200) {
@@ -37,7 +38,7 @@ const page = (props: Props) => {
     <div className="flex justify-center  relative">
       <div className="max-w-6xl w-full">
         <AllBlogComponent
-          typeName={'see-all'}
+          typeName={"see-all"}
           data={communityUser}
           setBookmark={handleSetBookmark}
           total={total}

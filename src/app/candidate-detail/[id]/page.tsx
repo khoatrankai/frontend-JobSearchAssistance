@@ -1,25 +1,26 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
-'use client';
-import React, {useEffect, useState} from 'react';
-import InfoPerson from '@/components/ProfileComponent/InfoPerson/InfoPerson';
-import JobProfile from '@/components/ProfileComponent/JobProfile/JobProfile';
-import EducationProfile from '@/components/ProfileComponent/EducationProfile/EducationProfile';
-import ExperienceProfile from '@/components/ProfileComponent/ExperienceProfile/ExperienceProfile';
-import AchivementProfile from '@/components/ProfileComponent/AchivementProfile/AchivementProfile';
-import ContactProfile from '@/components/ProfileComponent/ContactProfile/ContactProfile';
-import SkillProfile from '@/components/ProfileComponent/SkillProfile/SkillProfile';
-import LanguageProfile from '@/components/ProfileComponent/LanguageProfile/LanguageProfile';
-import AvatarProfile from '@/components/ProfileComponent/AvatarProfile/AvatarProfile';
-import NameProfile from '@/components/ProfileComponent/NameProfile/NameProfile';
-import {useDispatch, useSelector} from 'react-redux';
-import {fetchProfile} from '@/redux/reducer/profileReducer/profileSlice';
-import profileAPi from '@/api/profiles/profileApi';
-import {useParams} from 'next/navigation';
-import {SaveIconFill, SaveIconOutline} from '@/icons';
-import candidateSearch from '@/api/candidate/apiCandidates';
-import {ToastContainer, toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import CvProfile from '@/components/ProfileComponent/CvProfile/CvProfile';
+"use client";
+import React, { useEffect, useState } from "react";
+import InfoPerson from "@/components/ProfileComponent/InfoPerson/InfoPerson";
+import JobProfile from "@/components/ProfileComponent/JobProfile/JobProfile";
+import EducationProfile from "@/components/ProfileComponent/EducationProfile/EducationProfile";
+import ExperienceProfile from "@/components/ProfileComponent/ExperienceProfile/ExperienceProfile";
+import AchivementProfile from "@/components/ProfileComponent/AchivementProfile/AchivementProfile";
+import ContactProfile from "@/components/ProfileComponent/ContactProfile/ContactProfile";
+import SkillProfile from "@/components/ProfileComponent/SkillProfile/SkillProfile";
+import LanguageProfile from "@/components/ProfileComponent/LanguageProfile/LanguageProfile";
+import AvatarProfile from "@/components/ProfileComponent/AvatarProfile/AvatarProfile";
+import NameProfile from "@/components/ProfileComponent/NameProfile/NameProfile";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProfile } from "@/redux/reducer/profileReducer/profileSlice";
+import profileAPi from "@/api/profiles/profileApi";
+import { useParams } from "next/navigation";
+import { SaveIconFill, SaveIconOutline } from "@/icons";
+import candidateSearch from "@/api/candidate/apiCandidates";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import CvProfile from "@/components/ProfileComponent/CvProfile/CvProfile";
 
 type Props = {};
 
@@ -34,13 +35,13 @@ const page = (props: Props) => {
   const [dataProfile, setDataProfile] = useState<any>({});
   const [resizePage, setResizePage] = useState<boolean>(false);
   const useSearchParams = useParams();
-  const accountId = localStorage.getItem('accountId');
+  const accountId = localStorage.getItem("accountId");
 
   useEffect(() => {
     const fetchData = async () => {
       const res = await profileAPi.getProfileByAccountId(
-        'vi',
-        useSearchParams.id as string,
+        "vi",
+        useSearchParams.id as string
       );
 
       if (res && res.status === 200) {
@@ -52,7 +53,7 @@ const page = (props: Props) => {
   }, []);
 
   const handleUpdateApi = () => {
-    dispatch(fetchProfile('vi') as any);
+    dispatch(fetchProfile("vi") as any);
   };
   useEffect(() => {
     setDataInfo({
@@ -89,9 +90,9 @@ const page = (props: Props) => {
       }
     };
     handleResize();
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -99,36 +100,36 @@ const page = (props: Props) => {
     try {
       const fetchData = async () => {
         const res = (await candidateSearch.postBookmarkCandidate(
-          useSearchParams.id as string,
+          useSearchParams.id as string
         )) as unknown as IBookmark;
 
         if (res && res.status === 201) {
-          toast.success('Save candidate success', {
-            position: 'bottom-center',
+          toast.success("Save candidate success", {
+            position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: 'dark',
+            theme: "dark",
           });
 
-          setDataProfile({...dataProfile, isBookmarked: true});
+          setDataProfile({ ...dataProfile, isBookmarked: true });
         }
       };
 
       fetchData();
     } catch (error) {
-      toast.error('You cannot bookmark your own post', {
-        position: 'bottom-center',
+      toast.error("You cannot bookmark your own post", {
+        position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: 'colored',
+        theme: "colored",
       });
     }
   };
@@ -137,36 +138,36 @@ const page = (props: Props) => {
     try {
       const fetchData = async () => {
         const res = (await candidateSearch.postBookmarkCandidate(
-          useSearchParams.id as string,
+          useSearchParams.id as string
         )) as unknown as IBookmark;
 
         if (res && res.status === 200) {
-          toast.success('Unsave candidate success', {
-            position: 'bottom-center',
+          toast.success("Unsave candidate success", {
+            position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: 'dark',
+            theme: "dark",
           });
 
-          setDataProfile({...dataProfile, isBookmarked: false});
+          setDataProfile({ ...dataProfile, isBookmarked: false });
         }
       };
 
       fetchData();
     } catch (error) {
-      toast.error('You cannot delete your own post', {
-        position: 'bottom-center',
+      toast.error("You cannot delete your own post", {
+        position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: 'colored',
+        theme: "colored",
       });
     }
   };
@@ -188,9 +189,9 @@ const page = (props: Props) => {
           <div
             className="mb-10 w-12 h-12 flex justify-center items-center"
             style={{
-              border: '1px solid gray',
-              borderRadius: '50%',
-              cursor: 'pointer',
+              border: "1px solid gray",
+              borderRadius: "50%",
+              cursor: "pointer",
             }}
             onClick={() => {
               if (dataProfile.isBookmarked === false) {
@@ -207,9 +208,9 @@ const page = (props: Props) => {
                 <SaveIconOutline width={24} height={24} />
               ))}
           </div>
-          <div className={`flex w-full ${resizePage ? 'flex-wrap px-16' : ''}`}>
+          <div className={`flex w-full ${resizePage ? "flex-wrap px-16" : ""}`}>
             <div
-              className={` ${resizePage ? 'min-w-full' : 'mr-9 basis-8/12'}`}
+              className={` ${resizePage ? "min-w-full" : "mr-9 basis-8/12"}`}
             >
               <InfoPerson
                 dataInfo={dataInfo}
@@ -239,7 +240,7 @@ const page = (props: Props) => {
               <CvProfile profile={dataProfile} />
             </div>
 
-            <div className={` ${resizePage ? 'min-w-full' : 'basis-4/12'}`}>
+            <div className={` ${resizePage ? "min-w-full" : "basis-4/12"}`}>
               <ContactProfile
                 dataInfo={dataInfo}
                 handleUpdateApi={handleUpdateApi}
