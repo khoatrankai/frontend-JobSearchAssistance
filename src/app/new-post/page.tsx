@@ -1,50 +1,50 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
-'use client';
-import React, {useEffect, useRef, useState} from 'react';
-import CategoryPost from '@/components/NewPostComponent/CategoryPost/CategoryPost';
-import Image from 'next/image';
-import PositionPost from '@/components/NewPostComponent/PositionPost/PositionPost';
-import TypeJob from '@/components/NewPostComponent/TypeJob/TypeJob';
-import Salary from '@/components/NewPostComponent/Salary/Salary';
-import imageCompression from 'browser-image-compression';
-import ApartmentIcon from '@mui/icons-material/Apartment';
-import EmailIcon from '@mui/icons-material/Email';
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import EncodingDescription from '@/util/EncodingDescription/EncodingDescription';
-import TimeStamp from '@/util/TimeStamp/TimeStamp';
-import postsApi from '@/api/posts/postsApi';
-import {ToastContainer, toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import {ValidationPost} from './validation/validation-post';
-import {useSrollContext} from '@/context/AppProvider';
-import {analytics} from '@/configs/firebase';
-import {logEvent} from 'firebase/analytics';
-import {useSelector} from 'react-redux';
+"use client";
+import React, { useEffect, useRef, useState } from "react";
+import CategoryPost from "@/components/NewPostComponent/CategoryPost/CategoryPost";
+import Image from "next/image";
+import PositionPost from "@/components/NewPostComponent/PositionPost/PositionPost";
+import TypeJob from "@/components/NewPostComponent/TypeJob/TypeJob";
+import Salary from "@/components/NewPostComponent/Salary/Salary";
+import imageCompression from "browser-image-compression";
+import ApartmentIcon from "@mui/icons-material/Apartment";
+import EmailIcon from "@mui/icons-material/Email";
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import EncodingDescription from "@/util/EncodingDescription/EncodingDescription";
+import TimeStamp from "@/util/TimeStamp/TimeStamp";
+import postsApi from "@/api/posts/postsApi";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ValidationPost } from "./validation/validation-post";
+import { useSrollContext } from "@/context/AppProvider";
+// import {analytics} from '@/configs/firebase';
+import { logEvent } from "firebase/analytics";
+import { useSelector } from "react-redux";
 type Props = {};
 interface INewPost {
   code: number;
   data: any;
 }
 const page = (props: Props) => {
-  const {handleConvertToTimestamp} = TimeStamp();
-  const {handleEncodingDescription} = EncodingDescription();
+  const { handleConvertToTimestamp } = TimeStamp();
+  const { handleEncodingDescription } = EncodingDescription();
   const ref_image = useRef<any>();
   const [checkResize, setCheckResize] = useState<boolean>(false);
   const [dataImage, setDataImage] = useState<any>([]);
   const [description, setDescription] = useState<any>({
-    detail: '',
-    req: '',
-    right: '',
+    detail: "",
+    req: "",
+    right: "",
   });
-  const [nameCompanyProfile, setNameCompanyProfile] = useState<string>('');
+  const [nameCompanyProfile, setNameCompanyProfile] = useState<string>("");
   const [dataReq, setDataReq] = useState<any>({
-    address: '',
-    wardId: '',
+    address: "",
+    wardId: "",
     isRemotely: 0,
     isWorkingWeekend: 0,
     categoryIds: [],
-    description: '',
+    description: "",
     salaryType: 1,
     images: [],
     companyName: null,
@@ -52,7 +52,7 @@ const page = (props: Props) => {
     endDate: null,
     endTime: null,
     expiredDate: null,
-    title: '',
+    title: "",
     isDatePeriod: 0,
     startDate: null,
     startTime: null,
@@ -61,14 +61,14 @@ const page = (props: Props) => {
     moneyType: 1,
     jobTypeId: 1,
   });
-  const [indexImage, setIndexImage] = useState<any>({index: 0, count: 0});
+  const [indexImage, setIndexImage] = useState<any>({ index: 0, count: 0 });
   const [typeTimeJob, setTypeTimeJob] = useState<boolean>(false);
-  const {handleLoadHrefPage} = useSrollContext();
+  const { handleLoadHrefPage } = useSrollContext();
   const handleUpdateDes = (e: any) => {
-    setDescription({...description, [e.target.name]: e.target.value});
+    setDescription({ ...description, [e.target.name]: e.target.value });
   };
   const languageRedux = useSelector(
-    (state: any) => state.changeLaguage.language,
+    (state: any) => state.changeLaguage.language
   );
   const profile = useSelector((state: any) => state.profile.profile);
 
@@ -87,29 +87,29 @@ const page = (props: Props) => {
   }, [description]);
   const handleUpdateData = (e: any, value: any = null) => {
     if (value) {
-      setDataReq({...dataReq, [e.target.name]: value});
+      setDataReq({ ...dataReq, [e.target.name]: value });
     } else {
       switch (e.target.name) {
-        case 'isDatePeriod':
-          setDataReq({...dataReq, [e.target.name]: 0});
+        case "isDatePeriod":
+          setDataReq({ ...dataReq, [e.target.name]: 0 });
           break;
-        case 'startTime':
-        case 'endTime':
+        case "startTime":
+        case "endTime":
           setDataReq({
             ...dataReq,
             [e.target.name]: handleConvertToTimestamp(e.target.value),
           });
           break;
-        case 'startDate':
-        case 'endDate':
-        case 'expiredDate':
+        case "startDate":
+        case "endDate":
+        case "expiredDate":
           setDataReq({
             ...dataReq,
             [e.target.name]: new Date(e.target.value).getTime(),
           });
           break;
         default:
-          setDataReq({...dataReq, [e.target.name]: e.target.value});
+          setDataReq({ ...dataReq, [e.target.name]: e.target.value });
       }
     }
   };
@@ -118,10 +118,10 @@ const page = (props: Props) => {
   };
 
   const handleChangeIndex = (index: any) => {
-    setIndexImage({...indexImage, index: index});
+    setIndexImage({ ...indexImage, index: index });
   };
   const handleRemoveImage = (index: any) => {
-    setIndexImage({index: 0, count: indexImage.count - 1});
+    setIndexImage({ index: 0, count: indexImage.count - 1 });
     setDataReq({
       ...dataReq,
       images: dataReq.images.filter((dt: any, i: number) => {
@@ -131,23 +131,23 @@ const page = (props: Props) => {
     setDataImage(
       dataImage.filter((dt: any, i: number) => {
         return i != index;
-      }),
+      })
     );
   };
   const handlePost = () => {
     const formData = new FormData();
     for (let i in dataReq) {
-      if (i === 'categoryIds') {
+      if (i === "categoryIds") {
         dataReq[i].forEach((category: any) => {
           formData.append(i, category);
         });
       } else {
-        if (i === 'images') {
+        if (i === "images") {
           dataReq[i].forEach((image: any) => {
             formData.append(i, image);
           });
         } else {
-          if (i === 'expiredDate' || i === 'startDate' || i === 'endDate') {
+          if (i === "expiredDate" || i === "startDate" || i === "endDate") {
             if (dataReq[i] !== null) {
               formData.append(i, dataReq[i]);
             }
@@ -157,8 +157,8 @@ const page = (props: Props) => {
         }
       }
     }
-    formData.append('latitude', '10.761955');
-    formData.append('longitude', '106.70183');
+    formData.append("latitude", "10.761955");
+    formData.append("longitude", "106.70183");
 
     const fetchData = async () => {
       const checkPost = new ValidationPost(
@@ -179,14 +179,14 @@ const page = (props: Props) => {
         dataReq.startTime,
         dataReq.endTime,
         dataReq.categoryIds,
-        dataReq.images,
+        dataReq.images
       );
 
       const validation = checkPost.validateAllFields();
 
       if (validation && validation.status === false) {
         toast.warning(validation.message, {
-          position: 'bottom-center',
+          position: "bottom-center",
           autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -198,31 +198,31 @@ const page = (props: Props) => {
         return;
       } else {
         const res = (await postsApi.createPost(
-          formData,
+          formData
         )) as unknown as INewPost;
 
         if (res && res.code === 200) {
-          logEvent(analytics, 'post_recruiter');
-          toast.success('Tạo bài đăng thành công', {
-            position: 'bottom-center',
+          // logEvent(analytics, "post_recruiter");
+          toast.success("Tạo bài đăng thành công", {
+            position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: 'dark',
+            theme: "dark",
           });
         } else {
-          toast.error('Tạo bài đăng thất bại', {
-            position: 'bottom-center',
+          toast.error("Tạo bài đăng thất bại", {
+            position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: 'dark',
+            theme: "dark",
           });
         }
       }
@@ -240,9 +240,9 @@ const page = (props: Props) => {
       }
     };
     handleResize();
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
   const handleUploadImage = (e: any) => {
@@ -258,18 +258,18 @@ const page = (props: Props) => {
       reader.readAsArrayBuffer(file);
       readerImg.readAsDataURL(file);
     }
-    readerImg.addEventListener('load', function () {
+    readerImg.addEventListener("load", function () {
       const buffer = readerImg.result;
       setDataImage([...dataImage, buffer]);
-      setIndexImage({index: indexImage.count, count: indexImage.count + 1});
+      setIndexImage({ index: indexImage.count, count: indexImage.count + 1 });
     });
-    reader.addEventListener('load', async function () {
+    reader.addEventListener("load", async function () {
       const compressedImages = [];
       const compressedImage = await imageCompression(file, options);
       compressedImages.push(
         new File([compressedImage], compressedImage.name, {
           type: compressedImage.type,
-        }),
+        })
       );
       setDataReq({
         ...dataReq,
@@ -284,7 +284,7 @@ const page = (props: Props) => {
       setDataReq({
         ...dataReq,
         companyName: profile?.companyInfomation.name,
-      })
+      });
     }
   }, [profile]);
 
@@ -292,7 +292,7 @@ const page = (props: Props) => {
     <div className="flex justify-center bg-[rgb(244, 245, 245)]">
       <div
         className={`max-w-6xl w-full flex py-4 ${
-          checkResize ? 'flex-col gap-6' : ''
+          checkResize ? "flex-col gap-6" : ""
         }`}
       >
         <div className={`max-w-[780px] w-full  mr-8 flex flex-col gap-y-4`}>
@@ -301,8 +301,8 @@ const page = (props: Props) => {
               <div className="h-full w-3 bg-yellow-500 mr-4"></div>
               <h1 className="text-2xl font-bold">
                 {languageRedux === 1
-                  ? 'Thông tin đăng tải'
-                  : 'Posted information'}
+                  ? "Thông tin đăng tải"
+                  : "Posted information"}
               </h1>
             </div>
             <div className="relative w-full border-b-2 px-2 border-transparent rounded-md focus-within:border-black/10">
@@ -311,7 +311,7 @@ const page = (props: Props) => {
                   name="title"
                   type="text"
                   placeholder={
-                    languageRedux === 1 ? 'Tên tiêu đề...' : 'Title...'
+                    languageRedux === 1 ? "Tên tiêu đề..." : "Title..."
                   }
                   className="w-full outline-none text-xl"
                   onChange={handleUpdateData}
@@ -320,7 +320,7 @@ const page = (props: Props) => {
             </div>
             <div className="w-full relative">
               <label className="text-xs text-yellow-400 absolute font-semibold -top-3 px-1 left-2 bg-white">
-                {languageRedux === 1 ? 'Hình ảnh về công ty' : 'Company images'}
+                {languageRedux === 1 ? "Hình ảnh về công ty" : "Company images"}
               </label>
               <div
                 className={`max-w-full h-80 overflow-hidden border-2 border-black/40 rounded-xl flex justify-center flex-col items-center transition-all duration-500`}
@@ -337,7 +337,7 @@ const page = (props: Props) => {
                   <>
                     <Image
                       className="w-16"
-                      src={'/iconcamera.svg'}
+                      src={"/iconcamera.svg"}
                       alt=""
                       width={500}
                       height={500}
@@ -346,7 +346,7 @@ const page = (props: Props) => {
                       className="p-2 rounded-xl bg-red-500 font-bold"
                       onClick={handleClickBtnUpload}
                     >
-                      {languageRedux === 1 ? 'Tải ảnh lên' : 'Upload image'}
+                      {languageRedux === 1 ? "Tải ảnh lên" : "Upload image"}
                     </button>
                   </>
                 )}
@@ -384,7 +384,7 @@ const page = (props: Props) => {
                         >
                           <Image
                             className="w-8"
-                            src={'/iconremove.svg'}
+                            src={"/iconremove.svg"}
                             alt=""
                             width={200}
                             height={200}
@@ -401,7 +401,7 @@ const page = (props: Props) => {
                   >
                     <Image
                       className="w-16"
-                      src={'/iconadd.svg'}
+                      src={"/iconadd.svg"}
                       alt=""
                       width={200}
                       height={200}
@@ -414,12 +414,12 @@ const page = (props: Props) => {
               <Salary dataReq={dataReq} setDataReq={setDataReq} />
               <div className="relative h-fit max-w-[350px] p-2 border-2 rounded-md focus-within:border-yellow-400">
                 <label className="mb-1 text-xs text-yellow-400 absolute font-semibold -top-3 left-2 bg-white">
-                  {languageRedux === 1 ? 'Loại hình làm việc' : 'Type of work'}
+                  {languageRedux === 1 ? "Loại hình làm việc" : "Type of work"}
                 </label>
                 <div className="flex justify-between gap-2">
                   <button
                     className={`flex gap-1 items-center p-2 border-2 w-fit cursor-pointer ${
-                      dataReq.isRemotely ? 'bg-yellow-300' : ''
+                      dataReq.isRemotely ? "bg-yellow-300" : ""
                     }`}
                     onClick={() => {
                       setDataReq({
@@ -440,12 +440,12 @@ const page = (props: Props) => {
                       }}
                     />
                     <label className="cursor-pointer text-sm font-semibold">
-                      {languageRedux === 1 ? 'Làm việc từ xa' : 'Work remotely'}
+                      {languageRedux === 1 ? "Làm việc từ xa" : "Work remotely"}
                     </label>
                   </button>
                   <button
                     className={`flex gap-1 p-2 items-center border-2 w-fit cursor-pointer ${
-                      dataReq.isWorkingWeekend ? 'bg-yellow-300' : ''
+                      dataReq.isWorkingWeekend ? "bg-yellow-300" : ""
                     }`}
                     onClick={() => {
                       setDataReq({
@@ -468,8 +468,8 @@ const page = (props: Props) => {
                     />
                     <label className="cursor-pointer text-sm font-semibold">
                       {languageRedux === 1
-                        ? 'Làm việc cuối tuần'
-                        : 'Work on weekends'}
+                        ? "Làm việc cuối tuần"
+                        : "Work on weekends"}
                     </label>
                   </button>
                 </div>
@@ -481,12 +481,12 @@ const page = (props: Props) => {
             <div className="flex h-10 items-center">
               <div className="h-full w-3 bg-yellow-500 mr-4"></div>
               <h1 className="text-2xl font-bold">
-                {languageRedux === 1 ? 'Chi tiết công việc' : 'Job details'}
+                {languageRedux === 1 ? "Chi tiết công việc" : "Job details"}
               </h1>
             </div>
             <div className="relative">
               <label className="mb-1 text-xs text-yellow-400 absolute font-semibold -top-3 left-2 bg-white">
-                {languageRedux === 1 ? 'Mô tả công việc' : 'Job description'}
+                {languageRedux === 1 ? "Mô tả công việc" : "Job description"}
               </label>
               <div>
                 <textarea
@@ -498,7 +498,7 @@ const page = (props: Props) => {
             </div>
             <div className="relative">
               <label className="mb-1 text-xs text-yellow-400 absolute font-semibold -top-3 left-2 bg-white">
-                {languageRedux === 1 ? 'Yêu cầu công việc' : 'Job requirements'}
+                {languageRedux === 1 ? "Yêu cầu công việc" : "Job requirements"}
               </label>
               <div>
                 <textarea
@@ -510,7 +510,7 @@ const page = (props: Props) => {
             </div>
             <div className="relative">
               <label className="mb-1 text-xs text-yellow-400 absolute font-semibold -top-3 left-2 bg-white">
-                {languageRedux === 1 ? 'Quyền lợi' : 'Benefits'}
+                {languageRedux === 1 ? "Quyền lợi" : "Benefits"}
               </label>
               <div>
                 <textarea
@@ -524,7 +524,7 @@ const page = (props: Props) => {
         </div>
         <div
           className={`w-full h-fit gap-8 flex flex-col ${
-            checkResize ? 'max-w-[780px]' : 'max-w-[350px]'
+            checkResize ? "max-w-[780px]" : "max-w-[350px]"
           }`}
         >
           <div className="rounded-lg bg-white shadow-[7px_8px_40px_6px_#00000024] p-4">
@@ -532,8 +532,8 @@ const page = (props: Props) => {
               <div className="h-full w-3 bg-yellow-500 mr-4"></div>
               <h1 className="font-bold text-xl">
                 {languageRedux === 1
-                  ? 'Thông tin chung'
-                  : 'General information'}
+                  ? "Thông tin chung"
+                  : "General information"}
               </h1>
             </div>
             <ul>
@@ -543,14 +543,14 @@ const page = (props: Props) => {
                 </div>
                 <div className="p-2 w-full border-2 border-dashed focus-within:border-yellow-400">
                   <h2>
-                    {languageRedux === 1 ? 'Tên công ty' : 'Company name'}
+                    {languageRedux === 1 ? "Tên công ty" : "Company name"}
                   </h2>
                   <input
                     name="companyName"
                     type="text"
                     className="font-bold p-2 w-full focus-within:border-black/30 outline-none border-dashed border-2"
                     placeholder={
-                      languageRedux === 1 ? 'Tên công ty' : 'Company name'
+                      languageRedux === 1 ? "Tên công ty" : "Company name"
                     }
                     disabled={profile?.companyInfomation ? true : false}
                     value={nameCompanyProfile}
@@ -568,7 +568,7 @@ const page = (props: Props) => {
                     name="email"
                     className="font-bold w-full p-2 focus-within:border-black/30 outline-none border-dashed border-2"
                     placeholder={
-                      languageRedux === 1 ? 'Email' : 'Enter Email...'
+                      languageRedux === 1 ? "Email" : "Enter Email..."
                     }
                     onChange={handleUpdateData}
                   />
@@ -580,7 +580,7 @@ const page = (props: Props) => {
                 </div>
                 <div className="p-2 w-full border-2 border-dashed focus-within:border-yellow-400">
                   <h2>
-                    {languageRedux === 1 ? 'Số điện thoại' : 'Phone number'}
+                    {languageRedux === 1 ? "Số điện thoại" : "Phone number"}
                   </h2>
                   <input
                     name="phoneNumber"
@@ -588,8 +588,8 @@ const page = (props: Props) => {
                     className="font-bold p-2 w-full focus-within:border-black/30 outline-none border-dashed border-2"
                     placeholder={
                       languageRedux === 1
-                        ? 'Số điện thoại'
-                        : 'Enter Phone number...'
+                        ? "Số điện thoại"
+                        : "Enter Phone number..."
                     }
                     onChange={handleUpdateData}
                   />
@@ -601,12 +601,12 @@ const page = (props: Props) => {
             <div className="flex h-10 items-center mb-8">
               <div className="h-full w-3 bg-yellow-500 mr-4"></div>
               <h1 className="font-bold text-xl">
-                {languageRedux === 1 ? 'Thời gian làm việc' : 'Working time'}
+                {languageRedux === 1 ? "Thời gian làm việc" : "Working time"}
               </h1>
             </div>
             <div className="relative max-w-[400px] p-2 border-2 rounded-md focus-within:border-yellow-400">
               <label className="text-xs text-yellow-400 absolute font-semibold -top-3 px-1 left-2 bg-white">
-                {languageRedux === 1 ? 'Thời gian làm việc' : 'Working time'}
+                {languageRedux === 1 ? "Thời gian làm việc" : "Working time"}
               </label>
               <div className="flex gap-2 font-semibold">
                 <input
@@ -632,12 +632,12 @@ const page = (props: Props) => {
             <div className="flex h-10 items-center mb-8">
               <div className="h-full w-3 bg-yellow-500 mr-4"></div>
               <h1 className="font-bold text-xl">
-                {languageRedux === 1 ? 'Thời gian đăng bài' : 'Time to post'}
+                {languageRedux === 1 ? "Thời gian đăng bài" : "Time to post"}
               </h1>
             </div>
             <div className="relative max-w-[400px] p-2 border-2 rounded-md focus-within:border-yellow-400">
               <label className="text-xs text-yellow-400 absolute font-semibold -top-3 px-1 left-2 bg-white">
-                {languageRedux === 1 ? 'Thời gian đăng bài' : 'Time to post'}
+                {languageRedux === 1 ? "Thời gian đăng bài" : "Time to post"}
               </label>
               <div className="font-bold">
                 <div className="flex justify-around text-xs">
@@ -645,29 +645,29 @@ const page = (props: Props) => {
                     name="isDatePeriod"
                     className={`p-2 border-b-4 ${
                       !typeTimeJob
-                        ? 'border-yellow-400 text-yellow-500'
-                        : ' border-transparent'
+                        ? "border-yellow-400 text-yellow-500"
+                        : " border-transparent"
                     }`}
                     onClick={(e) => {
                       setTypeTimeJob(!typeTimeJob);
                       handleUpdateData(e);
                     }}
                   >
-                    {languageRedux === 1 ? 'Không thời hạn' : 'No deadline'}
+                    {languageRedux === 1 ? "Không thời hạn" : "No deadline"}
                   </button>
                   <button
                     name="isDatePeriod"
                     className={`p-2 border-b-4 ${
                       typeTimeJob
-                        ? 'border-yellow-400 text-yellow-500'
-                        : ' border-transparent'
+                        ? "border-yellow-400 text-yellow-500"
+                        : " border-transparent"
                     }`}
                     onClick={(e) => {
                       setTypeTimeJob(!typeTimeJob);
                       handleUpdateData(e, 1);
                     }}
                   >
-                    {languageRedux === 1 ? 'Thời hạn' : 'Deadline'}
+                    {languageRedux === 1 ? "Thời hạn" : "Deadline"}
                   </button>
                 </div>
                 {typeTimeJob && (
@@ -696,15 +696,15 @@ const page = (props: Props) => {
               <div className="h-full w-3 bg-yellow-500 mr-4"></div>
               <h1 className="font-bold text-xl">
                 {languageRedux === 1
-                  ? 'Thời hạn nộp đơn'
-                  : 'Deadline for submission'}
+                  ? "Thời hạn nộp đơn"
+                  : "Deadline for submission"}
               </h1>
             </div>
             <div className="relative max-w-[400px] p-2 border-2 rounded-md focus-within:border-yellow-400">
               <label className="mb-1 text-xs text-yellow-400 absolute font-semibold -top-3 left-2 bg-white">
                 {languageRedux === 1
-                  ? 'Thời hạn nộp đơn'
-                  : 'Deadline for submission'}
+                  ? "Thời hạn nộp đơn"
+                  : "Deadline for submission"}
               </label>
               <div>
                 <div className="flex">
@@ -726,7 +726,7 @@ const page = (props: Props) => {
         onClick={handlePost}
       >
         <h2 className="text-xl font-semibold">
-          {languageRedux === 1 ? 'Đăng bài' : 'Post'}
+          {languageRedux === 1 ? "Đăng bài" : "Post"}
         </h2>
       </button>
       <ToastContainer />

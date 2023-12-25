@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
 import { useSelector } from "react-redux";
-import { getAnalytics, logEvent } from "@firebase/analytics";
+// import { getAnalytics, logEvent } from "@firebase/analytics";
 import { RootState } from "@/redux/reducer";
 import { DataLog, DataLogRecuiter } from "@/app/analytics/typeChart";
 interface Dataset {
@@ -33,7 +33,7 @@ const Chartjs: React.FC<{
   const profileV3 = useSelector((state: RootState) => state.profile.profile);
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const [selectedYear, setSelectedYear] = useState<number>(2023);
-  const analytics: any = getAnalytics();
+  // const analytics: any = getAnalytics();
   React.useEffect(() => {
     document.title =
       languageRedux === 1
@@ -41,10 +41,10 @@ const Chartjs: React.FC<{
         : languageRedux === 0
         ? "Activity overview"
         : "활동 대시보드";
-    logEvent(analytics, "screen_view" as string, {
-      // screen_name: screenName as string,
-      page_title: "/web_hotJob" as string,
-    });
+    // logEvent(analytics, "screen_view" as string, {
+    //   // screen_name: screenName as string,
+    //   page_title: "/web_hotJob" as string,
+    // });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [languageRedux]);
 

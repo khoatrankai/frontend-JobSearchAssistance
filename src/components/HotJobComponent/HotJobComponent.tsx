@@ -7,7 +7,7 @@ import hotTopicApi from "@/api/topics/hotTopicApi";
 import useSwiperAutoSlider from "@/util/SwiperAutoSlider";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
-import { analytics } from "../../configs/firebase";
+// import { analytics } from "../../configs/firebase";
 import { logEvent } from "firebase/analytics";
 
 type Props = {};
@@ -86,7 +86,7 @@ const HotJobComponent = forwardRef<HTMLDivElement>((props, ref) => {
                   onClick={() => {
                     if (checkClick) {
                       router.push(`/more-hotjob/${item.id}`);
-                      logEvent(analytics, "select_hotjob");
+                      // logEvent(analytics, "select_hotjob");
                     } else {
                       setCheckClick(true);
                     }

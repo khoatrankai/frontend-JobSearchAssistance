@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 import apiCompany from "@/api/company/apiCompany";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
-import { analytics } from "@/configs/firebase";
+// import { analytics } from "@/configs/firebase";
 // import { logEvent } from "firebase/analytics";
 type Props = {};
 
