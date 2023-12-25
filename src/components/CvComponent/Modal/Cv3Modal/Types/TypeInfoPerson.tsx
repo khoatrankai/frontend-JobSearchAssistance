@@ -60,7 +60,7 @@ const TypeInfoPerson = (props: Props) => {
       compressedImages.push(
         new File([compressedImage], compressedImage.name, {
           type: compressedImage.type,
-        })
+        }) as never
       );
       handleUpdateData({ ...data, avatar: compressedImages }, type, index);
     });

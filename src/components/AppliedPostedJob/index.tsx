@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Backdrop from "@mui/material/Backdrop";

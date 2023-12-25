@@ -209,7 +209,7 @@ const CvTopModal = (props: Props) => {
         newData.sort((a: any, b: any) => {
           return a.index - b.index;
         });
-        dataPush.push(newData);
+        dataPush.push(newData as never);
       }
       setArrayData(dataPush);
     }
