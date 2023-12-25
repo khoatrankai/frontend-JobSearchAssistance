@@ -8,8 +8,7 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
-import { Provider, useSelector } from "react-redux";
-import { store } from "@/redux/store";
+
 import ChatContextProvider from "./ChatProvider";
 type DataFilter = {
   positionJob: Array<{
@@ -58,26 +57,24 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
   }, []);
   useEffect(() => {}, [dataFilter]);
   return (
-    <Provider store={store}>
-      <ChatContextProvider>
-        <Context.Provider
-          value={{
-            scrollPosition,
-            handleLoadHrefPage,
-            setScrollPosition,
-            menuPosition,
-            setMenuPosition,
-            transPosition,
-            setTransPosition,
-            dataFilter,
-            setDataFilter,
-            checkPage,
-          }}
-        >
-          {children}
-        </Context.Provider>
-      </ChatContextProvider>
-    </Provider>
+    <ChatContextProvider>
+      <Context.Provider
+        value={{
+          scrollPosition,
+          handleLoadHrefPage,
+          setScrollPosition,
+          menuPosition,
+          setMenuPosition,
+          transPosition,
+          setTransPosition,
+          dataFilter,
+          setDataFilter,
+          checkPage,
+        }}
+      >
+        {children}
+      </Context.Provider>
+    </ChatContextProvider>
   );
 };
 
