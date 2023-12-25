@@ -489,7 +489,7 @@ const ModalLogin = (props: Props) => {
 
   return (
     <div>
-      <Modal open={isOpen} onClose={handleClose} ref={modalRef}>
+      {/* <Modal open={isOpen} onClose={handleClose} ref={modalRef}>
         <Box sx={style}>
           <Box sx={{ textAlign: "center", marginBottom: "3px" }}>
             <ToggleButtonGroup
@@ -1564,7 +1564,7 @@ const ModalLogin = (props: Props) => {
           </button>
         </Box>
       </Modal>
-      <ToastContainer />
+      <ToastContainer /> */}
     </div>
   );
 };
