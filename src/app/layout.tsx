@@ -2,9 +2,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ScrollContext } from "@/context/AppProvider";
-import { Provider, useSelector } from "react-redux";
-import { store } from "@/redux/store";
-// import MenuComponent from "@/components/MenuComponent/MenuComponent";
+
+import MenuComponent from "@/components/MenuComponent/MenuComponent";
 // import RollTop from "@/components/RollTop";
 // import ChatRoll from "@/components/ChatRoll";
 
@@ -23,14 +22,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={inter.className}>
-        {/* <Provider store={store}> */}
         <ScrollContext>
-          {/*   <MenuComponent /> */}
+          <MenuComponent />
           {children}
           {/* <ChatRoll />
           <RollTop /> */}
         </ScrollContext>
-        {/* </Provider> */}
       </body>
     </html>
   );
