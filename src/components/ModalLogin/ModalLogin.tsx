@@ -77,9 +77,8 @@ const ModalLogin = (props: Props) => {
   const appId = process.env.REACT_APP_FACEBOOK_APP_ID
     ? process.env.REACT_APP_FACEBOOK_APP_ID
     : "";
-  const googleClient = process.env.REACT_APP_GOOGLE_CLIENT_ID
-    ? process.env.REACT_APP_GOOGLE_CLIENT_ID
-    : "";
+  const googleClient =
+    "436273589347-ot9ec9jhm235q3irsvjpnltr8hsun5cp.apps.googleusercontent.com";
   const dispatch = useDispatch();
   const [emailOtp, setEmailOtp] = useState("");
   const [alignment, setAlignment] = React.useState("user");
