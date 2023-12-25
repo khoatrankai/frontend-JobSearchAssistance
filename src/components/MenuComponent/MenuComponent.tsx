@@ -479,7 +479,7 @@ const MenuComponent = (props: Props) => {
   }, []);
 
   return (
-    <>
+    <div>
       {/* <div className="h-20 relative" ref={ref_menu}>
         <div className="fixed z-50 w-full bg-white border-b-2 flex flex-col items-center justify-center">
           <nav className="w-full max-w-6xl h-20 flex items-center justify-between z-30">
@@ -1351,7 +1351,7 @@ const MenuComponent = (props: Props) => {
           handleToggleModal={handleToggleModal}
         />
       </div> */}
-    </>
+    </div>
     // <ModalNoteCreateCompany
     //   openModalNoteCreateCompany={openModalNoteCreateCompany}
     //   setOpenModalNoteCreateCompany={setOpenModalNoteCreateCompany}
