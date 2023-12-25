@@ -4,49 +4,49 @@ import React, { useRef } from "react";
 import Image from "next/image";
 import "./MenuComponent.scss";
 import { useState, useEffect } from "react";
-// import NavbarComponent from "../NavbarComponent/NavbarComponent";
-// import { useSrollContext } from "@/context/AppProvider";
-// import FilterComponent from "../FilterComponent/FilterComponent";
-// import { getCookie, setCookie } from "@/cookies";
-// import jobApi from "../../api/job/jobApi";
-// import numeral from "numeral";
-// import ModalLogin from "../ModalLogin/ModalLogin";
-// import { useDispatch, useSelector } from "react-redux";
-// import { fetchProfile } from "@/redux/reducer/profileReducer/profileSlice";
-// import LogoutIcon from "@mui/icons-material/Logout";
-// import { Box, FormControlLabel, Typography } from "@mui/material";
-// import SystemUpdateAltIcon from "@mui/icons-material/SystemUpdateAlt";
-// import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
-// import BusinessIcon from "@mui/icons-material/Business";
-// import { styled } from "@mui/material/styles";
-// import Switch, { SwitchProps } from "@mui/material/Switch";
-// import {
-//   BellIcon,
-//   BlackSearchIcon,
-//   ChatIcon,
-//   FilterIcon,
-//   IconMenu,
-// } from "@/icons";
-// import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-// import notificationApi from "@/api/notification/notificationApi";
-// import BorderColorIcon from "@mui/icons-material/BorderColor";
-// import { useRouter } from "next/navigation";
-// import AddCircleIcon from "@mui/icons-material/AddCircle";
-// import AddCommentIcon from "@mui/icons-material/AddComment";
-// import { toast } from "react-toastify";
-// import profileAPi from "@/api/profiles/profileApi";
-// import { Button, Modal } from "antd";
-// import historyRecruiter from "@/api/history/historyRecruiter";
-// import { fetchSearchResult } from "@/redux/reducer/searchReducer";
-// import { setLanguage } from "@/redux/reducer/changeLanguageReducer/changeLanguage";
-// import { analytics } from "../../configs/firebase";
-// import { logEvent } from "firebase/analytics";
-// import AnalyticsIcon from "@mui/icons-material/Analytics";
-// import { io } from "socket.io-client";
-// import ModalNoteCreateCompany from "../ModalNoteCreateCompany";
-// import AssistantPhotoIcon from "@mui/icons-material/AssistantPhoto";
-// import searchApi from "@/api/search/apiSearch";
-// import ManageSearchIcon from "@mui/icons-material/ManageSearch";
+import NavbarComponent from "../NavbarComponent/NavbarComponent";
+import { useSrollContext } from "@/context/AppProvider";
+import FilterComponent from "../FilterComponent/FilterComponent";
+import { getCookie, setCookie } from "@/cookies";
+import jobApi from "../../api/job/jobApi";
+import numeral from "numeral";
+import ModalLogin from "../ModalLogin/ModalLogin";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProfile } from "@/redux/reducer/profileReducer/profileSlice";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { Box, FormControlLabel, Typography } from "@mui/material";
+import SystemUpdateAltIcon from "@mui/icons-material/SystemUpdateAlt";
+import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
+import BusinessIcon from "@mui/icons-material/Business";
+import { styled } from "@mui/material/styles";
+import Switch, { SwitchProps } from "@mui/material/Switch";
+import {
+  BellIcon,
+  BlackSearchIcon,
+  ChatIcon,
+  FilterIcon,
+  IconMenu,
+} from "@/icons";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import notificationApi from "@/api/notification/notificationApi";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import { useRouter } from "next/navigation";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import AddCommentIcon from "@mui/icons-material/AddComment";
+import { toast } from "react-toastify";
+import profileAPi from "@/api/profiles/profileApi";
+import { Button, Modal } from "antd";
+import historyRecruiter from "@/api/history/historyRecruiter";
+import { fetchSearchResult } from "@/redux/reducer/searchReducer";
+import { setLanguage } from "@/redux/reducer/changeLanguageReducer/changeLanguage";
+import { analytics } from "../../configs/firebase";
+import { logEvent } from "firebase/analytics";
+import AnalyticsIcon from "@mui/icons-material/Analytics";
+import { io } from "socket.io-client";
+import ModalNoteCreateCompany from "../ModalNoteCreateCompany";
+import AssistantPhotoIcon from "@mui/icons-material/AssistantPhoto";
+import searchApi from "@/api/search/apiSearch";
+import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 type Props = {
   // scrollPosition: Number;
 };
