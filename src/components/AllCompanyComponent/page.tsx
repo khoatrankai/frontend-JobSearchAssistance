@@ -7,7 +7,7 @@ import apiCompany from "@/api/company/apiCompany";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { analytics } from "@/configs/firebase";
-import { logEvent } from "firebase/analytics";
+// import { logEvent } from "firebase/analytics";
 type Props = {};
 
 interface ICompany {
@@ -60,7 +60,7 @@ const AllCompanyComponent = (props: Props) => {
   };
 
   const handleGetData = async (id: number) => {
-    logEvent(analytics, "select_company");
+    // logEvent(analytics, "select_company");
     router.push(`/company-detail/${id}`);
   };
 
