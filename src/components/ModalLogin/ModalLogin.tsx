@@ -706,7 +706,7 @@ const ModalLogin = (props: Props) => {
                     )}
                   />
                 </Box>
-              </Typography>
+              </Typography> */}
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                 <Box
                   sx={{
@@ -777,7 +777,7 @@ const ModalLogin = (props: Props) => {
                     // onFailure={responseFailFacebookAndGoogle}
                   />
                 </Box>
-              </Typography> */}
+              </Typography>
               <Typography
                 id="modal-modal-description"
                 sx={{
