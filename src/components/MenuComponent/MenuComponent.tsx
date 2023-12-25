@@ -72,6 +72,7 @@ const MenuComponent = (props: Props) => {
   const { scrollPosition, checkPage, handleLoadHrefPage } = useSrollContext();
   const ref_btn_notify = useRef<any>();
   const ref_btn_profile = useRef<any>();
+  let socket = useRef<any>();
   const ref_btn_menu = useRef<any>();
   const ref_menu = useRef<any>();
   const ref_input = useRef<any>();
@@ -207,111 +208,111 @@ const MenuComponent = (props: Props) => {
       setNav(true);
     }
   }, [scrollPosition]);
-  // const handleScroll = () => {
-  //   const scroll = window.pageYOffset;
-  //   if (scroll > positionScroll) {
-  //     setCheckScroll(false);
-  //   } else {
-  //     setCheckScroll(true);
-  //   }
-  //   setPositionScroll(scroll);
-  // };
-  // useEffect(() => {
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, [positionScroll, checkScroll, handleScroll]);
-  // useEffect(() => {
-  //   set_bg_language(getCookie("languageId") === "2" ? false : true);
-  // }, []);
+  const handleScroll = () => {
+    const scroll = window.pageYOffset;
+    if (scroll > positionScroll) {
+      setCheckScroll(false);
+    } else {
+      setCheckScroll(true);
+    }
+    setPositionScroll(scroll);
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [positionScroll, checkScroll, handleScroll]);
+  useEffect(() => {
+    set_bg_language(getCookie("languageId") === "2" ? false : true);
+  }, []);
 
-  // const handleOnChangeBackgroundLanguage = () => {
-  //   setCookie("languageId", bg_language ? "2" : "1", 1);
+  const handleOnChangeBackgroundLanguage = () => {
+    setCookie("languageId", bg_language ? "2" : "1", 1);
 
-  //   if (bg_language === true) {
-  //     dispatch(setLanguage(0));
-  //   } else {
-  //     dispatch(setLanguage(1));
-  //   }
+    if (bg_language === true) {
+      dispatch(setLanguage(0));
+    } else {
+      dispatch(setLanguage(1));
+    }
 
-  //   set_bg_language(!bg_language);
-  // };
+    set_bg_language(!bg_language);
+  };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const res = await jobApi.getTotalJob("vi");
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await jobApi.getTotalJob("vi");
 
-  //     if (res) {
-  //       setTotalJob(res.data?.total);
-  //     }
-  //   };
+      if (res) {
+        setTotalJob(res.data?.total);
+      }
+    };
 
-  //   fetchData();
-  // }, []);
+    fetchData();
+  }, []);
 
-  // const handleToggleModal = () => {
-  //   setOpenModalLogin(false);
-  // };
+  const handleToggleModal = () => {
+    setOpenModalLogin(false);
+  };
 
-  // const handleLogOut = () => {
-  //   localStorage.removeItem("accessToken");
-  //   localStorage.removeItem("refreshToken");
-  //   localStorage.removeItem("id");
-  //   localStorage.removeItem("role");
-  //   localStorage.removeItem("accountId");
-  //   socket.current.disconnect();
-  //   window.location.href = "/";
-  // };
+  const handleLogOut = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("id");
+    localStorage.removeItem("role");
+    localStorage.removeItem("accountId");
+    socket.current.disconnect();
+    window.location.href = "/";
+  };
 
-  // useEffect(() => {
-  //   const dataObj = JSON.parse(localStorage.getItem("dataRequest") || "{}");
-  //   setDataRequest({ ...dataRequest, q: dataObj.q || "" });
-  //   const fetchData = async () => {
-  //     const res = (await notificationApi.getNotification(
-  //       language === 1 ? "vi" : "en"
-  //     )) as unknown as INotification;
+  useEffect(() => {
+    const dataObj = JSON.parse(localStorage.getItem("dataRequest") || "{}");
+    setDataRequest({ ...dataRequest, q: dataObj.q || "" });
+    const fetchData = async () => {
+      const res = (await notificationApi.getNotification(
+        language === 1 ? "vi" : "en"
+      )) as unknown as INotification;
 
-  //     if (res && res.code === 200) {
-  //       setDataNotification(res.data.notifications);
-  //     }
-  //   };
+      if (res && res.code === 200) {
+        setDataNotification(res.data.notifications);
+      }
+    };
 
-  //   fetchData();
-  // }, [language]);
+    fetchData();
+  }, [language]);
 
-  // const handleClickNoty = (
-  //   postId: number,
-  //   commentId: number,
-  //   applicationId: number,
-  //   typeText: string
-  // ) => {
-  //   if (typeText === "recruiter") {
-  //     let res;
-  //     const fetchData = async () => {
-  //       res = (await historyRecruiter.GetAJobApplication(
-  //         postId,
-  //         applicationId.toString(),
-  //         "vi"
-  //       )) as unknown as INotification;
+  const handleClickNoty = (
+    postId: number,
+    commentId: number,
+    applicationId: number,
+    typeText: string
+  ) => {
+    if (typeText === "recruiter") {
+      let res;
+      const fetchData = async () => {
+        res = (await historyRecruiter.GetAJobApplication(
+          postId,
+          applicationId.toString(),
+          "vi"
+        )) as unknown as INotification;
 
-  //       if (res && res.code === 200) {
-  //         window.open(
-  //           `candidate-detail/${res?.data?.applicationProfile.account_id}?post-id=${postId}&application_id=${applicationId}`,
-  //           "_parent"
-  //         );
-  //       }
-  //     };
+        if (res && res.code === 200) {
+          window.open(
+            `candidate-detail/${res?.data?.applicationProfile.account_id}?post-id=${postId}&application_id=${applicationId}`,
+            "_parent"
+          );
+        }
+      };
 
-  //     fetchData();
-  //   }
-  //   if (typeText === "applicator") {
-  //     window.open(`post-detail/${postId}`, "_parent");
-  //   }
-  //   if (typeText === "communicationComment") {
-  //     window.open(`detail-community?post-community=${commentId}`, "_parent");
-  //   }
-  // };
+      fetchData();
+    }
+    if (typeText === "applicator") {
+      window.open(`post-detail/${postId}`, "_parent");
+    }
+    if (typeText === "communicationComment") {
+      window.open(`detail-community?post-community=${commentId}`, "_parent");
+    }
+  };
 
   // const handleRedirect = () => {
   //   if (!profile?.companyInfomation) {
@@ -448,8 +449,6 @@ const MenuComponent = (props: Props) => {
   //   setOpenModalProfile(false);
   //   router.push("/update-password");
   // };
-
-  // let socket = useRef<any>();
 
   // React.useEffect(() => {
   //   if (socket.current === undefined && localStorage.getItem("accessToken")) {
