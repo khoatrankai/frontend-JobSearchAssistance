@@ -468,7 +468,7 @@ const Page = () => {
           </div>
         </Collapse>
       </Stack> */}
-
+      {/* 
       <div className="py-10 max-w-6xl w-full overflow-hidden">
         <div className="flex justify-between flex-wrap px-4">
           <h1 className="font-bold text-2xl mb-3 px-2">
@@ -477,7 +477,7 @@ const Page = () => {
 
           <div className="filter-hotjob" onClick={() => handleClickFilterJob}>
             <div className="filter-provinces mb-3">
-              {/* <Space direction="vertical" style={{ width: "100%" }}>
+              <Space direction="vertical" style={{ width: "100%" }}>
                 <Select
                   size={"large"}
                   onChange={handleChangeFilterJob}
@@ -494,7 +494,7 @@ const Page = () => {
                     language === 1 ? "Lọc theo khu vực" : `Filter by region`
                   }
                 />
-              </Space> */}
+              </Space>
             </div>
           </div>
         </div>
@@ -601,7 +601,7 @@ const Page = () => {
             </ul>
           </InfiniteScroll>
         </div>
-      </div>
+      </div> */}
       <ToastContainer />
       <ModalLogin
         isOpen={openModalLogin}
