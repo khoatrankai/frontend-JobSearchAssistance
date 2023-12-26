@@ -476,19 +476,21 @@ const ComunityCreatePost = () => {
           <div className="create-post-body_input">
             <h3>{languageRedux === 1 ? "2. Nội dung" : "2. Contents"}</h3>
             <JoditEditor
-              value={""}
-              config={{
-                readonly: false,
-                height: 600,
-                toolbar: true,
-                toolbarButtonSize: "large",
-                showTooltip: true,
-                showTooltipDelay: 0,
-                style: {
-                  background: "white",
-                  color: "black",
-                },
-              }}
+              value={valueContent}
+              config={
+                {
+                  // readonly: false,
+                  // height: 600,
+                  // toolbar: true,
+                  // toolbarButtonSize: "large",
+                  // showTooltip: true,
+                  // showTooltipDelay: 0,
+                  // style: {
+                  //   background: "white",
+                  //   color: "black",
+                  // },
+                }
+              }
               onBlur={(e) => onBlurValue(e)}
             />
           </div>
