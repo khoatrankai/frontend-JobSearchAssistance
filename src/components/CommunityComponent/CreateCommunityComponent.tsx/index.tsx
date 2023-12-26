@@ -432,7 +432,7 @@ const ComunityCreatePost = () => {
     }
   };
 
-  const onBlur = (e: any) => {
+  const onBlurValue = (e: any) => {
     setValueContent(e);
   };
 
@@ -475,7 +475,7 @@ const ComunityCreatePost = () => {
           </div>
           <div className="create-post-body_input">
             <h3>{languageRedux === 1 ? "2. Nội dung" : "2. Contents"}</h3>
-            {/* <JoditEditor
+            <JoditEditor
               value={valueContent}
               config={{
                 readonly: false,
@@ -489,10 +489,10 @@ const ComunityCreatePost = () => {
                   color: "black",
                 },
               }}
-              onBlur={(e) => onBlur(e)}
-            /> */}
+              onBlur={(e) => onBlurValue(e)}
+            />
           </div>
-          {/* <div className="create-post-body_input">
+          <div className="create-post-body_input">
             <h3>
               <span>
                 {languageRedux === 1 ? "3. Thêm hình ảnh" : "3. Add images"}
@@ -601,7 +601,7 @@ const ComunityCreatePost = () => {
                 ? "Đăng bài viết"
                 : "Post an article"}
             </Button>
-          </div> */}
+          </div>
         </div>
       </div>
       <RollTop />
