@@ -474,8 +474,8 @@ const ComunityCreatePost = () => {
             />
           </div>
           <div className="create-post-body_input">
-            {/* <h3>{languageRedux === 1 ? "2. Nội dung" : "2. Contents"}</h3>
-            <JoditEditor
+            <h3>{languageRedux === 1 ? "2. Nội dung" : "2. Contents"}</h3>
+            {/* <JoditEditor
               value={valueContent}
               config={{
                 readonly: false,
