@@ -438,7 +438,7 @@ const ComunityCreatePost = () => {
 
   return (
     <div className="comunity-create-post-container">
-      {/* {contextHolder}
+      {/* {contextHolder} */}
       <div className="comunity-create-post-content">
         <div className="create-post-header">
           <h3 style={{ fontWeight: "800" }}>
@@ -613,7 +613,7 @@ const ComunityCreatePost = () => {
       >
         <img alt="example" style={{ width: "100%" }} src={previewImage} />
       </Modal>
-      <ToastContainer /> */}
+      <ToastContainer />
     </div>
   );
 };
