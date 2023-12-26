@@ -391,16 +391,18 @@ const Page = () => {
     }
   };
 
+  const handleClickFilterJob = () => {};
+
   const handleChangeFilterJob = (value: string) => {
     setIdFilterProvinces(value);
   };
 
   return (
     <div className="flex flex-col items-center">
-      {/* <Box>
+      <Box>
         <NavbarComponent />
       </Box>
-      <Stack
+      {/* <Stack
         className="bread-crumb-container"
         spacing={2}
         sx={{
@@ -465,7 +467,7 @@ const Page = () => {
             </button>
           </div>
         </Collapse>
-      </Stack>
+      </Stack> */}
 
       <div className="py-10 max-w-6xl w-full overflow-hidden">
         <div className="flex justify-between flex-wrap px-4">
@@ -473,7 +475,7 @@ const Page = () => {
             {language === 1 ? `Tất cả công việc mới nhất` : `All latest jobs`}
           </h1>
 
-          <div className="filter-hotjob" onClick={handleClickFilterJob}>
+          <div className="filter-hotjob" onClick={() => handleClickFilterJob}>
             <div className="filter-provinces mb-3">
               <Space direction="vertical" style={{ width: "100%" }}>
                 <Select
@@ -604,7 +606,7 @@ const Page = () => {
       <ModalLogin
         isOpen={openModalLogin}
         handleToggleModal={handleToggleModal}
-      /> */}
+      />
     </div>
   );
 };
