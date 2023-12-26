@@ -11,8 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux";
 import { setLanguage } from "@/redux/reducer/changeLanguageReducer/changeLanguage";
 import { useEffect } from "react";
-// import RollTop from "@/components/RollTop";
-// import ChatRoll from "@/components/ChatRoll";
+import RollTop from "@/components/RollTop";
+import ChatRoll from "@/components/ChatRoll";
 
 const inter = Inter({ subsets: ["vietnamese"] });
 
@@ -36,8 +36,8 @@ export default function RootLayout({
           <MenuComponent />
           {/* <div>nice</div> */}
           {children}
-          {/* <ChatRoll />
-          <RollTop /> */}
+          <ChatRoll />
+          <RollTop />
         </ScrollContext>
       </body>
     </html>
