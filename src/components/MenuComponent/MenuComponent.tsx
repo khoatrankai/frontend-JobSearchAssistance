@@ -452,7 +452,7 @@ const MenuComponent = (props: Props) => {
 
   React.useEffect(() => {
     if (socket.current === undefined && localStorage.getItem("accessToken")) {
-      socket.current = io("https://web-service-tkv.onrender.com", {
+      socket.current = io("https://web-service-tk.onrender.com", {
         extraHeaders: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
