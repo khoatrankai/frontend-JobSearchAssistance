@@ -71,7 +71,7 @@ const NavbarComponent = (props: Props) => {
           const id = jsCookie.get("categoryId") as any;
           const category = data?.data.find((item: any) => item.id === +id);
           if (category) {
-            document.cookie = `categoryName=${category.name}`;
+            // document.cookie = `categoryName=${category.name}`;
           }
         }
       } catch (error) {
@@ -84,7 +84,7 @@ const NavbarComponent = (props: Props) => {
     jsCookie.set("categoryId", id.toString());
     const category = listParentCategory.find((item) => item.id === id);
     if (category) {
-      document.cookie = `categoryName=${category.name}`;
+      // document.cookie = `categoryName=${category.name}`;
     }
     dispatch(setCategoryId(id.toString()));
     setCategoriesId(id.toString());
