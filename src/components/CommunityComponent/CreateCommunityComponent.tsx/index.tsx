@@ -474,7 +474,7 @@ const ComunityCreatePost = () => {
             />
           </div>
           <div className="create-post-body_input">
-            <h3>{languageRedux === 1 ? "2. Nội dung" : "2. Contents"}</h3>
+            {/* <h3>{languageRedux === 1 ? "2. Nội dung" : "2. Contents"}</h3>
             <JoditEditor
               value={valueContent}
               config={{
@@ -490,7 +490,7 @@ const ComunityCreatePost = () => {
                 },
               }}
               onBlur={(e) => onBlur(e)}
-            />
+            /> */}
           </div>
           {/* <div className="create-post-body_input">
             <h3>
