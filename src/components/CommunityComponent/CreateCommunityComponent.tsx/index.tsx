@@ -440,7 +440,7 @@ const ComunityCreatePost = () => {
     <div className="comunity-create-post-container">
       {/* {contextHolder} */}
       <div className="comunity-create-post-content">
-        <div className="create-post-header">
+        {/* <div className="create-post-header">
           <h3 style={{ fontWeight: "800" }}>
             {POST_COMMUNITY_ID
               ? languageRedux === 1
@@ -450,9 +450,9 @@ const ComunityCreatePost = () => {
               ? "Tạo bài viết mới"
               : "Creat new post"}
           </h3>
-        </div>
+        </div> */}
         <div className="create-post-body">
-          {/* <div className="create-post-body_input">
+          <div className="create-post-body_input">
             <h3>{languageRedux === 1 ? "1. Chủ đề" : "1. Topic"}</h3>
             <Input
               value={valueTitle}
@@ -472,7 +472,7 @@ const ComunityCreatePost = () => {
                 languageRedux === 1 ? "Chủ đề cần chia sẻ" : "Topics to share"
               }
             />
-          </div> */}
+          </div>
           <div className="create-post-body_input">
             <h3>{languageRedux === 1 ? "2. Nội dung" : "2. Contents"}</h3>
             <JoditEditor
@@ -584,7 +584,7 @@ const ComunityCreatePost = () => {
               </Box>
             </div>
           </div>
-          {/* <div className="save_btn">
+          <div className="save_btn">
             <Button
               onClick={handleSaveCommunity}
               className={
@@ -601,7 +601,7 @@ const ComunityCreatePost = () => {
                 ? "Đăng bài viết"
                 : "Post an article"}
             </Button>
-          </div> */}
+          </div>
         </div>
       </div>
       <RollTop />
