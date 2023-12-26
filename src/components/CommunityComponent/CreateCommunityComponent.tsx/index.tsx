@@ -62,7 +62,8 @@ const ComunityCreatePost = () => {
     if (typeof localStorage !== undefined) {
       const accountId = localStorage.getItem("accountId");
       if (!accountId) {
-        window.open("/", "_parent");
+        // window.open("/", "_parent");
+        router.push("/");
       }
     }
   }, []);
