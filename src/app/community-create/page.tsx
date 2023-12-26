@@ -5,7 +5,11 @@ import React from "react";
 type Props = {};
 
 const page = (props: Props) => {
-  return <>{/* <ComunityCreatePost /> */}</>;
+  return (
+    <>
+      <ComunityCreatePost />
+    </>
+  );
 };
 
 export default page;
