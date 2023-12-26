@@ -200,71 +200,71 @@ const Page = () => {
     setOpenModalLogin(false);
   };
 
-  const breadcrumbs = [
-    <Typography
-      key="2"
-      color="text.primary"
-      sx={{
-        cursor: "pointer",
-        padding: "4px 12px",
-        borderRadius: "12px",
-        display: "flex",
-        alignItems: "center",
-        border: "1px solid #d4a650",
-        color: "#d4a650",
-        background: "#ffffff",
-        fontSize: "12px",
-        lineHeight: "2",
-      }}
-    >
-      {nameCategory}
-    </Typography>,
-    valueJobChild?.id === 1 ? (
-      <React.Fragment key="3"></React.Fragment>
-    ) : (
-      <div
-        key="3"
-        style={{
-          position: "relative",
-        }}
-        className="button-breadcrumb"
-        onClick={(e) => handleClick(e)}
-      >
-        <Typography
-          color="text.primary"
-          sx={{
-            cursor: "pointer",
-            padding: "4px 12px",
-            borderRadius: "12px",
-            display: "flex",
-            alignItems: "center",
-            border: "1px solid #d4a650",
-            color: "#d4a650",
-            background: "#ffffff",
-            fontSize: "12px",
-            lineHeight: "2",
-          }}
-        >
-          {arrayChild?.length === 0 || arrayChild?.length === undefined
-            ? language === 1
-              ? `Tất cả`
-              : `All`
-            : arrayChild?.map(
-                (value: { id: number; name: string }, index: number) => (
-                  <div key={index}>
-                    {value.name} {index !== arrayChild.length - 1 ? "/ " : ""}
-                  </div>
-                )
-              )}
-          {open ? (
-            <ExpandLess className="icon-breadcrumb" />
-          ) : (
-            <ExpandMore className="icon-breadcrumb" />
-          )}
-        </Typography>
-      </div>
-    ),
-  ];
+  // const breadcrumbs = [
+  //   <Typography
+  //     key="2"
+  //     color="text.primary"
+  //     sx={{
+  //       cursor: "pointer",
+  //       padding: "4px 12px",
+  //       borderRadius: "12px",
+  //       display: "flex",
+  //       alignItems: "center",
+  //       border: "1px solid #d4a650",
+  //       color: "#d4a650",
+  //       background: "#ffffff",
+  //       fontSize: "12px",
+  //       lineHeight: "2",
+  //     }}
+  //   >
+  //     {nameCategory}
+  //   </Typography>,
+  //   valueJobChild?.id === 1 ? (
+  //     <React.Fragment key="3"></React.Fragment>
+  //   ) : (
+  //     <div
+  //       key="3"
+  //       style={{
+  //         position: "relative",
+  //       }}
+  //       className="button-breadcrumb"
+  //       onClick={(e) => handleClick(e)}
+  //     >
+  //       <Typography
+  //         color="text.primary"
+  //         sx={{
+  //           cursor: "pointer",
+  //           padding: "4px 12px",
+  //           borderRadius: "12px",
+  //           display: "flex",
+  //           alignItems: "center",
+  //           border: "1px solid #d4a650",
+  //           color: "#d4a650",
+  //           background: "#ffffff",
+  //           fontSize: "12px",
+  //           lineHeight: "2",
+  //         }}
+  //       >
+  //         {arrayChild?.length === 0 || arrayChild?.length === undefined
+  //           ? language === 1
+  //             ? `Tất cả`
+  //             : `All`
+  //           : arrayChild?.map(
+  //               (value: { id: number; name: string }, index: number) => (
+  //                 <div key={index}>
+  //                   {value.name} {index !== arrayChild.length - 1 ? "/ " : ""}
+  //                 </div>
+  //               )
+  //             )}
+  //         {open ? (
+  //           <ExpandLess className="icon-breadcrumb" />
+  //         ) : (
+  //           <ExpandMore className="icon-breadcrumb" />
+  //         )}
+  //       </Typography>
+  //     </div>
+  //   ),
+  // ];
 
   const handleBookmarked = (id: number) => {
     try {
@@ -391,15 +391,13 @@ const Page = () => {
     }
   };
 
-  const handleClickFilterJob = () => {};
-
   const handleChangeFilterJob = (value: string) => {
     setIdFilterProvinces(value);
   };
 
   return (
     <div className="flex flex-col items-center">
-      <Box>
+      {/* <Box>
         <NavbarComponent />
       </Box>
       <Stack
@@ -606,7 +604,7 @@ const Page = () => {
       <ModalLogin
         isOpen={openModalLogin}
         handleToggleModal={handleToggleModal}
-      />
+      /> */}
     </div>
   );
 };
