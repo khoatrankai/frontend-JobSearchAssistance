@@ -451,7 +451,7 @@ const ComunityCreatePost = () => {
               : "Creat new post"}
           </h3>
         </div>
-        {/* <div className="create-post-body">
+        <div className="create-post-body">
           <div className="create-post-body_input">
             <h3>{languageRedux === 1 ? "1. Chủ đề" : "1. Topic"}</h3>
             <Input
@@ -533,7 +533,7 @@ const ComunityCreatePost = () => {
                     : "1px solid #ccc",
               }}
             >
-              <Box p="0rem 0">
+              {/* <Box p="0rem 0">
                 <section className="drag-img-container">
                   <div
                     {...getRootProps({
@@ -581,7 +581,7 @@ const ComunityCreatePost = () => {
                     </div>
                   ))}
                 </Box>
-              </Box>
+              </Box> */}
             </div>
           </div>
           <div className="save_btn">
@@ -602,7 +602,7 @@ const ComunityCreatePost = () => {
                 : "Post an article"}
             </Button>
           </div>
-        </div> */}
+        </div>
       </div>
       <RollTop />
       <Modal
