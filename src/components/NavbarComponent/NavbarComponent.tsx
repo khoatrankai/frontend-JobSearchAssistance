@@ -33,7 +33,6 @@ const NavbarComponent = (props: Props) => {
   } = useSwiperAutoSlider();
   const [checkLoadNav, setCheckLoadNav] = useState<any>(false);
   const [listParentCategory, setListParentCategory] = useState<any[]>([]);
-  const [languageId, setLanguageId] = useState<string>("0");
   const [categoriesId, setCategoriesId] = useState<string>(
     getCookie("categoryId") as any
   );
@@ -59,18 +58,12 @@ const NavbarComponent = (props: Props) => {
   useEffect(() => {
     handleUpData();
   }, [listParentCategory]);
-  useEffect(() => {
-    const fetch = () => {
-      setLanguageId(getCookie("languageId") as any);
-    };
-    fetch();
-  }, [getCookie("languageId"), categoriesId]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = (await categoryApi.getParentCategory(
-          languageId as any
+          languageRedux.toString() as any
         )) as unknown as ICategory;
 
         if (data && (data?.code as any) === 200) {
@@ -86,7 +79,7 @@ const NavbarComponent = (props: Props) => {
       }
     };
     fetchData();
-  }, [languageId, languageRedux]);
+  }, [languageRedux]);
   const handleClickCategory = (id: number) => {
     jsCookie.set("categoryId", id.toString());
     const category = listParentCategory.find((item) => item.id === id);

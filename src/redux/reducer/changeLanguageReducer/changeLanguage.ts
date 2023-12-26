@@ -8,8 +8,7 @@ const changeLaguage = createSlice({
   },
   reducers: {
     setLanguage: (state, action) => {
-      const languageId = sessionStorage.getItem('languageId');
-      state.language = languageId === '2' ? 2 : 1;
+      state.language = action.payload
     },
   },
 })

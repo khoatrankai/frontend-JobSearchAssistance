@@ -1,10 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "./globals.css";
 import type { Metadata } from "next";
 import "global";
 import { Inter } from "next/font/google";
+
 import { ScrollContext } from "@/context/AppProvider";
 
 import MenuComponent from "@/components/MenuComponent/MenuComponent";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux";
+import { setLanguage } from "@/redux/reducer/changeLanguageReducer/changeLanguage";
+import { useEffect } from "react";
 // import RollTop from "@/components/RollTop";
 // import ChatRoll from "@/components/ChatRoll";
 
@@ -20,6 +26,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // useEffect(() => {
+
+  // }, []);
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={inter.className}>

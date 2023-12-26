@@ -44,27 +44,27 @@ interface IBookmark {
 }
 
 const Page = () => {
-  // const { handleShortTextHome, handleShortValueNumber } = ShortText();
-  // const [open, setOpen] = React.useState(false);
-  // const [valueJobChild, setValueJobChild] = React.useState<any>([]);
-  // const [arrayChild, setArrayChild] = useState<any>([]);
-  // const [isLoading, setIsLoading] = React.useState(false);
-  // const [checkedItems, setCheckedItems] = useState<any>([]);
-  // const [childCatelories, setChildCatelories] = React.useState<any>(null);
-  // const [checkItemsCount, setCheckItemsCount] = React.useState<number>(0);
-  // const [nameCategory, setNameCategory] = useState<any>("");
-  // const [listJob, setListJob] = useState<any>([]);
-  // const [loading, setLoading] = useState(false);
-  // const [hasMoreData, setHasMoreData] = useState(true);
-  // const [arrayTotal, setArrayTotal] = useState<any>([]);
-  // const [thresholdNewJob, setThresholdNewJob] = useState<number>(0);
-  // const categoryId = useSelector((state: any) => state.categoryId);
-  // const [idFilterProvinces, setIdFilterProvinces] = React.useState("");
-  // const [optionsProvinces, setOptionsProvinces] = React.useState<
-  //   SelectProps["options"]
-  // >([]);
-  // const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
-  // const [provincesData, setProvincesData] = React.useState<any>();
+  const { handleShortTextHome, handleShortValueNumber } = ShortText();
+  const [open, setOpen] = React.useState(false);
+  const [valueJobChild, setValueJobChild] = React.useState<any>([]);
+  const [arrayChild, setArrayChild] = useState<any>([]);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [checkedItems, setCheckedItems] = useState<any>([]);
+  const [childCatelories, setChildCatelories] = React.useState<any>(null);
+  const [checkItemsCount, setCheckItemsCount] = React.useState<number>(0);
+  const [nameCategory, setNameCategory] = useState<any>("");
+  const [listJob, setListJob] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
+  const [hasMoreData, setHasMoreData] = useState(true);
+  const [arrayTotal, setArrayTotal] = useState<any>([]);
+  const [thresholdNewJob, setThresholdNewJob] = useState<number>(0);
+  const categoryId = useSelector((state: any) => state.categoryId);
+  const [idFilterProvinces, setIdFilterProvinces] = React.useState("");
+  const [optionsProvinces, setOptionsProvinces] = React.useState<
+    SelectProps["options"]
+  >([]);
+  const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
+  const [provincesData, setProvincesData] = React.useState<any>();
 
   // const MAX_CHECKED_ITEMS = 3;
   // const language = useSelector((state: any) => state.changeLaguage.language);
