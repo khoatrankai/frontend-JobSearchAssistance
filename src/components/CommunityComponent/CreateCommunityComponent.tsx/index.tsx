@@ -473,7 +473,7 @@ const ComunityCreatePost = () => {
               }
             />
           </div>
-          {/* <div className="create-post-body_input">
+          <div className="create-post-body_input">
             <h3>{languageRedux === 1 ? "2. Nội dung" : "2. Contents"}</h3>
             <JoditEditor
               value={valueContent}
@@ -492,7 +492,7 @@ const ComunityCreatePost = () => {
               onBlur={(e) => onBlur(e)}
             />
           </div>
-          <div className="create-post-body_input">
+          {/* <div className="create-post-body_input">
             <h3>
               <span>
                 {languageRedux === 1 ? "3. Thêm hình ảnh" : "3. Add images"}
