@@ -399,10 +399,8 @@ const Page = () => {
 
   return (
     <div className="flex flex-col items-center">
-      {/* <Box>
-        <NavbarComponent />
-      </Box> */}
-      {/* <Stack
+      <Box>{/* <NavbarComponent /> */}</Box>
+      <Stack
         className="bread-crumb-container"
         spacing={2}
         sx={{
@@ -467,8 +465,8 @@ const Page = () => {
             </button>
           </div>
         </Collapse>
-      </Stack> */}
-      {/* 
+      </Stack>
+
       <div className="py-10 max-w-6xl w-full overflow-hidden">
         <div className="flex justify-between flex-wrap px-4">
           <h1 className="font-bold text-2xl mb-3 px-2">
@@ -601,7 +599,7 @@ const Page = () => {
             </ul>
           </InfiniteScroll>
         </div>
-      </div> */}
+      </div>
       <ToastContainer />
       <ModalLogin
         isOpen={openModalLogin}
