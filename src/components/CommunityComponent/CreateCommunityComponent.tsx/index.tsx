@@ -11,6 +11,7 @@ import type { RcFile } from "antd/es/upload/interface";
 import { useDropzone } from "react-dropzone";
 import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
+import dynamic from "next/dynamic";
 // @ts-ignore
 import communityApi from "@/api/community/apiCommunity";
 import { RootState } from "@/redux/reducer";
@@ -20,7 +21,7 @@ import RollTop from "@/components/RollTop";
 import { CameraComunityIcon, DeleteImageComunityIcon } from "@/icons";
 import validatePostImages from "@/validations/post/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import JoditEditor from "jodit-react";
+const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useSrollContext } from "@/context/AppProvider";
@@ -489,7 +490,7 @@ const ComunityCreatePost = () => {
                   color: "black",
                 },
               }}
-              // onBlur={(e) => onBlurValue(e)}
+              onBlur={(e) => onBlurValue(e)}
             />
           </div>
           <div className="create-post-body_input">
