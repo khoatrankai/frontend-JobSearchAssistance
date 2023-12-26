@@ -251,7 +251,7 @@ const AppliedPostedJob: React.FC = () => {
                   className="font-bold text-2xl"
                 >
                   <h2>
-                    {profile?.typeRoleData === 0
+                    {profile?.roleData !== 3
                       ? languageRedux === 1
                         ? "Công việc đã ứng tuyển"
                         : "Applied Job"

@@ -212,7 +212,7 @@ const HistoryPost = () => {
       setActiveChild("4-0");
       return;
     }
-    if (profile?.typeRoleData === 0) {
+    if (profile?.roleData !== 3) {
       setItemLeft(0);
       setActiveChild("0-0");
       return;
@@ -251,7 +251,7 @@ const HistoryPost = () => {
                   ? ["1", "0"]
                   : candidate === 4
                   ? ["4", "0"]
-                  : profile?.typeRoleData === 0
+                  : profile?.roleData !== 3
                   ? ["0", "0"]
                   : ["2", "0"]
               }
@@ -278,7 +278,7 @@ const HistoryPost = () => {
                     className={`history-left_item`}
                     style={{
                       display:
-                        profile?.typeRoleData === 0
+                        profile?.roleData !== 3
                           ? item?.id === 2 || item.id === 4
                             ? "none"
                             : "block"

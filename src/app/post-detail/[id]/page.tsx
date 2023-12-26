@@ -50,12 +50,13 @@ interface IApplication {
 }
 
 const page = (props: Props) => {
+  const { id } = useParams();
+
   const { handleDecodingDescription } = EncodingDescription();
   const [checkSize, setCheckSize] = useState<boolean>(false);
   const [checkScroll, setCheckScroll] = useState<boolean>(false);
   const ref_slider = useRef<any>();
   const ref_des = useRef<any>();
-  const { id } = useParams();
   const [postDetail, setPostDetail] = useState<any>({});
   const [list_category, setListCategory] = useState<any>("");
   const [bookmarked, setBookmarked] = React.useState(false);
