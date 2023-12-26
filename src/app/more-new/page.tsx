@@ -75,7 +75,7 @@ const Page = () => {
   useEffect(() => {
     setValueJobChild(categoryId);
     setNameCategory(getCookie("categoryName"));
-  }, [categoryId, getCookie("categoryName"), language]);
+  }, [categoryId, language]);
 
   const getAllChildCategoriesById = async () => {
     try {
