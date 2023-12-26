@@ -399,9 +399,9 @@ const Page = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <Box>
+      {/* <Box>
         <NavbarComponent />
-      </Box>
+      </Box> */}
       {/* <Stack
         className="bread-crumb-container"
         spacing={2}
