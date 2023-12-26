@@ -492,7 +492,7 @@ const ComunityCreatePost = () => {
               onBlur={(e) => onBlur(e)}
             />
           </div>
-          <div className="create-post-body_input">
+          {/* <div className="create-post-body_input">
             <h3>
               <span>
                 {languageRedux === 1 ? "3. Thêm hình ảnh" : "3. Add images"}
@@ -533,7 +533,7 @@ const ComunityCreatePost = () => {
                     : "1px solid #ccc",
               }}
             >
-              {/* <Box p="0rem 0">
+              <Box p="0rem 0">
                 <section className="drag-img-container">
                   <div
                     {...getRootProps({
@@ -581,9 +581,9 @@ const ComunityCreatePost = () => {
                     </div>
                   ))}
                 </Box>
-              </Box> */}
+              </Box>
             </div>
-          </div>
+          </div> */}
           <div className="save_btn">
             <Button
               onClick={handleSaveCommunity}
