@@ -451,7 +451,7 @@ const ComunityCreatePost = () => {
               : "Creat new post"}
           </h3>
         </div>
-        <div className="create-post-body">
+        {/* <div className="create-post-body">
           <div className="create-post-body_input">
             <h3>{languageRedux === 1 ? "1. Chủ đề" : "1. Topic"}</h3>
             <Input
@@ -475,7 +475,7 @@ const ComunityCreatePost = () => {
           </div>
           <div className="create-post-body_input">
             <h3>{languageRedux === 1 ? "2. Nội dung" : "2. Contents"}</h3>
-            {/* <JoditEditor
+            <JoditEditor
               value={valueContent}
               config={{
                 readonly: false,
@@ -490,7 +490,7 @@ const ComunityCreatePost = () => {
                 },
               }}
               onBlur={(e) => onBlur(e)}
-            /> */}
+            />
           </div>
           <div className="create-post-body_input">
             <h3>
@@ -602,7 +602,7 @@ const ComunityCreatePost = () => {
                 : "Post an article"}
             </Button>
           </div>
-        </div>
+        </div> */}
       </div>
       <RollTop />
       <Modal
