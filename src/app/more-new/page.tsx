@@ -66,41 +66,41 @@ const Page = () => {
   const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
   const [provincesData, setProvincesData] = React.useState<any>();
 
-  // const MAX_CHECKED_ITEMS = 3;
-  // const language = useSelector((state: any) => state.changeLaguage.language);
-  // const [accountId, setAccountId] = useState<any>("");
-  // useEffect(() => {
-  //   setAccountId(localStorage.getItem("accountId"));
-  // }, []);
-  // useEffect(() => {
-  //   setValueJobChild(categoryId);
-  //   setNameCategory(getCookie("categoryName"));
-  // }, [categoryId, getCookie("categoryName"), language]);
+  const MAX_CHECKED_ITEMS = 3;
+  const language = useSelector((state: any) => state.changeLaguage.language);
+  const [accountId, setAccountId] = useState<any>("");
+  useEffect(() => {
+    setAccountId(localStorage.getItem("accountId"));
+  }, []);
+  useEffect(() => {
+    setValueJobChild(categoryId);
+    setNameCategory(getCookie("categoryName"));
+  }, [categoryId, getCookie("categoryName"), language]);
 
-  // const getAllChildCategoriesById = async () => {
-  //   try {
-  //     const result = await categoryApi.getAllChildCategories(
-  //       valueJobChild,
-  //       language === 1 ? "vi" : "en"
-  //     );
+  const getAllChildCategoriesById = async () => {
+    try {
+      const result = await categoryApi.getAllChildCategories(
+        valueJobChild,
+        language === 1 ? "vi" : "en"
+      );
 
-  //     if (result) {
-  //       const newData = result.data.map((item: any) => {
-  //         return {
-  //           ...item,
-  //           checked: false,
-  //         };
-  //       });
-  //       setChildCatelories(newData);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+      if (result) {
+        const newData = result.data.map((item: any) => {
+          return {
+            ...item,
+            checked: false,
+          };
+        });
+        setChildCatelories(newData);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  // useEffect(() => {
-  //   getAllChildCategoriesById();
-  // }, [valueJobChild, language]);
+  useEffect(() => {
+    getAllChildCategoriesById();
+  }, [valueJobChild, language]);
 
   // const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
   //   event.isPropagationStopped();
