@@ -12,7 +12,8 @@ const RollTop: React.FC = () => {
   };
 
   const listenToScroll = (e: any) => {
-    const winScroll = e.target.getBoundingClientRect().height;
+    const winScroll =
+      document.body.scrollTop || document.documentElement.scrollTop;
     setHeight(winScroll);
   };
 
