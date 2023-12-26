@@ -452,7 +452,7 @@ const ComunityCreatePost = () => {
           </h3>
         </div>
         <div className="create-post-body">
-          <div className="create-post-body_input">
+          {/* <div className="create-post-body_input">
             <h3>{languageRedux === 1 ? "1. Chủ đề" : "1. Topic"}</h3>
             <Input
               value={valueTitle}
@@ -472,7 +472,7 @@ const ComunityCreatePost = () => {
                 languageRedux === 1 ? "Chủ đề cần chia sẻ" : "Topics to share"
               }
             />
-          </div>
+          </div> */}
           <div className="create-post-body_input">
             <h3>{languageRedux === 1 ? "2. Nội dung" : "2. Contents"}</h3>
             <JoditEditor
@@ -492,7 +492,7 @@ const ComunityCreatePost = () => {
               onBlur={(e) => onBlur(e)}
             />
           </div>
-          {/* <div className="create-post-body_input">
+          <div className="create-post-body_input">
             <h3>
               <span>
                 {languageRedux === 1 ? "3. Thêm hình ảnh" : "3. Add images"}
@@ -583,8 +583,8 @@ const ComunityCreatePost = () => {
                 </Box>
               </Box>
             </div>
-          </div> */}
-          <div className="save_btn">
+          </div>
+          {/* <div className="save_btn">
             <Button
               onClick={handleSaveCommunity}
               className={
@@ -601,7 +601,7 @@ const ComunityCreatePost = () => {
                 ? "Đăng bài viết"
                 : "Post an article"}
             </Button>
-          </div>
+          </div> */}
         </div>
       </div>
       <RollTop />
