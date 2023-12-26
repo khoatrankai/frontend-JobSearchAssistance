@@ -477,7 +477,7 @@ const Page = () => {
 
           <div className="filter-hotjob" onClick={() => handleClickFilterJob}>
             <div className="filter-provinces mb-3">
-              <Space direction="vertical" style={{ width: "100%" }}>
+              {/* <Space direction="vertical" style={{ width: "100%" }}>
                 <Select
                   size={"large"}
                   onChange={handleChangeFilterJob}
@@ -494,7 +494,7 @@ const Page = () => {
                     language === 1 ? "Lọc theo khu vực" : `Filter by region`
                   }
                 />
-              </Space>
+              </Space> */}
             </div>
           </div>
         </div>
