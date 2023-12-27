@@ -849,7 +849,7 @@ const ModalLogin = (props: Props) => {
                     },
                     borderRadius: "15px",
                   }}
-                  className="bg-black"
+                  className="!bg-black"
                   size="large"
                   onClick={() => {
                     handleClose();
