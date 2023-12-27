@@ -433,7 +433,7 @@ const MenuComponent = (props: Props) => {
           ? dataRequest.is_date_period
           : null,
         salaryMin: dataRequest.salary_min ? dataRequest.salary_min : 0,
-        salaryMax: dataRequest.salary_max ? dataRequest.salary_max : 1000000,
+        salaryMax: dataRequest.salary_max ? dataRequest.salary_max : null,
         jobTypeId: dataRequest.jobTypeId ? [dataRequest.jobTypeId] : [],
         categoryIds: dataRequest.category_ids ? dataRequest.category_ids : null,
         districtIds: dataRequest.district_ids ? dataRequest.district_ids : null,

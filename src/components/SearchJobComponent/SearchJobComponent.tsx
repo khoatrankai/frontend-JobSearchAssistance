@@ -29,14 +29,10 @@ const SearchJobComponent: React.FC<Props> = (props) => {
   const searchResult = useSelector(
     (state: any) => state.dataSearchResult.searchResult
   );
-  const [dataRequestObj, setDataRequestObj] = useState<any>({});
 
   const [loading, setLoading] = useState(false);
   const [hasMoreData, setHasMoreData] = useState(true);
   const dispatch = useDispatch();
-  // const dataRequestObj = JSON.parse(
-  //   localStorage.getItem("dataRequest") || "{}"
-  // );
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
@@ -48,13 +44,36 @@ const SearchJobComponent: React.FC<Props> = (props) => {
     setAccountId(localStorage.getItem("accountId"));
   }, []);
   useEffect(() => {
-    setListJob(searchResult.posts);
+    if (searchResult && searchResult.posts) {
+      setHasMoreData(searchResult.is_over);
+      setPage(page + 1);
+      setListJob([...listJob, ...searchResult?.posts]);
+    }
   }, [searchResult]);
   const { handleLoadHrefPage } = useSrollContext();
 
   useEffect(() => {
     handleLoadHrefPage();
-    setDataRequestObj(JSON.parse(localStorage.getItem("dataRequest") || "{}"));
+    const dataObj = JSON.parse(localStorage.getItem("dataRequest") || "{}");
+    if (searchResult) {
+      const queryParams = {
+        q: dataObj.q ? dataObj.q.trim() : null,
+        moneyType: dataObj.money_type ? dataObj.money_type : null,
+        isWorkingWeekend: dataObj.is_working_weekend
+          ? dataObj.is_working_weekend
+          : null,
+        isDatePeriod: dataObj.is_date_period ? dataObj.is_date_period : null,
+        salaryMin: dataObj.salary_min ? dataObj.salary_min : null,
+        salaryMax: dataObj.salary_max ? dataObj.salary_max : null,
+        jobTypeId: dataObj.jobTypeId ? [dataObj.jobTypeId] : [],
+        categoryIds: dataObj.category_ids ? dataObj.category_ids : null,
+        districtIds: dataObj.district_ids ? dataObj.district_ids : null,
+        salaryType: dataObj.salary_type ? dataObj.salary_type : null,
+        lang: "vi",
+        page: null,
+      };
+      dispatch(fetchSearchResult(queryParams) as any);
+    }
   }, []);
 
   const handleBookmarked = (id: number) => {
@@ -163,36 +182,11 @@ const SearchJobComponent: React.FC<Props> = (props) => {
     }
   };
 
-  useEffect(() => {
-    const dataObj = dataRequestObj || {};
-
-    const queryParams = {
-      q: dataObj.q ? dataObj.q.trim() : null,
-      moneyType: dataObj.money_type ? dataObj.money_type : null,
-      isWorkingWeekend: dataObj.is_working_weekend
-        ? dataObj.is_working_weekend
-        : null,
-      isDatePeriod: dataObj.is_date_period ? dataObj.is_date_period : null,
-      salaryMin: dataObj.salary_min ? dataObj.salary_min : null,
-      salaryMax: dataObj.salary_max ? dataObj.salary_max : null,
-      jobTypeId: dataObj.jobTypeId ? [dataObj.jobTypeId] : [],
-      categoryIds: dataObj.category_ids ? dataObj.category_ids : null,
-      districtIds: dataObj.district_ids ? dataObj.district_ids : null,
-      salaryType: dataObj.salary_type ? dataObj.salary_type : null,
-      lang: "vi",
-      page: null,
-    };
-
-    dispatch(fetchSearchResult(queryParams) as any);
-  }, []);
-
   const loadMore = async () => {
-    if (!loading && hasMoreData) {
+    if (!loading && !hasMoreData) {
       setLoading(true);
-
       try {
-        const dataObj = dataRequestObj || {};
-
+        const dataObj = JSON.parse(localStorage.getItem("dataRequest") || "{}");
         const queryParams = {
           q: dataObj.q ? dataObj.q.trim() : null,
           moneyType: dataObj.money_type ? dataObj.money_type : null,
@@ -209,21 +203,8 @@ const SearchJobComponent: React.FC<Props> = (props) => {
           lang: "vi",
           page: page,
         };
-
+        // console.log(page);
         const response = await dispatch(fetchSearchResult(queryParams) as any);
-
-        if (response) {
-          const newPosts = response.payload.posts;
-
-          if (response.payload.is_over === false) {
-            setListJob((prevList: any) => [...listJob, ...newPosts]);
-            setPage(page + 1);
-            setHasMoreData(true);
-          } else {
-            setHasMoreData(false);
-          }
-        }
-
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
