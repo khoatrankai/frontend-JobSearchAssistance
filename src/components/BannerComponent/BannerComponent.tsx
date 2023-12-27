@@ -25,6 +25,8 @@ const BannerComponent = (props: Props) => {
 
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
   const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
+  const [reponsiveMobile, setReponsiveMobile] = useState<boolean>(false);
+
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
   const [dataBanners, setDataBanners] = useState<any>([]);
@@ -111,17 +113,38 @@ const BannerComponent = (props: Props) => {
     emblaApi.on("select", onSelect);
     emblaApi.on("reInit", onSelect);
   }, [emblaApi, setScrollSnaps, onSelect]);
-
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 480) {
+        setReponsiveMobile(true);
+      } else {
+        setReponsiveMobile(false);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   return (
     <div className="flex flex-col items-center relative mt-[104px] w-full justify-center">
-      <div className="embla max-w-6xl w-full">
+      <div
+        className={`embla max-w-6xl w-full ${
+          reponsiveMobile ? "!h-[200px]" : ""
+        }`}
+      >
         {dataBanners && dataBanners.length > 0 && (
           <>
             <div className="embla__viewport" ref={emblaRef}>
               <div
                 className="embla__container"
                 ref={emblaContainerRef}
-                style={{ marginLeft: "1px", borderRadius: "20px" }}
+                style={{
+                  marginLeft: "1px",
+                  borderRadius: "20px",
+                  columnGap: "20px",
+                }}
               >
                 {slides?.map((value: any, index: number) => (
                   <div className="embla__slide" key={index}>

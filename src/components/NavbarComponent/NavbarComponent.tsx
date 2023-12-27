@@ -32,6 +32,7 @@ const NavbarComponent = (props: Props) => {
     handleUpData,
   } = useSwiperAutoSlider();
   const [checkLoadNav, setCheckLoadNav] = useState<any>(false);
+  const [reponsiveMobile, setReponsiveMobile] = useState<boolean>(false);
   const [listParentCategory, setListParentCategory] = useState<any[]>([]);
   const [categoriesId, setCategoriesId] = useState<string>();
   const languageRedux = useSelector(
@@ -89,23 +90,19 @@ const NavbarComponent = (props: Props) => {
     setCategoriesId(id.toString());
   };
   useEffect(() => {
-    const handleScroll = () => {
-      // console.log(ref_nav.current?.getBoundingClientRect());
+    const handleResize = () => {
+      if (window.innerWidth < 480) {
+        setReponsiveMobile(true);
+      } else {
+        setReponsiveMobile(false);
+      }
     };
-    window.addEventListener("scroll", handleScroll);
+    handleResize();
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
     };
-  }, [ref_nav]);
-  useEffect(() => {
-    const handleScroll = () => {
-      // console.log(ref_nav.current?.getBoundingClientRect());
-    };
-    window.addEventListener("resize", handleScroll);
-    return () => {
-      window.removeEventListener("resize", handleScroll);
-    };
-  }, [ref_nav]);
+  }, []);
   return (
     <div
       className="w-full max-w-6xl relative py-4 overflow-hidden"
@@ -146,13 +143,21 @@ const NavbarComponent = (props: Props) => {
             }}
           >
             <Image
-              className="pointer-events-none w-12"
+              className={`pointer-events-none ${
+                reponsiveMobile ? "w-8" : "w-12"
+              }`}
               src={item.image}
               width={300}
               height={300}
               alt="anh"
             />
-            <div className="text-center font-sm min-w-fit">{item.name}</div>
+            <div
+              className={`text-center min-w-fit ${
+                reponsiveMobile ? "font-extralight" : ""
+              }`}
+            >
+              {item.name}
+            </div>
             {categoriesId === item.id.toString() && (
               <div
                 className="border-selected"

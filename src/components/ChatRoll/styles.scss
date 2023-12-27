@@ -5,7 +5,17 @@
         position: fixed;
         right: 36px;
         background-color: rgb(80, 212, 157);
-        bottom: 60px;
+        // bottom: 60px;
+        font-size: 24px !important;
+        z-index: 5;
+    }
+    .roll-chat-btn-mobile {
+        width: 48px !important;
+        height: 48px !important;
+        position: fixed;
+        right: 36px;
+        background-color: rgb(80, 212, 157);
+        // bottom: 60px;
         font-size: 24px !important;
         z-index: 5;
     }

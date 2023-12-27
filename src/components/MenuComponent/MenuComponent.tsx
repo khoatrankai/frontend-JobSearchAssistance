@@ -85,7 +85,7 @@ const MenuComponent = (props: Props) => {
   });
   const [tabNotify, setTabNotify] = useState<boolean>(false);
   const [tabSuggest, setTabSuggest] = useState<boolean>(false);
-  const [bg_language, set_bg_language] = useState(false);
+  // const [bg_language, set_bg_language] = useState(false);
   const [checkNav, setNav] = useState(false);
   const [checkScroll, setCheckScroll] = useState(true);
   const [positionScroll, setPositionScroll] = useState(0);
@@ -223,21 +223,21 @@ const MenuComponent = (props: Props) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [positionScroll, checkScroll, handleScroll]);
-  useEffect(() => {
-    set_bg_language(getCookie("languageId") === "2" ? false : true);
-  }, []);
+  // useEffect(() => {
+  //   set_bg_language(getCookie("languageId") === "2" ? false : true);
+  // }, []);
 
-  const handleOnChangeBackgroundLanguage = () => {
-    setCookie("languageId", bg_language ? "2" : "1", 1);
+  // const handleOnChangeBackgroundLanguage = () => {
+  //   setCookie("languageId", bg_language ? "2" : "1", 1);
 
-    if (bg_language === true) {
-      dispatch(setLanguage(0));
-    } else {
-      dispatch(setLanguage(1));
-    }
+  //   if (bg_language === true) {
+  //     dispatch(setLanguage(0));
+  //   } else {
+  //     dispatch(setLanguage(1));
+  //   }
 
-    set_bg_language(!bg_language);
-  };
+  //   set_bg_language(!bg_language);
+  // };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -481,7 +481,7 @@ const MenuComponent = (props: Props) => {
     <>
       <div className="h-20 relative" ref={ref_menu}>
         <div className="fixed z-50 w-full bg-white border-b-2 flex flex-col items-center justify-center">
-          <nav className="w-full max-w-6xl h-20 flex items-center justify-between z-30">
+          <nav className="w-full max-w-6xl h-20 flex items-center justify-between z-30 px-2">
             <div className={`flex justify-start ${reponsiveMobile ? "" : ""}`}>
               <Image
                 onClick={() => {
@@ -876,7 +876,7 @@ const MenuComponent = (props: Props) => {
               }
             </div>
             <div className="flex items-center">
-              <Image
+              {/* <Image
                 className="w-8 h-8"
                 src={
                   bg_language
@@ -887,31 +887,32 @@ const MenuComponent = (props: Props) => {
                 alt="anh"
                 width={1920}
                 height={1080}
-              />
+              /> */}
 
-              <div className="ml-4 relative">
+              <div className="relative">
                 <div
-                  className={` flex rounded-3xl justify-center cursor-pointer ${
-                    reponsiveMobile
-                      ? "bg-black"
-                      : "p-3 bg-neutral-200 hover:bg-neutral-300/80 "
-                  }`}
+                  className={` flex rounded-3xl justify-center cursor-pointer  bg-neutral-200 hover:bg-neutral-300/80 overflow-hidden
+                  ${reponsiveMobile ? "w-9 h-9" : "p-3"}
+                  `}
+                  onClick={() => {
+                    if (localStorage.getItem("accessToken") === null) {
+                      setOpenModalLogin(true);
+                    } else {
+                      setOpenModalProfile(true);
+                    }
+                  }}
                 >
                   {profileData && profileData?.accountId ? (
                     <Box
-                      onClick={() => {
-                        setOpenModalProfile(true);
-                        if (localStorage.getItem("accessToken") === null) {
-                          setOpenModalLogin(true);
-                        }
-                      }}
                       sx={{
                         display: "flex",
                         width: "100%",
                       }}
                     >
                       <Image
-                        className="w-8 rounded-full"
+                        className={` rounded-full overflow-hidden ${
+                          reponsiveMobile ? "w-full" : "w-6"
+                        }`}
                         src={
                           imageError
                             ? "https://res.cloudinary.com/ddwjnjssj/image/upload/v1697830499/images/avatar/default.png"
@@ -922,7 +923,7 @@ const MenuComponent = (props: Props) => {
                         alt="user"
                         width={"400"}
                         height={"400"}
-                        style={{ marginRight: "5px" }}
+                        style={{}}
                         onError={() => setImageError(true)}
                       />
                       <p className="name-profile">
@@ -932,7 +933,7 @@ const MenuComponent = (props: Props) => {
                   ) : (
                     <>
                       <Image
-                        className={`${reponsiveMobile ? "w-8 " : "w-6"}`}
+                        className={`w-6`}
                         src="/iconuser.svg"
                         alt="user"
                         width={"200"}
@@ -940,7 +941,7 @@ const MenuComponent = (props: Props) => {
                       />
                       {!reponsiveMobile && (
                         <Image
-                          className={`ml-1 ${reponsiveMobile ? "w-8 " : "w-6"}`}
+                          className={`ml-1 w-6`}
                           src="/iconright.svg"
                           alt="user"
                           width={"200"}
@@ -954,9 +955,6 @@ const MenuComponent = (props: Props) => {
                   className={`${
                     openModalProfile ? "absolute" : "hidden"
                   } z-40 top-16 right-0 w-full h-full flex max-w-2xl`}
-                  // onClick={() => {
-                  //   setOpenModalProfile(false);
-                  // }}
                   ref={ref_btn_profile}
                 >
                   <div

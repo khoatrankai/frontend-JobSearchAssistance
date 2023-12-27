@@ -841,7 +841,6 @@ const ModalLogin = (props: Props) => {
               <Box>
                 <Button
                   sx={{
-                    bgcolor: "#517f6a",
                     width: "100%",
                     mt: 2,
                     color: "white",
@@ -850,6 +849,7 @@ const ModalLogin = (props: Props) => {
                     },
                     borderRadius: "15px",
                   }}
+                  className="bg-black"
                   size="large"
                   onClick={() => {
                     handleClose();

@@ -1,11 +1,12 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./styles.scss";
 import { ArrowUpOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 
 const RollTop: React.FC = () => {
   const [height, setHeight] = React.useState(0);
+  const [reponsiveMobile, setReponsiveMobile] = useState<boolean>(false);
 
   const handleRollTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -21,12 +22,29 @@ const RollTop: React.FC = () => {
     window.addEventListener("scroll", listenToScroll);
     return () => window.removeEventListener("scroll", listenToScroll);
   }, []);
-
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 480) {
+        setReponsiveMobile(true);
+      } else {
+        setReponsiveMobile(false);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   return (
     <div className="roll-top-container">
       <Button
         type="default"
-        className="roll-top-btn"
+        className={` ${
+          reponsiveMobile
+            ? "roll-top-btn-mobile bottom-[60px]"
+            : "roll-top-btn bottom-[60px]"
+        }`}
         shape="circle"
         icon={<ArrowUpOutlined />}
         onClick={handleRollTop}

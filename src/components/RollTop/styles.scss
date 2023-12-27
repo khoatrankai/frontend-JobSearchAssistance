@@ -5,8 +5,18 @@
         position: fixed;
         right: 36px;
         background-color: #d4a650;
-        bottom: 60px;
-        font-size: 24px !important;
+        // bottom: 60px;
+        // font-size: 24px !important;
+        z-index: 5;
+    }
+    .roll-top-btn-mobile {
+        width: 48px !important;
+        height: 48px !important;
+        position: fixed;
+        right: 36px;
+        background-color: #d4a650;
+        // bottom: 60px;
+        // font-size: 24px !important;
         z-index: 5;
     }
 }

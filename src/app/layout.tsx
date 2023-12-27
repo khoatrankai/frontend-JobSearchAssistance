@@ -13,6 +13,7 @@ import { setLanguage } from "@/redux/reducer/changeLanguageReducer/changeLanguag
 import { useEffect } from "react";
 import RollTop from "@/components/RollTop";
 import ChatRoll from "@/components/ChatRoll";
+import ChangeLanguage from "@/components/ChangeLanguage/ChangeLanguage";
 
 const inter = Inter({ subsets: ["vietnamese"] });
 
@@ -36,6 +37,7 @@ export default function RootLayout({
           <MenuComponent />
           {/* <div>nice</div> */}
           {children}
+          <ChangeLanguage />
           <ChatRoll />
           <RollTop />
         </ScrollContext>
