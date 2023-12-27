@@ -166,9 +166,46 @@ const ListJobComponent = (props: Props) => {
   return (
     <div className="flex justify-center py-12 px-5">
       <div className="w-full max-w-6xl relative">
-        <h1 className="font-bold text-2xl mb-8">
-          {language === 1 ? `Việc làm mới` : `New job`}
-        </h1>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="font-bold text-2xl">
+            {language === 1 ? `Việc làm mới` : `New job`}
+          </h1>
+          <div className="flex items-center gap-5">
+            <a
+              className="mr-4 text font-semibold text-red-500 hover:text-red-600"
+              href="/more-new"
+            >
+              {language === 1 ? `Xem thêm` : `See more`}
+            </a>
+            <div className="w-20 flex justify-between">
+              <button
+                className=" bg-orange-400 hover:bg-orange-500 w-10 h-10 rounded-lg flex justify-center items-center group"
+                onClick={() => handlePrevNewJob()}
+              >
+                <Image
+                  className="w-5 group-hover:-ml-1"
+                  alt="anh"
+                  src={"/iconleft.svg"}
+                  width={200}
+                  height={200}
+                />
+              </button>
+              <button
+                className=" bg-orange-400 hover:bg-orange-500 w-10 h-10 rounded-lg flex justify-center items-center group ml-2"
+                onClick={() => handleNextNewJob()}
+              >
+                <Image
+                  className="w-5 group-hover:-mr-1"
+                  alt="anh"
+                  src={"/iconright.svg"}
+                  width={200}
+                  height={200}
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div>
           <ul className="inline-flex flex-wrap justify-center list-job gap-9">
             {listJob &&
@@ -266,40 +303,6 @@ const ListJobComponent = (props: Props) => {
                 </li>
               ))}
           </ul>
-        </div>
-        <div className="absolute top-0 right-0 flex items-center">
-          <a
-            className="mr-4 text font-semibold text-red-500 hover:text-red-600"
-            href="/more-new"
-          >
-            {language === 1 ? `Xem thêm` : `See more`}
-          </a>
-          <div className="w-20 flex justify-between">
-            <button
-              className=" bg-orange-400 hover:bg-orange-500 w-10 h-10 rounded-lg flex justify-center items-center group"
-              onClick={() => handlePrevNewJob()}
-            >
-              <Image
-                className="w-5 group-hover:-ml-1"
-                alt="anh"
-                src={"/iconleft.svg"}
-                width={200}
-                height={200}
-              />
-            </button>
-            <button
-              className=" bg-orange-400 hover:bg-orange-500 w-10 h-10 rounded-lg flex justify-center items-center group ml-2"
-              onClick={() => handleNextNewJob()}
-            >
-              <Image
-                className="w-5 group-hover:-mr-1"
-                alt="anh"
-                src={"/iconright.svg"}
-                width={200}
-                height={200}
-              />
-            </button>
-          </div>
         </div>
       </div>
       <ModalLogin
