@@ -138,7 +138,7 @@ const AppliedPostedJob: React.FC = () => {
 
   if (localStorage.getItem("accessToken")) {
     return (
-      <div className="flex justify-center w-full">
+      <div className="flex justify-center w-full px-5">
         <div className="max-w-6xl w-full overflow-hidden">
           <Box
             sx={{

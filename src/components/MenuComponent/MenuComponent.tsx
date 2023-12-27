@@ -482,9 +482,7 @@ const MenuComponent = (props: Props) => {
       <div className="h-20 relative" ref={ref_menu}>
         <div className="fixed z-50 w-full bg-white border-b-2 flex flex-col items-center justify-center">
           <nav className="w-full max-w-6xl h-20 flex items-center justify-between z-30">
-            <div
-              className={`flex justify-start ${reponsiveMobile ? "w-10" : ""}`}
-            >
+            <div className={`flex justify-start ${reponsiveMobile ? "" : ""}`}>
               <Image
                 onClick={() => {
                   window.location.href = "/";
@@ -499,13 +497,13 @@ const MenuComponent = (props: Props) => {
             </div>
 
             <div
-              className={`flex items-center justify-end max-w-2xl ${
-                reponsiveMobile ? "" : "flex-1 "
+              className={`flex items-center justify-end max-w-2xl gap-4 ${
+                reponsiveMobile ? "mx-2" : "flex-1 mx-4"
               }`}
             >
               {checkReponsive ? (
                 <button
-                  className={`ml-4 bg-neutral-200 rounded-md hover:bg-neutral-300/80 ${
+                  className={` bg-neutral-200 rounded-md hover:bg-neutral-300/80 ${
                     reponsiveMobile ? "p-2" : "p-3 "
                   }`}
                   onClick={() => setTabFilter(!tabFilter)}
@@ -578,7 +576,7 @@ const MenuComponent = (props: Props) => {
               {
                 <div className="relative">
                   <button
-                    className={`mx-4 bg-neutral-200 rounded-md hover:bg-neutral-300/80 ${
+                    className={`bg-neutral-200 rounded-md hover:bg-neutral-300/80 ${
                       reponsiveMobile ? "p-2" : "p-3 "
                     }`}
                     onClick={() => {
@@ -688,7 +686,7 @@ const MenuComponent = (props: Props) => {
                         setTabMenu(true);
                       }
                     }}
-                    className={`mx-4 bg-neutral-200 rounded-md hover:bg-neutral-300/80 ${
+                    className={` bg-neutral-200 rounded-md hover:bg-neutral-300/80 ${
                       reponsiveMobile ? "p-2" : "p-3 "
                     }`}
                   >
@@ -877,7 +875,7 @@ const MenuComponent = (props: Props) => {
                 </div>
               }
             </div>
-            <div className="px-4 flex items-center">
+            <div className="flex items-center">
               <Image
                 className="w-8 h-8"
                 src={
@@ -893,14 +891,19 @@ const MenuComponent = (props: Props) => {
 
               <div className="ml-4 relative">
                 <div
-                  className={` flex rounded-3xl justify-center bg-neutral-200 hover:bg-neutral-300/80 cursor-pointer ${
-                    reponsiveMobile ? "w-6" : "p-3"
+                  className={` flex rounded-3xl justify-center cursor-pointer ${
+                    reponsiveMobile
+                      ? "bg-black"
+                      : "p-3 bg-neutral-200 hover:bg-neutral-300/80 "
                   }`}
                 >
                   {profileData && profileData?.accountId ? (
                     <Box
                       onClick={() => {
                         setOpenModalProfile(true);
+                        if (localStorage.getItem("accessToken") === null) {
+                          setOpenModalLogin(true);
+                        }
                       }}
                       sx={{
                         display: "flex",
@@ -908,7 +911,7 @@ const MenuComponent = (props: Props) => {
                       }}
                     >
                       <Image
-                        className="w-6 rounded-full"
+                        className="w-8 rounded-full"
                         src={
                           imageError
                             ? "https://res.cloudinary.com/ddwjnjssj/image/upload/v1697830499/images/avatar/default.png"
@@ -929,24 +932,21 @@ const MenuComponent = (props: Props) => {
                   ) : (
                     <>
                       <Image
-                        onClick={() => {
-                          if (localStorage.getItem("accessToken") === null) {
-                            setOpenModalLogin(true);
-                          }
-                        }}
-                        className="w-6"
+                        className={`${reponsiveMobile ? "w-8 " : "w-6"}`}
                         src="/iconuser.svg"
                         alt="user"
                         width={"200"}
                         height={"200"}
                       />
-                      <Image
-                        className="w-6 ml-1"
-                        src="/iconright.svg"
-                        alt="user"
-                        width={"200"}
-                        height={"200"}
-                      />
+                      {!reponsiveMobile && (
+                        <Image
+                          className={`ml-1 ${reponsiveMobile ? "w-8 " : "w-6"}`}
+                          src="/iconright.svg"
+                          alt="user"
+                          width={"200"}
+                          height={"200"}
+                        />
+                      )}
                     </>
                   )}
                 </div>

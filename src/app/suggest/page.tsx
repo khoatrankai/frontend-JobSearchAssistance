@@ -114,7 +114,7 @@ const SuggestJobComponent = (props: Props) => {
   };
 
   return (
-    <div className="flex justify-center py-12">
+    <div className="flex justify-center py-12 px-5">
       <div className="w-full max-w-6xl">
         <Typography className="my-2 text-[10px] italic text-red-600">
           {languageRedux === 1

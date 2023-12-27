@@ -182,7 +182,7 @@ const Page = () => {
   };
 
   return (
-    <div className="flex justify-center w-full">
+    <div className="flex justify-center w-full px-5">
       <div className="py-10 max-w-6xl w-full overflow-hidden">
         <h1 className="font-bold text-2xl mb-3 px-4">
           {language === 1 ? `Tất cả công việc gợi ý` : `All suggested work`}
@@ -201,14 +201,14 @@ const Page = () => {
               hasMore={true}
               loader={<></>}
             >
-              <ul className="inline-flex flex-wrap justify-center list-job">
+              <ul className="inline-flex flex-wrap justify-center list-job gap-9">
                 {listJob &&
                   listJob.length > 0 &&
                   listJob.map((item, index) => (
                     <li key={index} className="relative p-2">
                       <Link
                         href={`/post-detail/${item.id}`}
-                        className="w-[360px] h-[220px]  bg-gray-300/40 rounded-md px-4 py-6 flex justify-between items-center item-job"
+                        className={`w-[360px] h-[220px]  bg-gray-300/40 rounded-md px-4 py-6 flex justify-between items-center item-job`}
                       >
                         <div className="w-2/12 rounded-sm overflow-hidden">
                           <Image

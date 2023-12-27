@@ -67,7 +67,7 @@ const AllCompanyComponent = (props: Props) => {
   };
 
   return (
-    <div className="flex justify-center w-full">
+    <div className="flex justify-center w-full px-5">
       <div className="py-10 max-w-6xl w-full overflow-hidden">
         <div className="flex justify-between items-center mb-8">
           <h1 className="font-bold text-2xl">

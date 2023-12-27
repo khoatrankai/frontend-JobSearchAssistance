@@ -201,7 +201,7 @@ const TopCompanyComponent = (props: Props) => {
   };
 
   return (
-    <div className="flex justify-center w-full">
+    <div className="flex justify-center w-full px-5">
       <div className="py-10 max-w-6xl w-full overflow-hidden">
         <div className="flex justify-between items-center mb-8">
           <h1 className="font-bold text-2xl">
@@ -324,14 +324,14 @@ const TopCompanyComponent = (props: Props) => {
         </div>
 
         <div>
-          <ul className="inline-flex flex-wrap justify-center list-job">
+          <ul className="inline-flex flex-wrap justify-center list-job gap-9">
             {listJob &&
               listJob.length > 0 &&
               listJob.map((item, index) => (
                 <li key={index} className="relative">
                   <Link
                     href={`/post-detail/${item.id}`}
-                    className="w-[360px] h-[220px]  bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md px-4 py-6 flex justify-between items-center item-job "
+                    className={`w-[360px] h-[220px] px-4 bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md  py-6 flex justify-between items-center item-job`}
                   >
                     <div className="w-2/12 rounded-sm overflow-hidden">
                       <Image

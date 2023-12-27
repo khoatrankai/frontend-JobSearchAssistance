@@ -16,7 +16,7 @@ const page = (props: Props) => {
     (state: RootState) => state.changeLaguage.language
   );
   return (
-    <div className="flex bottom-0 w-full justify-center">
+    <div className="flex bottom-0 w-full justify-center px-5">
       <div className="w-full h-fit max-w-6xl flex flex-col mb-10">
         <div>
           <div className="flex flex-col justify-center items-center text-center ">

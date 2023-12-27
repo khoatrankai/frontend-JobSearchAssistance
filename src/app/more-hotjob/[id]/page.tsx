@@ -254,7 +254,7 @@ const page = (props: Props) => {
   }, [language]);
 
   return (
-    <div className="flex justify-center w-full">
+    <div className="flex justify-center w-full px-5">
       <div className="py-10 max-w-6xl w-full">
         <div className="flex flex-wrap justify-between items-center">
           <h1 className="font-bold text-2xl mb-3">
@@ -295,7 +295,7 @@ const page = (props: Props) => {
             hasMore={true}
             loader={<></>}
           >
-            <ul className="inline-flex flex-wrap justify-center list-job">
+            <ul className="inline-flex flex-wrap justify-center list-job gap-9">
               {listHotJob &&
                 listHotJob.length > 0 &&
                 listHotJob.map((item, index) => (

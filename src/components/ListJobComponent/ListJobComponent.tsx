@@ -164,20 +164,20 @@ const ListJobComponent = (props: Props) => {
   };
 
   return (
-    <div className="flex justify-center py-12">
+    <div className="flex justify-center py-12 px-5">
       <div className="w-full max-w-6xl relative">
         <h1 className="font-bold text-2xl mb-8">
           {language === 1 ? `Việc làm mới` : `New job`}
         </h1>
         <div>
-          <ul className="inline-flex flex-wrap justify-center list-job">
+          <ul className="inline-flex flex-wrap justify-center list-job gap-9">
             {listJob &&
               listJob.length > 0 &&
               listJob.map((item, index) => (
                 <li key={index} className="relative">
                   <Link
                     href={`/post-detail/${item.id}`}
-                    className="w-[360px] h-[220px]  bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md px-4 py-6 flex justify-between items-center item-job "
+                    className={`w-[360px] h-[220px] px-4 bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md  py-6 flex justify-between items-center item-job`}
                   >
                     <div className="w-2/12">
                       <Image
