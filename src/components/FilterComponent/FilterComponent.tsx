@@ -202,7 +202,6 @@ const FilterComponent = (props: Props) => {
             placeholder={`Từ khóa tìm kiếm`}
             type="text"
             onKeyDown={(e: any) => {
-              alert(e.key);
               if (e.key === "Enter") {
                 handleSearch();
                 setTabSuggest(false);
