@@ -174,7 +174,6 @@ const FilterComponent = (props: Props) => {
         10,
         language === 1 ? "vi" : "en"
       );
-      console.log(res);
       setDataSuggest(res && res.data);
     };
 

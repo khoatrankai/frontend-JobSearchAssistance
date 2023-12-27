@@ -55,7 +55,7 @@ const SearchJobComponent: React.FC<Props> = (props) => {
   useEffect(() => {
     handleLoadHrefPage();
     const dataObj = JSON.parse(localStorage.getItem("dataRequest") || "{}");
-    if (searchResult) {
+    if (searchResult.length === 0) {
       const queryParams = {
         q: dataObj.q ? dataObj.q.trim() : null,
         moneyType: dataObj.money_type ? dataObj.money_type : null,
