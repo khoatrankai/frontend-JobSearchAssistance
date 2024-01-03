@@ -254,7 +254,7 @@ const SearchJobComponent: React.FC<Props> = (props) => {
             hasMore={true}
             loader={<></>}
           >
-            <ul className="inline-flex flex-wrap justify-center list-job">
+            <ul className="inline-flex flex-wrap justify-center list-job gap-9">
               {listJob &&
                 listJob.length > 0 &&
                 listJob.map((item: any, index: any) => (
