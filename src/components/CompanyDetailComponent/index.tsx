@@ -1,34 +1,34 @@
-'use client';
-import React, {useEffect, useState} from 'react';
-import styles from './style.module.scss';
-import './style.scss';
-import {useSelector} from 'react-redux';
-import {Skeleton, Tabs} from 'antd';
-import type {TabsProps} from 'antd';
-import {RootState} from '@/redux/reducer';
-import apiCompany from '@/api/company/apiCompany';
-import ContactInfo from './ContactInfo';
-import ApplyPosition from './ApplyPosition';
-import {CateIcon, LocationHomeIcon} from '@/icons';
-import ShowCancleSave from '../HistoryComponent/ShowCancelSave';
-import ModalLogin from '../ModalLogin/ModalLogin';
-import ReviewCompany from './ReviewCompany';
-import {useParams} from 'next/navigation';
-import searchApi from '@/api/search/apiSearch';
-import {useSrollContext} from '@/context/AppProvider';
+"use client";
+import React, { useEffect, useState } from "react";
+import styles from "./style.module.scss";
+import "./style.scss";
+import { useSelector } from "react-redux";
+import { Skeleton, Tabs } from "antd";
+import type { TabsProps } from "antd";
+import { RootState } from "@/redux/reducer";
+import apiCompany from "@/api/company/apiCompany";
+import ContactInfo from "./ContactInfo";
+import ApplyPosition from "./ApplyPosition";
+import { CateIcon, LocationHomeIcon } from "@/icons";
+import ShowCancleSave from "../HistoryComponent/ShowCancelSave";
+import ModalLogin from "../ModalLogin/ModalLogin";
+import ReviewCompany from "./ReviewCompany";
+import { useParams } from "next/navigation";
+import searchApi from "@/api/search/apiSearch";
+import { useSrollContext } from "@/context/AppProvider";
 const DetailCompany = () => {
   const languageRedux = useSelector(
-    (state: RootState) => state.changeLaguage.language,
+    (state: RootState) => state.changeLaguage.language
   );
   const [applyPostitions, setApplyPositions] = useState(0);
   const [company, setCompanyData] = useState<any>();
   const [nameCompany, setNameCompany] = useState<any>();
   const [postOfCompany, setPostOfCompany] = useState<any>([]);
   const [hasMore, setHasMore] = React.useState(true);
-  const [page, setPage] = React.useState<any>('0');
+  const [page, setPage] = React.useState<any>("0");
   const [loading, setLoading] = React.useState(true);
   const [openModalLogin, setOpenModalLogin] = React.useState(false);
-  const {handleLoadHrefPage} = useSrollContext();
+  const { handleLoadHrefPage } = useSrollContext();
   const searchParams = useParams();
   const companyId = searchParams?.id;
 
@@ -37,7 +37,7 @@ const DetailCompany = () => {
       setLoading(true);
       const result = await apiCompany.getDetailCompany(
         companyId as any,
-        languageRedux === 1 ? 'vi' : 'en',
+        languageRedux === 1 ? "vi" : "en"
       );
       if (result && result.status === 200) {
         setLoading(false);
@@ -70,7 +70,7 @@ const DetailCompany = () => {
         null,
         null,
         null,
-        languageRedux === 1 ? 'vi' : 'en',
+        languageRedux === 1 ? "vi" : "en"
       )) as any;
 
       if (result.success === true && result.data.posts.length === 20) {
@@ -85,12 +85,12 @@ const DetailCompany = () => {
         setHasMore(false);
         setApplyPositions(result.data.total);
         setPostOfCompany(result.data.posts);
-        setPage('0');
+        setPage("0");
       } else {
         setHasMore(false);
         setApplyPositions(result.data.total);
         setPostOfCompany(result.data.posts);
-        setPage('0');
+        setPage("0");
       }
     } catch (error) {}
   };
@@ -103,24 +103,24 @@ const DetailCompany = () => {
     getApplicationPositionCount();
   }, [languageRedux, companyId, company, nameCompany]);
 
-  const items: TabsProps['items'] = [
+  const items: TabsProps["items"] = [
     {
-      key: '1',
+      key: "1",
       label: (
-        <p>{languageRedux === 1 ? 'Thông tin liên hệ' : 'Contact Info'}</p>
+        <p>{languageRedux === 1 ? "Thông tin liên hệ" : "Contact Info"}</p>
       ),
       children: <ContactInfo company={company} />,
     },
     {
-      key: '2',
+      key: "2",
       label: (
         <p>
-          {languageRedux === 1 ? 'Vị trí ứng tuyển' : 'Application positions'}
-          <span style={{color: '#0D99FF'}}>
-            {' '}
-            {'('}
+          {languageRedux === 1 ? "Vị trí ứng tuyển" : "Application positions"}
+          <span style={{ color: "#0D99FF" }}>
+            {" "}
+            {"("}
             {applyPostitions}
-            {')'}
+            {")"}
           </span>
         </p>
       ),
@@ -139,8 +139,8 @@ const DetailCompany = () => {
       ),
     },
     {
-      key: '3',
-      label: <p>{languageRedux === 1 ? 'Đánh giá' : 'Review'}</p>,
+      key: "3",
+      label: <p>{languageRedux === 1 ? "Đánh giá" : "Review"}</p>,
       children: <ReviewCompany company={company} companyId={companyId} />,
     },
   ];
@@ -150,14 +150,18 @@ const DetailCompany = () => {
       <div className={styles.detail_company_content}>
         <div className={styles.detail_company_title}>
           <h3 className="mt-5">
-            {languageRedux === 1 ? 'Chi tiết công ty' : 'View detail Company'}
+            {languageRedux === 1 ? "Chi tiết công ty" : "View detail Company"}
           </h3>
         </div>
         <Skeleton loading={false} active>
           <div className={styles.detail_company_intro}>
             <div className={styles.logo_company}>
               <img
-                src={company?.logoPath ? company.logoPath : ''}
+                src={
+                  company?.logoPath
+                    ? company.logoPath
+                    : "https://res.cloudinary.com/ddwjnjssj/image/upload/v1701273430/images/mailchimp/ads_mail/uk1usmfh6phaft7eqo8e.jpg"
+                }
                 alt=""
                 loading="lazy"
               />
@@ -168,8 +172,8 @@ const DetailCompany = () => {
                   {company?.name
                     ? company.name
                     : languageRedux === 1
-                    ? 'Thông tin công ty chưa cập nhật'
-                    : 'Company information not updated yet'}
+                    ? "Thông tin công ty chưa cập nhật"
+                    : "Company information not updated yet"}
                 </h3>
               </div>
               <div className={styles.company_address}>
@@ -179,8 +183,8 @@ const DetailCompany = () => {
                     {company?.address
                       ? company.address
                       : languageRedux === 1
-                      ? 'Thông tin công ty chưa cập nhật'
-                      : 'Company information not updated yet'}
+                      ? "Thông tin công ty chưa cập nhật"
+                      : "Company information not updated yet"}
                   </p>
                 </div>
                 <div className={styles.address_item}>
