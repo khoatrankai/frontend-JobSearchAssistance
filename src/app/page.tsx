@@ -37,7 +37,7 @@ const Home = () => {
     <PersistGate loading={null} persistor={persistor}>
       <div className="w-full h-full bg-slate-50">
         <BannerComponent />
-        {profile && profile.roleData !== 3 && <AppliedPostedJob />}
+        {profile && <AppliedPostedJob />}
         <HotJobComponent ref={hotJobRef} />
         <ListJobComponent />
         <AllCompanyComponent />
