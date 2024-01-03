@@ -39,7 +39,6 @@ const RollTop: React.FC = () => {
   return (
     <div className="roll-top-container">
       <Button
-        type="default"
         className={` ${
           reponsiveMobile
             ? "roll-top-btn-mobile bottom-[60px]"

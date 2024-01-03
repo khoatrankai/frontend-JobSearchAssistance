@@ -6,6 +6,7 @@
         right: 36px;
         background-color: rgb(80, 212, 157);
         // bottom: 60px;
+        border-radius: 100%;
         font-size: 24px !important;
         z-index: 5;
     }
@@ -13,6 +14,8 @@
         width: 48px !important;
         height: 48px !important;
         position: fixed;
+        border-radius: 100%;
+
         right: 36px;
         background-color: rgb(80, 212, 157);
         // bottom: 60px;
