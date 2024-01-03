@@ -24,7 +24,6 @@ interface IBookmark {
 const SearchJobComponent: React.FC<Props> = (props) => {
   const { handleShortTextHome, handleShortValueNumber } = ShortText();
 
-  const accountId = localStorage.getItem("accountId");
   const searchResult = useSelector(
     (state: any) => state.dataSearchResult.searchResult
   );
@@ -38,6 +37,10 @@ const SearchJobComponent: React.FC<Props> = (props) => {
   const [listJob, setListJob] = React.useState<any>([]);
   const [openModalLogin, setOpenModalLogin] = useState(false);
   const [isOver, setIsOver] = useState(false);
+  const [accountId, setAccountId] = useState<any>("");
+  useEffect(() => {
+    setAccountId(localStorage.getItem("accountId"));
+  }, []);
   useEffect(() => {
     setListJob(searchResult.posts);
     // if(!checkKey){
