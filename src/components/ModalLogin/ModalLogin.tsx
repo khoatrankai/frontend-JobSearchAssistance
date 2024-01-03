@@ -724,25 +724,25 @@ const ModalLogin = (props: Props) => {
                           className="bnt-login_google bnt-login"
                           onMouseEnter={() => {}}
                           onClick={() => {
-                            async function loadAndInitGapi() {
-                              await new Promise((resolve, reject) => {
-                                gapi.load("client:auth2", {
-                                  callback: resolve,
-                                  onerror: reject,
-                                });
-                              });
+                            // async function loadAndInitGapi() {
+                            //   await new Promise((resolve, reject) => {
+                            //     gapi.load("client:auth2", {
+                            //       callback: resolve,
+                            //       onerror: reject,
+                            //     });
+                            //   });
 
-                              await gapi.client.init({
-                                clientId: googleClient,
-                                scope: "",
-                              });
+                            //   await gapi.client.init({
+                            //     clientId: googleClient,
+                            //     scope: "",
+                            //   });
 
-                              // Gapi đã được tải và khởi tạo thành công
-                            }
+                            //   // Gapi đã được tải và khởi tạo thành công
+                            // }
 
-                            loadAndInitGapi().catch((error) => {
-                              // Xử lý lỗi khi tải hoặc khởi tạo gapi
-                            });
+                            // loadAndInitGapi().catch((error) => {
+                            //   // Xử lý lỗi khi tải hoặc khởi tạo gapi
+                            // });
                             renderProps.onClick();
                           }}
                         >
