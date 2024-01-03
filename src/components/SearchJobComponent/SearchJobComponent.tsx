@@ -31,9 +31,6 @@ const SearchJobComponent: React.FC<Props> = (props) => {
   const [loading, setLoading] = useState(false);
   const [hasMoreData, setHasMoreData] = useState(true);
   const dispatch = useDispatch();
-  // const dataRequestObj = JSON.parse(
-  //   localStorage.getItem("dataRequest") || "{}"
-  // );
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
@@ -163,8 +160,7 @@ const SearchJobComponent: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    const dataObj =
-      JSON.parse(localStorage.getItem("dataRequest") || "{}") || {};
+    const dataObj = JSON.parse(localStorage.getItem("dataRequest") || "{}");
 
     const queryParams = {
       q: dataObj.q ? dataObj.q.trim() : null,
@@ -199,8 +195,7 @@ const SearchJobComponent: React.FC<Props> = (props) => {
       setLoading(true);
 
       try {
-        const dataObj =
-          JSON.parse(localStorage.getItem("dataRequest") || "{}") || {};
+        const dataObj = JSON.parse(localStorage.getItem("dataRequest") || "{}");
 
         const queryParams = {
           q: dataObj.q ? dataObj.q.trim() : null,
