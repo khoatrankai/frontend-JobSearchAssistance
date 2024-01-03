@@ -80,9 +80,13 @@ const FilterComponent = (props: Props) => {
   }, [tabSuggest]);
   const handleSearch = (keyword?: string) => {
     if (keyword) {
-      setDataRequest({ ...dataRequest, q: keyword });
+      localStorage.setItem(
+        "dataRequest",
+        JSON.stringify({ ...dataRequest, q: keyword })
+      );
+    } else {
+      localStorage.setItem("dataRequest", JSON.stringify({ ...dataRequest }));
     }
-    localStorage.setItem("dataRequest", JSON.stringify(dataRequest));
     dispatch(
       fetchSearchResult({
         q: keyword ? keyword : dataRequest.q ? dataRequest.q.trim() : null,

@@ -54,7 +54,7 @@ export const fetchSearchResult = createAsyncThunk(
       salaryType,
       'vi',
     )) as unknown as IData;
-
+    console.log(response)
     return response.data;
   },
 );

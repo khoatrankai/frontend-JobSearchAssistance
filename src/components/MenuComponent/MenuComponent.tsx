@@ -420,10 +420,15 @@ const MenuComponent = (props: Props) => {
   };
 
   const handleSearch = (keyword?: string) => {
-    localStorage.setItem(
-      "dataRequest",
-      JSON.stringify({ ...dataRequest, q: keyword })
-    );
+    if (keyword) {
+      localStorage.setItem(
+        "dataRequest",
+        JSON.stringify({ ...dataRequest, q: keyword })
+      );
+    } else {
+      localStorage.setItem("dataRequest", JSON.stringify({ ...dataRequest }));
+    }
+
     dispatch(
       fetchSearchResult({
         q: keyword ? keyword : dataRequest.q ? dataRequest.q.trim() : null,

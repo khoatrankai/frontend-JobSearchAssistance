@@ -724,13 +724,13 @@ const ModalLogin = (props: Props) => {
                           className="bnt-login_google bnt-login"
                           onMouseEnter={() => {}}
                           onClick={() => {
-                            // const start = () => {
-                            //   gapi.client.init({
-                            //     clientId: googleClient,
-                            //     scope: "",
-                            //   });
-                            // };
-                            // gapi.load("client:auth2", start);
+                            const start = () => {
+                              gapi.client.init({
+                                clientId: googleClient,
+                                scope: "",
+                              });
+                            };
+                            gapi.load("client:auth2", start);
                             renderProps.onClick();
                           }}
                         >

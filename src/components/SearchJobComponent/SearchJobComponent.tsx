@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/jsx-key */
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import "./SearchJobComponent.scss";
@@ -26,56 +24,40 @@ interface IBookmark {
 const SearchJobComponent: React.FC<Props> = (props) => {
   const { handleShortTextHome, handleShortValueNumber } = ShortText();
 
+  const accountId = localStorage.getItem("accountId");
   const searchResult = useSelector(
     (state: any) => state.dataSearchResult.searchResult
   );
-
   const [loading, setLoading] = useState(false);
   const [hasMoreData, setHasMoreData] = useState(true);
   const dispatch = useDispatch();
+  const dataRequestObj = JSON.parse(
+    localStorage.getItem("dataRequest") || "{}"
+  );
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
   const [page, setPage] = useState(0);
+  const [checkKeyFirst, setCheckKeyFirst] = useState<boolean>(false);
+  const [checkKey, setCheckKey] = useState<boolean>(false);
   const [listJob, setListJob] = React.useState<any>([]);
   const [openModalLogin, setOpenModalLogin] = useState(false);
-  const [accountId, setAccountId] = useState<any>("");
+  const [isOver, setIsOver] = useState(false);
   useEffect(() => {
-    setAccountId(localStorage.getItem("accountId"));
-  }, []);
-  useEffect(() => {
-    if (searchResult && searchResult.posts) {
-      setHasMoreData(searchResult.is_over);
-      setPage(page + 1);
-      setListJob([...listJob, ...searchResult?.posts]);
-    }
+    setListJob(searchResult.posts);
+    // if(!checkKey){
+    setPage(1);
+    setHasMoreData(true);
+    // }
   }, [searchResult]);
   const { handleLoadHrefPage } = useSrollContext();
 
   useEffect(() => {
     handleLoadHrefPage();
-    const dataObj = JSON.parse(localStorage.getItem("dataRequest") || "{}");
-    if (searchResult.length === 0) {
-      const queryParams = {
-        q: dataObj.q ? dataObj.q.trim() : null,
-        moneyType: dataObj.money_type ? dataObj.money_type : null,
-        isWorkingWeekend: dataObj.is_working_weekend
-          ? dataObj.is_working_weekend
-          : null,
-        isDatePeriod: dataObj.is_date_period ? dataObj.is_date_period : null,
-        salaryMin: dataObj.salary_min ? dataObj.salary_min : null,
-        salaryMax: dataObj.salary_max ? dataObj.salary_max : null,
-        jobTypeId: dataObj.jobTypeId ? [dataObj.jobTypeId] : [],
-        categoryIds: dataObj.category_ids ? dataObj.category_ids : null,
-        districtIds: dataObj.district_ids ? dataObj.district_ids : null,
-        salaryType: dataObj.salary_type ? dataObj.salary_type : null,
-        lang: "vi",
-        page: null,
-      };
-      dispatch(fetchSearchResult(queryParams) as any);
-    }
   }, []);
-
+  useEffect(() => {
+    console.log(listJob, page);
+  }, [listJob, page]);
   const handleBookmarked = (id: number) => {
     try {
       const fetchData = async () => {
@@ -182,11 +164,44 @@ const SearchJobComponent: React.FC<Props> = (props) => {
     }
   };
 
+  useEffect(() => {
+    const dataObj = dataRequestObj || {};
+
+    const queryParams = {
+      q: dataObj.q ? dataObj.q.trim() : null,
+      moneyType: dataObj.money_type ? dataObj.money_type : null,
+      isWorkingWeekend: dataObj.is_working_weekend
+        ? dataObj.is_working_weekend
+        : null,
+      isDatePeriod: dataObj.is_date_period ? dataObj.is_date_period : null,
+      salaryMin: dataObj.salary_min ? dataObj.salary_min : null,
+      salaryMax: dataObj.salary_max ? dataObj.salary_max : null,
+      jobTypeId: dataObj.jobTypeId ? [dataObj.jobTypeId] : [],
+      categoryIds: dataObj.category_ids ? dataObj.category_ids : null,
+      districtIds: dataObj.district_ids ? dataObj.district_ids : null,
+      salaryType: dataObj.salary_type ? dataObj.salary_type : null,
+      lang: "vi",
+      page: null,
+    };
+
+    dispatch(fetchSearchResult(queryParams) as any);
+  }, []);
+
+  useEffect(() => {
+    if (searchResult && searchResult.is_over === true) {
+      setIsOver(true);
+    } else {
+      setPage(page + 1);
+      setIsOver(false);
+    }
+  }, []);
   const loadMore = async () => {
-    if (!loading && !hasMoreData) {
+    if (!loading && hasMoreData) {
       setLoading(true);
+
       try {
-        const dataObj = JSON.parse(localStorage.getItem("dataRequest") || "{}");
+        const dataObj = dataRequestObj || {};
+
         const queryParams = {
           q: dataObj.q ? dataObj.q.trim() : null,
           moneyType: dataObj.money_type ? dataObj.money_type : null,
@@ -203,8 +218,22 @@ const SearchJobComponent: React.FC<Props> = (props) => {
           lang: "vi",
           page: page,
         };
-        // console.log(page);
+
         const response = await dispatch(fetchSearchResult(queryParams) as any);
+        // setCheckKey(true);
+        if (response) {
+          const newPosts = response.payload.posts;
+
+          setListJob((prevList: any) => [...listJob, ...newPosts]);
+          setPage(page + 1);
+
+          if (response.payload.is_over === false) {
+            setHasMoreData(true);
+          } else {
+            setHasMoreData(false);
+          }
+        }
+
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -214,7 +243,7 @@ const SearchJobComponent: React.FC<Props> = (props) => {
   };
 
   return (
-    <div className="flex justify-center py-12 px-5">
+    <div className="flex justify-center py-12">
       <div className="w-full max-w-6xl relative">
         <h1 className="font-bold text-2xl mb-3">{`${
           searchResult.total ? searchResult.total : 0
@@ -227,14 +256,14 @@ const SearchJobComponent: React.FC<Props> = (props) => {
             hasMore={true}
             loader={<></>}
           >
-            <ul className="inline-flex flex-wrap justify-center list-job gap-9">
+            <ul className="inline-flex flex-wrap justify-center list-job">
               {listJob &&
                 listJob.length > 0 &&
                 listJob.map((item: any, index: any) => (
                   <li key={index} className="relative">
                     <Link
                       href={`/post-detail/${item.id}`}
-                      className={`w-[360px] h-[220px] px-4 bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md  py-6 flex justify-between items-center item-job`}
+                      className="w-[360px] h-[220px]  bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md px-4 py-6 flex justify-between items-center item-job "
                     >
                       <div className="w-2/12 rounded-sm overflow-hidden">
                         <Image
