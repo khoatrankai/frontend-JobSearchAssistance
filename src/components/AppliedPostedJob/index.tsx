@@ -85,7 +85,7 @@ const AppliedPostedJob: React.FC = () => {
     try {
       setLoading(true);
       const result =
-        profile?.typeRoleData === 0
+        profile?.roleData !== 3
           ? await historyApplicator.getAllSubmitedApplied(
               null,
               10,
@@ -306,9 +306,7 @@ const AppliedPostedJob: React.FC = () => {
                   >
                     <AppliedPostedJobCard
                       item={item}
-                      type={
-                        profile?.typeRoleData === 0 ? "application" : "post"
-                      }
+                      type={profile?.roleData !== 3 ? "application" : "post"}
                     />
                   </SwiperSlide>
                 ))}
