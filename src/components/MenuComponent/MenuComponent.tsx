@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import Link from "next/link";
@@ -21,6 +22,18 @@ import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import BusinessIcon from "@mui/icons-material/Business";
 import { styled } from "@mui/material/styles";
 import Switch, { SwitchProps } from "@mui/material/Switch";
+import { FaUser } from "react-icons/fa";
+import { FaUserEdit } from "react-icons/fa";
+import { MdWork } from "react-icons/md";
+import { IoMdNotifications } from "react-icons/io";
+import { AiFillMessage } from "react-icons/ai";
+import { IoMdSettings } from "react-icons/io";
+import SearchAllComponent from "../SearchAllComponent/SearchAllComponent";
+import { FaBuilding } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
+import { IoDocumentText } from "react-icons/io5";
+import { RiMenuFill, RiMenu5Fill, RiCloseFill } from "react-icons/ri";
+
 import {
   BellIcon,
   BlackSearchIcon,
@@ -48,6 +61,7 @@ import ModalNoteCreateCompany from "../ModalNoteCreateCompany";
 import AssistantPhotoIcon from "@mui/icons-material/AssistantPhoto";
 import searchApi from "@/api/search/apiSearch";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
+import { useLocation } from "react-router-dom";
 type Props = {
   // scrollPosition: Number;
 };
@@ -69,6 +83,7 @@ interface ITurnOffSerach {
   message: string;
 }
 const MenuComponent = (props: Props) => {
+  const location = useLocation();
   const { scrollPosition, checkPage, handleLoadHrefPage } = useSrollContext();
   const ref_btn_notify = useRef<any>();
   const ref_btn_profile = useRef<any>();
@@ -103,13 +118,47 @@ const MenuComponent = (props: Props) => {
   const dispatch = useDispatch();
   const [tabMenu, setTabMenu] = useState<boolean>(false);
   const router = useRouter();
+  const {} = router;
   const [openModalTurnOffStatus, setOpenModalTurnOffStatus] = useState(false);
   const language = useSelector((state: any) => state.changeLaguage.language);
   const [openModalNoteCreateCompany, setOpenModalNoteCreateCompany] =
     React.useState(false);
-  // useEffect(() => {
-  //   handleLoadHrefPage();
-  // }, [location.pathname]);
+  const [scrollPositionSearch, setScrollPositionSearch] = useState<any>(false);
+  const [searchActive, setSearchActive] = useState<boolean>(false);
+  const [onMenuAll, setOnMenuAll] = useState<boolean>(false);
+  useEffect(() => {
+    handleLoadHrefPage();
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const funcStopScroll = () => {
+      document.body.style.overflow = "hidden";
+    };
+    const funcScroll = () => {
+      document.body.style.overflow = "scroll";
+    };
+    if (onMenuAll) {
+      funcStopScroll();
+    } else {
+      funcScroll();
+    }
+  }, [onMenuAll]);
+
+  useEffect(() => {
+    if (checkPage !== "/") {
+      setScrollPositionSearch(true);
+    } else {
+      window.addEventListener("scroll", (e) => {
+        let currentScrollPosition = window.scrollY || window.pageYOffset;
+        if (currentScrollPosition > 24) {
+          setScrollPositionSearch(true);
+        } else {
+          setScrollPositionSearch(false);
+        }
+      });
+    }
+  }, [checkPage, scrollPositionSearch]);
+
   useEffect(() => {
     dispatch(fetchProfile(language === 1 ? "vi" : "en") as any);
   }, [language]);
@@ -223,21 +272,6 @@ const MenuComponent = (props: Props) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [positionScroll, checkScroll, handleScroll]);
-  // useEffect(() => {
-  //   set_bg_language(getCookie("languageId") === "2" ? false : true);
-  // }, []);
-
-  // const handleOnChangeBackgroundLanguage = () => {
-  //   setCookie("languageId", bg_language ? "2" : "1", 1);
-
-  //   if (bg_language === true) {
-  //     dispatch(setLanguage(0));
-  //   } else {
-  //     dispatch(setLanguage(1));
-  //   }
-
-  //   set_bg_language(!bg_language);
-  // };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -460,7 +494,7 @@ const MenuComponent = (props: Props) => {
 
   React.useEffect(() => {
     if (socket.current === undefined && localStorage.getItem("accessToken")) {
-      socket.current = io("https://web-service-tk.onrender.com", {
+      socket.current = io("http://localhost:8888", {
         extraHeaders: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -489,22 +523,109 @@ const MenuComponent = (props: Props) => {
     <>
       <div className="h-20 relative" ref={ref_menu}>
         <div className="fixed z-50 w-full bg-white border-b-2 flex flex-col items-center justify-center">
-          <nav className="w-full max-w-6xl h-20 flex items-center justify-between z-30 px-2">
-            <div className={`flex justify-start ${reponsiveMobile ? "" : ""}`}>
-              <Image
-                onClick={() => {
-                  window.location.href = "/";
-                }}
-                style={{ cursor: "pointer" }}
-                alt="logo"
-                className="w-24"
-                width="500"
-                height="500"
-                src="/logo/2023.png"
-              />
+          <nav className="w-full max-w-full h-20 flex items-center justify-between z-30 px-6 gap-x-2">
+            <div
+              className={`flex justify-between flex-1 ${
+                reponsiveMobile ? "" : ""
+              }`}
+            >
+              <div className="flex justify-between">
+                <Image
+                  onClick={() => {
+                    window.location.href = "/";
+                  }}
+                  style={{ cursor: "pointer" }}
+                  alt="logo"
+                  className="w-24"
+                  width="500"
+                  height="500"
+                  src="/logo/2023.png"
+                />
+                <div
+                  className={`flex font-semibold cursor-pointer text-black ${
+                    searchActive ? "hidden" : ""
+                  }`}
+                >
+                  <div className="flex p-8 gap-x-1 items-center  relative  hover:text-blue-500 group">
+                    <MdWork />
+                    <h1>Việc làm</h1>
+                    <div className="p-6 rounded-xl invisible opacity-0 group-hover:visible bg-slate-100 absolute top-full -mt-4 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-max text-black flex group-hover:opacity-100 transition-all flex-col gap-y-2">
+                      <div>
+                        <h2 className="">Việc làm mới</h2>
+                      </div>
+                      <div>
+                        <h2 className="">Việc làm mới</h2>
+                      </div>
+                      <div>
+                        <h2 className="">Việc làm mới</h2>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex p-8 gap-x-1 items-center relative  hover:text-blue-500 group">
+                    <FaBuilding />
+                    <h1>Công ty</h1>
+                    <div className="p-6 rounded-xl invisible opacity-0 group-hover:visible bg-slate-100 absolute top-full -mt-4 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-max text-black flex group-hover:opacity-100 transition-all flex-col gap-y-2">
+                      <div>
+                        <h2 className="">Việc làm mới</h2>
+                      </div>
+                      <div>
+                        <h2 className="">Việc làm mới</h2>
+                      </div>
+                      <div>
+                        <h2 className="">Việc làm mới</h2>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex p-8 gap-x-1 items-center  hover:text-blue-500 group relative">
+                    <FaHeart />
+                    <h1>Việc làm của bạn</h1>
+                    <div className="p-6 rounded-xl invisible opacity-0 group-hover:visible bg-slate-100 absolute top-full -mt-4 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-max text-black flex group-hover:opacity-100 transition-all flex-col gap-y-2">
+                      <div>
+                        <h2 className="">Việc làm mới</h2>
+                      </div>
+                      <div>
+                        <h2 className="">Việc làm mới</h2>
+                      </div>
+                      <div>
+                        <h2 className="">Việc làm mới</h2>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex p-8 gap-x-1 items-center  hover:text-blue-500 group relative">
+                    <IoDocumentText />
+                    <h1>Hồ sơ CV</h1>
+                    <div className="p-6 rounded-xl invisible opacity-0 group-hover:visible bg-slate-100 absolute top-full -mt-4 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-max text-black flex group-hover:opacity-100 transition-all flex-col gap-y-2">
+                      <div>
+                        <h2 className="">Việc làm mới</h2>
+                      </div>
+                      <div>
+                        <h2 className="">Việc làm mới</h2>
+                      </div>
+                      <div>
+                        <h2 className="">Việc làm mới</h2>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className={`${
+                  searchActive ? "flex-1" : "w-32"
+                }  flex items-center relative transition-all duration-500`}
+              >
+                <div
+                  className={`
+                  ${searchActive ? "absolute w-full right-0" : ""}
+                  ${
+                    scrollPositionSearch ? "" : "invisible opacity-0"
+                  } transition-all duration-500  flex items-center`}
+                >
+                  <SearchAllComponent setSearchActive={setSearchActive} />
+                </div>
+              </div>
             </div>
 
-            <div
+            {/* <div
               className={`flex items-center justify-end max-w-2xl gap-4 ${
                 reponsiveMobile ? "mx-2" : "flex-1 mx-4"
               }`}
@@ -882,9 +1003,16 @@ const MenuComponent = (props: Props) => {
                   )}
                 </div>
               }
-            </div>
-            <div className="flex items-center">
-              {/* <Image
+            </div> */}
+
+            <div className="flex gap-x-2">
+              <div className="flex items-center border-l-2 mr-2">
+                <button className="font-extrabold px-4 text-blue-600 hover:text-red-500 uppercase">
+                  Nhà tuyển dụng
+                </button>
+              </div>
+              <div className="flex items-center gap-x-4 rounded-3xl border-black py-2 px-4">
+                {/* <Image
                 className="w-8 h-8"
                 src={
                   bg_language
@@ -896,101 +1024,38 @@ const MenuComponent = (props: Props) => {
                 width={1920}
                 height={1080}
               /> */}
+                {/* <>
+                  <div>
+                    <div className="flex rounded-l-3xl justify-center cursor-pointer  overflow-hidden p-3 items-center hover:bg-white font-bold hover:text-blue-500">
+                      <FaUserEdit />
 
-              <div className="relative">
-                <div
-                  className={` flex rounded-3xl justify-center cursor-pointer  bg-neutral-200 hover:bg-neutral-300/80 overflow-hidden
-                  ${reponsiveMobile ? "w-9 h-9" : "p-3"}
+                      <h2 className="ml-1">Đăng Kí</h2>
+                    </div>
+                  </div>
+                  <div className="relative">
+                    <div
+                      className={` flex rounded-r-3xl justify-center cursor-pointer  overflow-hidden  items-center  hover:bg-white font-bold hover:text-blue-500
+                  ${reponsiveMobile ? "w-9 h-9" : "p-2"}
                   `}
-                  onClick={() => {
-                    if (localStorage.getItem("accessToken") === null) {
-                      setOpenModalLogin(true);
-                    } else {
-                      setOpenModalProfile(true);
-                    }
-                  }}
-                >
-                  {profileData && profileData?.accountId ? (
-                    <Box
-                      sx={{
-                        display: "flex",
-                        width: "100%",
+                      onClick={() => {
+                        if (localStorage.getItem("accessToken") === null) {
+                          setOpenModalLogin(true);
+                        } else {
+                          setOpenModalProfile(true);
+                        }
                       }}
                     >
-                      <Image
-                        className={` rounded-full overflow-hidden ${
-                          reponsiveMobile ? "w-full" : "w-6"
-                        }`}
-                        src={
-                          imageError
-                            ? "https://res.cloudinary.com/ddwjnjssj/image/upload/v1697830499/images/avatar/default.png"
-                            : profileData.avatarPath
-                            ? profileData.avatarPath
-                            : "https://res.cloudinary.com/ddwjnjssj/image/upload/v1697830499/images/avatar/default.png"
-                        }
-                        alt="user"
-                        width={"400"}
-                        height={"400"}
-                        style={{}}
-                        onError={() => setImageError(true)}
-                      />
-                      <p className="name-profile">
-                        {profileData.name ? profileData.name : ""}
-                      </p>
-                    </Box>
-                  ) : (
-                    <>
-                      <Image
-                        className={`w-6`}
-                        src="/iconuser.svg"
-                        alt="user"
-                        width={"200"}
-                        height={"200"}
-                      />
-                      {!reponsiveMobile && (
-                        <Image
-                          className={`ml-1 w-6`}
-                          src="/iconright.svg"
-                          alt="user"
-                          width={"200"}
-                          height={"200"}
-                        />
-                      )}
-                    </>
-                  )}
-                </div>
-                <div
-                  className={`${
-                    openModalProfile ? "absolute" : "hidden"
-                  } z-40 top-16 right-0 w-full h-full flex max-w-2xl`}
-                  ref={ref_btn_profile}
-                >
-                  <div
-                    className={`   h-fit  right-0 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] ${
-                      reponsiveMobile ? "fixed w-full" : "absolute w-96"
-                    }`}
-                  >
-                    <div className="absolute top-0 right-0">
-                      <button
-                        className="p-2"
-                        onClick={() => {
-                          setOpenModalProfile(false);
-                        }}
-                      >
-                        <Image
-                          className="w-5"
-                          src="/iconclose.svg"
-                          width={"200"}
-                          height={"200"}
-                          alt="close"
-                        />
-                      </button>
-                    </div>
-                    <div className="flex flex-col items-start justify-center p-5">
-                      <div className="flex items-end gap-2">
-                        <div className="w-20 h-100 rounded-full bg-neutral-200 flex justify-center items-end">
+                      {profileData && profileData?.accountId ? (
+                        <Box
+                          sx={{
+                            display: "flex",
+                            width: "100%",
+                          }}
+                        >
                           <Image
-                            className="w-20 rounded-full"
+                            className={` rounded-full overflow-hidden ${
+                              reponsiveMobile ? "w-full" : "w-6"
+                            }`}
                             src={
                               imageError
                                 ? "https://res.cloudinary.com/ddwjnjssj/image/upload/v1697830499/images/avatar/default.png"
@@ -1001,283 +1066,394 @@ const MenuComponent = (props: Props) => {
                             alt="user"
                             width={"400"}
                             height={"400"}
+                            style={{}}
                             onError={() => setImageError(true)}
                           />
-                        </div>
-                        <div>
-                          <p className="mt-4 text-xl font-bold">
-                            {profileData?.name}
+                          <p className="name-profile">
+                            {profileData.name ? profileData.name : ""}
                           </p>
-                          <p className="mt-2 text-sm text-neutral-400">
-                            {profileData?.email}
-                          </p>
-                          <p className="mt-2 text-sm text-neutral-400">
-                            {profileData?.phone}
-                          </p>
-                        </div>
-                      </div>
-
-                      {profile.roleData !== 3 && (
-                        <Box>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              mt: 2,
-                            }}
-                          >
-                            <FormControlLabel
-                              control={
-                                <IOSSwitch
-                                  sx={{ m: 1 }}
-                                  checked={profile.isSearch}
-                                  onChange={(e) => handleOnchangeSearch(e)}
-                                />
-                              }
-                              label=""
-                            />
-
-                            <Typography
-                              sx={{
-                                color: "#7f878f!important",
-                              }}
-                            >
-                              {profile.isSearch
-                                ? language === 1
-                                  ? `Đang bật tìm việc`
-                                  : `Looking for a job`
-                                : language === 1
-                                ? `Đang Tắt tìm việc`
-                                : `Currently looking for a job`}
-                            </Typography>
-                          </Box>
-                          <Box>
-                            <Typography
-                              sx={{
-                                color: "#7f878f",
-                                fontSize: "12px",
-                              }}
-                            >
-                              {language === 1
-                                ? `Bật tìm việc giúp hồ sơ của bạn nổi bật hơn và
-                              được chú ý nhiều hơn trong danh sách tìm kiếm của
-                              NTD.`
-                                : `Turning on job search helps your profile stand out more and
-                              get more attention in your search listings
-                              NTD.`}
-                            </Typography>
-                          </Box>
                         </Box>
+                      ) : (
+                        <>
+                          <FaUser />
+                          {reponsiveMobile ? (
+                            <Image
+                              className={`ml-1 w-6`}
+                              src="/iconright.svg"
+                              alt="user"
+                              width={"200"}
+                              height={"200"}
+                            />
+                          ) : (
+                            <h2 className="ml-1">Đăng Nhập</h2>
+                          )}
+                        </>
                       )}
-
-                      <Box>
-                        <div className="mt-4 flex items-center justify-start">
-                          <Box
-                            sx={{
-                              display: "flex",
-                              gap: "10px",
-                              cursor: "pointer",
-                              alignItems: "center",
-                            }}
-                          >
-                            {profileData.roleData !== 3 &&
-                              profileData?.profileLocations?.length > 0 && (
-                                <BusinessIcon
-                                  sx={{
-                                    width: "16px",
-                                    height: "16px",
-                                    color: "#1b87f5",
-                                  }}
-                                />
-                              )}
-
-                            <span
-                              style={{
-                                fontFamily:
-                                  "Roboto,-apple-system,sans-serif!important",
-                                fontSize: "15px",
-                                color: "#1b87f5",
-                              }}
-                            >
-                              {profileData &&
-                                profileData?.profileLocations &&
-                                profileData?.profileLocations?.map(
-                                  (item: any) => {
-                                    return item.fullName + " ";
-                                  }
-                                )}
-                            </span>
-                          </Box>
-                        </div>
-                      </Box>
-                      <Box>
-                        <div className="mt-4 flex items-center justify-start">
-                          <Box
-                            sx={{
-                              display: "flex",
-                              gap: "10px",
-                              cursor: "pointer",
-                              alignItems: "center",
-                            }}
-                          >
-                            {profileData.roleData !== 3 &&
-                              profileData?.profileCategories?.length > 0 && (
-                                <CardGiftcardIcon
-                                  sx={{
-                                    width: "16px",
-                                    height: "16px",
-                                    color: "#1b87f5",
-                                  }}
-                                />
-                              )}
-                            <span
-                              style={{
-                                fontFamily:
-                                  "Roboto,-apple-system,sans-serif!important",
-                                fontSize: "15px",
-                                color: "#1b87f5",
-                              }}
-                            >
-                              {profileData &&
-                                profileData.roleData !== 3 &&
-                                profileData?.profileCategories &&
-                                profileData?.profileCategories?.map(
-                                  (item: any) => {
-                                    return item.fullName + " ";
-                                  }
-                                )}
-                            </span>
-                          </Box>
-                        </div>
-                      </Box>
-
-                      <Box>
-                        <div className="mt-4 flex items-center justify-start">
-                          <Box
+                    </div>
+                    <div
+                      className={`${
+                        openModalProfile ? "absolute" : "hidden"
+                      } z-40 top-16 right-0 w-full h-full flex max-w-2xl`}
+                      ref={ref_btn_profile}
+                    >
+                      <div
+                        className={`   h-fit  right-0 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] ${
+                          reponsiveMobile ? "fixed w-full" : "absolute w-96"
+                        }`}
+                      >
+                        <div className="absolute top-0 right-0">
+                          <button
+                            className="p-2"
                             onClick={() => {
-                              if (profileData.roleData !== 3) {
-                                router.push("/profile");
-                              } else {
-                                router.push("/company-infor");
-                              }
                               setOpenModalProfile(false);
                             }}
-                            sx={{
-                              display: "flex",
-                              gap: "10px",
-                              cursor: "pointer",
-                              alignItems: "center",
-                            }}
                           >
-                            <SystemUpdateAltIcon
-                              sx={{ width: "16px", height: "16px" }}
+                            <Image
+                              className="w-5"
+                              src="/iconclose.svg"
+                              width={"200"}
+                              height={"200"}
+                              alt="close"
                             />
-                            <span
-                              style={{
-                                fontFamily:
-                                  "Roboto,-apple-system,sans-serif!important",
-                              }}
-                            >
-                              {profile.roleData === 1 ||
-                              profile.roleData === 2 ||
-                              profile.roleData === 0 ? (
-                                <span>
-                                  {language === 1
-                                    ? `Cập nhật thông tin`
-                                    : `Update information`}
-                                </span>
-                              ) : (
-                                <span>
-                                  {language === 1
-                                    ? `Cập nhật công ty`
-                                    : `Company updates`}
-                                </span>
-                              )}
-                            </span>
-                          </Box>
+                          </button>
                         </div>
-                        {profileData.roleData === 3 && (
-                          <div className="mt-4 flex items-center justify-start">
-                            <Box
-                              onClick={() => handleModifyPassword()}
-                              sx={{
-                                display: "flex",
-                                gap: "10px",
-                                cursor: "pointer",
-                                alignItems: "center",
-                              }}
-                            >
-                              <LogoutIcon
-                                sx={{ width: "16px", height: "16px" }}
+                        <div className="flex flex-col items-start justify-center p-5">
+                          <div className="flex items-end gap-2">
+                            <div className="w-20 h-100 rounded-full bg-neutral-200 flex justify-center items-end">
+                              <Image
+                                className="w-20 rounded-full"
+                                src={
+                                  imageError
+                                    ? "https://res.cloudinary.com/ddwjnjssj/image/upload/v1697830499/images/avatar/default.png"
+                                    : profileData.avatarPath
+                                    ? profileData.avatarPath
+                                    : "https://res.cloudinary.com/ddwjnjssj/image/upload/v1697830499/images/avatar/default.png"
+                                }
+                                alt="user"
+                                width={"400"}
+                                height={"400"}
+                                onError={() => setImageError(true)}
                               />
-                              <span
-                                style={{
-                                  fontFamily:
-                                    "Roboto,-apple-system,sans-serif!important",
+                            </div>
+                            <div>
+                              <p className="mt-4 text-xl font-bold">
+                                {profileData?.name}
+                              </p>
+                              <p className="mt-2 text-sm text-neutral-400">
+                                {profileData?.email}
+                              </p>
+                              <p className="mt-2 text-sm text-neutral-400">
+                                {profileData?.phone}
+                              </p>
+                            </div>
+                          </div>
+
+                          {profile.roleData !== 3 && (
+                            <Box>
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  mt: 2,
                                 }}
                               >
-                                {language === 1
-                                  ? `Đổi mật khẩu`
-                                  : `Change Password`}
-                              </span>
+                                <FormControlLabel
+                                  control={
+                                    <IOSSwitch
+                                      sx={{ m: 1 }}
+                                      checked={profile.isSearch}
+                                      onChange={(e) => handleOnchangeSearch(e)}
+                                    />
+                                  }
+                                  label=""
+                                />
+
+                                <Typography
+                                  sx={{
+                                    color: "#7f878f!important",
+                                  }}
+                                >
+                                  {profile.isSearch
+                                    ? language === 1
+                                      ? `Đang bật tìm việc`
+                                      : `Looking for a job`
+                                    : language === 1
+                                    ? `Đang Tắt tìm việc`
+                                    : `Currently looking for a job`}
+                                </Typography>
+                              </Box>
+                              <Box>
+                                <Typography
+                                  sx={{
+                                    color: "#7f878f",
+                                    fontSize: "12px",
+                                  }}
+                                >
+                                  {language === 1
+                                    ? `Bật tìm việc giúp hồ sơ của bạn nổi bật hơn và
+                              được chú ý nhiều hơn trong danh sách tìm kiếm của
+                              NTD.`
+                                    : `Turning on job search helps your profile stand out more and
+                              get more attention in your search listings
+                              NTD.`}
+                                </Typography>
+                              </Box>
                             </Box>
-                          </div>
-                        )}
+                          )}
 
-                        <div className="mt-4 flex items-center justify-start">
-                          <Box
-                            onClick={() => {
-                              router.push("/history");
-                              setOpenModalProfile(false);
-                            }}
-                            sx={{
-                              display: "flex",
-                              gap: "10px",
-                              cursor: "pointer",
-                              alignItems: "center",
-                            }}
-                          >
-                            <ManageSearchIcon
-                              sx={{ width: "16px", height: "16px" }}
-                            />
-                            <span
-                              style={{
-                                fontFamily:
-                                  "Roboto,-apple-system,sans-serif!important",
-                              }}
-                            >
-                              {language === 1 ? `Lịch sử` : `History`}
-                            </span>
+                          <Box>
+                            <div className="mt-4 flex items-center justify-start">
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  gap: "10px",
+                                  cursor: "pointer",
+                                  alignItems: "center",
+                                }}
+                              >
+                                {profileData.roleData !== 3 &&
+                                  profileData?.profileLocations?.length > 0 && (
+                                    <BusinessIcon
+                                      sx={{
+                                        width: "16px",
+                                        height: "16px",
+                                        color: "#1b87f5",
+                                      }}
+                                    />
+                                  )}
+
+                                <span
+                                  style={{
+                                    fontFamily:
+                                      "Roboto,-apple-system,sans-serif!important",
+                                    fontSize: "15px",
+                                    color: "#1b87f5",
+                                  }}
+                                >
+                                  {profileData &&
+                                    profileData?.profileLocations &&
+                                    profileData?.profileLocations?.map(
+                                      (item: any) => {
+                                        return item.fullName + " ";
+                                      }
+                                    )}
+                                </span>
+                              </Box>
+                            </div>
+                          </Box>
+                          <Box>
+                            <div className="mt-4 flex items-center justify-start">
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  gap: "10px",
+                                  cursor: "pointer",
+                                  alignItems: "center",
+                                }}
+                              >
+                                {profileData.roleData !== 3 &&
+                                  profileData?.profileCategories?.length >
+                                    0 && (
+                                    <CardGiftcardIcon
+                                      sx={{
+                                        width: "16px",
+                                        height: "16px",
+                                        color: "#1b87f5",
+                                      }}
+                                    />
+                                  )}
+                                <span
+                                  style={{
+                                    fontFamily:
+                                      "Roboto,-apple-system,sans-serif!important",
+                                    fontSize: "15px",
+                                    color: "#1b87f5",
+                                  }}
+                                >
+                                  {profileData &&
+                                    profileData.roleData !== 3 &&
+                                    profileData?.profileCategories &&
+                                    profileData?.profileCategories?.map(
+                                      (item: any) => {
+                                        return item.fullName + " ";
+                                      }
+                                    )}
+                                </span>
+                              </Box>
+                            </div>
+                          </Box>
+
+                          <Box>
+                            <div className="mt-4 flex items-center justify-start">
+                              <Box
+                                onClick={() => {
+                                  if (profileData.roleData !== 3) {
+                                    router.push("/profile");
+                                  } else {
+                                    router.push("/company-infor");
+                                  }
+                                  setOpenModalProfile(false);
+                                }}
+                                sx={{
+                                  display: "flex",
+                                  gap: "10px",
+                                  cursor: "pointer",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <SystemUpdateAltIcon
+                                  sx={{ width: "16px", height: "16px" }}
+                                />
+                                <span
+                                  style={{
+                                    fontFamily:
+                                      "Roboto,-apple-system,sans-serif!important",
+                                  }}
+                                >
+                                  {profile.roleData === 1 ||
+                                  profile.roleData === 2 ||
+                                  profile.roleData === 0 ? (
+                                    <span>
+                                      {language === 1
+                                        ? `Cập nhật thông tin`
+                                        : `Update information`}
+                                    </span>
+                                  ) : (
+                                    <span>
+                                      {language === 1
+                                        ? `Cập nhật công ty`
+                                        : `Company updates`}
+                                    </span>
+                                  )}
+                                </span>
+                              </Box>
+                            </div>
+                            {profileData.roleData === 3 && (
+                              <div className="mt-4 flex items-center justify-start">
+                                <Box
+                                  onClick={() => handleModifyPassword()}
+                                  sx={{
+                                    display: "flex",
+                                    gap: "10px",
+                                    cursor: "pointer",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <LogoutIcon
+                                    sx={{ width: "16px", height: "16px" }}
+                                  />
+                                  <span
+                                    style={{
+                                      fontFamily:
+                                        "Roboto,-apple-system,sans-serif!important",
+                                    }}
+                                  >
+                                    {language === 1
+                                      ? `Đổi mật khẩu`
+                                      : `Change Password`}
+                                  </span>
+                                </Box>
+                              </div>
+                            )}
+
+                            <div className="mt-4 flex items-center justify-start">
+                              <Box
+                                onClick={() => {
+                                  router.push("/history");
+                                  setOpenModalProfile(false);
+                                }}
+                                sx={{
+                                  display: "flex",
+                                  gap: "10px",
+                                  cursor: "pointer",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <ManageSearchIcon
+                                  sx={{ width: "16px", height: "16px" }}
+                                />
+                                <span
+                                  style={{
+                                    fontFamily:
+                                      "Roboto,-apple-system,sans-serif!important",
+                                  }}
+                                >
+                                  {language === 1 ? `Lịch sử` : `History`}
+                                </span>
+                              </Box>
+                            </div>
+
+                            <div className="mt-4 flex items-center justify-start">
+                              <Box
+                                onClick={() => handleLogOut()}
+                                sx={{
+                                  display: "flex",
+                                  gap: "10px",
+                                  cursor: "pointer",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <LogoutIcon
+                                  sx={{ width: "16px", height: "16px" }}
+                                />
+                                <span
+                                  style={{
+                                    fontFamily:
+                                      "Roboto,-apple-system,sans-serif!important",
+                                  }}
+                                >
+                                  {language === 1 ? `Đăng xuất` : `Logout`}
+                                </span>
+                              </Box>
+                            </div>
                           </Box>
                         </div>
-
-                        <div className="mt-4 flex items-center justify-start">
-                          <Box
-                            onClick={() => handleLogOut()}
-                            sx={{
-                              display: "flex",
-                              gap: "10px",
-                              cursor: "pointer",
-                              alignItems: "center",
-                            }}
-                          >
-                            <LogoutIcon
-                              sx={{ width: "16px", height: "16px" }}
-                            />
-                            <span
-                              style={{
-                                fontFamily:
-                                  "Roboto,-apple-system,sans-serif!important",
-                              }}
-                            >
-                              {language === 1 ? `Đăng xuất` : `Logout`}
-                            </span>
-                          </Box>
-                        </div>
-                      </Box>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </> */}
+
+                {/* <>
+                  <div className="rounded-full p-2 bg-black cursor-pointer hover:bg-blue-500">
+                    <IoMdNotifications color="white" fontSize="1.5em" />
+                  </div>
+                  <div className="rounded-full p-2 bg-black cursor-pointer  hover:bg-blue-500">
+                    <AiFillMessage color="white" fontSize="1.5em" />
+                  </div>
+                  <div className="rounded-full p-2 bg-black cursor-pointer  hover:bg-blue-500">
+                    <IoMdSettings color="white" fontSize="1.5em" />
+                  </div>
+                </> */}
+                <>
+                  <div
+                    className={`rounded-full ${
+                      onMenuAll ? "-translate-x-[5px]" : ""
+                    } p-2 bg-black cursor-pointer relative z-50 hover:bg-blue-500`}
+                    onClick={() => {
+                      setOnMenuAll(!onMenuAll);
+                    }}
+                  >
+                    {!onMenuAll ? (
+                      <RiMenuFill color="white" fontSize="1.5em" />
+                    ) : (
+                      <RiCloseFill color="white" fontSize="1.5em" />
+                    )}
+                  </div>
+
+                  <div
+                    className={`bg-white fixed inset-y-0 transition-all duration-300 ${
+                      onMenuAll ? " left-2/3" : "left-full"
+                    }  shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] z-40 right-0`}
+                  ></div>
+                  <div
+                    className={`inset-0 ${
+                      onMenuAll ? "opacity-100" : "invisible opacity-0"
+                    } fixed transition-all duration-300 bg-black/50 z-20`}
+                    onClick={() => {
+                      setOnMenuAll(!onMenuAll);
+                    }}
+                  ></div>
+                </>
               </div>
             </div>
           </nav>
@@ -1289,7 +1465,7 @@ const MenuComponent = (props: Props) => {
             setTabFilter={setTabFilter}
           />
         </div>
-        {checkNav && checkPageLoad && (
+        {/* {checkNav && checkPageLoad && (
           <div
             className={`w-full bg-white z-20 flex justify-center fixed top-20 border-b-2 transition-all duration-700 ${
               !checkScroll && "-translate-y-28"
@@ -1297,7 +1473,7 @@ const MenuComponent = (props: Props) => {
           >
             <NavbarComponent />
           </div>
-        )}
+        )} */}
 
         <Modal
           width={614}

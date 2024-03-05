@@ -36,17 +36,17 @@ const signInEmailApi = {
   },
 
   signInEmailRecruit: (email: string) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/users/sign-up`;
+    const URL = `http://localhost:1902/api/v3/users/sign-up`;
     return axiosClient.post(URL, {email});
   },
 
   verifyOtpRecruit: (email: String, otp: string) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/users/verify-otp`;
+    const URL = `http://localhost:1902/api/v3/users/verify-otp`;
     return axiosClient.post(URL, {email, otp});
   },
 
   verifyConfirmPassword: (email: string, password: string) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/users/confirm-password`;
+    const URL = `http://localhost:1902/api/v3/users/confirm-password`;
     return axiosClient.post(URL, {email, password});
   }
 };

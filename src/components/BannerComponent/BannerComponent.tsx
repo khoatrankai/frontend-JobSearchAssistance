@@ -10,8 +10,10 @@ import Autoplay from "embla-carousel-autoplay";
 import bannersApi from "@/api/banner/apiBanner";
 import { DotButton, NextButton, PrevButton } from "./Components";
 import "./style.scss";
+import "./BannerComponent.scss";
 import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
+import SkeletonAll from "@/util/SkeletonAll";
 
 type Props = {
   // setScrollPosition: React.Dispatch<SetStateAction<Number>>;
@@ -32,7 +34,7 @@ const BannerComponent = (props: Props) => {
   const [dataBanners, setDataBanners] = useState<any>([]);
   const emblaContainerRef = React.useRef<HTMLDivElement>(null);
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [
-    Autoplay({ delay: 4000, stopOnInteraction: false }),
+    Autoplay({ delay: 1000000, stopOnInteraction: false }),
   ]);
 
   const scrollPrev = useCallback(
@@ -52,6 +54,7 @@ const BannerComponent = (props: Props) => {
     const result = await bannersApi.getBannersApi("vi", null);
     try {
       if (result) {
+        console.log(result);
         setDataBanners(result.data);
       }
     } catch (error) {
@@ -128,52 +131,78 @@ const BannerComponent = (props: Props) => {
     };
   }, []);
   return (
-    <div className="flex flex-col items-center relative mt-[104px] w-full justify-center">
+    <div className="flex flex-col items-center relative mt-5 w-full justify-center">
       <div
-        className={`embla max-w-6xl w-full ${
-          reponsiveMobile ? "!h-[200px]" : ""
+        className={`embla w-full ${
+          reponsiveMobile ? "!h-[200px]" : "image-bg-item"
         }`}
       >
-        {dataBanners && dataBanners.length > 0 && (
-          <>
-            <div className="embla__viewport" ref={emblaRef}>
-              <div
-                className="embla__container"
-                ref={emblaContainerRef}
-                style={{
-                  marginLeft: "1px",
-                  borderRadius: "20px",
-                  columnGap: "20px",
-                }}
-              >
-                {slides?.map((value: any, index: number) => (
-                  <div className="embla__slide" key={index}>
-                    <div className="embla__slide__number">
-                      <span>{index + 1}</span>
+        <SkeletonAll data={dataBanners}>
+          {dataBanners && dataBanners.length > 0 && (
+            <>
+              <div className="embla__viewport !rounded-none" ref={emblaRef}>
+                <div
+                  className="embla__container"
+                  ref={emblaContainerRef}
+                  style={
+                    {
+                      // marginLeft: "1px",
+                      // borderRadius: "20px",
+                      // columnGap: "20px",
+                    }
+                  }
+                >
+                  {slides?.map((value: any, index: number) => (
+                    <div className="embla__slide" key={index}>
+                      <div className="embla__slide__number">
+                        <span>{index + 1}</span>
+                      </div>
+                      <div className="w-full h-full gradient-bg-item">
+                        <div className="embla__slide__img">
+                          <img
+                            className="w-full h-4/5"
+                            src={
+                              imageByIndex(index)
+                                ? imageByIndex(index).image
+                                : ""
+                            }
+                            alt={`ảnh banner`}
+                          />
+                          <div className="w-full py-4 px-32 flex justify-between">
+                            <div>
+                              <p className="font-bold text-white">
+                                The Global Leader of Advanced Construction
+                                Materials
+                              </p>
+                              <p className="font-medium text-gray-300">
+                                Công ty cổ phần Silkroad Hà Nội
+                              </p>
+                            </div>
+                            <div className="rounded-xl border-2 p-2 h-fit font-semibold text-white hover:bg-white hover:text-blue-500 cursor-pointer">
+                              Apply
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <img
-                      className="embla__slide__img"
-                      src={imageByIndex(index) ? imageByIndex(index).image : ""}
-                      alt={`ảnh banner`}
-                    />
-                  </div>
+                  ))}
+                </div>
+                <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
+                <NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
+              </div>
+
+              <div className="embla__dots !bottom-24">
+                {scrollSnaps.map((_, index) => (
+                  <DotButton
+                    key={index}
+                    selected={index === selectedIndex}
+                    onClick={() => scrollTo(index)}
+                  />
                 ))}
               </div>
-              <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
-              <NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
-            </div>
-
-            <div className="embla__dots">
-              {scrollSnaps.map((_, index) => (
-                <DotButton
-                  key={index}
-                  selected={index === selectedIndex}
-                  onClick={() => scrollTo(index)}
-                />
-              ))}
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </SkeletonAll>
       </div>
     </div>
   );

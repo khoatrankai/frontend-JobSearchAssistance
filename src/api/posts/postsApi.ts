@@ -11,7 +11,7 @@ const postsApi = {
     lang: string,
   ) => {
     const URL =
-      `https://web-service-tkv2.onrender.com/api/v3/posts/newest?` +
+      `http://localhost:1902/api/v3/posts/newest?` +
       `${
         childrenCategoryId
           ? `${childrenCategoryId
@@ -55,7 +55,7 @@ const postsApi = {
   },
 
   getPostV3: (id: number, lang: string) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/posts/${id}?lang=${lang}`;
+    const URL = `http://localhost:1902/api/v3/posts/${id}?lang=${lang}`;
     return axiosClient.get(URL);
   },
   updateStatusPost: (id: number, status: number) => {

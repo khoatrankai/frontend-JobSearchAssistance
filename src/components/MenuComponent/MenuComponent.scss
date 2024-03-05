@@ -108,3 +108,10 @@
     }
   }
 }
+
+.on-Menu{
+  transform: rotateY(90deg);
+}
+.off-Menu{
+  transform: rotateY(-90deg);
+}

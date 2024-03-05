@@ -44,7 +44,7 @@ const InfoPerson = (props: Props) => {
   const handleUpdateData = () => {
     const fetchData = async () => {
       const res = (await axiosClient.put(
-        "https://web-service-tk.onrender.com/api/v1/profiles/per",
+        "http://localhost:8888/api/v1/profiles/per",
         dataRequest
       )) as unknown as ILocation;
       if (res && res.code === 200) {
@@ -58,7 +58,7 @@ const InfoPerson = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        "https://web-service-tk.onrender.com/api/v1/locations/p"
+        "http://localhost:8888/api/v1/locations/p"
       )) as unknown as ILocation;
       if (res && res.code === 200) {
         setDataLocation(res.data);

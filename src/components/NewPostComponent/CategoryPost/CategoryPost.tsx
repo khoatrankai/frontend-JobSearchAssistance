@@ -58,7 +58,7 @@ const CategoryPost = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res2 = (await axiosClient.get(
-        `https://web-service-tk.onrender.com/api/v1/categories?lang=${
+        `http://localhost:8888/api/v1/categories?lang=${
           languageRedux === 1 ? "vi" : "en"
         }`
       )) as unknown as ILocation;

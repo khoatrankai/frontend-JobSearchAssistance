@@ -387,7 +387,7 @@ const ModalLogin = (props: Props) => {
   const handleSendOtpForgot = () => {
     const fetchData = async () => {
       const res = (await axiosClient.post(
-        `https://web-service-tkv2.onrender.com/api/v3/users/forgot-password`,
+        `http://localhost:1902/api/v3/users/forgot-password`,
         {
           email: emailForgot,
         }
@@ -418,7 +418,7 @@ const ModalLogin = (props: Props) => {
     setIsOpenVerifyOtpAndPasswordForgot(false);
     const fetchData = async () => {
       const res = (await axiosClient.post(
-        `https://web-service-tkv2.onrender.com/api/v3/users/forgot-password/confirm`,
+        `http://localhost:1902/api/v3/users/forgot-password/confirm`,
         {
           email: emailForgot,
           otp: otpForgot,
@@ -451,7 +451,7 @@ const ModalLogin = (props: Props) => {
   const handleVerifyConfirmPasswordForgot = () => {
     const fetchData = async () => {
       const res = (await axiosClient.post(
-        `https://web-service-tkv2.onrender.com/api/v3/users/forgot-password/modify`,
+        `http://localhost:1902/api/v3/users/forgot-password/modify`,
         {
           email: emailForgot,
           password: passwordForgot,

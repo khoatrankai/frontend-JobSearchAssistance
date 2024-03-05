@@ -10,6 +10,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import ModalLogin from "../ModalLogin/ModalLogin";
 import ShortText from "@/util/ShortText";
+import SkeletonAll from "@/util/SkeletonAll";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
 type Props = {};
 
@@ -172,138 +174,128 @@ const ListJobComponent = (props: Props) => {
           </h1>
           <div className="flex items-center gap-5">
             <a
-              className="mr-4 text font-semibold text-red-500 hover:text-red-600"
+              className=" font-bold text-black hover:text-blue-500 cursor-pointer"
               href="/more-new"
             >
               {language === 1 ? `Xem thêm` : `See more`}
             </a>
             <div className="w-20 flex justify-between">
               <button
-                className=" bg-orange-400 hover:bg-orange-500 w-10 h-10 rounded-lg flex justify-center items-center group"
+                className="bg-black hover:shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] hover:bg-blue-500 w-10 h-10 rounded-lg flex justify-center items-center group"
                 onClick={() => handlePrevNewJob()}
               >
-                <Image
-                  className="w-5 group-hover:-ml-1"
-                  alt="anh"
-                  src={"/iconleft.svg"}
-                  width={200}
-                  height={200}
-                />
+                <MdKeyboardArrowLeft color="white" fontSize="1.8em" />
               </button>
               <button
-                className=" bg-orange-400 hover:bg-orange-500 w-10 h-10 rounded-lg flex justify-center items-center group ml-2"
+                className=" bg-black hover:shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] hover:bg-blue-500 w-10 h-10 rounded-lg flex justify-center items-center group ml-2"
                 onClick={() => handleNextNewJob()}
               >
-                <Image
-                  className="w-5 group-hover:-mr-1"
-                  alt="anh"
-                  src={"/iconright.svg"}
-                  width={200}
-                  height={200}
-                />
+                <MdKeyboardArrowRight color="white" fontSize="1.8em" />
               </button>
             </div>
           </div>
         </div>
+        <SkeletonAll data={listJob}>
+          <div>
+            <ul className="inline-flex flex-wrap justify-center list-job gap-9">
+              {listJob &&
+                listJob.length > 0 &&
+                listJob.map((item, index) => (
+                  <li key={index} className="relative">
+                    <Link
+                      href={`/post-detail/${item.id}`}
+                      className={`w-[360px] h-[180px] group  px-4 border-[1px] hover:border-blue-500 hover:bg-white hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md  py-6 flex justify-between items-center item-job`}
+                    >
+                      <div className="w-2/12">
+                        <Image
+                          className="w-16 h-16 rounded-xl group-hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] object-cover"
+                          src={item.image ? item.image : "/logo/logo.png"}
+                          alt="anh"
+                          width={200}
+                          height={200}
+                        />
+                      </div>
+                      <div className="w-7/12 h-full flex flex-col justify-between capitalize">
+                        <h2 className="text-sm font-bold  group-hover:drop-shadow-xl  group-hover:text-blue-500">
+                          {handleShortTextHome(item.title, 20)}
+                        </h2>
+                        <div className="my-2 flex flex-col gap-y-1 font-medium">
+                          <div className="flex items-center">
+                            <Image
+                              className="w-4 mr-1"
+                              src={"/iconcompany.svg"}
+                              alt="anh"
+                              width={200}
+                              height={200}
+                            />
+                            <p className="text-[9px]  drop-shadow-xl">
+                              {handleShortTextHome(item.companyName, 30)}
+                            </p>
+                          </div>
+                          <div className="flex items-center">
+                            <Image
+                              className="w-4 mr-1"
+                              src={"/icontime.svg"}
+                              alt="anh"
+                              width={200}
+                              height={200}
+                            />
+                            <p className="text-[9px]  drop-shadow-xl">
+                              {item.createdAtText}
+                            </p>
+                          </div>
+                          <div className="flex items-center">
+                            <Image
+                              className="w-4 mr-1"
+                              src={"/iconlocation.svg"}
+                              alt="anh"
+                              width={200}
+                              height={200}
+                            />
+                            <p className="text-[9px]  drop-shadow-xl">
+                              {item?.location?.district?.fullName}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="inline-flex flex-wrap justify-start gap-1 font-extrabold">
+                          <h3 className="text-[9px] py-1 px-2 rounded-md min-w-fit bg-slate-50 group-hover:text-blue-500  group-hover:drop-shadow-xl">
+                            {handleShortValueNumber(item.salaryMin.toString())}{" "}
+                            -{" "}
+                            {handleShortValueNumber(item.salaryMax.toString())}{" "}
+                            {item.moneyType}
+                          </h3>
+                          <h3 className="text-[9px] py-1 px-2 rounded-md min-w-fit bg-slate-50 group-hover:text-blue-500  group-hover:drop-shadow-xl">
+                            {item?.jobType.name}
+                          </h3>
+                        </div>
+                      </div>
 
-        <div>
-          <ul className="inline-flex flex-wrap justify-center list-job gap-9">
-            {listJob &&
-              listJob.length > 0 &&
-              listJob.map((item, index) => (
-                <li key={index} className="relative">
-                  <Link
-                    href={`/post-detail/${item.id}`}
-                    className={`w-[360px] h-[220px] px-4 bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md  py-6 flex justify-between items-center item-job`}
-                  >
-                    <div className="w-2/12">
-                      <Image
-                        className="w-16 h-16 rounded-xl shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] object-cover"
-                        src={item.image ? item.image : "/logo/logo.png"}
-                        alt="anh"
-                        width={200}
-                        height={200}
-                      />
-                    </div>
-                    <div className="w-7/12 h-full flex flex-col justify-between capitalize">
-                      <h2 className="text-sm font-bold  drop-shadow-xl">
-                        {handleShortTextHome(item.title, 40)}
-                      </h2>
-                      <div className="my-2 flex flex-col gap-y-1 font-medium">
-                        <div className="flex items-start">
-                          <Image
-                            className="w-4 mr-1"
-                            src={"/iconcompany.svg"}
-                            alt="anh"
-                            width={200}
-                            height={200}
-                          />
-                          <p className="text-[9px]  drop-shadow-xl">
-                            {item.companyName}
-                          </p>
-                        </div>
-                        <div className="flex items-start">
-                          <Image
-                            className="w-4 mr-1"
-                            src={"/icontime.svg"}
-                            alt="anh"
-                            width={200}
-                            height={200}
-                          />
-                          <p className="text-[9px]  drop-shadow-xl">
-                            {item?.location?.district?.fullName}
-                          </p>
-                        </div>
-                        <div className="flex items-center">
-                          <Image
-                            className="w-4 mr-1"
-                            src={"/iconlocation.svg"}
-                            alt="anh"
-                            width={200}
-                            height={200}
-                          />
-                          <p className="text-[9px]  drop-shadow-xl">
-                            {item.createdAtText}
-                          </p>
+                      <div className="w-1/12 flex justify-center h-full">
+                        <div
+                          className="h-fit"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (item.bookmarked === false) {
+                              handleBookmarked(item.id);
+                            } else {
+                              handleDeleteBookmarked(item.id);
+                            }
+                          }}
+                        >
+                          {item.accountId !== accountId &&
+                            (item.bookmarked === true ? (
+                              <SaveIconFill width={24} height={24} />
+                            ) : (
+                              <SaveIconOutline width={24} height={24} />
+                            ))}
                         </div>
                       </div>
-                      <div className="inline-flex flex-wrap justify-start gap-1 font-extrabold">
-                        <h3 className="text-[9px] py-1 px-2 rounded-md min-w-fit bg-slate-50  drop-shadow-xl">
-                          {handleShortValueNumber(item.salaryMin.toString())} -{" "}
-                          {handleShortValueNumber(item.salaryMax.toString())}{" "}
-                          {item.moneyType}
-                        </h3>
-                        <h3 className="text-[9px] py-1 px-2 rounded-md min-w-fit bg-slate-50  drop-shadow-xl">
-                          {item?.jobType.name}
-                        </h3>
-                      </div>
-                    </div>
-
-                    <div className="w-1/12 flex justify-center h-full">
-                      <div
-                        className="h-fit"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          if (item.bookmarked === false) {
-                            handleBookmarked(item.id);
-                          } else {
-                            handleDeleteBookmarked(item.id);
-                          }
-                        }}
-                      >
-                        {item.accountId !== accountId &&
-                          (item.bookmarked === true ? (
-                            <SaveIconFill width={24} height={24} />
-                          ) : (
-                            <SaveIconOutline width={24} height={24} />
-                          ))}
-                      </div>
-                    </div>
-                  </Link>
-                </li>
-              ))}
-          </ul>
-        </div>
+                    </Link>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        </SkeletonAll>
       </div>
       <ModalLogin
         isOpen={openModalLogin}

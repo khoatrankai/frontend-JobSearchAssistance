@@ -321,15 +321,15 @@ const page = (props: Props) => {
     });
     const fetchData = async () => {
       const delete1 = (await axiosClient.delete(
-        "https://web-service-tkv2.onrender.com/api/v3/cv-information",
+        "http://localhost:1902/api/v3/cv-information",
         { data: { cvindex: idCvIndex } } as any
       )) as unknown as IData;
       const delete2 = (await axiosClient.delete(
-        "https://web-service-tkv2.onrender.com/api/v3/cv-extra-information",
+        "http://localhost:1902/api/v3/cv-extra-information",
         { data: { cvindex: idCvIndex } } as any
       )) as unknown as IData;
       const delete3 = (await axiosClient.delete(
-        "https://web-service-tkv2.onrender.com/api/v3/cv-project",
+        "http://localhost:1902/api/v3/cv-project",
         { data: { cvindex: idCvIndex } } as any
       )) as unknown as IData;
       if (
@@ -339,13 +339,13 @@ const page = (props: Props) => {
       ) {
         if (dataArray.length > 0) {
           const res = (await axiosClient.post(
-            "https://web-service-tkv2.onrender.com/api/v3/cv-extra-information",
+            "http://localhost:1902/api/v3/cv-extra-information",
             { data: dataArray }
           )) as unknown as IData;
         }
         if (dataProject) {
           const res2 = (await axiosClient.post(
-            "https://web-service-tkv2.onrender.com/api/v3/cv-project",
+            "http://localhost:1902/api/v3/cv-project",
             { data: [dataProject] }
           )) as unknown as IData;
         }
@@ -363,7 +363,7 @@ const page = (props: Props) => {
             } else formData.append(i, dataInfo[i]);
           }
           const res3 = (await axiosClient.post(
-            "https://web-service-tkv2.onrender.com/api/v3/cv-information",
+            "http://localhost:1902/api/v3/cv-information",
             formData,
             {
               headers: {
@@ -377,7 +377,7 @@ const page = (props: Props) => {
             });
             if (dataContent.length > 0) {
               const res4 = (await axiosClient.post(
-                "https://web-service-tkv2.onrender.com/api/v3/cv-more-information",
+                "http://localhost:1902/api/v3/cv-more-information",
                 { data: dataContent }
               )) as unknown as IData;
               if (res4 && res4.statusCode === 201) {

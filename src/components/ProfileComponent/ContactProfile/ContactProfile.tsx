@@ -27,7 +27,7 @@ const ContactProfile = (props: Props) => {
   const handleUpdateData = () => {
     const fetchData = async () => {
       const res = (await axiosClient.put(
-        "https://web-service-tk.onrender.com/api/v1/profiles/con",
+        "http://localhost:8888/api/v1/profiles/con",
         dataRequest
       )) as unknown as IData;
       if (res && res.code === 200) {

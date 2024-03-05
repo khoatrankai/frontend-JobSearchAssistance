@@ -24,7 +24,7 @@ const AvatarProfile = (props: Props) => {
     formData.append("images", value);
     const fetchData = async () => {
       const res = (await axiosClient.put(
-        "https://web-service-tk.onrender.com/api/v1/profiles/avt",
+        "http://localhost:8888/api/v1/profiles/avt",
         formData,
         {
           headers: {

@@ -97,13 +97,13 @@ const page = (props: Props) => {
   const handleLoadData = async () => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        `https://web-service-tkv2.onrender.com/api/v3/cv-extra-information/?cvIndex=${id}`
+        `http://localhost:1902/api/v3/cv-extra-information/?cvIndex=${id}`
       )) as unknown as ILoad;
       const res2 = (await axiosClient.get(
-        `https://web-service-tkv2.onrender.com/api/v3/cv-project/?cvIndex=${id}`
+        `http://localhost:1902/api/v3/cv-project/?cvIndex=${id}`
       )) as unknown as ILoad;
       const res3 = (await axiosClient.get(
-        `https://web-service-tkv2.onrender.com/api/v3/cv-information/?cvIndex=${id}`
+        `http://localhost:1902/api/v3/cv-information/?cvIndex=${id}`
       )) as unknown as ILoad;
       if (
         res &&
@@ -213,15 +213,15 @@ const page = (props: Props) => {
     });
     const fetchData = async () => {
       const delete1 = (await axiosClient.delete(
-        "https://web-service-tkv2.onrender.com/api/v3/cv-information",
+        "http://localhost:1902/api/v3/cv-information",
         { data: { cvindex: id } } as any
       )) as unknown as IData;
       const delete2 = (await axiosClient.delete(
-        "https://web-service-tkv2.onrender.com/api/v3/cv-extra-information",
+        "http://localhost:1902/api/v3/cv-extra-information",
         { data: { cvindex: id } } as any
       )) as unknown as IData;
       const delete3 = (await axiosClient.delete(
-        "https://web-service-tkv2.onrender.com/api/v3/cv-project",
+        "http://localhost:1902/api/v3/cv-project",
         { data: { cvindex: id } } as any
       )) as unknown as IData;
       if (
@@ -231,13 +231,13 @@ const page = (props: Props) => {
       ) {
         if (dataArray.length > 0) {
           const res = (await axiosClient.post(
-            "https://web-service-tkv2.onrender.com/api/v3/cv-extra-information",
+            "http://localhost:1902/api/v3/cv-extra-information",
             { data: dataArray }
           )) as unknown as IData;
         }
         if (dataProject) {
           const res2 = (await axiosClient.post(
-            "https://web-service-tkv2.onrender.com/api/v3/cv-project",
+            "http://localhost:1902/api/v3/cv-project",
             { data: [dataProject] }
           )) as unknown as IData;
         }
@@ -255,7 +255,7 @@ const page = (props: Props) => {
             } else formData.append(i, dataInfo[i]);
           }
           const res3 = (await axiosClient.post(
-            "https://web-service-tkv2.onrender.com/api/v3/cv-information",
+            "http://localhost:1902/api/v3/cv-information",
             formData,
             {
               headers: {
@@ -269,7 +269,7 @@ const page = (props: Props) => {
             });
             if (dataContent.length > 0) {
               const res4 = (await axiosClient.post(
-                "https://web-service-tkv2.onrender.com/api/v3/cv-more-information",
+                "http://localhost:1902/api/v3/cv-more-information",
                 { data: dataContent }
               )) as unknown as IData;
               if (res4 && res4.statusCode === 201) {
@@ -510,7 +510,7 @@ const page = (props: Props) => {
             {backNext && (
               <div className="flex gap-x-2">
                 <button
-                  className={`p-3 rounded-xl  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
+                  className={`p-3 rounded-xl  -[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
                     Object.keys(backNext.back).length === 0
                       ? "cursor-not-allowed"
                       : " hover:bg-yellow-50"

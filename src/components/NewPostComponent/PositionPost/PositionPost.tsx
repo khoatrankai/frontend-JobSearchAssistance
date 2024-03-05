@@ -43,7 +43,7 @@ const PositionPost = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        "https://web-service-tk.onrender.com/api/v1/locations"
+        "http://localhost:8888/api/v1/locations"
       )) as unknown as ILocation;
       if (res && res.code === 200) {
         setDataPosition(res.data);

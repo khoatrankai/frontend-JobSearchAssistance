@@ -11,6 +11,7 @@ import React, {
 import { Provider, useSelector } from "react-redux";
 import { store } from "@/redux/store";
 import ChatContextProvider from "./ChatProvider";
+import { BrowserRouter, useLocation } from "react-router-dom";
 type DataFilter = {
   positionJob: Array<{
     province_id: string;
@@ -58,26 +59,28 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
   }, []);
   useEffect(() => {}, [dataFilter]);
   return (
-    <Provider store={store}>
-      <ChatContextProvider>
-        <Context.Provider
-          value={{
-            scrollPosition,
-            handleLoadHrefPage,
-            setScrollPosition,
-            menuPosition,
-            setMenuPosition,
-            transPosition,
-            setTransPosition,
-            dataFilter,
-            setDataFilter,
-            checkPage,
-          }}
-        >
-          {children}
-        </Context.Provider>
-      </ChatContextProvider>
-    </Provider>
+    <BrowserRouter>
+      <Provider store={store}>
+        <ChatContextProvider>
+          <Context.Provider
+            value={{
+              scrollPosition,
+              handleLoadHrefPage,
+              setScrollPosition,
+              menuPosition,
+              setMenuPosition,
+              transPosition,
+              setTransPosition,
+              dataFilter,
+              setDataFilter,
+              checkPage,
+            }}
+          >
+            {children}
+          </Context.Provider>
+        </ChatContextProvider>
+      </Provider>
+    </BrowserRouter>
   );
 };
 

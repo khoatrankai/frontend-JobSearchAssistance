@@ -1,7 +1,7 @@
 import axios from 'axios'
 import queryString from 'query-string'
 
-const BASE_URL = `https://web-service-tk.onrender.com/api`
+const BASE_URL = `http://localhost:8888/api`
 
 
 const accessToken = (typeof window !== 'undefined') ? localStorage.getItem('accessToken') : null

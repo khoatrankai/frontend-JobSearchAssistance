@@ -43,7 +43,7 @@ const Salary = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        `https://web-service-tk.onrender.com/api/v1/salary-types?lang=${
+        `http://localhost:8888/api/v1/salary-types?lang=${
           languageRedux === 1 ? "vi" : "en"
         }`
       )) as unknown as ILocation;

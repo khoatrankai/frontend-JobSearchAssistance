@@ -13,6 +13,7 @@ import { store } from "@/redux/store";
 import { useSelector } from "react-redux";
 import AppliedPostedJob from "@/components/AppliedPostedJob";
 import FooterComponent from "@/components/FooterComponent/FooterComponent";
+import PageHome from "@/page/Home/Home";
 
 interface PageProps {}
 
@@ -36,14 +37,15 @@ const Home = () => {
   return (
     <PersistGate loading={null} persistor={persistor}>
       <div className="w-full h-full bg-slate-50">
-        <BannerComponent />
+        <PageHome />
+        {/* <BannerComponent />
         {profile && <AppliedPostedJob />}
         <HotJobComponent ref={hotJobRef} />
         <ListJobComponent />
         <AllCompanyComponent />
         {profile && profile.roleData !== 3 && <SuggestJobComponent />}
         <TopCompanyComponent />
-        <FooterComponent />
+        <FooterComponent /> */}
       </div>
     </PersistGate>
   );

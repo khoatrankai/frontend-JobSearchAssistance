@@ -26,7 +26,7 @@ export interface FormPostCommunityComment {
 
 const communityApi = {
   postCommunications: (newCommunity: FormCommunity) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/communications`;
+    const URL = `http://localhost:1902/api/v3/communications`;
     return axiosClient.post(URL, newCommunity, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -36,7 +36,7 @@ const communityApi = {
   },
 
   deleteComent: (postId: any, cmtId: any) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/communication-comments/${postId}/${cmtId}`;
+    const URL = `http://localhost:1902/api/v3/communication-comments/${postId}/${cmtId}`;
     return axiosClient.delete(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -51,7 +51,7 @@ const communityApi = {
     sort: string,
     type: number,
   ) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/communications?page=${page}&limit=${limit}&sort=${sort}&type=${type}`;
+    const URL = `http://localhost:1902/api/v3/communications?page=${page}&limit=${limit}&sort=${sort}&type=${type}`;
     return axiosClient.get(URL);
   },
 
@@ -62,17 +62,17 @@ const communityApi = {
     type: number,
     lang: any,
   ) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/communications/news?page=${page}&limit=${limit}&sort=${sort}&type=${type}&lang=${lang}`;
+    const URL = `http://localhost:1902/api/v3/communications/news?page=${page}&limit=${limit}&sort=${sort}&type=${type}&lang=${lang}`;
     return axiosClient.get(URL);
   },
 
   getCommunityWorkingStory: () => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/communications/working-story`;
+    const URL = `http://localhost:1902/api/v3/communications/working-story`;
     return axiosClient.get(URL);
   },
 
   getCommunityTodayByAccount: (page: string, limit: string, sort: string) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/communications/today/by-account?page=${page}&limit=${limit}&sort=${sort}`;
+    const URL = `http://localhost:1902/api/v3/communications/today/by-account?page=${page}&limit=${limit}&sort=${sort}`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -86,7 +86,7 @@ const communityApi = {
     sort: string,
     lang: any,
   ) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/communications/by-account?page=${page}&limit=${limit}&sort=${sort}&lang=${lang}`;
+    const URL = `http://localhost:1902/api/v3/communications/by-account?page=${page}&limit=${limit}&sort=${sort}&lang=${lang}`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -95,7 +95,7 @@ const communityApi = {
   },
 
   putCommunityByAccount: (id: number, putCommunity: FormPutCommunity) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/communications/${id}`;
+    const URL = `http://localhost:1902/api/v3/communications/${id}`;
     return axiosClient.put(URL, putCommunity, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -105,12 +105,12 @@ const communityApi = {
   },
 
   getCommunityToday: (page: string, limit: string, sort: string) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/communications/today?page=${page}&limit=${limit}&sort=${sort}`;
+    const URL = `http://localhost:1902/api/v3/communications/today?page=${page}&limit=${limit}&sort=${sort}`;
     return axiosClient.get(URL);
   },
 
   getCommunityShareId: (id: string) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/communications/share/${id}`;
+    const URL = `http://localhost:1902/api/v3/communications/share/${id}`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -119,13 +119,13 @@ const communityApi = {
   },
 
   getCommunityDetailId: (id: string, lang: any) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/communications/detail/${id}?lang=${lang}`;
+    const URL = `http://localhost:1902/api/v3/communications/detail/${id}?lang=${lang}`;
     return axiosClient.get(URL);
   },
 
   // ---------------------------------------------------------------------------------------- ADMIN
   postCommunityByAdmin: (newCommunityAdmin: FormCommunity) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/communications/by-admin`;
+    const URL = `http://localhost:1902/api/v3/communications/by-admin`;
     return axiosClient.post(URL, newCommunityAdmin, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -135,7 +135,7 @@ const communityApi = {
   },
 
   putCommunityByAdmin: (id: number, newCommunityAdmin: FormPutCommunity) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/communications/by-admin/${id}`;
+    const URL = `http://localhost:1902/api/v3/communications/by-admin/${id}`;
     return axiosClient.put(URL, newCommunityAdmin, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -147,7 +147,7 @@ const communityApi = {
   // ---------------------------------------------------------------------------------------- lIKE
 
   postCommunityLike: (communicationId: number) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/communication-likes`;
+    const URL = `http://localhost:1902/api/v3/communication-likes`;
     return axiosClient.post(
       URL,
       {
@@ -163,7 +163,7 @@ const communityApi = {
   },
 
   getCommunityLike: (id: string) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/communication-likes/${id}`;
+    const URL = `http://localhost:1902/api/v3/communication-likes/${id}`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -176,7 +176,7 @@ const communityApi = {
   postCommunityCommentByAdmin: (
     newCommentCommunity: FormPostCommunityComment,
   ) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/communications/by-admin`;
+    const URL = `http://localhost:1902/api/v3/communications/by-admin`;
     return axiosClient.post(URL, newCommentCommunity, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -186,7 +186,7 @@ const communityApi = {
   },
 
   postCommunityComment: (newCommentCommunity: FormPostCommunityComment) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/communication-comments`;
+    const URL = `http://localhost:1902/api/v3/communication-comments`;
     return axiosClient.post(URL, newCommentCommunity, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -196,7 +196,7 @@ const communityApi = {
   },
 
   getCommunityComment: (id: string) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/communication-comments/${id}`;
+    const URL = `http://localhost:1902/api/v3/communication-comments/${id}`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -209,7 +209,7 @@ const communityApi = {
     commentId: number,
     putCommunityComment: FormPutCommunity,
   ) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/communication-comments/${communicationId}/${commentId}`;
+    const URL = `http://localhost:1902/api/v3/communication-comments/${communicationId}/${commentId}`;
     return axiosClient.put(URL, putCommunityComment, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -221,7 +221,7 @@ const communityApi = {
   // ---------------------------------------------------------------------------------------- bookmarked
 
   postCommunityBookmarked: (communicationId: number) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/communication-bookmarked`;
+    const URL = `http://localhost:1902/api/v3/communication-bookmarked`;
     return axiosClient.post(
       URL,
       {
@@ -237,7 +237,7 @@ const communityApi = {
   },
 
   getCommunityBookmarked: (page: number) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/communication-bookmarked?page=${page}`;
+    const URL = `http://localhost:1902/api/v3/communication-bookmarked?page=${page}`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

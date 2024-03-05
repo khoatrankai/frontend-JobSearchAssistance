@@ -8,6 +8,11 @@ import { ToastContainer } from "react-toastify";
 import apiCompany from "@/api/company/apiCompany";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
+import SkeletonAll from "@/util/SkeletonAll";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import { fontStyle } from "html2canvas/dist/types/css/property-descriptors/font-style";
+import SizeContext from "antd/es/config-provider/SizeContext";
+
 // import { analytics } from "@/configs/firebase";
 // import { logEvent } from "firebase/analytics";
 type Props = {};
@@ -76,7 +81,7 @@ const AllCompanyComponent = (props: Props) => {
 
           <div className="flex items-center gap-5">
             <div
-              className="font-bold text-red-500 cursor-pointer"
+              className="font-bold text-black hover:text-blue-500 hover:tex cursor-pointer"
               onClick={() => {
                 router.push("/company-all");
               }}
@@ -86,119 +91,111 @@ const AllCompanyComponent = (props: Props) => {
 
             <div className="w-20 flex justify-between">
               <button
-                className=" bg-orange-400 hover:bg-orange-500 w-10 h-10 rounded-lg flex justify-center items-center group"
+                className="bg-black hover:shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] hover:bg-blue-500 w-10 h-10 rounded-lg flex justify-center items-center group"
                 onClick={() => {
                   if (page > 0) {
                     handlePrevNewJob();
                   }
                 }}
               >
-                <Image
-                  className="w-5 group-hover:-ml-1"
-                  alt="anh"
-                  src={"/iconleft.svg"}
-                  width={200}
-                  height={200}
-                />
+                <MdKeyboardArrowLeft color="white" fontSize="1.8em" />
               </button>
               <button
-                className=" bg-orange-400 hover:bg-orange-500 w-10 h-10 rounded-lg flex justify-center items-center group ml-2"
+                className=" bg-black hover:shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] hover:bg-blue-500 w-10 h-10 rounded-lg flex justify-center items-center group ml-2"
                 onClick={() => {
                   if ((listCompany.length = 10)) {
                     handleNextNewJob();
                   }
                 }}
               >
-                <Image
-                  className="w-5 group-hover:-mr-1"
-                  alt="anh"
-                  src={"/iconright.svg"}
-                  width={200}
-                  height={200}
-                />
+                <MdKeyboardArrowRight color="white" fontSize="1.8em" />
               </button>
             </div>
           </div>
         </div>
-        <div className="relative" style={{ marginBottom: "30px" }}>
-          {checkPrev && (
-            <div className="absolute group bg-white bg-opacity-20 inset-y-0 flex items-center left-0 w-12 justify-center z-10">
-              <button
-                className="p-1 border-2 rounded-full transition-all group-hover:p-2"
-                onClick={handlePrev}
-              >
-                <Image
-                  className="w-6"
-                  src={"/iconleft.svg"}
-                  alt="left"
-                  width={200}
-                  height={200}
-                />
-              </button>
-            </div>
-          )}
-
-          <ul
-            ref={ref_list_slider}
-            className={` select-none inline-flex justify-center`}
-            onMouseDown={handleClickDown}
-          >
-            {listCompany &&
-              listCompany?.length > 0 &&
-              listCompany.map((item: any, index: number) => (
-                <li
-                  key={index}
-                  className="cursor-pointer w-[220px] h-[208px] rounded-lg bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] border-[#dee0e2] flex flex-col border-2 justify-center item-company overflow-hidden hover:border-orange-400"
-                  onClick={() => {
-                    if (checkClick) {
-                      handleGetData(item.id);
-                    } else {
-                      setCheckClick(true);
-                    }
-                  }}
+        <SkeletonAll data={listCompany}>
+          <div className="relative" style={{ marginBottom: "30px" }}>
+            {checkPrev && (
+              <div className="absolute group bg-white bg-opacity-20 inset-y-0 flex items-center left-0 w-12 justify-center z-10">
+                <button
+                  className="p-1 border-2 rounded-full transition-all group-hover:p-2"
+                  onClick={handlePrev}
                 >
-                  <div className="basis-7/12 flex items-end justify-center">
-                    <img
-                      src={
-                        item.logoPath
-                          ? item.logoPath
-                          : "https://res.cloudinary.com/ddwjnjssj/image/upload/v1701273430/images/mailchimp/ads_mail/uk1usmfh6phaft7eqo8e.jpg"
-                      }
-                      className="pointer-events-none w-[180px] h-[96px] rounded-lg object-contain"
-                      width={186}
-                      height={96}
-                      alt="Kinh doanh"
-                      onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src =
-                          "https://res.cloudinary.com/ddwjnjssj/image/upload/v1697131521/images/mailchimp/ads_mail/logoCircle.png";
-                      }}
-                    />
-                  </div>
+                  <Image
+                    className="w-6"
+                    src={"/iconleft.svg"}
+                    alt="left"
+                    width={200}
+                    height={200}
+                  />
+                </button>
+              </div>
+            )}
 
-                  <p className="mt-3 font-bold text-center text-sm text-black uppercase flex-1 flex justify-center bg-transparent">
-                    {item.name}
-                  </p>
-                </li>
-              ))}
-          </ul>
-          {checkNext && (
-            <div className="absolute group bg-white bg-opacity-20 inset-y-0 flex items-center right-0 w-12 justify-center z-10">
-              <button
-                className="p-1 border-2 group-hover:p-2 transition-all rounded-full"
-                onClick={handleNext}
-              >
-                <Image
-                  className="w-6"
-                  src={"/iconright.svg"}
-                  alt="right"
-                  width={200}
-                  height={200}
-                />
-              </button>
-            </div>
-          )}
-        </div>
+            <ul
+              ref={ref_list_slider}
+              className={` select-none inline-flex justify-center`}
+              onMouseDown={handleClickDown}
+            >
+              {listCompany &&
+                listCompany?.length > 0 &&
+                listCompany.map((item: any, index: number) => (
+                  <li
+                    key={index}
+                    className="cursor-pointer w-[220px] h-[208px] rounded-lg bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] group border-[#dee0e2] flex flex-col border-2 justify-center item-company overflow-hidden hover:border-blue-500"
+                    onClick={() => {
+                      if (checkClick) {
+                        handleGetData(item.id);
+                      } else {
+                        setCheckClick(true);
+                      }
+                    }}
+                  >
+                    <div className="basis-7/12 flex items-end justify-center">
+                      <img
+                        src={
+                          item.logoPath
+                            ? item.logoPath
+                            : "https://res.cloudinary.com/ddwjnjssj/image/upload/v1701273430/images/mailchimp/ads_mail/uk1usmfh6phaft7eqo8e.jpg"
+                        }
+                        className="pointer-events-none w-[180px] h-[96px] rounded-lg object-contain"
+                        width={186}
+                        height={96}
+                        alt="Kinh doanh"
+                        onError={(
+                          e: React.SyntheticEvent<HTMLImageElement>
+                        ) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src =
+                            "https://res.cloudinary.com/ddwjnjssj/image/upload/v1697131521/images/mailchimp/ads_mail/logoCircle.png";
+                        }}
+                      />
+                    </div>
+
+                    <p className="mt-3 font-bold text-center text-sm text-black uppercase flex-1 flex justify-center bg-transparent group-hover:text-blue-500">
+                      {item.name}
+                    </p>
+                  </li>
+                ))}
+            </ul>
+            {checkNext && (
+              <div className="absolute group bg-white bg-opacity-20 inset-y-0 flex items-center right-0 w-12 justify-center z-10">
+                <button
+                  className="p-1 border-2 group-hover:p-2 transition-all rounded-full"
+                  onClick={handleNext}
+                >
+                  <Image
+                    className="w-6"
+                    src={"/iconright.svg"}
+                    alt="right"
+                    width={200}
+                    height={200}
+                  />
+                </button>
+              </div>
+            )}
+          </div>
+        </SkeletonAll>
       </div>
       <ToastContainer />
     </div>

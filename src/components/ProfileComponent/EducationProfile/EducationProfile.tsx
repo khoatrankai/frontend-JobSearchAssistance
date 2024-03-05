@@ -36,7 +36,7 @@ const EducationProfile = (props: Props) => {
   };
   const handleRemove = async (id: number) => {
     const res = (await axiosClient.put(
-      "https://web-service-tk.onrender.com/api/v1/profiles/edu/d",
+      "http://localhost:8888/api/v1/profiles/edu/d",
       { educationId: id }
     )) as unknown as IData;
     if (res && res.code === 200) {

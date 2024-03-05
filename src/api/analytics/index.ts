@@ -2,7 +2,7 @@ import axiosClient from "@/configs/axiosClient"
 
 const analyticsApi = {
     totalPosts: () => {
-        const URL = `https://web-service-tkv2.onrender.com/api/v3/posts/total-post`
+        const URL = `http://localhost:1902/api/v3/posts/total-post`
 
         return axiosClient.get(URL, {
             headers: {

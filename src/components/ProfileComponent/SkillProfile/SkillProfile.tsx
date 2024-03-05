@@ -155,7 +155,7 @@ const SkillProfile = (props: Props) => {
     let check = true;
     if (dt.api) {
       const resUp = (await axiosClient.put(
-        `https://web-service-tkv2.onrender.com/api/v3/profiles-skills/${dt.id}`,
+        `http://localhost:1902/api/v3/profiles-skills/${dt.id}`,
         { skillName: dt.skillName, skillLevelId: dt.skillLevelId }
       )) as unknown as IData;
       if (resUp.statusCode !== 200) {
@@ -173,7 +173,7 @@ const SkillProfile = (props: Props) => {
   };
   const fetchCreatedata = async (dt: any) => {
     const resUp = (await axiosClient.post(
-      "https://web-service-tkv2.onrender.com/api/v3/profiles-skills",
+      "http://localhost:1902/api/v3/profiles-skills",
       dt,
       {
         headers: {
@@ -191,7 +191,7 @@ const SkillProfile = (props: Props) => {
       let resRemove = { statusCode: 200, data: [] };
       if (dataRemove.ids.length > 0) {
         resRemove = (await axiosClient.delete(
-          "https://web-service-tkv2.onrender.com/api/v3/profiles-skills/remove",
+          "http://localhost:1902/api/v3/profiles-skills/remove",
           { data: dataRemove }
         )) as unknown as IData;
       }

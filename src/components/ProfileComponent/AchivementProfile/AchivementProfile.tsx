@@ -35,7 +35,7 @@ const AchivementProfile = (props: Props) => {
   );
   const handleRemove = async (id: number) => {
     const res = (await axiosClient.delete(
-      "https://web-service-tkv2.onrender.com/api/v3/profiles-awards/remove",
+      "http://localhost:1902/api/v3/profiles-awards/remove",
       {
         data: { ids: [id] },
       }

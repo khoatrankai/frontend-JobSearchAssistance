@@ -115,7 +115,7 @@ const useSwiperAutoSlider = (gap: number = 0, typeSlider: boolean = false) => {
   useEffect(() => {
     const handleResize = () => {
       setWidthList(
-        ref_list_slider.current.parentElement.getBoundingClientRect().width,
+        ref_list_slider.current?.parentElement.getBoundingClientRect().width,
       );
     };
     window.addEventListener('resize', handleResize);

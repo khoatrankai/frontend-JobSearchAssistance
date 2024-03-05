@@ -78,7 +78,7 @@ const page = (props: Props) => {
   }, []);
   useEffect(() => {
     handleLoadHrefPage();
-    const url = `https://web-service-tkv2.onrender.com/api/v3/posts/topic/${id}?a=394,370`;
+    const url = `http://localhost:1902/api/v3/posts/topic/${id}?a=394,370`;
     const fetchData = async () => {
       const res = (await hotJobApi.getHotJobById(
         url,
@@ -193,7 +193,7 @@ const page = (props: Props) => {
       setLoading(true);
 
       setTimeout(async () => {
-        const url = `https://web-service-tkv2.onrender.com/api/v3/posts/topic/${id}?a=394,370`;
+        const url = `http://localhost:1902/api/v3/posts/topic/${id}?a=394,370`;
 
         const res = (await hotJobApi.getHotJobById(
           url,

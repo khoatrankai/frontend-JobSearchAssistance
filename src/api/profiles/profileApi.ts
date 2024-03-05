@@ -2,7 +2,7 @@ import axiosClient from '../../configs/axiosClient';
 
 const profileAPi = {
   getProfileV3: (lang: string) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/profiles/me?lang=${lang}`;
+    const URL = `http://localhost:1902/api/v3/profiles/me?lang=${lang}`;
 
     return axiosClient.get(URL, {
       headers: {
@@ -13,7 +13,7 @@ const profileAPi = {
 
   getProfileByAccountId: (lang: string, accountId: string) => {
     // unlock=${unclock}&
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/profiles/${accountId}?lang=${lang}&unlock=false`;
+    const URL = `http://localhost:1902/api/v3/profiles/${accountId}?lang=${lang}&unlock=false`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -21,7 +21,7 @@ const profileAPi = {
     });
   },
   putProfileJobV3: (jobTypeId: number | null, isSearch: number | null) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/profiles/job`;
+    const URL = `http://localhost:1902/api/v3/profiles/job`;
     return axiosClient.put(
       URL,
       {
@@ -40,7 +40,7 @@ const profileAPi = {
     oldPassword: string,
     lang: string,
   ) => {
-    const URL = `https://web-service-tkv2.onrender.com/api/v3/users/recruit/update-password?lang=${lang}`;
+    const URL = `http://localhost:1902/api/v3/users/recruit/update-password?lang=${lang}`;
     return axiosClient.post(
       URL,
       {

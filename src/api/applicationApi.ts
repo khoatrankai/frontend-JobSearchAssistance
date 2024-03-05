@@ -2,7 +2,7 @@ import axios from "axios"
 
 const appplicationApi = {
   updateApplication: (id: number, status: number) => {
-    const URL = `https://web-service-tk.onrender.com/api/v1/application/update`
+    const URL = `https://vice-tk.onrender.com/api/v1/application/update`
 
     return axios.put(
       URL,
@@ -15,7 +15,7 @@ const appplicationApi = {
     )
   },
   applyAplication: (postId: Number) => {
-    const URL = `https://web-service-tk.onrender.com/api/v1/application/create`
+    const URL = `http://localhost:8888/api/v1/application/create`
     return axios.post(URL, { postId }, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

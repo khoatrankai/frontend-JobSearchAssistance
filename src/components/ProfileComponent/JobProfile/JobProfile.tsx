@@ -51,15 +51,15 @@ const JobProfile = (props: Props) => {
   const handleUpdateData = () => {
     const fetchData = async () => {
       const resCat = (await axiosClient.put(
-        "https://web-service-tk.onrender.com/api/v1/profiles/cat",
+        "http://localhost:8888/api/v1/profiles/cat",
         dataRequest
       )) as unknown as IData;
       const resLoc = (await axiosClient.put(
-        "https://web-service-tk.onrender.com/api/v1/profiles/loc",
+        "http://localhost:8888/api/v1/profiles/loc",
         dataRequest
       )) as unknown as IData;
       const resType = (await axiosClient.put(
-        "https://web-service-tk.onrender.com/api/v1/profiles/per",
+        "http://localhost:8888/api/v1/profiles/per",
         dataRequest
       )) as unknown as IData;
       if (
