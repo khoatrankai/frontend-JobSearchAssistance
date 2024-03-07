@@ -29,7 +29,7 @@ const ChangeLanguage = (props: Props) => {
   }, []);
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 480) {
+      if (window.innerWidth < 1350) {
         setReponsiveMobile(true);
       } else {
         setReponsiveMobile(false);
@@ -43,7 +43,7 @@ const ChangeLanguage = (props: Props) => {
   }, []);
   return (
     <button
-      className={` rounded-full fixed right-9 overflow-hidden border-4 bg-blue-700 hover:bg-black ${
+      className={` rounded-full fixed right-4 overflow-hidden border-4 bg-blue-700 hover:bg-black ${
         reponsiveMobile
           ? "w-12 h-12 bottom-[190px]"
           : "w-[60px] h-[60px] bottom-[200px]"

@@ -40,6 +40,7 @@ type ScrollPosition = {
   dataFilter: DataFilter;
   setDataFilter: Dispatch<SetStateAction<DataFilter | any>>;
   checkPage: string;
+  reponsiveMobile: number;
   handleLoadHrefPage: () => void;
 };
 
@@ -51,9 +52,19 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
   const [menuPosition, setMenuPosition] = useState<number>(-1);
   const [transPosition, setTransPosition] = useState<number>(0);
   const [checkPage, setCheckPage] = useState<string>("/");
+  const [reponsiveMobile, setReponsiveMobile] = useState<number>(2000);
   const handleLoadHrefPage = () => {
     setCheckPage(location.pathname);
   };
+  useEffect(() => {
+    window.addEventListener("load", (e: any) => {
+      setReponsiveMobile(window.innerWidth);
+    });
+    window.addEventListener("resize", (e: any) => {
+      setReponsiveMobile(window.innerWidth);
+    });
+  }, [reponsiveMobile]);
+
   useEffect(() => {
     handleLoadHrefPage();
   }, []);
@@ -74,6 +85,7 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
               dataFilter,
               setDataFilter,
               checkPage,
+              reponsiveMobile,
             }}
           >
             {children}

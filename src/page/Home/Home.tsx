@@ -37,7 +37,7 @@ const Home = (props: Props) => {
           <BannerComponent />
         </div>
 
-        <div className="flex flex-col gap-y-8">
+        <div className="flex flex-col gap-y-8 w-full">
           <AllCompanyComponent />
           <HotJobComponent />
           <ListJobComponent />

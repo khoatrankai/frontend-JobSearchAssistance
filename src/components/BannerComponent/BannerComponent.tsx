@@ -118,7 +118,7 @@ const BannerComponent = (props: Props) => {
   }, [emblaApi, setScrollSnaps, onSelect]);
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 480) {
+      if (window.innerWidth < 1350) {
         setReponsiveMobile(true);
       } else {
         setReponsiveMobile(false);
@@ -132,11 +132,7 @@ const BannerComponent = (props: Props) => {
   }, []);
   return (
     <div className="flex flex-col items-center relative mt-5 w-full justify-center">
-      <div
-        className={`embla w-full ${
-          reponsiveMobile ? "!h-[200px]" : "image-bg-item"
-        }`}
-      >
+      <div className={`embla w-full !p-0  image-bg-item`}>
         <SkeletonAll data={dataBanners}>
           {dataBanners && dataBanners.length > 0 && (
             <>
@@ -160,7 +156,7 @@ const BannerComponent = (props: Props) => {
                       <div className="w-full h-full gradient-bg-item">
                         <div className="embla__slide__img">
                           <img
-                            className="w-full h-4/5"
+                            className="w-screen img-item"
                             src={
                               imageByIndex(index)
                                 ? imageByIndex(index).image
@@ -168,7 +164,11 @@ const BannerComponent = (props: Props) => {
                             }
                             alt={`ảnh banner`}
                           />
-                          <div className="w-full py-4 px-32 flex justify-between">
+                          <div
+                            className={`w-full content-item ${
+                              reponsiveMobile ? "px-4" : "px-32"
+                            } py-8 flex justify-between`}
+                          >
                             <div>
                               <p className="font-bold text-white">
                                 The Global Leader of Advanced Construction
@@ -187,11 +187,13 @@ const BannerComponent = (props: Props) => {
                     </div>
                   ))}
                 </div>
-                <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
-                <NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
+                <div className={`${reponsiveMobile ? " -translate-y-48" : ""}`}>
+                  <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
+                  <NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
+                </div>
               </div>
 
-              <div className="embla__dots !bottom-24">
+              <div className="embla__dots">
                 {scrollSnaps.map((_, index) => (
                   <DotButton
                     key={index}

@@ -17,6 +17,7 @@ const SearchAllComponent = (props: Props) => {
   const funcScroll = () => {
     document.body.style.overflow = "scroll";
   };
+
   useEffect(() => {
     if (activeSearch) {
       funcStopScroll();

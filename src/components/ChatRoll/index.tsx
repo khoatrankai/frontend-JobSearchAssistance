@@ -13,7 +13,7 @@ const RollTop: React.FC = () => {
   const router = useRouter();
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 480) {
+      if (window.innerWidth < 1350) {
         setReponsiveMobile(true);
       } else {
         setReponsiveMobile(false);

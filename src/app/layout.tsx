@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+"use client";
 import "./globals.css";
 import type { Metadata } from "next";
 import "global";
@@ -10,7 +11,7 @@ import MenuComponent from "@/components/MenuComponent/MenuComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux";
 import { setLanguage } from "@/redux/reducer/changeLanguageReducer/changeLanguage";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import RollTop from "@/components/RollTop";
 import ChatRoll from "@/components/ChatRoll";
 import ChangeLanguage from "@/components/ChangeLanguage/ChangeLanguage";
@@ -27,9 +28,15 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // useEffect(() => {
-
-  // }, []);
+  const [reponsiveMobile, setReponsiveMobile] = useState<number>(0);
+  useEffect(() => {
+    window.addEventListener("load", () => {
+      setReponsiveMobile(window.innerWidth);
+    });
+    window.addEventListener("resize", () => {
+      setReponsiveMobile(window.innerWidth);
+    });
+  }, [reponsiveMobile]);
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={inter.className}>
@@ -37,9 +44,15 @@ export default function RootLayout({
           <MenuComponent />
           {/* <div>nice</div> */}
           {children}
-          <ChangeLanguage />
-          <ChatRoll />
-          <RollTop />
+          {reponsiveMobile >= 1280 ? (
+            <>
+              <ChangeLanguage />
+              <ChatRoll />
+              <RollTop />
+            </>
+          ) : (
+            ""
+          )}
         </ScrollContext>
       </body>
     </html>

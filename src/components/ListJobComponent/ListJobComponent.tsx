@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import "./ListJobComponent.scss";
 import postsApi from "@/api/posts/postsApi";
@@ -32,7 +32,16 @@ const ListJobComponent = (props: Props) => {
   const [categoriesId, setCategoriesId] = useState<string>("");
   const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
   const language = useSelector((state: any) => state.changeLaguage.language);
-
+  const demoInfo = useRef<any>();
+  const [positionHoverJobX, setPositionHoverJobX] = useState<any>(0);
+  const [positionHoverJobY, setPositionHoverJobY] = useState<any>(0);
+  useEffect(() => {
+    if (demoInfo && demoInfo.current?.style) {
+      demoInfo.current.style.left = positionHoverJobX + "px";
+      demoInfo.current.style.top = positionHoverJobY + "px";
+      console.log("vo form", demoInfo.current);
+    }
+  }, [demoInfo, positionHoverJobX, positionHoverJobY]);
   useEffect(() => {
     setCategoriesId(categoryId);
   }, [categoryId]);
@@ -60,7 +69,9 @@ const ListJobComponent = (props: Props) => {
     setThresholdNewJob(listJob[listJob.length - 1].id);
     setPageNewJob(pageNewJob + 1);
   };
-
+  const PositionHoverJob = () => {
+    return [100, 100];
+  };
   const handlePrevNewJob = () => {
     setThresholdNewJob(idPrev + 1);
   };
@@ -196,102 +207,122 @@ const ListJobComponent = (props: Props) => {
           </div>
         </div>
         <SkeletonAll data={listJob}>
-          <div>
-            <ul className="inline-flex flex-wrap justify-center list-job gap-9">
+          <div className="flex justify-center">
+            <ul className="inline-flex flex-wrap justify-center list-job gap-9 w-full">
               {listJob &&
                 listJob.length > 0 &&
                 listJob.map((item, index) => (
-                  <li key={index} className="relative">
-                    <Link
-                      href={`/post-detail/${item.id}`}
-                      className={`w-[360px] h-[180px] group  px-4 border-[1px] hover:border-blue-500 hover:bg-white hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md  py-6 flex justify-between items-center item-job`}
-                    >
-                      <div className="w-2/12">
-                        <Image
-                          className="w-16 h-16 rounded-xl group-hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] object-cover"
-                          src={item.image ? item.image : "/logo/logo.png"}
-                          alt="anh"
-                          width={200}
-                          height={200}
-                        />
-                      </div>
-                      <div className="w-7/12 h-full flex flex-col justify-between capitalize">
-                        <h2 className="text-sm font-bold  group-hover:drop-shadow-xl  group-hover:text-blue-500">
-                          {handleShortTextHome(item.title, 20)}
-                        </h2>
-                        <div className="my-2 flex flex-col gap-y-1 font-medium">
-                          <div className="flex items-center">
-                            <Image
-                              className="w-4 mr-1"
-                              src={"/iconcompany.svg"}
-                              alt="anh"
-                              width={200}
-                              height={200}
-                            />
-                            <p className="text-[9px]  drop-shadow-xl">
-                              {handleShortTextHome(item.companyName, 30)}
-                            </p>
-                          </div>
-                          <div className="flex items-center">
-                            <Image
-                              className="w-4 mr-1"
-                              src={"/icontime.svg"}
-                              alt="anh"
-                              width={200}
-                              height={200}
-                            />
-                            <p className="text-[9px]  drop-shadow-xl">
-                              {item.createdAtText}
-                            </p>
-                          </div>
-                          <div className="flex items-center">
-                            <Image
-                              className="w-4 mr-1"
-                              src={"/iconlocation.svg"}
-                              alt="anh"
-                              width={200}
-                              height={200}
-                            />
-                            <p className="text-[9px]  drop-shadow-xl">
-                              {item?.location?.district?.fullName}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="inline-flex flex-wrap justify-start gap-1 font-extrabold">
-                          <h3 className="text-[9px] py-1 px-2 rounded-md min-w-fit bg-slate-50 group-hover:text-blue-500  group-hover:drop-shadow-xl">
-                            {handleShortValueNumber(item.salaryMin.toString())}{" "}
-                            -{" "}
-                            {handleShortValueNumber(item.salaryMax.toString())}{" "}
-                            {item.moneyType}
-                          </h3>
-                          <h3 className="text-[9px] py-1 px-2 rounded-md min-w-fit bg-slate-50 group-hover:text-blue-500  group-hover:drop-shadow-xl">
-                            {item?.jobType.name}
-                          </h3>
-                        </div>
-                      </div>
+                  <>
+                    <li
+                      key={index}
+                      className="relative peer"
+                      onMouseEnter={(e: any) => {
+                        const mouseX = e.clientX;
+                        const mouseY = e.clientY;
 
-                      <div className="w-1/12 flex justify-center h-full">
-                        <div
-                          className="h-fit"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            if (item.bookmarked === false) {
-                              handleBookmarked(item.id);
-                            } else {
-                              handleDeleteBookmarked(item.id);
-                            }
-                          }}
-                        >
-                          {item.accountId !== accountId &&
-                            (item.bookmarked === true ? (
-                              <SaveIconFill width={24} height={24} />
-                            ) : (
-                              <SaveIconOutline width={24} height={24} />
-                            ))}
+                        setPositionHoverJobX(mouseX);
+                        setPositionHoverJobY(mouseY);
+                      }}
+                    >
+                      <Link
+                        href={`/post-detail/${item.id}`}
+                        className={`w-[360px] h-[180px] group  px-4 border-[1px] hover:border-blue-500 hover:bg-white hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md  py-6 flex justify-between items-center item-job`}
+                      >
+                        <div className="w-2/12">
+                          <Image
+                            className="w-16 h-16 rounded-xl group-hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] object-cover"
+                            src={item.image ? item.image : "/logo/logo.png"}
+                            alt="anh"
+                            width={200}
+                            height={200}
+                          />
                         </div>
-                      </div>
-                    </Link>
-                  </li>
+                        <div className="w-7/12 h-full flex flex-col justify-between capitalize">
+                          <h2 className="text-sm font-bold  group-hover:drop-shadow-xl  group-hover:text-blue-500">
+                            {handleShortTextHome(item.title, 20)}
+                          </h2>
+                          <div className="my-2 flex flex-col gap-y-1 font-medium">
+                            <div className="flex items-center">
+                              <Image
+                                className="w-4 mr-1"
+                                src={"/iconcompany.svg"}
+                                alt="anh"
+                                width={200}
+                                height={200}
+                              />
+                              <p className="text-[9px]  drop-shadow-xl">
+                                {handleShortTextHome(item.companyName, 30)}
+                              </p>
+                            </div>
+                            <div className="flex items-center">
+                              <Image
+                                className="w-4 mr-1"
+                                src={"/icontime.svg"}
+                                alt="anh"
+                                width={200}
+                                height={200}
+                              />
+                              <p className="text-[9px]  drop-shadow-xl">
+                                {item.createdAtText}
+                              </p>
+                            </div>
+                            <div className="flex items-center">
+                              <Image
+                                className="w-4 mr-1"
+                                src={"/iconlocation.svg"}
+                                alt="anh"
+                                width={200}
+                                height={200}
+                              />
+                              <p className="text-[9px]  drop-shadow-xl">
+                                {item?.location?.district?.fullName}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="inline-flex flex-wrap justify-start gap-1 font-extrabold">
+                            <h3 className="text-[9px] py-1 px-2 rounded-md min-w-fit bg-slate-50 group-hover:text-blue-500  group-hover:drop-shadow-xl">
+                              {handleShortValueNumber(
+                                item.salaryMin.toString()
+                              )}{" "}
+                              -{" "}
+                              {handleShortValueNumber(
+                                item.salaryMax.toString()
+                              )}{" "}
+                              {item.moneyType}
+                            </h3>
+                            <h3 className="text-[9px] py-1 px-2 rounded-md min-w-fit bg-slate-50 group-hover:text-blue-500  group-hover:drop-shadow-xl">
+                              {item?.jobType.name}
+                            </h3>
+                          </div>
+                        </div>
+
+                        <div className="w-1/12 flex justify-center h-full">
+                          <div
+                            className="h-fit"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (item.bookmarked === false) {
+                                handleBookmarked(item.id);
+                              } else {
+                                handleDeleteBookmarked(item.id);
+                              }
+                            }}
+                          >
+                            {item.accountId !== accountId &&
+                              (item.bookmarked === true ? (
+                                <SaveIconFill width={24} height={24} />
+                              ) : (
+                                <SaveIconOutline width={24} height={24} />
+                              ))}
+                          </div>
+                        </div>
+                      </Link>
+                    </li>
+                    <div
+                      ref={demoInfo}
+                      className={` opacity-0 peer-hover:opacity-100  transition-all fixed z-50 border-2 w-[580px] h-[400px] bg-white rounded-2xl shadow-[0px_0px_1px_0px_#CBD5E0] `}
+                    ></div>
+                  </>
                 ))}
             </ul>
           </div>
