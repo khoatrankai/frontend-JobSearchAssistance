@@ -24,12 +24,16 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
     (state: RootState) => state.changeLaguage.language
   );
   const { setDataCompany, dataCompany, is_profile } = props;
-
   const [dataDistricts, setDataDistrict] = useState<any>(null);
   const [dataWards, setDataWard] = useState<any>(null);
   const [selectedProvince, setSelectedProvince] = useState<any>(null);
   const [selectedDistrict, setSelectedDistrict] = useState<any>(null);
   const [selectedWard, setSelectedWard] = useState<any>(null);
+  const [isClickProvince, setIsClickProvince] = useState(false);
+  const [isClickDistrict, setIsClickDistrict] = useState(false);
+  const [isClickWard, setIsClickWard] = useState(false);
+  const [isClickAddress, setIsClickAddress] = useState(false);
+
   const dataProvinces = useSelector(
     (state: RootState) => state.dataLocation.data
   );
@@ -196,7 +200,9 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
                 : option?.province_name || ""
             }
             value={selectedProvince || null}
-            // onChange={handleProvinceChange}
+            onOpen={() => {
+              setIsClickProvince(true);
+            }}
             onChange={(event: any, newValue: any | null) => {
               handleProvinceChange(event, newValue);
             }}
@@ -211,8 +217,22 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
             isOptionEqualToValue={(option, value) => {
               return option.province_fullName === value.province_fullName;
             }}
-            style={{ marginTop: "8px" }}
+            style={{
+              marginTop: "8px",
+              border: isClickProvince && !selectedProvince ? "1px solid red" : "none",
+              borderRadius: isClickProvince && !selectedProvince ? "5px" : "",
+            }}
           />
+
+          {
+            isClickProvince && !selectedProvince && (
+              <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
+                {languageRedux === 1
+                  ? "Vui lòng chọn thành phố"
+                  : "Please select city"}
+              </p>
+            )
+          }
         </div>
 
         <div className="edit-titleAddress">
@@ -238,11 +258,27 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
                 size="small"
               />
             )}
+            onOpen={() => {
+              setIsClickDistrict(true);
+            }}
             isOptionEqualToValue={(option, value) => {
               return option.full_name === value.full_name;
             }}
-            style={{ marginTop: "8px" }}
+            style={{
+              marginTop: "8px",
+              border: isClickDistrict && !selectedDistrict ? "1px solid red" : "none",
+              borderRadius: isClickDistrict && !selectedDistrict ? "5px" : "",
+            }}
           />
+          {
+            isClickDistrict && !selectedDistrict && (
+              <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
+                {languageRedux === 1
+                  ? "Vui lòng chọn quận/huyện"
+                  : "Please select district"}
+              </p>
+            )
+          }
         </div>
       </div>
       <div className="edit-address-company">
@@ -262,6 +298,9 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
             getOptionLabel={(option: any) => option?.full_name || ""}
             value={selectedWard || null}
             onChange={handleChangeWardId}
+            onOpen={() => {
+              setIsClickWard(true);
+            }}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -272,8 +311,21 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
             isOptionEqualToValue={(option, value) => {
               return option.full_name === value.full_name;
             }}
-            style={{ marginTop: "8px" }}
+            style={{
+              marginTop: "8px",
+              border: isClickWard && !selectedWard ? "1px solid red" : "none",
+              borderRadius: isClickWard && !selectedWard ? "5px" : "",
+            }}
           />
+          {
+            isClickWard && !selectedWard && (
+              <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
+                {languageRedux === 1
+                  ? "Vui lòng chọn phường/xã"
+                  : "Please select ward"}
+              </p>
+            )
+          }
         </div>
 
         <div className="edit-titleAddress">
@@ -295,7 +347,14 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
             value={dataCompany?.address}
             onChange={handleChangeAddress}
             size="small"
-            sx={{ width: "100%", marginTop: "8px" }}
+            onClick={() => {
+              setIsClickAddress(true);
+            }}
+            sx={{
+              width: "100%", marginTop: "8px",
+              border: isClickAddress && !dataCompany?.address ? "1px solid red" : "none",
+              borderRadius: isClickAddress && !dataCompany?.address ? "5px" : "",
+            }}
             placeholder={
               languageRedux === 1
                 ? "Tên đường, toà nhà, số nhà "
@@ -303,6 +362,16 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
             }
             disabled={is_profile ? true : false}
           />
+
+          {
+            isClickAddress && !dataCompany?.address && (
+              <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
+                {languageRedux === 1
+                  ? "Vui lòng nhập địa chỉ"
+                  : "Please enter address"}
+              </p>
+            )
+          }
         </div>
       </div>
     </div>

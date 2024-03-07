@@ -23,11 +23,10 @@ const ModifyRoleWebComponent: React.FC<IEditPostAddress> = memo((props) => {
         (state: RootState) => state.changeLaguage.language
     );
     const { setDataCompany, dataCompany, is_profile } = props;
-    const language = useSelector(
-        (state: RootState) => state.dataLanguage.languages
-    );
     const [dataRoles, setDataRoles] = useState<any>(null);
     const [selectedRole, setSelectedRole] = useState<any>(null);
+    const [isClickRole, setIsClickRole] = useState(false);
+    const [isClickWeb, setIsClickWeb] = useState(false);
 
     useEffect(() => {
         if (dataRoles && !selectedRole) {
@@ -67,7 +66,7 @@ const ModifyRoleWebComponent: React.FC<IEditPostAddress> = memo((props) => {
         setDataCompany((preValue: any) => ({
             ...preValue,
             companyRoleInfomation: {
-                id: value.id,
+                id: value?.id,
             },
         }));
     };
@@ -101,6 +100,9 @@ const ModifyRoleWebComponent: React.FC<IEditPostAddress> = memo((props) => {
                     getOptionLabel={(option: any) => option?.nameText || ""}
                     value={selectedRole || null}
                     onChange={handleEditCompanyRole}
+                    onOpen={() => {
+                        setIsClickRole(true);
+                    }}
                     renderInput={(params) => (
                         <TextField
                             {...params}
@@ -111,8 +113,19 @@ const ModifyRoleWebComponent: React.FC<IEditPostAddress> = memo((props) => {
                     isOptionEqualToValue={(option, value) => {
                         return option.nameText === value.nameText;
                     }}
-                    style={{ marginTop: "8px" }}
+                    style={{
+                        marginTop: "8px",
+                        border: isClickRole && !selectedRole ? "1px solid red" : "none",
+                        borderRadius: isClickRole && !selectedRole ? "5px" : "",
+                    }}
                 />
+                {isClickRole && !selectedRole && (
+                    <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
+                        {languageRedux === 1
+                            ? "Vai trò của bạn không được để trống"
+                            : "Your role cannot be empty"}
+                    </p>
+                )}
             </div>
 
             <div className="w-1/2">
@@ -131,10 +144,24 @@ const ModifyRoleWebComponent: React.FC<IEditPostAddress> = memo((props) => {
                     value={dataCompany?.website}
                     onChange={handleEditCompanyWeb}
                     size="small"
-                    sx={{ width: "100%", marginTop: "8px" }}
+                    sx={{
+                        width: "100%", marginTop: "8px",
+                        border: isClickWeb && !dataCompany?.website ? "1px solid red" : "none",
+                        borderRadius: isClickWeb && !dataCompany?.website ? "5px" : "",
+                    }}
                     placeholder='http://"'
                     disabled={is_profile ? true : false}
+                    onClick={() => {
+                        setIsClickWeb(true);
+                    }}
                 />
+                {isClickWeb && !dataCompany?.website && (
+                    <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
+                        {languageRedux === 1
+                            ? "Website không được để trống"
+                            : "Website cannot be empty"}
+                    </p>
+                )}
             </div>
         </div>
     );

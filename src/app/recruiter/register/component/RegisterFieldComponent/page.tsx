@@ -23,15 +23,13 @@ const ModifyFieldScaleCompany: React.FC<IEditPostAddress> = memo((props) => {
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
-  const language = useSelector(
-    (state: RootState) => state.dataLanguage.languages
-  );
   const { setDataCompany, dataCompany, is_profile } = props;
-
   const [dataSizes, setDataSizes] = useState<any>(null);
   const [selectedSize, setSelectedSize] = useState<any>(null);
   const [dataCategories, setDataCategories] = useState<any>(null);
   const [selectedCategory, setSelectedCategory] = useState<any>(null);
+  const [isClickSize, setIsClickSize] = useState(false);
+  const [isClickField, setIsClickField] = useState(false);
 
   useEffect(() => {
     if (dataSizes && !selectedSize) {
@@ -132,6 +130,9 @@ const ModifyFieldScaleCompany: React.FC<IEditPostAddress> = memo((props) => {
           getOptionLabel={(option: any) => option?.parent_category || ""}
           value={selectedCategory || null}
           onChange={handleEditCompanyCategory}
+          onOpen={() => {
+            setIsClickField(true);
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -145,8 +146,21 @@ const ModifyFieldScaleCompany: React.FC<IEditPostAddress> = memo((props) => {
           isOptionEqualToValue={(option, value) => {
             return option?.parent_category === value?.parent_category;
           }}
-          style={{ marginTop: "8px" }}
+          style={{
+            marginTop: "8px",
+            border: isClickField && !selectedCategory ? "1px solid red" : "none",
+            borderRadius: isClickField && !selectedCategory ? "5px" : "",
+          }}
         />
+        {
+          isClickField && !selectedCategory && (
+            <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
+              {languageRedux === 1
+                ? "Lĩnh vực hoạt động không được để trống"
+                : "Field of activity cannot be empty"}
+            </p>
+          )
+        }
       </div>
 
       <div className="w-1/2">
@@ -165,6 +179,9 @@ const ModifyFieldScaleCompany: React.FC<IEditPostAddress> = memo((props) => {
           getOptionLabel={(option: any) => option?.nameText || ""}
           value={selectedSize || null}
           onChange={handleEditCompanySize}
+          onOpen={() => {
+            setIsClickSize(true);
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -176,8 +193,21 @@ const ModifyFieldScaleCompany: React.FC<IEditPostAddress> = memo((props) => {
           isOptionEqualToValue={(option, value) => {
             return option?.nameText === value?.nameText;
           }}
-          style={{ marginTop: "8px" }}
+          style={{
+            marginTop: "8px",
+            border: isClickSize && !selectedSize ? "1px solid red" : "none",
+            borderRadius: isClickSize && !selectedSize ? "5px" : "",
+          }}
         />
+        {
+          isClickSize && !selectedSize && (
+            <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
+              {languageRedux === 1
+                ? "Quy mô công ty không được để trống"
+                : "Company scale cannot be empty"}
+            </p>
+          )
+        }
       </div>
     </div>
   );

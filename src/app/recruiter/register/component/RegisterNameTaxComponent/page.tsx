@@ -3,6 +3,8 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/redux/reducer';
+
+
 import './style.scss';
 interface IEditNameFaxCompany {
   setDataCompany: any;
@@ -15,7 +17,8 @@ const ModifyNameTaxComponent: React.FC<IEditNameFaxCompany> = (props) => {
     (state: RootState) => state.changeLaguage.language,
   );
   const {dataCompany, setDataCompany, is_profile} = props;
-
+  const [isClickName, setIsClickName] = React.useState(false);
+  const [name, setName] = React.useState('');
   const handleEditCompanyFax = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -53,14 +56,28 @@ const ModifyNameTaxComponent: React.FC<IEditNameFaxCompany> = (props) => {
           id="editCompany"
           name="title"
           value={dataCompany?.name}
-          onChange={handleEditCompanyName}
+          onChange={(e) => {
+            handleEditCompanyName(e);
+            setName(e.target.value);
+          }}
+          onClick={() => {
+            setIsClickName(true);
+          }}
           size="small"
-          sx={{width: '100%', marginTop: '8px'}}
+          sx={{width: '100%', marginTop: '8px', 
+            border: isClickName && !name ? '1px solid red' : 'none',
+            borderRadius: isClickName && !name ? '5px' : '',
+          }}
           placeholder={
             languageRedux === 1 ? 'Nhập tên công ty' : 'Enter company name'
           }
           disabled={is_profile ? true : false}
         />
+        {isClickName && !name && (
+          <p style={{color: 'red', fontSize: '12px', marginTop: '5px'}}>
+            {languageRedux === 1 ? 'Tên công ty không được để trống' : 'Company name cannot be empty'}
+          </p>
+        )}
       </div>
       <div className='w-1/2'>
         <Typography

@@ -27,6 +27,7 @@ interface IEditPhoneMailCompany {
 
 const NumericInput = (props: NumericInputProps) => {
     const { value, onChange, languageRedux, language, is_profile } = props;
+    const [isChangePhone, setIsChangePhone] = React.useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value: inputValue } = e.target;
@@ -48,20 +49,40 @@ const NumericInput = (props: NumericInputProps) => {
         }));
     };
     return (
-        <TextField
-            {...props}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            placeholder="Nhập số điện thoại"
-            inputProps={{ maxLength: 10 }}
-            size="small"
-            sx={{ width: '100%', marginTop: '8px' }}
-            disabled={is_profile ? true : false}
-        />
+        <>
+            <TextField
+                {...props}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                placeholder="Nhập số điện thoại"
+                inputProps={{ maxLength: 10 }}
+                size="small"
+                sx={{
+                    width: '100%', marginTop: '8px',
+                    border: isChangePhone && !value ? '1px solid red' : 'none',
+                    borderRadius: isChangePhone && !value ? '5px' : ''
+                }}
+                disabled={is_profile ? true : false}
+                onClick={() => {
+                    setIsChangePhone(true);
+                }}
+            />
+            {
+                isChangePhone && !value && (
+                    <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>
+                        {languageRedux === 1
+                            ? 'Số điện thoại không được để trống'
+                            : 'Phone number cannot be empty'}
+                    </p>
+                )
+            }
+        </>
+
     );
 };
 
 const ModifyEmailPhoneComponent: React.FC<IEditPhoneMailCompany> = (props) => {
+    const [isClickEmail, setIsClickEmail] = React.useState(false);
     const languageRedux = useSelector(
         (state: RootState) => state.changeLaguage.language,
     );
@@ -116,10 +137,24 @@ const ModifyEmailPhoneComponent: React.FC<IEditPhoneMailCompany> = (props) => {
                     value={dataCompany?.email}
                     onChange={handleEditCompanyMail}
                     size="small"
-                    sx={{ width: '100%', marginTop: '8px' }}
+                    sx={{
+                        width: '100%', marginTop: '8px',
+                        border: isClickEmail && !dataCompany?.email ? '1px solid red' : 'none',
+                        borderRadius: isClickEmail && !dataCompany?.email ? '5px' : ''
+                    }}
                     placeholder={languageRedux === 1 ? 'Nhập email' : 'Enter email'}
                     disabled={is_profile ? true : false}
+                    onClick={() => {
+                        setIsClickEmail(true);
+                    }}
                 />
+                {isClickEmail && !dataCompany?.email && (
+                    <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>
+                        {languageRedux === 1
+                            ? 'Email không được để trống'
+                            : 'Email cannot be empty'}
+                    </p>
+                )}
             </div>
         </div>
     );

@@ -1,10 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Input, Checkbox, Space } from "antd";
+import { Input, Checkbox } from "antd";
 import { MdEmail, MdOutlineWifiPassword } from "react-icons/md";
 import Button from "@mui/material/Button";
-import { FaEye } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { FaPhoneAlt } from "react-icons/fa";
@@ -34,9 +32,7 @@ const Page = () => {
   ];
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
-  const [passwordVisible, setPasswordVisible] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
-  const [verifyPasswordVisible, setVerifyPasswordVisible] = useState(false);
   const [dataCompany, setDataCompany] = useState<any | null>({
     name: "",
     address: "",
@@ -61,14 +57,6 @@ const Page = () => {
     (state: RootState) => state.changeLaguage.language
   );
   const router = useRouter();
-
-  const togglePasswordVisibility = () => {
-    setPasswordVisible((prevVisible) => !prevVisible);
-  };
-
-  const toggleVerifyPasswordVisibility = () => {
-    setVerifyPasswordVisible((prevVisible) => !prevVisible);
-  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -229,6 +217,9 @@ const Page = () => {
                 <Input.Password
                   onClick={() => {
                     setIsClickVerifyPassword(true);
+                  }}
+                  onChange={(e) => {
+                    setVerifyPassword(e.target.value);
                   }}
                   status={isClickVerifyPassword && verifyPassword === "" ? "error" : ""}
                   size="large"
