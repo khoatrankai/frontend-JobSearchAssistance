@@ -42,6 +42,7 @@ export default function RootLayout({
     "/sign-up",
     "/recruiter/login",
     "/recruiter/register",
+    "/recruiter/forgot-password",
   ];
 
   return (

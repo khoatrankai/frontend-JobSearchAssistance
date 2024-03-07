@@ -19,7 +19,8 @@ import ModifyEmailPhoneComponent from "@/app/recruiter/register/component/Regist
 import ModifyRoleWebComponent from "@/app/recruiter/register/component/RegisterRoleWebComponent/page";
 import ModifyFieldScaleCompany from "@/app/recruiter/register/component/RegisterFieldComponent/page";
 import EditDescripeCompanyComponent from "@/components/CompanyComponent/EditDescripeCompanyComponent";
-import EditImageCompanyComponent from "@/components/CompanyComponent/EditImageCompanyComponent";
+import { CiCircleInfo } from "react-icons/ci";
+
 const Page = () => {
   const images = [
     {
@@ -50,6 +51,12 @@ const Page = () => {
     description: "",
     logoPath: "",
   });
+  const [isClickEmail, setIsClickEmail] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isClickPassword, setIsClickPassword] = useState(false);
+  const [password, setPassword] = useState("");
+  const [isClickVerifyPassword, setIsClickVerifyPassword] = useState(false);
+  const [verifyPassword, setVerifyPassword] = useState("");
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
@@ -120,10 +127,11 @@ const Page = () => {
             <div className="basic regulations">Quy định</div>
             <div className="flex flex-col gap-4">
               <div className="basic">
-                Để đảm bảo chất lượng dịch vụ, TopCV không cho phép một người
-                dùng tạo nhiều tài khoản khác nhau.
+                Để đảm bảo chất lượng dịch vụ, TopCV <span
+                  className="text-red-color">không cho phép một người
+                  dùng tạo nhiều tài khoản khác nhau.</span>
               </div>
-              <div className="basic">
+              <div className="basic text-justify">
                 Nếu phát hiện vi phạm, TopCV sẽ ngừng cung cấp dịch vụ tới tất
                 cả các tài khoản trùng lặp hoặc chặn toàn bộ truy cập tới hệ
                 thống website của TopCV. Đối với trường hợp khách hàng đã sử
@@ -151,28 +159,49 @@ const Page = () => {
                 <Input
                   size="large"
                   placeholder="Email"
+                  onClick={() => {
+                    setIsClickEmail(true);
+                  }}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  status={isClickEmail && email === "" ? "error" : ""}
                   prefix={
                     <span style={{ marginRight: "8px" }}>
                       <MdEmail />
                     </span>
                   }
+                  suffix={isClickEmail && email === "" ? <CiCircleInfo className="text-red-700" /> : ""}
                 />
               </div>
-              <div>Email đăng nhập không được để trống</div>
-              <div>
+              {
+                isClickEmail && email === "" && (
+                  <div>
+                    <div className="text-red-700 text-sm mb-3">Vui lòng nhập email</div>
+                  </div>
+
+                )}
+              <div className="basic mt-3 text-red-color text-justify">
                 Trường hợp bạn đăng ký tài khoản bằng email không phải email tên
                 miền công ty, một số dịch vụ trên tài khoản có thể sẽ bị giới
                 hạn quyền mua hoặc sử dụng.
               </div>
             </div>
             <div className="password">
-              <div className="flex mb-1 gap-1">
+              <div className="flex mb-1 gap-1 mt-3">
                 <label>Mật khẩu:</label>
                 <FaAsterisk className="asterisk" />
               </div>
 
               <div className="mb-3">
-                <Input
+                <Input.Password
+                  onClick={() => {
+                    setIsClickPassword(true);
+                  }}
+                  status={isClickPassword && password === "" ? "error" : ""}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
                   size="large"
                   placeholder="Mật khẩu"
                   prefix={
@@ -180,28 +209,28 @@ const Page = () => {
                       <MdOutlineWifiPassword />
                     </span>
                   }
-                  suffix={
-                    <Space
-                      onClick={toggleVerifyPasswordVisibility}
-                      style={{ cursor: "pointer" }}
-                    >
-                      {verifyPasswordVisible ? <FaEye /> : <FaEyeSlash />}
-                    </Space>
-                  }
                 />
               </div>
 
-              <div>Mật khẩu không được để trống</div>
+              {
+                isClickPassword && password === "" && (
+                  <div className="text-red-700 text-sm mb-3">Vui lòng nhập mật khẩu</div>
+                )
+              }
             </div>
 
             <div className="verify-password">
-              <div className="flex mb-1 gap-1">
+              <div className="flex mb-1 gap-1 mt-3">
                 <label>Xác nhận mật khẩu:</label>
                 <FaAsterisk className="asterisk" />
               </div>
 
               <div className="mb-3">
-                <Input
+                <Input.Password
+                  onClick={() => {
+                    setIsClickVerifyPassword(true);
+                  }}
+                  status={isClickVerifyPassword && verifyPassword === "" ? "error" : ""}
                   size="large"
                   placeholder="Xác nhận mật khẩu"
                   prefix={
@@ -209,21 +238,21 @@ const Page = () => {
                       <MdOutlineWifiPassword />
                     </span>
                   }
-                  suffix={
-                    <Space
-                      onClick={togglePasswordVisibility}
-                      style={{ cursor: "pointer" }}
-                    >
-                      {passwordVisible ? <FaEye /> : <FaEyeSlash />}
-                    </Space>
-                  }
                 />
+                {
+                  isClickVerifyPassword && verifyPassword === "" && (
+                    <div className="text-red-700 text-sm mb-3">Vui lòng xác nhận mật khẩu</div>
+                  )
+                }
+                {
+                  verifyPassword !== password && (
+                    <div className="text-red-700 text-sm mb-3">Mật khẩu không trùng khớp</div>
+                  )
+                }
               </div>
-
-              <div>Mật khẩu không trùng khớp</div>
             </div>
-            <div>
-              <div>Thông tin nhà tuyển dụng</div>
+            <div className="mt-3 flex flex-col gap-2">
+              <div className="text-info-employer">Thông tin nhà tuyển dụng</div>
               <EditLogoCompanyComponent
                 dataCompany={dataCompany}
                 setDataCompany={setDataCompany}
@@ -261,9 +290,12 @@ const Page = () => {
                 is_profile={false}
               />
             </div>
-            <div className="flex gap-1">
-              <Checkbox></Checkbox>
-              <div>
+            <div className="flex gap-2 mt-3 items-center">
+              <Checkbox
+                className="checkbox"
+                style={{ color: "#ffcc00" }}
+              ></Checkbox>
+              <div className="basic">
                 Tôi đã đọc và đồng ý với các điều khoản sử dụng của TopCV
               </div>
             </div>
@@ -283,32 +315,35 @@ const Page = () => {
             </Button>
             <div className="mt-3 justify-center flex">
               <div className="basic text-[#6f7882]">
-                Bạn đã có tài khoản? Đăng nhập
+                Bạn đã có tài khoản? <span className="text-[#00b14f] cursor-pointer" onClick={() => {
+                  router.push("/recruiter/login");
+                }}>Đăng nhập</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-      {!isTablet && (
-        <div className="w-1/3 h-full">
-          <div className="fixed inset-y-0 right-0 left-2/3">
-            {images.map((image, index) => (
-              <motion.div
-                key={image.id}
-                className={`h-full flex bg-right ${
-                  index === currentImage ? "visible" : "hidden"
-                }`}
-                animate={{ x: 0 }}
-                initial={{ x: index === 0 ? 0 : -1000 }} // Chỉ set x = 0 cho ảnh đầu tiên
-                transition={{ duration: 1 }}
-              >
-                <img src={image.src} alt={`Image ${image.id}`} />
-              </motion.div>
-            ))}
+      {
+        !isTablet && (
+          <div className="w-1/3 h-full">
+            <div className="fixed inset-y-0 right-0 left-2/3">
+              {images.map((image, index) => (
+                <motion.div
+                  key={image.id}
+                  className={`h-full flex bg-right ${index === currentImage ? "visible" : "hidden"
+                    }`}
+                  animate={{ x: 0 }}
+                  initial={{ x: index === 0 ? 0 : -1000 }} // Chỉ set x = 0 cho ảnh đầu tiên
+                  transition={{ duration: 1 }}
+                >
+                  <img src={image.src} alt={`Image ${image.id}`} />
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )
+      }
+    </div >
   );
 };
 

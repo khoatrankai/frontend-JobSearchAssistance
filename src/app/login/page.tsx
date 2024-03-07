@@ -7,18 +7,18 @@ import Button from '@mui/material/Button';
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { useRouter } from 'next/navigation';
+import { CiCircleInfo } from "react-icons/ci";
 import './style.scss';
 
 
 const Page = () => {
     const [isMobile, setIsMobile] = useState(false);
     const [isTablet, setIsTablet] = useState(false);
-    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [email, setEmail] = useState('');
+    const [isClickEmail, setIsClickEmail] = useState(false);
+    const [password, setPassword] = useState('');
+    const [isCheckPassword, setIsCheckPassword] = useState(false);
     const router = useRouter();
-
-    const togglePasswordVisibility = () => {
-        setPasswordVisible((prevVisible) => !prevVisible);
-    };
 
     useEffect(() => {
         const handleResize = () => {
@@ -58,19 +58,44 @@ const Page = () => {
                             <Input
                                 size="large"
                                 placeholder="Email"
+                                onClick={() => {
+                                    setIsClickEmail(true);
+                                }}
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                }}
+                                status={(isClickEmail && email === '') ? 'error' : ''}
                                 prefix={<span style={{ marginRight: '8px' }}><MdEmail /></span>}
+                                suffix={(isClickEmail && email === '') ? <CiCircleInfo className='text-red-700' /> : ''}
                             />
+
+                            {
+                                isClickEmail && email === '' && (
+                                    <p className='text-red-700 text-sm mt-2'>Vui lòng nhập email</p>
+                                )
+                            }
 
                         </div>
                         <label className='block mb-1'>
                             Mật khẩu:
                         </label>
                         <div className='mb-3'>
-                            <Input size="large" placeholder="Mật khẩu" prefix={<span style={{ marginRight: '8px' }}><MdOutlineWifiPassword /></span>} suffix={
-                                <Space onClick={togglePasswordVisibility} style={{ cursor: 'pointer' }}>
-                                    {passwordVisible ? <FaEye/> : <FaEyeSlash/>}
-                                </Space>
-                            } />
+                            <Input.Password 
+                            size="large" 
+                            onClick={() => {
+                                setIsCheckPassword(true);
+                            }}
+                            onChange={(e) => {
+                                setPassword(e.target.value);
+                            }}
+                            status={(isCheckPassword && password === '') ? 'error' : ''}
+                            placeholder="Mật khẩu" prefix={<span style={{ marginRight: '8px' }}><MdOutlineWifiPassword /></span>}/>
+
+                            {
+                                isCheckPassword && password === '' && (
+                                    <p className='text-red-700 text-sm mt-2'>Vui lòng nhập mật khẩu</p>
+                                )
+                            }
                         </div>
                         <p className='text-blue-500 hover:underline cursor-pointer text-right basic' onClick={() => {
                             router.push('/forgot-password');

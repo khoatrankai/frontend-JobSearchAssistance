@@ -1,12 +1,11 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Input, Checkbox, Space } from 'antd';
+import { Input, Space } from 'antd';
 import { MdEmail, MdOutlineWifiPassword } from 'react-icons/md';
 import Button from '@mui/material/Button';
-import { FaEye } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa";
 import { useRouter } from 'next/navigation';
 import { motion } from "framer-motion";
+import { CiCircleInfo } from "react-icons/ci";
 import './style.scss';
 
 const Page = () => {
@@ -20,13 +19,13 @@ const Page = () => {
     ]
     const [isMobile, setIsMobile] = useState(false);
     const [isTablet, setIsTablet] = useState(false);
-    const [passwordVisible, setPasswordVisible] = useState(false);
     const [currentImage, setCurrentImage] = useState(0);
+    const [isCheckPassword, setIsCheckPassword] = useState(false);
+    const [isClickEmail, setIsClickEmail] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const router = useRouter();
 
-    const togglePasswordVisibility = () => {
-        setPasswordVisible((prevVisible) => !prevVisible);
-    };
 
     useEffect(() => {
         const handleResize = () => {
@@ -75,22 +74,35 @@ const Page = () => {
                             <Input
                                 size="large"
                                 placeholder="Email"
+                                onClick={() => {
+                                    setIsClickEmail(true);
+                                }}
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                }}
+                                status={(isClickEmail && email === '') ? 'error' : ''}
+                                suffix={(isClickEmail && email === '') ? <CiCircleInfo className='text-red-700' /> : ''}
                                 prefix={<span style={{ marginRight: '8px' }}><MdEmail /></span>}
                             />
-
                         </div>
+                        {isClickEmail && email === '' && <div className='text-red-700 text-sm mb-3'>Vui lòng nhập email</div>}
                         <label className='block mb-1'>
                             Mật khẩu:
                         </label>
                         <div className='mb-3'>
-                            <Input size="large" placeholder="Mật khẩu" prefix={<span style={{ marginRight: '8px' }}><MdOutlineWifiPassword /></span>} suffix={
-                                <Space onClick={togglePasswordVisibility} style={{ cursor: 'pointer' }}>
-                                    {passwordVisible ? <FaEye /> : <FaEyeSlash />}
-                                </Space>
-                            } />
+                            <Input.Password onClick={() => {
+                                setIsCheckPassword(true);
+                            }}
+                                status={(isCheckPassword && password === '') ? 'error' : ''}
+                                onChange={(e) => {
+                                    setPassword(e.target.value);
+                                }}
+                                size="large" placeholder="Mật khẩu" prefix={<span style={{ marginRight: '8px' }}><MdOutlineWifiPassword /></span>}
+                            />
                         </div>
+                        {isCheckPassword && password === '' && <div className='text-red-700 text-sm mb-3'>Vui lòng nhập mật khẩu</div>}
                         <p className='text-blue-500 hover:underline cursor-pointer text-right basic' onClick={() => {
-                            router.push('/forgot-password');
+                            router.push('/recruiter/forgot-password');
                         }}>
                             Quên mật khẩu?
                         </p>
@@ -111,7 +123,7 @@ const Page = () => {
                                 Bạn chưa có tài khoản?
                             </div>
                             <div className='basic register cursor-pointer' onClick={() => {
-                                router.push('/sign-up');
+                                router.push('/recruiter/register');
                             }}>
                                 Đăng ký
                             </div>
@@ -126,13 +138,12 @@ const Page = () => {
                         className={`w-1/3 h-screen bg-right ${index === currentImage ? "visible" : "hidden"
                             }`}
                         animate={{ x: 0 }}
-                        initial={{ x: index === 0 ? 0 : -1000 }}  // Chỉ set x = 0 cho ảnh đầu tiên
+                        initial={{ x: index === 0 ? 0 : -1000 }}
                         transition={{ duration: 1 }}
                     >
                         <img src={image.src} alt={`Image ${image.id}`} />
                     </motion.div>
                 ))}
-
         </div>
     );
 }

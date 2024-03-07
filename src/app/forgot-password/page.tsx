@@ -3,12 +3,15 @@ import React, { useEffect, useState } from 'react';
 import './style.scss';
 import Button from '@mui/material/Button';
 import { Input } from 'antd';
-import { MdEmail} from 'react-icons/md';
+import { MdEmail } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
+import { CiCircleInfo } from "react-icons/ci";
 
 const Page = () => {
     const [isMobile, setIsMobile] = useState(false);
     const [isTablet, setIsTablet] = useState(false);
+    const [email, setEmail] = useState('');
+    const [isClickEmail, setIsClickEmail] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -47,9 +50,20 @@ const Page = () => {
                             <Input
                                 size="large"
                                 placeholder="Email"
+                                onClick={() => {
+                                    setIsClickEmail(true);
+                                }}
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                }}
+                                status={(isClickEmail && email === '') ? 'error' : ''}
+                                value={email}
                                 prefix={<span style={{ marginRight: '8px' }}><MdEmail /></span>}
+                                suffix={(isClickEmail && email === '') ? <CiCircleInfo className='text-red-700' /> : ''}
                             />
-
+                            {isClickEmail && email === '' && (
+                                <p className='text-red-700 text-sm mt-2'>Vui lòng nhập email</p>
+                            )}
                         </div>
                         <div className='flex mt-4 align-top'>
                             <p className='ml-2 basic agreement-social-login'>
@@ -67,8 +81,7 @@ const Page = () => {
                             }
 
                         }} className='w-full'>
-                            Tạo lại mật
-                            khẩu
+                            Tạo lại mật khẩu
                         </Button>
                         <div className='flex mt-4 justify-between'>
                             <div>

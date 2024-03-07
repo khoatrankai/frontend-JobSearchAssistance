@@ -8,12 +8,21 @@ import Button from '@mui/material/Button';
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { FaPersonBreastfeeding } from "react-icons/fa6";
+import { CiCircleInfo } from "react-icons/ci";
 
 const Page = () => {
     const [isMobile, setIsMobile] = useState(false);
     const [isTablet, setIsTablet] = useState(false);
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [verifyPasswordVisible, setVerifyPasswordVisible] = useState(false);
+    const [isClickName, setIsClickName] = useState(false);
+    const [isClickEmail, setIsClickEmail] = useState(false);
+    const [isClickPassword, setIsClickPassword] = useState(false);
+    const [isClickVerifyPassword, setIsClickVerifyPassword] = useState(false);
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [verifyPassword, setVerifyPassword] = useState('');
     const router = useRouter();
 
     useEffect(() => {
@@ -63,7 +72,18 @@ const Page = () => {
                                 size="large"
                                 placeholder="Họ và tên"
                                 prefix={<span style={{ marginRight: '8px' }}><FaPersonBreastfeeding /></span>}
+                                onClick={() => {
+                                    setIsClickName(true);
+                                }}
+                                onChange={(e) => {
+                                    setName(e.target.value);
+                                }}
+                                status={(isClickName && name === '') ? 'error' : ''}
+                                suffix={(isClickName && name === '') ? <CiCircleInfo className='text-red-700' /> : ''}
                             />
+                            {isClickName && name === '' && (
+                                <p className='text-red-700 text-sm mt-2'>Vui lòng nhập họ và tên</p>
+                            )}
                         </div>
                         <label className='block mb-1'>
                             Email:
@@ -73,29 +93,63 @@ const Page = () => {
                                 size="large"
                                 placeholder="Email"
                                 prefix={<span style={{ marginRight: '8px' }}><MdEmail /></span>}
+                                onClick={() => {
+                                    setIsClickEmail(true);
+                                }}
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                }}
+                                value={email}
+                                status={(isClickEmail && email === '') ? 'error' : ''}
+                                suffix={(isClickEmail && email === '') ? <CiCircleInfo className='text-red-700' /> : ''}
                             />
-
+                            {
+                                isClickEmail && email === '' && (
+                                    <p className='text-red-700 text-sm mt-2'>Vui lòng nhập email</p>
+                                )
+                            }
                         </div>
                         <label className='block mb-1'>
                             Mật khẩu:
                         </label>
                         <div className='mb-3'>
-                            <Input size="large" placeholder="Mật khẩu" prefix={<span style={{ marginRight: '8px' }}><MdOutlineWifiPassword /></span>} suffix={
-                                <Space onClick={togglePasswordVisibility} style={{ cursor: 'pointer' }}>
-                                    {passwordVisible ? <FaEye /> : <FaEyeSlash />}
-                                </Space>
-                            } />
+                            <Input.Password
+                                onClick={() => {
+                                    setIsClickPassword(true);
+                                }}
+                                status={(isClickPassword && password === '') ? 'error' : ''}
+                                onChange={(e) => {
+                                    setPassword(e.target.value);
+                                }}
+                                value={password}
+                                size="large"
+                                placeholder="Mật khẩu" prefix={<span style={{ marginRight: '8px' }}><MdOutlineWifiPassword /></span>} />
+                            {isClickPassword && password === '' && (
+                                <p className='text-red-700 text-sm mt-2'>Vui lòng nhập mật khẩu</p>
+                            )}
                         </div>
 
                         <label className='block mb-1'>
                             Xác nhận mật khẩu:
                         </label>
                         <div className='mb-3'>
-                            <Input size="large" placeholder="Xác nhận mật khẩu" prefix={<span style={{ marginRight: '8px' }}><MdOutlineWifiPassword /></span>} suffix={
-                                <Space onClick={toggleVerifyPasswordVisibility} style={{ cursor: 'pointer' }}>
-                                    {verifyPasswordVisible ? <FaEye /> : <FaEyeSlash />}
-                                </Space>
-                            } />
+                            <Input.Password size="large"
+                                onClick={() => {
+                                    setIsClickVerifyPassword(true);
+                                }}
+                                status={(isClickVerifyPassword && verifyPassword === '') ? 'error' : ''}
+                                onChange={(e) => {
+                                    setVerifyPassword(e.target.value);
+                                }}
+                                value={verifyPassword}
+                                placeholder="Xác nhận mật khẩu" prefix={<span style={{ marginRight: '8px' }}><MdOutlineWifiPassword /></span>}
+                            />
+                            {isClickVerifyPassword && verifyPassword === '' && (
+                                <p className='text-red-700 text-sm mt-2'>Vui lòng xác nhận mật khẩu</p>
+                            )}
+                            {isClickVerifyPassword && verifyPassword !== '' && verifyPassword !== password && (
+                                <p className='text-red-700 text-sm mt-2'>Mật khẩu không khớp</p>
+                            )}
                         </div>
 
                         <div className='flex mt-4 align-top'>
