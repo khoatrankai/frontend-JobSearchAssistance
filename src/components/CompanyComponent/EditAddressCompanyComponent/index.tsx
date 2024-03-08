@@ -362,7 +362,6 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
             }
             disabled={is_profile ? true : false}
           />
-
           {
             isClickAddress && !dataCompany?.address && (
               <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>

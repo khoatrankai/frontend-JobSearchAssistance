@@ -1,14 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import "./globals.css";
-import type { Metadata } from "next";
 import "global";
 import { Inter } from "next/font/google";
 import { ScrollContext } from "@/context/AppProvider";
 import MenuComponent from "@/components/MenuComponent/MenuComponent";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/redux";
-import { setLanguage } from "@/redux/reducer/changeLanguageReducer/changeLanguage";
 import { useEffect, useState } from "react";
 import RollTop from "@/components/RollTop";
 import ChatRoll from "@/components/ChatRoll";
@@ -37,19 +33,28 @@ export default function RootLayout({
   }, [reponsiveMobile]);
   const pathname = usePathname();
   const allowedPath = [
-    "/login",
-    "/forgot-password",
-    "/sign-up",
+    "/candidate/login",
+    "/candidate/sign-up",
+    "/candidate/reset-password",
+    "/candidate/forgot-password",
+    "/candidate/cofirm-password",
+    "/candidate/page-error",
     "/recruiter/login",
     "/recruiter/register",
     "/recruiter/forgot-password",
   ];
 
+  const urlCustom = pathname.split('/').slice(0, -1).join('/');
+
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={inter.className}>
         <ScrollContext>
-          {!allowedPath.includes(pathname) && <MenuComponent />}
+          {
+            (pathname.split('/').length <= 3) ?
+              ((!allowedPath.includes(pathname)) && <MenuComponent />) :
+              ((!(urlCustom.trim() === '/candidate/reset-password')) && <MenuComponent />)
+          }
           {/* Alternatively, you can use curly braces */}
           {/* {router.pathname !== "/login" && <MenuComponent />} */}
           {/* <div>nice</div> */}

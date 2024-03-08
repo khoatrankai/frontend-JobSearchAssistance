@@ -6,6 +6,9 @@ import { Input } from 'antd';
 import { MdEmail } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
 import { CiCircleInfo } from "react-icons/ci";
+import apiAccount from '@/api/candidate/apiAccount';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Page = () => {
     const [isMobile, setIsMobile] = useState(false);
@@ -13,6 +16,26 @@ const Page = () => {
     const [email, setEmail] = useState('');
     const [isClickEmail, setIsClickEmail] = useState(false);
     const router = useRouter();
+
+    const handleForgotPassword = async () => {
+        try {
+            const response = await apiAccount.forGotPassword(email);
+
+            if (response.data.status === 201) {
+                toast.success('Vui lòng kiểm tra email để đổi mật khẩu', {
+                    position: "bottom-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     useEffect(() => {
         const handleResize = () => {
@@ -56,6 +79,11 @@ const Page = () => {
                                 onChange={(e) => {
                                     setEmail(e.target.value);
                                 }}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        handleForgotPassword();
+                                    }
+                                }}
                                 status={(isClickEmail && email === '') ? 'error' : ''}
                                 value={email}
                                 prefix={<span style={{ marginRight: '8px' }}><MdEmail /></span>}
@@ -80,7 +108,9 @@ const Page = () => {
                                 color: 'black'
                             }
 
-                        }} className='w-full'>
+                        }} className='w-full' onClick={() => {
+                            handleForgotPassword();
+                        }}>
                             Tạo lại mật khẩu
                         </Button>
                         <div className='flex mt-4 justify-between'>
@@ -112,6 +142,7 @@ const Page = () => {
             {!isTablet && (
                 <div className='w-1/3 h-screen bg-right'></div>
             )}
+            <ToastContainer />
         </div>
     );
 }

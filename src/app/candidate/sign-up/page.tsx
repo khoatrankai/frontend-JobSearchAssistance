@@ -1,0 +1,214 @@
+'use client';
+import React, { useEffect, useState } from 'react';
+import './style.scss';
+import { useRouter } from 'next/navigation';
+import { Input, Checkbox } from 'antd';
+import { MdEmail, MdOutlineWifiPassword } from 'react-icons/md';
+import Button from '@mui/material/Button';
+import { FaPersonBreastfeeding } from "react-icons/fa6";
+import { CiCircleInfo } from "react-icons/ci";
+
+const Page = () => {
+    const [isMobile, setIsMobile] = useState(false);
+    const [isTablet, setIsTablet] = useState(false);
+    const [isClickName, setIsClickName] = useState(false);
+    const [isClickEmail, setIsClickEmail] = useState(false);
+    const [isClickPassword, setIsClickPassword] = useState(false);
+    const [isClickVerifyPassword, setIsClickVerifyPassword] = useState(false);
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [verifyPassword, setVerifyPassword] = useState('');
+    const router = useRouter();
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 1200) {
+                setIsTablet(true);
+            }
+            if (window.innerWidth < 768) {
+                setIsMobile(true);
+            }
+            if (window.innerWidth > 1200) {
+                setIsTablet(false);
+            }
+            if (window.innerWidth > 768) {
+                setIsMobile(false);
+            }
+        }
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    return (
+        <div className="flex bg-gray-100 h-screen">
+            <div className={isTablet ? 'w-full p-4 flex items-center justify-center' : 'w-2/3 p-4 flex items-center justify-center'}>
+                <div className={isMobile ? 'w-full rounded-lg shadow-lg p-3' : 'w-3/5 rounded-lg shadow-lg p-3'} >
+                    <div className='header mb-6 flex flex-col gap-1'>
+                        <h1 className={isMobile ? 'mt-36 text-2xl font-bold' : 'text-2xl font-bold'}>Chào mừng bạn đến với JOBS</h1>
+                        <p className='text-gray-600'>
+                            Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội sự nghiệp lý tưởng
+                        </p>
+                    </div>
+                    <div className='login'>
+                        <label className='block mb-1'>
+                            Họ và tên:
+                        </label>
+                        <div className='mb-3'>
+                            <Input
+                                size="large"
+                                placeholder="Họ và tên"
+                                prefix={<span style={{ marginRight: '8px' }}><FaPersonBreastfeeding /></span>}
+                                onClick={() => {
+                                    setIsClickName(true);
+                                }}
+                                onChange={(e) => {
+                                    setName(e.target.value);
+                                }}
+                                status={(isClickName && name === '') ? 'error' : ''}
+                                suffix={(isClickName && name === '') ? <CiCircleInfo className='text-red-700' /> : ''}
+                            />
+                            {isClickName && name === '' && (
+                                <p className='text-red-700 text-sm mt-2'>Vui lòng nhập họ và tên</p>
+                            )}
+                        </div>
+                        <label className='block mb-1'>
+                            Email:
+                        </label>
+                        <div className='mb-3'>
+                            <Input
+                                size="large"
+                                placeholder="Email"
+                                prefix={<span style={{ marginRight: '8px' }}><MdEmail /></span>}
+                                onClick={() => {
+                                    setIsClickEmail(true);
+                                }}
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                }}
+                                value={email}
+                                status={(isClickEmail && email === '') ? 'error' : ''}
+                                suffix={(isClickEmail && email === '') ? <CiCircleInfo className='text-red-700' /> : ''}
+                            />
+                            {
+                                isClickEmail && email === '' && (
+                                    <p className='text-red-700 text-sm mt-2'>Vui lòng nhập email</p>
+                                )
+                            }
+                        </div>
+                        <label className='block mb-1'>
+                            Mật khẩu:
+                        </label>
+                        <div className='mb-3'>
+                            <Input.Password
+                                onClick={() => {
+                                    setIsClickPassword(true);
+                                }}
+                                status={(isClickPassword && password === '') ? 'error' : ''}
+                                onChange={(e) => {
+                                    setPassword(e.target.value);
+                                }}
+                                value={password}
+                                size="large"
+                                placeholder="Mật khẩu" prefix={<span style={{ marginRight: '8px' }}><MdOutlineWifiPassword /></span>} />
+                            {isClickPassword && password === '' && (
+                                <p className='text-red-700 text-sm mt-2'>Vui lòng nhập mật khẩu</p>
+                            )}
+                        </div>
+
+                        <label className='block mb-1'>
+                            Xác nhận mật khẩu:
+                        </label>
+                        <div className='mb-3'>
+                            <Input.Password size="large"
+                                onClick={() => {
+                                    setIsClickVerifyPassword(true);
+                                }}
+                                status={(isClickVerifyPassword && verifyPassword === '') ? 'error' : ''}
+                                onChange={(e) => {
+                                    setVerifyPassword(e.target.value);
+                                }}
+                                value={verifyPassword}
+                                placeholder="Xác nhận mật khẩu" prefix={<span style={{ marginRight: '8px' }}><MdOutlineWifiPassword /></span>}
+                            />
+                            {isClickVerifyPassword && verifyPassword === '' && (
+                                <p className='text-red-700 text-sm mt-2'>Vui lòng xác nhận mật khẩu</p>
+                            )}
+                            {isClickVerifyPassword && verifyPassword !== '' && verifyPassword !== password && (
+                                <p className='text-red-700 text-sm mt-2'>Mật khẩu không khớp</p>
+                            )}
+                        </div>
+
+                        <div className='flex mt-4 align-top'>
+                            <Checkbox defaultChecked={false} />
+                            <p className='ml-2 basic agreement-social-login'>
+                                Tôi đã đọc và đồng ý với Điều khoản dịch vụ và Chính sách bảo mật của JOBS
+                            </p>
+                        </div>
+
+                        <Button sx={{
+                            backgroundColor: '#ffcc00',
+                            color: 'black',
+                            marginTop: '20px',
+                            '&:hover': {
+                                backgroundColor: '#ffcc00',
+                                color: 'black'
+                            }
+
+                        }} className='w-full'>
+                            Đăng ký
+                        </Button>
+                        <p className='or'>Hoặc đăng nhập bằng</p>
+                        <div className='flex gap-3'>
+                            <Button sx={{
+                                backgroundColor: '#3b5998',
+                                width: '50%',
+                                color: 'white',
+                                borderRadius: '5px',
+                                '&:hover': {
+                                    backgroundColor: '#3b5998'
+                                }
+                            }}>
+                                Facebook
+                            </Button>
+                            <Button sx={{
+                                backgroundColor: '#ff0000',
+                                width: '50%',
+                                color: 'white',
+                                borderRadius: '5px',
+                                '&:hover': {
+                                    backgroundColor: '#ff0000'
+                                }
+                            }}>
+                                Google
+                            </Button>
+                        </div>
+                        <div className='flex mt-4 align-top'>
+                            <Checkbox defaultChecked={false} />
+                            <p className='ml-2 basic agreement-social-login'>
+                                Bằng việc đăng nhập bằng tài khoản mạng xã hội, tôi đã đọc và đồng ý với Điều khoản dịch vụ và Chính sách bảo mật của JOBS
+                            </p>
+                        </div>
+
+                        <div className='mt-3 justify-center flex'>
+                            <div className='basic'>
+                                Bạn đã có tài khoản?
+                            </div>
+                            <div className='basic register cursor-pointer' onClick={() => {
+                                router.push('/candidate/login');
+                            }}>
+                                Đăng nhập
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {!isTablet && (
+                <div className='w-1/3 h-screen bg-right'></div>
+            )}
+        </div>
+    );
+}
+
+export default Page;
