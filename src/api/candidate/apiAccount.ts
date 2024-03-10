@@ -12,6 +12,10 @@ const apiAccount = {
     candidateSignUp: (email : string, password : string, name:string) => {
         const URL = `http://localhost:1902/api/v3/users/candidate/sign-up`
         return axios.post(URL, { email, password, name })
+    },
+    verifyEmail: (email:string) => {
+        const URL = `http://localhost:1902/api/v3/users/verify-email`
+        return axios.post(URL, { email })
     }
 }
 

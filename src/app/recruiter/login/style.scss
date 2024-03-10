@@ -80,3 +80,18 @@
 .text-color-red {
     color: #ff0000 !important;
 }
+
+.back-home {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #d38b2c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    // hover
+    &:hover {
+        cursor: pointer;
+    }
+}

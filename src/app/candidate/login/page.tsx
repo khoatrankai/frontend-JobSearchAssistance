@@ -7,11 +7,12 @@ import Button from '@mui/material/Button';
 import { useRouter } from 'next/navigation';
 import { CiCircleInfo } from "react-icons/ci";
 import './style.scss';
-import {fetchProfile} from '@/redux/reducer/profileReducer/profileSlice';
+import { fetchProfile } from '@/redux/reducer/profileReducer/profileSlice';
 import { useDispatch } from 'react-redux';
 import signInEmailApi from '@/api/authApi';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { IoIosArrowBack } from "react-icons/io";
 
 interface AuthReponse {
     accountId: string | null;
@@ -22,7 +23,7 @@ interface AuthReponse {
 interface IReponseSignInCandidate {
     code: number;
     data: any;
-  }
+}
 
 const Page = () => {
     const [isMobile, setIsMobile] = useState(false);
@@ -74,7 +75,7 @@ const Page = () => {
 
     const handleLogin = async () => {
         const fetchSignIn = async () => {
-            const response = await signInEmailApi.signInCandidate(email, password) as any as IReponseSignInCandidate; 
+            const response = await signInEmailApi.signInCandidate(email, password) as any as IReponseSignInCandidate;
 
             if (response && response.code === 200) {
                 fetchDataProfile(response.data);
@@ -91,7 +92,7 @@ const Page = () => {
                 setTimeout(() => {
                     router.push('/');
                 }, 5000);
-            } 
+            }
             else {
                 toast.error('Đăng nhập không thành công', {
                     position: "bottom-center",
@@ -112,6 +113,16 @@ const Page = () => {
         <div className="flex bg-gray-100 h-screen">
             <div className={isTablet ? 'w-full p-4 flex items-center justify-center' : 'w-2/3 p-4 flex items-center justify-center'}>
                 <div className={isMobile ? 'w-full rounded-lg shadow-lg p-3' : 'w-3/5 rounded-lg shadow-lg p-3'} >
+                    <div className='flex gap-2 items-center mb-3' onClick={() => {
+                        router.push('/');
+                    }}>
+                        <div className='back-home'>
+                            <IoIosArrowBack />
+                        </div>
+                        <div className='text-lg font-bold cursor-pointer'>
+                            Trở về 
+                        </div>
+                    </div>
                     <div className='header mb-6 flex flex-col gap-1'>
                         <h1 className='text-2xl font-bold'>Chào mừng bạn đã quay trở lại</h1>
                         <p className='text-gray-600'>
@@ -148,23 +159,23 @@ const Page = () => {
                             Mật khẩu:
                         </label>
                         <div className='mb-3'>
-                            <Input.Password 
-                            size="large" 
-                            onClick={() => {
-                                setIsCheckPassword(true);
-                            }}
-                            onChange={(e) => {
-                                setPassword(e.target.value);
-                            }}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    if (checkClickPolicy) {
-                                        handleLogin();
+                            <Input.Password
+                                size="large"
+                                onClick={() => {
+                                    setIsCheckPassword(true);
+                                }}
+                                onChange={(e) => {
+                                    setPassword(e.target.value);
+                                }}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        if (checkClickPolicy) {
+                                            handleLogin();
+                                        }
                                     }
-                                }
-                            }}
-                            status={(isCheckPassword && password === '') ? 'error' : ''}
-                            placeholder="Mật khẩu" prefix={<span style={{ marginRight: '8px' }}><MdOutlineWifiPassword /></span>}/>
+                                }}
+                                status={(isCheckPassword && password === '') ? 'error' : ''}
+                                placeholder="Mật khẩu" prefix={<span style={{ marginRight: '8px' }}><MdOutlineWifiPassword /></span>} />
 
                             {
                                 isCheckPassword && password === '' && (
@@ -203,10 +214,10 @@ const Page = () => {
                             </Button>
                         </div>
                         <div className='flex mt-4 align-top'>
-                            <Checkbox defaultChecked={false} 
-                            onChange={(e) => {
-                                setCheckClickPolicy(e.target.checked);
-                            }}
+                            <Checkbox defaultChecked={false}
+                                onChange={(e) => {
+                                    setCheckClickPolicy(e.target.checked);
+                                }}
                             />
                             <p className='ml-2 basic agreement-social-login'>
                                 Bằng việc đăng nhập bằng tài khoản mạng xã hội, tôi đã đọc và đồng ý với Điều khoản dịch vụ và Chính sách bảo mật của JOBS

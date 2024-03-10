@@ -82,7 +82,6 @@ const NumericInput = (props: NumericInputProps) => {
 };
 
 const ModifyEmailPhoneComponent: React.FC<IEditPhoneMailCompany> = (props) => {
-    const [isClickEmail, setIsClickEmail] = React.useState(false);
     const languageRedux = useSelector(
         (state: RootState) => state.changeLaguage.language,
     );
@@ -103,7 +102,7 @@ const ModifyEmailPhoneComponent: React.FC<IEditPhoneMailCompany> = (props) => {
 
     return (
         <div className="flex gap-3">
-            <div className="w-1/2">
+            <div className="w-full">
                 <Typography
                     className="basic"
                     variant="body1"
@@ -120,41 +119,6 @@ const ModifyEmailPhoneComponent: React.FC<IEditPhoneMailCompany> = (props) => {
                     language={language}
                     is_profile={is_profile}
                 />
-            </div>
-            <div className="w-1/2">
-                <Typography
-                    className="basic"
-                    variant="body1"
-                    component="label"
-                    htmlFor="editJob"
-                >
-                    Email <span style={{ color: 'red' }}>*</span>
-                </Typography>
-                <TextField
-                    type="text"
-                    id="editJob"
-                    name="title"
-                    value={dataCompany?.email}
-                    onChange={handleEditCompanyMail}
-                    size="small"
-                    sx={{
-                        width: '100%', marginTop: '8px',
-                        border: isClickEmail && !dataCompany?.email ? '1px solid red' : 'none',
-                        borderRadius: isClickEmail && !dataCompany?.email ? '5px' : ''
-                    }}
-                    placeholder={languageRedux === 1 ? 'Nhập email' : 'Enter email'}
-                    disabled={is_profile ? true : false}
-                    onClick={() => {
-                        setIsClickEmail(true);
-                    }}
-                />
-                {isClickEmail && !dataCompany?.email && (
-                    <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>
-                        {languageRedux === 1
-                            ? 'Email không được để trống'
-                            : 'Email cannot be empty'}
-                    </p>
-                )}
             </div>
         </div>
     );

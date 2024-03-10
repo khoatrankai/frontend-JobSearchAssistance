@@ -7,6 +7,23 @@ import { useRouter } from 'next/navigation';
 import { motion } from "framer-motion";
 import { CiCircleInfo } from "react-icons/ci";
 import './style.scss';
+import { IoIosArrowBack } from "react-icons/io";
+import signInEmailApi from '@/api/authApi';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from 'react-redux';
+import { fetchProfile } from '@/redux/reducer/profileReducer/profileSlice';
+
+interface IReponseSignInRecruiter {
+    code: number;
+    data: any;
+}
+
+interface AuthReponse {
+    accountId: string | null;
+    accessToken: string | null;
+    refreshToken: string | null;
+}
 
 const Page = () => {
     const images = [
@@ -25,6 +42,25 @@ const Page = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const router = useRouter();
+    const [isError, setIsError] = useState(false);
+    const dispatch = useDispatch();
+
+    const fetchDataProfile = async (auth: AuthReponse) => {
+        localStorage.setItem(
+            "accountId",
+            auth && auth.accountId ? auth.accountId : ""
+        );
+        localStorage.setItem(
+            "accessToken",
+            auth && auth.accessToken ? auth.accessToken : ""
+        );
+        localStorage.setItem(
+            "refreshToken",
+            auth && auth.refreshToken ? auth.refreshToken : ""
+        );
+
+        dispatch(fetchProfile("vi") as any);
+    };
 
 
     useEffect(() => {
@@ -56,16 +92,73 @@ const Page = () => {
 
         return () => clearInterval(interval);
     }, [currentImage, images.length]);
+
+    const handleLogin = async () => {
+        const fetchLogin = async () => {
+            try {
+                const response = await signInEmailApi.signInRecruit(email, password) as any as IReponseSignInRecruiter;
+
+                if (response && response.code === 200) {
+                    toast.success('Đăng nhập thành công chuyển về trang chủ sau 10s', {
+                        position: "bottom-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+
+                    });
+                    fetchDataProfile(response.data);
+                    
+                    setTimeout(() => {
+                        router.push('/recruiter');
+                    }, 5000);
+                }
+
+                else {
+                    setIsError(true);
+                }
+            } catch (error) {
+                setIsError(true);
+                toast.error('Email hoặc mật khẩu không đúng', {
+                    position: "bottom-center",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+
+                });
+            }
+        }
+
+        fetchLogin();
+    }
     return (
         <div className="flex bg-gray-100 h-screen">
             <div className={isTablet ? 'w-full p-4 flex items-center justify-center' : 'w-2/3 p-4 flex items-center justify-center'}>
                 <div className={isMobile ? 'w-full rounded-lg shadow-lg p-3' : 'w-3/5 rounded-lg shadow-lg p-3'} >
+                    <div className='flex gap-2 items-center mb-3' onClick={() => {
+                        router.push('/recruiter');
+                    }}>
+                        <div className='back-home'>
+                            <IoIosArrowBack />
+                        </div>
+                        <div className='text-lg font-bold cursor-pointer'>
+                            Trở về
+                        </div>
+                    </div>
                     <div className='header mb-6 flex flex-col gap-1'>
                         <h1 className='text-2xl font-bold'>Chào mừng bạn đã quay trở lại</h1>
                         <p className='text-gray-600'>
                             Cùng tạo dựng lợi thế cho doanh nghiệp bằng trải nghiệm công nghệ tuyển dụng ứng dụng sâu AI & Hiring Funnel
                         </p>
                     </div>
+                    {
+                        isError && <div className='text-red-700 text-sm mb-3'>Email hoặc mật khẩu không đúng</div>
+                    }
                     <div className='login'>
                         <label className='block mb-1'>
                             Email:
@@ -97,6 +190,16 @@ const Page = () => {
                                 onChange={(e) => {
                                     setPassword(e.target.value);
                                 }}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        if (email == '' && password == '') {
+                                            setIsError(true);
+                                        }
+                                        else {
+                                            handleLogin();
+                                        }
+                                    }
+                                }}
                                 size="large" placeholder="Mật khẩu" prefix={<span style={{ marginRight: '8px' }}><MdOutlineWifiPassword /></span>}
                             />
                         </div>
@@ -115,7 +218,11 @@ const Page = () => {
                                 color: 'black'
                             }
 
-                        }} className='w-full'>
+                        }} className='w-full'
+                            onClick={() => {
+                                handleLogin();
+                            }}
+                        >
                             Đăng nhập
                         </Button>
                         <div className='mt-3 justify-center flex'>
