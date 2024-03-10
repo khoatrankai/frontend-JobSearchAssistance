@@ -7,7 +7,22 @@ import Button from '@mui/material/Button';
 import { useRouter } from 'next/navigation';
 import { CiCircleInfo } from "react-icons/ci";
 import './style.scss';
+import {fetchProfile} from '@/redux/reducer/profileReducer/profileSlice';
+import { useDispatch } from 'react-redux';
+import signInEmailApi from '@/api/authApi';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+interface AuthReponse {
+    accountId: string | null;
+    accessToken: string | null;
+    refreshToken: string | null;
+}
+
+interface IReponseSignInCandidate {
+    code: number;
+    data: any;
+  }
 
 const Page = () => {
     const [isMobile, setIsMobile] = useState(false);
@@ -16,7 +31,26 @@ const Page = () => {
     const [isClickEmail, setIsClickEmail] = useState(false);
     const [password, setPassword] = useState('');
     const [isCheckPassword, setIsCheckPassword] = useState(false);
+    const [checkClickPolicy, setCheckClickPolicy] = useState(false);
     const router = useRouter();
+    const dispatch = useDispatch();
+
+    const fetchDataProfile = async (auth: AuthReponse) => {
+        localStorage.setItem(
+            "accountId",
+            auth && auth.accountId ? auth.accountId : ""
+        );
+        localStorage.setItem(
+            "accessToken",
+            auth && auth.accessToken ? auth.accessToken : ""
+        );
+        localStorage.setItem(
+            "refreshToken",
+            auth && auth.refreshToken ? auth.refreshToken : ""
+        );
+
+        dispatch(fetchProfile("vi") as any);
+    };
 
     useEffect(() => {
         const handleResize = () => {
@@ -37,6 +71,42 @@ const Page = () => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    const handleLogin = async () => {
+        const fetchSignIn = async () => {
+            const response = await signInEmailApi.signInCandidate(email, password) as any as IReponseSignInCandidate; 
+
+            if (response && response.code === 200) {
+                fetchDataProfile(response.data);
+                toast.success('Đăng nhập thành công chuyển về trang chủ sao 10s', {
+                    position: "bottom-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                // redirect to home page after 10s 
+                setTimeout(() => {
+                    router.push('/');
+                }, 5000);
+            } 
+            else {
+                toast.error('Đăng nhập không thành công', {
+                    position: "bottom-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }
+        }
+
+        fetchSignIn();
+    };
 
     return (
         <div className="flex bg-gray-100 h-screen">
@@ -86,6 +156,13 @@ const Page = () => {
                             onChange={(e) => {
                                 setPassword(e.target.value);
                             }}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    if (checkClickPolicy) {
+                                        handleLogin();
+                                    }
+                                }
+                            }}
                             status={(isCheckPassword && password === '') ? 'error' : ''}
                             placeholder="Mật khẩu" prefix={<span style={{ marginRight: '8px' }}><MdOutlineWifiPassword /></span>}/>
 
@@ -126,7 +203,11 @@ const Page = () => {
                             </Button>
                         </div>
                         <div className='flex mt-4 align-top'>
-                            <Checkbox defaultChecked={false} />
+                            <Checkbox defaultChecked={false} 
+                            onChange={(e) => {
+                                setCheckClickPolicy(e.target.checked);
+                            }}
+                            />
                             <p className='ml-2 basic agreement-social-login'>
                                 Bằng việc đăng nhập bằng tài khoản mạng xã hội, tôi đã đọc và đồng ý với Điều khoản dịch vụ và Chính sách bảo mật của JOBS
                             </p>
@@ -151,7 +232,12 @@ const Page = () => {
                             color: 'black'
                         }
 
-                    }} className='w-full'>
+                    }} className='w-full'
+                        disabled={!checkClickPolicy}
+                        onClick={() => {
+                            handleLogin();
+                        }}
+                    >
                         Đăng nhập
                     </Button>
                 </div>
@@ -159,6 +245,7 @@ const Page = () => {
             {!isTablet && (
                 <div className='w-1/3 h-screen bg-right'></div>
             )}
+            <ToastContainer />
         </div>
     );
 }

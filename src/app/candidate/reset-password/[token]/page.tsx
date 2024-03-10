@@ -6,7 +6,10 @@ import { MdOutlineWifiPassword } from 'react-icons/md';
 import Button from '@mui/material/Button';
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import './style.scss';
+import apiAccount from '@/api/candidate/apiAccount';
 
 
 const Page = () => {
@@ -17,7 +20,7 @@ const Page = () => {
     const [isCheckVerifyPassword, setIsCheckVerifyPassword] = useState(false);
     const [isCheckPassword, setIsCheckPassword] = useState(false);
     const { token } = useParams();
-    
+
     const router = useRouter();
 
     useEffect(() => {
@@ -39,6 +42,65 @@ const Page = () => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    const hadleUpdatePassword = () => {
+        if (password === '' || verifyPassword === '') {
+            toast.error('Vui lòng nhập mật khẩu', {
+                position: "bottom-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+
+            });
+        }
+        if (password.length < 6 || password.length > 25) {
+            toast.error('Mật khẩu từ 6 đến 25 ký tự', {
+                position: "bottom-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+        if (password !== verifyPassword) {
+            toast.error('Mật khẩu không trùng khớp', {
+                position: "bottom-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+
+        const fetchData = async () => {
+            const res = await apiAccount.candidateResetPassword(password, token as string, verifyPassword as string) as any;
+            console.log(res);
+            if (res.data.statusCode === 200) {
+                toast.success('Cập nhật mật khẩu thành công', {
+                    position: "bottom-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                // deplay 3s and redirect to login page
+                setTimeout(() => {
+                    router.push('/candidate/login');
+                }, 3000);
+            }
+        }
+
+        fetchData();
+    }
 
     return (
         <div className="flex bg-gray-100 h-screen">
@@ -65,6 +127,11 @@ const Page = () => {
                                     setPassword(e.target.value);
                                 }}
                                 status={(isCheckPassword && password === '') ? 'error' : ''}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        hadleUpdatePassword();
+                                    }}
+                                }
                                 placeholder="Mật khẩu" prefix={<span style={{ marginRight: '8px' }}><MdOutlineWifiPassword /></span>} />
 
                             {
@@ -99,8 +166,17 @@ const Page = () => {
                                 placeholder="Nhập lại mật khẩu" prefix={<span style={{ marginRight: '8px' }}><MdOutlineWifiPassword /></span>} />
 
                             {
-                                isCheckPassword && password === '' && (
-                                    <p className='text-red-700 text-sm mt-2'>Vui lòng nhập mật khẩu</p>
+                                isCheckVerifyPassword && verifyPassword === '' && (
+                                    <p className='text-red-700 text-sm mt-2'>
+                                        Vui lòng nhập lại mật khẩu
+                                    </p>
+                                )
+                            }
+                            {
+                                isCheckVerifyPassword && verifyPassword !== password && (
+                                    <p className='text-red-700 text-sm mt-2'>
+                                        Mật khẩu không trùng khớp
+                                    </p>
                                 )
                             }
                         </div>
@@ -121,7 +197,12 @@ const Page = () => {
                                 color: 'black'
                             }
 
-                        }} className='w-full'>
+
+                        }} className='w-full'
+                            onClick={() => {
+                                hadleUpdatePassword();
+                            }}
+                        >
                             Tạo lại mật khẩu mới
                         </Button>
                         <div className='flex'>
@@ -143,6 +224,7 @@ const Page = () => {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 }

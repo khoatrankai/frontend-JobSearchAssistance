@@ -15,6 +15,7 @@ const Page = () => {
     const [isTablet, setIsTablet] = useState(false);
     const [email, setEmail] = useState('');
     const [isClickEmail, setIsClickEmail] = useState(false);
+    const [success, setSuccess] = useState(false);
     const router = useRouter();
 
     const handleForgotPassword = async () => {
@@ -22,6 +23,8 @@ const Page = () => {
             const response = await apiAccount.forGotPassword(email);
 
             if (response.data.status === 201) {
+                setSuccess(true);
+                setIsClickEmail(false);
                 toast.success('Vui lòng kiểm tra email để đổi mật khẩu', {
                     position: "bottom-center",
                     autoClose: 3000,
@@ -64,6 +67,11 @@ const Page = () => {
                 <div className={isMobile ? 'w-full rounded-lg shadow-lg p-3' : 'w-3/5 rounded-lg shadow-lg p-3'} >
                     <div className='header mb-6 flex flex-col gap-1'>
                         <h1 className='text-2xl font-bold'>Quên mật khẩu</h1>
+                        {
+                            success && (
+                                <p className='text-green-700 text-sm bg-slate-200 p-3 font-bold'>Vui lòng kiểm tra email để đổi mật khẩu</p>
+                            )
+                        }
                     </div>
                     <div className='login'>
                         <label className='block mb-1'>

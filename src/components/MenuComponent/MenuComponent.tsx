@@ -119,7 +119,7 @@ const MenuComponent = (props: Props) => {
   const dispatch = useDispatch();
   const [tabMenu, setTabMenu] = useState<boolean>(false);
   const router = useRouter();
-  const {} = router;
+  const { } = router;
   const [openModalTurnOffStatus, setOpenModalTurnOffStatus] = useState(false);
   const language = useSelector((state: any) => state.changeLaguage.language);
   const [openModalNoteCreateCompany, setOpenModalNoteCreateCompany] =
@@ -521,9 +521,8 @@ const MenuComponent = (props: Props) => {
         <div className="fixed z-50 w-full bg-white border-b-2 flex flex-col items-center justify-center">
           <nav className="w-full max-w-full h-20 flex items-center justify-between z-30 px-6 gap-x-2">
             <div
-              className={`flex justify-between flex-1 ${
-                reponsiveMobile ? "" : ""
-              }`}
+              className={`flex justify-between flex-1 ${reponsiveMobile ? "" : ""
+                }`}
             >
               <div className="flex justify-between">
                 <Image
@@ -538,9 +537,8 @@ const MenuComponent = (props: Props) => {
                   src="/logo/2023.png"
                 />
                 <div
-                  className={`flex font-semibold cursor-pointer text-black ${
-                    searchActive || reponsiveMobile < 1350 ? "hidden" : ""
-                  }`}
+                  className={`flex font-semibold cursor-pointer text-black ${searchActive || reponsiveMobile < 1350 ? "hidden" : ""
+                    }`}
                 >
                   <div className="flex p-8 gap-x-1 items-center  relative  hover:text-blue-500 group">
                     <MdWork />
@@ -605,18 +603,16 @@ const MenuComponent = (props: Props) => {
                 </div>
               </div>
               <div
-                className={`${
-                  searchActive || reponsiveMobile < 1350 ? "flex-1" : "w-32"
-                }  flex items-center relative transition-all duration-500`}
+                className={`${searchActive || reponsiveMobile < 1350 ? "flex-1" : "w-32"
+                  }  flex items-center relative transition-all duration-500`}
               >
                 <div
                   className={`
                   ${searchActive ? "absolute w-full right-0" : "w-full"}
-                  ${
-                    scrollPositionSearch && reponsiveMobile > 580
+                  ${scrollPositionSearch && reponsiveMobile > 580
                       ? ""
                       : "invisible opacity-0"
-                  } transition-all duration-500  flex items-center`}
+                    } transition-all duration-500  flex items-center`}
                 >
                   <SearchAllComponent setSearchActive={setSearchActive} />
                 </div>
@@ -625,20 +621,18 @@ const MenuComponent = (props: Props) => {
 
             <div className="flex gap-x-2">
               <div
-                className={`flex items-center border-l-2 ${
-                  reponsiveMobile < 768 ? "hidden" : ""
-                }`}
+                className={`flex items-center border-l-2 ${reponsiveMobile < 768 ? "hidden" : ""
+                  }`}
               >
                 <button className="font-extrabold px-4 text-blue-600 hover:text-red-500 uppercase">
                   Nhà tuyển dụng
                 </button>
               </div>
               <div
-                className={`${
-                  reponsiveMobile > 1350
+                className={`${reponsiveMobile > 1350
                     ? "shadow-[0px_5px_20px_10px_#00000024]"
                     : ""
-                } flex items-center gap-x-4 rounded-3xl ml-2 border-black py-2 px-4`}
+                  } flex items-center gap-x-4 rounded-3xl ml-2 border-black py-2 px-4`}
               >
                 {reponsiveMobile > 1350 ? (
                   !profileData ? (
@@ -674,11 +668,10 @@ const MenuComponent = (props: Props) => {
                 ) : (
                   <>
                     <div
-                      className={`rounded-full ${
-                        onMenuAll || reponsiveMobile < 768
+                      className={`rounded-full ${onMenuAll || reponsiveMobile < 768
                           ? "-translate-x-[5px]"
                           : ""
-                      } p-2 bg-black cursor-pointer relative z-[50] hover:bg-blue-500`}
+                        } p-2 bg-black cursor-pointer relative z-[50] hover:bg-blue-500`}
                       onClick={() => {
                         setOnMenuAll(!onMenuAll);
                       }}
@@ -691,33 +684,30 @@ const MenuComponent = (props: Props) => {
                     </div>
 
                     <div
-                      className={`bg-white fixed inset-y-0 transition-all duration-300 ${
-                        reponsiveMobile > 1152
+                      className={`bg-white fixed inset-y-0 transition-all duration-300 ${reponsiveMobile > 1152
                           ? onMenuAll
                             ? " left-2/3"
                             : "left-full"
                           : reponsiveMobile <= 580
-                          ? onMenuAll
-                            ? " left-0"
-                            : "left-full"
-                          : onMenuAll
-                          ? " left-1/4"
-                          : "left-full"
-                      }  shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] z-[41] right-0`}
+                            ? onMenuAll
+                              ? " left-0"
+                              : "left-full"
+                            : onMenuAll
+                              ? " left-1/4"
+                              : "left-full"
+                        }  shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] z-[41] right-0`}
                     >
                       <div
-                        className={`mt-16 px-2 ${
-                          reponsiveMobile > 580 ? "hidden" : ""
-                        }`}
+                        className={`mt-16 px-2 ${reponsiveMobile > 580 ? "hidden" : ""
+                          }`}
                       >
                         <SearchAllComponent />
                       </div>
                       <div className=""></div>
                     </div>
                     <div
-                      className={`inset-0 ${
-                        onMenuAll ? "opacity-100" : "invisible opacity-0"
-                      } fixed transition-all duration-300 bg-black/50 z-40`}
+                      className={`inset-0 ${onMenuAll ? "opacity-100" : "invisible opacity-0"
+                        } fixed transition-all duration-300 bg-black/50 z-40`}
                       onClick={() => {
                         setOnMenuAll(!onMenuAll);
                       }}

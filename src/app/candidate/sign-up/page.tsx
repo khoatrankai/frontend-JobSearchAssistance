@@ -7,6 +7,7 @@ import { MdEmail, MdOutlineWifiPassword } from 'react-icons/md';
 import Button from '@mui/material/Button';
 import { FaPersonBreastfeeding } from "react-icons/fa6";
 import { CiCircleInfo } from "react-icons/ci";
+import apiAccount from '@/api/candidate/apiAccount';
 
 const Page = () => {
     const [isMobile, setIsMobile] = useState(false);
@@ -19,6 +20,9 @@ const Page = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [verifyPassword, setVerifyPassword] = useState('');
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState(false);
+    const [isArrgee, setIsArrgee] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -41,6 +45,31 @@ const Page = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+
+    const handleCandidateSignUp = () => {
+        if (name === '' || email === '' || password === '' || verifyPassword === '') {
+            setError('Vui lòng nhập đầy đủ thông tin');
+        }
+        if (password !== verifyPassword) {
+            setError('Mật khẩu không khớp');
+        }
+
+        const fetchCandidateSignUp = async () => {
+            const response = await apiAccount.candidateSignUp(email, password, name);
+
+            if (response.data.statusCode === 201) {
+                setSuccess(true);
+
+                // Redirect to login page after 10s
+                setTimeout(() => {
+                    router.push('/candidate/login');
+                }, 10000);
+            }
+        }
+
+        fetchCandidateSignUp();
+    }
+
     return (
         <div className="flex bg-gray-100 h-screen">
             <div className={isTablet ? 'w-full p-4 flex items-center justify-center' : 'w-2/3 p-4 flex items-center justify-center'}>
@@ -50,6 +79,17 @@ const Page = () => {
                         <p className='text-gray-600'>
                             Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội sự nghiệp lý tưởng
                         </p>
+
+                        <div>
+                            {error && (
+                                <p className='text-red-700 text-sm mt-2 bg-slate-200 w-full p-3 font-bold'>{error}</p>
+                            )}
+                        </div>
+                        <div>
+                            {success && (
+                                <p className='text-green-700 text-sm mt-2 bg-slate-200 w-full p-3 font-bold'>Đăng ký thành công, hệ thống sẽ trở về trang đăng nhập sau 10s</p>
+                            )}
+                        </div>
                     </div>
                     <div className='login'>
                         <label className='block mb-1'>
@@ -141,7 +181,11 @@ const Page = () => {
                         </div>
 
                         <div className='flex mt-4 align-top'>
-                            <Checkbox defaultChecked={false} />
+                            <Checkbox defaultChecked={false}
+                                onChange={(e) => {
+                                    setIsArrgee(e.target.checked);
+                                }}
+                            />
                             <p className='ml-2 basic agreement-social-login'>
                                 Tôi đã đọc và đồng ý với Điều khoản dịch vụ và Chính sách bảo mật của JOBS
                             </p>
@@ -156,7 +200,12 @@ const Page = () => {
                                 color: 'black'
                             }
 
-                        }} className='w-full'>
+                        }} className='w-full'
+                            disabled={!isArrgee}
+                            onClick={() => {
+                                handleCandidateSignUp();
+                            }}
+                        >
                             Đăng ký
                         </Button>
                         <p className='or'>Hoặc đăng nhập bằng</p>
