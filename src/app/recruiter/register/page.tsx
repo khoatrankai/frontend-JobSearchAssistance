@@ -18,6 +18,9 @@ import ModifyRoleWebComponent from "@/app/recruiter/register/component/RegisterR
 import ModifyFieldScaleCompany from "@/app/recruiter/register/component/RegisterFieldComponent/page";
 import EditDescripeCompanyComponent from "@/components/CompanyComponent/EditDescripeCompanyComponent";
 import { CiCircleInfo } from "react-icons/ci";
+import apiAccount from "@/api/candidate/apiAccount";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 const Page = () => {
   const images = [
@@ -53,9 +56,11 @@ const Page = () => {
   const [password, setPassword] = useState("");
   const [isClickVerifyPassword, setIsClickVerifyPassword] = useState(false);
   const [verifyPassword, setVerifyPassword] = useState("");
+  const [isCheckPolicy, setIsCheckPolicy] = useState(false);
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
+  const [isSuccess, setIsSuccess] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -87,6 +92,58 @@ const Page = () => {
 
     return () => clearInterval(interval);
   }, [currentImage, images.length]);
+
+  const handleRegister = () => {
+      const dataRegister = new FormData();
+      dataRegister.append("email", email);
+      dataRegister.append("password", password);
+      dataRegister.append("name", dataCompany.name);
+      dataCompany.taxCode && dataRegister.append("taxCode", dataCompany.taxCode);
+      dataRegister.append("companyRoleId", dataCompany.companyRoleInfomation.id)
+      dataRegister.append("website", dataCompany.website);
+      dataRegister.append("phone", dataCompany.phone);
+      dataRegister.append("wardId", dataCompany.companyLocation.id);
+      dataRegister.append("address", dataCompany.address);
+      dataRegister.append("categoryId" , dataCompany.companyCategory.id);
+      dataRegister.append("companySizeId" , dataCompany.companySizeInfomation.id);
+      dataRegister.append("description", dataCompany.description);
+      dataRegister.append("logoFile", dataCompany.logoPath);
+
+      const fetchResgiter = async () => {
+        const response = await apiAccount.recruiterSignUp(dataRegister);
+
+        if (response && response.status === 201) {
+          toast.success("Đăng ký tài khoản thành công", {
+            position: "bottom-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setIsSuccess(true);
+
+          setTimeout(() => {
+            router.push("/recruiter/login");
+          }, 5000);
+        }
+
+        else {
+          toast.error("Đăng ký tài khoản thất bại", {
+            position: "bottom-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      }
+      fetchResgiter();
+  }
+
   return (
     <div className="flex bg-gray-100">
       <div
@@ -115,15 +172,15 @@ const Page = () => {
             <div className="basic regulations">Quy định</div>
             <div className="flex flex-col gap-4">
               <div className="basic">
-                Để đảm bảo chất lượng dịch vụ, TopCV <span
+                Để đảm bảo chất lượng dịch vụ, JOBS <span
                   className="text-red-color">không cho phép một người
                   dùng tạo nhiều tài khoản khác nhau.</span>
               </div>
               <div className="basic text-justify">
-                Nếu phát hiện vi phạm, TopCV sẽ ngừng cung cấp dịch vụ tới tất
+                Nếu phát hiện vi phạm, JOBS sẽ ngừng cung cấp dịch vụ tới tất
                 cả các tài khoản trùng lặp hoặc chặn toàn bộ truy cập tới hệ
-                thống website của TopCV. Đối với trường hợp khách hàng đã sử
-                dụng hết 3 tin tuyển dụng miễn phí, TopCV hỗ trợ kích hoạt đăng
+                thống website của JOBS. Đối với trường hợp khách hàng đã sử
+                dụng hết 3 tin tuyển dụng miễn phí, JOBS hỗ trợ kích hoạt đăng
                 tin tuyển dụng không giới hạn sau khi quý doanh nghiệp cung cấp
                 thông tin giấy phép kinh doanh.
               </div>
@@ -283,13 +340,21 @@ const Page = () => {
             </div>
             <div className="flex gap-2 mt-3 items-center">
               <Checkbox
+                onChange={(e) => {
+                  setIsCheckPolicy(e.target.checked);
+                }}
                 className="checkbox"
                 style={{ color: "#ffcc00" }}
               ></Checkbox>
               <div className="basic">
-                Tôi đã đọc và đồng ý với các điều khoản sử dụng của TopCV
+                Tôi đã đọc và đồng ý với các điều khoản sử dụng của JOBS
               </div>
             </div>
+            {
+              isSuccess && (
+                <div className="text-green-700 text-sm mb-3">Đăng ký tài khoản thành công quay lại trang đăng nhập sau 10s</div>
+              )
+            }
             <Button
               sx={{
                 backgroundColor: "#ffcc00",
@@ -301,6 +366,8 @@ const Page = () => {
                 },
               }}
               className="w-full"
+              disabled={!isCheckPolicy || email === "" || password === "" || verifyPassword === "" || verifyPassword !== password || dataCompany.name === "" || dataCompany.companyRoleInfomation === "" || dataCompany.website === "" || dataCompany.phone === "" || dataCompany.address === "" || dataCompany.companyLocation === "" || dataCompany.companyCategory === "" || dataCompany.companySizeInfomation === "" || dataCompany.description === "" || dataCompany.logoPath === ""}
+              onClick={handleRegister}
             >
               Hoàn tất
             </Button>
@@ -324,7 +391,7 @@ const Page = () => {
                   className={`h-full flex bg-right ${index === currentImage ? "visible" : "hidden"
                     }`}
                   animate={{ x: 0 }}
-                  initial={{ x: index === 0 ? 0 : -1000 }} // Chỉ set x = 0 cho ảnh đầu tiên
+                  initial={{ x: index === 0 ? 0 : -1000 }} 
                   transition={{ duration: 1 }}
                 >
                   <img src={image.src} alt={`Image ${image.id}`} />
