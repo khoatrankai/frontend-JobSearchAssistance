@@ -27,13 +27,13 @@ const Home = (props: Props) => {
     <>
       <div className="flex flex-col items-center">
         <div className="gradient-bg-banner w-full flex flex-col items-center">
-          <div
+          {/* <div
             className={`max-w-6xl w-full transition-all duration-300 ${
               scrollPosition ? "invisible opacity-0" : "opacity-100"
             }`}
           >
             <SearchAllComponent />
-          </div>
+          </div> */}
           <BannerComponent />
         </div>
 
@@ -42,7 +42,7 @@ const Home = (props: Props) => {
           <HotJobComponent />
           <ListJobComponent />
           <TopCompanyComponent />
-          <FooterComponent />
+          {/* <FooterComponent /> */}
         </div>
       </div>
     </>

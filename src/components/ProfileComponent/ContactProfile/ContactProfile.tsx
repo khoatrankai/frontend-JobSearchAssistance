@@ -59,10 +59,16 @@ const ContactProfile = (props: Props) => {
     handleBack();
   }, [dataInfo]);
   return (
-    <div className="h-fit border-2 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] p-4 rounded-xl mb-4 relative">
+    <div
+      className={`bg-white ${
+        rsContact
+          ? "shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] "
+          : "border-transparent"
+      } p-4 rounded-xl relative`}
+    >
       <div className="flex justify-between flex-wrap mb-8">
         <div className="flex h-fit items-center">
-          <div className="h-10 w-3 bg-yellow-500 mr-4"></div>
+          <div className="h-10 w-3 bg-blue-500 mr-4"></div>
           <h1 className="font-bold text-xl">
             {languageRedux === 1 ? `Thông tin liên hệ` : `Contact information`}
           </h1>

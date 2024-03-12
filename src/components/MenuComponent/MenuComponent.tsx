@@ -659,7 +659,7 @@ const MenuComponent = (props: Props) => {
                       </div>
                     </>
                   ) : (
-                    <>
+                    <div className="flex gap-x-4">
                       <div className="rounded-full p-2 bg-black cursor-pointer hover:bg-blue-500">
                         <IoMdNotifications color="white" fontSize="1.5em" />
                       </div>
@@ -669,7 +669,7 @@ const MenuComponent = (props: Props) => {
                       <div className="rounded-full p-2 bg-black cursor-pointer  hover:bg-blue-500">
                         <IoMdSettings color="white" fontSize="1.5em" />
                       </div>
-                    </>
+                    </div>
                   )
                 ) : (
                   <>

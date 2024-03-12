@@ -207,7 +207,7 @@ const page = (props: Props) => {
                               handleBookmarked(item.id);
                             }
                           }}
-                          className="flex items-center p-2 rounded-md bg-yellow-500 shadow-[7px_8px_40px_6px_#00000024] cursor-pointer ml-4"
+                          className="flex items-center p-2 rounded-md bg-blue-500 shadow-[7px_8px_40px_6px_#00000024] cursor-pointer ml-4 text-white"
                         >
                           {item.bookmarked === true ? (
                             <>
@@ -239,7 +239,7 @@ const page = (props: Props) => {
               router.push("/blog/see-all-admin");
             }}
           >
-            <button className="font-bold text-yellow-600 text-lg border-b-4 border-yellow-500 hover:text-yellow-500">
+            <button className="font-bold text-blue-600 text-lg border-b-4 border-blue-500 hover:text-blue-500">
               {languageRedux === 1 ? `Xem thêm` : `See more`}
             </button>
           </div>
@@ -322,7 +322,7 @@ const page = (props: Props) => {
                               handleBookmarked(item.id);
                             }
                           }}
-                          className="flex items-center p-2 rounded-md bg-yellow-500 shadow-[7px_8px_40px_6px_#00000024] cursor-pointer ml-4"
+                          className="flex items-center p-2 rounded-md bg-blue-500 shadow-[7px_8px_40px_6px_#00000024] cursor-pointer ml-4 text-white"
                         >
                           {item.bookmarked === true ? (
                             <>
@@ -354,7 +354,7 @@ const page = (props: Props) => {
               router.push("/blog/see-all");
             }}
           >
-            <button className="font-bold text-yellow-600 text-lg border-b-4 border-yellow-500 hover:text-yellow-500">
+            <button className="font-bold text-blue-600 text-lg border-b-4 border-blue-500 hover:text-blue-500">
               {languageRedux === 1 ? `Xem thêm` : `See more`}
             </button>
           </div>

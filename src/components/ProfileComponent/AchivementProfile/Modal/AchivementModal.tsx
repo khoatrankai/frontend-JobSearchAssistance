@@ -93,7 +93,7 @@ const AchivementModal = (props: Props) => {
                 ? "Sửa thông tin kinh nghiệm"
                 : `Update Achivement`}
             </h1>
-            <div className="px-3 py-2 border-2  duration-300 relative transition-all rounded-md group focus-within:border-yellow-500 h-11">
+            <div className="px-3 py-2 border-2  duration-300 relative transition-all rounded-md group focus-within:border-blue-500 h-11">
               <input
                 value={dataRequest?.title}
                 className={`outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${
@@ -108,15 +108,15 @@ const AchivementModal = (props: Props) => {
               <h2
                 className={`absolute   flex items-center  duration-300 transition-all ${
                   dataRequest?.title
-                    ? "group-focus-within:text-yellow-500 inset-auto z-10 px-1 -top-2 bg-white text-xs font-bold"
-                    : "text-black/25 inset-x-3 inset-y-0 group-focus-within:z-10 group-focus-within:inset-auto group-focus-within:text-yellow-500 group-focus-within:px-1 group-focus-within:-top-2 bg-transparent group-focus-within:bg-white text-lg group-focus-within:text-xs font-semibold group-focus-within:font-bold "
+                    ? "group-focus-within:text-blue-500 inset-auto z-10 px-1 -top-2 bg-white text-xs font-bold"
+                    : "text-black/25 inset-x-3 inset-y-0 group-focus-within:z-10 group-focus-within:inset-auto group-focus-within:text-blue-500 group-focus-within:px-1 group-focus-within:-top-2 bg-transparent group-focus-within:bg-white text-lg group-focus-within:text-xs font-semibold group-focus-within:font-bold "
                 }`}
               >
                 {languageRedux === 1 ? "Tên giải thưởng" : "Title"}
               </h2>
             </div>
 
-            <div className="px-3 py-2 border-2  duration-300 relative transition-all rounded-md group focus-within:border-yellow-500 h-28">
+            <div className="px-3 py-2 border-2  duration-300 relative transition-all rounded-md group focus-within:border-blue-500 h-28">
               <textarea
                 value={dataRequest?.description}
                 className={`outline-none bg-transparent resize-none inset-0 px-3 h-full absolute duration-100 text-lg py-2  ${
@@ -130,8 +130,8 @@ const AchivementModal = (props: Props) => {
               <h2
                 className={`absolute  duration-300 transition-all ${
                   dataRequest?.description
-                    ? "group-focus-within:text-yellow-500 inset-auto z-10 px-1 -top-2 bg-white text-xs font-bold"
-                    : "text-black/25 group-focus-within:z-10 group-focus-within:inset-auto group-focus-within:text-yellow-500 group-focus-within:px-1 group-focus-within:-top-2 bg-transparent group-focus-within:bg-white text-lg group-focus-within:text-xs font-semibold group-focus-within:font-bold "
+                    ? "group-focus-within:text-blue-500 inset-auto z-10 px-1 -top-2 bg-white text-xs font-bold"
+                    : "text-black/25 group-focus-within:z-10 group-focus-within:inset-auto group-focus-within:text-blue-500 group-focus-within:px-1 group-focus-within:-top-2 bg-transparent group-focus-within:bg-white text-lg group-focus-within:text-xs font-semibold group-focus-within:font-bold "
                 }`}
               >
                 {languageRedux === 1 ? "Mô tả" : "Description"}
@@ -139,7 +139,7 @@ const AchivementModal = (props: Props) => {
             </div>
             <div className="flex justify-end">
               <button
-                className="p-2 rounded-md bg-yellow-500 font-bold mr-2"
+                className="p-2 rounded-md bg-blue-500 font-bold mr-2"
                 onClick={() => {
                   setCheckModal(true);
                 }}

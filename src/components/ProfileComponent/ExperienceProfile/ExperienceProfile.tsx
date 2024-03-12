@@ -70,7 +70,13 @@ const ExperienceProfile = (props: Props) => {
     setCheckModal(false);
   };
   return (
-    <div className="border-2 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] p-4 rounded-xl mb-8 relative">
+    <div
+      className={` bg-white ${
+        rsExp
+          ? "shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] "
+          : "border-transparent"
+      } p-4 rounded-xl mb-8 relative`}
+    >
       {checkModal &&
         ModalValidate(
           languageRedux === 1
@@ -82,7 +88,7 @@ const ExperienceProfile = (props: Props) => {
         )}
       <div className="flex justify-between flex-wrap mb-8">
         <div className="flex h-fit items-center">
-          <div className="h-10 w-3 bg-yellow-500 mr-4"></div>
+          <div className="h-10 w-3 bg-blue-500 mr-4"></div>
           <h1 className="font-bold text-xl">
             {languageRedux === 1 ? "Kinh nghiệm làm việc" : "Work experience"}
           </h1>
@@ -186,7 +192,7 @@ const ExperienceProfile = (props: Props) => {
                       />
                     </button>
                     <button
-                      className="absolute bottom-2 right-2 transition-all hidden group-hover:flex items-center hover:font-bold hover:text-yellow-500"
+                      className="absolute bottom-2 right-2 transition-all hidden group-hover:flex items-center hover:font-bold hover:text-blue-500"
                       onClick={() => {
                         handleUpdate(index);
                       }}

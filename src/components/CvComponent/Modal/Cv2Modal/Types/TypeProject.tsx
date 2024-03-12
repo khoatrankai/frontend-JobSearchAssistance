@@ -94,15 +94,15 @@ const TypeProject = (props: Props) => {
   return (
     <div className="mx-[-10px]">
       <div className=" flex mb-6 items-center ">
-        <div className="h-[1px] w-8 bg-yellow-500"></div>
+        <div className="h-[1px] w-8 bg-blue-500"></div>
         <div
           contentEditable
           placeholder=" MỤC TIÊU NGHỀ NGHIỆP"
-          className="border-[1px] rounded-xl text-sm font-bold w-fit min-w-[5rem] border-yellow-500 outline-none p-1 break-words max-w-[15rem]"
+          className="border-[1px] rounded-xl text-sm font-bold w-fit min-w-[5rem] border-blue-500 outline-none p-1 break-words max-w-[15rem]"
         >
           DỰ ÁN
         </div>
-        <div className="h-[1px] flex-1 bg-yellow-500"></div>
+        <div className="h-[1px] flex-1 bg-blue-500"></div>
       </div>
       <ul className="flex flex-col gap-y-2">
         {data?.moreCvProjects?.map((dt: any, i: any) => {

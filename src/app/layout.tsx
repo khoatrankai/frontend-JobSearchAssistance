@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import RollTop from "@/components/RollTop";
 import ChatRoll from "@/components/ChatRoll";
 import ChangeLanguage from "@/components/ChangeLanguage/ChangeLanguage";
+import FooterComponent from "@/components/FooterComponent/FooterComponent";
 
 const inter = Inter({ subsets: ["vietnamese"] });
 
@@ -53,6 +54,7 @@ export default function RootLayout({
           ) : (
             ""
           )}
+          <FooterComponent />
         </ScrollContext>
       </body>
     </html>

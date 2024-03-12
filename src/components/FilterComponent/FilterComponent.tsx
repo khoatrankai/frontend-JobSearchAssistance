@@ -475,7 +475,7 @@ const FilterComponent = (props: Props) => {
           }`}
         >
           <button
-            className="py-2 px-4 rounded-xl h-12 w-44 bg-white border-2 text-yellow-500 hover:text-white hover:shadow-[0px_0px_15px_9px_#00000024] hover:bg-yellow-500 border-yellow-500 hover:font-bold"
+            className="py-2 px-4 rounded-xl h-12 w-44 bg-white border-2 text-blue-500 hover:text-white hover:shadow-[0px_0px_15px_9px_#00000024] hover:bg-blue-500 border-blue-500 hover:font-bold"
             onClick={() => {
               handleSearch();
               props.setTabFilter();
@@ -485,7 +485,7 @@ const FilterComponent = (props: Props) => {
           </button>
           <button
             onClick={handleReset}
-            className="py-2 px-4  h-12 rounded-xl w-44 bg-yellow-500 border-2 text-white border-black/20 border-yellow-500 hover:shadow-[0px_0px_15px_9px_#00000024] hover:bg-white hover:text-yellow-500 hover:font-bold"
+            className="py-2 px-4  h-12 rounded-xl w-44 bg-blue-500 border-2 text-white border-black/20 border-blue-500 hover:shadow-[0px_0px_15px_9px_#00000024] hover:bg-white hover:text-blue-500 hover:font-bold"
           >
             {languageRedux === 1 ? "Xóa bộ lọc" : "Reset"}
           </button>

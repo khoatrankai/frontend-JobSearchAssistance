@@ -373,7 +373,7 @@ const page = (props: Props) => {
   useEffect(() => {
     if (mouseDown) {
       const divEle = document.createElement("div");
-      divEle.className = "fixed p-2 text-sm bg-yellow-400 rounded-xl box-move";
+      divEle.className = "fixed p-2 text-sm bg-blue-400 rounded-xl box-move";
       divEle.textContent = typeFocus?.name;
 
       const handleMouseMove = (e: any) => {
@@ -403,7 +403,7 @@ const page = (props: Props) => {
     if (refFormCv && mouseDown) {
       const listType = refFormCv.current.children;
       const divGhost = document.createElement("div");
-      divGhost.className = "border-y-[1px] w-full h-32 bg-yellow-200 box-ghost";
+      divGhost.className = "border-y-[1px] w-full h-32 bg-blue-200 box-ghost";
       const handleMouseEnter = (e: any) => {
         divGhost.remove();
         e.stopPropagation();
@@ -513,7 +513,7 @@ const page = (props: Props) => {
                   className={`p-3 rounded-xl  -[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
                     Object.keys(backNext.back).length === 0
                       ? "cursor-not-allowed"
-                      : " hover:bg-yellow-50"
+                      : " hover:bg-blue-50"
                   }`}
                   // onClick={handlePrev}
                   onMouseDown={handlePrev}
@@ -530,7 +530,7 @@ const page = (props: Props) => {
                   className={`p-3 rounded-xl  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]  ${
                     Object.keys(backNext.next).length === 0
                       ? "cursor-not-allowed"
-                      : " hover:bg-yellow-50"
+                      : " hover:bg-blue-50"
                   }`}
                   // onClick={handleNext}
                   onMouseDown={handleNext}
@@ -547,7 +547,7 @@ const page = (props: Props) => {
             )}
 
             <button
-              className="p-2 font-semibold text-yellow-500  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] border-2 hover:bg-yellow-500 hover:text-white rounded-lg"
+              className="p-2 font-semibold text-blue-500  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] border-2 hover:bg-blue-500 hover:text-white rounded-lg"
               onClick={handleBtnSave}
             >
               <PDFDownloadLink
@@ -562,7 +562,7 @@ const page = (props: Props) => {
               </PDFDownloadLink>
             </button>
             <button
-              className="p-2 font-semibold bg-yellow-500 rounded-lg"
+              className="p-2 font-semibold bg-blue-500 rounded-lg"
               onClick={handleBtnSave}
             >
               Lưu lại
@@ -575,7 +575,7 @@ const page = (props: Props) => {
         <div className="fixed flex flex-col gap-y-4 h-4/5">
           <div
             className={`p-3 rounded-lg  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
-              func === 0 ? "bg-yellow-50" : "bg-white"
+              func === 0 ? "bg-blue-50" : "bg-white"
             }`}
             onClick={() => {
               setFunc(0);
@@ -609,11 +609,11 @@ const page = (props: Props) => {
                 })}
               </ul>
             </div>
-            {/* <div className="absolute bg-yellow-300 top-0 left-full translate-x-4 rounded-lg w-80 h-full"></div> */}
+            {/* <div className="absolute bg-blue-300 top-0 left-full translate-x-4 rounded-lg w-80 h-full"></div> */}
           </div>
           <div
             className={`p-3 rounded-lg  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
-              func === 1 ? "bg-yellow-50" : "bg-white"
+              func === 1 ? "bg-blue-50" : "bg-white"
             }`}
             onClick={() => {
               setFunc(1);

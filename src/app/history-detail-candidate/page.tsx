@@ -285,7 +285,7 @@ const page = (props: Props) => {
               // onClick={() =>
               //   handleToMessage(postDetail.account_id, postDetail.id)
               // }
-              className="flex items-center w-10 -ml-2 h-10 border-2 border-yellow-500/70 mr-4 hover:border-yellow-500 rounded-lg justify-center"
+              className="flex items-center w-10 -ml-2 h-10 border-2 border-blue-500/70 mr-4 hover:border-blue-500 rounded-lg justify-center"
               onClick={() =>
                 window.open(
                   `/chat?user_id=${useSearch.get("post-id")}&post_id=${

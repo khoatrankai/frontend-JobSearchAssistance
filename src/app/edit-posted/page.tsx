@@ -397,7 +397,7 @@ const EditPostedPage: React.FC<Props> = () => {
         <div className={`max-w-[780px] w-full  mr-8 flex flex-col gap-y-4`}>
           <div className="flex flex-col gap-12 bg-white p-4 rounded-lg shadow-[-10px_8px_40px_6px_#00000024]">
             <div className="flex h-10 items-center">
-              <div className="h-full w-3 bg-yellow-500 mr-4"></div>
+              <div className="h-full w-3 bg-blue-500 mr-4"></div>
               <h1 className="text-2xl font-bold">
                 {" "}
                 {languageRedux === 1
@@ -420,7 +420,7 @@ const EditPostedPage: React.FC<Props> = () => {
               </div>
             </div>
             <div className="w-full relative">
-              <label className="text-xs text-yellow-400 absolute font-semibold -top-3 px-1 left-2 bg-white">
+              <label className="text-xs text-blue-400 absolute font-semibold -top-3 px-1 left-2 bg-white">
                 {languageRedux === 1 ? "Hình ảnh về công ty" : "Company images"}
               </label>
               <div
@@ -444,7 +444,7 @@ const EditPostedPage: React.FC<Props> = () => {
                       height={500}
                     />
                     <button
-                      className="p-2 rounded-xl bg-red-500 font-bold"
+                      className="p-2 rounded-xl bg-blue-500 text-white hover:bg-blue-400 font-bold"
                       onClick={handleClickBtnUpload}
                     >
                       {languageRedux === 1
@@ -515,14 +515,14 @@ const EditPostedPage: React.FC<Props> = () => {
             </div>
             <div className="flex flex-col gap-y-12">
               <Salary dataReq={dataReq} setDataReq={setDataReq} />
-              <div className="relative h-fit max-w-[350px] p-2 border-2 rounded-md focus-within:border-yellow-400">
-                <label className="mb-1 text-xs text-yellow-400 absolute font-semibold -top-3 left-2 bg-white">
+              <div className="relative h-fit max-w-[350px] p-2 border-2 rounded-md focus-within:border-blue-400">
+                <label className="mb-1 text-xs text-blue-400 absolute font-semibold -top-3 left-2 bg-white">
                   {languageRedux === 1 ? "Loại hình làm việc" : "Type of work"}
                 </label>
                 <div className="flex justify-between gap-2">
                   <button
                     className={`flex gap-1 items-center p-2 border-2 w-fit cursor-pointer ${
-                      dataReq.isRemotely ? "bg-yellow-300" : ""
+                      dataReq.isRemotely ? "bg-blue-300" : ""
                     }`}
                     onClick={() => {
                       setDataReq({
@@ -548,7 +548,7 @@ const EditPostedPage: React.FC<Props> = () => {
                   </button>
                   <button
                     className={`flex gap-1 p-2 items-center border-2 w-fit cursor-pointer ${
-                      dataReq.isWorkingWeekend ? "bg-yellow-300" : ""
+                      dataReq.isWorkingWeekend ? "bg-blue-300" : ""
                     }`}
                     onClick={() => {
                       setDataReq({
@@ -582,14 +582,14 @@ const EditPostedPage: React.FC<Props> = () => {
           <CategoryPost dataReq={dataReq} setDataReq={setDataReq} />
           <div className="flex flex-col gap-12 bg-white p-4 rounded-lg  shadow-[-10px_8px_40px_6px_#00000024]">
             <div className="flex h-10 items-center">
-              <div className="h-full w-3 bg-yellow-500 mr-4"></div>
+              <div className="h-full w-3 bg-blue-500 mr-4"></div>
               <h1 className="text-2xl font-bold">
                 {" "}
                 {languageRedux === 1 ? "Chi tiết công việc" : "Job details"}
               </h1>
             </div>
             <div className="relative">
-              <label className="mb-1 text-xs text-yellow-400 absolute font-semibold -top-3 left-2 bg-white">
+              <label className="mb-1 text-xs text-blue-400 absolute font-semibold -top-3 left-2 bg-white">
                 {languageRedux === 1 ? "Mô tả công việc" : "Job description"}
               </label>
               <div>
@@ -601,12 +601,12 @@ const EditPostedPage: React.FC<Props> = () => {
                     handleUpdateDes(e, 0);
                   }}
                   name="detail"
-                  className="border-2 border-dashed rounded-md max-w-2xl w-full h-fit min-w-[18rem] min-h-[20rem] resize-none p-4 outline-none border-black/20 focus-within:border-yellow-400"
+                  className="border-2 border-dashed rounded-md max-w-2xl w-full h-fit min-w-[18rem] min-h-[20rem] resize-none p-4 outline-none border-black/20 focus-within:border-blue-400"
                 />
               </div>
             </div>
             <div className="relative">
-              <label className="mb-1 text-xs text-yellow-400 absolute font-semibold -top-3 left-2 bg-white">
+              <label className="mb-1 text-xs text-blue-400 absolute font-semibold -top-3 left-2 bg-white">
                 {languageRedux === 1 ? "Yêu cầu công việc" : "Job requirements"}
               </label>
               <div>
@@ -618,12 +618,12 @@ const EditPostedPage: React.FC<Props> = () => {
                     handleUpdateDes(e, 1);
                   }}
                   name="req"
-                  className="border-2 border-dashed rounded-md max-w-2xl w-full h-fit min-w-[18rem] min-h-[20rem] resize-none p-4 outline-none border-black/20 focus-within:border-yellow-400"
+                  className="border-2 border-dashed rounded-md max-w-2xl w-full h-fit min-w-[18rem] min-h-[20rem] resize-none p-4 outline-none border-black/20 focus-within:border-blue-400"
                 />
               </div>
             </div>
             <div className="relative">
-              <label className="mb-1 text-xs text-yellow-400 absolute font-semibold -top-3 left-2 bg-white">
+              <label className="mb-1 text-xs text-blue-400 absolute font-semibold -top-3 left-2 bg-white">
                 {languageRedux === 1 ? "Quyền lợi" : "Benefits"}
               </label>
               <div>
@@ -635,7 +635,7 @@ const EditPostedPage: React.FC<Props> = () => {
                     handleUpdateDes(e, 2);
                   }}
                   name="right"
-                  className="border-2 border-dashed rounded-md max-w-2xl w-full h-fit min-w-[18rem] min-h-[20rem] resize-none p-4 outline-none border-black/20 focus-within:border-yellow-400"
+                  className="border-2 border-dashed rounded-md max-w-2xl w-full h-fit min-w-[18rem] min-h-[20rem] resize-none p-4 outline-none border-black/20 focus-within:border-blue-400"
                 />
               </div>
             </div>
@@ -648,7 +648,7 @@ const EditPostedPage: React.FC<Props> = () => {
         >
           <div className="rounded-lg bg-white shadow-[7px_8px_40px_6px_#00000024] p-4">
             <div className="flex h-10 items-center mb-8">
-              <div className="h-full w-3 bg-yellow-500 mr-4"></div>
+              <div className="h-full w-3 bg-blue-500 mr-4"></div>
               <h1 className="font-bold text-xl">
                 {" "}
                 {languageRedux === 1
@@ -658,10 +658,10 @@ const EditPostedPage: React.FC<Props> = () => {
             </div>
             <ul>
               <li className="flex items-center my-6">
-                <div className="w-12 mr-4 p-3 bg-yellow-400 rounded-full">
+                <div className="w-12 mr-4 p-3 bg-blue-400 rounded-full text-white">
                   <ApartmentIcon />
                 </div>
-                <div className="p-2 w-full border-2 border-dashed focus-within:border-yellow-400">
+                <div className="p-2 w-full border-2 border-dashed focus-within:border-blue-400">
                   <h2>
                     {" "}
                     {languageRedux === 1 ? "Tên công ty" : "Company name"}
@@ -680,10 +680,10 @@ const EditPostedPage: React.FC<Props> = () => {
                 </div>
               </li>
               <li className="flex items-center my-6">
-                <div className="w-12 mr-4 p-3 bg-yellow-400 rounded-full">
+                <div className="w-12 mr-4 p-3 bg-blue-400 rounded-full text-white">
                   <EmailIcon />
                 </div>
-                <div className="p-2 w-full border-2 border-dashed focus-within:border-yellow-400">
+                <div className="p-2 w-full border-2 border-dashed focus-within:border-blue-400">
                   <h2>Email</h2>
                   <input
                     name="email"
@@ -698,10 +698,10 @@ const EditPostedPage: React.FC<Props> = () => {
                 </div>
               </li>
               <li className="flex items-center my-6">
-                <div className="w-12 mr-4 p-3 bg-yellow-400 rounded-full">
+                <div className="w-12 mr-4 p-3 bg-blue-400 rounded-full text-white">
                   <LocalPhoneIcon />
                 </div>
-                <div className="p-2 w-full border-2 border-dashed focus-within:border-yellow-400">
+                <div className="p-2 w-full border-2 border-dashed focus-within:border-blue-400">
                   <h2>
                     {" "}
                     {languageRedux === 1 ? "Số điện thoại" : "Phone number"}
@@ -724,14 +724,14 @@ const EditPostedPage: React.FC<Props> = () => {
           </div>
           <div className="rounded-lg bg-white shadow-[7px_8px_40px_6px_#00000024] p-4">
             <div className="flex h-10 items-center mb-8">
-              <div className="h-full w-3 bg-yellow-500 mr-4"></div>
+              <div className="h-full w-3 bg-blue-500 mr-4"></div>
               <h1 className="font-bold text-xl">
                 {" "}
                 {languageRedux === 1 ? "Thời gian làm việc" : "Working time"}
               </h1>
             </div>
-            <div className="relative max-w-[400px] p-2 border-2 rounded-md focus-within:border-yellow-400">
-              <label className="text-xs text-yellow-400 absolute font-semibold -top-3 px-1 left-2 bg-white">
+            <div className="relative max-w-[400px] p-2 border-2 rounded-md focus-within:border-blue-400">
+              <label className="text-xs text-blue-400 absolute font-semibold -top-3 px-1 left-2 bg-white">
                 {languageRedux === 1 ? "Thời gian làm việc" : "Working time"}
               </label>
               <div className="flex gap-2 font-semibold">
@@ -758,14 +758,14 @@ const EditPostedPage: React.FC<Props> = () => {
           <PositionPost dataReq={dataReq} setDataReq={setDataReq} />
           <div className="rounded-lg bg-white shadow-[7px_8px_40px_6px_#00000024] p-4">
             <div className="flex h-10 items-center mb-8">
-              <div className="h-full w-3 bg-yellow-500 mr-4"></div>
+              <div className="h-full w-3 bg-blue-500 mr-4"></div>
               <h1 className="font-bold text-xl">
                 {" "}
                 {languageRedux === 1 ? "Thời gian đăng bài" : "Time to post"}
               </h1>
             </div>
-            <div className="relative max-w-[400px] p-2 border-2 rounded-md focus-within:border-yellow-400">
-              <label className="text-xs text-yellow-400 absolute font-semibold -top-3 px-1 left-2 bg-white">
+            <div className="relative max-w-[400px] p-2 border-2 rounded-md focus-within:border-blue-400">
+              <label className="text-xs text-blue-400 absolute font-semibold -top-3 px-1 left-2 bg-white">
                 {languageRedux === 1 ? "Thời gian đăng bài" : "Time to post"}
               </label>
               <div className="font-bold">
@@ -774,7 +774,7 @@ const EditPostedPage: React.FC<Props> = () => {
                     name="isDatePeriod"
                     className={`p-2 border-b-4 ${
                       !typeTimeJob
-                        ? "border-yellow-400 text-yellow-500"
+                        ? "border-blue-400 text-blue-500"
                         : " border-transparent"
                     }`}
                     onClick={(e) => {
@@ -788,7 +788,7 @@ const EditPostedPage: React.FC<Props> = () => {
                     name="isDatePeriod"
                     className={`p-2 border-b-4 ${
                       typeTimeJob
-                        ? "border-yellow-400 text-yellow-500"
+                        ? "border-blue-400 text-blue-500"
                         : " border-transparent"
                     }`}
                     onClick={(e) => {
@@ -828,7 +828,7 @@ const EditPostedPage: React.FC<Props> = () => {
           </div>
           <div className="rounded-lg bg-white shadow-[7px_8px_40px_6px_#00000024] p-4">
             <div className="flex h-10 items-center mb-8">
-              <div className="h-full w-3 bg-yellow-500 mr-4"></div>
+              <div className="h-full w-3 bg-blue-500 mr-4"></div>
               <h1 className="font-bold text-xl">
                 {" "}
                 {languageRedux === 1
@@ -836,8 +836,8 @@ const EditPostedPage: React.FC<Props> = () => {
                   : "Deadline for submission"}
               </h1>
             </div>
-            <div className="relative max-w-[400px] p-2 border-2 rounded-md focus-within:border-yellow-400">
-              <label className="mb-1 text-xs text-yellow-400 absolute font-semibold -top-3 left-2 bg-white">
+            <div className="relative max-w-[400px] p-2 border-2 rounded-md focus-within:border-blue-400">
+              <label className="mb-1 text-xs text-blue-400 absolute font-semibold -top-3 left-2 bg-white">
                 {languageRedux === 1
                   ? "Thời hạn nộp đơn"
                   : "Deadline for submission"}
@@ -861,10 +861,10 @@ const EditPostedPage: React.FC<Props> = () => {
         </div>
       </div>
       <button
-        className="fixed bottom-14 right-24 p-4 transition-all bg-yellow-500 rounded-lg hover:text-black/50 hover:bg-yellow-400"
+        className="fixed bottom-14 right-24 p-4 transition-all bg-blue-500 rounded-lg hover:text-black/50 hover:bg-blue-400"
         onClick={handlePost}
       >
-        <h2 className="text-xl font-semibold">
+        <h2 className="text-xl font-semibold text-white">
           {languageRedux === 1 ? "Cập nhật" : "Update"}
         </h2>
       </button>

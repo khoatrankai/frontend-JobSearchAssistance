@@ -74,7 +74,7 @@ const NameProfile = (props: Props) => {
           rsName ? "border-dashed border-black/20" : " border-transparent"
         }`}
         disabled={!rsName}
-        value={dataName?.name ?? ""}
+        value={dataName?.name ?? "Không Tên"}
         onChange={handleUpdate}
         name="name"
         type="text"
@@ -83,7 +83,7 @@ const NameProfile = (props: Props) => {
         <div className="absolute left-full max-w-fit flex ">
           <button className="w-8 h-8">
             <Image
-              className={`w-8 p-1 border-2 bg-yellow-400 rounded-full transition-all ${
+              className={`w-8 p-1 border-2 bg-blue-500 rounded-full transition-all ${
                 rsName ? "translate-x-full invisible opacity-0" : ""
               }`}
               src={"/iconwrite.svg"}
@@ -97,7 +97,7 @@ const NameProfile = (props: Props) => {
           </button>
           <button className="w-8 h-8">
             <Image
-              className={`w-8 p-1 border-2 bg-yellow-400 rounded-full ${
+              className={`w-8 p-1 border-2 bg-green-500 rounded-full ${
                 rsName ? "" : "invisible opacity-0"
               }`}
               src={"/icontick.svg"}
@@ -111,7 +111,7 @@ const NameProfile = (props: Props) => {
           </button>
           <button className="w-8 h-8">
             <Image
-              className={`w-8 p-1 border-2 bg-yellow-400 rounded-full ${
+              className={`w-8 p-1 border-2 bg-red-500 rounded-full ${
                 rsName ? "" : "invisible opacity-0"
               }`}
               src={"/iconclose.svg"}

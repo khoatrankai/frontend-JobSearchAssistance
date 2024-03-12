@@ -55,10 +55,10 @@ const Salary = (props: Props) => {
   }, [languageRedux]);
   return (
     <div className="w-full max-w-[460px] relative">
-      <label className="text-xs text-yellow-400 absolute font-semibold -top-3 px-1 left-2 bg-white">
+      <label className="text-xs text-blue-400 absolute font-semibold -top-3 px-1 left-2 bg-white">
         {languageRedux === 1 ? "Mức lương" : "Salary"}
       </label>
-      <div className="w-full border-2 rounded-md p-2 flex-wrap focus-within:border-yellow-400 flex gap-2 items-center">
+      <div className="w-full border-2 rounded-md p-2 flex-wrap focus-within:border-blue-400 flex gap-2 items-center">
         <div
           className="flex items-center flex-1 min-w-fit justify-between relative  gap-1 p-1 h-full rounded-md border-2 text-sm"
           ref={btn_type}
