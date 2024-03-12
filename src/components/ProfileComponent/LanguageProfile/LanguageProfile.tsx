@@ -96,7 +96,7 @@ const LanguageProfile = (props: Props) => {
     }
   };
   useEffect(() => {
-    const newData = dataInfo?.profilesLanguages.map((dt: any) => {
+    const newData = dataInfo?.profilesLanguages?.map((dt: any) => {
       return { ...dt, api: false };
     });
     setDataRequest(newData);

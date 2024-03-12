@@ -24,6 +24,11 @@ import { MdWork } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
 
 import CvProfile from "@/components/ProfileComponent/CvProfile/CvProfile";
+import InfoProfile from "@/components/ProfileComponent/AllProfile/InfoProfile/InfoProfile";
+import DashboardProfile from "@/components/ProfileComponent/AllProfile/DashboardProfile/DashboardProfile";
+import MyCompanyProfile from "@/components/ProfileComponent/AllProfile/MyCompanyProfile/MyCompanyProfile";
+import MyJobProfile from "@/components/ProfileComponent/AllProfile/MyJobProfile/MyJobProfile";
+import SettingProfile from "@/components/ProfileComponent/AllProfile/SettingProfile/SettingProfile";
 
 type Props = {};
 
@@ -35,6 +40,7 @@ const page = (props: Props) => {
   const { handleLoadHrefPage } = useSrollContext();
   const [resizePage, setResizePage] = useState<boolean>(false);
   const [menuProfile, setMenuProfile] = useState<boolean>(false);
+  const [selectionMenu, setSelectionMenu] = useState<number>(1);
   const handleUpdateApi = () => {
     dispatch(fetchProfile("vi") as any);
   };
@@ -84,66 +90,6 @@ const page = (props: Props) => {
     <div>
       <div className="flex justify-center bg-gray-200/45">
         <div className=" w-full flex items-start pb-16 relative">
-          {/* <AvatarProfile
-            dataInfo={dataInfo}
-            handleUpdateApi={handleUpdateApi}
-            checkUpdate={false}
-          />
-          <NameProfile
-            dataInfo={dataInfo}
-            handleUpdateApi={handleUpdateApi}
-            checkUpdate={false}
-          />
-          <div className={`flex w-full ${resizePage ? "flex-wrap px-16" : ""}`}>
-            <div
-              className={` ${resizePage ? "min-w-full" : "mr-9 basis-8/12"}`}
-            >
-              <InfoPerson
-                dataInfo={dataInfo}
-                handleUpdateApi={handleUpdateApi}
-                checkUpdate={false}
-              />
-              <JobProfile
-                dataInfo={dataInfo}
-                handleUpdateApi={handleUpdateApi}
-                checkUpdate={false}
-              />
-              <EducationProfile
-                dataInfo={dataInfo}
-                handleUpdateApi={handleUpdateApi}
-                checkUpdate={false}
-              />
-              <ExperienceProfile
-                dataInfo={dataInfo}
-                handleUpdateApi={handleUpdateApi}
-                checkUpdate={false}
-              />
-              <AchivementProfile
-                dataInfo={dataInfo}
-                handleUpdateApi={handleUpdateApi}
-                checkUpdate={false}
-              />
-              <CvProfile profile={dataProfile} />
-            </div>
-
-            <div className={` ${resizePage ? "min-w-full" : "basis-4/12"}`}>
-              <ContactProfile
-                dataInfo={dataInfo}
-                handleUpdateApi={handleUpdateApi}
-                checkUpdate={false}
-              />
-              <SkillProfile
-                dataInfo={dataInfo}
-                handleUpdateApi={handleUpdateApi}
-                checkUpdate={false}
-              />
-              <LanguageProfile
-                dataInfo={dataInfo}
-                handleUpdateApi={handleUpdateApi}
-                checkUpdate={false}
-              />
-            </div>
-          </div> */}
           <div
             className={`${
               reponsiveMobile < 950 ? "absolute z-40" : "basis-1/4"
@@ -184,13 +130,21 @@ const page = (props: Props) => {
             </div>
             <div className="flex flex-col items-center gap-y-3 w-full justify-center">
               <div
-                className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] hover:border-blue-500 bg-white  hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
+                className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
+                  selectionMenu === 1
+                    ? "border-blue-500 bg-blue-200"
+                    : "bg-white"
+                } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
                   reponsiveMobile < 950
                     ? `justify-center ${
                         menuProfile ? "" : "-top-20 opacity-0 -z-10"
                       }`
                     : "pl-6 hover:text-white"
                 }`}
+                onClick={() => {
+                  setSelectionMenu(1);
+                  setMenuProfile(false);
+                }}
               >
                 <AiFillDashboard />
                 <p
@@ -204,13 +158,21 @@ const page = (props: Props) => {
                 </p>
               </div>
               <div
-                className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] hover:border-blue-500 bg-white  hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
+                className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
+                  selectionMenu === 2
+                    ? "border-blue-500 bg-blue-200"
+                    : "bg-white"
+                } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
                   reponsiveMobile < 950
                     ? `justify-center ${
                         menuProfile ? "" : "-top-20 opacity-0 -z-10"
                       }`
                     : "pl-6 hover:text-white"
                 }`}
+                onClick={() => {
+                  setSelectionMenu(2);
+                  setMenuProfile(false);
+                }}
               >
                 <MdEditDocument />
                 <p
@@ -224,13 +186,21 @@ const page = (props: Props) => {
                 </p>
               </div>
               <div
-                className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] hover:border-blue-500 bg-white  hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
+                className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
+                  selectionMenu === 3
+                    ? "border-blue-500 bg-blue-200"
+                    : "bg-white"
+                } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
                   reponsiveMobile < 950
                     ? `justify-center ${
                         menuProfile ? "" : "-top-20 opacity-0 -z-10"
                       }`
                     : "pl-6 hover:text-white"
                 }`}
+                onClick={() => {
+                  setSelectionMenu(3);
+                  setMenuProfile(false);
+                }}
               >
                 <FaBuilding />
                 <p
@@ -244,13 +214,21 @@ const page = (props: Props) => {
                 </p>
               </div>
               <div
-                className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] hover:border-blue-500 bg-white  hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
+                className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
+                  selectionMenu === 4
+                    ? "border-blue-500 bg-blue-200"
+                    : "bg-white"
+                } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
                   reponsiveMobile < 950
                     ? `justify-center ${
                         menuProfile ? "" : "-top-20 opacity-0 -z-10"
                       }`
                     : "pl-6 hover:text-white"
                 }`}
+                onClick={() => {
+                  setSelectionMenu(4);
+                  setMenuProfile(false);
+                }}
               >
                 <MdWork />
                 <p
@@ -264,13 +242,21 @@ const page = (props: Props) => {
                 </p>
               </div>
               <div
-                className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] hover:border-blue-500 bg-white  hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
+                className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
+                  selectionMenu === 5
+                    ? "border-blue-500 bg-blue-200"
+                    : "bg-white"
+                } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
                   reponsiveMobile < 950
                     ? `justify-center ${
                         menuProfile ? "" : "-top-20 opacity-0 -z-10"
                       }`
                     : "pl-6 hover:text-white"
                 }`}
+                onClick={() => {
+                  setSelectionMenu(5);
+                  setMenuProfile(false);
+                }}
               >
                 <IoMdSettings />
                 <p
@@ -292,75 +278,19 @@ const page = (props: Props) => {
                   ? "flex-1"
                   : "flex-1 mr-2"
                 : "basis-2/3"
-            }  mt-8 rounded-lg h-full flex flex-col gap-y-4`}
+            }  pt-20 rounded-lg h-full flex flex-col gap-y-4`}
           >
             {/* bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] */}
-            {reponsiveMobile < 990 && (
-              <div className="flex justify-center">
-                <AvatarProfile
-                  dataInfo={dataInfo}
-                  handleUpdateApi={handleUpdateApi}
-                  checkUpdate={false}
-                />
-              </div>
+            {selectionMenu === 1 && <DashboardProfile />}
+            {selectionMenu === 2 && (
+              <InfoProfile
+                dataInfo={dataInfo}
+                handleUpdateApi={handleUpdateApi}
+              />
             )}
-
-            <div>
-              <InfoPerson
-                dataInfo={dataInfo}
-                handleUpdateApi={handleUpdateApi}
-                checkUpdate={false}
-              />
-            </div>
-            <div>
-              <ContactProfile
-                dataInfo={dataInfo}
-                handleUpdateApi={handleUpdateApi}
-                checkUpdate={false}
-              />
-            </div>
-            <div>
-              <JobProfile
-                dataInfo={dataInfo}
-                handleUpdateApi={handleUpdateApi}
-                checkUpdate={false}
-              />
-            </div>
-            <div>
-              <EducationProfile
-                dataInfo={dataInfo}
-                handleUpdateApi={handleUpdateApi}
-                checkUpdate={false}
-              />
-            </div>
-            <div>
-              <ExperienceProfile
-                dataInfo={dataInfo}
-                handleUpdateApi={handleUpdateApi}
-                checkUpdate={false}
-              />
-            </div>
-            <div>
-              <AchivementProfile
-                dataInfo={dataInfo}
-                handleUpdateApi={handleUpdateApi}
-                checkUpdate={false}
-              />
-            </div>
-            <div>
-              <SkillProfile
-                dataInfo={dataInfo}
-                handleUpdateApi={handleUpdateApi}
-                checkUpdate={false}
-              />
-            </div>
-            <div>
-              <LanguageProfile
-                dataInfo={dataInfo}
-                handleUpdateApi={handleUpdateApi}
-                checkUpdate={false}
-              />
-            </div>
+            {selectionMenu === 3 && <MyCompanyProfile />}
+            {selectionMenu === 4 && <MyJobProfile />}
+            {selectionMenu === 5 && <SettingProfile />}
           </div>
         </div>
         {menuProfile && (
