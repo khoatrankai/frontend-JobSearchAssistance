@@ -4,9 +4,10 @@ import jobTypeApi from "@/api/job-type/jobTypeApi";
 import { RootState } from "@/redux";
 import { useSelector } from "react-redux";
 import { PaperFilterIcon } from "@/icons";
+import { useSrollContext } from "@/context/AppProvider";
 
 type Props = {
-  checkSizeMin: any;
+  // checkSizeMin: any;
   dataRequest: any;
   setDataRequest: any;
 };
@@ -16,7 +17,8 @@ interface IData {
 }
 const TypeJob = (props: Props) => {
   const ref_typeJob = useRef<any>();
-  const { checkSizeMin, dataRequest, setDataRequest } = props;
+  const { dataRequest, setDataRequest } = props;
+  const { reponsiveMobile } = useSrollContext();
   const [dataTypeJob, setDataTypeJob] = useState<any>([]);
   const [dataRequestObj, setDataRequestObj] = useState<any>({});
 
@@ -63,8 +65,12 @@ const TypeJob = (props: Props) => {
 
   return (
     <div
-      className={`flex border-black/30 border-[1px] p-1.5 h-12 rounded-2xl justify-between relative ${
-        checkSizeMin ? "w-full" : "w-[32%] min-w-[302px]"
+      className={`flex bg-white border-black/30 border-[1px] p-1.5 h-12 rounded-2xl justify-between relative ${
+        reponsiveMobile < 655
+          ? "w-full"
+          : reponsiveMobile < 980
+          ? "w-[49%]"
+          : "w-[32%] min-w-[302px]"
       }`}
       ref={ref_typeJob}
       onClick={() => {

@@ -38,6 +38,7 @@ const Home = () => {
     <PersistGate loading={null} persistor={persistor}>
       <div className="w-full h-full bg-slate-50">
         <PageHome />
+
         {/* <BannerComponent />
         {profile && <AppliedPostedJob />}
         <HotJobComponent ref={hotJobRef} />

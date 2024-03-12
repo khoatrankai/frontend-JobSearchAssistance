@@ -24,9 +24,11 @@ import { styled } from "@mui/material/styles";
 import Switch, { SwitchProps } from "@mui/material/Switch";
 import { FaUser } from "react-icons/fa";
 import { FaUserEdit } from "react-icons/fa";
-import { MdWork } from "react-icons/md";
+import { MdEditDocument, MdWork } from "react-icons/md";
+import { CiLogout } from "react-icons/ci";
+
 import { IoMdNotifications } from "react-icons/io";
-import { AiFillMessage } from "react-icons/ai";
+import { AiFillDashboard, AiFillMessage } from "react-icons/ai";
 import { IoMdSettings } from "react-icons/io";
 import SearchAllComponent from "../SearchAllComponent/SearchAllComponent";
 import { FaBuilding } from "react-icons/fa";
@@ -127,6 +129,8 @@ const MenuComponent = (props: Props) => {
   const [scrollPositionSearch, setScrollPositionSearch] = useState<any>(false);
   const [searchActive, setSearchActive] = useState<boolean>(false);
   const [onMenuAll, setOnMenuAll] = useState<boolean>(false);
+  const [selectionMenu, setSelectionMenu] = useState<number>(0);
+
   useEffect(() => {
     handleLoadHrefPage();
   }, [location.pathname]);
@@ -613,7 +617,9 @@ const MenuComponent = (props: Props) => {
                   className={`
                   ${searchActive ? "absolute w-full right-0" : "w-full"}
                   ${
-                    scrollPositionSearch && reponsiveMobile > 580
+                    scrollPositionSearch &&
+                    reponsiveMobile > 580 &&
+                    checkPage !== "/search-result"
                       ? ""
                       : "invisible opacity-0"
                   } transition-all duration-500  flex items-center`}
@@ -660,22 +666,117 @@ const MenuComponent = (props: Props) => {
                     </>
                   ) : (
                     <div className="flex gap-x-4">
-                      <div className="rounded-full p-2 bg-black cursor-pointer hover:bg-blue-500">
+                      <div
+                        className={`rounded-full p-2 bg-black cursor-pointer relative  ${
+                          selectionMenu === 1
+                            ? "bg-blue-500"
+                            : "hover:bg-blue-400"
+                        }`}
+                        onClick={() => {
+                          if (selectionMenu === 1) {
+                            setSelectionMenu(0);
+                          } else setSelectionMenu(1);
+                        }}
+                      >
                         <IoMdNotifications color="white" fontSize="1.5em" />
+                        <div
+                          className={`flex flex-col gap-y-4 absolute pointer-events-none ${
+                            selectionMenu === 1
+                              ? "h-fit opacity-100"
+                              : "opacity-0"
+                          } top-full transition-all translate-y-2 right-0 w-96 overflow-hidden duration-300 px-4 py-6 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]`}
+                        >
+                          Thông báo
+                        </div>
                       </div>
-                      <div className="rounded-full p-2 bg-black cursor-pointer  hover:bg-blue-500">
+                      <div
+                        className={`rounded-full p-2 bg-black cursor-pointer relative  ${
+                          selectionMenu === 2
+                            ? "bg-blue-500"
+                            : "hover:bg-blue-400"
+                        }`}
+                        onClick={() => {
+                          if (selectionMenu === 2) {
+                            setSelectionMenu(0);
+                          } else setSelectionMenu(2);
+                        }}
+                      >
                         <AiFillMessage color="white" fontSize="1.5em" />
+                        <div
+                          className={`flex flex-col gap-y-4 absolute  pointer-events-none ${
+                            selectionMenu === 2
+                              ? "h-fit opacity-100"
+                              : "opacity-0"
+                          } top-full transition-all translate-y-2 right-0 w-96 overflow-hidden duration-300 px-4 py-6 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]`}
+                        >
+                          Chat
+                        </div>
                       </div>
-                      <div className="rounded-full p-2 bg-black cursor-pointer relative  hover:bg-blue-500">
+                      <div
+                        className={`rounded-full p-2 bg-black cursor-pointer transition-all duration-300 relative  ${
+                          selectionMenu === 3
+                            ? "bg-blue-500"
+                            : "hover:bg-blue-400"
+                        }`}
+                        onClick={() => {
+                          if (selectionMenu === 3) {
+                            setSelectionMenu(0);
+                          } else setSelectionMenu(3);
+                        }}
+                      >
                         <IoMdSettings color="white" fontSize="1.5em" />
-                        <div className="absolute top-full translate-y-2 right-0 w-60 h-fit p-2 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]">
-                          <div>
-                            <Image alt="" src={""} width={100} height={100} />
+                        <div
+                          className={`flex flex-col gap-y-4 absolute  pointer-events-none ${
+                            selectionMenu === 3
+                              ? "h-fit opacity-100 visible"
+                              : "opacity-0 invisible"
+                          } top-full transition-all translate-y-2 right-0 w-96 overflow-hidden duration-300 px-4 py-6 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <Image
+                              className="shadow-sm rounded-full"
+                              alt=""
+                              src={"/goapply.png"}
+                              width={50}
+                              height={50}
+                            />
                             <div>
-                              <p>Khoa</p>
-                              <p>khoanono@gmail.com</p>
+                              <p className="font-semibold text-blue-500">
+                                Khoa
+                              </p>
+                              <p className="text-sm font-medium text-gray-400">
+                                khoanono@gmail.com
+                              </p>
                             </div>
-                            <div>Hồ sơ</div>
+                            <div className="rounded-xl font-semibold border-blue-700 text-xs text-blue-700 hover:bg-blue-100 p-2 border-[1px] pointer-events-auto">
+                              Cập nhật hồ sơ
+                            </div>
+                          </div>
+                          <div className="flex flex-col gap-y-2">
+                            <div className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto">
+                              <AiFillDashboard />
+                              <p className="ml-2">Tổng quan</p>
+                            </div>
+                            <div className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto">
+                              <MdEditDocument />
+                              <p className="ml-2">Hồ sơ cá nhân</p>
+                            </div>
+                            <div className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto">
+                              <FaBuilding />
+                              <p className="ml-2">Công ty của tôi</p>
+                            </div>
+                            <div className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto">
+                              <MdWork />
+                              <p className="ml-2">Việc làm của tôi</p>
+                            </div>
+                            <div className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto">
+                              <IoMdSettings />
+                              <p className="ml-2">Quản lý tài khoản</p>
+                            </div>
+                            <div className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto">
+                              <CiLogout />
+                              <p className="ml-2">Thoát</p>
+                            </div>
                           </div>
                         </div>
                       </div>

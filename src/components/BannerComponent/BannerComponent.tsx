@@ -131,7 +131,7 @@ const BannerComponent = (props: Props) => {
     };
   }, []);
   return (
-    <div className="flex flex-col items-center relative mt-5 w-full justify-center">
+    <div className="flex flex-col items-center relative my-5 max-w-6xl justify-center rounded-lg overflow-hidden">
       <div className={`embla w-full !p-0  image-bg-item`}>
         <SkeletonAll data={dataBanners}>
           {dataBanners && dataBanners.length > 0 && (

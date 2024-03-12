@@ -4,9 +4,10 @@ import salaryTypeApi from "@/api/salary-type/salaryTypeApi";
 import { RootState } from "@/redux";
 import { useSelector } from "react-redux";
 import { ClockFilterIcon } from "@/icons";
+import { useSrollContext } from "@/context/AppProvider";
 
 type Props = {
-  checkSizeMin: any;
+  // checkSizeMin: any;
   dataRequest: any;
   setDataRequest: any;
 };
@@ -17,7 +18,8 @@ interface IData {
 
 const SalaryType = (props: Props) => {
   const ref_salary_type = useRef<any>();
-  const { checkSizeMin, dataRequest, setDataRequest } = props;
+  const { reponsiveMobile } = useSrollContext();
+  const { dataRequest, setDataRequest } = props;
   const [dataType, setDataType] = useState<any>([]);
   const [dataRequestObj, setDataRequestObj] = useState<any>({});
 
@@ -63,8 +65,12 @@ const SalaryType = (props: Props) => {
   }, [tabType]);
   return (
     <div
-      className={`items-center flex border-black/30 border-[1px] p-1.5 h-12 rounded-2xl justify-between relative ${
-        checkSizeMin ? "w-full" : "w-[32%] min-w-[302px]"
+      className={`flex bg-white border-black/30 border-[1px] p-1.5 h-12 rounded-2xl justify-between relative ${
+        reponsiveMobile < 655
+          ? "w-full"
+          : reponsiveMobile < 980
+          ? "w-[49%]"
+          : "w-[32%] min-w-[302px]"
       }`}
       ref={ref_salary_type}
       onClick={() => {

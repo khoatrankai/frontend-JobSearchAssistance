@@ -8,9 +8,10 @@ import locationApi from "@/api/location/locationApi";
 import { RootState } from "@/redux";
 import { useSelector } from "react-redux";
 import { AddressFilterIcon } from "@/icons";
+import { useSrollContext } from "@/context/AppProvider";
 
 type Props = {
-  checkSizeMin: any;
+  // checkSizeMin: any;
   dataRequest: any;
   setDataRequest: any;
 };
@@ -20,6 +21,7 @@ interface IData {
 }
 const PositionJob = (props: Props) => {
   const ref_position = useRef<any>();
+  const { reponsiveMobile } = useSrollContext();
   const { dataRequest, setDataRequest } = props;
   const [dataPosition, setDataPosition] = useState<any>([]);
   const [dataRequestObj, setDataRequestObj] = useState<any>({});
@@ -154,8 +156,12 @@ const PositionJob = (props: Props) => {
 
   return (
     <div
-      className={`items-center flex border-black/30 border-[1px] p-1.5 h-12 rounded-2xl justify-between relative ${
-        props.checkSizeMin ? "w-full" : "w-[32%] min-w-[302px]"
+      className={`flex bg-white border-black/30 border-[1px] p-1.5 h-12 rounded-2xl  items-center justify-between relative ${
+        reponsiveMobile < 655
+          ? "w-full"
+          : reponsiveMobile < 980
+          ? "w-[49%]"
+          : "w-[32%] min-w-[302px]"
       }`}
       onClick={() => {
         setTabPosition(!tabPosition);
