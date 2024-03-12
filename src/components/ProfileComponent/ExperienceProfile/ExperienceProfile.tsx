@@ -161,8 +161,8 @@ const ExperienceProfile = (props: Props) => {
                 key={index}
                 className={`text-xs font-medium pl-2  relative transition-all duration-300 hover:shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] group ${
                   rsExp
-                    ? "border-dashed border-black/30 border-2 border-l-4"
-                    : " border-transparent border-l-black/30 border-2  border-l-4"
+                    ? "border-dashed border-black/30 border-[1px] border-l-[2px]"
+                    : " border-transparent border-l-black/30 border-[1px]  border-l-[2px]"
                 }`}
               >
                 <div>

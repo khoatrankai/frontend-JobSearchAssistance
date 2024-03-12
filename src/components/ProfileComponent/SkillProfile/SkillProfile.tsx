@@ -158,7 +158,7 @@ const SkillProfile = (props: Props) => {
         `http://localhost:1902/api/v3/profiles-skills/${dt.id}`,
         { skillName: dt.skillName, skillLevelId: dt.skillLevelId }
       )) as unknown as IData;
-      if (resUp.statusCode !== 200) {
+      if (resUp?.statusCode !== 200) {
         check = false;
       }
     }
@@ -181,7 +181,7 @@ const SkillProfile = (props: Props) => {
         },
       }
     )) as unknown as IData;
-    if (resUp.statusCode === 201 && resUp) {
+    if (resUp?.statusCode === 201 && resUp) {
       return true;
     }
     return false;

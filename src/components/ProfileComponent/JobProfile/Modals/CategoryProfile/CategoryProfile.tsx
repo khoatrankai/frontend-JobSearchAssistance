@@ -124,7 +124,7 @@ const CategoryProfile = (props: Props) => {
                     rsJob ? "border-dashed border-black/30" : ""
                   }`}
                 >
-                  <h2 className="mr-1">{handleCheckName(dt)}</h2>
+                  <h2 className="mr-1 font-serif">{handleCheckName(dt)}</h2>
                   {rsJob && (
                     <button
                       onClick={() => {
@@ -210,7 +210,7 @@ const CategoryProfile = (props: Props) => {
                       return (
                         <li key={index}>
                           <button
-                            className="cursor-pointer py-2 px-3 font-medium hover:text-blue-400 hover:font-bold flex w-full items-center justify-between group"
+                            className="font-serif cursor-pointer py-2 px-3 font-medium hover:text-blue-400 hover:font-bold flex w-full items-center justify-between group"
                             onClick={() => {
                               handleUpdatePosition(index);
                             }}

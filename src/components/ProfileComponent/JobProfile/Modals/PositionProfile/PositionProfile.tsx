@@ -113,7 +113,7 @@ const PositionProfile = (props: Props) => {
               return (
                 <li
                   key={dt}
-                  className={`flex w-fit items-center p-2 border-[1px] rounded-xl ${
+                  className={`font-serif flex w-fit items-center p-2 border-[1px] rounded-xl ${
                     rsJob ? "border-dashed border-black/30" : ""
                   }`}
                 >
@@ -195,7 +195,7 @@ const PositionProfile = (props: Props) => {
                 </div>
                 <div className="flex overflow-y-hidden hover:overflow-y-scroll">
                   <ul
-                    className={`w-full transition-all ${
+                    className={`font-serif w-full transition-all ${
                       positionLocation < 0
                         ? ""
                         : "opacity-0 absolute right-full"

@@ -4,6 +4,7 @@ import Image from "next/image";
 import axiosClient from "@/configs/axiosClient";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
+import { Input } from "antd";
 
 type Props = {
   dataInfo: any;
@@ -138,12 +139,12 @@ const ContactProfile = (props: Props) => {
       <div>
         <ul className="flex flex-col gap-2">
           <li className="flex items-center">
-            <label className="basis-1/3 font-medium">
+            <label className="basis-1/3 font-serif">
               {languageRedux === 1 ? "Số điện thoại" : "Phone"}
             </label>
             <div className="basis-2/3 font-bold">
-              <input
-                className={`outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${
+              <Input
+                className={`font-serif outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${
                   rsContact
                     ? "border-dashed  border-black/30"
                     : "bg-transparent"
@@ -157,10 +158,10 @@ const ContactProfile = (props: Props) => {
             </div>
           </li>
           <li className="flex items-center">
-            <label className="basis-1/3 font-medium">Email</label>
+            <label className="basis-1/3 font-serif">Email</label>
             <div className="basis-2/3 font-bold">
-              <input
-                className={`outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${
+              <Input
+                className={`font-serif outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${
                   rsContact
                     ? "border-dashed  border-black/30"
                     : "bg-transparent"
@@ -174,10 +175,10 @@ const ContactProfile = (props: Props) => {
             </div>
           </li>
           <li className="flex items-center">
-            <label className="basis-1/3 font-medium">Facebook</label>
+            <label className="basis-1/3 font-serif">Facebook</label>
             <div className="basis-2/3 font-bold">
-              <input
-                className={`outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${
+              <Input
+                className={`font-serif outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${
                   rsContact
                     ? "border-dashed  border-black/30"
                     : "bg-transparent"
@@ -191,11 +192,11 @@ const ContactProfile = (props: Props) => {
             </div>
           </li>
           <li className="flex items-center">
-            <label className="basis-1/3 font-medium">LinkedIn</label>
+            <label className="basis-1/3 font-serif">LinkedIn</label>
             <div className="basis-2/3 font-bold">
-              <input
+              <Input
                 onChange={handleUpdate}
-                className={`outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${
+                className={`font-serif outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${
                   rsContact
                     ? "border-dashed  border-black/30"
                     : "bg-transparent"

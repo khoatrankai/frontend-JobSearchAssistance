@@ -5,6 +5,7 @@ import axiosClient from "@/configs/axiosClient";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
+import { Input, Select } from "antd";
 
 type Props = {
   dataInfo: any;
@@ -84,11 +85,10 @@ const InfoPerson = (props: Props) => {
 
   return (
     <div
-      className={`bg-white ${
-        rsInfo
-          ? "shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] "
-          : "border-transparent"
-      } transition-all p-4 rounded-xl relative`}
+      className={`bg-white ${rsInfo
+        ? "shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] "
+        : "border-transparent"
+        } transition-all p-4 rounded-xl relative`}
     >
       <div className="mb-8 flex justify-between flex-wrap">
         <div className="flex h-fit items-center ">
@@ -162,15 +162,14 @@ const InfoPerson = (props: Props) => {
       <div>
         <div className="flex flex-col gap-2">
           <div className="flex min-w-fit items-center">
-            <label className="basis-1/3 font-medium">
+            <label className="basis-1/3 font-serif">
               {languageRedux === 1 ? "Họ và tên" : "FullName"}
             </label>
             <div className="basis-2/3 font-bold">
-              <input
+              <Input
                 value={dataRequest?.name ?? ""}
-                className={`outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${
-                  rsInfo ? "border-dashed border-black/30" : "bg-transparent"
-                }`}
+                className={`font-serif outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${rsInfo ? "border-dashed border-black/30" : "bg-transparent"
+                  }`}
                 name="name"
                 onChange={handleUpdate}
                 disabled={!rsInfo}
@@ -179,14 +178,13 @@ const InfoPerson = (props: Props) => {
             </div>
           </div>
           <div className="flex min-w-fit items-center">
-            <label className="basis-1/3 font-medium">
+            <label className="basis-1/3 font-serif">
               {languageRedux === 1 ? "Ngày sinh" : "Birthday"}
             </label>
             <div className="basis-2/3 font-bold">
-              <input
-                className={`outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${
-                  rsInfo ? "border-dashed border-black/30" : "bg-transparent"
-                }`}
+              <Input
+                className={`font-serif outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${rsInfo ? "border-dashed border-black/30" : "bg-transparent"
+                  }`}
                 value={moment(dataRequest?.birthday).format("yyyy-MM-DD")}
                 name="birthday"
                 onChange={handleUpdate}
@@ -196,18 +194,23 @@ const InfoPerson = (props: Props) => {
             </div>
           </div>
           <div className="flex min-w-fit items-center">
-            <label className="basis-1/3 font-medium">
+            <label className="basis-1/3 font-serif">
               {languageRedux === 1 ? "Giới tính" : "Sex"}
             </label>
             <div className="basis-2/3 font-bold">
-              <select
+              <Select
+                // @ts-ignore
                 name="gender"
-                className={` focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 appearance-none ${
-                  rsInfo ? "border-dashed border-black/30" : "bg-transparent"
-                }`}
+                className={`font-serif focus-within:bg-black/5 w-full rounded-lg appearance-none ${rsInfo ? "border-dashed border-black/30" : "bg-transparent"
+                  }`}
                 value={dataRequest?.gender}
                 disabled={!rsInfo}
-                onChange={handleUpdate}
+                onChange={(e) => {
+                  setDataRequest({
+                    ...dataRequest,
+                    "gender": e
+                  });
+                }}
               >
                 <option value={1}>
                   {languageRedux === 1 ? "Nam" : "Male"}
@@ -215,21 +218,27 @@ const InfoPerson = (props: Props) => {
                 <option value={0}>
                   {languageRedux === 1 ? "Nữ" : "Female"}
                 </option>
-              </select>
+              </Select>
             </div>
           </div>
           <div className="flex min-w-fit items-center">
-            <label className="basis-1/3 font-medium">
+            <label className="basis-1/3 font-serif">
               {languageRedux === 1 ? "Địa chỉ" : "Address"}
             </label>
             <div className="basis-2/3 font-bold">
-              <select
+              <Select
                 value={dataRequest?.address}
+                // @ts-ignore
                 name="address"
-                className={`focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 appearance-none ${
-                  rsInfo ? "border-dashed border-black/30" : "bg-transparent"
-                }`}
-                onChange={handleUpdate}
+                className={`font-serif focus-within:bg-black/5 w-full rounded-lg appearance-none ${rsInfo ? "border-dashed border-black/30" : "bg-transparent"
+                  }`}
+                onChange={(e) => {
+                  setDataRequest({
+                    ...dataRequest,
+                    "address": e
+                  });
+                
+                }}
                 disabled={!rsInfo}
               >
                 {dataLocation?.map((dt: any) => {
@@ -239,21 +248,20 @@ const InfoPerson = (props: Props) => {
                     </option>
                   );
                 })}
-              </select>
+              </Select>
             </div>
           </div>
           <div className="flex min-w-fit items-center">
-            <label className="basis-1/3 font-medium">
+            <label className="basis-1/3 font-serif">
               {languageRedux === 1
                 ? "Vị trí ứng tuyển"
                 : "Position applied for"}
             </label>
             <div className="basis-2/3 font-bold">
-              <input
+              <Input
                 value={dataRequest?.jobTypeName ?? ""}
-                className={`outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${
-                  rsInfo ? "border-dashed border-black/30" : "bg-transparent"
-                }`}
+                className={`font-serif outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${rsInfo ? "border-dashed border-black/30" : "bg-transparent"
+                  }`}
                 name="jobTypeName"
                 onChange={handleUpdate}
                 disabled={!rsInfo}

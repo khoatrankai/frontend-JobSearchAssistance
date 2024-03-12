@@ -96,7 +96,7 @@ const AchivementModal = (props: Props) => {
             <div className="px-3 py-2 border-2  duration-300 relative transition-all rounded-md group focus-within:border-blue-500 h-11">
               <input
                 value={dataRequest?.title}
-                className={`outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${
+                className={`font-serif outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${
                   dataRequest?.title
                     ? ""
                     : " z-30 group-focus-within:z-0 opacity-0 focus-within:opacity-100"
@@ -106,7 +106,7 @@ const AchivementModal = (props: Props) => {
                 onChange={handleUpdate}
               />
               <h2
-                className={`absolute   flex items-center  duration-300 transition-all ${
+                className={`absolute font-serif flex items-center  duration-300 transition-all ${
                   dataRequest?.title
                     ? "group-focus-within:text-blue-500 inset-auto z-10 px-1 -top-2 bg-white text-xs font-bold"
                     : "text-black/25 inset-x-3 inset-y-0 group-focus-within:z-10 group-focus-within:inset-auto group-focus-within:text-blue-500 group-focus-within:px-1 group-focus-within:-top-2 bg-transparent group-focus-within:bg-white text-lg group-focus-within:text-xs font-semibold group-focus-within:font-bold "
@@ -119,7 +119,7 @@ const AchivementModal = (props: Props) => {
             <div className="px-3 py-2 border-2  duration-300 relative transition-all rounded-md group focus-within:border-blue-500 h-28">
               <textarea
                 value={dataRequest?.description}
-                className={`outline-none bg-transparent resize-none inset-0 px-3 h-full absolute duration-100 text-lg py-2  ${
+                className={`font-serif outline-none bg-transparent resize-none inset-0 px-3 h-full absolute duration-100 text-lg py-2  ${
                   dataRequest?.description
                     ? ""
                     : " z-30 group-focus-within:z-0 opacity-0 focus-within:opacity-100"
@@ -128,7 +128,7 @@ const AchivementModal = (props: Props) => {
                 onChange={handleUpdate}
               />
               <h2
-                className={`absolute  duration-300 transition-all ${
+                className={`absolute font-serif duration-300 transition-all ${
                   dataRequest?.description
                     ? "group-focus-within:text-blue-500 inset-auto z-10 px-1 -top-2 bg-white text-xs font-bold"
                     : "text-black/25 group-focus-within:z-10 group-focus-within:inset-auto group-focus-within:text-blue-500 group-focus-within:px-1 group-focus-within:-top-2 bg-transparent group-focus-within:bg-white text-lg group-focus-within:text-xs font-semibold group-focus-within:font-bold "
@@ -139,7 +139,7 @@ const AchivementModal = (props: Props) => {
             </div>
             <div className="flex justify-end">
               <button
-                className="p-2 rounded-md bg-blue-500 font-bold mr-2"
+                className="p-2 font-serif rounded-md bg-blue-500 font-bold mr-2"
                 onClick={() => {
                   setCheckModal(true);
                 }}
@@ -153,7 +153,7 @@ const AchivementModal = (props: Props) => {
                   : `Edit`}
               </button>
               <button
-                className="p-2  font-bold"
+                className="p-2 font-serif font-bold"
                 onClick={() => setTabModal(false)}
               >
                 {languageRedux === 1 ? "Hủy" : "Cancel"}

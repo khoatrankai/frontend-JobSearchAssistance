@@ -158,7 +158,7 @@ const LanguageProfile = (props: Props) => {
         `http://localhost:1902/api/v3/profile-languages/${dt.id}`,
         { languageName: dt.languageName, languageLevelId: dt.languageLevelId }
       )) as unknown as IData;
-      if (resUp.statusCode !== 200) {
+      if (resUp?.statusCode !== 200) {
         check = false;
       }
     }
@@ -181,7 +181,7 @@ const LanguageProfile = (props: Props) => {
         },
       }
     )) as unknown as IData;
-    if (resUp.statusCode === 201 && resUp) {
+    if (resUp?.statusCode === 201 && resUp) {
       return true;
     }
     return false;

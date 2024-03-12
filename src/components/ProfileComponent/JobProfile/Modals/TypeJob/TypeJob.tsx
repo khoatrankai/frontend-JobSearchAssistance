@@ -64,7 +64,7 @@ const TypeJob = (props: Props) => {
             : ""
         }`}
       >
-        <h2>{handleCheckName(dataRequest?.jobTypeId)}</h2>
+        <h2 className="font-serif">{handleCheckName(dataRequest?.jobTypeId)}</h2>
 
         <div
           className={`absolute  w-40 pt-2 transition-all  shadow-[rgba(50,50,93,0.25)_0px_6px_12px_-2px,_rgba(0,0,0,0.3)_0px_3px_7px_-3px] bg-white rounded-md z-20 left-0 ${
@@ -77,7 +77,7 @@ const TypeJob = (props: Props) => {
             {dataType.map((dt: any) => {
               return (
                 <li key={dt.id} onClick={() => handleUpdate(dt.id)}>
-                  <button className="p-2 hover:text-blue-400 hover:font-bold font-medium">
+                  <button className="font-serif p-2 hover:text-blue-400 hover:font-bold font-medium">
                     {dt.name}
                   </button>
                 </li>

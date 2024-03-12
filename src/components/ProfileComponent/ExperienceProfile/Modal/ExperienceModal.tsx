@@ -101,7 +101,7 @@ const ExperienceModal = (props: Props) => {
             <div className="px-3 py-2 border-2  duration-300 relative transition-all rounded-md group focus-within:border-blue-500 h-11">
               <input
                 value={dataRequest?.companyName}
-                className={`outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${
+                className={`font-serif outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${
                   dataRequest?.companyName
                     ? ""
                     : " z-30 group-focus-within:z-0 opacity-0 focus-within:opacity-100"
@@ -111,7 +111,7 @@ const ExperienceModal = (props: Props) => {
                 onChange={handleUpdate}
               />
               <h2
-                className={`absolute   flex items-center  duration-300 transition-all ${
+                className={`absolute font-serif flex items-center  duration-300 transition-all ${
                   dataRequest?.companyName
                     ? "group-focus-within:text-blue-500 inset-auto z-10 px-1 -top-2 bg-white text-xs font-bold"
                     : "text-black/25 inset-x-3 inset-y-0 group-focus-within:z-10 group-focus-within:inset-auto group-focus-within:text-blue-500 group-focus-within:px-1 group-focus-within:-top-2 bg-transparent group-focus-within:bg-white text-lg group-focus-within:text-xs font-semibold group-focus-within:font-bold "
@@ -125,7 +125,7 @@ const ExperienceModal = (props: Props) => {
             <div className="px-3 py-2 border-2  duration-300 relative transition-all rounded-md group focus-within:border-blue-500 h-11">
               <input
                 value={dataRequest?.title}
-                className={`outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${
+                className={`font-serif outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${
                   dataRequest?.title
                     ? ""
                     : " z-30 group-focus-within:z-0 opacity-0 focus-within:opacity-100"
@@ -135,7 +135,7 @@ const ExperienceModal = (props: Props) => {
                 onChange={handleUpdate}
               />
               <h2
-                className={`absolute   flex items-center  duration-300 transition-all ${
+                className={`absolute font-serif flex items-center  duration-300 transition-all ${
                   dataRequest?.title
                     ? "group-focus-within:text-blue-500 inset-auto z-10 px-1 -top-2 bg-white text-xs font-bold"
                     : "text-black/25 inset-x-3 inset-y-0 group-focus-within:z-10 group-focus-within:inset-auto group-focus-within:text-blue-500 group-focus-within:px-1 group-focus-within:-top-2 bg-transparent group-focus-within:bg-white text-lg group-focus-within:text-xs font-semibold group-focus-within:font-bold "
@@ -147,7 +147,7 @@ const ExperienceModal = (props: Props) => {
             <div className="px-3 py-2 border-2  duration-300 relative transition-all rounded-md group focus-within:border-blue-500 h-11">
               <input
                 defaultValue={handleConvertToDate(dataRequest?.startDate)}
-                className={`outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${
+                className={`font-serif outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${
                   dataRequest?.startDate
                     ? ""
                     : " z-30 group-focus-within:z-0 opacity-0 focus-within:opacity-100"
@@ -157,7 +157,7 @@ const ExperienceModal = (props: Props) => {
                 onChange={handleUpdate}
               />
               <h2
-                className={`absolute   flex items-center  duration-300 transition-all ${
+                className={`absolute font-serif flex items-center  duration-300 transition-all ${
                   dataRequest?.startDate
                     ? "group-focus-within:text-blue-500 inset-auto z-10 px-1 -top-2 bg-white text-xs font-bold"
                     : "text-black/25 inset-x-3 inset-y-0 group-focus-within:z-10 group-focus-within:inset-auto group-focus-within:text-blue-500 group-focus-within:px-1 group-focus-within:-top-2 bg-transparent group-focus-within:bg-white text-lg group-focus-within:text-xs font-semibold group-focus-within:font-bold "
@@ -169,7 +169,7 @@ const ExperienceModal = (props: Props) => {
             <div className="px-3 py-2 border-2  duration-300 relative transition-all rounded-md group focus-within:border-blue-500 h-11">
               <input
                 defaultValue={handleConvertToDate(dataRequest?.endDate)}
-                className={`outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${
+                className={`font-serif outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${
                   dataRequest?.endDate
                     ? ""
                     : " z-30 group-focus-within:z-0 opacity-0 focus-within:opacity-100"
@@ -179,7 +179,7 @@ const ExperienceModal = (props: Props) => {
                 onChange={handleUpdate}
               />
               <h2
-                className={`absolute   flex items-center  duration-300 transition-all ${
+                className={`absolute font-serif flex items-center  duration-300 transition-all ${
                   dataRequest?.endDate
                     ? "group-focus-within:text-blue-500 inset-auto z-10 px-1 -top-2 bg-white text-xs font-bold"
                     : "text-black/25 inset-x-3 inset-y-0 group-focus-within:z-10 group-focus-within:inset-auto group-focus-within:text-blue-500 group-focus-within:px-1 group-focus-within:-top-2 bg-transparent group-focus-within:bg-white text-lg group-focus-within:text-xs font-semibold group-focus-within:font-bold "
@@ -192,7 +192,7 @@ const ExperienceModal = (props: Props) => {
             <div className="px-3 py-2 border-2  duration-300 relative transition-all rounded-md group focus-within:border-blue-500 h-28">
               <textarea
                 value={dataRequest?.extraInformation}
-                className={`outline-none bg-transparent resize-none inset-0 px-3 h-full absolute duration-100 text-lg py-2  ${
+                className={`font-serif outline-none bg-transparent resize-none inset-0 px-3 h-full absolute duration-100 text-lg py-2  ${
                   dataRequest?.extraInformation
                     ? ""
                     : " z-30 group-focus-within:z-0 opacity-0 focus-within:opacity-100"
@@ -201,7 +201,7 @@ const ExperienceModal = (props: Props) => {
                 onChange={handleUpdate}
               />
               <h2
-                className={`absolute  duration-300 transition-all ${
+                className={`absolute font-serif duration-300 transition-all ${
                   dataRequest?.extraInformation
                     ? "group-focus-within:text-blue-500 inset-auto z-10 px-1 -top-2 bg-white text-xs font-bold"
                     : "text-black/25 group-focus-within:z-10 group-focus-within:inset-auto group-focus-within:text-blue-500 group-focus-within:px-1 group-focus-within:-top-2 bg-transparent group-focus-within:bg-white text-lg group-focus-within:text-xs font-semibold group-focus-within:font-bold "
@@ -212,7 +212,7 @@ const ExperienceModal = (props: Props) => {
             </div>
             <div className="flex justify-end">
               <button
-                className="p-2 rounded-md bg-blue-500 font-bold mr-2"
+                className="font-serif p-2 rounded-md bg-blue-500 font-bold mr-2"
                 onClick={() => {
                   setCheckModal(true);
                 }}
@@ -226,7 +226,7 @@ const ExperienceModal = (props: Props) => {
                   : "Update"}
               </button>
               <button
-                className="p-2  font-bold"
+                className="p-2 font-serif font-bold"
                 onClick={() => setTabModal(false)}
               >
                 {languageRedux === 1 ? "Hủy" : "Cancel"}
