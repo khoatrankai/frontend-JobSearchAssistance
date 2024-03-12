@@ -96,7 +96,7 @@ const SkillProfile = (props: Props) => {
     }
   };
   useEffect(() => {
-    const newData = dataInfo?.profilesSkills.map((dt: any) => {
+    const newData = dataInfo?.profilesSkills?.map((dt: any) => {
       return { ...dt, api: false };
     });
     setDataRequest(newData);
