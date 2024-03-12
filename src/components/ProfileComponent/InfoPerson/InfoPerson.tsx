@@ -83,10 +83,16 @@ const InfoPerson = (props: Props) => {
   };
 
   return (
-    <div className="border-2 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] p-4 rounded-xl mb-8 relative">
+    <div
+      className={`bg-white ${
+        rsInfo
+          ? "shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] "
+          : "border-transparent"
+      } transition-all p-4 rounded-xl relative`}
+    >
       <div className="mb-8 flex justify-between flex-wrap">
         <div className="flex h-fit items-center ">
-          <div className="h-10 w-3 bg-yellow-500 mr-4"></div>
+          <div className="h-10 w-3 bg-blue-500 mr-4"></div>
           <h1 className="font-bold text-xl">
             {languageRedux === 1 ? "Thông tin cá nhân" : "Personal information"}
           </h1>
@@ -155,6 +161,23 @@ const InfoPerson = (props: Props) => {
       </div>
       <div>
         <div className="flex flex-col gap-2">
+          <div className="flex min-w-fit items-center">
+            <label className="basis-1/3 font-medium">
+              {languageRedux === 1 ? "Họ và tên" : "FullName"}
+            </label>
+            <div className="basis-2/3 font-bold">
+              <input
+                value={dataRequest?.name ?? ""}
+                className={`outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${
+                  rsInfo ? "border-dashed border-black/30" : "bg-transparent"
+                }`}
+                name="name"
+                onChange={handleUpdate}
+                disabled={!rsInfo}
+                type="text"
+              />
+            </div>
+          </div>
           <div className="flex min-w-fit items-center">
             <label className="basis-1/3 font-medium">
               {languageRedux === 1 ? "Ngày sinh" : "Birthday"}

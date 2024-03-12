@@ -77,7 +77,7 @@ const TypeJob = (props: Props) => {
             {dataType.map((dt: any) => {
               return (
                 <li key={dt.id} onClick={() => handleUpdate(dt.id)}>
-                  <button className="p-2 hover:text-yellow-400 hover:font-bold font-medium">
+                  <button className="p-2 hover:text-blue-400 hover:font-bold font-medium">
                     {dt.name}
                   </button>
                 </li>

@@ -167,7 +167,7 @@ const page = (props: Props) => {
                               <div>
                                 <StarIcon
                                   sx={{
-                                    color: "yellow",
+                                    color: "blue",
                                     fontSize: "14px",
                                   }}
                                 />

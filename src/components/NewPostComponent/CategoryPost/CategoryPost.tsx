@@ -111,13 +111,13 @@ const CategoryPost = (props: Props) => {
   return (
     <div className="flex flex-col gap-12 bg-white p-4 rounded-lg  shadow-[-10px_8px_40px_6px_#00000024]">
       <div className="flex h-10 items-center">
-        <div className="h-full w-3 bg-yellow-500 mr-4"></div>
+        <div className="h-full w-3 bg-blue-500 mr-4"></div>
         <h1 className="text-2xl font-bold">
           {languageRedux === 1 ? "Danh mục" : "Category"}
         </h1>
       </div>
       <div className="rounded-sm max-w-[400px] w-full h-fit border-2 border-dashed p-4 relative flex flex-wrap items-center">
-        <label className="mb-1 text-xs text-yellow-400 absolute font-semibold -top-3 left-2 bg-white">
+        <label className="mb-1 text-xs text-blue-400 absolute font-semibold -top-3 left-2 bg-white">
           {languageRedux === 1 ? "Danh mục" : "Category"}
         </label>
         <ul className="flex flex-wrap gap-4 min-h-fit">
@@ -157,9 +157,9 @@ const CategoryPost = (props: Props) => {
                     return (
                       <li
                         key={index}
-                        className={`p-2 cursor-pointer hover:text-yellow-400 hover:font-bold ${
+                        className={`p-2 cursor-pointer hover:text-blue-400 hover:font-bold ${
                           index === positionCategory.parent_category_id
-                            ? "text-yellow-400 font-bold"
+                            ? "text-blue-400 font-bold"
                             : ""
                         }`}
                         onClick={() => {
@@ -181,7 +181,7 @@ const CategoryPost = (props: Props) => {
                       return (
                         <li
                           key={index}
-                          className={`p-2 cursor-pointer flex items-center gap-2 hover:text-yellow-400  hover:font-bold`}
+                          className={`p-2 cursor-pointer flex items-center gap-2 hover:text-blue-400  hover:font-bold`}
                         >
                           <input
                             type="checkbox"

@@ -67,13 +67,13 @@ const TypeJob = (props: Props) => {
   return (
     <div className="rounded-lg bg-white shadow-[7px_8px_40px_6px_#00000024] p-4">
       <div className="flex h-10 items-center mb-8">
-        <div className="h-full w-3 bg-yellow-500 mr-4"></div>
+        <div className="h-full w-3 bg-blue-500 mr-4"></div>
         <h1 className="font-bold text-xl">
           {languageRedux !== 1 ? "Type of work" : "Loại hình làm việc"}
         </h1>
       </div>
-      <div className="flex flex-wrap p-2 relative border-2 gap-2 max-w-[400px] w-full rounded-md focus-within:border-yellow-400">
-        <label className="mb-1 text-xs text-yellow-400 absolute font-semibold -top-3 px-1 left-2 bg-white">
+      <div className="flex flex-wrap p-2 relative border-2 gap-2 max-w-[400px] w-full rounded-md focus-within:border-blue-400">
+        <label className="mb-1 text-xs text-blue-400 absolute font-semibold -top-3 px-1 left-2 bg-white">
           {languageRedux !== 1 ? "Type of work" : "Loại hình làm việc"}
         </label>
         <div className="p-1 border-2 w-full rounded-md" ref={ref_tab_type}>
@@ -105,9 +105,9 @@ const TypeJob = (props: Props) => {
                     return (
                       <li
                         key={index}
-                        className={`p-2 cursor-pointer hover:text-yellow-400 hover:font-bold ${
+                        className={`p-2 cursor-pointer hover:text-blue-400 hover:font-bold ${
                           dt.id === props.dataReq.jobTypeId
-                            ? "text-yellow-400 font-bold"
+                            ? "text-blue-400 font-bold"
                             : ""
                         }`}
                         onClick={() => {

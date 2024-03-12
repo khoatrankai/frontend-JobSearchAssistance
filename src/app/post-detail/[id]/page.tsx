@@ -387,21 +387,21 @@ const page = (props: Props) => {
               )}
             </div>
             <div className={`mb-10 flow-root`}>
-              <button className="w-fit p-4 flex items-center justify-center hover:bg-yellow-400/20 rounded-xl">
-                <div className="w-10 p-2 bg-yellow-700 rounded-full mr-2">
+              <button className="w-fit p-4 flex items-center justify-center hover:bg-blue-400/20 rounded-xl">
+                <div className="w-10 p-2 bg-blue-700 rounded-full mr-2 text-white">
                   <StoreIcon />
                 </div>
                 <div className="flex flex-col items-start justify-center">
                   <h2 className="font-extralight">
                     {languageRedux === 1 ? "Công ty" : "Company"}
                   </h2>
-                  <h2 className="font-semibold text-start">
+                  <h2 className="font-semibold text-start capitalize">
                     {postDetail?.company_name}
                   </h2>
                 </div>
               </button>
-              <button className="w-fit p-4 flex items-center justify-center hover:bg-yellow-400/20 rounded-xl">
-                <div className="w-10 p-2 bg-yellow-700 rounded-full mr-2">
+              <button className="w-fit p-4 flex items-center justify-center hover:bg-blue-400/20 rounded-xl">
+                <div className="w-10 p-2 bg-blue-700 rounded-full mr-2 text-white">
                   <DnsIcon />
                 </div>
                 <div
@@ -411,21 +411,21 @@ const page = (props: Props) => {
                   <h2 className="font-extralight">
                     {languageRedux === 1 ? "Địa chỉ" : "Address"}
                   </h2>
-                  <h2 className="font-semibold text-start">
+                  <h2 className="font-semibold text-start capitalize">
                     {postDetail.address},{postDetail?.ward},
                     {postDetail?.district}, {postDetail?.province}
                   </h2>
                 </div>
               </button>
-              <button className="w-fit p-4 flex items-center justify-center hover:bg-yellow-400/20 rounded-xl">
-                <div className="w-10 p-2 bg-yellow-700 rounded-full mr-2">
+              <button className="w-fit p-4 flex items-center justify-center hover:bg-blue-400/20 rounded-xl">
+                <div className="w-10 p-2 bg-blue-700 rounded-full mr-2 text-white">
                   <DateRangeIcon />
                 </div>
                 <div className="flex flex-col items-start justify-center">
                   <h2 className="font-extralight">
                     {languageRedux === 1 ? "Ngày đăng" : "Date post"}
                   </h2>
-                  <h2 className="font-semibold text-start">
+                  <h2 className="font-semibold text-start capitalize">
                     {postDetail?.created_at
                       ? new Date(postDetail.created_at).toLocaleString()
                       : "No date available"}
@@ -439,7 +439,7 @@ const page = (props: Props) => {
                   postDetail?.resource?.company_resource_id === 2 &&
                   profile.roleData === 3
                 ) && (
-                  <button className="flex flex-1 px-2 gap-2 items-center h-10 min-w-[12rem] bg-yellow-600/95 hover:bg-yellow-600 justify-center rounded-lg">
+                  <button className="flex flex-1 px-2 gap-2 items-center h-10 min-w-[12rem] bg-blue-600/95 hover:bg-blue-600 justify-center rounded-lg  text-white">
                     <BookmarksIcon />
                     {postDetail?.resource?.company_resource_id === 2 ? (
                       <h2 className="font-bold" onClick={() => handleApply()}>
@@ -461,7 +461,7 @@ const page = (props: Props) => {
                       onClick={() =>
                         handleToMessage(postDetail.account_id, postDetail.id)
                       }
-                      className="flex items-center w-fit gap-2 px-2 -ml-2 h-10 border-2 border-yellow-500/70 mr-4 hover:border-yellow-500 rounded-lg justify-center"
+                      className="flex items-center w-fit gap-2 px-2 -ml-2 h-10 border-2 border-blue-500/70 mr-4 hover:border-blue-500 rounded-lg justify-center"
                     >
                       <ChatIcon width={19} height={18} />
                       <h2
@@ -482,8 +482,8 @@ const page = (props: Props) => {
                         handleBookmarked(postDetail.id);
                       }
                     }}
-                    className={`flex items-center min-w-[10rem] h-10 border-2 border-yellow-500/70 hover:border-yellow-500 rounded-lg justify-center ${
-                      postDetail.bookmarked ? "bg-yellow-500/70" : ""
+                    className={`flex items-center min-w-[10rem] h-10 border-2 border-blue-500/70 hover:border-blue-500 rounded-lg justify-center ${
+                      postDetail.bookmarked ? "bg-blue-500/70" : ""
                     }`}
                   >
                     {postDetail.bookmarked ? (
@@ -509,7 +509,7 @@ const page = (props: Props) => {
           </div>
           <div className="rounded-lg bg-white p-6 mt-8" ref={ref_des}>
             <div className="flex h-10 items-center">
-              <div className="h-full w-3 bg-yellow-500 mr-4"></div>
+              <div className="h-full w-3 bg-blue-500 mr-4"></div>
               <h1 className="text-xl font-bold">
                 {languageRedux === 1
                   ? "Chi tiết tin tuyển dụng"
@@ -524,7 +524,7 @@ const page = (props: Props) => {
                       ? "Mô tả công việc"
                       : "Job description"}
                   </h2>
-                  <pre className="whitespace-pre-wrap">
+                  <pre className="whitespace-pre-wrap font-extralight">
                     {
                       handleDecodingDescription(
                         postDetail?.description ?? ""
@@ -540,7 +540,7 @@ const page = (props: Props) => {
                         ? "Yêu cầu công việc"
                         : "Job requirements"}
                     </h2>
-                    <pre className="whitespace-pre-wrap">
+                    <pre className="whitespace-pre-wrap font-extralight">
                       {
                         handleDecodingDescription(
                           postDetail?.description ?? ""
@@ -558,7 +558,7 @@ const page = (props: Props) => {
                         ? "Quyền lợi được hưởng"
                         : "Benefits"}
                     </h2>
-                    <pre className="whitespace-pre-wrap">
+                    <pre className="whitespace-pre-wrap font-extralight">
                       {
                         handleDecodingDescription(
                           postDetail?.description ?? ""
@@ -576,7 +576,7 @@ const page = (props: Props) => {
         >
           <div className="rounded-lg bg-white p-6">
             <div className="flex h-10 items-center mb-8">
-              <div className="h-full w-3 bg-yellow-500 mr-4"></div>
+              <div className="h-full w-3 bg-blue-500 mr-4"></div>
               <h1 className="font-bold text-xl">
                 {languageRedux === 1
                   ? "Thông tin công việc"
@@ -585,20 +585,24 @@ const page = (props: Props) => {
             </div>
             <ul>
               <li className="flex items-center my-6">
-                <div className="w-12 mr-4 p-3 bg-yellow-600 rounded-full">
+                <div className="w-12 mr-4 p-3 bg-blue-600 text-white rounded-full">
                   <AssignmentIcon />
                 </div>
                 <div>
-                  <h2>{languageRedux === 1 ? "Loại công việc" : "Job type"}</h2>
+                  <h2 className="text-black/50 font-semibold">
+                    {languageRedux === 1 ? "Loại công việc" : "Job type"}
+                  </h2>
                   <h2>{postDetail?.job_type?.job_type_name}</h2>
                 </div>
               </li>
               <li className="flex items-center my-6">
-                <div className="w-12 mr-4 p-3 bg-yellow-600 rounded-full">
+                <div className="w-12 mr-4 p-3 bg-blue-600 text-white rounded-full">
                   <AlarmOnIcon />
                 </div>
                 <div>
-                  <h2>{languageRedux === 1 ? "Giờ làm việc" : "Work time"}</h2>
+                  <h2 className="text-black/50 font-semibold">
+                    {languageRedux === 1 ? "Giờ làm việc" : "Work time"}
+                  </h2>
                   <h2>
                     {moment(postDetail?.start_time).format("HH:mm:ss")} -{" "}
                     {moment(postDetail?.end_time).format("HH:mm:ss")}
@@ -606,16 +610,16 @@ const page = (props: Props) => {
                 </div>
               </li>
               <li className="flex items-center my-6">
-                <div className="w-12 mr-4 p-3 bg-yellow-600 rounded-full">
+                <div className="w-12 mr-4 p-3 bg-blue-600 text-white rounded-full">
                   <WeekendIcon />
                 </div>
                 <div>
-                  <h2>
+                  <h2 className="text-black/50 font-semibold">
                     {languageRedux === 1
                       ? "Làm việc cuối tuần"
                       : "Work on weekends"}
                   </h2>
-                  <h2>
+                  <h2 className="text-black/50 font-semibold">
                     {postDetail?.is_working_weekend
                       ? languageRedux === 1
                         ? "Có làm việc cuối tuần"
@@ -627,14 +631,14 @@ const page = (props: Props) => {
                 </div>
               </li>
               <li className="flex items-center my-6">
-                <div className="w-12 mr-4 p-3 bg-yellow-600 rounded-full">
+                <div className="w-12 mr-4 p-3 bg-blue-600 text-white rounded-full">
                   <SettingsRemoteIcon />
                 </div>
                 <div>
-                  <h2>
+                  <h2 className="text-black/50 font-semibold">
                     {languageRedux === 1 ? "Làm việc từ xa" : "Work remotely"}
                   </h2>
-                  <h2>
+                  <h2 className="text-black/50 font-semibold">
                     {postDetail?.is_remotely
                       ? languageRedux === 1
                         ? "Có làm việc từ xa"
@@ -646,31 +650,35 @@ const page = (props: Props) => {
                 </div>
               </li>
               <li className="flex items-center my-6">
-                <div className="w-12 mr-4 p-3 bg-yellow-600 rounded-full">
+                <div className="w-12 mr-4 p-3 bg-blue-600 text-white rounded-full">
                   <CurrencyExchangeIcon />
                 </div>
                 <div>
-                  <h2>{languageRedux === 1 ? "Mức lương" : "Salary"}</h2>
+                  <h2 className="text-black/50 font-semibold">
+                    {languageRedux === 1 ? "Mức lương" : "Salary"}
+                  </h2>
                   <h2>
                     {postDetail?.salary_min} VND - {postDetail?.salary_max} VND
                   </h2>
                 </div>
               </li>
               <li className="flex items-center my-6">
-                <div className="w-12 mr-4 p-3 bg-yellow-600 rounded-full">
+                <div className="w-12 mr-4 p-3 bg-blue-600 text-white rounded-full">
                   <CategoryIcon />
                 </div>
                 <div>
-                  <h2>{languageRedux === 1 ? "Ngành nghề" : "Industry"}</h2>
+                  <h2 className="text-black/50 font-semibold">
+                    {languageRedux === 1 ? "Ngành nghề" : "Industry"}
+                  </h2>
                   <h2>{list_category}</h2>
                 </div>
               </li>
               <li className="flex items-center my-6">
-                <div className="w-12 mr-4 p-3 bg-yellow-600 rounded-full">
+                <div className="w-12 mr-4 p-3 bg-blue-600 text-white rounded-full">
                   <EventBusyIcon />
                 </div>
                 <div>
-                  <h2>
+                  <h2 className="text-black/50 font-semibold">
                     {languageRedux === 1
                       ? "Hạn nộp hồ sơ"
                       : "Deadline for submission"}
@@ -693,7 +701,7 @@ const page = (props: Props) => {
         postDetail?.resource?.company_resource_id === 2
       ) && (
         <div
-          className={`fixed flex w-fit gap-2 items-center bg-yellow-500 hover:bg-yellow-400 cursor-pointer ${
+          className={`fixed flex w-fit gap-2 items-center text-white bg-blue-500 hover:bg-blue-400 cursor-pointer ${
             checkSize
               ? "rounded-lg bottom-14 right-24 p-4 h-16"
               : " rounded-lg bottom-14 right-24 p-4 h-16"

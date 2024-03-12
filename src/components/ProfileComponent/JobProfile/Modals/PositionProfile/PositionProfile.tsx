@@ -205,7 +205,7 @@ const PositionProfile = (props: Props) => {
                       return (
                         <li key={index}>
                           <button
-                            className="cursor-pointer py-2 px-3 font-medium hover:text-yellow-400 hover:font-bold flex w-full items-center justify-between group"
+                            className="cursor-pointer py-2 px-3 font-medium hover:text-blue-400 hover:font-bold flex w-full items-center justify-between group"
                             onClick={() => {
                               handleUpdatePosition(index);
                             }}
@@ -234,7 +234,7 @@ const PositionProfile = (props: Props) => {
                         return (
                           <li
                             key={index}
-                            className="cursor-pointer flex items-center py-1 px-3 font-medium hover:text-yellow-400 hover:font-bold"
+                            className="cursor-pointer flex items-center py-1 px-3 font-medium hover:text-blue-400 hover:font-bold"
                             onClick={() => {
                               handleUpdate(dt.district_id);
                             }}

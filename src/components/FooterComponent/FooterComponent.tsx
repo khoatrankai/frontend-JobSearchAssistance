@@ -31,7 +31,7 @@ const page = (props: Props) => {
                 <div>
                   <PhoneIcon
                     sx={{
-                      color: "#d4a650",
+                      color: "#2563eb",
                     }}
                   />
                 </div>
@@ -42,7 +42,7 @@ const page = (props: Props) => {
                 <div>
                   <EmailIcon
                     sx={{
-                      color: "#d4a650",
+                      color: "#2563eb",
                     }}
                   />
                 </div>
@@ -53,7 +53,7 @@ const page = (props: Props) => {
                 <div>
                   <LanguageIcon
                     sx={{
-                      color: "#d4a650",
+                      color: "#2563eb",
                     }}
                   />
                 </div>

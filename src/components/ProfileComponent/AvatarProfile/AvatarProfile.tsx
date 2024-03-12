@@ -57,7 +57,7 @@ const AvatarProfile = (props: Props) => {
   return (
     <div className="relative w-fit mb-6">
       <Image
-        className="w-32 h-32 rounded-full border-2"
+        className={`${dataImg ? "" : ""}w-32 h-32 rounded-full border-2`}
         src={dataImg ?? "/iconuser.svg"}
         width={1000}
         height={1000}

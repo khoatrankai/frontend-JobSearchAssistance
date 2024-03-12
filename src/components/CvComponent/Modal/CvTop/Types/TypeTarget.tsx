@@ -19,15 +19,15 @@ const TypeTarget = (props: Props) => {
   return (
     <div className="mx-[-10px]">
       <div className=" flex mb-4 items-center ">
-        <div className="h-[1px] w-8 bg-yellow-500"></div>
+        <div className="h-[1px] w-8 bg-blue-500"></div>
         <div
           contentEditable
           placeholder=" MỤC TIÊU NGHỀ NGHIỆP"
-          className="border-[1px] rounded-xl text-sm font-bold w-fit min-w-[5rem] border-yellow-500 outline-none p-1 break-words max-w-[12rem]"
+          className="border-[1px] rounded-xl text-sm font-bold w-fit min-w-[5rem] border-blue-500 outline-none p-1 break-words max-w-[12rem]"
         >
           MỤC TIÊU NGHỀ NGHIỆP
         </div>
-        <div className="h-[1px] flex-1 bg-yellow-500"></div>
+        <div className="h-[1px] flex-1 bg-blue-500"></div>
       </div>
       <div className="pl-8 pr-4 relative">
         <input

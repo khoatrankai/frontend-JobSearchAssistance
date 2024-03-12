@@ -175,7 +175,7 @@ const AllBlogComponent = (props: Props) => {
                         handleBookmarked(item.id);
                       }
                     }}
-                    className="flex items-center p-2 rounded-md bg-yellow-500 shadow-[7px_8px_40px_6px_#00000024] cursor-pointer ml-4"
+                    className="flex items-center p-2 rounded-md bg-blue-500 shadow-[7px_8px_40px_6px_#00000024] cursor-pointer ml-4"
                   >
                     {item.bookmarked === true ? (
                       <>

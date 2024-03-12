@@ -45,7 +45,7 @@ const Cv3Modal = (props: Props) => {
             <div
               className={` border-[1px] border-transparent focus-within:border-black/60 pb-8 ${
                 positionMove?.type === typeCol && positionMove?.index === index
-                  ? "bg-yellow-300"
+                  ? "bg-blue-300"
                   : "bg-transparent"
               } hover:border-black/60 ${
                 positionFocus?.type === typeCol &&
@@ -181,7 +181,7 @@ const Cv3Modal = (props: Props) => {
             <div
               className={` border-[1px] border-transparent focus-within:border-black/60 pb-8 ${
                 positionMove?.type === typeCol && positionMove?.index === index
-                  ? "bg-yellow-300"
+                  ? "bg-blue-300"
                   : "bg-transparent"
               } hover:border-black/60 ${
                 positionFocus?.type === typeCol &&
