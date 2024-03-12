@@ -662,7 +662,7 @@ const MenuComponent = (props: Props) => {
                       </div>
                       <div className="rounded-full p-2 bg-black cursor-pointer relative  hover:bg-blue-500">
                         <IoMdSettings color="white" fontSize="1.5em" />
-                        <div className="absolute top-full translate-y-2 right-0 w-60 h-fit p-2 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]">
+                        {/* <div className="absolute top-full translate-y-2 right-0 w-60 h-fit p-2 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]">
                           <div>
                             <Image alt="" src={""} width={100} height={100} />
                             <div>
@@ -671,7 +671,7 @@ const MenuComponent = (props: Props) => {
                             </div>
                             <div>Hồ sơ</div>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   )

@@ -43,7 +43,7 @@ const JobInfoDropDown: React.FC<IJobInfoDropDown> = (props) => {
           style={{display: 'block'}}
           onClick={moveToAppliedJob}
         >
-          {languageRedux === 1 ? 'Việc làm đã ứng tuyển' : 'Apllied Jobs'}
+          {languageRedux === 1 ? 'Việc làm ứng tuyển' : 'Apllied Jobs'}
         </a>
       ),
     },

@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
 import { useSelector } from "react-redux";
-// import { getAnalytics, logEvent } from "@firebase/analytics";
 import { RootState } from "@/redux/reducer";
 import { DataLog, DataLogRecuiter } from "@/app/analytics/typeChart";
 interface Dataset {
@@ -20,7 +19,7 @@ interface Datasets {
   [key: number]: Dataset[];
 }
 
-const Chartjs: React.FC<{
+const ChartjsCandidate: React.FC<{
   dataLog: DataLog | undefined;
   dataLogRecruiter: DataLogRecuiter | undefined;
 }> = ({ ...props }) => {
@@ -98,18 +97,11 @@ const Chartjs: React.FC<{
     const datasets: Datasets = {
       2023: [
         {
-          label:
-            profileV3.roleData === 0
-              ? languageRedux === 1
+          label:languageRedux === 1
                 ? "Việc làm đã ứng tuyển"
                 : languageRedux === 0
-                ? "Applied job"
-                : "지원한 채용공고"
-              : languageRedux === 1
-              ? "Ứng viên đã tuyển dụng"
-              : languageRedux === 0
-              ? "Recruited candidates"
-              : "지원한 구직자",
+                ? "Applied job":
+                "지원한 채용공고",
           data:
             dataLog.type === "Normal" && dataLog
               ? dataLog.applyLogs.activities.map(
@@ -128,21 +120,14 @@ const Chartjs: React.FC<{
           hoverBackgroundColor: "rgba(13, 153, 255, 1)",
         },
         {
-          label:
-            profileV3.roleData === 0
-              ? languageRedux === 1
+          label: languageRedux === 1
                 ? "Việc làm đã xem"
                 : languageRedux === 0
                 ? "Viewed job"
-                : "본 채용공고"
-              : languageRedux === 1
-              ? "Ứng viên đã xem"
-              : languageRedux === 0
-              ? "Viewed candidates"
-              : "본 구지자",
+                : "본 채용공고",
           data:
             dataLog.type === "Normal" && dataLog
-              ? dataLog.applyLogs?.activities.map(
+              ? dataLog.resultViewJob?.activities.map(
                   (applyLog: any) => applyLog.count
                 )
               : dataLog.type === "Recuiter" && dataLog
@@ -158,21 +143,15 @@ const Chartjs: React.FC<{
           hoverBackgroundColor: "rgba(52, 168, 83, 1)",
         },
         {
-          label:
-            profileV3.roleData === 0
-              ? languageRedux === 1
-                ? "Lượt công ty xem hồ sơ"
+          label: 
+              languageRedux === 1
+                ? "Việc làm tìm kiếm"
                 : languageRedux === 0
-                ? "Number of companies that viewed the profile"
-                : "내 이력서를 본 회사 조회 수"
-              : languageRedux === 1
-              ? "Ứng viên đã lưu"
-              : languageRedux === 0
-              ? "Saved candidates"
-              : "저장한 구직자",
+                ? "Search job"
+                : "채용공고 검색",
           data:
             dataLog.type === "Normal" && dataLog
-              ? dataLog.applyLogs?.activities.map(
+              ? dataLog.resultSearchJob?.activities.map(
                   (applyLog: any) => applyLog.count
                 )
               : dataLog.type === "Recuiter" && dataLog
@@ -319,4 +298,4 @@ const Chartjs: React.FC<{
   );
 };
 
-export default Chartjs;
+export default ChartjsCandidate;

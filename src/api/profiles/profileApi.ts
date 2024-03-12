@@ -65,7 +65,7 @@ const profileAPi = {
   },
 
   activityLogRecruiter: () => {
-    const URL = `/v1/application/total`;
+    const URL = `/v1/application/total/recruiter`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

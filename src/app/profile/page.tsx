@@ -278,7 +278,7 @@ const page = (props: Props) => {
                   ? "flex-1"
                   : "flex-1 mr-2"
                 : "basis-2/3"
-            }  pt-20 rounded-lg h-full flex flex-col gap-y-4`}
+            } rounded-lg h-full flex flex-col gap-y-4`}
           >
             {/* bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] */}
             {selectionMenu === 1 && <DashboardProfile />}
