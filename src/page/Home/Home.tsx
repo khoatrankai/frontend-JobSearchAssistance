@@ -1,11 +1,9 @@
 import AllCompanyComponent from "@/components/AllCompanyComponent/page";
 import BannerComponent from "@/components/BannerComponent/BannerComponent";
-import FooterComponent from "@/components/FooterComponent/FooterComponent";
 import HotJobComponent from "@/components/HotJobComponent/HotJobComponent";
 import ListJobComponent from "@/components/ListJobComponent/ListJobComponent";
 import SearchAllComponent from "@/components/SearchAllComponent/SearchAllComponent";
 import TopCompanyComponent from "@/components/TopCompanyComponent/TopCompanyComponent";
-import SkeletonAll from "@/util/SkeletonAll";
 import "./Home.scss";
 import React, { useEffect, useState } from "react";
 
@@ -42,7 +40,6 @@ const Home = (props: Props) => {
           <HotJobComponent />
           <ListJobComponent />
           <TopCompanyComponent />
-          {/* <FooterComponent /> */}
         </div>
       </div>
     </>

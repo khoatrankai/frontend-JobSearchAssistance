@@ -11,14 +11,14 @@ export interface LogData {
 
 export interface DataLog {
   type: 'Normal';
-  viewPostLogs: LogData;
   applyLogs: LogData;
-  savePostLogs: LogData;
-  viewProfileLogs: number;
-  searchLogs: number;
-  saveYourProfileLogs: number;
-  saveCommunityLogs: number;
+  resultViewJob: LogData;
+  resultSearchJob: LogData;
+  viewYourCompanyLogs: number;
+  saveYourCompanyLogs: number;
+  countPostBookmark: number;
   createCommunityLogs: number;
+  saveCommunityLogs: number;
 }
 
 export interface DataLogRecuiter {

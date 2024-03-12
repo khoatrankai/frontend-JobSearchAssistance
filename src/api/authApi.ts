@@ -35,6 +35,11 @@ const signInEmailApi = {
     return axiosClient.post(URL, {email, password});
   },
 
+  signInCandidate: (email: string, password: string) => {
+    const URL = `/v1/sign-in/candidate`;
+    return axiosClient.post(URL, {email, password});
+  },
+
   signInEmailRecruit: (email: string) => {
     const URL = `http://localhost:1902/api/v3/users/sign-up`;
     return axiosClient.post(URL, {email});

@@ -24,7 +24,7 @@
       "@/*": ["./src/*"]
     },
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "next.config.js", "src/components/FooterComponent"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "next.config.js", "src/components/FooterComponent", "src/components/ProfileComponent/AllProfile/SettingProfile/ModalModifyPassword/page.jsx"],
   "exclude": ["node_modules"],
   "types": ["swiper"]
 }

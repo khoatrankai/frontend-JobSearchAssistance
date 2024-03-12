@@ -142,7 +142,7 @@ const Chartjs: React.FC<{
               : "본 구지자",
           data:
             dataLog.type === "Normal" && dataLog
-              ? dataLog.viewPostLogs?.activities.map(
+              ? dataLog.applyLogs?.activities.map(
                   (applyLog: any) => applyLog.count
                 )
               : dataLog.type === "Recuiter" && dataLog
@@ -172,7 +172,7 @@ const Chartjs: React.FC<{
               : "저장한 구직자",
           data:
             dataLog.type === "Normal" && dataLog
-              ? dataLog.savePostLogs?.activities.map(
+              ? dataLog.applyLogs?.activities.map(
                   (applyLog: any) => applyLog.count
                 )
               : dataLog.type === "Recuiter" && dataLog
