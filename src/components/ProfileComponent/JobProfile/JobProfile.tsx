@@ -100,7 +100,7 @@ const JobProfile = (props: Props) => {
             {rsJob ? (
               <>
                 <button
-                  className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1"
+                  className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1 font-serif"
                   onClick={() => {
                     handleRsJob("save");
                   }}
@@ -117,7 +117,7 @@ const JobProfile = (props: Props) => {
                   </h2>
                 </button>
                 <button
-                  className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1"
+                  className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1 font-serif"
                   onClick={() => {
                     handleRsJob("close");
                   }}
@@ -136,7 +136,7 @@ const JobProfile = (props: Props) => {
               </>
             ) : (
               <button
-                className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1"
+                className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1 font-serif"
                 onClick={() => {
                   handleRsJob("update");
                 }}

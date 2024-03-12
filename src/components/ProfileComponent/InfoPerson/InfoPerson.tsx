@@ -103,7 +103,7 @@ const InfoPerson = (props: Props) => {
             {rsInfo ? (
               <>
                 <button
-                  className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1"
+                  className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1 font-serif"
                   onClick={() => {
                     handleRsInfo("save");
                   }}
@@ -120,7 +120,7 @@ const InfoPerson = (props: Props) => {
                   </h2>
                 </button>
                 <button
-                  className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1"
+                  className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1 font-serif"
                   onClick={() => {
                     handleRsInfo("close");
                   }}
@@ -139,7 +139,7 @@ const InfoPerson = (props: Props) => {
               </>
             ) : (
               <button
-                className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1"
+                className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1 font-serif"
                 onClick={() => {
                   handleRsInfo("update");
                 }}

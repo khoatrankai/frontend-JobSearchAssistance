@@ -80,7 +80,7 @@ const ContactProfile = (props: Props) => {
             {rsContact ? (
               <>
                 <button
-                  className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1"
+                  className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1 font-serif"
                   onClick={() => {
                     handleRsContact("save");
                   }}
@@ -97,7 +97,7 @@ const ContactProfile = (props: Props) => {
                   </h2>
                 </button>
                 <button
-                  className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1"
+                  className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1 font-serif"
                   onClick={() => {
                     handleRsContact("close");
                   }}
@@ -116,7 +116,7 @@ const ContactProfile = (props: Props) => {
               </>
             ) : (
               <button
-                className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1"
+                className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1 font-serif"
                 onClick={() => {
                   handleRsContact("update");
                 }}

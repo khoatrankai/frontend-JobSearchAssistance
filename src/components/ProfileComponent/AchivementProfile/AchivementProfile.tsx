@@ -99,7 +99,7 @@ const AchivementProfile = (props: Props) => {
           {rsAchi ? (
             <>
               <button
-                className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1"
+                className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1 font-serif"
                 onClick={() => {
                   handleRsAchi("save");
                 }}
@@ -116,7 +116,7 @@ const AchivementProfile = (props: Props) => {
                 </h2>
               </button>
               <button
-                className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1"
+                className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1 font-serif"
                 onClick={() => {
                   handleRsAchi("close");
                 }}
@@ -135,7 +135,7 @@ const AchivementProfile = (props: Props) => {
             </>
           ) : (
             <button
-              className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1"
+              className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1 font-serif"
               onClick={() => {
                 handleRsAchi("update");
               }}

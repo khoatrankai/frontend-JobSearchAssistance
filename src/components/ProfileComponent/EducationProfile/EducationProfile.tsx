@@ -97,7 +97,7 @@ const EducationProfile = (props: Props) => {
           {rsEdu ? (
             <>
               <button
-                className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1"
+                className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1 font-serif"
                 onClick={() => {
                   handleRsEdu("save");
                 }}
@@ -114,7 +114,7 @@ const EducationProfile = (props: Props) => {
                 </h2>
               </button>
               <button
-                className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1"
+                className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1 font-serif"
                 onClick={() => {
                   handleRsEdu("close");
                 }}
@@ -133,7 +133,7 @@ const EducationProfile = (props: Props) => {
             </>
           ) : (
             <button
-              className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1"
+              className="w-fit flex items-center hover:shadow-[inset_-12px_-8px_40px_#46464620] rounded-lg p-1 font-serif"
               onClick={() => {
                 handleRsEdu("update");
               }}
