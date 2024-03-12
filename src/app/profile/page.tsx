@@ -3,16 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import "./style.scss";
-import InfoPerson from "@/components/ProfileComponent/InfoPerson/InfoPerson";
-import JobProfile from "@/components/ProfileComponent/JobProfile/JobProfile";
-import EducationProfile from "@/components/ProfileComponent/EducationProfile/EducationProfile";
-import ExperienceProfile from "@/components/ProfileComponent/ExperienceProfile/ExperienceProfile";
-import AchivementProfile from "@/components/ProfileComponent/AchivementProfile/AchivementProfile";
-import ContactProfile from "@/components/ProfileComponent/ContactProfile/ContactProfile";
-import SkillProfile from "@/components/ProfileComponent/SkillProfile/SkillProfile";
-import LanguageProfile from "@/components/ProfileComponent/LanguageProfile/LanguageProfile";
 import AvatarProfile from "@/components/ProfileComponent/AvatarProfile/AvatarProfile";
-import NameProfile from "@/components/ProfileComponent/NameProfile/NameProfile";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux";
 import { fetchProfile } from "@/redux/reducer/profileReducer/profileSlice";
@@ -22,8 +13,6 @@ import { MdEditDocument } from "react-icons/md";
 import { FaBuilding } from "react-icons/fa";
 import { MdWork } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
-
-import CvProfile from "@/components/ProfileComponent/CvProfile/CvProfile";
 import InfoProfile from "@/components/ProfileComponent/AllProfile/InfoProfile/InfoProfile";
 import DashboardProfile from "@/components/ProfileComponent/AllProfile/DashboardProfile/DashboardProfile";
 import MyCompanyProfile from "@/components/ProfileComponent/AllProfile/MyCompanyProfile/MyCompanyProfile";
@@ -40,7 +29,7 @@ const page = (props: Props) => {
   const { handleLoadHrefPage } = useSrollContext();
   const [resizePage, setResizePage] = useState<boolean>(false);
   const [menuProfile, setMenuProfile] = useState<boolean>(false);
-  const [selectionMenu, setSelectionMenu] = useState<number>(1);
+  const [selectionMenu, setSelectionMenu] = useState<number>(2);
   const handleUpdateApi = () => {
     dispatch(fetchProfile("vi") as any);
   };
