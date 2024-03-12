@@ -2,6 +2,7 @@
 import React from "react";
 import handleType from "../../utils/handleType";
 import Image from "next/image";
+import { Input } from "antd";
 
 type Props = {
   data: any;
@@ -47,7 +48,7 @@ const TypeSkill = (props: Props) => {
                 setItemFocus(i);
               }}
             >
-              <input
+              <Input
                 defaultValue={dt?.company}
                 name="company"
                 onChange={(e: any) => {
@@ -60,7 +61,7 @@ const TypeSkill = (props: Props) => {
                 }`}
                 placeholder="Tên kỹ năng"
               />
-              <input
+              <Input
                 defaultValue={dt?.description}
                 name="description"
                 onChange={(e: any) => {

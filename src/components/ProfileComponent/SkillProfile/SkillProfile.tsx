@@ -4,6 +4,7 @@ import Image from "next/image";
 import axiosClient from "@/configs/axiosClient";
 import { RootState } from "@/redux";
 import { useSelector } from "react-redux";
+import { Input } from "antd";
 type Props = {
   dataInfo: any;
   handleUpdateApi: any;
@@ -329,7 +330,7 @@ const SkillProfile = (props: Props) => {
                     : " border-transparent focus-within:border-black/20 hover:border-black/20"
                 }`}
               >
-                <input
+                <Input
                   className={`text-base w-full outline-none border-[1px] p-1 border-transparent border-dashed ${
                     rsSkill
                       ? `hover:border-black/10 focus-within:border-black/10`
@@ -354,10 +355,10 @@ const SkillProfile = (props: Props) => {
                   }`}
                 >
                   <div className="flex items-center">
-                    <h2 className="text-gray-400 mr-1">
+                    <h2 className="text-gray-400 mr-1 font-serif">
                       {languageRedux === 1 ? "Cấp độ:" : "Level:"}
                     </h2>
-                    <h2 className="font-bold">
+                    <h2 className="font-bold font-serif">
                       {handleCheckNameLevel(dt?.skillLevelId)}
                     </h2>
                   </div>
@@ -466,7 +467,7 @@ const SkillProfile = (props: Props) => {
                     : " border-transparent focus-within:border-black/20 hover:border-black/20"
                 }`}
               >
-                <input
+                <Input
                   className={`text-base w-full outline-none border-[1px] p-1 border-transparent border-dashed ${
                     rsSkill
                       ? "hover:border-black/10 focus-within:border-black/10"
@@ -491,10 +492,10 @@ const SkillProfile = (props: Props) => {
                   }`}
                 >
                   <div className="flex items-center">
-                    <h2 className="text-gray-400 mr-1">
+                    <h2 className="text-gray-400 mr-1 font-serif">
                       {languageRedux === 1 ? "Cấp độ:" : "Level:"}
                     </h2>
-                    <h2 className="font-bold">
+                    <h2 className="font-bold font-serif">
                       {handleCheckNameLevel(dt?.skillLevelId)}
                     </h2>
                   </div>

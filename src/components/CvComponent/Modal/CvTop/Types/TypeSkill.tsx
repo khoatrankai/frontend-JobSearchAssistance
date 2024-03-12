@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-key */
+import { Input } from "antd";
 import React, { useEffect, useState } from "react";
 
 type Props = {
@@ -25,7 +26,7 @@ const TypeSkill = (props: Props) => {
         {data?.moreCvExtraInformations?.map((dt: any, index: any) => {
           return (
             <li className="flex flex-col gap-1 w-full">
-              <input
+              <Input
                 defaultValue={dt.company}
                 name="company"
                 onChange={(e: any) => {
