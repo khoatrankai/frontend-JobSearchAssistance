@@ -8,9 +8,6 @@ import CompanyFollowComponent from "./FollowCompanyComponent/page";
 
 type Props = {};
 
-
-
-
 const MyCompanyProfile = (props: Props) => {
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
@@ -28,9 +25,6 @@ const MyCompanyProfile = (props: Props) => {
     },
   ];
 
-  const onChange = (key: any) => {
-    console.log(key);
-  };
 
   return <Tabs className="mt-5 h-screen" 
     style={{
@@ -40,7 +34,7 @@ const MyCompanyProfile = (props: Props) => {
     boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
     maxHeight: "65.5%",
     overflow: "auto",
-  }} defaultActiveKey="1" items={items} onChange={onChange} />;
+  }} defaultActiveKey="1" items={items} />;
 };
 
 export default MyCompanyProfile;

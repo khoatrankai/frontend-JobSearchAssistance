@@ -265,7 +265,7 @@ const JobCardHistory: React.FC<IitemNewJob> = (props) => {
                   fontSize: '12px',
                 }}
               >
-                {languageApi === 1 ? `Không chấp nhận` : `Not accepted`}
+                {languageApi === 1 ? `Từ chối` : `Not accepted`}
               </p>
             ) : props.item?.application_status === 4 ? (
               <p
@@ -293,7 +293,7 @@ const JobCardHistory: React.FC<IitemNewJob> = (props) => {
                   fontSize: '12px',
                 }}
               >
-                {languageApi === 1 ? `Bài đăng đã đóng` : `Post is closed`}
+                {languageApi === 1 ? `Đã đóng` : `Post is closed`}
               </p>
             )}
           </Box>

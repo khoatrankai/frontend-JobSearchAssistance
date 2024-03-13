@@ -245,7 +245,7 @@ const JobCardDetailPostedHistory: React.FC<IitemNewJob> = (props) => {
                 fontSize: '12px',
               }}
             >
-              {'Bài đăng đã đóng'}
+              {'Đã đóng'}
             </p>
           ) : (
             <p
@@ -257,7 +257,7 @@ const JobCardDetailPostedHistory: React.FC<IitemNewJob> = (props) => {
                 fontSize: '12px',
               }}
             >
-              {'Không chấp nhận'}
+              {'Từ chối'}
             </p>
           )}
         </Box>

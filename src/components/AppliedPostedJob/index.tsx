@@ -101,7 +101,6 @@ const AppliedPostedJob: React.FC = () => {
       if (result) {
         localStorage.setItem("numberAppliedPostedJobs", result.data.length);
         setLoading(false);
-        console.log(result);
         setAppliedPostedJob(result.data);
       }
     } catch (error) {

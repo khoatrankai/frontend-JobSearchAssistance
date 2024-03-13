@@ -1,16 +1,11 @@
 import React from 'react';
-
 import './style.scss';
-
 //MUI
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-
 import ImageListItem from '@mui/material/ImageListItem';
-
 import {Space, Tooltip} from 'antd';
-
 import moment from 'moment';
 import {DolaIcon, LocationHomeIcon, SaveIconFill} from '@/icons';
 
@@ -252,7 +247,7 @@ const JobCardSaveHistory: React.FC<IitemNewJob> = (props) => {
                   fontSize: '12px',
                 }}
               >
-                Bài đăng đã đóng
+                Đã đóng
               </p>
             ) : (
               <p
@@ -266,7 +261,7 @@ const JobCardSaveHistory: React.FC<IitemNewJob> = (props) => {
                   fontSize: '12px',
                 }}
               >
-                Không chấp nhận
+                Từ chối
               </p>
             )}
           </Box>
