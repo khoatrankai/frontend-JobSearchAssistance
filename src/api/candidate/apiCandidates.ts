@@ -67,7 +67,14 @@ const candidateSearch = {
       }
     )
   },
-
+  getViewProfile: () => {
+    const URL = `http://localhost:1902/api/v3/view-profiles`
+    return axiosClient.get(URL, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
+    })
+  }
 }
 
 export default candidateSearch

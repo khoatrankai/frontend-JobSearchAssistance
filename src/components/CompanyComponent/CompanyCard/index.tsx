@@ -91,8 +91,8 @@ const CompanyCard: React.FC<Iprops> = (props) => {
                     placement="top"
                     title={
                       languageRedux === 1
-                        ? props.item?.ward.fullName
-                        : props.item?.ward.fullNameEn
+                        ? props.item?.ward?.fullName
+                        : props.item?.ward?.fullNameEn
                     }
                   >
                     <Typography
@@ -108,8 +108,8 @@ const CompanyCard: React.FC<Iprops> = (props) => {
                       }}
                     >
                       {languageRedux === 1
-                        ? props.item?.ward.fullName
-                        : props.item?.ward.fullNameEn}
+                        ? props.item?.ward?.fullName
+                        : props.item?.ward?.fullNameEn}
                     </Typography>
                   </Tooltip>
                 </div>

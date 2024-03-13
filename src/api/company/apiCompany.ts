@@ -115,14 +115,23 @@ const apiCompany = {
 
     return axiosClient.get(URL);
   },
-  followCompany: (companyId: number) => {
+  createFollowCompany: (companyId: number) => {
     const URL = `http://localhost:1902/api/v3/follow-companies`;
     return axiosClient.post(URL, {companyId}, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
       },
     });
+  },
+  getFollowCompany: () => {
+    const URL = `http://localhost:1902/api/v3/follow-companies`;
+    return axiosClient.get(URL, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
+    });
   }
+
 };
 
 export default apiCompany;
