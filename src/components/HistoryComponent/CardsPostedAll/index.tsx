@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './style.scss';
 import Grid from '@mui/material/Grid';
-import {Button} from 'antd';
-import {message} from 'antd';
-import {Box, Typography, MenuItem, TextField} from '@mui/material';
-import {LeftOutlined} from '@ant-design/icons';
-import {useSelector} from 'react-redux';
+import { Button, Select } from 'antd';
+import { message } from 'antd';
+import { Box, Typography, MenuItem, TextField } from '@mui/material';
+import { LeftOutlined } from '@ant-design/icons';
+import { useSelector } from 'react-redux';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-import {RootState} from '@/redux/reducer';
+import { RootState } from '@/redux/reducer';
 import historyRecruiter from '@/api/history/historyRecruiter';
 import sortData from '@/util/SortDataHistory/sortData';
 import JobCardPostHistory from '../JobCardPostHistoryComponent';
@@ -21,7 +21,7 @@ interface ICardsPostedAll {
 }
 
 const CardsPostedAll: React.FC<ICardsPostedAll> = (props) => {
-  const {setShowDetailPosted, showDetailPosted} = props;
+  const { setShowDetailPosted, showDetailPosted } = props;
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language,
   );
@@ -43,7 +43,7 @@ const CardsPostedAll: React.FC<ICardsPostedAll> = (props) => {
       const result = await historyRecruiter.GetInformationAndCandidatesCount(
         postID,
         10,
-      '-1',
+        '-1',
         languageRedux === 1 ? 'vi' : 'en',
       );
 
@@ -115,9 +115,8 @@ const CardsPostedAll: React.FC<ICardsPostedAll> = (props) => {
   };
 
   const handleChange = (event: any) => {
-    setnewOld(event.target.value);
-
-    setDataPosted(sortData.sortDataByDate(event.target.value, dataPosted));
+    setnewOld(event);
+    setDataPosted(sortData.sortDataByDate(event, dataPosted));
   };
 
   const handleHideDetail = () => {
@@ -155,19 +154,23 @@ const CardsPostedAll: React.FC<ICardsPostedAll> = (props) => {
             {language === 1 ? 'Các công việc đã đăng tuyển' : 'Posted jobs'}
           </Typography>
         </div>
-        <TextField
-          select
-          id="sex"
+        <Select
+          style={{
+            width: 130,
+            height: 40,
+            backgroundColor: `#f5f5f5`,
+            marginBottom: '2rem',
+          }}
           value={newOld}
           onChange={handleChange}
-          variant="outlined"
-          placeholder="Giới tính"
-          size="small"
-          sx={{width: '120px'}}
         >
-          <MenuItem value='Mới nhất'>{language === 1 ? 'Mới nhất' : 'Newest'}</MenuItem>
-          <MenuItem value='Cũ nhất'>{language === 1 ? 'Cũ nhất' : 'Oldest'}</MenuItem>
-        </TextField>
+          <Select.Option value="Mới nhất">
+            {language?.history_page?.newest}
+          </Select.Option>
+          <Select.Option value="Cũ nhất">
+            {language?.history_page?.oldest}
+          </Select.Option>
+        </Select>
       </Box>
 
       {!showDetailPosted ? (
@@ -184,7 +187,7 @@ const CardsPostedAll: React.FC<ICardsPostedAll> = (props) => {
           </Backdrop>
           {dataPosted?.length > 0 ? (
             <div className="history-post">
-              <Grid container columns={{xs: 6, sm: 4, md: 12}}>
+              <Grid container columns={{ xs: 6, sm: 4, md: 12 }}>
                 {dataPosted?.map((posted: any, i: number) => (
                   <JobCardPostHistory
                     key={i}
@@ -217,7 +220,7 @@ const CardsPostedAll: React.FC<ICardsPostedAll> = (props) => {
                   loading={uploading}
                   onClick={handleAddItem}
                 >
-                 
+
                   {language === 1 ? 'Xem thêm' : 'See more'}
                 </Button>
               </Box>

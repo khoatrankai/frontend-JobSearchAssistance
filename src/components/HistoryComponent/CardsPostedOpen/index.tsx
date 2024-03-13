@@ -1,15 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-key */
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
-
-import { message, Button } from "antd";
-
-import { Box, Typography, MenuItem, TextField } from "@mui/material";
+import { message, Button, Select } from "antd";
+import { Box, Typography } from "@mui/material";
 import { LeftOutlined } from "@ant-design/icons";
-
 import { useSelector } from "react-redux";
-
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { RootState } from "@/redux/reducer";
@@ -107,7 +103,7 @@ const CardsPostedOpen: React.FC<CardsPostedOpen> = (props) => {
           return sortData.sortDataByDate(newOld, array);
         });
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const handleShowDetail = (
@@ -121,8 +117,8 @@ const CardsPostedOpen: React.FC<CardsPostedOpen> = (props) => {
   };
 
   const handleChange = (event: any) => {
-    setnewOld(event.target.value);
-    setDataPosted(sortData.sortDataByDate(event.target.value, dataPosted));
+    setnewOld(event);
+    setDataPosted(sortData.sortDataByDate(event, dataPosted));
   };
 
   const handleHideDetail = () => {
@@ -163,23 +159,23 @@ const CardsPostedOpen: React.FC<CardsPostedOpen> = (props) => {
           </Typography>
         </div>
 
-        <TextField
-          select
-          id="sex"
+        <Select
+          style={{
+            width: 130,
+            height: 40,
+            backgroundColor: `#f5f5f5`,
+            marginBottom: '2rem',
+          }}
           value={newOld}
           onChange={handleChange}
-          variant="outlined"
-          placeholder="Giới tính"
-          size="small"
-          sx={{ width: "120px" }}
         >
-          <MenuItem value="Mới nhất">
-            {languageRedux === 1 ? `Mới nhất` : `Newest`}
-          </MenuItem>
-          <MenuItem value="Cũ nhất">
-            {languageRedux === 1 ? `Cũ nhất` : `Oldest`}
-          </MenuItem>
-        </TextField>
+          <Select.Option value="Mới nhất">
+            {language?.history_page?.newest}
+          </Select.Option>
+          <Select.Option value="Cũ nhất">
+            {language?.history_page?.oldest}
+          </Select.Option>
+        </Select>
       </Box>
 
       {!showDetailPosted ? (
@@ -192,7 +188,7 @@ const CardsPostedOpen: React.FC<CardsPostedOpen> = (props) => {
               zIndex: (theme: any) => theme.zIndex.drawer + 1,
             }}
             open={loading}
-            // onClick={handleClose}
+          // onClick={handleClose}
           >
             <CircularProgress color="inherit" />
           </Backdrop>

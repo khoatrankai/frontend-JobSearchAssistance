@@ -1,22 +1,20 @@
 'use client';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
-
-import {Box, Typography, MenuItem, TextField} from '@mui/material';
-
+import { Box, Typography } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import './style.scss';
-import {message, Button} from 'antd';
-import {useDispatch} from 'react-redux';
+import { message, Button, Select } from 'antd';
+import { useDispatch } from 'react-redux';
 import JobCardSaveHistory from './JobCardSaveHstory';
-import {useSelector} from 'react-redux';
-import {RootState} from '@/redux/reducer';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/reducer';
 import historyBookmark from '@/api/historyBookmark';
 import sortData from '@/util/SortDataHistory/sortData';
 import bookMarkApi from '@/api/bookmarks/bookMarkApi';
 import NoDataComponent from '@/util/NoDataPage';
-import {setAlertCancleSave} from '@/redux/reducer/alertReducer';
+import { setAlertCancleSave } from '@/redux/reducer/alertReducer';
 
 interface ICardsApplied {
   activeChild: string;
@@ -26,16 +24,17 @@ const CardsSavedJob: React.FC<ICardsApplied> = (props) => {
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language,
   );
-
   const [loading, setLoading] = useState<boolean>(true);
   const [dataBookmarks, setDataBookmarks] = useState<any>(null);
   const [newOld, setnewOld] = React.useState('Mới nhất');
   const [uploading, setUploading] = useState(false);
   const [lastPostId, setLastPostId] = useState(0);
   const dispatch = useDispatch();
-
   const [messageApi, contextHolder] = message.useMessage();
   const [isVisible, setIsVisible] = useState(true);
+  const language = useSelector(
+    (state: RootState) => state.dataLanguage.languages
+  );
 
   const getAllPostToCheck = async () => {
     const result = await historyBookmark.getAllBookmark(
@@ -88,10 +87,9 @@ const CardsSavedJob: React.FC<ICardsApplied> = (props) => {
   }, [dataBookmarks?.length, languageRedux]);
 
   const handleChange = (event: any) => {
-    setnewOld(event.target.value);
-
+    setnewOld(event);
     setDataBookmarks(
-      sortData.sortDataByDate(event.target.value, dataBookmarks),
+      sortData.sortDataByDate(event, dataBookmarks),
     );
   };
 
@@ -167,23 +165,23 @@ const CardsSavedJob: React.FC<ICardsApplied> = (props) => {
         >
           {languageRedux === 1 ? 'Các công việc đã lưu' : 'Saved jobs'}
         </Typography>
-        <TextField
-          select
-          id="sex"
+        <Select
+          style={{
+            width: 130,
+            height: 40,
+            backgroundColor: `#f5f5f5`,
+            marginBottom: '2rem',
+          }}
           value={newOld}
           onChange={handleChange}
-          variant="outlined"
-          placeholder="Giới tính"
-          size="small"
-          sx={{width: '120px'}}
         >
-          <MenuItem value="Mới nhất">
-            {languageRedux === 1 ? 'Mới nhất' : `Newest`}
-          </MenuItem>
-          <MenuItem value="Cũ nhất">
-            {languageRedux === 1 ? `Cũ nhất` : `Oldest`}
-          </MenuItem>
-        </TextField>
+          <Select.Option value="Mới nhất">
+            {language?.history_page?.newest}
+          </Select.Option>
+          <Select.Option value="Cũ nhất">
+            {language?.history_page?.oldest}
+          </Select.Option>
+        </Select>
       </Box>
       <Backdrop
         sx={{
@@ -197,7 +195,7 @@ const CardsSavedJob: React.FC<ICardsApplied> = (props) => {
       </Backdrop>
       {dataBookmarks?.length > 0 ? (
         <div className="history-post">
-          <Grid container columns={{xs: 6, sm: 4, md: 12}}>
+          <Grid container columns={{ xs: 6, sm: 4, md: 12 }}>
             {dataBookmarks?.map((dataBookmark: any, i: number) => (
               <JobCardSaveHistory
                 item={dataBookmark}

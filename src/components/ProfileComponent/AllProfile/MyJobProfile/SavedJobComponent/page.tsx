@@ -11,6 +11,7 @@ import sortData from "@/util/SortDataHistory/sortData";
 import historyBookmark from "@/api/historyBookmark";
 import { SaveIconFill, SaveIconOutline } from "@/icons";
 import bookMarkApi from "@/api/bookmarks/bookMarkApi";
+import { Select } from "antd";
 
 function SavedJobComponent() {
   const [lastPostId, setLastPostId] = useState(0);
@@ -48,7 +49,6 @@ function SavedJobComponent() {
     try {
       const fetchData = async () => {
         const response = await bookMarkApi.deleteBookMark(id) as any;
-        console.log(response);
         if (response && response.code === 200) {
           getAllPosted(0);
         }
@@ -71,6 +71,17 @@ function SavedJobComponent() {
   return (
     <div>
       <div className="flex flex-col">
+        <Select
+          defaultValue="Mới nhất"
+          style={{ width: 120 }}
+          onChange={(value) => {
+            setnewOld(value);
+            setDataBookmarks(sortData.sortDataByDate(value, dataBookmarks));
+          }}
+        >
+          <Select.Option value="Mới nhất">Mới nhất</Select.Option>
+          <Select.Option value="Cũ nhất">Cũ nhất</Select.Option>
+        </Select>
         <div className="mt-5">
           {dataBookmarks && dataBookmarks.length > 0 ? dataBookmarks.map((item: any, index: number) => {
             return <div key={index} className="justify-between flex gap-3" onClick={() => {

@@ -2,11 +2,9 @@
 /* eslint-disable react/jsx-key */
 import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
-import { message, Button } from "antd";
-import { Box, Typography, MenuItem, TextField } from "@mui/material";
-
+import { message, Button, Select } from "antd";
+import { Box, Typography } from "@mui/material";
 import { Skeleton } from "antd";
-
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/reducer";
 import historyApplicator from "@/api/history/historyApplicator";
@@ -84,8 +82,8 @@ const CardsAppliedPending: React.FC<ICardsAppliedPending> = (props) => {
   }, [languageRedux]);
 
   const handleChange = (event: any) => {
-    setnewOld(event.target.value);
-    setDataApplied(sortData.sortDataByDate(event.target.value, dataApplied));
+    setnewOld(event);
+    setDataApplied(sortData.sortDataByDate(event, dataApplied));
   };
 
   const handleClickAddItem = async () => {
@@ -116,7 +114,7 @@ const CardsAppliedPending: React.FC<ICardsAppliedPending> = (props) => {
           return sortData.sortDataByDate(newOld, array);
         });
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   return (
@@ -140,23 +138,23 @@ const CardsAppliedPending: React.FC<ICardsAppliedPending> = (props) => {
             ? "Các công việc ứng tuyển đang chờ duyệt"
             : "Pending jobs"}
         </Typography>
-        <TextField
-          select
-          id="sex"
+        <Select
+          style={{
+            width: 130,
+            height: 40,
+            backgroundColor: `#f5f5f5`,
+            marginBottom: '2rem',
+          }}
           value={newOld}
           onChange={handleChange}
-          variant="outlined"
-          placeholder="Giới tính"
-          size="small"
-          sx={{ width: "120px" }}
         >
-          <MenuItem value="Mới nhất">
-            {languageRedux ? `Mới nhất` : `Newest`}
-          </MenuItem>
-          <MenuItem value="Cũ nhất">
-            {languageRedux === 1 ? `Cũ nhất` : `Oldest`}
-          </MenuItem>
-        </TextField>
+          <Select.Option value="Mới nhất">
+            {language?.history_page?.newest}
+          </Select.Option>
+          <Select.Option value="Cũ nhất">
+            {language?.history_page?.oldest}
+          </Select.Option>
+        </Select>
       </Box>
       <Skeleton loading={loading} active>
         {dataApplied?.length > 0 ? (

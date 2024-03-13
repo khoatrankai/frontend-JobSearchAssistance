@@ -233,7 +233,6 @@ const HistoryPost = () => {
 
   return (
     <div className="post-history">
-
       <div className="post-history_main">
         <div className="text-2xl font-serif font-bold mb-2">
           {languageRedux === 1 ? "Lịch sử" : "History"}

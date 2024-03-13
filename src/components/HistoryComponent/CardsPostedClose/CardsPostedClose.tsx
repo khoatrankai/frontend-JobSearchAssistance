@@ -1,15 +1,9 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
-import { message, Button } from 'antd';
-import { Box, Typography, MenuItem, TextField } from '@mui/material';
-import {
-
-  LeftOutlined,
-
-} from '@ant-design/icons';
-
+import { message, Button, Select } from 'antd';
+import { Box, Typography } from '@mui/material';
+import { LeftOutlined, } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
-
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import JobCardPostHistory from '../JobCardPostHistoryComponent';
@@ -119,9 +113,9 @@ const CardsPostedClose: React.FC<ICardsPostedClose> = (props) => {
   };
 
   const handleChange = (event: any) => {
-    setnewOld(event.target.value);
+    setnewOld(event);
 
-    setDataPosted(sortData.sortDataByDate(event.target.value, dataPosted));
+    setDataPosted(sortData.sortDataByDate(event, dataPosted));
   };
 
   const handleHideDetail = () => {
@@ -159,19 +153,23 @@ const CardsPostedClose: React.FC<ICardsPostedClose> = (props) => {
             {language?.history_page?.closed_jobs}
           </Typography>
         </div>
-        <TextField
-          select
-          id="sex"
+        <Select
+          style={{
+            width: 130,
+            height: 40,
+            backgroundColor: `#f5f5f5`,
+            marginBottom: '2rem',
+          }}
           value={newOld}
           onChange={handleChange}
-          variant="outlined"
-          placeholder="Giới tính"
-          size="small"
-          sx={{ width: '120px' }}
         >
-          <MenuItem value="Mới nhất">{languageRedux ?  `Mới nhất` : `Newest`}</MenuItem>
-          <MenuItem value="Cũ nhất">{languageRedux === 1 ? `Cũ nhất`: `Oldest`}</MenuItem>
-        </TextField>
+          <Select.Option value="Mới nhất">
+            {language?.history_page?.newest}
+          </Select.Option>
+          <Select.Option value="Cũ nhất">
+            {language?.history_page?.oldest}
+          </Select.Option>
+        </Select>
       </Box>
 
       {!showDetailPosted ? (
