@@ -5,6 +5,7 @@ import axiosClient from "@/configs/axiosClient";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
+import { Input, Select } from "antd";
 
 type Props = {
   dataInfo: any;
@@ -225,13 +226,17 @@ const InfoPerson = (props: Props) => {
               {languageRedux === 1 ? "Địa chỉ" : "Address"}
             </label>
             <div className="basis-2/3 font-bold">
-              <select
+              <Select
                 value={dataRequest?.address}
-                name="address"
-                className={`focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 appearance-none ${
-                  rsInfo ? "border-dashed border-black/30" : "bg-transparent"
-                }`}
-                onChange={handleUpdate}
+                className={`focus-within:bg-black/5 border-[1px] w-full rounded-lg appearance-none ${rsInfo ? "border-dashed " : "bg-transparent"
+                  }`}
+                onChange={(e) => {
+                  setDataRequest({
+                    ...dataRequest,
+                    "address": e
+                  });
+                }
+                }
                 disabled={!rsInfo}
               >
                 {dataLocation?.map((dt: any) => {
@@ -241,7 +246,7 @@ const InfoPerson = (props: Props) => {
                     </option>
                   );
                 })}
-              </select>
+              </Select>
             </div>
           </div>
           <div className="flex min-w-fit items-center">
