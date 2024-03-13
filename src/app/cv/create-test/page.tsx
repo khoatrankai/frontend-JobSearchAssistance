@@ -55,20 +55,28 @@ const page = (props: Props) => {
     },
   ]);
   const [dataRequest, setDataRequest] = useState<any>();
-  const [dataRequestForm, setDataRequestForm] = useState<any>();
 
   useEffect(() => {
     let data = dataForm.layout.map((dt: any, index: any) => {
-      const data = dataLoad.filter((dtt: any, i: any) => {
-        return dtt.part === index;
+      let dataa: any = [];
+      dt.split(",").map((j: any, i: any) => {
+        let dataaa = dataLoad.filter((dtt: any) => {
+          return dtt.part === index && dtt.col === i;
+        });
+        dataaa = dataaa.sort((a: any, b: any) => {
+          return a.row - b.row;
+        });
+        dataa.push(dataaa);
       });
+
       return {
         layout: dt.split(",").map(Number),
         color: dataForm.color[index].split(","),
-        data: data,
+        data: dataa,
       };
     });
     console.log(data);
+    setDataRequest(data);
   }, [dataLoad, dataForm]);
   return (
     <div className="flex items-center justify-center p-6">
