@@ -5,6 +5,8 @@ import axiosClient from "@/configs/axiosClient";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
+import "./InfoPerson.scss";
+import { Select } from "antd";
 
 type Props = {
   dataInfo: any;
@@ -223,9 +225,10 @@ const InfoPerson = (props: Props) => {
               {languageRedux === 1 ? "Địa chỉ" : "Address"}
             </label>
             <div className="basis-2/3 font-bold">
+              {/* <div className="custom-select"> */}
               <select
                 value={dataRequest?.address}
-                name="address"
+                id="address"
                 className={`focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 appearance-none ${
                   rsInfo ? "border-dashed border-black/30" : "bg-transparent"
                 }`}
@@ -240,6 +243,7 @@ const InfoPerson = (props: Props) => {
                   );
                 })}
               </select>
+              {/* </div> */}
             </div>
           </div>
           <div className="flex min-w-fit items-center">

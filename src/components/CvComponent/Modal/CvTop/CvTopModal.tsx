@@ -13,7 +13,6 @@ type Props = {
 };
 
 const CvTopModal = (props: Props) => {
-  // const [dataRequest,setDataRequest] = useState<any>({})
   const { handleSave, dataLoad, handleAddModalCV } = props;
   const refPdf = useRef<any>();
   const refType = useRef<any>();
