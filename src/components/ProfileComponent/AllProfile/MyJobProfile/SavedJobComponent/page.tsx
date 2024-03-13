@@ -31,7 +31,7 @@ function SavedJobComponent() {
       );
 
       if (result) {
-        setLastPostId(result.data[result.data.length - 1].bookmark_id);
+        setLastPostId(result.data[result.data.length - 1]?.bookmark_id);
         setDataBookmarks(sortData.sortDataByDate(newOld, result.data));
       }
     } catch (error) {
@@ -41,13 +41,14 @@ function SavedJobComponent() {
 
 
   useEffect(() => {
-    getAllPosted(0);
+    getAllPosted(lastPostId);
   }, []);
 
   const handleBoookmark = (id: number) => {
     try {
       const fetchData = async () => {
         const response = await bookMarkApi.deleteBookMark(id) as any;
+        console.log(response);
         if (response && response.code === 200) {
           getAllPosted(0);
         }
