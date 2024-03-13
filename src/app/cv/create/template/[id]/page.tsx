@@ -210,21 +210,6 @@ const page = (props: Props) => {
     return check;
   };
 
-  useEffect(() => {
-    const data = profile.profilesCvs?.map((item: any) => {
-      return item.cvIndex;
-    });
-    if (data?.length > 0) {
-      const maxCvIndex = data?.reduce(
-        (max: any, current: any) => (current > max ? current : max),
-        0
-      );
-      setIdCvIndex(maxCvIndex + 1);
-    } else {
-      setIdCvIndex(0);
-    }
-  }, [profile]);
-
   const handleSavePdf = async () => {
     if (dataSave) {
       const blob = await pdf(
@@ -481,7 +466,20 @@ const page = (props: Props) => {
       });
     }
   };
-
+  useEffect(() => {
+    const data = profile.profilesCvs?.map((item: any) => {
+      return item.cvIndex;
+    });
+    if (data?.length > 0) {
+      const maxCvIndex = data?.reduce(
+        (max: any, current: any) => (current > max ? current : max),
+        0
+      );
+      setIdCvIndex(maxCvIndex + 1);
+    } else {
+      setIdCvIndex(0);
+    }
+  }, [profile]);
   useEffect(() => {
     let max = -1;
     profile.profilesCvs?.forEach((dt: any) => {
@@ -641,7 +639,6 @@ const page = (props: Props) => {
                       ? "cursor-not-allowed"
                       : " hover:bg-blue-50"
                   }`}
-                  // onClick={handlePrev}
                   onMouseDown={handlePrev}
                 >
                   <Image
@@ -730,7 +727,6 @@ const page = (props: Props) => {
                           : "bg-black/20 hover:bg-black/10"
                       }`}
                       onClick={() => {
-                        console.log(templateId, dt.id);
                         setTemplateId(dt.id);
                       }}
                     >

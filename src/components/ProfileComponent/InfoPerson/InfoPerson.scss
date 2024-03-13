@@ -1,0 +1,41 @@
+.custom-select {
+    width: 200px;
+    position: relative;
+  }
+  
+//   .custom-select select {
+//     // display: none; /* Ẩn phần tử <select> gốc */
+//   }
+  
+  .custom-select::before {
+    content: ""; /* Nội dung hiển thị ban đầu */
+    display: block;
+    background-color: #f2f2f2;
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+    border-radius: 50px;
+  }
+  
+  .custom-select select option {
+    background-color: white;
+    color: black;
+  }
+  
+  .custom-select select option:hover {
+    background-color: #eaeaea;
+  }
+  
+  .custom-select select option:checked {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .custom-select.active::before {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .custom-select.active select {
+    display: block; /* Hiển thị phần tử <select> khi active */
+  }
