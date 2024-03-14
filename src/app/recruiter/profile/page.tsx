@@ -23,16 +23,19 @@ type Props = {};
 
 const page = (props: Props) => {
   const dataProfile = useSelector((state: RootState) => state.profile.profile);
-  const { reponsiveMobile } = useSrollContext();
+  const { reponsiveMobile, selectProfileUser } = useSrollContext();
   const dispatch = useDispatch();
   const [dataInfo, setDataInfo] = useState<any>();
   const { handleLoadHrefPage } = useSrollContext();
   //   const [resizePage, setResizePage] = useState<boolean>(false);
   const [menuProfile, setMenuProfile] = useState<boolean>(false);
-  const [selectionMenu, setSelectionMenu] = useState<number>(2);
+  const [selectionMenu, setSelectionMenu] = useState<number>(0);
   const handleUpdateApi = () => {
     dispatch(fetchProfile("vi") as any);
   };
+  // useEffect(() => {
+  //   setSelectionMenu(selectProfileUser);
+  // }, [selectProfileUser]);
   useEffect(() => {
     setDataInfo({
       ...dataProfile,

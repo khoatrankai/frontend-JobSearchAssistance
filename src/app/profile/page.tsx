@@ -23,16 +23,20 @@ type Props = {};
 
 const page = (props: Props) => {
   const dataProfile = useSelector((state: RootState) => state.profile.profile);
-  const { reponsiveMobile } = useSrollContext();
+  const { reponsiveMobile, selectProfileUser, setSelectProfileUser } =
+    useSrollContext();
   const dispatch = useDispatch();
   const [dataInfo, setDataInfo] = useState<any>();
   const { handleLoadHrefPage } = useSrollContext();
   const [resizePage, setResizePage] = useState<boolean>(false);
   const [menuProfile, setMenuProfile] = useState<boolean>(false);
-  const [selectionMenu, setSelectionMenu] = useState<number>(1);
+  const [selectionMenu, setSelectionMenu] = useState<number>(selectProfileUser);
   const handleUpdateApi = () => {
     dispatch(fetchProfile("vi") as any);
   };
+  useEffect(() => {
+    setSelectionMenu(selectProfileUser);
+  }, [selectProfileUser]);
   useEffect(() => {
     setDataInfo({
       ...dataProfile,
@@ -132,6 +136,7 @@ const page = (props: Props) => {
                 }`}
                 onClick={() => {
                   setSelectionMenu(1);
+                  setSelectProfileUser(1);
                   setMenuProfile(false);
                 }}
               >
@@ -160,6 +165,8 @@ const page = (props: Props) => {
                 }`}
                 onClick={() => {
                   setSelectionMenu(2);
+                  setSelectProfileUser(2);
+
                   setMenuProfile(false);
                 }}
               >
@@ -188,6 +195,8 @@ const page = (props: Props) => {
                 }`}
                 onClick={() => {
                   setSelectionMenu(3);
+                  setSelectProfileUser(3);
+
                   setMenuProfile(false);
                 }}
               >
@@ -216,6 +225,8 @@ const page = (props: Props) => {
                 }`}
                 onClick={() => {
                   setSelectionMenu(4);
+                  setSelectProfileUser(4);
+
                   setMenuProfile(false);
                 }}
               >
@@ -244,6 +255,8 @@ const page = (props: Props) => {
                 }`}
                 onClick={() => {
                   setSelectionMenu(5);
+                  setSelectProfileUser(5);
+
                   setMenuProfile(false);
                 }}
               >

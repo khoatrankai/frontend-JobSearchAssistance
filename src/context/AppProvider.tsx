@@ -31,10 +31,17 @@ type DataFilter = {
 };
 
 type ScrollPosition = {
+  positionScrollJob: any;
+  setPositionScrollJob: any;
+  selectItemProfileUser: any;
+  setSelectItemProfileUser: any;
+  setCheckPage: any;
   scrollPosition: number;
   setScrollPosition: Dispatch<SetStateAction<number>>;
   menuPosition: number;
   setMenuPosition: Dispatch<SetStateAction<number>>;
+  selectProfileUser: any;
+  setSelectProfileUser: any;
   transPosition: number;
   setTransPosition: Dispatch<SetStateAction<number>>;
   dataFilter: DataFilter;
@@ -53,6 +60,9 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
   const [transPosition, setTransPosition] = useState<number>(0);
   const [checkPage, setCheckPage] = useState<string>("/");
   const [reponsiveMobile, setReponsiveMobile] = useState<number>(2000);
+  const [positionScrollJob, setPositionScrollJob] = useState<any>([]);
+  const [selectProfileUser, setSelectProfileUser] = useState<any>(0);
+  const [selectItemProfileUser, setSelectItemProfileUser] = useState<any>(1);
   const handleLoadHrefPage = () => {
     setCheckPage(location.pathname);
   };
@@ -75,6 +85,12 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
         <ChatContextProvider>
           <Context.Provider
             value={{
+              selectItemProfileUser,
+              setSelectItemProfileUser,
+              selectProfileUser,
+              setSelectProfileUser,
+              positionScrollJob,
+              setPositionScrollJob,
               scrollPosition,
               handleLoadHrefPage,
               setScrollPosition,
@@ -86,6 +102,7 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
               setDataFilter,
               checkPage,
               reponsiveMobile,
+              setCheckPage,
             }}
           >
             {children}
