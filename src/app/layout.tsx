@@ -46,17 +46,17 @@ export default function RootLayout({
     "/recruiter/forgot-password",
   ];
 
-  const urlCustom = pathname.split('/').slice(0, -1).join('/');
+  const urlCustom = pathname.split("/").slice(0, -1).join("/");
 
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={inter.className}>
         <ScrollContext>
-          {
-            (pathname.split('/').length <= 3) ?
-              ((!allowedPath.includes(pathname)) && <MenuComponent />) :
-              ((!(urlCustom.trim() === '/candidate/reset-password')) && <MenuComponent />)
-          }
+          {pathname.split("/").length <= 3
+            ? !allowedPath.includes(pathname) && <MenuComponent />
+            : !(urlCustom.trim() === "/candidate/reset-password") && (
+                <MenuComponent />
+              )}
           {/* Alternatively, you can use curly braces */}
           {/* {router.pathname !== "/login" && <MenuComponent />} */}
           {/* <div>nice</div> */}

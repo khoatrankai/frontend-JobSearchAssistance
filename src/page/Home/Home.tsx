@@ -5,12 +5,18 @@ import ListJobComponent from "@/components/ListJobComponent/ListJobComponent";
 import SearchAllComponent from "@/components/SearchAllComponent/SearchAllComponent";
 import TopCompanyComponent from "@/components/TopCompanyComponent/TopCompanyComponent";
 import "./Home.scss";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useSrollContext } from "@/context/AppProvider";
 
 type Props = {};
 
 const Home = (props: Props) => {
+  const refJobHot = useRef<any>();
+  const refJobNew = useRef<any>();
+  const refJobTopic = useRef<any>();
+  const refCompanyHot = useRef<any>();
   const [scrollPosition, setScrollPosition] = useState<any>(false);
+  const { setPositionScrollJob } = useSrollContext();
   useEffect(() => {
     window.addEventListener("scroll", (e) => {
       let currentScrollPosition = window.scrollY || window.pageYOffset;
@@ -21,6 +27,17 @@ const Home = (props: Props) => {
       }
     });
   }, []);
+  useEffect(() => {
+    if (refJobHot && refJobHot && refJobTopic) {
+      setPositionScrollJob([
+        refJobHot.current,
+
+        refJobNew.current,
+        refJobTopic.current,
+        refCompanyHot.current,
+      ]);
+    }
+  }, [refJobHot, refJobNew, refJobTopic, setPositionScrollJob]);
   return (
     <>
       <div className="flex flex-col items-center">
@@ -36,10 +53,18 @@ const Home = (props: Props) => {
         </div>
 
         <div className="flex flex-col gap-y-8 w-full">
-          <AllCompanyComponent />
-          <HotJobComponent />
-          <ListJobComponent />
-          <TopCompanyComponent />
+          <div ref={refCompanyHot}>
+            <AllCompanyComponent />
+          </div>
+          <div ref={refJobHot}>
+            <HotJobComponent />
+          </div>
+          <div ref={refJobNew}>
+            <ListJobComponent />
+          </div>
+          <div ref={refJobTopic}>
+            <TopCompanyComponent />
+          </div>
         </div>
       </div>
     </>
