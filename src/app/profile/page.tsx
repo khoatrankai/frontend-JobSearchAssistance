@@ -29,7 +29,7 @@ const page = (props: Props) => {
   const { handleLoadHrefPage } = useSrollContext();
   const [resizePage, setResizePage] = useState<boolean>(false);
   const [menuProfile, setMenuProfile] = useState<boolean>(false);
-  const [selectionMenu, setSelectionMenu] = useState<number>(4);
+  const [selectionMenu, setSelectionMenu] = useState<number>(1);
   const handleUpdateApi = () => {
     dispatch(fetchProfile("vi") as any);
   };
