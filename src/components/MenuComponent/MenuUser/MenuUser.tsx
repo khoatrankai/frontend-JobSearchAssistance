@@ -267,7 +267,7 @@ const MenuComponent = (props: Props) => {
   }, [scrollPosition]);
   const handleScroll = () => {
     const scroll = window.pageYOffset;
-    console.log(scroll);
+    // console.log(scroll);
     if (scroll > positionScroll) {
       setCheckScroll(false);
     } else {

@@ -32,6 +32,7 @@ import BookmarksIcon from "@mui/icons-material/Bookmarks";
 import { useSelector } from "react-redux";
 import { useSrollContext } from "@/context/AppProvider";
 import ModalLogin from "@/components/ModalLogin/ModalLogin";
+import ModalApply from "../ModalApply/ModalApply";
 
 type Props = {};
 
@@ -67,6 +68,7 @@ const page = (props: Props) => {
     (state: any) => state.changeLaguage.language
   );
   const router = useRouter();
+  const [openModalApply, setOpenModalApply] = useState<boolean>(false);
   const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
 
   const {
@@ -442,7 +444,9 @@ const page = (props: Props) => {
                   <button className="flex flex-1 px-2 gap-2 items-center h-10 min-w-[12rem] bg-blue-600/95 hover:bg-blue-600 justify-center rounded-lg  text-white">
                     <BookmarksIcon />
                     {postDetail?.resource?.company_resource_id === 2 ? (
-                      <h2 className="font-bold" onClick={() => handleApply()}>
+                      <h2 className="font-bold" onClick={() => {
+                        setOpenModalApply(true);
+                      }}>
                         {languageRedux === 1 ? "Ứng tuyển ngay" : "Apply now"}
                       </h2>
                     ) : (
@@ -696,7 +700,7 @@ const page = (props: Props) => {
           </div>
         </div>
       </div>
-      {!(
+      {/* {!(
         profile.roleData === 3 &&
         postDetail?.resource?.company_resource_id === 2
       ) && (
@@ -709,7 +713,9 @@ const page = (props: Props) => {
         >
           <BookmarksIcon />
           {postDetail?.resource?.company_resource_id === 2 ? (
-            <h2 className="font-bold" onClick={() => handleApply()}>
+            <h2 className="font-bold" onClick={() => {
+              setOpenModalApply(true);
+            }}>
               {languageRedux === 1 ? "Ứng tuyển ngay" : "Apply now"}
             </h2>
           ) : (
@@ -718,8 +724,18 @@ const page = (props: Props) => {
             </h2>
           )}
         </div>
-      )}
+      )} */}
       <ToastContainer />
+      {
+        openModalApply && (
+          <ModalApply
+            namePost={postDetail?.title}
+            openModalApply={openModalApply}
+            setOpenModalApply={setOpenModalApply}
+            profile = {profile}
+          />
+        )
+      }
       <ModalLogin
         isOpen={openModalLogin}
         handleToggleModal={handleToggleModal}
