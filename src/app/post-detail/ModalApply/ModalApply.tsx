@@ -13,10 +13,12 @@ type Prop = {
     setOpenModalApply: (value: boolean) => void,
     profile: any,
     handleApply: (value: any) => void,
+    setFilePDFParent: (value: File) => void,
+    setIdCv: (value: number) => void,
 }
 
 const Page = (prop: Prop) => {
-    const { profile, handleApply } = prop;
+    const { profile, handleApply, setFilePDFParent, setIdCv } = prop;
     const [isCheckNearCv, setIsCheckNearCv] = useState<boolean>(false);
     const [isCheckAllCv, setIsCheckAllCv] = useState<boolean>(false);
     const [isUploadCv, setIsUploadCv] = useState<boolean>(false);
@@ -52,7 +54,8 @@ const Page = (prop: Prop) => {
             isCheckNearCv={isCheckNearCv}
             setIsCheckNearCv={setIsCheckNearCv}
             setCvType={setCvType}
-        />, [profile, isCheckNearCv]);
+            setIdCv={setIdCv}
+        />, [profile, isCheckNearCv, setIdCv]);
 
     const memoizedAllCvComponent = useMemo(() =>
         <AllCvComponent
@@ -62,7 +65,8 @@ const Page = (prop: Prop) => {
             setCvType={setCvType}
             setIdSelectFromAllCv={setIdSelectFromAllCv}
             idSelectFromAllCv={idSelectFromAllCv}
-        />, [profile, isCheckAllCv, idSelectFromAllCv]);
+            setIdCv={setIdCv}
+        />, [profile, isCheckAllCv, idSelectFromAllCv, setIdCv]);
 
     const memoizedUploadCvComponent = useMemo(() =>
         <UpLoadCv
@@ -70,8 +74,9 @@ const Page = (prop: Prop) => {
             isUploadCv={isUploadCv}
             setIsUploadCv={setIsUploadCv}
             setCvType={setCvType}
+            setFilePDFParent={setFilePDFParent}
         />,
-        [profile, isUploadCv]);
+        [profile, isUploadCv, setFilePDFParent]);
 
     const memoizedWarningComponent = useMemo(() =>
         <div>

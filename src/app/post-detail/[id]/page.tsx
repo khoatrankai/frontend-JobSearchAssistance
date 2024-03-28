@@ -53,7 +53,6 @@ interface IApplication {
 
 const page = (props: Props) => {
   const { id } = useParams();
-
   const { handleDecodingDescription } = EncodingDescription();
   const [checkSize, setCheckSize] = useState<boolean>(false);
   const [checkScroll, setCheckScroll] = useState<boolean>(false);
@@ -70,7 +69,8 @@ const page = (props: Props) => {
   const router = useRouter();
   const [openModalApply, setOpenModalApply] = useState<boolean>(false);
   const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
-
+  const [filePDFParent, setFilePDFParent] = useState<File | null>(null);
+  const [idCv, setIdCv] = useState<number>(0);
   const {
     checkNext,
     checkPrev,
@@ -260,17 +260,65 @@ const page = (props: Props) => {
     }
   };
 
-  const handleApply = async () => {
+  const handleApply = async (type: string) => {
+    // type = 'upload' => upload cv
+    // type = 'near' => select cv in near cv
+    // type = 'all' => select cv in all cv
+    const dataApply = new FormData();
     if (profile?.roleData === undefined || profile?.roleData === null) {
-      setOpenModalLogin(true);
+      // setOpenModalLogin(true);
+      toast.warning(
+        languageRedux === 1
+          ? "Bạn cần đăng nhập để sử dụng tính năng này"
+          : "You need to login to use this feature",
+        {
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        }
+      );
       return;
     }
     let errorResponse: any = null; // Sử dụng kiểu any
 
     try {
-      const res = (await applicationApi.applyAplication(
-        postDetail?.id
-      )) as unknown as IApplication;
+      const appData = new FormData();
+
+      appData.append("type", type);
+      appData.append("postId", postDetail?.id);
+      appData.append("accountId", profile.accountId);
+
+      if (type === "near" || type === "all") {
+        appData.append("idCv", idCv as any);
+      }
+
+      if (type === "upload") {
+        if (!filePDFParent) {
+          toast.warning(
+            languageRedux === 1
+              ? "Vui lòng chọn file CV"
+              : "Please select CV file",
+            {
+              position: "bottom-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            }
+          );
+          return;
+        }
+        appData.append("pdf", filePDFParent);
+      }
+      const res = (await applicationApi.applyAplication(appData)) as any;
 
       if (res && (res.data as any).code === 201) {
         toast.success(
@@ -314,13 +362,14 @@ const page = (props: Props) => {
   const handleClickShowMap = () => {
     window.open(
       "https://www.google.com/maps/place/" +
-        `${postDetail?.address}, ${postDetail?.ward} ${postDetail.district} ${postDetail?.province_name}`
+      `${postDetail?.address}, ${postDetail?.ward} ${postDetail.district} ${postDetail?.province_name}`
     );
   };
 
   const handleToggleModal = () => {
     setOpenModalLogin(false);
   };
+
 
   return (
     <div
@@ -441,24 +490,24 @@ const page = (props: Props) => {
                   postDetail?.resource?.company_resource_id === 2 &&
                   profile.roleData === 3
                 ) && (
-                  <button className="flex flex-1 px-2 gap-2 items-center h-10 min-w-[12rem] bg-blue-600/95 hover:bg-blue-600 justify-center rounded-lg  text-white">
-                    <BookmarksIcon />
-                    {postDetail?.resource?.company_resource_id === 2 ? (
-                      <h2 className="font-bold" onClick={() => {
-                        setOpenModalApply(true);
-                      }}>
-                        {languageRedux === 1 ? "Ứng tuyển ngay" : "Apply now"}
-                      </h2>
-                    ) : (
-                      <h2
-                        className="font-bold"
-                        onClick={() => handleViewPost()}
-                      >
-                        {languageRedux === 1 ? "Xem tin" : "View post"}
-                      </h2>
-                    )}
-                  </button>
-                )}
+                    <button className="flex flex-1 px-2 gap-2 items-center h-10 min-w-[12rem] bg-blue-600/95 hover:bg-blue-600 justify-center rounded-lg  text-white">
+                      <BookmarksIcon />
+                      {postDetail?.resource?.company_resource_id === 2 ? (
+                        <h2 className="font-bold" onClick={() => {
+                          setOpenModalApply(true);
+                        }}>
+                          {languageRedux === 1 ? "Ứng tuyển ngay" : "Apply now"}
+                        </h2>
+                      ) : (
+                        <h2
+                          className="font-bold"
+                          onClick={() => handleViewPost()}
+                        >
+                          {languageRedux === 1 ? "Xem tin" : "View post"}
+                        </h2>
+                      )}
+                    </button>
+                  )}
                 {postDetail?.resource?.company_resource_id === 2 &&
                   profile.roleData !== 3 && (
                     <button
@@ -486,9 +535,8 @@ const page = (props: Props) => {
                         handleBookmarked(postDetail.id);
                       }
                     }}
-                    className={`flex items-center min-w-[10rem] h-10 border-2 border-blue-500/70 hover:border-blue-500 rounded-lg justify-center ${
-                      postDetail.bookmarked ? "bg-blue-500/70" : ""
-                    }`}
+                    className={`flex items-center min-w-[10rem] h-10 border-2 border-blue-500/70 hover:border-blue-500 rounded-lg justify-center ${postDetail.bookmarked ? "bg-blue-500/70" : ""
+                      }`}
                   >
                     {postDetail.bookmarked ? (
                       <FavoriteIcon
@@ -538,39 +586,39 @@ const page = (props: Props) => {
                 </li>
                 {handleDecodingDescription(postDetail?.description ?? "")[1] !==
                   undefined && (
-                  <li className="my-8 ">
-                    <h2 className="font-semibold mb-2">
-                      {languageRedux === 1
-                        ? "Yêu cầu công việc"
-                        : "Job requirements"}
-                    </h2>
-                    <pre className="whitespace-pre-wrap font-extralight">
-                      {
-                        handleDecodingDescription(
-                          postDetail?.description ?? ""
-                        )[1]
-                      }
-                    </pre>
-                  </li>
-                )}
+                    <li className="my-8 ">
+                      <h2 className="font-semibold mb-2">
+                        {languageRedux === 1
+                          ? "Yêu cầu công việc"
+                          : "Job requirements"}
+                      </h2>
+                      <pre className="whitespace-pre-wrap font-extralight">
+                        {
+                          handleDecodingDescription(
+                            postDetail?.description ?? ""
+                          )[1]
+                        }
+                      </pre>
+                    </li>
+                  )}
 
                 {handleDecodingDescription(postDetail?.description ?? "")[2] !==
                   undefined && (
-                  <li className="my-8 ">
-                    <h2 className="font-semibold mb-2">
-                      {languageRedux === 1
-                        ? "Quyền lợi được hưởng"
-                        : "Benefits"}
-                    </h2>
-                    <pre className="whitespace-pre-wrap font-extralight">
-                      {
-                        handleDecodingDescription(
-                          postDetail?.description ?? ""
-                        )[2]
-                      }
-                    </pre>
-                  </li>
-                )}
+                    <li className="my-8 ">
+                      <h2 className="font-semibold mb-2">
+                        {languageRedux === 1
+                          ? "Quyền lợi được hưởng"
+                          : "Benefits"}
+                      </h2>
+                      <pre className="whitespace-pre-wrap font-extralight">
+                        {
+                          handleDecodingDescription(
+                            postDetail?.description ?? ""
+                          )[2]
+                        }
+                      </pre>
+                    </li>
+                  )}
               </ul>
             </div>
           </div>
@@ -629,8 +677,8 @@ const page = (props: Props) => {
                         ? "Có làm việc cuối tuần"
                         : "There is work on weekends"
                       : languageRedux === 1
-                      ? "Không làm việc cuối tuần"
-                      : "Do not work weekends"}
+                        ? "Không làm việc cuối tuần"
+                        : "Do not work weekends"}
                   </h2>
                 </div>
               </li>
@@ -648,8 +696,8 @@ const page = (props: Props) => {
                         ? "Có làm việc từ xa"
                         : "There is remote work"
                       : languageRedux === 1
-                      ? "Không làm việc từ xa"
-                      : "Do not work remotely"}
+                        ? "Không làm việc từ xa"
+                        : "Do not work remotely"}
                   </h2>
                 </div>
               </li>
@@ -690,8 +738,8 @@ const page = (props: Props) => {
                   <h2>
                     {postDetail?.expired_date
                       ? moment
-                          .unix(postDetail.expired_date)
-                          .format("DD/MM/YYYY")
+                        .unix(postDetail.expired_date)
+                        .format("DD/MM/YYYY")
                       : "Vô thời hạn"}
                   </h2>
                 </div>
@@ -732,14 +780,17 @@ const page = (props: Props) => {
             namePost={postDetail?.title}
             openModalApply={openModalApply}
             setOpenModalApply={setOpenModalApply}
-            profile = {profile}
+            profile={profile}
+            handleApply={handleApply}
+            setFilePDFParent={setFilePDFParent}
+            setIdCv={setIdCv}
           />
         )
       }
-      <ModalLogin
+      {/* <ModalLogin
         isOpen={openModalLogin}
         handleToggleModal={handleToggleModal}
-      />
+      /> */}
     </div>
   );
 };

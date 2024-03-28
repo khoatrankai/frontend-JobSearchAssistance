@@ -14,9 +14,9 @@ const appplicationApi = {
       }
     )
   },
-  applyAplication: (postId: Number) => {
+  applyAplication: (data: FormData) => {
     const URL = `http://localhost:8888/api/v1/application/create`
-    return axios.post(URL, { postId }, {
+    return axios.post(URL, data, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
       },

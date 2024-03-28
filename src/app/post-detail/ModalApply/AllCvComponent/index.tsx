@@ -11,9 +11,10 @@ type Prop = {
     setCvType: (value: string) => void,
     setIdSelectFromAllCv: (value: number) => void,
     idSelectFromAllCv: number,
+    setIdCv: (value: number) => void,
 }
 const Page = (prop: Prop) => {
-    const { profile, setIsCheckAllCv, isCheckAllCv, setCvType, setIdSelectFromAllCv, idSelectFromAllCv } = prop;
+    const { profile, setIsCheckAllCv, isCheckAllCv, setCvType, setIdSelectFromAllCv, idSelectFromAllCv, setIdCv } = prop;
     const router = useRouter();
 
     const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,6 +36,7 @@ const Page = (prop: Prop) => {
                             {profile.profilesCvs.map((cv: any, index: number) => (
                                 <div key={index} className={idSelectFromAllCv !== cv.id ? 'item-all-cv cursor-pointer' : 'item-all-cv select-item cursor-auto'} onClick={() => {
                                     setIdSelectFromAllCv(cv.id);
+                                    setIdCv(cv.id);
                                 }}>
                                     <div>{cv.name}</div>
                                     <span

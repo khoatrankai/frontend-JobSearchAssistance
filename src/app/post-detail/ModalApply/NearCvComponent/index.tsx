@@ -9,10 +9,11 @@ type Prop = {
     isCheckNearCv: boolean,
     setIsCheckNearCv: (value: boolean) => void,
     setCvType: (value: string) => void,
+    setIdCv: (value: number) => void,
 }
 
 const Page = (prop: Prop) => {
-    const { profile, isCheckNearCv, setIsCheckNearCv, setCvType } = prop;
+    const { profile, isCheckNearCv, setIsCheckNearCv, setCvType, setIdCv } = prop;
 
     const [cvNew, setCvNew] = useState<any>(null);
 
@@ -27,6 +28,7 @@ const Page = (prop: Prop) => {
 
     const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setCvType('near');
+        setIdCv(cvNew.id);
         setIsCheckNearCv(event.target.checked);
     }
 

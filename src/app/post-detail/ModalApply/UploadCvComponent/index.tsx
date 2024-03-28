@@ -3,18 +3,18 @@ import { FormControlLabel, FormControl, Radio } from '@mui/material';
 import { FaCloudUploadAlt, FaTimes } from "react-icons/fa";
 import { IconButton } from '@mui/material';
 import './style.scss';
-import { Input } from 'antd';
-import { FaStarOfLife } from "react-icons/fa6";
+
 
 type Prop = {
     profile: any,
     isUploadCv: boolean,
     setIsUploadCv: (value: boolean) => void,
     setCvType: (value: string) => void,
+    setFilePDFParent: (value: File) => void,
 }
 
 const Page = (props: Prop) => {
-    const { profile, isUploadCv, setIsUploadCv, setCvType } = props;
+    const { profile, isUploadCv, setIsUploadCv, setCvType, setFilePDFParent } = props;
     const [uploadedFileName, setUploadedFileName] = useState<string>('');
 
     const hiddenInputRef = React.useRef<HTMLInputElement>(null);
@@ -36,7 +36,7 @@ const Page = (props: Prop) => {
     const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
-            console.log(file);
+            setFilePDFParent(file);
             setUploadedFileName(file.name);
         }
     }
@@ -57,7 +57,7 @@ const Page = (props: Prop) => {
                     </FormControl>
 
                     {isUploadCv && (
-                        <div className='upload-cv'>
+                        <div className='upload-cv text-center'>
                             <input
                                 ref={hiddenInputRef}
                                 type='file'
@@ -66,7 +66,10 @@ const Page = (props: Prop) => {
                                 onChange={handleFileUpload}
                             />
                             {!uploadedFileName && (
-                                <IconButton color="primary" aria-label="upload cv" component="span" onClick={handleIconClick}>
+                                <IconButton color="primary" aria-label="upload cv" component="span" onClick={handleIconClick} style={{
+                                    fontSize: '50px',
+                                    color: 'blue',
+                                }}>
                                     <FaCloudUploadAlt />
                                 </IconButton>
                             )}
@@ -77,27 +80,6 @@ const Page = (props: Prop) => {
                                         <FaTimes />
                                     </IconButton>
                                 </div>
-                            )}
-                            {uploadedFileName && (<div>
-                                <div style={{
-                                    alignItems: 'center',
-                                    marginTop: '10px',
-                                    display: 'flex',
-                                    gap: '3px'
-                                }}>
-                                    <div>Nhập tên Cv </div>
-                                    <FaStarOfLife
-                                        style={{
-                                            color: 'red',
-                                            fontSize: '6px',
-                                        }}
-                                    />:
-                                </div>
-                                <Input placeholder='Nhập tên....' style={{
-                                    width: '100%',
-                                    marginTop: '10px'
-                                }} />
-                            </div>
                             )}
                         </div>
                     )}
