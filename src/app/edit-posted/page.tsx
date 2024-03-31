@@ -19,6 +19,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ValidationPost } from "../new-post/validation/validation-post";
 import { useSelector } from "react-redux";
+import CheckPageLogin from "@/util/CheckPageLogin";
 
 type Props = {};
 
@@ -61,6 +62,7 @@ interface IPost {
 }
 
 const EditPostedPage: React.FC<Props> = () => {
+  CheckPageLogin();
   const searchParams = useSearchParams();
   const {
     handleEncodingDescription,

@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import SkeletonAll from "@/util/SkeletonAll";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import DescriptionHoverProvider from "@/util/DescriptionHoverProvider/DescriptionHoverProvider";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -55,15 +56,15 @@ const TopCompanyComponent = (props: Props) => {
   const accountId = localStorage.getItem("accountId");
   const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
   const language = useSelector((state: any) => state.changeLaguage.language);
-
+  const router = useRouter();
   useEffect(() => {
     handleUpData();
   }, [listJob]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const reponse = (await themeApi.getThemesEnable("vi")) as any;
+        console.log(reponse);
         if (reponse && reponse?.code === 200) {
           setTheme(reponse.data);
         }
@@ -73,11 +74,13 @@ const TopCompanyComponent = (props: Props) => {
     };
     fetchData();
   }, []);
-
+  useEffect(() => {
+    console.log(theme);
+  }, [theme]);
   const fetchData = async () => {
     const res = (await postsApi.getPostByThemeId(
       Number(themeId),
-      11,
+      8,
       thresholdNewJob,
       language === 1 ? "vi" : "en"
     )) as unknown as IPostTopic;
@@ -205,10 +208,10 @@ const TopCompanyComponent = (props: Props) => {
   };
 
   return (
-    <div className="flex justify-center w-full px-5">
+    <div className="flex justify-center w-full px-5 bg-blue-50">
       <div className="py-10 max-w-6xl w-full overflow-hidden">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="font-bold text-2xl">
+          <h1 className="font-bold text-2xl text-blue-700">
             {language === 1 ? `Công việc chủ đề` : `Subject work`}
           </h1>
 
@@ -237,20 +240,14 @@ const TopCompanyComponent = (props: Props) => {
           </div>
         </div>
         <SkeletonAll data={listJob}>
-          <div className="relative" style={{ marginBottom: "30px" }}>
+          <div className="relative" style={{ marginBottom: "0px" }}>
             {checkPrev && (
               <div className="absolute group bg-white bg-opacity-20 inset-y-0 flex items-center left-0 w-12 justify-center z-10">
                 <button
-                  className="p-1 border-2 rounded-full transition-all group-hover:p-2"
+                  className="p-1 border-2 rounded-full text-white transition-all group-hover:p-2"
                   onClick={handlePrev}
                 >
-                  <Image
-                    className="w-6"
-                    src={"/iconleft.svg"}
-                    alt="left"
-                    width={200}
-                    height={200}
-                  />
+                  <MdKeyboardArrowLeft />
                 </button>
               </div>
             )}
@@ -300,54 +297,50 @@ const TopCompanyComponent = (props: Props) => {
               )}
             </ul>
             {checkNext && (
-              <div className="absolute group bg-white bg-opacity-20 inset-y-0 flex items-center right-0 w-12 justify-center z-10">
+              <div className="absolute group bg-white text-white bg-opacity-20 inset-y-0 flex items-center right-0 w-12 justify-center z-10">
                 <button
                   className="p-1 border-2 group-hover:p-2 transition-all rounded-full"
                   onClick={handleNext}
                 >
-                  <Image
-                    className="w-6"
-                    src={"/iconright.svg"}
-                    alt="right"
-                    width={200}
-                    height={200}
-                  />
+                  <MdKeyboardArrowRight />
                 </button>
               </div>
             )}
           </div>
         </SkeletonAll>
 
-        <div>
-          <ul className="inline-flex flex-wrap justify-center list-job gap-9">
+        <div className="flex justify-center">
+          <ul className="inline-flex flex-wrap justify-center list-job gap-9 py-8 min-w-full">
             {listJob &&
               listJob.length > 0 &&
               listJob.map((item, index) => (
                 <li key={index} className="relative">
                   <Link
                     href={`/post-detail/${item.id}`}
-                    className={`w-[360px] h-[180px] group gap-x-2  px-4 border-[1px] hover:border-blue-500 hover:bg-white hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md  py-6 flex justify-between items-center item-job`}
+                    className={`w-[360px] h-fit group gap-x-2  px-4 border-[1px] hover:border-blue-500 transition-all duration-500  hover:bg-blue-50 bg-white hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md  py-6 flex justify-between items-center item-job`}
                   >
-                    <div className="basis-3/12 rounded-sm overflow-hidden">
-                      <Image
-                        className="w-16 h-16 object-cover"
-                        src={item.image ? item.image : "/logo/logo.png"}
-                        alt="anh"
-                        width={200}
-                        height={200}
-                      />
+                    <div className="basis-3/12">
+                      <div className="w-16 h-16 rounded-full overflow-hidden group-hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]  object-cover">
+                        <Image
+                          className="group-hover:scale-110 transition-all duration-500"
+                          src={item.image ? item.image : "/logo/logo.png"}
+                          alt="anh"
+                          width={200}
+                          height={200}
+                        />
+                      </div>
                     </div>
-                    <div className="basis-7/12 h-full flex flex-col justify-between capitalize">
+                    <div className="basis-8/12 h-full flex flex-col justify-between capitalize">
                       <div>
                         <h2
-                          className="text-sm font-bold peer group-hover:drop-shadow-xl  group-hover:text-blue-500"
+                          className="text-sm font-bold peer group-hover:drop-shadow-xl  group-hover:text-blue-500 max-w-full w-fit"
                           onMouseEnter={(e: any) => {
                             handleUpdatePosition(e);
                           }}
                         >
                           {handleShortTextHome(item.title, 20)}
                         </h2>
-                        <div className="opacity-0 invisible peer-hover:opacity-100 peer-hover:visible hover:visible hover:opacity-100 w-fit h-fit cursor-default">
+                        <div className="opacity-0 invisible transition-all relative z-50 duration-500 peer-hover:opacity-100 peer-hover:visible hover:visible hover:opacity-100 w-fit h-fit cursor-default">
                           <DescriptionHover>
                             <div className="flex flex-col gap-y-4 max-h-full">
                               <div className="flex items-center basis-1/6 gap-x-4">
@@ -450,7 +443,12 @@ const TopCompanyComponent = (props: Props) => {
                                   </div>
                                 </div>
 
-                                <div className="font-bold flex-1 p-2 rounded-xl bg-red-500 hover:bg-red-600 flex justify-center items-center text-white">
+                                <div
+                                  className="font-bold flex-1 p-2 rounded-xl bg-red-500 hover:bg-red-600 flex justify-center items-center text-white"
+                                  onClick={() => {
+                                    router.push(`/post-detail/${item.id}`);
+                                  }}
+                                >
                                   Xem chi tiết
                                 </div>
                                 <div className="font-bold flex-1 p-2 rounded-xl bg-blue-500 hover:bg-blue-600 flex justify-center items-center text-white">
@@ -474,7 +472,7 @@ const TopCompanyComponent = (props: Props) => {
                             {handleShortTextHome(item.company_name, 30)}
                           </p>
                         </div>
-                        <div className="flex items-center">
+                        {/* <div className="flex items-center">
                           <Image
                             className="w-4 mr-1"
                             src={"/icontime.svg"}
@@ -497,29 +495,29 @@ const TopCompanyComponent = (props: Props) => {
                           <p className="text-[9px]  drop-shadow-xl">
                             {item?.district}
                           </p>
-                        </div>
+                        </div> */}
                       </div>
                       <div className="inline-flex flex-wrap justify-start gap-1 font-extrabold">
-                        <h3 className="text-[9px] py-1 px-2 rounded-md min-w-fit bg-slate-50 group-hover:text-blue-500  group-hover:drop-shadow-xl">
+                        <h3 className="text-[9px] py-1 px-2 rounded-md min-w-fit bg-blue-50 group-hover:text-blue-500">
                           {handleShortValueNumber(item.salary_min.toString())} -{" "}
                           {handleShortValueNumber(item.salary_max.toString())}{" "}
                           {item.money_type_text}
                         </h3>
-                        <h3 className="text-[9px] py-1 px-2 rounded-md min-w-fit bg-slate-50 group-hover:text-blue-500  group-hover:drop-shadow-xl">
-                          {item?.job_type_name}
+                        <h3 className="text-[9px] py-1 px-2 rounded-md min-w-fit bg-blue-50 group-hover:text-blue-500">
+                          {item?.district}
                         </h3>
                       </div>
                     </div>
 
-                    <div className="flex justify-center h-2/5 flex-1 relative -translate-y-16">
+                    <div className="flex justify-start min-h-[70px] flex-1 relative ">
                       <div
-                        className={` w-full ${
+                        className={` py-1 px-2 group-hover:text-white rounded-2xl h-fit transition-all duration-500 ${
                           index % 2
-                            ? "bg-red-500 bg-ribbon-hot"
-                            : "bg-green-500 bg-ribbon-new"
-                        }  text-white text-sm font-bold items-center flex justify-center`}
+                            ? "bg-red-100 group-hover:bg-red-500 text-red-500"
+                            : "bg-green-100 group-hover:bg-green-500  text-green-500"
+                        }   text-xs font-medium `}
                       >
-                        {index % 2 ? "Hot" : "New"}
+                        {index % 2 ? "hot" : "new"}
                       </div>
                     </div>
                   </Link>
@@ -527,7 +525,7 @@ const TopCompanyComponent = (props: Props) => {
               ))}
           </ul>
         </div>
-        <div className="absolute top-0 right-0 flex items-center">
+        {/* <div className="absolute top-0 right-0 flex items-center">
           <a
             className="mr-4 font-bold text-black hover:text-black/80 cursor-pointer"
             href="#"
@@ -548,7 +546,7 @@ const TopCompanyComponent = (props: Props) => {
               <MdKeyboardArrowRight color="white" fontSize="1.8em" />
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
       <ModalLogin
         isOpen={openModalLogin}

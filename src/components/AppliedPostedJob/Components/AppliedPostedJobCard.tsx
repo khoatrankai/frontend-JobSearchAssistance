@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";

@@ -174,7 +174,7 @@ const TypeInfoPerson = (props: Props) => {
             }`}
           />
         </div>
-        {data?.moreCvInformations.map((dt: any, i: any) => {
+        {data?.moreCvInformations?.map((dt: any, i: any) => {
           return (
             <div
               className="flex items-start gap-1 w-full relative"

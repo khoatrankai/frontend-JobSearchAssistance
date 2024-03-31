@@ -70,7 +70,7 @@ export default function RootLayout({
           ) : (
             ""
           )}
-          {/* <FooterComponent /> */}
+          <FooterComponent />
         </ScrollContext>
       </body>
     </html>

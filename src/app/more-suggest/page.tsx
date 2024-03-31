@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { CircularProgress } from "@mui/material";
 import ShortText from "@/util/ShortText";
+import CheckPageLogin from "@/util/CheckPageLogin";
 
 type Props = {};
 
@@ -26,6 +27,7 @@ interface ISuggestJob {
 }
 
 const Page = () => {
+  CheckPageLogin();
   const { handleShortTextHome, handleShortValueNumber } = ShortText();
   const [listJob, setListJob] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);

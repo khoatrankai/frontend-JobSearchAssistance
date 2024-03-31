@@ -37,7 +37,7 @@ const DescriptionHoverProvider = () => {
     const { children } = props;
     return (
       <div
-        className={` transition-all fixed z-50 border-2 p-4 bg-white rounded-2xl shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] `}
+        className={` transition-all fixed z-50 border-2 p-4 bg-white rounded-lg shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] `}
         onClick={(e: any) => {
           e.preventDefault();
         }}

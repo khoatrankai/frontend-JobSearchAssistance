@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 interface SizeProps {
   width: number;
@@ -1056,7 +1056,6 @@ export const LikeIconWhite = ({ width = 24, height = 24 }) => {
     </svg>
   );
 };
-
 
 export const FilterIconHotjob: React.FC<SizeProps> = ({
   width = 19,
@@ -2231,7 +2230,6 @@ export const CheckedBlueIcon = ({ width = 15, height = 17 }) => {
   );
 };
 
-
 export const BagChart = () => {
   return (
     <svg
@@ -2403,7 +2401,6 @@ export const ChartStar = ({ width = 16, height = 16 }) => {
     </svg>
   );
 };
-
 
 export const AppliedPostedIcon = ({ width = 30, height = 30 }) => {
   return (

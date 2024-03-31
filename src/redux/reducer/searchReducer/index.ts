@@ -37,6 +37,8 @@ export const fetchSearchResult = createAsyncThunk(
       salaryType,
       lang,
     } = params;
+    console.log(q)
+
     const response = (await searchApi.getSearchByQueryV2(
       q,
       page,

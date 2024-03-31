@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import MenuRecruiter from "./MenuRecruiter/MenuRecruiter";
 import MenuUser from "./MenuUser/MenuUser";
 import { useSelector } from "react-redux/es/hooks/useSelector";

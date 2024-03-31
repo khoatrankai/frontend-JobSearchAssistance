@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/jsx-key */
-import React from "react";
+import React, { useRef } from "react";
 import handleType from "../../utils/handleType";
 import Image from "next/image";
 
@@ -32,7 +32,7 @@ const TypeExperience = (props: Props) => {
         kinh nghiệm làm việc
       </div>
 
-      {data?.moreCvExtraInformations.map((dt: any, i: any) => {
+      {data?.moreCvExtraInformations?.map((dt: any, i: any) => {
         return (
           <div className=" relative">
             <div

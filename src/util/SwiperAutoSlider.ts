@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useState, useEffect, useRef} from 'react';
-const useSwiperAutoSlider = (gap: number = 0, typeSlider: boolean = false) => {
+const useSwiperAutoSlider = (gap: number = 0,delay:number = 4000, typeSlider: boolean = false) => {
   const ref_list_slider = useRef<any>();
   const [checkDown, setCheckDown] = useState<boolean>(false);
   const [positionOld, setPositionOld] = useState<number>(0);
@@ -27,7 +27,6 @@ const useSwiperAutoSlider = (gap: number = 0, typeSlider: boolean = false) => {
       }
     }
   };
-
   useEffect(() => {
     if (ref_list_slider.current) {
       ref_list_slider.current.style.transform = `translateX(${position}px)`;
@@ -96,6 +95,17 @@ const useSwiperAutoSlider = (gap: number = 0, typeSlider: boolean = false) => {
       }
     }
   };
+  useEffect(()=>{
+    if(ref_list_slider){
+      if(!checkDown){
+        ref_list_slider.current?.classList.add(`duration-500`);
+      }else{
+        ref_list_slider.current?.classList.remove(`duration-500`);
+  
+      }
+    }
+   
+  },[checkDown,ref_list_slider])
   useEffect(() => {
     const handleUp = () => {
       setCheckDown(false);
@@ -136,10 +146,14 @@ const useSwiperAutoSlider = (gap: number = 0, typeSlider: boolean = false) => {
       if (!check) {
         if (maxwidthItem > maxWidth - widthList) {
           setPosition(-(maxWidth - widthList));
-          ref_list_slider.current.classList.add(`transition-transform`);
+          ref_list_slider.current.classList.add(`transition-transform`)
           setTimeout(() => {
             ref_list_slider.current?.classList.remove(`transition-transform`);
+            
+
           }, 150);
+        
+         
           check = true;
         } else {
           if (width === -position) {

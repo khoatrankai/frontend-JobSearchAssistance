@@ -76,7 +76,7 @@ const page = (props: Props) => {
     handlePrev,
     handleUpData,
     ref_list_slider,
-  } = useSwiperAutoSlider(0, true);
+  } = useSwiperAutoSlider(0);
   useEffect(() => {
     const fetchData = async () => {
       handleLoadHrefPage();

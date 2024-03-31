@@ -12,15 +12,20 @@ import {
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import CheckPageLogin from "@/util/CheckPageLogin";
 
 type Props = {};
 
 const Page = () => {
+  CheckPageLogin();
+
   const language = useSelector((state: any) => state.changeLaguage.language);
   const [age, setAge] = React.useState("");
   const [dataTemplate, setDataTemplate] = React.useState([]);
   const { handleLoadHrefPage } = useSrollContext();
+
   const router = useRouter();
+
   useEffect(() => {
     handleLoadHrefPage();
     const fetchData = async () => {
@@ -76,7 +81,7 @@ const Page = () => {
                   <div
                     className="flex justify-center w-[200px] h-[300px]"
                     onClick={() => {
-                      router.push(`/cv/create/template/${item.id - 1}`);
+                      router.push(`/cv/create-test/${item.id - 1}`);
                     }}
                   >
                     <img src={item.image} alt="" />
