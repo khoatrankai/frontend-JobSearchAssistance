@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import styles from "./Company.module.scss";
 import { SaveIconFill, SaveIconOutline } from "@/icons";
 

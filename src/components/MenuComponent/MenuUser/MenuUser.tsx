@@ -64,6 +64,7 @@ import AssistantPhotoIcon from "@mui/icons-material/AssistantPhoto";
 import searchApi from "@/api/search/apiSearch";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import { useLocation } from "react-router-dom";
+import axiosClient from "@/configs/axiosClient";
 
 type Props = {
   // scrollPosition: Number;
@@ -122,7 +123,7 @@ const MenuComponent = (props: Props) => {
   const [totalJob, setTotalJob] = useState<number>(0);
   const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
   const [profileData, setProfileData] = useState<any>({});
-  const { profile } = useSelector((state: any) => state.profile);
+  const profile = useSelector((state: any) => state.profile.profile);
   const [imageError, setImageError] = useState(false);
   const [openModalProfile, setOpenModalProfile] = useState<boolean>(false);
   const [dataNotification, setDataNotification] = useState<any>([]);
@@ -138,7 +139,9 @@ const MenuComponent = (props: Props) => {
   const [searchActive, setSearchActive] = useState<boolean>(false);
   const [onMenuAll, setOnMenuAll] = useState<boolean>(false);
   const [selectionMenu, setSelectionMenu] = useState<number>(0);
-
+  useEffect(() => {
+    console.log(profile);
+  }, [profile]);
   useEffect(() => {
     handleLoadHrefPage();
   }, [location.pathname]);
@@ -235,6 +238,7 @@ const MenuComponent = (props: Props) => {
     };
   }, [openModalProfile]);
   useEffect(() => {
+    console.log(profile);
     setProfileData(profile);
   }, [profile]);
   useEffect(() => {
@@ -267,7 +271,6 @@ const MenuComponent = (props: Props) => {
   }, [scrollPosition]);
   const handleScroll = () => {
     const scroll = window.pageYOffset;
-    // console.log(scroll);
     if (scroll > positionScroll) {
       setCheckScroll(false);
     } else {
@@ -462,40 +465,6 @@ const MenuComponent = (props: Props) => {
     }
   };
 
-  const handleSearch = (keyword?: string) => {
-    if (keyword) {
-      localStorage.setItem(
-        "dataRequest",
-        JSON.stringify({ ...dataRequest, q: keyword })
-      );
-    } else {
-      localStorage.setItem("dataRequest", JSON.stringify({ ...dataRequest }));
-    }
-
-    dispatch(
-      fetchSearchResult({
-        q: keyword ? keyword : dataRequest.q ? dataRequest.q.trim() : null,
-        page: 0,
-        moneyType: dataRequest.money_type ? dataRequest.money_type : null,
-        isWorkingWeekend: dataRequest.is_working_weekend
-          ? dataRequest.is_working_weekend
-          : null,
-        isDatePeriod: dataRequest.is_date_period
-          ? dataRequest.is_date_period
-          : null,
-        salaryMin: dataRequest.salary_min ? dataRequest.salary_min : 0,
-        salaryMax: dataRequest.salary_max ? dataRequest.salary_max : null,
-        jobTypeId: dataRequest.jobTypeId ? [dataRequest.jobTypeId] : [],
-        categoryIds: dataRequest.category_ids ? dataRequest.category_ids : null,
-        districtIds: dataRequest.district_ids ? dataRequest.district_ids : null,
-        salaryType: dataRequest.salary_type ? dataRequest.salary_type : null,
-        lang: "vi",
-      }) as unknown as any
-    ).then(() => {
-      router.push("/search-result");
-    });
-  };
-
   const handleModifyPassword = () => {
     setOpenModalProfile(false);
     router.push("/update-password");
@@ -516,14 +485,7 @@ const MenuComponent = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await searchApi.getSuggestKeyWord(
-        10,
-        language === 1 ? "vi" : "en"
-      );
-
-      setDataSuggest(res && res.data);
-    };
+    const fetchData = async () => {};
 
     fetchData();
   }, []);
@@ -551,11 +513,11 @@ const MenuComponent = (props: Props) => {
                   src="/logo/2023.png"
                 />
                 <div
-                  className={`flex font-semibold cursor-pointer text-black ${
+                  className={`flex font-semibold gap-x-2 cursor-pointer text-black ${
                     searchActive || reponsiveMobile < 1350 ? "hidden" : ""
                   }`}
                 >
-                  <div className="flex p-8 gap-x-1 items-center  relative  hover:text-blue-500 group">
+                  <div className="flex p-8 gap-x-1 items-center  relative  hover:text-blue-500 group ">
                     <MdWork />
                     <h1>Việc làm</h1>
                     <div className="px-8 py-6 font-medium rounded-xl invisible opacity-0 group-hover:visible bg-slate-100 absolute top-full -mt-4 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-max text-black flex group-hover:opacity-100 transition-all flex-col gap-y-3">
@@ -634,6 +596,14 @@ const MenuComponent = (props: Props) => {
                       >
                         <h2 className="hover:text-blue-800">Công ty nổi bật</h2>
                       </div>
+                      <div
+                        onClick={() => {
+                          router.push("/company-all");
+                          setCheckPage("/company-all");
+                        }}
+                      >
+                        <h2 className="hover:text-blue-800">Các công ty</h2>
+                      </div>
                     </div>
                   </div>
                   <div className="flex p-8 gap-x-1 items-center  hover:text-blue-500 group relative">
@@ -648,6 +618,14 @@ const MenuComponent = (props: Props) => {
                       >
                         <h2 className="hover:text-blue-800">Các bài viết</h2>
                       </div>
+                      <div
+                        onClick={() => {
+                          router.push("/community-create");
+                          setCheckPage("/community-create");
+                        }}
+                      >
+                        <h2 className="hover:text-blue-800">Tạo bài viết</h2>
+                      </div>
                       {/* <div>
                         <h2 className="">Việc làm mới</h2>
                       </div>
@@ -659,15 +637,24 @@ const MenuComponent = (props: Props) => {
                   <div className="flex p-8 gap-x-1 items-center  hover:text-blue-500 group relative">
                     <IoDocumentText />
                     <h1>Hồ sơ CV</h1>
-                    <div className="p-6 rounded-xl invisible opacity-0 group-hover:visible bg-slate-100 absolute top-full -mt-4 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-max text-black flex group-hover:opacity-100 transition-all flex-col gap-y-2">
-                      <div>
-                        <h2 className="">Việc làm mới</h2>
+                    <div className="px-8 py-6 font-medium rounded-xl invisible opacity-0 group-hover:visible bg-slate-100 absolute top-full -mt-4 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-max text-black flex group-hover:opacity-100 transition-all flex-col gap-y-3">
+                      <div
+                        onClick={() => {
+                          if (profile) {
+                            router.push("/manage-cv");
+                          } else {
+                            router.push("");
+                          }
+                        }}
+                      >
+                        <h2 className="hover:text-blue-800">Quản lý hồ sơ</h2>
                       </div>
-                      <div>
-                        <h2 className="">Việc làm mới</h2>
-                      </div>
-                      <div>
-                        <h2 className="">Việc làm mới</h2>
+                      <div
+                        onClick={() => {
+                          router.push("/cv/create-test/0");
+                        }}
+                      >
+                        <h2 className="hover:text-blue-800">Tạo mới CV</h2>
                       </div>
                     </div>
                   </div>
@@ -676,7 +663,7 @@ const MenuComponent = (props: Props) => {
               <div
                 className={`${
                   searchActive || reponsiveMobile < 1350 ? "flex-1" : "w-32"
-                }  flex items-center relative transition-all duration-500`}
+                }  flex items-center relative transition-all duration-500 justify-end`}
               >
                 <div
                   className={`
@@ -687,7 +674,7 @@ const MenuComponent = (props: Props) => {
                     checkPage !== "/search-result"
                       ? ""
                       : "invisible opacity-0"
-                  } transition-all duration-500  flex items-center`}
+                  } transition-all duration-500 justify-end  flex items-center`}
                 >
                   <SearchAllComponent setSearchActive={setSearchActive} />
                 </div>
@@ -710,31 +697,18 @@ const MenuComponent = (props: Props) => {
                 </button>
               </div>
               <div
-                className={`${
-                  reponsiveMobile > 1350
-                    ? "shadow-[0px_5px_20px_10px_#00000024]"
-                    : ""
+                className={`${reponsiveMobile > 1350 ? "  " : ""} ${
+                  !profileData
+                    ? "hover:bg-blue-700 bg-blue-500 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
+                    : "shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
                 } flex items-center gap-x-4 rounded-3xl ml-2 border-black py-2 px-4`}
               >
                 {reponsiveMobile > 1350 ? (
-                  profileData ? (
+                  Object.keys(profileData).length === 0 ? (
                     <>
                       <div>
                         <div
-                          className="flex rounded-l-3xl justify-center cursor-pointer  overflow-hidden p-3 items-center hover:bg-white font-bold hover:text-blue-500"
-                          onClick={() => {
-                            window.location.href = "/candidate/sign-up";
-                            // router.push("/candidate/sign-up");
-                          }}
-                        >
-                          <FaUserEdit />
-
-                          <h2 className="ml-1">Đăng Kí</h2>
-                        </div>
-                      </div>
-                      <div>
-                        <div
-                          className="flex rounded-l-3xl justify-center cursor-pointer  overflow-hidden p-3 items-center hover:bg-white font-bold hover:text-blue-500"
+                          className="flex rounded-l-3xl justify-center cursor-pointer  overflow-hidden p-1 items-center  font-bold text-black"
                           onClick={() => {
                             window.location.href = "/candidate/login";
                             // router.push("/candidate/login");
@@ -750,9 +724,7 @@ const MenuComponent = (props: Props) => {
                     <div className="flex gap-x-4">
                       <div
                         className={`rounded-full p-2 bg-black cursor-pointer relative  ${
-                          selectionMenu === 1
-                            ? "bg-blue-500"
-                            : "hover:bg-blue-400"
+                          selectionMenu === 1 ? "" : "hover:bg-gray-700"
                         }`}
                         onClick={() => {
                           if (selectionMenu === 1) {
@@ -760,7 +732,12 @@ const MenuComponent = (props: Props) => {
                           } else setSelectionMenu(1);
                         }}
                       >
-                        <IoMdNotifications color="white" fontSize="1.5em" />
+                        <IoMdNotifications
+                          color={` ${
+                            selectionMenu === 1 ? "#2563eb" : "white"
+                          }`}
+                          fontSize="1.5em"
+                        />
                         <div
                           className={`flex flex-col gap-y-4 absolute pointer-events-none ${
                             selectionMenu === 1
@@ -768,23 +745,74 @@ const MenuComponent = (props: Props) => {
                               : "opacity-0"
                           } top-full transition-all translate-y-2 right-0 w-96 overflow-hidden duration-300 px-4 py-6 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]`}
                         >
-                          Thông báo
+                          {dataNotification &&
+                            dataNotification?.map(
+                              (notificate: any, index: number) => {
+                                return (
+                                  <div
+                                    key={index}
+                                    className={`wrap-notificate_system ${
+                                      notificate.data.isRead === false
+                                        ? `bg-orange-100`
+                                        : ""
+                                    }`}
+                                    onClick={() => {
+                                      handleClickNoty(
+                                        notificate.data.postId,
+                                        notificate.data.communicationId,
+                                        notificate.data.applicationId,
+                                        notificate.data.typeText
+                                      );
+                                    }}
+                                  >
+                                    <h3>{notificate.content_app.title}</h3>
+                                    <h5
+                                      dangerouslySetInnerHTML={{
+                                        __html: notificate.content_app.body,
+                                      }}
+                                    />
+                                    <div className="wrap-time">
+                                      <p>
+                                        {new Date(
+                                          notificate.data.createdAt
+                                        ).toLocaleTimeString([], {
+                                          hour: "2-digit",
+                                          minute: "2-digit",
+                                        })}
+                                      </p>
+                                      <p>
+                                        {new Date(
+                                          notificate.data.createdAt
+                                        ).toLocaleDateString("en-GB")}
+                                      </p>
+                                    </div>
+                                  </div>
+                                );
+                              }
+                            )}
+                          {dataNotification === undefined && (
+                            <div>Chưa có thông báo</div>
+                          )}
                         </div>
                       </div>
                       <div
                         className={`rounded-full p-2 bg-black cursor-pointer relative  ${
-                          selectionMenu === 2
-                            ? "bg-blue-500"
-                            : "hover:bg-blue-400"
+                          selectionMenu === 2 ? "" : "hover:bg-gray-700"
                         }`}
                         onClick={() => {
                           if (selectionMenu === 2) {
                             setSelectionMenu(0);
                           } else setSelectionMenu(2);
+                          router.push("/chat");
                         }}
                       >
-                        <AiFillMessage color="white" fontSize="1.5em" />
-                        <div
+                        <AiFillMessage
+                          color={` ${
+                            selectionMenu === 2 ? "#2563eb" : "white"
+                          }`}
+                          fontSize="1.5em"
+                        />
+                        {/* <div
                           className={`flex flex-col gap-y-4 absolute  pointer-events-none ${
                             selectionMenu === 2
                               ? "h-fit opacity-100"
@@ -792,13 +820,11 @@ const MenuComponent = (props: Props) => {
                           } top-full transition-all translate-y-2 right-0 w-96 overflow-hidden duration-300 px-4 py-6 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]`}
                         >
                           Chat
-                        </div>
+                        </div> */}
                       </div>
                       <div
-                        className={`rounded-full p-2 bg-black cursor-pointer transition-all duration-300 relative  ${
-                          selectionMenu === 3
-                            ? "bg-blue-500"
-                            : "hover:bg-blue-400"
+                        className={`rounded-full p-2 cursor-pointer transition-all bg-black duration-300 relative  ${
+                          selectionMenu === 3 ? "" : "hover:bg-gray-700 "
                         }`}
                         onClick={() => {
                           if (selectionMenu === 3) {
@@ -806,7 +832,12 @@ const MenuComponent = (props: Props) => {
                           } else setSelectionMenu(3);
                         }}
                       >
-                        <IoMdSettings color="white" fontSize="1.5em" />
+                        <IoMdSettings
+                          color={` ${
+                            selectionMenu === 3 ? "#2563eb" : "white"
+                          }`}
+                          fontSize="1.5em"
+                        />
                         <div
                           className={`flex flex-col gap-y-4 absolute  pointer-events-none ${
                             selectionMenu === 3
@@ -823,35 +854,75 @@ const MenuComponent = (props: Props) => {
                               height={50}
                             />
                             <div>
-                              <p className="font-semibold text-blue-500">
-                                Khoa
+                              <p className="font-semibold capitalize text-blue-500">
+                                {profile?.name}
                               </p>
-                              <p className="text-sm font-medium text-gray-400">
-                                khoanono@gmail.com
+                              <p className="text-sm font-medium capitalize text-gray-400 w-36 break-words">
+                                {profile?.email}
                               </p>
                             </div>
-                            <div className="rounded-xl font-semibold border-blue-700 text-xs text-blue-700 hover:bg-blue-100 p-2 border-[1px] pointer-events-auto">
+                            <div
+                              className="rounded-xl font-semibold border-blue-700 text-xs text-blue-700 hover:bg-blue-100 p-2 border-[1px] pointer-events-auto"
+                              onClick={() => {
+                                router.push("/profile");
+                              }}
+                            >
                               Cập nhật hồ sơ
                             </div>
                           </div>
                           <div className="flex flex-col gap-y-2">
-                            <div className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto">
+                            <div
+                              className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
+                              onClick={() => {
+                                setSelectProfileUser(1);
+                                if (checkPage !== "/profile")
+                                  router.push("/profile");
+                              }}
+                            >
                               <AiFillDashboard />
                               <p className="ml-2">Tổng quan</p>
                             </div>
-                            <div className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto">
+                            <div
+                              className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
+                              onClick={() => {
+                                setSelectProfileUser(2);
+                                if (checkPage !== "/profile")
+                                  router.push("/profile");
+                              }}
+                            >
                               <MdEditDocument />
                               <p className="ml-2">Hồ sơ cá nhân</p>
                             </div>
-                            <div className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto">
+                            <div
+                              className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
+                              onClick={() => {
+                                setSelectProfileUser(3);
+                                if (checkPage !== "/profile")
+                                  router.push("/profile");
+                              }}
+                            >
                               <FaBuilding />
                               <p className="ml-2">Công ty của tôi</p>
                             </div>
-                            <div className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto">
+                            <div
+                              className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
+                              onClick={() => {
+                                setSelectProfileUser(4);
+                                if (checkPage !== "/profile")
+                                  router.push("/profile");
+                              }}
+                            >
                               <MdWork />
                               <p className="ml-2">Việc làm của tôi</p>
                             </div>
-                            <div className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto">
+                            <div
+                              className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
+                              onClick={() => {
+                                setSelectProfileUser(5);
+                                if (checkPage !== "/profile")
+                                  router.push("/profile");
+                              }}
+                            >
                               <IoMdSettings />
                               <p className="ml-2">Quản lý tài khoản</p>
                             </div>

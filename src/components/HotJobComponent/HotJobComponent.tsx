@@ -9,6 +9,16 @@ import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 // import { analytics } from "../../configs/firebase";
 import { logEvent } from "firebase/analytics";
+import {
+  MdControlCamera,
+  MdKeyboardArrowLeft,
+  MdKeyboardArrowRight,
+} from "react-icons/md";
+import { TbTruckDelivery } from "react-icons/tb";
+import { GiHummingbird } from "react-icons/gi";
+import { IoIosPeople } from "react-icons/io";
+import { BiSolidTimer } from "react-icons/bi";
+import { MdFiberNew } from "react-icons/md";
 
 type Props = {};
 
@@ -48,23 +58,17 @@ const HotJobComponent = forwardRef<HTMLDivElement>((props, ref) => {
   return (
     <div className="flex justify-center w-full px-5">
       <div className="py-10 max-w-6xl w-full overflow-hidden">
-        <h1 className="font-bold text-2xl mb-8">
+        <h1 className="font-bold text-2xl mb-8 text-blue-700">
           {language === 1 ? `Công việc nổi bật` : `Outstanding work`}
         </h1>
         <div className="relative" ref={ref}>
           {checkPrev && (
-            <div className="absolute group bg-white bg-opacity-20 inset-y-0 flex items-center left-0 w-12 justify-center z-10">
+            <div className="absolute group bg-white hover:text-white bg-opacity-20 inset-y-0 flex items-center left-0 w-12 justify-center z-10">
               <button
                 className="p-1 border-2 rounded-full transition-all group-hover:p-2"
                 onClick={handlePrev}
               >
-                <Image
-                  className="w-6"
-                  src={"/iconleft.svg"}
-                  alt="left"
-                  width={200}
-                  height={200}
-                />
+                <MdKeyboardArrowLeft />
               </button>
             </div>
           )}
@@ -74,55 +78,180 @@ const HotJobComponent = forwardRef<HTMLDivElement>((props, ref) => {
             className={` select-none inline-flex justify-center`}
             onMouseDown={handleClickDown}
           >
-            {topic &&
-              topic?.length > 0 &&
-              topic.map((item: any, index: number) => (
+            {topic && topic?.length > 0 && (
+              <>
                 <li
-                  key={index}
-                  className="w-[344px] h-[220px] relative bg-red-500 rounded-lg flex flex-col items-center justify-center item-company overflow-hidden cursor-pointer"
+                  key={0}
+                  className="w-[278.25px] h-[220px] relative bg-blue-800 text-white border-[1px] hover:border-blue-800 transition-all duration-500 hover:text-blue-800 hover:bg-white rounded-lg flex flex-col items-center justify-center gap-y-8 item-company overflow-hidden cursor-pointer"
                   onMouseEnter={() => {
-                    router.prefetch(`/more-hotjob/${item.id}`);
+                    router.prefetch(`/more-hotjob/${topic[0].id}`);
                   }}
                   onClick={() => {
                     if (checkClick) {
-                      router.push(`/more-hotjob/${item.id}`);
+                      router.push(`/more-hotjob/${topic[0].id}`);
                       // logEvent(analytics, "select_hotjob");
                     } else {
                       setCheckClick(true);
                     }
                   }}
                 >
-                  {/* {checkClick && <a href="`/more-hotjob/${item.id}`"></a>} */}
+                  {/* {checkClick && <a href="`/more-hotjob/${topic[0].id}`"></a>} */}
 
-                  <Image
-                    src={item.image}
-                    className="pointer-events-none w-full h-full"
-                    width={344}
-                    height={180}
-                    alt="Kinh doanh"
-                  />
-                  <h2 className="absolute top-3 left-2 text-white font-semibold">
-                    {item.title}
-                  </h2>
-                  <p className="font-bold absolute top-3 right-2 text-white">
-                    {item.count}
-                  </p>
+                  <div className="text-6xl">
+                    <MdControlCamera />
+                  </div>
+                  <div className="flex flex-col justify-center items-center gap-y-2">
+                    <h2 className=" font-semibold text-lg">{topic[0].title}</h2>
+                    <p className="font-light text-sm">
+                      {language === 1 ? `Việc làm` : `Job`} {topic[0].count}
+                    </p>
+                  </div>
                 </li>
-              ))}
+                <li
+                  key={1}
+                  className="w-[278.25px] h-[220px] relative bg-blue-800 text-white border-[1px] hover:border-blue-800 transition-all duration-500 hover:text-blue-800 hover:bg-white rounded-lg flex flex-col items-center justify-center gap-y-8 item-company overflow-hidden cursor-pointer"
+                  onMouseEnter={() => {
+                    router.prefetch(`/more-hotjob/${topic[1].id}`);
+                  }}
+                  onClick={() => {
+                    if (checkClick) {
+                      router.push(`/more-hotjob/${topic[1].id}`);
+                      // logEvent(analytics, "select_hotjob");
+                    } else {
+                      setCheckClick(true);
+                    }
+                  }}
+                >
+                  {/* {checkClick && <a href="`/more-hotjob/${topic[0].id}`"></a>} */}
+
+                  <div className="text-6xl">
+                    <TbTruckDelivery />
+                  </div>
+                  <div className="flex flex-col justify-center items-center gap-y-2">
+                    <h2 className=" font-semibold text-lg">{topic[1].title}</h2>
+                    <p className="font-light text-sm">
+                      {language === 1 ? `Việc làm` : `Job`} {topic[1].count}
+                    </p>
+                  </div>
+                </li>
+                <li
+                  key={2}
+                  className="w-[278.25px] h-[220px] relative bg-blue-800 text-white border-[1px] hover:border-blue-800 transition-all duration-500 hover:text-blue-800 hover:bg-white rounded-lg flex flex-col items-center justify-center gap-y-8 item-company overflow-hidden cursor-pointer"
+                  onMouseEnter={() => {
+                    router.prefetch(`/more-hotjob/${topic[2].id}`);
+                  }}
+                  onClick={() => {
+                    if (checkClick) {
+                      router.push(`/more-hotjob/${topic[2].id}`);
+                      // logEvent(analytics, "select_hotjob");
+                    } else {
+                      setCheckClick(true);
+                    }
+                  }}
+                >
+                  {/* {checkClick && <a href="`/more-hotjob/${topic[0].id}`"></a>} */}
+
+                  <div className="text-6xl">
+                    <GiHummingbird />
+                  </div>
+                  <div className="flex flex-col justify-center items-center gap-y-2">
+                    <h2 className=" font-semibold text-lg">{topic[2].title}</h2>
+                    <p className="font-light text-sm">
+                      {language === 1 ? `Việc làm` : `Job`} {topic[2].count}
+                    </p>
+                  </div>
+                </li>
+                <li
+                  key={3}
+                  className="w-[278.25px] h-[220px] relative bg-blue-800 text-white border-[1px] hover:border-blue-800 transition-all duration-500 hover:text-blue-800 hover:bg-white rounded-lg flex flex-col items-center justify-center gap-y-8 item-company overflow-hidden cursor-pointer"
+                  onMouseEnter={() => {
+                    router.prefetch(`/more-hotjob/${topic[3].id}`);
+                  }}
+                  onClick={() => {
+                    if (checkClick) {
+                      router.push(`/more-hotjob/${topic[3].id}`);
+                      // logEvent(analytics, "select_hotjob");
+                    } else {
+                      setCheckClick(true);
+                    }
+                  }}
+                >
+                  {/* {checkClick && <a href="`/more-hotjob/${topic[0].id}`"></a>} */}
+
+                  <div className="text-6xl">
+                    <IoIosPeople />
+                  </div>
+                  <div className="flex flex-col justify-center items-center gap-y-2">
+                    <h2 className=" font-semibold text-lg">{topic[3].title}</h2>
+                    <p className="font-light text-sm">
+                      {language === 1 ? `Việc làm` : `Job`} {topic[3].count}
+                    </p>
+                  </div>
+                </li>
+                <li
+                  key={4}
+                  className="w-[278.25px] h-[220px] relative bg-blue-800 text-white border-[1px] hover:border-blue-800 transition-all duration-500 hover:text-blue-800 hover:bg-white rounded-lg flex flex-col items-center justify-center gap-y-8 item-company overflow-hidden cursor-pointer"
+                  onMouseEnter={() => {
+                    router.prefetch(`/more-hotjob/${topic[4].id}`);
+                  }}
+                  onClick={() => {
+                    if (checkClick) {
+                      router.push(`/more-hotjob/${topic[4].id}`);
+                      // logEvent(analytics, "select_hotjob");
+                    } else {
+                      setCheckClick(true);
+                    }
+                  }}
+                >
+                  {/* {checkClick && <a href="`/more-hotjob/${topic[0].id}`"></a>} */}
+
+                  <div className="text-6xl">
+                    <BiSolidTimer />
+                  </div>
+                  <div className="flex flex-col justify-center items-center gap-y-2">
+                    <h2 className=" font-semibold text-lg">{topic[4].title}</h2>
+                    <p className="font-light text-sm">
+                      {language === 1 ? `Việc làm` : `Job`} {topic[4].count}
+                    </p>
+                  </div>
+                </li>
+                <li
+                  key={5}
+                  className="w-[278.25px] h-[220px] relative bg-blue-800 text-white border-[1px] hover:border-blue-800 transition-all duration-500 hover:text-blue-800 hover:bg-white rounded-lg flex flex-col items-center justify-center gap-y-8 item-company overflow-hidden cursor-pointer"
+                  onMouseEnter={() => {
+                    router.prefetch(`/more-hotjob/${topic[5].id}`);
+                  }}
+                  onClick={() => {
+                    if (checkClick) {
+                      router.push(`/more-hotjob/${topic[5].id}`);
+                      // logEvent(analytics, "select_hotjob");
+                    } else {
+                      setCheckClick(true);
+                    }
+                  }}
+                >
+                  {/* {checkClick && <a href="`/more-hotjob/${topic[0].id}`"></a>} */}
+
+                  <div className="text-6xl">
+                    <MdFiberNew />
+                  </div>
+                  <div className="flex flex-col justify-center items-center gap-y-2">
+                    <h2 className=" font-semibold text-lg">{topic[5].title}</h2>
+                    <p className="font-light text-sm">
+                      {language === 1 ? `Việc làm` : `Job`} {topic[5].count}
+                    </p>
+                  </div>
+                </li>
+              </>
+            )}
           </ul>
           {checkNext && (
             <div className="absolute group bg-white bg-opacity-20 inset-y-0 flex items-center right-0 w-12 justify-center z-10">
               <button
-                className="p-1 border-2 group-hover:p-2 transition-all rounded-full"
+                className="p-1 border-2 group-hover:p-2 transition-all  hover:text-white rounded-full"
                 onClick={handleNext}
               >
-                <Image
-                  className="w-6"
-                  src={"/iconright.svg"}
-                  alt="right"
-                  width={200}
-                  height={200}
-                />
+                <MdKeyboardArrowRight />
               </button>
             </div>
           )}

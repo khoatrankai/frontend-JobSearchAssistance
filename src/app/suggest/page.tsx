@@ -21,6 +21,7 @@ import moment from "moment";
 import "./style.scss";
 import { useRouter } from "next/navigation";
 import { useSrollContext } from "@/context/AppProvider";
+import CheckPageLogin from "@/util/CheckPageLogin";
 
 type Props = {};
 
@@ -63,6 +64,7 @@ const style = {
 };
 
 const SuggestJobComponent = (props: Props) => {
+  CheckPageLogin();
   const languageRedux = useSelector(
     (state: any) => state.changeLaguage.language
   );

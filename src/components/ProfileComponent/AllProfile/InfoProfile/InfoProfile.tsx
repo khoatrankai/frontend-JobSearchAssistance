@@ -1,5 +1,5 @@
 import { useSrollContext } from "@/context/AppProvider";
-import React from "react";
+import React, { useRef } from "react";
 import AvatarProfile from "../../AvatarProfile/AvatarProfile";
 import InfoPerson from "../../InfoPerson/InfoPerson";
 import AchivementProfile from "../../AchivementProfile/AchivementProfile";

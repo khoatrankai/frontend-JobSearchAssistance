@@ -14,6 +14,7 @@ import "./BannerComponent.scss";
 import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 import SkeletonAll from "@/util/SkeletonAll";
+import { useSrollContext } from "@/context/AppProvider";
 
 type Props = {
   // setScrollPosition: React.Dispatch<SetStateAction<Number>>;
@@ -24,17 +25,16 @@ const BannerComponent = (props: Props) => {
     loop: true,
     align: "center",
   };
-
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
   const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
-  const [reponsiveMobile, setReponsiveMobile] = useState<boolean>(false);
+  const { reponsiveMobile } = useSrollContext();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
   const [dataBanners, setDataBanners] = useState<any>([]);
   const emblaContainerRef = React.useRef<HTMLDivElement>(null);
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [
-    Autoplay({ delay: 1000000, stopOnInteraction: false }),
+    Autoplay({ delay: 10000000, stopOnInteraction: false }),
   ]);
 
   const scrollPrev = useCallback(
@@ -116,22 +116,13 @@ const BannerComponent = (props: Props) => {
     emblaApi.on("select", onSelect);
     emblaApi.on("reInit", onSelect);
   }, [emblaApi, setScrollSnaps, onSelect]);
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 1350) {
-        setReponsiveMobile(true);
-      } else {
-        setReponsiveMobile(false);
-      }
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+
   return (
-    <div className="flex flex-col items-center relative my-5 max-w-6xl justify-center rounded-lg overflow-hidden">
+    <div
+      className={`flex flex-col items-center relative my-5  justify-center  overflow-hidden ${
+        reponsiveMobile < 1152 ? "w-full" : "max-w-6xl rounded-lg"
+      }`}
+    >
       <div className={`embla w-full !p-0  image-bg-item`}>
         <SkeletonAll data={dataBanners}>
           {dataBanners && dataBanners.length > 0 && (
@@ -166,7 +157,7 @@ const BannerComponent = (props: Props) => {
                           />
                           <div
                             className={`w-full content-item ${
-                              reponsiveMobile ? "px-4" : "px-32"
+                              reponsiveMobile < 1350 ? "px-4" : "px-32"
                             } py-8 flex justify-between`}
                           >
                             <div>
@@ -187,7 +178,11 @@ const BannerComponent = (props: Props) => {
                     </div>
                   ))}
                 </div>
-                <div className={`${reponsiveMobile ? " -translate-y-48" : ""}`}>
+                <div
+                  className={`${
+                    reponsiveMobile < 1350 ? " -translate-y-48" : ""
+                  }`}
+                >
                   <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
                   <NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
                 </div>

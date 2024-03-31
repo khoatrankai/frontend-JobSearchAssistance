@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-key */
-import React from "react";
+import React, { useRef } from "react";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, message } from "antd";
 // @ts-ignore

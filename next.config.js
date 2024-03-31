@@ -3,7 +3,7 @@ const nextConfig = {
   images: {
     domains: [
       'i02.appmifile.com',
-      'res.cloudinary.com',
+      'res.cloudinary.com'
     ],
   },
   env: {

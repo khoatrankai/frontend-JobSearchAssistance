@@ -21,12 +21,14 @@ import { useSrollContext } from "@/context/AppProvider";
 // import {analytics} from '@/configs/firebase';
 import { logEvent } from "firebase/analytics";
 import { useSelector } from "react-redux";
+import CheckPageLogin from "@/util/CheckPageLogin";
 type Props = {};
 interface INewPost {
   code: number;
   data: any;
 }
 const page = (props: Props) => {
+  CheckPageLogin();
   const { handleConvertToTimestamp } = TimeStamp();
   const { handleEncodingDescription } = EncodingDescription();
   const ref_image = useRef<any>();

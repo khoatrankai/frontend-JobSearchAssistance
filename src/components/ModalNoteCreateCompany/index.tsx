@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import React, { useRef } from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";

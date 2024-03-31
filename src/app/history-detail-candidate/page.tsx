@@ -27,6 +27,7 @@ import ApprovedApplication from "@/components/CandidateDetail/ApprovedApplicatio
 import RejectedApplication from "@/components/CandidateDetail/RejectedApplication";
 import RecuitApplication from "@/components/CandidateDetail/RecuitApplication";
 import CvProfile from "@/components/ProfileComponent/CvProfile/CvProfile";
+import CheckPageLogin from "@/util/CheckPageLogin";
 
 type Props = {};
 
@@ -36,6 +37,7 @@ interface IBookmark {
 }
 
 const page = (props: Props) => {
+  CheckPageLogin();
   const dispatch = useDispatch();
   const [dataInfo, setDataInfo] = useState<any>();
   const [dataProfile, setDataProfile] = useState<any>({});

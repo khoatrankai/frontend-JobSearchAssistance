@@ -15,6 +15,7 @@ import ModalLogin from "../ModalLogin/ModalLogin";
 import ShortText from "@/util/ShortText";
 import DescriptionHoverProvider from "@/util/DescriptionHoverProvider/DescriptionHoverProvider";
 import FilterComponent from "../FilterComponent/FilterComponent";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -29,6 +30,7 @@ const SearchJobComponent: React.FC<Props> = (props) => {
   const searchResult = useSelector(
     (state: any) => state.dataSearchResult.searchResult
   );
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [hasMoreData, setHasMoreData] = useState(true);
   const dispatch = useDispatch();
@@ -53,6 +55,7 @@ const SearchJobComponent: React.FC<Props> = (props) => {
   }, []);
   useEffect(() => {
     setListJob(searchResult.posts);
+    console.log(searchResult);
     // if(!checkKey){
     setPage(1);
     setHasMoreData(true);
@@ -62,6 +65,8 @@ const SearchJobComponent: React.FC<Props> = (props) => {
 
   useEffect(() => {
     handleLoadHrefPage();
+    const dataKeyWord = JSON.parse(localStorage.getItem("keyWord") || "{}");
+    setDataRequest({ ...dataRequest, q: dataKeyWord.q });
   }, []);
   useEffect(() => {
     console.log(listJob, page);
@@ -172,28 +177,28 @@ const SearchJobComponent: React.FC<Props> = (props) => {
     }
   };
 
-  useEffect(() => {
-    const dataObj = JSON.parse(localStorage.getItem("dataRequest") || "{}");
+  // useEffect(() => {
+  //   const dataObj = JSON.parse(localStorage.getItem("dataRequest") || "{}");
 
-    const queryParams = {
-      q: dataObj.q ? dataObj.q.trim() : null,
-      moneyType: dataObj.money_type ? dataObj.money_type : null,
-      isWorkingWeekend: dataObj.is_working_weekend
-        ? dataObj.is_working_weekend
-        : null,
-      isDatePeriod: dataObj.is_date_period ? dataObj.is_date_period : null,
-      salaryMin: dataObj.salary_min ? dataObj.salary_min : null,
-      salaryMax: dataObj.salary_max ? dataObj.salary_max : null,
-      jobTypeId: dataObj.jobTypeId ? [dataObj.jobTypeId] : [],
-      categoryIds: dataObj.category_ids ? dataObj.category_ids : null,
-      districtIds: dataObj.district_ids ? dataObj.district_ids : null,
-      salaryType: dataObj.salary_type ? dataObj.salary_type : null,
-      lang: "vi",
-      page: null,
-    };
+  //   const queryParams = {
+  //     q: dataObj.q ? dataObj.q.trim() : null,
+  //     moneyType: dataObj.money_type ? dataObj.money_type : null,
+  //     isWorkingWeekend: dataObj.is_working_weekend
+  //       ? dataObj.is_working_weekend
+  //       : null,
+  //     isDatePeriod: dataObj.is_date_period ? dataObj.is_date_period : null,
+  //     salaryMin: dataObj.salary_min ? dataObj.salary_min : null,
+  //     salaryMax: dataObj.salary_max ? dataObj.salary_max : null,
+  //     jobTypeId: dataObj.jobTypeId ? [dataObj.jobTypeId] : [],
+  //     categoryIds: dataObj.category_ids ? dataObj.category_ids : null,
+  //     districtIds: dataObj.district_ids ? dataObj.district_ids : null,
+  //     salaryType: dataObj.salary_type ? dataObj.salary_type : null,
+  //     lang: "vi",
+  //     page: null,
+  //   };
 
-    dispatch(fetchSearchResult(queryParams) as any);
-  }, []);
+  //   dispatch(fetchSearchResult(queryParams) as any);
+  // }, []);
 
   useEffect(() => {
     if (searchResult && searchResult.is_over === true) {
@@ -208,7 +213,8 @@ const SearchJobComponent: React.FC<Props> = (props) => {
       setLoading(true);
 
       try {
-        const dataObj = JSON.parse(localStorage.getItem("dataRequest") || "{}");
+        const dataKeyWord = JSON.parse(localStorage.getItem("keyWord") || "{}");
+        const dataObj = { ...dataRequest, q: dataKeyWord?.q };
 
         const queryParams = {
           q: dataObj.q ? dataObj.q.trim() : null,
@@ -226,7 +232,7 @@ const SearchJobComponent: React.FC<Props> = (props) => {
           lang: "vi",
           page: page,
         };
-
+        setDataRequest(dataObj);
         const response = await dispatch(fetchSearchResult(queryParams) as any);
         // setCheckKey(true);
         if (response && listJob.length !== 0) {
@@ -258,7 +264,7 @@ const SearchJobComponent: React.FC<Props> = (props) => {
           setDataRequest={setDataRequest}
         />
       </div>
-      <div className="flex justify-center py-12">
+      <div className="flex justify-center py-12 bg-blue-50">
         <div className="w-full max-w-6xl relative">
           <h1 className="font-bold text-2xl mb-3">{`${
             searchResult.total ? searchResult.total : 0
@@ -278,28 +284,30 @@ const SearchJobComponent: React.FC<Props> = (props) => {
                     <li key={index} className="relative">
                       <Link
                         href={`/post-detail/${item.id}`}
-                        className={`w-[360px] h-[180px] group gap-x-2  px-4 border-[1px] hover:border-blue-500 hover:bg-white hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md  py-6 flex justify-between items-center item-job`}
+                        className={`w-[360px] h-fit group gap-x-2  px-4 border-[1px] hover:border-blue-500 transition-all duration-500  hover:bg-blue-50 bg-white hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md  py-6 flex justify-between items-center item-job`}
                       >
-                        <div className="basis-3/12 rounded-sm overflow-hidden">
-                          <Image
-                            className="w-16 h-16 object-cover"
-                            src={item.image ? item.image : "/logo/logo.png"}
-                            alt="anh"
-                            width={200}
-                            height={200}
-                          />
+                        <div className="basis-3/12">
+                          <div className="w-16 h-16 rounded-full overflow-hidden group-hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]  object-cover">
+                            <Image
+                              className="group-hover:scale-110 transition-all duration-500"
+                              src={item.image ? item.image : "/logo/logo.png"}
+                              alt="anh"
+                              width={200}
+                              height={200}
+                            />
+                          </div>
                         </div>
-                        <div className="basis-7/12 h-full flex flex-col justify-between capitalize">
+                        <div className="basis-8/12 h-full flex flex-col justify-between capitalize">
                           <div>
                             <h2
-                              className="text-sm font-bold peer group-hover:drop-shadow-xl  group-hover:text-blue-500"
+                              className="text-sm font-bold peer group-hover:drop-shadow-xl  group-hover:text-blue-500 max-w-full w-fit"
                               onMouseEnter={(e: any) => {
                                 handleUpdatePosition(e);
                               }}
                             >
                               {handleShortTextHome(item.title, 20)}
                             </h2>
-                            <div className="opacity-0 invisible peer-hover:opacity-100 peer-hover:visible hover:visible hover:opacity-100 w-fit h-fit cursor-default">
+                            <div className="opacity-0 invisible transition-all relative z-50 duration-500 peer-hover:opacity-100 peer-hover:visible hover:visible hover:opacity-100 w-fit h-fit cursor-default">
                               <DescriptionHover>
                                 <div className="flex flex-col gap-y-4 max-h-full">
                                   <div className="flex items-center basis-1/6 gap-x-4">
@@ -409,7 +417,12 @@ const SearchJobComponent: React.FC<Props> = (props) => {
                                       </div>
                                     </div>
 
-                                    <div className="font-bold flex-1 p-2 rounded-xl bg-red-500 hover:bg-red-600 flex justify-center items-center text-white">
+                                    <div
+                                      className="font-bold flex-1 p-2 rounded-xl bg-red-500 hover:bg-red-600 flex justify-center items-center text-white"
+                                      onClick={() => {
+                                        router.push(`/post-detail/${item.id}`);
+                                      }}
+                                    >
                                       Xem chi tiết
                                     </div>
                                     <div className="font-bold flex-1 p-2 rounded-xl bg-blue-500 hover:bg-blue-600 flex justify-center items-center text-white">
@@ -433,33 +446,33 @@ const SearchJobComponent: React.FC<Props> = (props) => {
                                 {handleShortTextHome(item.company_name, 30)}
                               </p>
                             </div>
-                            <div className="flex items-center">
-                              <Image
-                                className="w-4 mr-1"
-                                src={"/icontime.svg"}
-                                alt="anh"
-                                width={200}
-                                height={200}
-                              />
-                              <p className="text-[9px]  drop-shadow-xl">
-                                {item.created_at_text}
-                              </p>
-                            </div>
-                            <div className="flex items-center">
-                              <Image
-                                className="w-4 mr-1"
-                                src={"/iconlocation.svg"}
-                                alt="anh"
-                                width={200}
-                                height={200}
-                              />
-                              <p className="text-[9px]  drop-shadow-xl">
-                                {item?.district}
-                              </p>
-                            </div>
+                            {/* <div className="flex items-center">
+                          <Image
+                            className="w-4 mr-1"
+                            src={"/icontime.svg"}
+                            alt="anh"
+                            width={200}
+                            height={200}
+                          />
+                          <p className="text-[9px]  drop-shadow-xl">
+                            {item.created_at_text}
+                          </p>
+                        </div>
+                        <div className="flex items-center">
+                          <Image
+                            className="w-4 mr-1"
+                            src={"/iconlocation.svg"}
+                            alt="anh"
+                            width={200}
+                            height={200}
+                          />
+                          <p className="text-[9px]  drop-shadow-xl">
+                            {item?.district}
+                          </p>
+                        </div> */}
                           </div>
                           <div className="inline-flex flex-wrap justify-start gap-1 font-extrabold">
-                            <h3 className="text-[9px] py-1 px-2 rounded-md min-w-fit bg-slate-50 group-hover:text-blue-500  group-hover:drop-shadow-xl">
+                            <h3 className="text-[9px] py-1 px-2 rounded-md min-w-fit bg-blue-50 group-hover:text-blue-500">
                               {handleShortValueNumber(
                                 item.salary_min.toString()
                               )}{" "}
@@ -469,21 +482,21 @@ const SearchJobComponent: React.FC<Props> = (props) => {
                               )}{" "}
                               {item.money_type_text}
                             </h3>
-                            <h3 className="text-[9px] py-1 px-2 rounded-md min-w-fit bg-slate-50 group-hover:text-blue-500  group-hover:drop-shadow-xl">
-                              {item?.job_type_name}
+                            <h3 className="text-[9px] py-1 px-2 rounded-md min-w-fit bg-blue-50 group-hover:text-blue-500">
+                              {item?.district}
                             </h3>
                           </div>
                         </div>
 
-                        <div className="flex justify-center h-2/5 flex-1 relative -translate-y-16">
+                        <div className="flex justify-start min-h-[70px] flex-1 relative ">
                           <div
-                            className={` w-full ${
+                            className={` py-1 px-2 group-hover:text-white rounded-2xl h-fit transition-all duration-500 ${
                               index % 2
-                                ? "bg-red-500 bg-ribbon-hot"
-                                : "bg-green-500 bg-ribbon-new"
-                            }  text-white text-sm font-bold items-center flex justify-center`}
+                                ? "bg-red-100 group-hover:bg-red-500 text-red-500"
+                                : "bg-green-100 group-hover:bg-green-500  text-green-500"
+                            }   text-xs font-medium `}
                           >
-                            {index % 2 ? "Hot" : "New"}
+                            {index % 2 ? "hot" : "new"}
                           </div>
                         </div>
                       </Link>

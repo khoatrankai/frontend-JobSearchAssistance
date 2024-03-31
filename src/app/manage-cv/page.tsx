@@ -3,7 +3,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-
+import "./page.scss";
 import { useSrollContext } from "@/context/AppProvider";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +18,7 @@ import profileCvsApi from "@/api/profileCvs/profileCvsApi";
 import { fetchProfile } from "@/redux/reducer/profileReducer/profileSlice";
 import { Button, Modal } from "antd";
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import CheckPageLogin from "@/util/CheckPageLogin";
 
 type Props = {};
 
@@ -27,6 +28,7 @@ interface IDeleteProfileCv {
 }
 
 const page = (props: Props) => {
+  CheckPageLogin();
   const { handleLoadHrefPage } = useSrollContext();
   const language = useSelector((state: any) => state.changeLaguage.language);
   const profile = useSelector((state: any) => state.profile.profile);
@@ -98,17 +100,26 @@ const page = (props: Props) => {
     fetchData();
   };
   return (
-    <div className="justify-center flex py-12 bg-[#f0f0f0] flex-col items-center">
-      <div className="w-full max-w-6xl">
-        <img
-          className="w-full h-96 object-fill"
-          src={
-            "https://res.cloudinary.com/ddwjnjssj/image/upload/v1701330902/images/mailchimp/ads_mail/ghzzbtuds3w85n9y0odo.jpg"
-          }
-        />
+    <div className=" flex h-[89.5vh] pt-16 bg-[#f0f0f0] flex-col items-center gap-8">
+      <div className="w-full max-w-6xl h-64 bg-blue-400 rounded-xl flex items-center justify-between relative">
+        <div className="flex flex-col pl-12 justify-center">
+          <p className="font-semibold text-2xl">
+            <span className="font-bold">"Bạn đã có CV chưa?"</span>
+          </p>
+          <p className="font-medium">
+            Nếu chưa hãy mau mau tạo ngay để nhà tuyển dụng biết hơn về tài năng
+            của bạn !
+          </p>
+        </div>
+        <div className="p-4 -translate-y-5 relative">
+          <img className="h-96 w-96" src="/icon-cv/work-pikbest.png" />
+          <div className="bg-white rounded-full absolute top-[238px] left-[114px] z-10 icon-bg-manage">
+            <img className="w-8" src="/logo/2025.png" />
+          </div>
+        </div>
       </div>
-      <div className="w-full max-w-6xl">
-        <div className="bg-[#fff] h-fit flex flex-col p-5">
+      <div className="w-full max-w-6xl rounded-xl">
+        <div className="bg-[#fff] h-fit flex flex-col p-5 rounded-xl">
           <div className="flex flex-wrap justify-between">
             <div className="text-2xl font-bold">
               {language === 1 ? "CV đã tạo trên Jobs" : "CV created on Jobs"}

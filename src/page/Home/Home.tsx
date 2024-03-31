@@ -7,6 +7,9 @@ import TopCompanyComponent from "@/components/TopCompanyComponent/TopCompanyComp
 import "./Home.scss";
 import React, { useEffect, useRef, useState } from "react";
 import { useSrollContext } from "@/context/AppProvider";
+import TopAchivementComponent from "@/components/TopAchivementComponent/TopAchivementComponent";
+import InfoHomeCompany from "@/components/InfoHomeCompany/InfoHomeCompany";
+import InfoJobMail from "@/components/InfoJobMail/InfoJobMail";
 
 type Props = {};
 
@@ -47,24 +50,29 @@ const Home = (props: Props) => {
               scrollPosition ? "invisible opacity-0" : "opacity-100"
             }`}
           >
-            <SearchAllComponent />
+            <SearchAllComponent DefaultActive={true} />
           </div>
           <BannerComponent />
-        </div>
-
-        <div className="flex flex-col gap-y-8 w-full">
           <div ref={refCompanyHot}>
             <AllCompanyComponent />
           </div>
-          <div ref={refJobHot}>
-            <HotJobComponent />
-          </div>
+        </div>
+
+        <div className="flex flex-col w-full">
           <div ref={refJobNew}>
             <ListJobComponent />
           </div>
+
+          <div ref={refJobHot}>
+            <HotJobComponent />
+          </div>
+          <InfoJobMail />
+          <TopAchivementComponent />
+
           <div ref={refJobTopic}>
             <TopCompanyComponent />
           </div>
+          <InfoHomeCompany />
         </div>
       </div>
     </>

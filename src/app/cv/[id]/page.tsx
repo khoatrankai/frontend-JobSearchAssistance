@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import axiosClient from "@/configs/axiosClient";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,6 +27,7 @@ interface ILoad {
 const page = (props: Props) => {
   const { id } = useParams();
   const profile = useSelector((state: any) => state.profile.profile);
+
   const [backNext, setBackNext] = useState<any>();
   const [dataLoad, setDataLoad] = useState<any>();
   const [titleCV, setTitleCV] = useState<any>("");

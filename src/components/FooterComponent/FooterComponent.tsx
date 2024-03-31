@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";

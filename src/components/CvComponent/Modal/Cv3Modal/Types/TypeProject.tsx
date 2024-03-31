@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/jsx-no-comment-textnodes */
-import React from "react";
+import React, { useRef } from "react";
 import handleTypeProject from "../../utils/handleTypeProject";
 import Image from "next/image";
 
@@ -30,7 +30,7 @@ const TypeProject = (props: Props) => {
       <div className="uppercase text-base text-center w-full font-semibold p-2 border-2 border-black">
         dự án
       </div>
-      {data?.moreCvProjects.map((dt: any, i: any) => {
+      {data?.moreCvProjects?.map((dt: any, i: any) => {
         return (
           <div className=" relative">
             <div

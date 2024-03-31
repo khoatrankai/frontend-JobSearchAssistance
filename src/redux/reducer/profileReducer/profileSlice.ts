@@ -16,6 +16,7 @@ export const fetchProfile = createAsyncThunk(
     const response = (await profileApi.getProfileV3(
       languageId === '1' ? 'vi' : 'en',
     )) as unknown as IProfile;
+    console.log(response)
     return response.data;
   },
 );

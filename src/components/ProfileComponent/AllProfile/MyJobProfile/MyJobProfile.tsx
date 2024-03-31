@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Tabs } from "antd";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";

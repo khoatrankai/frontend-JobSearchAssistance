@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-import React from "react";
+import React, { useRef } from "react";
 import handleType from "../../utils/handleType";
 import Image from "next/image";
 import { Input } from "antd";
@@ -31,7 +31,7 @@ const TypeSkill = (props: Props) => {
       <div className="uppercase text-base text-center w-full font-semibold p-2 border-2 border-black">
         các kỹ năng
       </div>
-      {data?.moreCvExtraInformations.map((dt: any, i: any) => {
+      {data?.moreCvExtraInformations?.map((dt: any, i: any) => {
         return (
           <div className="relative">
             <div

@@ -18,10 +18,12 @@ import DashboardProfile from "@/components/ProfileComponent/AllProfile/Dashboard
 import MyCompanyProfile from "@/components/ProfileComponent/AllProfile/MyCompanyProfile/MyCompanyProfile";
 import MyJobProfile from "@/components/ProfileComponent/AllProfile/MyJobProfile/MyJobProfile";
 import SettingProfile from "@/components/ProfileComponent/AllProfile/SettingProfile/SettingProfile";
+import CheckPageLogin from "@/util/CheckPageLogin";
 
 type Props = {};
 
 const page = (props: Props) => {
+  CheckPageLogin();
   const dataProfile = useSelector((state: RootState) => state.profile.profile);
   const { reponsiveMobile, selectProfileUser, setSelectProfileUser } =
     useSrollContext();
@@ -81,7 +83,7 @@ const page = (props: Props) => {
 
   return (
     <div>
-      <div className="flex justify-center bg-gray-200/45">
+      <div className="flex justify-center bg-gray-200/45 min-h-[89.6vh]">
         <div className=" w-full flex items-start pb-16 relative">
           <div
             className={`${

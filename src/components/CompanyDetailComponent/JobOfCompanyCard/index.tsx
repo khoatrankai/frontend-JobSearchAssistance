@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./style.module.scss";
 import Card from "@mui/material/Card";
