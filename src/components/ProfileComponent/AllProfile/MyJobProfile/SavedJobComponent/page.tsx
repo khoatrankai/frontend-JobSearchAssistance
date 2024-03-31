@@ -1,5 +1,3 @@
-import historyApplicator from "@/api/history/historyApplicator";
-import JobCardHistory from "@/components/HistoryComponent/JobCardHistory/JobCardHistory";
 import { RootState } from "@/redux";
 import NoDataComponent from "@/util/NoDataPage";
 import { useEffect, useState } from "react";

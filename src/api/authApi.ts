@@ -44,16 +44,6 @@ const signInEmailApi = {
     const URL = `http://localhost:1902/api/v3/users/sign-up`;
     return axiosClient.post(URL, {email});
   },
-
-  verifyOtpRecruit: (email: String, otp: string) => {
-    const URL = `http://localhost:1902/api/v3/users/verify-otp`;
-    return axiosClient.post(URL, {email, otp});
-  },
-
-  verifyConfirmPassword: (email: string, password: string) => {
-    const URL = `http://localhost:1902/api/v3/users/confirm-password`;
-    return axiosClient.post(URL, {email, password});
-  }
 };
 
 export default signInEmailApi;
