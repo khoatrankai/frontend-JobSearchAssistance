@@ -60,7 +60,6 @@ const ApplyPosition: React.FC<IApplyPosition> = (props) => {
         null,
         languageRedux === 1 ? 'vi' : 'en',
       ) as any;
-      console.log(result)
 
       if (result && result.data.posts.length === 20) {
         setPostOfCompany((prev: any) => [...prev, ...result?.data?.posts]);

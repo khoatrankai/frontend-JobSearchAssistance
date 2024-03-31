@@ -165,7 +165,7 @@ const DetailCompany = () => {
     }
     const fetchFollow = async () => {
       try {
-        const response = await apiCompany.followCompany(+companyId) as any;
+        const response = await apiCompany.createFollowCompany(+companyId) as any;
 
         if (response.statusCode === 200) {
           toast.success(response.message , {
