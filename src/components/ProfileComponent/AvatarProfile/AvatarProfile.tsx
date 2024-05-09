@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import axiosClient from "@/configs/axiosClient";
@@ -10,50 +11,12 @@ type Props = {
 
 const AvatarProfile = (props: Props) => {
   const { dataInfo, handleUpdateApi } = props;
-  const ref_avatar = useRef<any>();
   const [dataImg, setDataImg] = useState<any>(dataInfo?.avatarPath);
-  const handleClickUp = () => {
-    ref_avatar.current.click();
-  };
-  interface IData {
-    data: any;
-    code: any;
-  }
-  const handleUpdateData = (value: any) => {
-    const formData = new FormData();
-    formData.append("images", value);
-    const fetchData = async () => {
-      const res = (await axiosClient.put(
-        "http://localhost:8888/api/v1/profiles/avt",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      )) as unknown as IData;
-      if (res && res.code === 200) {
-        handleUpdateApi();
-      }
-    };
-    fetchData();
-  };
 
-  const handleUpdateImage = (e: any) => {
-    const file = e.target.files[0];
-    const readerImg = new FileReader();
-    if (file) {
-      readerImg.readAsDataURL(file);
-    }
-    readerImg.addEventListener("load", function () {
-      const buffer = readerImg.result;
-      setDataImg(buffer);
-      handleUpdateData(file);
-    });
-  };
   useEffect(() => {
-    setDataImg(dataInfo?.avatarPath);
-  }, [dataInfo?.avatarPath]);
+    setDataImg(dataInfo?.companyInfomation?.logoPath);
+    console.log(dataInfo);
+  }, [dataInfo]);
   return (
     <div className="relative w-fit mb-6">
       <Image
@@ -63,29 +26,7 @@ const AvatarProfile = (props: Props) => {
         height={1000}
         alt={""}
       />
-      <input
-        type="file"
-        ref={ref_avatar}
-        onClick={() => {}}
-        hidden
-        onChange={handleUpdateImage}
-      />
-      {props.checkUpdate === false && (
-        <button
-          className="cursor-pointer absolute bottom-3 right-1"
-          onClick={handleClickUp}
-        >
-          <Image
-            className="w-9 bg-white border-2 transition-all rounded-full hover:w-10"
-            src={"/iconcamera.svg"}
-            width={1000}
-            height={1000}
-            alt={""}
-          />
-        </button>
-      )}
     </div>
   );
 };
-
 export default AvatarProfile;

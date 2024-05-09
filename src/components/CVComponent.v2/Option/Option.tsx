@@ -1,20 +1,31 @@
 /* eslint-disable react/jsx-key */
 
 import React, { useEffect, useRef, useState } from "react";
-import LibCvV2 from "../Lib/Lib.cv.v2";
+import LibCvV2 from "../Libs/Lib.cv.v2";
 import Image from "next/image";
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 import axios from "axios";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import Passion from "../PDF/Sample/Passion/Passion";
+import {
+  AiFillContainer,
+  AiFillLike,
+  AiOutlineAreaChart,
+} from "react-icons/ai";
+import { HiDocumentAdd } from "react-icons/hi";
+import { BsBriefcaseFill } from "react-icons/bs";
+import { AiFillExclamationCircle } from "react-icons/ai";
+import { RiProfileFill } from "react-icons/ri";
+import { BsFillAwardFill } from "react-icons/bs";
+import { FaRunning } from "react-icons/fa";
+import { HiDocumentCheck, HiDocumentPlus } from "react-icons/hi2";
+import { PiProjectorScreenChartFill, PiStudentFill } from "react-icons/pi";
+import { GiSkills } from "react-icons/gi";
 
 type Props = { id: any; funcLibrary: any };
 
 const Option = (props: Props) => {
   const { id, funcLibrary } = props;
-  const [titleCV, setTitleCV] = useState<any>("");
-  const [backNext, setBackNext] = useState<any>();
-  const refBtnMenu = useRef<any>();
   const {
     dataForm,
     dataRequest,
@@ -40,25 +51,30 @@ const Option = (props: Props) => {
     setDataLoad,
     setDataForm,
     handleChangeLayout,
+    checkAddCategory,
+    handleRemove,
+    setAddCategory,
     BGLayout,
+    templateId,
+    setTemplateId,
   } = funcLibrary;
-  const [func, setFunc] = useState<any>(0);
+  const [func, setFunc] = useState<any>(1);
   const [typeTemplate, setTypeTemplate] = useState<any>([
     { id: 0 },
     { id: 1 },
     { id: 2 },
-    { id: 0 },
-    { id: 1 },
-    { id: 2 },
-    { id: 0 },
-    { id: 1 },
-    { id: 2 },
-    { id: 0 },
-    { id: 1 },
-    { id: 2 },
-    { id: 0 },
-    { id: 1 },
-    { id: 2 },
+    { id: 3 },
+    { id: 4 },
+    { id: 5 },
+    { id: 6 },
+    { id: 8 },
+    { id: 9 },
+    { id: 7 },
+    { id: 10 },
+    { id: 11 },
+    { id: 12 },
+    { id: 13 },
+    { id: 14 },
   ]);
   const [dataType, setDataType] = useState<any>([
     {
@@ -102,7 +118,6 @@ const Option = (props: Props) => {
       name: "Thông tin thêm",
     },
   ]);
-  const [templateId, setTemplateId] = useState<any>(id);
   const handleCheckType = (data: any) => {
     // console.log(dataLoad);
     if (data === "info_more") return false;
@@ -114,65 +129,47 @@ const Option = (props: Props) => {
     }
     return false;
   };
-  const handleNext = () => {
-    if (Object.keys(backNext.next).length !== 0) {
-      setDataLoad(backNext.next.present);
-      setBackNext({
-        ...backNext,
-        back: backNext.next.back,
-        present: backNext.next.present,
-        next: backNext.next.next,
-      });
-    }
-  };
-  const handlePrev = () => {
-    if (Object.keys(backNext.back).length !== 0) {
-      setDataLoad(backNext.back.present);
-
-      setBackNext({
-        ...backNext,
-        back: backNext.back.back,
-        present: backNext.back.present,
-        next: backNext,
-      });
-    }
-  };
 
   return (
     <>
-      <div className="fixed flex flex-col top-40 gap-y-4 h-full z-[20]">
+      <div className="fixed flex flex-col left-2 top-52 gap-y-4 h-full z-[10] w-24">
         <div
-          className={`p-3 rounded-lg  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
-            func === 0 ? "bg-blue-50" : "bg-white"
+          className={`p-4 w-full  group  flex justify-center items-center cursor-pointer flex-col gap-y-2 rounded-lg  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
+            func === 0 ? "bg-blue-500" : "bg-white hover:bg-blue-500"
           }`}
           onClick={() => {
             setFunc(0);
           }}
         >
-          <Image
-            className="w-8"
-            src={"/iconmanyfile.svg"}
-            alt=""
-            width={200}
-            height={200}
+          <AiFillContainer
+            className={`text-3xl   ${
+              func === 0 ? "text-white" : "text-blue-500 group-hover:text-white"
+            }`}
           />
+          <p
+            className={`font-medium text-xs text-center  ${
+              func === 0 ? "text-white" : "group-hover:text-white"
+            }`}
+          >
+            Đổi mẫu CV
+          </p>
           <div
-            className={`absolute bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] inset-y-0 bottom-8 left-full translate-x-4 rounded-lg w-96 p-2  transition-all${
+            className={`absolute bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] inset-y-0 bottom-8 left-full translate-x-4 rounded-lg w-96 p-2  transition-all ${
               func === 0 ? "" : "hidden"
             }`}
           >
-            <h1 className="font-bold text-base mb-10">Template</h1>
+            <h1 className="font-medium text-xl mb-10">Template</h1>
             <ul className="flex flex-wrap gap-2 overflow-y-scroll">
               {typeTemplate?.map((dt: any, index: any) => {
                 return (
                   <li
                     className={`w-24 h-24 object-contain rounded-xl overflow-hidden  text-sm font-bold uppercase  cursor-pointer  ${
-                      templateId == dt.id
+                      templateId === dt.id.toString()
                         ? "bg-black/10"
                         : "bg-black/20 hover:bg-black/10"
                     }`}
                     onClick={() => {
-                      setTemplateId(dt.id);
+                      setTemplateId(dt.id.toString());
                     }}
                   >
                     {/* <span className="select-none">{dt.id}</span>
@@ -191,106 +188,261 @@ const Option = (props: Props) => {
           </div>
         </div>
         <div
-          className={`p-3 rounded-lg  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
-            func === 1 ? "bg-blue-50" : "bg-white"
+          className={`p-4 w-full group flex justify-center items-center cursor-pointer flex-col gap-y-2 rounded-lg  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
+            func === 1 ? "bg-blue-500" : "bg-white hover:bg-blue-500"
           }`}
           onClick={() => {
             setFunc(1);
           }}
         >
-          <Image
-            className="w-8"
-            src={"/iconaddfile.svg"}
-            alt=""
-            width={200}
-            height={200}
+          <HiDocumentAdd
+            className={`text-3xl   ${
+              func === 1 ? "text-white" : "text-blue-500 group-hover:text-white"
+            }`}
           />
+          <p
+            className={`font-medium text-xs text-center  ${
+              func === 1 ? "text-white" : "group-hover:text-white"
+            }`}
+          >
+            Thêm mục
+          </p>
           <div
             className={`absolute bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] top-0 left-full translate-x-4 rounded-lg w-80 h-full p-2 transition-all ${
               func === 1 ? "" : "hidden"
             }`}
+            onMouseUp={() => {
+              if (checkAddCategory) {
+                handleRemove();
+                setAddCategory(false);
+              }
+            }}
           >
-            <h1 className="font-bold text-base mb-10">Mục lục chức năng</h1>
-            <ul className="flex flex-wrap gap-2">
-              {dataType.map((dt: any) => {
-                return (
-                  <li
-                    className={`p-2 w-24 h-24 rounded-xl  text-sm font-bold uppercase ${
-                      handleCheckType(dt.type)
-                        ? "bg-black/30 text-black/40 cursor-not-allowed "
-                        : "bg-black/20 cursor-pointer hover:bg-black/10"
-                    }`}
-                    onMouseDown={(e: any) => {
-                      e.preventDefault();
-                      if (!handleCheckType(dt.type))
-                        handleToolMouseMoveTransRow(e, dt);
-                    }}
-                    onMouseUp={() => {}}
-                  >
-                    <span className="select-none">{dt.name}</span>
-                  </li>
-                );
-              })}
+            <h1 className="font-medium text-xl mb-10">Mục lục chức năng</h1>
+            <ul className="flex flex-col gap-y-3">
+              <li
+                className={`px-2 py-3 rounded-lg flex gap-x-2 items-center  text-sm font-bold uppercase ${
+                  handleCheckType(dataType[9].type)
+                    ? "bg-black/30 text-blue-500 cursor-not-allowed "
+                    : "bg-black/20 cursor-pointer hover:bg-blue-500 hover:text-white"
+                }`}
+                onMouseDown={(e: any) => {
+                  e.preventDefault();
+                  if (!handleCheckType(dataType[9].type))
+                    handleToolMouseMoveTransRow(e, dataType[9]);
+                }}
+                onMouseUp={() => {}}
+              >
+                <HiDocumentPlus />
+                <span className="select-none">{dataType[9].name}</span>
+              </li>
+              <li
+                className={`px-2 py-3 rounded-lg flex gap-x-2 items-center  text-sm font-bold uppercase ${
+                  handleCheckType(dataType[0].type)
+                    ? "bg-black/30 text-blue-500 cursor-not-allowed "
+                    : "bg-black/20 cursor-pointer hover:bg-blue-500 hover:text-white"
+                }`}
+                onMouseDown={(e: any) => {
+                  e.preventDefault();
+                  if (!handleCheckType(dataType[0].type))
+                    handleToolMouseMoveTransRow(e, dataType[0]);
+                }}
+                onMouseUp={() => {}}
+              >
+                <RiProfileFill />
+                <span className="select-none">{dataType[0].name}</span>
+              </li>
+              <li
+                className={`px-2 py-3 rounded-lg flex gap-x-2 items-center  text-sm font-bold uppercase ${
+                  handleCheckType(dataType[1].type)
+                    ? "bg-black/30 text-blue-500 cursor-not-allowed "
+                    : "bg-black/20 cursor-pointer hover:bg-blue-500 hover:text-white"
+                }`}
+                onMouseDown={(e: any) => {
+                  e.preventDefault();
+                  if (!handleCheckType(dataType[1].type))
+                    handleToolMouseMoveTransRow(e, dataType[1]);
+                }}
+                onMouseUp={() => {}}
+              >
+                <BsFillAwardFill />
+                <span className="select-none">{dataType[1].name}</span>
+              </li>
+              <li
+                className={`px-2 py-3 rounded-lg flex gap-x-2 items-center  text-sm font-bold uppercase ${
+                  handleCheckType(dataType[2].type)
+                    ? "bg-black/30 text-blue-500 cursor-not-allowed "
+                    : "bg-black/20 cursor-pointer hover:bg-blue-500 hover:text-white"
+                }`}
+                onMouseDown={(e: any) => {
+                  e.preventDefault();
+                  if (!handleCheckType(dataType[2].type))
+                    handleToolMouseMoveTransRow(e, dataType[1]);
+                }}
+                onMouseUp={() => {}}
+              >
+                <FaRunning />
+                <span className="select-none">{dataType[2].name}</span>
+              </li>
+              <li
+                className={`px-2 py-3 rounded-lg flex gap-x-2 items-center  text-sm font-bold uppercase ${
+                  handleCheckType(dataType[3].type)
+                    ? "bg-black/30 text-blue-500 cursor-not-allowed "
+                    : "bg-black/20 cursor-pointer hover:bg-blue-500 hover:text-white"
+                }`}
+                onMouseDown={(e: any) => {
+                  e.preventDefault();
+                  if (!handleCheckType(dataType[3].type))
+                    handleToolMouseMoveTransRow(e, dataType[3]);
+                }}
+                onMouseUp={() => {}}
+              >
+                <AiFillLike />
+                <span className="select-none">{dataType[3].name}</span>
+              </li>
+              <li
+                className={`px-2 py-3 rounded-lg flex gap-x-2 items-center  text-sm font-bold uppercase ${
+                  handleCheckType(dataType[4].type)
+                    ? "bg-black/30 text-blue-500 cursor-not-allowed "
+                    : "bg-black/20 cursor-pointer hover:bg-blue-500 hover:text-white"
+                }`}
+                onMouseDown={(e: any) => {
+                  e.preventDefault();
+                  if (!handleCheckType(dataType[4].type))
+                    handleToolMouseMoveTransRow(e, dataType[4]);
+                }}
+                onMouseUp={() => {}}
+              >
+                <HiDocumentCheck />
+                <span className="select-none">{dataType[4].name}</span>
+              </li>
+              <li
+                className={`px-2 py-3 rounded-lg flex gap-x-2 items-center  text-sm font-bold uppercase ${
+                  handleCheckType(dataType[5].type)
+                    ? "bg-black/30 text-blue-500 cursor-not-allowed "
+                    : "bg-black/20 cursor-pointer hover:bg-blue-500 hover:text-white"
+                }`}
+                onMouseDown={(e: any) => {
+                  e.preventDefault();
+                  if (!handleCheckType(dataType[5].type))
+                    handleToolMouseMoveTransRow(e, dataType[5]);
+                }}
+                onMouseUp={() => {}}
+              >
+                <PiProjectorScreenChartFill />
+                <span className="select-none">{dataType[5].name}</span>
+              </li>
+              <li
+                className={`px-2 py-3 rounded-lg flex gap-x-2 items-center  text-sm font-bold uppercase ${
+                  handleCheckType(dataType[6].type)
+                    ? "bg-black/30 text-blue-500 cursor-not-allowed "
+                    : "bg-black/20 cursor-pointer hover:bg-blue-500 hover:text-white"
+                }`}
+                onMouseDown={(e: any) => {
+                  e.preventDefault();
+                  if (!handleCheckType(dataType[6].type))
+                    handleToolMouseMoveTransRow(e, dataType[6]);
+                }}
+                onMouseUp={() => {}}
+              >
+                <PiStudentFill />
+                <span className="select-none">{dataType[6].name}</span>
+              </li>
+              <li
+                className={`px-2 py-3 rounded-lg flex gap-x-2 items-center  text-sm font-bold uppercase ${
+                  handleCheckType(dataType[7].type)
+                    ? "bg-black/30 text-blue-500 cursor-not-allowed "
+                    : "bg-black/20 cursor-pointer hover:bg-blue-500 hover:text-white"
+                }`}
+                onMouseDown={(e: any) => {
+                  e.preventDefault();
+                  if (!handleCheckType(dataType[7].type))
+                    handleToolMouseMoveTransRow(e, dataType[7]);
+                }}
+                onMouseUp={() => {}}
+              >
+                <AiOutlineAreaChart />
+                <span className="select-none">{dataType[7].name}</span>
+              </li>
+              <li
+                className={`px-2 py-3 rounded-lg flex gap-x-2 items-center  text-sm font-bold uppercase ${
+                  handleCheckType(dataType[8].type)
+                    ? "bg-black/30 text-blue-500 cursor-not-allowed "
+                    : "bg-black/20 cursor-pointer hover:bg-blue-500 hover:text-white"
+                }`}
+                onMouseDown={(e: any) => {
+                  e.preventDefault();
+                  if (!handleCheckType(dataType[8].type))
+                    handleToolMouseMoveTransRow(e, dataType[8]);
+                }}
+                onMouseUp={() => {}}
+              >
+                <GiSkills />
+                <span className="select-none">{dataType[8].name}</span>
+              </li>
             </ul>
           </div>
         </div>
-      </div>
-      <div className="fixed top-20 flex justify-between py-3 w-full z-40 gap-x-10 bg-white  px-8">
-        <div className="flex-1">
-          <input
-            className="outline-none text-lg font-semibold h-full w-full"
-            type="text"
-            value={titleCV ?? ""}
-            placeholder="Tiêu đề"
-            onChange={(e: any) => {
-              setTitleCV(e.target.value);
-            }}
+        <div
+          className={`p-4 w-full flex group justify-center items-center cursor-pointer flex-col gap-y-2 rounded-lg  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
+            func === 2 ? "bg-blue-500" : "bg-white hover:bg-blue-500"
+          }`}
+          onClick={() => {
+            setFunc(2);
+          }}
+        >
+          <BsBriefcaseFill
+            className={`text-3xl   ${
+              func === 2 ? "text-white" : "text-blue-500 group-hover:text-white"
+            }`}
           />
+          <p
+            className={`font-medium text-xs text-center  ${
+              func === 2 ? "text-white" : "group-hover:text-white"
+            }`}
+          >
+            Việc làm gợi ý
+          </p>
+          <div
+            className={`absolute bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] top-0 left-full translate-x-4 rounded-lg w-80 h-full p-2 transition-all ${
+              func === 2 ? "" : "hidden"
+            }`}
+          >
+            <h1 className="font-medium text-xl mb-10">
+              Việc làm phù hợp với CV
+            </h1>
+          </div>
         </div>
-        <div className={`flex gap-x-4  text-white`} ref={refBtnMenu}>
-          {true && (
-            <div className="flex gap-x-2 text-black text-3xl">
-              <button
-                className={`p-2 rounded-xl  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
-                  false ? "cursor-not-allowed" : " hover:bg-blue-50"
-                }`}
-                onMouseDown={handlePrev}
-              >
-                <MdKeyboardArrowLeft />
-              </button>
-              <button
-                className={`p-2 rounded-xl  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]  ${
-                  false ? "cursor-not-allowed" : " hover:bg-blue-50"
-                }`}
-                // onClick={handleNext}
-                onMouseDown={handleNext}
-              >
-                <MdKeyboardArrowRight />
-              </button>
-            </div>
-          )}
-
-          <button
-            className="p-2 font-semibold text-blue-500  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] border-2 hover:bg-blue-500 hover:text-white rounded-lg"
-            // onClick={handleBtnSave}
+        <div
+          className={`p-4 w-full flex justify-center group items-center cursor-pointer flex-col gap-y-2 rounded-lg  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
+            func === 3 ? "bg-blue-500" : "bg-white hover:bg-blue-500"
+          }`}
+          onClick={() => {
+            setFunc(3);
+          }}
+        >
+          <AiFillExclamationCircle
+            className={`text-3xl   ${
+              func === 3 ? "text-white" : "text-blue-500 group-hover:text-white"
+            }`}
+          />
+          <p
+            className={`font-medium text-xs text-center  ${
+              func === 3 ? "text-white" : "group-hover:text-white"
+            }`}
           >
-            <PDFDownloadLink
-              document={<Passion funcLibrary={funcLibrary} />}
-              fileName={`${titleCV ? titleCV : "CV-old"}-${id}.pdf`}
-            >
-              {({ blob, url, loading, error }) =>
-                loading ? "Đang cập nhật..." : "Lưu và tải xuống"
-              }
-            </PDFDownloadLink>
-          </button>
-          <button
-            className="p-2 font-semibold bg-blue-500 rounded-lg"
-            // onClick={handleBtnSave}
+            Hướng dẫn sử dụng
+          </p>
+          <div
+            className={`absolute bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] top-0 left-full translate-x-4 rounded-lg w-80 h-full p-2 transition-all ${
+              func === 3 ? "" : "hidden"
+            }`}
           >
-            Lưu lại
-          </button>
+            <h1 className="font-medium text-xl mb-10">Tip hướng dẫn</h1>
+          </div>
         </div>
       </div>
+      <BGLayout />
     </>
   );
 };

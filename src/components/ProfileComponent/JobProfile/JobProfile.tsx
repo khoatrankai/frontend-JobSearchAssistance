@@ -85,7 +85,7 @@ const JobProfile = (props: Props) => {
         rsJob
           ? "shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] "
           : "border-transparent"
-      } transition-all  p-4 rounded-xl mb-8 relative`}
+      } transition-all  p-4 rounded-xl relative`}
     >
       <div className="flex justify-between flex-wrap mb-8">
         <div className="flex h-fit items-center">

@@ -75,7 +75,7 @@ const AchivementProfile = (props: Props) => {
         rsAchi
           ? "shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] "
           : "border-transparent"
-      } p-4 rounded-xl mb-8 relative`}
+      } p-4 rounded-xl relative`}
     >
       {checkModal &&
         ModalValidate(

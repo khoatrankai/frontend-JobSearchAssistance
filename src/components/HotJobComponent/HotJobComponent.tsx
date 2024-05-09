@@ -56,7 +56,7 @@ const HotJobComponent = forwardRef<HTMLDivElement>((props, ref) => {
     handleUpData();
   }, [topic]);
   return (
-    <div className="flex justify-center w-full px-5">
+    <div className="flex justify-center w-full px-5 bg-white">
       <div className="py-10 max-w-6xl w-full overflow-hidden">
         <h1 className="font-bold text-2xl mb-8 text-blue-700">
           {language === 1 ? `Công việc nổi bật` : `Outstanding work`}

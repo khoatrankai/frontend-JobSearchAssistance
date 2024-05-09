@@ -17,6 +17,7 @@ const InfoMore = (props: Props) => {
     BGToolRowItem,
     handleOnClickRowItem,
     setCheckBlurItem,
+    dataForm,
   } = funcLibrary;
 
   return (
@@ -31,6 +32,9 @@ const InfoMore = (props: Props) => {
           contentEditable="true"
           ref={refItem}
           className="outline-none border-[1px] border-transparent focus:border-gray-400 p-2 uppercase"
+          style={{
+            color: dataForm.colorTopic?.split(",")[dataForm.indexTopic],
+          }}
         >
           Thông tin thêm
         </div>
@@ -59,7 +63,7 @@ const InfoMore = (props: Props) => {
                         item,
                         "description",
                         i,
-                        e.target.innerHTML
+                        e.target.value
                       );
                     }}
                     className="outline-none px-2 py-1 z-10 border-[1px] border-transparent text-wrap max-w-full min-w-32 focus:border-dotted focus:border-black/80 peer relative"

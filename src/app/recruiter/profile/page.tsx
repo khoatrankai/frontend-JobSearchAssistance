@@ -17,21 +17,31 @@ import InfoProfile from "@/components/ProfileComponent/AllProfile/InfoProfile/In
 import DashboardProfile from "@/components/ProfileComponent/AllProfile/DashboardProfile/DashboardProfile";
 import MyCompanyProfile from "@/components/ProfileComponent/AllProfile/MyCompanyProfile/MyCompanyProfile";
 import MyJobProfile from "@/components/ProfileComponent/AllProfile/MyJobProfile/MyJobProfile";
-import SettingProfile from "@/components/ProfileComponent/AllProfile/SettingProfile/SettingProfile";
+import CheckLoginRecruiter from "@/util/CheckLoginRecruiter";
+import CheckRoleRecruiter from "@/util/CheckRoleRecruiter";
+import Dashboard from "@/components/ProfileComponent/RecruiterProfile/Dashboard/Dashboard";
+import RecruitmentList from "@/components/ProfileComponent/RecruiterProfile/RecruitmentList/RecruitmentList";
+import PotentialCandidate from "@/components/ProfileComponent/RecruiterProfile/PotentialCandidate/PotentialCandidate";
+import ProfileCompany from "@/components/ProfileComponent/RecruiterProfile/ProfileCompany/ProfileCompany";
+import SettingProfile from "@/components/ProfileComponent/RecruiterProfile/SettingProfile/SettingProfile";
+import { fetchProfileRecruiter } from "@/redux/reducer/profileReducer/profileSliceRecruiter";
 
 type Props = {};
 
 const page = (props: Props) => {
-  const dataProfile = useSelector((state: RootState) => state.profile.profile);
+  CheckRoleRecruiter();
+  const dataProfile = useSelector(
+    (state: RootState) => state.profileRecruiter.profile
+  );
   const { reponsiveMobile, selectProfileUser } = useSrollContext();
   const dispatch = useDispatch();
   const [dataInfo, setDataInfo] = useState<any>();
   const { handleLoadHrefPage } = useSrollContext();
   //   const [resizePage, setResizePage] = useState<boolean>(false);
   const [menuProfile, setMenuProfile] = useState<boolean>(false);
-  const [selectionMenu, setSelectionMenu] = useState<number>(0);
+  const [selectionMenu, setSelectionMenu] = useState<number>(2);
   const handleUpdateApi = () => {
-    dispatch(fetchProfile("vi") as any);
+    dispatch(fetchProfileRecruiter("vi") as any);
   };
   // useEffect(() => {
   //   setSelectionMenu(selectProfileUser);
@@ -81,10 +91,12 @@ const page = (props: Props) => {
   return (
     <div>
       <div className="flex justify-center bg-gray-200/45">
-        <div className=" w-full flex items-start pb-16 relative">
+        <div className=" w-full flex gap-x-8 items-start pb-16 relative">
           <div
             className={`${
-              reponsiveMobile < 950 ? "absolute z-40" : "basis-1/4"
+              reponsiveMobile < 950
+                ? "absolute z-40"
+                : "basis-1/4 min-w-[348px]"
             }  rounded-lg flex justify-center gap-y-6  flex-col items-center p-4`}
           >
             <div
@@ -105,10 +117,8 @@ const page = (props: Props) => {
                 />
               ) : (
                 <Image
-                  className={`${
-                    dataInfo?.avatarPath ? "" : ""
-                  }w-6 h-6 rounded-full border-2`}
-                  src={dataInfo?.avatarPath ?? "/iconuser.svg"}
+                  className={`w-6 h-6 rounded-full border-2`}
+                  src={dataInfo?.companyInfomation?.logoPath ?? "/iconuser.svg"}
                   width={1000}
                   height={1000}
                   alt={""}
@@ -117,7 +127,7 @@ const page = (props: Props) => {
               {reponsiveMobile < 950 ? (
                 ""
               ) : (
-                <p className="font-bold text-white">Nguyễn Tuấn Kiệt Quệ</p>
+                <p className="font-bold text-white">{dataInfo?.name}</p>
               )}
             </div>
             <div className="flex flex-col items-center gap-y-3 w-full justify-center">
@@ -269,19 +279,19 @@ const page = (props: Props) => {
                 ? reponsiveMobile < 992
                   ? "flex-1"
                   : "flex-1 mr-2"
-                : "basis-2/3"
+                : "flex-1 w-2/4 overflow-hidden"
             } rounded-lg h-full flex flex-col gap-y-4`}
           >
             {/* bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] */}
-            {selectionMenu === 1 && <DashboardProfile />}
+            {selectionMenu === 1 && <Dashboard />}
             {selectionMenu === 2 && (
-              <InfoProfile
+              <ProfileCompany
                 dataInfo={dataInfo}
                 handleUpdateApi={handleUpdateApi}
               />
             )}
-            {selectionMenu === 3 && <MyCompanyProfile />}
-            {selectionMenu === 4 && <MyJobProfile />}
+            {selectionMenu === 3 && <RecruitmentList />}
+            {selectionMenu === 4 && <PotentialCandidate />}
             {selectionMenu === 5 && <SettingProfile />}
           </div>
         </div>

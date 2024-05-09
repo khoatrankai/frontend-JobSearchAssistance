@@ -271,7 +271,12 @@ const SearchJobComponent: React.FC<Props> = (props) => {
           } kết quả tìm kiếm`}</h1>
           <div>
             <InfiniteScroll
-              style={{ display: "flex", flexWrap: "wrap", overflow: "hidden" }}
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                overflow: "hidden",
+              }}
               dataLength={listJob?.length}
               next={loadMore}
               hasMore={true}

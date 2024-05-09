@@ -1,4 +1,4 @@
-import LibCvV2 from "@/components/CVComponent.v2/Lib/Lib.cv.v2";
+import LibCvV2 from "@/components/CVComponent.v2/Libs/Lib.cv.v2";
 import { View, Text } from "@react-pdf/renderer";
 import React from "react";
 

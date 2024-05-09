@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux';
 import profileReducer from './profileReducer/profileSlice';
+import profileReducerRecruiter from './profileReducer/profileSliceRecruiter';
 import changeLanguage from './changeLanguageReducer/changeLanguage';
 import dataLanguage from './dataLanguage';
 import profileReducerV3 from './profileReducerV3';
@@ -10,6 +11,7 @@ import checkPost from './checkPost';
 
 const reducers = combineReducers({
   profile: profileReducer,
+  profileRecruiter: profileReducerRecruiter,
   dataLanguage: dataLanguage,
   changeLaguage: changeLanguage,
   dataProfileV3: profileReducerV3,

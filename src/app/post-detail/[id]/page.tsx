@@ -33,6 +33,8 @@ import { useSelector } from "react-redux";
 import { useSrollContext } from "@/context/AppProvider";
 import ModalLogin from "@/components/ModalLogin/ModalLogin";
 import ModalApply from "../ModalApply/ModalApply";
+import axiosClient from "@/configs/axiosClient";
+import ShortText from "@/util/ShortText";
 
 type Props = {};
 
@@ -53,8 +55,10 @@ interface IApplication {
 
 const page = (props: Props) => {
   const { id } = useParams();
+  const { handleShortTextHome } = ShortText();
   const { handleDecodingDescription } = EncodingDescription();
   const [checkSize, setCheckSize] = useState<boolean>(false);
+  const [dataCompany, setDataCompany] = useState<any>();
   const [checkScroll, setCheckScroll] = useState<boolean>(false);
   const ref_slider = useRef<any>();
   const ref_des = useRef<any>();
@@ -86,6 +90,10 @@ const page = (props: Props) => {
         id as any,
         languageRedux === 1 ? "vi" : "en"
       )) as unknown as IPostDetail;
+      console.log(res.data?.company_name);
+      const res2 = (await axiosClient.get(
+        `http://localhost:1902/api/v3/companies/by-name?name=${res.data?.company_name}`
+      )) as unknown as { status: any; data: any };
 
       if (res && (res?.code as any) === 200) {
         setPostDetail(res.data);
@@ -97,6 +105,11 @@ const page = (props: Props) => {
       } else {
         // router.push("/not-found");
       }
+      if (res2 && (res2?.status as any) === 200) {
+        setDataCompany(res2.data);
+      } else {
+        // router.push("/not-found");
+      }
     };
     fetchData();
   }, [bookmarked, languageRedux]);
@@ -105,14 +118,15 @@ const page = (props: Props) => {
     const widthMaxSlide = ref_slider.current.getBoundingClientRect().width;
     if (window.innerWidth < 1152) {
       setCheckSize(true);
-      const height = widthMaxSlide / (732 / 320);
+      const height = widthMaxSlide / (732 / 411.75);
       ref_slider.current.style.height = `${height}px`;
     } else {
       setCheckSize(false);
-      ref_slider.current.style.height = `320px`;
+      ref_slider.current.style.height = `411.75px`;
     }
   };
   useEffect(() => {
+    console.log(postDetail);
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => {
@@ -362,14 +376,13 @@ const page = (props: Props) => {
   const handleClickShowMap = () => {
     window.open(
       "https://www.google.com/maps/place/" +
-      `${postDetail?.address}, ${postDetail?.ward} ${postDetail.district} ${postDetail?.province_name}`
+        `${postDetail?.address}, ${postDetail?.ward} ${postDetail.district} ${postDetail?.province_name}`
     );
   };
 
   const handleToggleModal = () => {
     setOpenModalLogin(false);
   };
-
 
   return (
     <div
@@ -380,11 +393,11 @@ const page = (props: Props) => {
       <div className="max-w-6xl inline-flex flex-wrap justify-between w-full mt-6">
         <div className={`${checkSize ? "mx-7" : "max-w-[780px]"}  w-full`}>
           <div className="rounded-lg bg-white p-6">
-            <h1 className="font-bold text-xl">
+            <h1 className="font-medium text-lg">
               {postDetail && postDetail?.title}
             </h1>
             <div
-              className={`w-full h-80 overflow-hidden rounded-xl relative my-4`}
+              className={`w-full h-[411.75px] overflow-hidden rounded-xl relative my-4`}
               ref={ref_slider}
             >
               <ul
@@ -437,13 +450,13 @@ const page = (props: Props) => {
                 </div>
               )}
             </div>
-            <div className={`mb-10 flow-root`}>
+            <div className={`mb-10 flow-root text-sm`}>
               <button className="w-fit p-4 flex items-center justify-center hover:bg-blue-400/20 rounded-xl">
                 <div className="w-10 p-2 bg-blue-700 rounded-full mr-2 text-white">
                   <StoreIcon />
                 </div>
                 <div className="flex flex-col items-start justify-center">
-                  <h2 className="font-extralight">
+                  <h2 className="font-light">
                     {languageRedux === 1 ? "Công ty" : "Company"}
                   </h2>
                   <h2 className="font-semibold text-start capitalize">
@@ -459,7 +472,7 @@ const page = (props: Props) => {
                   className="flex flex-col items-start justify-center"
                   onClick={() => handleClickShowMap()}
                 >
-                  <h2 className="font-extralight">
+                  <h2 className="font-light">
                     {languageRedux === 1 ? "Địa chỉ" : "Address"}
                   </h2>
                   <h2 className="font-semibold text-start capitalize">
@@ -473,7 +486,7 @@ const page = (props: Props) => {
                   <DateRangeIcon />
                 </div>
                 <div className="flex flex-col items-start justify-center">
-                  <h2 className="font-extralight">
+                  <h2 className="font-light">
                     {languageRedux === 1 ? "Ngày đăng" : "Date post"}
                   </h2>
                   <h2 className="font-semibold text-start capitalize">
@@ -490,31 +503,34 @@ const page = (props: Props) => {
                   postDetail?.resource?.company_resource_id === 2 &&
                   profile.roleData === 3
                 ) && (
-                    <button className="flex flex-1 px-2 gap-2 items-center h-10 min-w-[12rem] bg-blue-600/95 hover:bg-blue-600 justify-center rounded-lg  text-white">
-                      <BookmarksIcon />
-                      {postDetail?.resource?.company_resource_id === 2 ? (
-                        <h2 className="font-bold" onClick={() => {
+                  <button className="flex flex-1 px-2 gap-2 text-sm items-center h-10 min-w-[12rem] bg-blue-600/95 hover:bg-blue-600 justify-center rounded-lg  text-white">
+                    <BookmarksIcon />
+                    {postDetail?.resource?.company_resource_id === 2 ? (
+                      <h2
+                        className="font-semibold"
+                        onClick={() => {
                           setOpenModalApply(true);
-                        }}>
-                          {languageRedux === 1 ? "Ứng tuyển ngay" : "Apply now"}
-                        </h2>
-                      ) : (
-                        <h2
-                          className="font-bold"
-                          onClick={() => handleViewPost()}
-                        >
-                          {languageRedux === 1 ? "Xem tin" : "View post"}
-                        </h2>
-                      )}
-                    </button>
-                  )}
+                        }}
+                      >
+                        {languageRedux === 1 ? "Ứng tuyển ngay" : "Apply now"}
+                      </h2>
+                    ) : (
+                      <h2
+                        className="font-semibold  text-sm"
+                        onClick={() => handleViewPost()}
+                      >
+                        {languageRedux === 1 ? "Xem tin" : "View post"}
+                      </h2>
+                    )}
+                  </button>
+                )}
                 {postDetail?.resource?.company_resource_id === 2 &&
                   profile.roleData !== 3 && (
                     <button
                       onClick={() =>
                         handleToMessage(postDetail.account_id, postDetail.id)
                       }
-                      className="flex items-center w-fit gap-2 px-2 -ml-2 h-10 border-2 border-blue-500/70 mr-4 hover:border-blue-500 rounded-lg justify-center"
+                      className="flex items-center w-fit text-sm gap-2 px-2  h-10 border-2 border-blue-500/70 hover:border-blue-500 rounded-lg justify-center"
                     >
                       <ChatIcon width={19} height={18} />
                       <h2
@@ -535,8 +551,9 @@ const page = (props: Props) => {
                         handleBookmarked(postDetail.id);
                       }
                     }}
-                    className={`flex items-center min-w-[10rem] h-10 border-2 border-blue-500/70 hover:border-blue-500 rounded-lg justify-center ${postDetail.bookmarked ? "bg-blue-500/70" : ""
-                      }`}
+                    className={`flex items-center min-w-[10rem] h-10 border-2 border-blue-500/70 hover:border-blue-500 rounded-lg justify-center ${
+                      postDetail.bookmarked ? "bg-blue-500/70" : ""
+                    }`}
                   >
                     {postDetail.bookmarked ? (
                       <FavoriteIcon
@@ -551,7 +568,7 @@ const page = (props: Props) => {
                         }}
                       />
                     )}
-                    <h2 className="font-bold text-black">
+                    <h2 className="font-bold text-black  text-sm">
                       {postDetail.bookmarked ? "Đã lưu" : "Lưu tin"}
                     </h2>
                   </button>
@@ -562,7 +579,7 @@ const page = (props: Props) => {
           <div className="rounded-lg bg-white p-6 mt-8" ref={ref_des}>
             <div className="flex h-10 items-center">
               <div className="h-full w-3 bg-blue-500 mr-4"></div>
-              <h1 className="text-xl font-bold">
+              <h1 className="text-xl font-semibold">
                 {languageRedux === 1
                   ? "Chi tiết tin tuyển dụng"
                   : "Recruitment details"}
@@ -576,7 +593,7 @@ const page = (props: Props) => {
                       ? "Mô tả công việc"
                       : "Job description"}
                   </h2>
-                  <pre className="whitespace-pre-wrap font-extralight">
+                  <pre className="whitespace-pre-wrap font-medium text-black text-sm">
                     {
                       handleDecodingDescription(
                         postDetail?.description ?? ""
@@ -586,56 +603,95 @@ const page = (props: Props) => {
                 </li>
                 {handleDecodingDescription(postDetail?.description ?? "")[1] !==
                   undefined && (
-                    <li className="my-8 ">
-                      <h2 className="font-semibold mb-2">
-                        {languageRedux === 1
-                          ? "Yêu cầu công việc"
-                          : "Job requirements"}
-                      </h2>
-                      <pre className="whitespace-pre-wrap font-extralight">
-                        {
-                          handleDecodingDescription(
-                            postDetail?.description ?? ""
-                          )[1]
-                        }
-                      </pre>
-                    </li>
-                  )}
+                  <li className="my-8 ">
+                    <h2 className="font-semibold mb-2">
+                      {languageRedux === 1
+                        ? "Yêu cầu công việc"
+                        : "Job requirements"}
+                    </h2>
+                    <pre className="whitespace-pre-wrap font-medium text-black text-sm">
+                      {
+                        handleDecodingDescription(
+                          postDetail?.description ?? ""
+                        )[1]
+                      }
+                    </pre>
+                  </li>
+                )}
 
                 {handleDecodingDescription(postDetail?.description ?? "")[2] !==
                   undefined && (
-                    <li className="my-8 ">
-                      <h2 className="font-semibold mb-2">
-                        {languageRedux === 1
-                          ? "Quyền lợi được hưởng"
-                          : "Benefits"}
-                      </h2>
-                      <pre className="whitespace-pre-wrap font-extralight">
-                        {
-                          handleDecodingDescription(
-                            postDetail?.description ?? ""
-                          )[2]
-                        }
-                      </pre>
-                    </li>
-                  )}
+                  <li className="my-8 ">
+                    <h2 className="font-semibold mb-2">
+                      {languageRedux === 1
+                        ? "Quyền lợi được hưởng"
+                        : "Benefits"}
+                    </h2>
+                    <pre className="whitespace-pre-wrap font-medium text-black text-sm">
+                      {
+                        handleDecodingDescription(
+                          postDetail?.description ?? ""
+                        )[2]
+                      }
+                    </pre>
+                  </li>
+                )}
               </ul>
             </div>
           </div>
         </div>
         <div
-          className={`${checkSize ? "mx-7 my-10" : "max-w-[350px]"}  w-full`}
+          className={`${
+            checkSize ? "mx-7 my-10" : "max-w-[350px]"
+          }  w-full gap-y-4 flex-col flex`}
         >
+          <div className="rounded-lg bg-white p-6 flex flex-col gap-y-4">
+            <div className="flex gap-x-4">
+              <div className="rounded-lg overflow-hidden w-16 h-16">
+                <Image
+                  alt=""
+                  width={500}
+                  height={500}
+                  className=""
+                  src={postDetail?.images?.[0]?.image}
+                />
+              </div>
+              <div className="font-semibold text-lg">
+                {postDetail?.company_name}
+              </div>
+            </div>
+            <div className="flex flex-col gap-y-2">
+              <div className="flex gap-x-2">
+                <p className="text-gray-400 text-nowrap">Quy mô:</p>
+                <p>{dataCompany?.companySizeInfomation?.nameText}</p>
+              </div>
+              <div className="flex gap-x-2">
+                <p className="text-gray-400 text-nowrap">Địa điểm:</p>
+                <p>
+                  {handleShortTextHome(
+                    postDetail.address +
+                      "," +
+                      postDetail?.ward +
+                      "," +
+                      postDetail?.district +
+                      "," +
+                      postDetail?.province,
+                    40
+                  )}
+                </p>
+              </div>
+            </div>
+          </div>
           <div className="rounded-lg bg-white p-6">
             <div className="flex h-10 items-center mb-8">
               <div className="h-full w-3 bg-blue-500 mr-4"></div>
-              <h1 className="font-bold text-xl">
+              <h1 className="font-semibold text-xl">
                 {languageRedux === 1
                   ? "Thông tin công việc"
                   : "Job information"}
               </h1>
             </div>
-            <ul>
+            <ul className="text-sm">
               <li className="flex items-center my-6">
                 <div className="w-12 mr-4 p-3 bg-blue-600 text-white rounded-full">
                   <AssignmentIcon />
@@ -644,7 +700,9 @@ const page = (props: Props) => {
                   <h2 className="text-black/50 font-semibold">
                     {languageRedux === 1 ? "Loại công việc" : "Job type"}
                   </h2>
-                  <h2>{postDetail?.job_type?.job_type_name}</h2>
+                  <h2 className="font-semibold">
+                    {postDetail?.job_type?.job_type_name}
+                  </h2>
                 </div>
               </li>
               <li className="flex items-center my-6">
@@ -655,7 +713,7 @@ const page = (props: Props) => {
                   <h2 className="text-black/50 font-semibold">
                     {languageRedux === 1 ? "Giờ làm việc" : "Work time"}
                   </h2>
-                  <h2>
+                  <h2 className="font-semibold">
                     {moment(postDetail?.start_time).format("HH:mm:ss")} -{" "}
                     {moment(postDetail?.end_time).format("HH:mm:ss")}
                   </h2>
@@ -671,14 +729,14 @@ const page = (props: Props) => {
                       ? "Làm việc cuối tuần"
                       : "Work on weekends"}
                   </h2>
-                  <h2 className="text-black/50 font-semibold">
+                  <h2 className="text-black font-semibold">
                     {postDetail?.is_working_weekend
                       ? languageRedux === 1
                         ? "Có làm việc cuối tuần"
                         : "There is work on weekends"
                       : languageRedux === 1
-                        ? "Không làm việc cuối tuần"
-                        : "Do not work weekends"}
+                      ? "Không làm việc cuối tuần"
+                      : "Do not work weekends"}
                   </h2>
                 </div>
               </li>
@@ -690,14 +748,14 @@ const page = (props: Props) => {
                   <h2 className="text-black/50 font-semibold">
                     {languageRedux === 1 ? "Làm việc từ xa" : "Work remotely"}
                   </h2>
-                  <h2 className="text-black/50 font-semibold">
+                  <h2 className="text-black font-semibold">
                     {postDetail?.is_remotely
                       ? languageRedux === 1
                         ? "Có làm việc từ xa"
                         : "There is remote work"
                       : languageRedux === 1
-                        ? "Không làm việc từ xa"
-                        : "Do not work remotely"}
+                      ? "Không làm việc từ xa"
+                      : "Do not work remotely"}
                   </h2>
                 </div>
               </li>
@@ -709,7 +767,7 @@ const page = (props: Props) => {
                   <h2 className="text-black/50 font-semibold">
                     {languageRedux === 1 ? "Mức lương" : "Salary"}
                   </h2>
-                  <h2>
+                  <h2 className="font-semibold">
                     {postDetail?.salary_min} VND - {postDetail?.salary_max} VND
                   </h2>
                 </div>
@@ -722,7 +780,7 @@ const page = (props: Props) => {
                   <h2 className="text-black/50 font-semibold">
                     {languageRedux === 1 ? "Ngành nghề" : "Industry"}
                   </h2>
-                  <h2>{list_category}</h2>
+                  <h2 className="font-semibold">{list_category}</h2>
                 </div>
               </li>
               <li className="flex items-center my-6">
@@ -735,11 +793,11 @@ const page = (props: Props) => {
                       ? "Hạn nộp hồ sơ"
                       : "Deadline for submission"}
                   </h2>
-                  <h2>
+                  <h2 className="font-semibold">
                     {postDetail?.expired_date
                       ? moment
-                        .unix(postDetail.expired_date)
-                        .format("DD/MM/YYYY")
+                          .unix(postDetail.expired_date)
+                          .format("DD/MM/YYYY")
                       : "Vô thời hạn"}
                   </h2>
                 </div>
@@ -748,45 +806,18 @@ const page = (props: Props) => {
           </div>
         </div>
       </div>
-      {/* {!(
-        profile.roleData === 3 &&
-        postDetail?.resource?.company_resource_id === 2
-      ) && (
-        <div
-          className={`fixed flex w-fit gap-2 items-center text-white bg-blue-500 hover:bg-blue-400 cursor-pointer ${
-            checkSize
-              ? "rounded-lg bottom-14 right-24 p-4 h-16"
-              : " rounded-lg bottom-14 right-24 p-4 h-16"
-          }`}
-        >
-          <BookmarksIcon />
-          {postDetail?.resource?.company_resource_id === 2 ? (
-            <h2 className="font-bold" onClick={() => {
-              setOpenModalApply(true);
-            }}>
-              {languageRedux === 1 ? "Ứng tuyển ngay" : "Apply now"}
-            </h2>
-          ) : (
-            <h2 className="font-bold" onClick={() => handleViewPost()}>
-              {languageRedux === 1 ? "Xem tin" : "View post"}
-            </h2>
-          )}
-        </div>
-      )} */}
       <ToastContainer />
-      {
-        openModalApply && (
-          <ModalApply
-            namePost={postDetail?.title}
-            openModalApply={openModalApply}
-            setOpenModalApply={setOpenModalApply}
-            profile={profile}
-            handleApply={handleApply}
-            setFilePDFParent={setFilePDFParent}
-            setIdCv={setIdCv}
-          />
-        )
-      }
+      {openModalApply && (
+        <ModalApply
+          namePost={postDetail?.title}
+          openModalApply={openModalApply}
+          setOpenModalApply={setOpenModalApply}
+          profile={profile}
+          handleApply={handleApply}
+          setFilePDFParent={setFilePDFParent}
+          setIdCv={setIdCv}
+        />
+      )}
       {/* <ModalLogin
         isOpen={openModalLogin}
         handleToggleModal={handleToggleModal}

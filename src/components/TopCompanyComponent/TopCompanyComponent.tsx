@@ -16,6 +16,7 @@ import SkeletonAll from "@/util/SkeletonAll";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import DescriptionHoverProvider from "@/util/DescriptionHoverProvider/DescriptionHoverProvider";
 import { useRouter } from "next/navigation";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 type Props = {};
 
@@ -46,6 +47,7 @@ const TopCompanyComponent = (props: Props) => {
   const [theme, setTheme] = useState<any>([]);
   const { DescriptionHover, handleUpdatePosition } = DescriptionHoverProvider();
   const [pageNewJob, setPageNewJob] = useState<number>(0);
+  const [pageTotal, setPageTotal] = useState<number>(0);
   const [positionFocus, setPostionFocus] = useState<number>(1);
   const refHoverPosition = useRef<any>();
   const [thresholdNewJob, setThresholdNewJob] = useState<number>(0);
@@ -80,31 +82,32 @@ const TopCompanyComponent = (props: Props) => {
   const fetchData = async () => {
     const res = (await postsApi.getPostByThemeId(
       Number(themeId),
-      8,
+      4,
       thresholdNewJob,
-      language === 1 ? "vi" : "en"
-    )) as unknown as IPostTopic;
-
+      language === 1 ? "vi" : "en",
+      pageNewJob
+    )) as any;
+    console.log(res);
     if (res && res.success === true) {
       setListJob(res.data?.posts);
+      setPageTotal(res.data?.totalPage);
     }
   };
 
   const handleGetData = (id: number) => {
     setThemeId(id);
+    setPageNewJob(0);
   };
   useEffect(() => {
     fetchData();
-  }, [thresholdNewJob, themeId, bookmarked, language]);
+  }, [pageNewJob, themeId, bookmarked, language]);
 
   const handleNextNewJob = () => {
-    setIdPrev(listJob[0].id);
-    setThresholdNewJob(listJob[listJob.length - 1].id);
-    setPageNewJob(pageNewJob + 1);
+    if (pageNewJob <= pageTotal) setPageNewJob(pageNewJob + 1);
   };
 
   const handlePrevNewJob = () => {
-    setThresholdNewJob(idPrev + 1);
+    if (pageNewJob !== 0) setPageNewJob(pageNewJob - 1);
   };
 
   const handleBookmarked = (id: number) => {
@@ -212,29 +215,29 @@ const TopCompanyComponent = (props: Props) => {
       <div className="py-10 max-w-6xl w-full overflow-hidden">
         <div className="flex justify-between items-center mb-8">
           <h1 className="font-bold text-2xl text-blue-700">
-            {language === 1 ? `Công việc chủ đề` : `Subject work`}
+            {language === 1 ? `Công việc theo địa danh` : `Subject work`}
           </h1>
 
           <div className="flex items-center gap-5">
             <Link
               href="/more-topic"
-              className="font-bold text-black hover:text-blue-500 cursor-pointer"
+              className=" text-blue-500 cursor-pointer underline hover:text-blue-600"
             >
               {language === 1 ? `Xem thêm` : `See more`}
             </Link>
 
-            <div className="w-20 flex justify-between">
+            <div className="flex justify-between">
               <button
-                className="bg-black hover:shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] hover:bg-blue-500 w-10 h-10 rounded-lg flex justify-center items-center group"
+                className="w-10 h-10 flex justify-center items-center rounded-full border-2 border-blue-500 hover:bg-blue-500 hover:text-white"
                 onClick={() => handlePrevNewJob()}
               >
-                <MdKeyboardArrowLeft color="white" fontSize="1.8em" />
+                <IoIosArrowBack />
               </button>
               <button
-                className="bg-black hover:shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] hover:bg-blue-500 w-10 h-10 rounded-lg flex justify-center items-center group ml-2"
+                className="w-10 h-10 flex justify-center items-center rounded-full border-2 border-blue-500 hover:bg-blue-500 hover:text-white ml-2"
                 onClick={() => handleNextNewJob()}
               >
-                <MdKeyboardArrowRight color="white" fontSize="1.8em" />
+                <IoIosArrowForward />
               </button>
             </div>
           </div>
@@ -261,12 +264,12 @@ const TopCompanyComponent = (props: Props) => {
                 theme.map((item: any, index: number) => (
                   <li
                     key={index}
-                    className="w-[220px] h-[200px] group border-[1px] relative hover:border-blue-500 transition-all cursor-pointer rounded-lg flex flex-col items-center justify-center item-company overflow-hidden"
+                    className="w-[278.25px] h-[200px] group border-[1px] relative hover:border-blue-500 transition-all cursor-pointer rounded-lg flex flex-col items-center justify-center item-company overflow-hidden"
                     onClick={() => {
                       if (checkClick) {
                         handleGetData(item.id);
                         refHoverPosition.current.style.transform = `translateX(${
-                          index * 233
+                          index * 291.25
                         }px)`;
                       } else {
                         setCheckClick(true);
@@ -291,7 +294,7 @@ const TopCompanyComponent = (props: Props) => {
                 ))}
               {theme?.length > 0 && (
                 <div
-                  className={`w-[220px] h-2 rounded-xl bg-blue-500 left-0 absolute -bottom-4 transition-all duration-500`}
+                  className={`w-[278.25px] h-2 rounded-xl bg-blue-500 left-0 absolute -bottom-4 transition-all duration-500`}
                   ref={refHoverPosition}
                 ></div>
               )}
@@ -310,14 +313,14 @@ const TopCompanyComponent = (props: Props) => {
         </SkeletonAll>
 
         <div className="flex justify-center">
-          <ul className="inline-flex flex-wrap justify-center list-job gap-9 py-8 min-w-full">
+          <ul className="inline-flex flex-wrap justify-center list-job gap-[13px] py-8 min-w-full">
             {listJob &&
               listJob.length > 0 &&
               listJob.map((item, index) => (
                 <li key={index} className="relative">
                   <Link
                     href={`/post-detail/${item.id}`}
-                    className={`w-[360px] h-fit group gap-x-2  px-4 border-[1px] hover:border-blue-500 transition-all duration-500  hover:bg-blue-50 bg-white hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md  py-6 flex justify-between items-center item-job`}
+                    className={`w-[569.5px] h-fit group gap-x-2  px-4 border-[1px] hover:border-blue-500 transition-all duration-500  hover:bg-blue-50 bg-white hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md  py-6 flex justify-between items-center item-job`}
                   >
                     <div className="basis-3/12">
                       <div className="w-16 h-16 rounded-full overflow-hidden group-hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]  object-cover">
@@ -524,6 +527,30 @@ const TopCompanyComponent = (props: Props) => {
                 </li>
               ))}
           </ul>
+        </div>
+        <div className="flex w-full justify-center gap-x-2 items-center">
+          <button
+            className="w-10 h-10 flex justify-center items-center rounded-full border-2 border-blue-500 hover:bg-blue-500 hover:text-white"
+            onClick={() => {
+              handlePrevNewJob();
+            }}
+          >
+            <IoIosArrowBack />
+          </button>
+          <div>
+            <p className="flex items-center gap-x-1">
+              <span className="text-blue-500">{pageNewJob + 1}</span>/
+              <span>{pageTotal + 1}</span>trang
+            </p>
+          </div>
+          <button
+            className="w-10 h-10 flex justify-center items-center rounded-full border-2 border-blue-500 hover:bg-blue-500 hover:text-white"
+            onClick={() => {
+              handleNextNewJob();
+            }}
+          >
+            <IoIosArrowForward />
+          </button>
         </div>
         {/* <div className="absolute top-0 right-0 flex items-center">
           <a

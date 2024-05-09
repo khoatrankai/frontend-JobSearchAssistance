@@ -4,6 +4,9 @@ type Props = {}
 
 const ShortText = () => {
     const handleShortTextHome = (data:any,maxText:any) =>{
+        if(!data){
+            return ""
+        }
         let truncatedText = data.toString()
         if(truncatedText){
             if(truncatedText.length>maxText){

@@ -19,7 +19,7 @@ const InfoProfile = (props: Props) => {
   const { reponsiveMobile } = useSrollContext();
   const { dataInfo, handleUpdateApi } = props;
   return (
-    <>
+    <div className="mt-5 flex flex-col gap-y-4">
       {reponsiveMobile < 990 && (
         <div className="flex justify-center">
           <AvatarProfile
@@ -86,7 +86,7 @@ const InfoProfile = (props: Props) => {
           checkUpdate={false}
         />
       </div>
-    </>
+    </div>
   );
 };
 

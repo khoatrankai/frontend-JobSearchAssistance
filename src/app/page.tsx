@@ -22,7 +22,6 @@ const Home = () => {
   const [checkPage, setCheckPage] = useState<string>("/");
   const categoryId = useSelector((state: any) => state.categoryId);
   const hotJobRef = useRef<HTMLDivElement>(null);
-  const profile = useSelector((state: any) => state.profile.profile);
 
   useEffect(() => {
     setCheckPage(location.pathname);
@@ -36,7 +35,7 @@ const Home = () => {
 
   return (
     <PersistGate loading={null} persistor={persistor}>
-      <div className="w-full h-full bg-slate-50">
+      <div className="w-full h-full -z-10">
         <PageHome />
 
         {/* <BannerComponent />

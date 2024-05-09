@@ -1,0 +1,18 @@
+.scroll-cv{
+    &::-webkit-scrollbar {
+      height: 10px !important;
+    }
+  
+    &::-webkit-scrollbar-track {
+      background: #3B82F6 !important;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: #ffffff !important;
+      border-radius: 5px;
+    }
+    
+    &::-webkit-scrollbar-thumb:hover {
+      background: rgb(218, 217, 237) !important;
+    }
+  }

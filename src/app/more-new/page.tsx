@@ -154,7 +154,8 @@ const Page = () => {
         idFilterProvinces ? Number(idFilterProvinces) : null,
         10,
         thresholdNewJob,
-        language === 1 ? "vi" : "en"
+        language === 1 ? "vi" : "en",
+        0
       )) as unknown as any;
 
       if (res && res.status === 200) {
@@ -374,7 +375,8 @@ const Page = () => {
           null,
           10,
           thresholdNewJob,
-          language === 1 ? "vi" : "en"
+          language === 1 ? "vi" : "en",
+          0
         );
 
         if (res && res.status === 200) {

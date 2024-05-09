@@ -13,6 +13,7 @@ import FooterComponent from "@/components/FooterComponent/FooterComponent";
 
 const inter = Inter({ subsets: ["vietnamese"] });
 import { usePathname } from "next/navigation";
+import AlertOne from "@/util/Alert/AlertOne";
 
 // export const metadata = {
 //   title: "Create Next App",
@@ -44,10 +45,10 @@ export default function RootLayout({
     "/recruiter/login",
     "/recruiter/register",
     "/recruiter/forgot-password",
+    "/login",
   ];
 
   const urlCustom = pathname.split("/").slice(0, -1).join("/");
-
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={inter.className}>
@@ -70,7 +71,12 @@ export default function RootLayout({
           ) : (
             ""
           )}
-          <FooterComponent />
+          <AlertOne />
+          {pathname.split("/").length <= 3
+            ? !allowedPath.includes(pathname) && <FooterComponent />
+            : !(urlCustom.trim() === "/candidate/reset-password") && (
+                <FooterComponent />
+              )}
         </ScrollContext>
       </body>
     </html>

@@ -11,7 +11,7 @@ const CheckPageLogin = () => {
     useEffect(() => {       
        
       if (!accessToken) {
-        router.push("/recruiter/login");
+        router.push("/candidate/login");
       }
     }, []);
   

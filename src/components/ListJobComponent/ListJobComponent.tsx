@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import "./ListJobComponent.scss";
@@ -15,6 +16,14 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import DescriptionHoverProvider from "@/util/DescriptionHoverProvider/DescriptionHoverProvider";
 import { Route } from "react-router-dom";
 import { useRouter } from "next/navigation";
+import EncodingDescription from "@/util/EncodingDescription/EncodingDescription";
+import { IoFilterOutline } from "react-icons/io5";
+import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
+import useSwiperAutoSlider from "@/util/SwiperAutoSlider";
+import locationApi from "@/api/location/locationApi";
+import categoryApi from "@/api/category/categoryApi";
 
 type Props = {};
 
@@ -26,6 +35,38 @@ interface IBookmark {
 const ListJobComponent = (props: Props) => {
   const { DescriptionHover, handleUpdatePosition } = DescriptionHoverProvider();
   const { handleShortTextHome, handleShortValueNumber } = ShortText();
+  const {
+    ref_list_slider,
+    handleNext,
+    checkNext,
+    checkPrev,
+    handlePrev,
+    handleClickDown,
+    handleUpData,
+    checkClick,
+    setCheckClick,
+  } = useSwiperAutoSlider(8);
+
+  const {
+    ref_list_slider: ref_list_slider2,
+    handleNext: handleNext2,
+
+    handlePrev: handlePrev2,
+    handleClickDown: handleClickDown2,
+    handleUpData: handleUpData2,
+    checkClick: checkClick2,
+    setCheckClick: setCheckClick2,
+  } = useSwiperAutoSlider(8);
+
+  const [dataListFilter, setListFilter] = useState<any>([
+    { name: "Địa điểm", id: 0 },
+    { name: "Ngành nghề", id: 1 },
+  ]);
+  const [provinceId, setProvinceId] = useState<any>(null);
+  const [currentPage, setCurrentPage] = useState<any>(1);
+  const [totalPage, setTotalPage] = useState<any>(0);
+  const [careerId, setCareerId] = useState<any>(null);
+  const [chooseFilter, setChooseFilter] = useState<any>(0);
   const [pageNewJob, setPageNewJob] = useState<number>(0);
   const [thresholdNewJob, setThresholdNewJob] = useState<number>(0);
   const [idPrev, setIdPrev] = useState<number>(0);
@@ -33,32 +74,37 @@ const ListJobComponent = (props: Props) => {
   const [bookmarked, setBookmarked] = React.useState(false);
   const accountId = localStorage.getItem("accountId");
   const categoryId = useSelector((state: any) => state.categoryId);
-  const [categoriesId, setCategoriesId] = useState<string>("");
   const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
+  const [dataLocationFilter, setLocationFilter] = useState<any>([]);
+  const [dataListCareer, setListCareer] = useState<any>([]);
   const language = useSelector((state: any) => state.changeLaguage.language);
+  const [tabFilter, setTabFilter] = useState<boolean>(false);
+  const { handleDecodingDescription } = EncodingDescription();
   const router = useRouter();
-  useEffect(() => {
-    setCategoriesId(categoryId);
-  }, [categoryId]);
+
   useEffect(() => {
     const fetchData = async () => {
-      const res = await postsApi.getPostNewestV3(
+      const res = (await postsApi.getPostNewestV3(
         null,
-        Number(categoriesId) ? Number(categoriesId) : null,
+        Number(careerId) ? Number(careerId) : null,
         null,
-        null,
+        provinceId,
         9,
         thresholdNewJob,
-        language === 1 ? "vi" : "en"
-      );
+        language === 1 ? "vi" : "en",
+        currentPage
+      )) as any;
+      console.log(res);
 
       if (res && res.status === 200) {
         setListJob(res.data);
+        setTotalPage(res.totalPage);
+        // setCurrentPage(res.currentPage);
+        console.log(res);
       }
     };
     fetchData();
-  }, [thresholdNewJob, bookmarked, categoriesId, language]);
-
+  }, [bookmarked, careerId, provinceId, language, currentPage]);
   const handleNextNewJob = () => {
     setIdPrev(listJob[0]?.id);
     setThresholdNewJob(listJob[listJob.length - 1].id);
@@ -167,40 +213,218 @@ const ListJobComponent = (props: Props) => {
   const handleToggleModal = () => {
     setOpenModalLogin(false);
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = (await locationApi.getAllProvinces(
+        language ? "vi" : "en"
+      )) as any;
+      const dataCareer = (await categoryApi.getParentCategory(language)) as any;
+
+      if (res && res.code === 200) {
+        setLocationFilter(res.data);
+        console.log(res);
+      }
+      if (dataCareer && dataCareer.code === 200) {
+        console.log(dataCareer);
+        setListCareer(dataCareer.data);
+      }
+    };
+    fetchData();
+  }, [language]);
+  useEffect(() => {
+    handleUpData();
+  }, [dataLocationFilter]);
+  useEffect(() => {
+    handleUpData2();
+  }, [dataListCareer]);
+  useEffect(() => {
+    handleUpData();
+    handleUpData2();
+    setCareerId(null);
+    setProvinceId(null);
+    setCurrentPage(0);
+  }, [chooseFilter]);
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [careerId, provinceId]);
 
   return (
-    <div className="flex justify-center py-12 px-5 bg-blue-50">
+    <div className="flex justify-center py-12 px-5 bg-blue-50 ">
       <div className="w-full max-w-6xl relative">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex justify-between items-center  mb-6">
           <h1 className="font-bold text-2xl text-blue-700">
             {language === 1 ? `Việc làm mới` : `New job`}
           </h1>
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-9 w-fit">
             <a
-              className=" font-bold text-black hover:text-blue-500 cursor-pointer"
+              className=" text-blue-700 hover:text-blue-500 cursor-pointer underline"
               href="/more-new"
             >
               {language === 1 ? `Xem thêm` : `See more`}
             </a>
-            <div className="w-20 flex justify-between">
+            <div className=" flex justify-between">
               <button
-                className="bg-black hover:shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] hover:bg-blue-500 w-10 h-10 rounded-lg flex justify-center items-center group"
+                className="w-10 h-10 flex justify-center items-center rounded-full border-2 border-blue-500 hover:bg-blue-500 hover:text-white"
                 onClick={() => handlePrevNewJob()}
               >
-                <MdKeyboardArrowLeft color="white" fontSize="1.8em" />
+                <IoIosArrowBack />
               </button>
               <button
-                className=" bg-black hover:shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] hover:bg-blue-500 w-10 h-10 rounded-lg flex justify-center items-center group ml-2"
+                className=" w-10 h-10 flex justify-center items-center rounded-full border-2 border-blue-500 hover:bg-blue-500 hover:text-white ml-2"
                 onClick={() => handleNextNewJob()}
               >
-                <MdKeyboardArrowRight color="white" fontSize="1.8em" />
+                <IoIosArrowForward />
               </button>
             </div>
           </div>
         </div>
+        <div className=" my-2 flex gap-x-4">
+          <div className="p-2 border-2 rounded-lg w-80 flex gap-x-2 bg-white">
+            <div className="flex items-center text-gray-500 font-semibold gap-x-2 text-sm">
+              <IoFilterOutline className="text-xs" />
+              <p className="text-nowrap">Lọc theo :</p>
+            </div>
+            <div
+              className="w-full relative flex gap-x-20 items-center justify-between"
+              onClick={(e: any) => {
+                setTabFilter(!tabFilter);
+                e.preventDefault();
+              }}
+            >
+              <p>{dataListFilter[chooseFilter].name}</p>
+              <IoIosArrowDown />
+              <div
+                className={`absolute inset-x-0 py-2 rounded-md bg-white border-2 transition-transform duration-300 top-12 z-10 ${
+                  tabFilter ? "" : "invisible -translate-y-2 opacity-0"
+                }`}
+              >
+                <ul className="w-full h-fit">
+                  {dataListFilter.map((dt: any, ikey: any) => {
+                    return (
+                      <li
+                        className="flex px-5 h-10 items-center item-filter-checkbox group cursor-pointer hover:bg-gray-300/40"
+                        onClick={(e: any) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                          setTabFilter(!tabFilter);
+
+                          setChooseFilter(dt.id);
+                        }}
+                        key={ikey}
+                      >
+                        <input
+                          className="mr-2 group-hover:bg-black"
+                          type="radio"
+                        />
+                        <label className="group-hover:font-bold group-hover:text-blue-600 cursor-pointer">
+                          <span>{dt.name}</span>
+                        </label>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div className="flex-1 flex items-center gap-x-2">
+            <button
+              className="w-8 h-8 flex justify-center items-center rounded-full border-2 border-blue-500 hover:bg-blue-500 hover:text-white"
+              onClick={() => {
+                if (chooseFilter === 0) {
+                  handlePrev();
+                } else {
+                  handlePrev2();
+                }
+              }}
+            >
+              <IoIosArrowBack />
+            </button>
+            <div className="flex-1 overflow-hidden h-full flex items-center w-8">
+              {chooseFilter === 0 ? (
+                <ul
+                  className="flex gap-x-2 h-full min-w-fit items-center"
+                  ref={ref_list_slider}
+                  onMouseDown={(e: any) => {
+                    e.preventDefault();
+                    handleClickDown(e);
+                  }}
+                  onMouseUp={(e: any) => {
+                    setCheckClick(true);
+                  }}
+                >
+                  {dataLocationFilter.map((dt: any, ikey: any) => {
+                    return (
+                      <li
+                        className={`flex min-w-fit p-2  items-center justify-center bg-gray-200 rounded-2xl cursor-pointer ${
+                          provinceId === dt.id && "!bg-blue-500 !text-white"
+                        }  ${
+                          checkClick ? "hover:bg-blue-500 hover:text-white" : ""
+                        }`}
+                        key={ikey}
+                        onClick={() => {
+                          setProvinceId(dt.id);
+                        }}
+                      >
+                        <h2 className="mr-1 text-sm font-medium pointer-events-none">
+                          {dt.name}
+                        </h2>
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : (
+                <ul
+                  className="flex gap-x-2 h-full min-w-fit items-center"
+                  ref={ref_list_slider2}
+                  onMouseDown={(e: any) => {
+                    e.preventDefault();
+                    handleClickDown2(e);
+                  }}
+                  onMouseUp={(e: any) => {
+                    setCheckClick2(true);
+                  }}
+                >
+                  {dataListCareer.map((dt: any, ikey: any) => {
+                    return (
+                      <li
+                        className={`flex min-w-fit p-2  items-center justify-center bg-gray-200 rounded-2xl cursor-pointer  ${
+                          careerId === dt.id && "!bg-blue-500 !text-white"
+                        } ${
+                          checkClick2
+                            ? "hover:bg-blue-500 hover:text-white"
+                            : ""
+                        }`}
+                        key={ikey}
+                        onClick={() => {
+                          setCareerId(dt.id);
+                        }}
+                      >
+                        <h2 className="mr-1 text-sm font-medium pointer-events-none">
+                          {dt.name}
+                        </h2>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </div>
+            <button
+              className="w-8 h-8 flex justify-center items-center rounded-full border-2 border-blue-500 hover:bg-blue-500 hover:text-white"
+              onClick={() => {
+                if (chooseFilter === 0) {
+                  handleNext();
+                } else {
+                  handleNext2();
+                }
+              }}
+            >
+              <IoIosArrowForward />
+            </button>
+          </div>
+        </div>
         <SkeletonAll data={listJob}>
           <div className="flex justify-center">
-            <ul className="inline-flex flex-wrap justify-center list-job gap-9 w-full">
+            <ul className="inline-flex flex-wrap justify-center list-job gap-5 w-full">
               {listJob &&
                 listJob.length > 0 &&
                 listJob.map((item, index) => (
@@ -208,7 +432,7 @@ const ListJobComponent = (props: Props) => {
                     <li key={index} className="relative">
                       <Link
                         href={`/post-detail/${item.id}`}
-                        className={`w-[360px] h-fit group gap-x-2  px-4 border-[1px] hover:border-blue-500 transition-all duration-500  hover:bg-blue-50 bg-white hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md  py-6 flex justify-between items-center item-job`}
+                        className={`w-[370px] h-fit group gap-x-2  px-4 border-[1px] hover:border-blue-500 transition-all duration-500  hover:bg-blue-50 bg-white hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md  py-6 flex justify-between items-center item-job`}
                       >
                         <div className="basis-3/12">
                           <div className="w-16 h-16 rounded-full overflow-hidden group-hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]  object-cover">
@@ -277,19 +501,11 @@ const ListJobComponent = (props: Props) => {
                                         Mô tả công việc
                                       </p>
                                       <pre className="whitespace-pre-wrap font-medium">
-                                        - Gọi điện chăm sóc KH cũ và tư vấn KH
-                                        mới về các sản phẩm in ấn và quà tặng -
-                                        Giải đáp các thắc mắc của khách hàng về
-                                        sản phẩm qua gọi điện, chat, mail,... -
-                                        Làm việc trực tiếp với khách hàng, ghi
-                                        nhận thông tin và báo cáo nội dung cho
-                                        trưởng phòng. - Thực hiện các vấn đề
-                                        liên quan như trao đổi với khách hàng,
-                                        kí kết và thực hiện hợp đồng. - Theo dõi
-                                        quá trình thanh lý hợp đồng, công nợ, và
-                                        các công việc chăm sóc khách hàng trước,
-                                        trong và sau hợp đồng. - Công việc cụ
-                                        thể trao đổi thêm khi phỏng vấn.
+                                        {
+                                          handleDecodingDescription(
+                                            item?.description ?? ""
+                                          )[0]
+                                        }
                                       </pre>
                                     </div>
                                     <div className="flex flex-col gap-y-2">
@@ -298,19 +514,24 @@ const ListJobComponent = (props: Props) => {
                                       </p>
 
                                       <pre className="whitespace-pre-wrap text-sm font-medium">
-                                        - Gọi điện chăm sóc KH cũ và tư vấn KH
-                                        mới về các sản phẩm in ấn và quà tặng -
-                                        Giải đáp các thắc mắc của khách hàng về
-                                        sản phẩm qua gọi điện, chat, mail,... -
-                                        Làm việc trực tiếp với khách hàng, ghi
-                                        nhận thông tin và báo cáo nội dung cho
-                                        trưởng phòng. - Thực hiện các vấn đề
-                                        liên quan như trao đổi với khách hàng,
-                                        kí kết và thực hiện hợp đồng. - Theo dõi
-                                        quá trình thanh lý hợp đồng, công nợ, và
-                                        các công việc chăm sóc khách hàng trước,
-                                        trong và sau hợp đồng. - Công việc cụ
-                                        thể trao đổi thêm khi phỏng vấn.
+                                        {
+                                          handleDecodingDescription(
+                                            item?.description ?? ""
+                                          )[1]
+                                        }
+                                      </pre>
+                                    </div>
+                                    <div className="flex flex-col gap-y-2">
+                                      <p className="font-bold py-1 px-2 border-l-4 border-blue-500">
+                                        Quyền lợi được hưởng
+                                      </p>
+
+                                      <pre className="whitespace-pre-wrap text-sm font-medium">
+                                        {
+                                          handleDecodingDescription(
+                                            item?.description ?? ""
+                                          )[2]
+                                        }
                                       </pre>
                                     </div>
                                   </div>
@@ -432,6 +653,34 @@ const ListJobComponent = (props: Props) => {
             </ul>
           </div>
         </SkeletonAll>
+        <div className="flex w-full justify-center gap-x-2 items-center mt-4">
+          <button
+            className="w-10 h-10 flex justify-center items-center rounded-full border-2 border-blue-500 hover:bg-blue-500 hover:text-white"
+            onClick={() => {
+              if (currentPage !== 0) {
+                setCurrentPage(currentPage - 1);
+              }
+            }}
+          >
+            <IoIosArrowBack />
+          </button>
+          <div>
+            <p className="flex items-center gap-x-1">
+              <span className="text-blue-500">{currentPage + 1}</span>/
+              <span>{totalPage + 1}</span>trang
+            </p>
+          </div>
+          <button
+            className="w-10 h-10 flex justify-center items-center rounded-full border-2 border-blue-500 hover:bg-blue-500 hover:text-white"
+            onClick={() => {
+              if (currentPage <= totalPage) {
+                setCurrentPage(currentPage + 1);
+              }
+            }}
+          >
+            <IoIosArrowForward />
+          </button>
+        </div>
       </div>
       <ModalLogin
         isOpen={openModalLogin}

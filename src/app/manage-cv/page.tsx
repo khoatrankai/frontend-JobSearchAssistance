@@ -100,7 +100,7 @@ const page = (props: Props) => {
     fetchData();
   };
   return (
-    <div className=" flex h-[89.5vh] pt-16 bg-[#f0f0f0] flex-col items-center gap-8">
+    <div className=" flex min-h-[89.5vh] pt-16 bg-[#f0f0f0] flex-col items-center gap-8">
       <div className="w-full max-w-6xl h-64 bg-blue-400 rounded-xl flex items-center justify-between relative">
         <div className="flex flex-col pl-12 justify-center">
           <p className="font-semibold text-2xl">

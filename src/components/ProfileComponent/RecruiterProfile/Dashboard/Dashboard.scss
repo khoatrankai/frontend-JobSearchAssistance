@@ -1,0 +1,32 @@
+.arrow-down::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 10px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+  
+    border-top: 10px solid #ffffff;
+    opacity: 95%;
+  }
+  .scroll-chart{
+    &::-webkit-scrollbar {
+      height: 10px !important;
+    }
+  
+    &::-webkit-scrollbar-track {
+      background: #1e40af !important;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: #ffffff !important;
+      border-radius: 5px;
+    }
+    
+    &::-webkit-scrollbar-thumb:hover {
+      background: rgb(218, 217, 237) !important;
+    }
+  }
+  

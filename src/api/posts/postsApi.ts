@@ -1,4 +1,5 @@
 import axiosClient from '@/configs/axiosClient';
+import axiosClientRecruiter from '@/configs/axiosRecruiter';
 
 const postsApi = {
   getPostNewestV3: (
@@ -9,7 +10,9 @@ const postsApi = {
     limit: number | null,
     threshold: number | null,
     lang: string,
+    page: number | null
   ) => {
+    console.log(page)
     const URL =
       `http://localhost:1902/api/v3/posts/newest?` +
       `${
@@ -33,7 +36,7 @@ const postsApi = {
       }` +
       `${provinceId ? `provinceId=${provinceId}&` : ``}` +
       `limit=${limit}${threshold ? `&threshold=${threshold}` : ``}` +
-      `&lang=${lang}`;
+      `&lang=${lang}` + `&page=${page}` ;
     return axiosClient.get(URL);
   },
 
@@ -47,25 +50,26 @@ const postsApi = {
     limit: Number,
     threshold: Number | null,
     lang: string,
+    page:number | null
   ) => {
     const URL = `v1/posts/theme?${
       themeId ? `tid=${themeId}&` : `tid=1&`
-    }limit=${limit}${threshold ? `&threshold=${threshold}` : ``}&lang=${lang}`;
+    }limit=${limit}${threshold ? `&threshold=${threshold}` : ``}&lang=${lang}`+ `&page=${page}`;
     return axiosClient.get(URL);
   },
 
   getPostV3: (id: number, lang: string) => {
     const URL = `http://localhost:1902/api/v3/posts/${id}?lang=${lang}`;
-    return axiosClient.get(URL);
+    return axiosClientRecruiter.get(URL);
   },
   updateStatusPost: (id: number, status: number) => {
     const URL = `/v1/posts/sta`;
-    return axiosClient.put(
+    return axiosClientRecruiter.put(
       URL,
       {id, status},
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
         },
       },
     );
@@ -73,18 +77,18 @@ const postsApi = {
   updatePostedInfo: (updatePost: any) => {
     const URL = `/v1/posts/inf`
 
-    return axiosClient.put(URL, updatePost, {
+    return axiosClientRecruiter.put(URL, updatePost, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
         ' Content-Type': 'multipart/form-data',
       },
     })
   },
   createPost: (newPost: any) => {
     const URL = `v1/posts`
-    return axiosClient.post(URL, newPost, {
+    return axiosClientRecruiter.post(URL, newPost, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
         'Content-Type': 'multipart/form-data',
       },
     })

@@ -20,6 +20,7 @@ const Activate = (props: Props) => {
     BGToolRowItem,
     handleOnClickRowItem,
     setCheckBlurItem,
+    dataForm,
   } = funcLibrary;
   useEffect(() => {
     console.log(data);
@@ -36,6 +37,9 @@ const Activate = (props: Props) => {
           contentEditable="true"
           ref={refItem}
           className="outline-none border-[1px] border-transparent focus:border-gray-400 p-2 uppercase"
+          style={{
+            color: dataForm.colorTopic?.split(",")[dataForm.indexTopic],
+          }}
         >
           Hoạt động
         </div>
@@ -65,7 +69,7 @@ const Activate = (props: Props) => {
                           item,
                           "company",
                           i,
-                          e.target.innerHTML
+                          e.target.value
                         );
                       }}
                       className="outline-none px-2 py-1 z-10 border-[1px] border-transparent text-wrap max-w-full min-w-32 focus:border-dotted focus:border-black/80 peer relative"
@@ -92,7 +96,7 @@ const Activate = (props: Props) => {
                       }}
                       onBlur={(e: any) => {
                         handleChangeTimeFirst(
-                          e.target.innerHTML,
+                          e.target.value,
                           index,
                           indexItem,
                           item,
@@ -122,7 +126,7 @@ const Activate = (props: Props) => {
                       }}
                       onBlur={(e: any) => {
                         handleChangeTimeEnd(
-                          e.target.innerHTML,
+                          e.target.value,
                           index,
                           indexItem,
                           item,
@@ -156,7 +160,7 @@ const Activate = (props: Props) => {
                         item,
                         "position",
                         i,
-                        e.target.innerHTML
+                        e.target.value
                       );
                     }}
                     className="outline-none px-2 py-1 z-10 border-[1px] border-transparent text-wrap max-w-full min-w-32 focus:border-dotted focus:border-black/80 peer relative"
@@ -185,7 +189,7 @@ const Activate = (props: Props) => {
                         item,
                         "description",
                         i,
-                        e.target.innerHTML
+                        e.target.value
                       );
                     }}
                     className="outline-none px-2 py-1 z-10 border-[1px] border-transparent text-wrap max-w-full min-w-32 focus:border-dotted focus:border-black/80 peer relative"

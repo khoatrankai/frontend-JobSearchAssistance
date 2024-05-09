@@ -20,6 +20,7 @@ const Experience = (props: Props) => {
     BGToolRowItem,
     handleOnClickRowItem,
     setCheckBlurItem,
+    dataForm,
   } = funcLibrary;
 
   return (
@@ -34,6 +35,9 @@ const Experience = (props: Props) => {
           contentEditable="true"
           ref={refItem}
           className="outline-none border-[1px] border-transparent focus:border-gray-400 p-2 uppercase"
+          style={{
+            color: dataForm.colorTopic?.split(",")[dataForm.indexTopic],
+          }}
         >
           Kinh nghiệm làm việc
         </div>
@@ -44,7 +48,8 @@ const Experience = (props: Props) => {
             <>
               <div
                 className="relative flex flex-col gap-1"
-                onMouseDown={(e: any) => {
+                onClick={(e: any) => {
+                  e.stopPropagation();
                   handleOnClickRowItem(e, index, indexItem, item, i);
                 }}
               >
@@ -63,7 +68,7 @@ const Experience = (props: Props) => {
                           item,
                           "company",
                           i,
-                          e.target.innerHTML
+                          e.target.value
                         );
                       }}
                       className="outline-none px-2 py-1 z-10 border-[1px] border-transparent text-wrap max-w-[98%] min-w-32 focus:border-dotted focus:border-black/80 peer relative"
@@ -89,7 +94,7 @@ const Experience = (props: Props) => {
                       }}
                       onBlur={(e: any) => {
                         handleChangeTimeFirst(
-                          e.target.innerHTML,
+                          e.target.value,
                           index,
                           indexItem,
                           item,
@@ -119,7 +124,7 @@ const Experience = (props: Props) => {
                       }}
                       onBlur={(e: any) => {
                         handleChangeTimeEnd(
-                          e.target.innerHTML,
+                          e.target.value,
                           index,
                           indexItem,
                           item,
@@ -154,7 +159,7 @@ const Experience = (props: Props) => {
                         item,
                         "position",
                         i,
-                        e.target.innerHTML
+                        e.target.value
                       );
                     }}
                     className="outline-none px-2 py-1 z-10 border-[1px] border-transparent text-wrap max-w-full min-w-32 focus:border-dotted focus:border-black/80 peer relative"
@@ -183,7 +188,7 @@ const Experience = (props: Props) => {
                         item,
                         "description",
                         i,
-                        e.target.innerHTML
+                        e.target.value
                       );
                     }}
                     className="outline-none px-2 py-1 z-10 border-[1px] border-transparent text-wrap max-w-full min-w-32 focus:border-dotted focus:border-black/80 peer relative"

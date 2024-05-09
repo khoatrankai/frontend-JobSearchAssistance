@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import "./TopAchivementComponent.scss";
 import Image from "next/image";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 type Props = {};
 
 const TopAchivementComponent = (props: Props) => {
+  const router = useRouter();
   const [dataCompany, setDataCompany] = useState<any>([
     { name: "acer", link: "https://www.acer.com/" },
     { name: "apple", link: "https://www.acer.com/" },
@@ -72,7 +74,12 @@ const TopAchivementComponent = (props: Props) => {
           thấy và
           <br /> <span className="font-bold text-black/80">"Tôi chọn bạn"</span>
         </p>
-        <button className="p-4 rounded-xl font-semibold bg-blue-700 relative hover:bg-blue-600 transition-all duration-500 text-white z-10">
+        <button
+          className="p-4 rounded-xl font-semibold bg-blue-700 relative hover:bg-blue-600 transition-all duration-500 text-white z-10"
+          onClick={() => {
+            router.push("/cv-all");
+          }}
+        >
           Tạo CV ngay
         </button>
       </div>

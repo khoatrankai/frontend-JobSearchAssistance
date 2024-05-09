@@ -43,9 +43,9 @@ const DescriptionHoverProvider = () => {
         }}
         style={{
           width: "580px",
-          height: "400px",
+          height: "440px",
           left: `${positionHoverJobX}px`,
-          top: `${positionHoverJobY}px`,
+          top: `${positionHoverJobY - 40}px`,
         }}
       >
         {children}

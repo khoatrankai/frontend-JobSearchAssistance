@@ -17,6 +17,7 @@ const Hobby = (props: Props) => {
     BGToolRowItem,
     handleOnClickRowItem,
     setCheckBlurItem,
+    dataForm,
   } = funcLibrary;
 
   return (
@@ -31,6 +32,9 @@ const Hobby = (props: Props) => {
           contentEditable="true"
           ref={refItem}
           className="outline-none border-[1px] border-transparent focus:border-gray-400 p-2 uppercase"
+          style={{
+            color: dataForm.colorTopic?.split(",")[dataForm.indexTopic],
+          }}
         >
           Sở thích
         </div>
@@ -42,6 +46,7 @@ const Hobby = (props: Props) => {
               <div
                 className="relative flex flex-col gap-1"
                 onMouseDown={(e: any) => {
+                  console.log("click up");
                   handleOnClickRowItem(e, index, indexItem, item, i);
                 }}
               >
@@ -59,7 +64,7 @@ const Hobby = (props: Props) => {
                         item,
                         "description",
                         i,
-                        e.target.innerHTML
+                        e.target.value
                       );
                     }}
                     className="outline-none px-2 py-1 z-10 border-[1px] border-transparent text-wrap max-w-full min-w-32 focus:border-dotted focus:border-black/80 peer relative"

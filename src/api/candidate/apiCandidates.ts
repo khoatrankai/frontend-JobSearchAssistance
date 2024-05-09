@@ -1,9 +1,10 @@
 import axiosClient from "@/configs/axiosClient";
+import axiosClientRecruiter from "@/configs/axiosRecruiter";
 
 const candidateSearch = {
   getAcademicTypes: (lang: string) => {
     const URL = `http://localhost:1902/api/v3/academic-types?lang=${lang}`
-    return axiosClient.get(URL)
+    return axiosClientRecruiter.get(URL)
   },
 
 
@@ -30,17 +31,17 @@ const candidateSearch = {
       `&${limit ? `limit=${limit}` : ``}` +
       `&${page ? `page=${page}` : ``}` +
       `&${lang ? `lang=${lang}` : ``}`;
-    return axiosClient.get(URL)
+    return axiosClientRecruiter.get(URL)
   },
 
   postBookmarkCandidate: (accountId: string) => {
     const URL = `http://localhost:1902/api/v3/candidate-bookmarks`
-    return axiosClient.post(
+    return axiosClientRecruiter.post(
       URL,
       { candidateId: accountId },
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
         },
       }
     )
@@ -48,30 +49,30 @@ const candidateSearch = {
 
   getBookmarkCandidate: (page: number, limit: number, lang: string) => {
     const URL = `http://localhost:1902/api/v3/candidate-bookmarks?lang=${lang}&page=${page}&limit=${limit}`
-    return axiosClient.get(URL, {
+    return axiosClientRecruiter.get(URL, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
       },
     })
   },
 
   postCountShowCandidate: (accountId: string) => {
     const URL = `http://localhost:1902/api/v3/view-profiles`
-    return axiosClient.post(
+    return axiosClientRecruiter.post(
       URL,
       { profileId: accountId },
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
         },
       }
     )
   },
   getViewProfile: () => {
     const URL = `http://localhost:1902/api/v3/view-profiles`
-    return axiosClient.get(URL, {
+    return axiosClientRecruiter.get(URL, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
       },
     })
   }

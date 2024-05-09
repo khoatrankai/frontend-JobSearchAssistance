@@ -16,6 +16,7 @@ const Achivement = (props: Props) => {
     BGToolRowItem,
     handleOnClickRowItem,
     setCheckBlurItem,
+    dataForm,
   } = funcLibrary;
   return (
     <>
@@ -30,6 +31,9 @@ const Achivement = (props: Props) => {
             <div
               contentEditable="true"
               className="outline-none border-[1px] border-transparent focus:border-gray-400 p-2 uppercase"
+              style={{
+                color: dataForm.colorTopic?.split(",")[dataForm.indexTopic],
+              }}
             >
               Chứng chỉ
             </div>
@@ -57,10 +61,10 @@ const Achivement = (props: Props) => {
                             item,
                             "time",
                             i,
-                            e.target.innerHTML
+                            e.target.value
                           );
                         }}
-                        className="outline-none px-2 py-1 z-10 border-[1px] border-transparent text-wrap max-w-full min-w-32 focus:border-dotted focus:border-black/80 peer relative"
+                        className="outline-none px-2 py-1 z-10 border-[1px] border-transparent text-wrap max-w-full  focus:border-dotted focus:border-black/80 peer relative"
                       >
                         {dt.time}
                       </div>
@@ -85,10 +89,10 @@ const Achivement = (props: Props) => {
                             item,
                             "description",
                             i,
-                            e.target.innerHTML
+                            e.target.value
                           );
                         }}
-                        className="outline-none px-2 py-1 z-10 border-[1px] border-transparent text-wrap max-w-full min-w-32 focus:border-dotted focus:border-black/80 peer relative"
+                        className="outline-none px-2 py-1 z-10 border-[1px] border-transparent text-wrap max-w-full  focus:border-dotted focus:border-black/80 peer relative"
                       >
                         {dt.description}
                       </div>

@@ -10,6 +10,10 @@ import { useSrollContext } from "@/context/AppProvider";
 import TopAchivementComponent from "@/components/TopAchivementComponent/TopAchivementComponent";
 import InfoHomeCompany from "@/components/InfoHomeCompany/InfoHomeCompany";
 import InfoJobMail from "@/components/InfoJobMail/InfoJobMail";
+import BannerReceiveEmail from "@/components/BannerReceiveEmail/BannerReceiveEmail";
+import BannerNewComponent from "@/components/BannerNewComponent/BannerNewComponent";
+import BlogRecruiter from "@/components/BlogRecruiter/BlogRecruiter";
+import Image from "next/image";
 
 type Props = {};
 
@@ -19,7 +23,24 @@ const Home = (props: Props) => {
   const refJobTopic = useRef<any>();
   const refCompanyHot = useRef<any>();
   const [scrollPosition, setScrollPosition] = useState<any>(false);
-  const { setPositionScrollJob } = useSrollContext();
+  const { setPositionScrollJob, dataBgHome } = useSrollContext();
+  const [dataBannerHome, setBannerHome] = useState<any>([
+    {
+      image: "/bgacb.jpg",
+    },
+    {
+      image: "/bgagribank.jpg",
+    },
+    {
+      image: "/bgtechcombank.jpg",
+    },
+    {
+      image: "/bgvcb.jpg",
+    },
+    {
+      image: "/bgvpbank.jpg",
+    },
+  ]);
   useEffect(() => {
     window.addEventListener("scroll", (e) => {
       let currentScrollPosition = window.scrollY || window.pageYOffset;
@@ -44,35 +65,67 @@ const Home = (props: Props) => {
   return (
     <>
       <div className="flex flex-col items-center">
-        <div className="gradient-bg-banner w-full flex flex-col items-center">
-          <div
-            className={`max-w-6xl w-full transition-all duration-300 ${
-              scrollPosition ? "invisible opacity-0" : "opacity-100"
-            }`}
-          >
-            <SearchAllComponent DefaultActive={true} />
-          </div>
-          <BannerComponent />
-          <div ref={refCompanyHot}>
-            <AllCompanyComponent />
-          </div>
+        <div className="fixed -z-50 inset-0 flex">
+          <div className="fixed inset-0 z-10 bg-black/30"></div>
+          {/* <ReactPlayer
+          url={"/videos/introip.mp4"}
+          playing={true}
+          loop={true}
+          muted={true}
+          height=""
+          width="100vw"
+        /> */}
+          {dataBannerHome.map((dt: any, index: any) => {
+            return (
+              <>
+                <Image
+                  className={` h-vh transition-all  duration-700 ${
+                    dataBgHome === index ? "!w-full" : "!w-0 opacity-0 "
+                  }`}
+                  alt=""
+                  src={dt.image}
+                  height={5000}
+                  width={dataBgHome === index ? 5000 : 0}
+                />
+              </>
+            );
+          })}
         </div>
-
-        <div className="flex flex-col w-full">
-          <div ref={refJobNew}>
-            <ListJobComponent />
+        <BannerNewComponent>
+          <div className=" w-full flex flex-col items-center">
+            <div
+              className={`max-w-6xl w-full transition-all duration-700 ${
+                scrollPosition ? "invisible opacity-0" : "opacity-100"
+              }`}
+            >
+              <SearchAllComponent DefaultActive={true} />
+            </div>
           </div>
+        </BannerNewComponent>
 
+        {/* <BannerComponent /> */}
+        {/* <div ref={refCompanyHot} className="w-full">
+            <AllCompanyComponent />
+          </div> */}
+
+        <div className="flex flex-col w-full z-40">
           <div ref={refJobHot}>
             <HotJobComponent />
           </div>
+          {/* <AllCompanyComponent /> */}
           <InfoJobMail />
           <TopAchivementComponent />
+          <div ref={refJobNew}>
+            <ListJobComponent />
+          </div>
+          <InfoHomeCompany />
 
           <div ref={refJobTopic}>
             <TopCompanyComponent />
           </div>
-          <InfoHomeCompany />
+          <BannerReceiveEmail />
+
+          <BlogRecruiter />
         </div>
       </div>
     </>

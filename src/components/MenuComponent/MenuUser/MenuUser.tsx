@@ -119,7 +119,7 @@ const MenuComponent = (props: Props) => {
   const [positionScroll, setPositionScroll] = useState(0);
   const [tabFilter, setTabFilter] = useState<Boolean>(false);
   const [checkPageLoad, setCheckPageLoad] = useState<boolean>(false);
-  const [checkReponsive, setCheckReponsive] = useState<boolean>(false);
+  // const [checkReponsive, setCheckReponsive] = useState<boolean>(false);
   const [totalJob, setTotalJob] = useState<number>(0);
   const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
   const [profileData, setProfileData] = useState<any>({});
@@ -161,6 +161,7 @@ const MenuComponent = (props: Props) => {
   }, [onMenuAll]);
 
   useEffect(() => {
+    console.log(scrollPositionSearch);
     if (checkPage !== "/") {
       setScrollPositionSearch(true);
     } else {
@@ -174,7 +175,9 @@ const MenuComponent = (props: Props) => {
       });
     }
   }, [checkPage, scrollPositionSearch]);
-
+  useEffect(() => {
+    console.log(profileData);
+  }, [profileData]);
   useEffect(() => {
     dispatch(fetchProfile(language === 1 ? "vi" : "en") as any);
   }, [language]);
@@ -248,27 +251,27 @@ const MenuComponent = (props: Props) => {
       setCheckPageLoad(false);
     }
   }, [checkPage]);
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 700) {
-        setCheckReponsive(true);
-      } else {
-        setCheckReponsive(false);
-      }
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-  useEffect(() => {
-    if (scrollPosition != -1) {
-      setNav(true);
-    } else {
-      setNav(true);
-    }
-  }, [scrollPosition]);
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     if (window.innerWidth < 700) {
+  //       setCheckReponsive(true);
+  //     } else {
+  //       setCheckReponsive(false);
+  //     }
+  //   };
+  //   handleResize();
+  //   window.addEventListener("resize", handleResize);
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, []);
+  // useEffect(() => {
+  //   if (scrollPosition != -1) {
+  //     setNav(true);
+  //   } else {
+  //     setNav(true);
+  //   }
+  // }, [scrollPosition]);
   const handleScroll = () => {
     const scroll = window.pageYOffset;
     if (scroll > positionScroll) {
@@ -489,11 +492,17 @@ const MenuComponent = (props: Props) => {
 
     fetchData();
   }, []);
-
+  useEffect(() => {});
   return (
     <>
-      <div className="h-20 relative" ref={ref_menu}>
-        <div className="fixed z-50 w-full bg-white border-b-2 flex flex-col items-center justify-center">
+      <div className={`h-20 `} ref={ref_menu}>
+        <div
+          className={`fixed z-50  w-full transition-all duration-700 ${
+            !scrollPositionSearch && checkPage === "/"
+              ? " bg-transparent text-white border-transparent"
+              : "bg-white"
+          }  border-b-2 flex flex-col items-center justify-center`}
+        >
           <nav className="w-full max-w-full h-20 flex items-center justify-between z-30 px-6 gap-x-2">
             <div
               className={`flex justify-between flex-1 ${
@@ -501,19 +510,34 @@ const MenuComponent = (props: Props) => {
               }`}
             >
               <div className="flex justify-between">
-                <Image
+                <div
                   onClick={() => {
                     window.location.href = "/";
                   }}
-                  style={{ cursor: "pointer" }}
-                  alt="logo"
-                  className="w-24"
-                  width="500"
-                  height="500"
-                  src="/logo/2023.png"
-                />
+                >
+                  {!scrollPositionSearch && checkPage === "/" ? (
+                    <Image
+                      style={{ cursor: "pointer" }}
+                      alt="logo"
+                      className="w-24 scale-125"
+                      width="500"
+                      height="500"
+                      src="/logo/2024it.png"
+                    />
+                  ) : (
+                    <Image
+                      style={{ cursor: "pointer" }}
+                      alt="logo"
+                      className="w-24 scale-125"
+                      width="500"
+                      height="500"
+                      src="/logo/2023.png"
+                    />
+                  )}
+                </div>
+
                 <div
-                  className={`flex font-semibold gap-x-2 cursor-pointer text-black ${
+                  className={`flex font-semibold gap-x-2 cursor-pointer  ${
                     searchActive || reponsiveMobile < 1350 ? "hidden" : ""
                   }`}
                 >
@@ -674,7 +698,7 @@ const MenuComponent = (props: Props) => {
                     checkPage !== "/search-result"
                       ? ""
                       : "invisible opacity-0"
-                  } transition-all duration-500 justify-end  flex items-center`}
+                  } transition-all duration-300 justify-end  flex items-center`}
                 >
                   <SearchAllComponent setSearchActive={setSearchActive} />
                 </div>
@@ -708,7 +732,9 @@ const MenuComponent = (props: Props) => {
                     <>
                       <div>
                         <div
-                          className="flex rounded-l-3xl justify-center cursor-pointer  overflow-hidden p-1 items-center  font-bold text-black"
+                          className={`flex rounded-l-3xl justify-center cursor-pointer  overflow-hidden p-1 items-center transition-all duration-500 font-bold  ${
+                            scrollPositionSearch ? "text-black" : "text-white"
+                          }`}
                           onClick={() => {
                             window.location.href = "/candidate/login";
                             // router.push("/candidate/login");
@@ -739,7 +765,7 @@ const MenuComponent = (props: Props) => {
                           fontSize="1.5em"
                         />
                         <div
-                          className={`flex flex-col gap-y-4 absolute pointer-events-none ${
+                          className={`flex flex-col gap-y-4 absolute pointer-events-none text-black ${
                             selectionMenu === 1
                               ? "h-fit opacity-100"
                               : "opacity-0"
@@ -823,7 +849,7 @@ const MenuComponent = (props: Props) => {
                         </div> */}
                       </div>
                       <div
-                        className={`rounded-full p-2 cursor-pointer transition-all bg-black duration-300 relative  ${
+                        className={`rounded-full p-2 cursor-pointer transition-all text-black bg-black duration-300 relative  ${
                           selectionMenu === 3 ? "" : "hover:bg-gray-700 "
                         }`}
                         onClick={() => {

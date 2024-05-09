@@ -10,6 +10,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import ShortText from "@/util/ShortText";
 import { useRouter } from "next/navigation";
 import { fetchSearchResult } from "@/redux/reducer/searchReducer";
+import axiosClientRecruiter from "@/configs/axiosRecruiter";
 
 type Props = {
   setSearchActive?: any;
@@ -83,7 +84,7 @@ const SearchAllComponent = (props: Props) => {
         data: dataDelete,
       });
       if (res) {
-        const res2 = await axiosClient.get("/v1/search/history");
+        const res2 = await axiosClientRecruiter.get("/v1/search/history");
         setHistoryKey(res2.data.listHistorySearch);
       }
     };

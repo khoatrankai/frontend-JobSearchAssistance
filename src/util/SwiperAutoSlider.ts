@@ -27,6 +27,7 @@ const useSwiperAutoSlider = (gap: number = 0,delay:number = 4000, typeSlider: bo
       }
     }
   };
+  useEffect(()=>{console.log(ref_list_slider.current)},[ref_list_slider])
   useEffect(() => {
     if (ref_list_slider.current) {
       ref_list_slider.current.style.transform = `translateX(${position}px)`;

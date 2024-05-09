@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-key */
+import TextEditorOne from "@/util/TextEditor/TextEditorOne";
 import React, { useRef } from "react";
 
 type Props = {
@@ -21,6 +22,7 @@ const Project = (props: Props) => {
     handleOnClickRowItem,
     handleCheckPass,
     setCheckBlurItem,
+    dataForm,
   } = funcLibrary;
   const timeKey = (data: any) => {
     const currentDate = new Date();
@@ -38,6 +40,9 @@ const Project = (props: Props) => {
         <div
           contentEditable="true"
           className="outline-none border-[1px] border-transparent focus:border-gray-400 p-2 uppercase"
+          style={{
+            color: dataForm.colorTopic?.split(",")[dataForm.indexTopic],
+          }}
         >
           Dự án
         </div>
@@ -63,7 +68,7 @@ const Project = (props: Props) => {
               }}
             >
               <div className="flex items-center flex-wrap gap-1 max-w-full">
-                <div className="relative max-w-full">
+                {/* <div className="relative max-w-full">
                   <div
                     contentEditable
                     role="textbox"
@@ -93,8 +98,30 @@ const Project = (props: Props) => {
                   ) : (
                     ""
                   )}
-                </div>
-
+                </div> */}
+                <TextEditorOne
+                  className={
+                    " min-w-32 border-[1px] border-transparent focus:border-dotted focus:border-black/80 peer"
+                  }
+                  onBlur={(e: any) => {
+                    handleChangeData(
+                      index,
+                      indexItem,
+                      item,
+                      "participant",
+                      i,
+                      e.target.innerText
+                    );
+                  }}
+                  onFocus={(e: any) => {
+                    setCheckBlurItem(true);
+                  }}
+                  placeholder={"Tên dự án"}
+                  classNamePlaceholder={" text-black/50"}
+                  style={{ maxWidth: `${dt.maxWidth}px` }}
+                >
+                  {dt.participant}
+                </TextEditorOne>
                 <span>|</span>
                 <div className="relative">
                   <div
@@ -102,7 +129,7 @@ const Project = (props: Props) => {
                     className="outline-none px-2 py-1 z-10 border-[1px] border-transparent text-wrap max-w-full min-w-16 focus:border-dotted focus:border-black/80 peer relative"
                     onBlur={(e: any) => {
                       handleChangeTimeFirst(
-                        e.target.innerHTML,
+                        e.target.value,
                         index,
                         indexItem,
                         item,
@@ -134,7 +161,7 @@ const Project = (props: Props) => {
                     }}
                     onBlur={(e: any) => {
                       handleChangeTimeEnd(
-                        e.target.innerHTML,
+                        e.target.value,
                         index,
                         indexItem,
                         item,
@@ -208,7 +235,7 @@ const Project = (props: Props) => {
                         item,
                         "position",
                         i,
-                        e.target.innerHTML
+                        e.target.value
                       );
                     }}
                     onFocus={(e: any) => {
@@ -250,7 +277,7 @@ const Project = (props: Props) => {
                       item,
                       "functionality",
                       i,
-                      e.target.innerHTML
+                      e.target.value
                     );
                   }}
                 >
@@ -278,7 +305,7 @@ const Project = (props: Props) => {
                       item,
                       "technology",
                       i,
-                      e.target.innerHTML
+                      e.target.value
                     );
                   }}
                 >
