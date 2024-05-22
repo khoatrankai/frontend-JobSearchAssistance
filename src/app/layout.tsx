@@ -14,6 +14,8 @@ import FooterComponent from "@/components/FooterComponent/FooterComponent";
 const inter = Inter({ subsets: ["vietnamese"] });
 import { usePathname } from "next/navigation";
 import AlertOne from "@/util/Alert/AlertOne";
+import ShowImage from "@/util/ShowImage/ShowImage";
+import ChatAIComponent from "@/components/ChatAIComponent/ChatAIComponent";
 
 // export const metadata = {
 //   title: "Create Next App",
@@ -47,6 +49,7 @@ export default function RootLayout({
     "/recruiter/forgot-password",
     "/login",
   ];
+  const allowedFooter = ["/chat"];
 
   const urlCustom = pathname.split("/").slice(0, -1).join("/");
   return (
@@ -64,6 +67,7 @@ export default function RootLayout({
           {children}
           {reponsiveMobile >= 1280 ? (
             <>
+              {/* <ChatAIComponent /> */}
               <ChangeLanguage />
               <ChatRoll />
               <RollTop />
@@ -72,8 +76,10 @@ export default function RootLayout({
             ""
           )}
           <AlertOne />
+          <ShowImage />
           {pathname.split("/").length <= 3
-            ? !allowedPath.includes(pathname) && <FooterComponent />
+            ? !allowedPath.includes(pathname) &&
+              !allowedFooter.includes(pathname) && <FooterComponent />
             : !(urlCustom.trim() === "/candidate/reset-password") && (
                 <FooterComponent />
               )}

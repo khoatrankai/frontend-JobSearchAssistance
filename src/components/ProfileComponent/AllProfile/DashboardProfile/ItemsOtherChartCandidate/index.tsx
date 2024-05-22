@@ -4,7 +4,7 @@ import { Col, Row } from "antd";
 import styles from "./style.module.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/reducer";
-import { DataLog, DataLogRecuiter } from "@/app/analytics/typeChart";
+import { DataLog, DataLogRecuiter } from "@/components/Analytics/typeChart";
 import {
   ChartCompanySave,
   ChartCompanyView,

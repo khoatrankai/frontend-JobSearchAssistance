@@ -14,11 +14,14 @@ import { useSelector } from "react-redux";
 import AppliedPostedJob from "@/components/AppliedPostedJob";
 import FooterComponent from "@/components/FooterComponent/FooterComponent";
 import PageHome from "@/page/Home/Home";
+import LoadingPageComponent from "@/components/LoadingPageComponent/LoadingPageComponent";
+import { useSrollContext } from "@/context/AppProvider";
 
 interface PageProps {}
 
 const Home = () => {
   const persistor = persistStore(store);
+  const { isLoading, handlePersistGateLoaded } = useSrollContext();
   const [checkPage, setCheckPage] = useState<string>("/");
   const categoryId = useSelector((state: any) => state.categoryId);
   const hotJobRef = useRef<HTMLDivElement>(null);
@@ -34,20 +37,18 @@ const Home = () => {
   }, [categoryId]);
 
   return (
-    <PersistGate loading={null} persistor={persistor}>
-      <div className="w-full h-full -z-10">
-        <PageHome />
-
-        {/* <BannerComponent />
-        {profile && <AppliedPostedJob />}
-        <HotJobComponent ref={hotJobRef} />
-        <ListJobComponent />
-        <AllCompanyComponent />
-        {profile && profile.roleData !== 3 && <SuggestJobComponent />}
-        <TopCompanyComponent />
-        <FooterComponent /> */}
-      </div>
-    </PersistGate>
+    <>
+      {isLoading && <LoadingPageComponent />}
+      <PersistGate
+        loading={false}
+        persistor={persistor}
+        onBeforeLift={handlePersistGateLoaded}
+      >
+        <div className="w-full h-full -z-10">
+          <PageHome />
+        </div>
+      </PersistGate>
+    </>
   );
 };
 

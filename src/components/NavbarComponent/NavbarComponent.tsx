@@ -128,7 +128,6 @@ const NavbarComponent = (props: Props) => {
       <ul
         className="flex max-w-fit translate-x-2 item-center text-black select-none"
         ref={ref_list_slider}
-        onMouseDown={handleClickDown}
       >
         {listParentCategory.map((item, index) => (
           <li
@@ -162,7 +161,7 @@ const NavbarComponent = (props: Props) => {
               <div
                 className="border-selected"
                 style={{
-                  backgroundColor: "#d4a650",
+                  backgroundColor: "#3B82F6",
                   height: "2px",
                   width: "100%",
                 }}

@@ -1,3 +1,4 @@
+import { useSrollContext } from "@/context/AppProvider";
 import Image from "next/image";
 import React from "react";
 import { IoIosCheckmarkCircle } from "react-icons/io";
@@ -5,17 +6,37 @@ import { IoIosCheckmarkCircle } from "react-icons/io";
 type Props = {};
 
 const ServiceRecruiterCompany = (props: Props) => {
+  const { reponsiveMobile } = useSrollContext();
   return (
     <div className="w-full py-20 px-4 flex justify-center">
       <div className="max-w-6xl gap-y-16 flex flex-col items-center justify-center">
-        <p className="font-bold text-4xl">Dịch vụ của chúng tôi</p>
+        <p
+          className={`font-bold  ${
+            reponsiveMobile < 800 ? "text-2xl" : "text-4xl"
+          }`}
+        >
+          Dịch vụ của chúng tôi
+        </p>
         <div className="flex justify-between items-center py-6 w-full">
-          <Image src={"/recruiter/post.png"} alt="" width={400} height={400} />
+          <Image
+            src={"/recruiter/post.png"}
+            alt=""
+            width={reponsiveMobile < 800 ? 200 : 400}
+            height={reponsiveMobile < 800 ? 200 : 400}
+          />
           <div className="flex flex-col gap-y-4 basis-1/2">
-            <p className="font-semibold text-3xl text-blue-600">
+            <p
+              className={`font-semibold text-blue-600 ${
+                reponsiveMobile < 800 ? "text-xl" : "text-3xl"
+              }`}
+            >
               Đăng tin tuyển dụng miễn phí
             </p>
-            <div className="flex flex-col gap-y-2">
+            <div
+              className={`flex flex-col gap-y-2 ${
+                reponsiveMobile < 800 ? "text-sm" : ""
+              }`}
+            >
               <div className="flex gap-x-2  items-center">
                 <div className="w-6">
                   <IoIosCheckmarkCircle className="text-blue-600" />{" "}
@@ -50,10 +71,18 @@ const ServiceRecruiterCompany = (props: Props) => {
         </div>
         <div className="flex justify-between items-center py-6 w-full">
           <div className="flex flex-col gap-y-4 basis-1/2">
-            <p className="font-semibold text-3xl text-blue-600">
+            <p
+              className={`font-semibold text-blue-600 ${
+                reponsiveMobile < 800 ? "text-xl" : "text-3xl"
+              }`}
+            >
               Biểu đồ thống kê linh hoạt
             </p>
-            <div className="flex flex-col gap-y-2">
+            <div
+              className={`flex flex-col gap-y-2 ${
+                reponsiveMobile < 800 ? "text-sm" : ""
+              }`}
+            >
               <div className="flex gap-x-2  items-center">
                 <div className="w-6">
                   <IoIosCheckmarkCircle className="text-blue-600" />{" "}
@@ -80,13 +109,33 @@ const ServiceRecruiterCompany = (props: Props) => {
               </div>
             </div>
           </div>
-          <Image src={"/recruiter/chart.png"} alt="" width={400} height={400} />
+          <Image
+            src={"/recruiter/chart.png"}
+            alt=""
+            width={reponsiveMobile < 800 ? 200 : 400}
+            height={reponsiveMobile < 800 ? 200 : 400}
+          />
         </div>
         <div className="flex justify-between items-center py-6 w-full">
-          <Image src={"/recruiter/info.png"} alt="" width={400} height={400} />
+          <Image
+            src={"/recruiter/info.png"}
+            alt=""
+            width={reponsiveMobile < 800 ? 200 : 400}
+            height={reponsiveMobile < 800 ? 200 : 400}
+          />
           <div className="flex flex-col gap-y-4  basis-1/2">
-            <p className="font-semibold text-3xl text-blue-600">CV đề xuất</p>
-            <div className="flex flex-col gap-y-2">
+            <p
+              className={`font-semibold text-blue-600 ${
+                reponsiveMobile < 800 ? "text-xl" : "text-3xl"
+              }`}
+            >
+              CV đề xuất
+            </p>
+            <div
+              className={`flex flex-col gap-y-2 ${
+                reponsiveMobile < 800 ? "text-sm" : ""
+              }`}
+            >
               <div className="flex gap-x-2  items-center">
                 <div className="w-6">
                   <IoIosCheckmarkCircle className="text-blue-600" />{" "}

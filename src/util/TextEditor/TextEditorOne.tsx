@@ -22,12 +22,12 @@ const TextEditorOne = ({
   return (
     <>
       <TextareaAutosize
-        style={style}
+        style={{ ...style, lineHeight: "2rem", backgroundColor: "transparent" }}
         placeholder={placeholder}
         value={children}
         onChange={onBlur}
         onFocus={onFocus}
-        className={`leading-8 !min-w-2 resize-none ${className} outline-none`}
+        className={` !min-w-2 resize-none ${className} outline-none`}
       />
     </>
   );

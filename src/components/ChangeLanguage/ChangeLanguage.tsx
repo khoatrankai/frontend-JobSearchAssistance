@@ -43,7 +43,7 @@ const ChangeLanguage = (props: Props) => {
   }, []);
   return (
     <button
-      className={` rounded-full fixed right-4 overflow-hidden border-4 bg-blue-700 hover:bg-black z-10 ${
+      className={` rounded-full fixed right-4 overflow-hidden border-4 bg-blue-700 hover:bg-black z-40 ${
         reponsiveMobile
           ? "w-12 h-12 bottom-[190px]"
           : "w-[60px] h-[60px] bottom-[200px]"

@@ -149,7 +149,7 @@ const AchivementModal = (props: Props) => {
                     ? "Thêm"
                     : "Add"
                   : languageRedux === 1
-                  ? "Cập nhất"
+                  ? "Cập nhật"
                   : `Edit`}
               </button>
               <button

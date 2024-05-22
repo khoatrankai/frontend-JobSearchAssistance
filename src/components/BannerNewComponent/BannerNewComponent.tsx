@@ -55,13 +55,17 @@ const BannerNewComponent = ({ children }: Props) => {
     { name: "nissan", link: "https://www.acer.com/" },
     { name: "tesla", link: "https://www.acer.com/" },
   ]);
-  const { setBgHome, dataBgHome } = useSrollContext();
+  const { setBgHome, dataBgHome, reponsiveMobile } = useSrollContext();
   return (
-    <div className="w-full h-[850px] relative flex flex-col items-center justify-between pt-16">
+    <div className="w-full h-[850px] relative flex flex-col items-center justify-between pt-16 px-4">
       {children}
 
       <div className="absolute left-[20%] top-1/4 text-white">
-        <div className="h-10 overflow-hidden text-white/70 font-bold uppercase text-3xl">
+        <div
+          className={`h-10 overflow-hidden text-white/70 font-bold uppercase  ${
+            reponsiveMobile < 1152 ? "text-2xl" : "text-3xl"
+          }`}
+        >
           <div
             className="h-fit transition-all duration-700"
             style={{ transform: `translateY(-${2.5 * dataBgHome}rem)` }}
@@ -69,14 +73,21 @@ const BannerNewComponent = ({ children }: Props) => {
             {dataCompany.map((dt: any, index: any) => {
               if (index < 5)
                 return (
-                  <>
-                    <p className="h-10 w-96">{dt.title}</p>
-                  </>
+                  <p
+                    className="h-10 w-full max-w-96 flex items-center"
+                    key={index}
+                  >
+                    {dt.title}
+                  </p>
                 );
             })}
           </div>
         </div>
-        <div className=" h-36 overflow-hidden  font-bold uppercase text-4xl">
+        <div
+          className={` h-36 overflow-hidden  font-bold uppercase  ${
+            reponsiveMobile < 1152 ? "text-3xl" : "text-4xl"
+          }`}
+        >
           <div
             className="h-fit transition-all duration-700"
             style={{ transform: `translateY(-${9 * dataBgHome}rem)` }}
@@ -84,9 +95,9 @@ const BannerNewComponent = ({ children }: Props) => {
             {dataCompany.map((dt: any, index: any) => {
               if (index < 5)
                 return (
-                  <>
-                    <p className="h-36 w-96 pt-2">{dt.content}</p>
-                  </>
+                  <p className="h-36 w-full max-w-96 pt-2 " key={index}>
+                    {dt.content}
+                  </p>
                 );
             })}
           </div>
@@ -99,44 +110,46 @@ const BannerNewComponent = ({ children }: Props) => {
             {dataCompany.map((dt: any, index: any) => {
               if (index < 5)
                 return (
-                  <>
-                    <button className="px-4 h-14 flex justify-center items-center rounded-xl border-[2px] bg-black text-white  font-semibold w-fit hover:bg-white hover:text-black transition-all duration-500">
-                      {dt.contentClick}
-                    </button>
-                  </>
+                  <button
+                    className="px-4 h-14 flex justify-center items-center rounded-xl border-[2px] bg-black text-white  font-semibold w-fit hover:bg-white hover:text-black transition-all duration-500"
+                    key={index}
+                  >
+                    {dt.contentClick}
+                  </button>
                 );
             })}
           </div>
         </div>
       </div>
-      <div className="flex max-w-6xl w-full relative -translate-y-32 gap-x-4 overflow-hidden">
+      <div className="flex max-w-6xl w-full relative -translate-y-32 gap-x-4 overflow-hidden justify-center">
         {dataCompany.map((dt: any, index: any) => {
           if (index < 5)
             return (
-              <>
-                <div
-                  className={`min-w-[217.59px] h-36 w-full rounded-xl p-4 bg-white/70 border-2 border-transparent  cursor-pointer transition-all duration-500  shadow-[inset_-12px_-8px_40px_#46464620] ${
-                    dataBgHome === index
-                      ? "opacity-10"
-                      : "  hover:border-blue-500 hover:bg-black/50"
-                  }`}
-                  onClick={() => {
-                    setBgHome(index);
-                  }}
-                >
-                  <Image
-                    className="h-full"
-                    width={500}
-                    height={500}
-                    alt=""
-                    src={`/company/logo${dt.name}.png`}
-                  />
-                </div>
-              </>
+              <div
+                className={`w-[217.59px]  h-36 rounded-xl p-4 bg-white/70 border-2 border-transparent  cursor-pointer transition-all duration-500  shadow-[inset_-12px_-8px_40px_#46464620] ${
+                  dataBgHome === index
+                    ? ""
+                    : "  hover:border-blue-500 hover:bg-black/50 opacity-10"
+                } ${
+                  reponsiveMobile < 1200 && dataBgHome !== index ? "hidden" : ""
+                }`}
+                onClick={() => {
+                  setBgHome(index);
+                }}
+                key={index}
+              >
+                <Image
+                  className="h-full"
+                  width={500}
+                  height={500}
+                  alt=""
+                  src={`/company/logo${dt.name}.png`}
+                />
+              </div>
             );
         })}
       </div>
-      <div className="absolute right-1/2 bottom-10 left-0 px-4 flex justify-end items-center">
+      <div className="absolute inset-x-0 gap-6 bottom-10  px-4 flex justify-center items-center">
         <button
           className="text-3xl p-2 text-black/80 hover:text-white transition-all duration-300 rounded-full border-2 flex justify-center items-center"
           onClick={() => {
@@ -149,8 +162,26 @@ const BannerNewComponent = ({ children }: Props) => {
         >
           <IoIosArrowBack />
         </button>
-      </div>
-      <div className="absolute left-1/2 bottom-10 right-0 px-4 flex justify-start items-center">
+        {reponsiveMobile < 1200 && (
+          <div className="flex gap-2">
+            {dataCompany.map((dt: any, index: any) => {
+              if (index < 5) {
+                return (
+                  <button
+                    key={index}
+                    className={`w-8 h-1 rounded-full transition-all duration-500 ${
+                      dataBgHome === index ? "bg-white" : "bg-white/40"
+                    }`}
+                    onClick={() => {
+                      setBgHome(index);
+                    }}
+                  ></button>
+                );
+              }
+            })}
+          </div>
+        )}
+
         <button
           className="text-3xl p-2 text-black/80 hover:text-white transition-all duration-300 rounded-full border-2 flex justify-center items-center"
           onClick={() => {
@@ -164,6 +195,9 @@ const BannerNewComponent = ({ children }: Props) => {
           <IoIosArrowForward />
         </button>
       </div>
+      {/* <div className="absolute left-1/2 bottom-10 right-0 px-4 flex justify-start items-center">
+        
+      </div> */}
     </div>
   );
 };

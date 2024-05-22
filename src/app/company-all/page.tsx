@@ -40,9 +40,9 @@ const CompanyAll = () => {
 
   const [hasMore, setHasMore] = React.useState(true);
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
-  useEffect(() => {
-    handleLoadHrefPage();
-  }, []);
+  // useEffect(() => {
+  //   handleLoadHrefPage();
+  // }, []);
   const getAllLocaitions = async () => {
     try {
       const result = await locationApi.getAllLocation(
@@ -173,7 +173,7 @@ const CompanyAll = () => {
   }, [languageRedux]);
 
   return (
-    <div className="company-all-container">
+    <div className="company-all-container px-5">
       {contextHolder}
       <div className="company max-w-6xl">
         <div className="header-company mb-2">

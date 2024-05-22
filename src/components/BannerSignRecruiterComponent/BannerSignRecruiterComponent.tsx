@@ -3,20 +3,26 @@ import "./BannerSignRecruiterComponent.scss";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import { useSrollContext } from "@/context/AppProvider";
 type Props = {};
 
 const BannerSignRecruiterComponent = (props: Props) => {
   const profile = useSelector((state: any) => state.profileRecruiter.profile);
+  const { reponsiveMobile } = useSrollContext();
   const router = useRouter();
   useEffect(() => {
     console.log(profile?.companyInfomation?.companyInfomation?.id, profile);
   }, [profile]);
   return (
-    <div className="w-full flex justify-center ">
-      <div className="max-w-6xl w-full h-[800px] gradient-bg-sign flex items-center relative overflow-hidden">
+    <div className="w-full flex justify-center gradient-bg-sign px-4">
+      <div className="max-w-6xl w-full h-[800px]  flex items-center relative overflow-hidden">
         {!profile && (
           <div className="flex flex-col">
-            <p className="text-7xl font-extrabold">
+            <p
+              className={` font-extrabold ${
+                reponsiveMobile < 1152 ? "text-5xl" : "text-7xl"
+              }`}
+            >
               JOB RECRUITER <br /> <span>HELLO FRIEND</span>
             </p>
             <p className="font-semibold text-lg text-black/50">
@@ -41,7 +47,11 @@ const BannerSignRecruiterComponent = (props: Props) => {
         )}
         {!profile?.companyInfomation?.companyLocation?.id && profile && (
           <div className="flex flex-col">
-            <p className="text-7xl font-extrabold">
+            <p
+              className={` font-extrabold ${
+                reponsiveMobile < 1152 ? "text-5xl" : "text-7xl"
+              }`}
+            >
               JOB RECRUITER <br /> <span>HEY!!! BẠN ƠI</span>
             </p>
             <p className="font-semibold text-lg text-black/50">
@@ -66,7 +76,11 @@ const BannerSignRecruiterComponent = (props: Props) => {
         )}
         {profile?.companyInfomation?.companyLocation?.id && profile && (
           <div className="flex flex-col">
-            <p className="text-7xl font-extrabold">
+            <p
+              className={` font-extrabold ${
+                reponsiveMobile < 1152 ? "text-5xl" : "text-7xl"
+              }`}
+            >
               JOB RECRUITER <br /> <span>TUI CÓ NÀY CHO BẠN NÈ!!!</span>
             </p>
             <p className="font-semibold text-lg text-black/50">

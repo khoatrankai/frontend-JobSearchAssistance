@@ -3,6 +3,7 @@
 import locationApi from "@/api/location/locationApi";
 import profileApi from "@/api/recruiter/profile/profileApi";
 import roleApi from "@/api/recruiter/role/roleApi";
+import { useSrollContext } from "@/context/AppProvider";
 import { RootState } from "@/redux";
 // import { setCategoryId } from "@/redux/reducer/categoryIdReducer";
 import { fetchProfileRecruiter } from "@/redux/reducer/profileReducer/profileSliceRecruiter";
@@ -28,10 +29,12 @@ interface ILocation {
 }
 
 const ProfileCompany = (props: Props) => {
+  const { Option } = Select;
   const { dataInfo, handleUpdateApi } = props;
   const refImg = useRef<any>();
   const [dataLocation, setDataLocation] = useState<any>([]);
   const [dataRequest, setDataRequest] = useState<any>();
+  const { reponsiveMobile } = useSrollContext();
   const [roleData, setRole] = useState<any>();
   const [sizeData, setSize] = useState<any>();
   const [listBase, setListBase] = useState<any>([]);
@@ -249,7 +252,7 @@ const ProfileCompany = (props: Props) => {
     postData();
   };
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mt-5">
       <div
         className={`bg-white ${
           rsInfo
@@ -329,16 +332,25 @@ const ProfileCompany = (props: Props) => {
           )}
         </div>
         <div className="gap-4 flex flex-wrap ">
-          <div className="flex flex-col w-96">
+          <div
+            className={`flex flex-col ${
+              reponsiveMobile < 700 ? "w-72" : "w-96"
+            }`}
+          >
             <p className="text-xs font-bold text-blue-500">Tên công ty</p>
             <Input
+              disabled
               className="rounded-md w-full p-2 font-medium"
               name="name"
               value={dataRequest?.name}
-              onChange={handleChangeData}
+              // onChange={handleChangeData}
             />
           </div>
-          <div className="flex flex-col w-96">
+          <div
+            className={`flex flex-col ${
+              reponsiveMobile < 700 ? "w-72" : "w-96"
+            }`}
+          >
             <p className="text-xs font-bold text-blue-500">Số điện thoại</p>
             <Input
               className="rounded-md w-full p-2 font-medium"
@@ -347,7 +359,11 @@ const ProfileCompany = (props: Props) => {
               onChange={handleChangeData}
             />
           </div>
-          <div className="flex flex-col w-96">
+          <div
+            className={`flex flex-col ${
+              reponsiveMobile < 700 ? "w-72" : "w-96"
+            }`}
+          >
             <p className="text-xs font-bold text-blue-500">Email</p>
             <Input
               className="rounded-md w-full p-2 font-medium"
@@ -356,7 +372,11 @@ const ProfileCompany = (props: Props) => {
               onChange={handleChangeData}
             />
           </div>
-          <div className="flex flex-col w-96">
+          <div
+            className={`flex flex-col ${
+              reponsiveMobile < 700 ? "w-72" : "w-96"
+            }`}
+          >
             <p className="text-xs font-bold text-blue-500">Website</p>
             <Input
               className="rounded-md w-full p-2 font-medium"
@@ -365,7 +385,11 @@ const ProfileCompany = (props: Props) => {
               onChange={handleChangeData}
             />
           </div>
-          <div className="flex flex-col w-96">
+          <div
+            className={`flex flex-col ${
+              reponsiveMobile < 700 ? "w-72" : "w-96"
+            }`}
+          >
             <p className="text-xs font-bold text-blue-500">Thuế</p>
             <Input
               className="rounded-md w-full p-2 font-medium"
@@ -374,7 +398,11 @@ const ProfileCompany = (props: Props) => {
               onChange={handleChangeData}
             />
           </div>
-          <div className="flex flex-col w-96">
+          <div
+            className={`flex flex-col ${
+              reponsiveMobile < 700 ? "w-72" : "w-96"
+            }`}
+          >
             <p className="text-xs font-bold text-blue-500">Vai trò</p>
 
             <Select
@@ -388,13 +416,17 @@ const ProfileCompany = (props: Props) => {
               {roleData?.map((dt: any) => {
                 return (
                   <>
-                    <option value={dt.id}>{dt.nameText}</option>
+                    <Option value={dt.id}>{dt.nameText}</Option>
                   </>
                 );
               })}
             </Select>
           </div>
-          <div className="flex flex-col w-96">
+          <div
+            className={`flex flex-col ${
+              reponsiveMobile < 700 ? "w-72" : "w-96"
+            }`}
+          >
             <p className="text-xs font-bold text-blue-500">Quy mô</p>
 
             <Select
@@ -408,13 +440,17 @@ const ProfileCompany = (props: Props) => {
               {sizeData?.map((dt: any) => {
                 return (
                   <>
-                    <option value={dt.id}>{dt.nameText}</option>
+                    <Option value={dt.id}>{dt.nameText}</Option>
                   </>
                 );
               })}
             </Select>
           </div>
-          <div className="flex flex-col w-96">
+          <div
+            className={`flex flex-col ${
+              reponsiveMobile < 700 ? "w-72" : "w-96"
+            }`}
+          >
             <p className="text-xs font-bold text-blue-500">Danh mục</p>
 
             <Select
@@ -429,13 +465,17 @@ const ProfileCompany = (props: Props) => {
               {categoryData?.map((dt: any) => {
                 return (
                   <>
-                    <option value={dt.id}>{dt.name}</option>
+                    <Option value={dt.id}>{dt.name}</Option>
                   </>
                 );
               })}
             </Select>
           </div>
-          <div className="flex flex-col w-full  max-w-[784px]">
+          <div
+            className={`flex flex-col  ${
+              reponsiveMobile < 450 ? "w-72" : "w-full  max-w-[784px]"
+            }`}
+          >
             <p className="text-xs font-bold text-blue-500">Số nhà</p>
             <Input
               className="rounded-md w-full p-2 font-medium"
@@ -445,7 +485,11 @@ const ProfileCompany = (props: Props) => {
             />
           </div>
           <div className="w-full flex gap-4 flex-wrap">
-            <div className="flex flex-col  w-full  max-w-[784px] ">
+            <div
+              className={`flex flex-col  ${
+                reponsiveMobile < 450 ? "w-72" : "w-full  max-w-[784px]"
+              }`}
+            >
               <p className="text-xs font-bold text-blue-500">Thành phố</p>
               <Select
                 className="rounded-md h-10 w-full font-medium"
@@ -459,13 +503,17 @@ const ProfileCompany = (props: Props) => {
                 {provinceData?.map((dt: any) => {
                   return (
                     <>
-                      <option value={dt.id}>{dt.name}</option>
+                      <Option value={dt.id}>{dt.name}</Option>
                     </>
                   );
                 })}
               </Select>
             </div>
-            <div className="flex flex-col w-96">
+            <div
+              className={`flex flex-col ${
+                reponsiveMobile < 700 ? "w-72" : "w-96"
+              }`}
+            >
               <p className="text-xs font-bold text-blue-500">Quận/huyện</p>
               <Select
                 className="rounded-md h-10 w-full font-medium"
@@ -478,13 +526,17 @@ const ProfileCompany = (props: Props) => {
                 {districtData?.map((dt: any) => {
                   return (
                     <>
-                      <option value={dt.id}>{dt.full_name}</option>
+                      <Option value={dt.id}>{dt.full_name}</Option>
                     </>
                   );
                 })}
               </Select>
             </div>
-            <div className="flex flex-col w-96">
+            <div
+              className={`flex flex-col ${
+                reponsiveMobile < 700 ? "w-72" : "w-96"
+              }`}
+            >
               <p className="text-xs font-bold text-blue-500">Phường/xã</p>
               <Select
                 className="rounded-md h-10 w-full font-medium"
@@ -497,7 +549,7 @@ const ProfileCompany = (props: Props) => {
                 {wardData?.map((dt: any) => {
                   return (
                     <>
-                      <option value={dt.id}>{dt.full_name}</option>
+                      <Option value={dt.id}>{dt.full_name}</Option>
                     </>
                   );
                 })}
@@ -507,69 +559,76 @@ const ProfileCompany = (props: Props) => {
         </div>
         <div className="flex flex-col my-2 py-4">
           <p className="text-xs font-bold text-blue-500">Ảnh giới thiệu</p>
-          <div className="p-2 bg-gray-100 rounded-sm w-full flex gap-x-2">
-            <div className="flex gap-x-2">
-              {listImg?.map((dt: any) => {
-                return (
-                  <>
-                    <div className="w-44 h-44 rounded-sm overflow-hidden relative">
-                      <Image
-                        alt=""
-                        width={200}
-                        height={200}
-                        src={dt.imagePath}
-                      />
-                      <div className="absolute top-0 right-0 w-8 h-8 flex justify-center items-center text-white rounded-full bg-blue-800 overflow-hidden cursor-pointer hover:bg-red-800">
-                        <IoClose
-                          className="w-6 h-6"
-                          onClick={() => {
-                            handleDeleteImg(dt.id);
-                          }}
+          <div className="w-full overflow-x-scroll">
+            <div className="p-2 bg-gray-100 rounded-sm flex gap-x-2 w-fit">
+              <div className="flex gap-x-2">
+                {listImg?.map((dt: any) => {
+                  return (
+                    <>
+                      <div className="w-44 h-44 rounded-sm overflow-hidden relative">
+                        <Image
+                          alt=""
+                          width={200}
+                          height={200}
+                          src={dt.imagePath}
                         />
+                        <div className="absolute top-0 right-0 w-8 h-8 flex justify-center items-center text-white rounded-full bg-blue-800 overflow-hidden cursor-pointer hover:bg-red-800">
+                          <IoClose
+                            className="w-6 h-6"
+                            onClick={() => {
+                              handleDeleteImg(dt.id);
+                            }}
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </>
-                );
-              })}
-              {listAddImg?.map((dt: any, ikey: any) => {
-                return (
-                  <>
-                    <div className="w-44 h-44 rounded-sm overflow-hidden relative">
-                      <Image alt="" width={200} height={200} src={dt.base64} />
-                      <div className="absolute top-0 right-0 w-8 h-8 flex justify-center items-center text-white rounded-full bg-blue-800 overflow-hidden cursor-pointer hover:bg-red-800">
-                        <IoClose
-                          className="w-6 h-6"
-                          onClick={() => {
-                            handleDeleteImg(ikey, true);
-                          }}
+                    </>
+                  );
+                })}
+                {listAddImg?.map((dt: any, ikey: any) => {
+                  return (
+                    <>
+                      <div className="w-44 h-44 rounded-sm overflow-hidden relative">
+                        <Image
+                          alt=""
+                          width={200}
+                          height={200}
+                          src={dt.base64}
                         />
+                        <div className="absolute top-0 right-0 w-8 h-8 flex justify-center items-center text-white rounded-full bg-blue-800 overflow-hidden cursor-pointer hover:bg-red-800">
+                          <IoClose
+                            className="w-6 h-6"
+                            onClick={() => {
+                              handleDeleteImg(ikey, true);
+                            }}
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </>
-                );
-              })}
-            </div>
-
-            <div
-              className="w-44 h-44 relative text-blue-800 cursor-pointer hover:text-blue-700"
-              onClick={() => {
-                refImg.current.click();
-              }}
-            >
-              <TbBorderCorners className="w-full h-full" />
-              <div className="absolute inset-0 flex justify-center items-center">
-                <IoIosAdd className="h-16 w-16" />
+                    </>
+                  );
+                })}
               </div>
-              <p className="text-xs text-blue-500 absolute bottom-12 inset-x-0 text-center">
-                Thêm ảnh
-              </p>
-              <input
-                type="file"
-                ref={refImg}
-                hidden
-                onChange={handleAddImg}
-                multiple
-              />
+
+              <div
+                className="w-44 h-44 min-w-44  min-h-44 relative text-blue-800 cursor-pointer hover:text-blue-700"
+                onClick={() => {
+                  refImg.current.click();
+                }}
+              >
+                <TbBorderCorners className="w-full h-full" />
+                <div className="absolute inset-0 flex justify-center items-center">
+                  <IoIosAdd className="h-16 w-16" />
+                </div>
+                <p className="text-xs text-blue-500 absolute bottom-12 inset-x-0 text-center">
+                  Thêm ảnh
+                </p>
+                <input
+                  type="file"
+                  ref={refImg}
+                  hidden
+                  onChange={handleAddImg}
+                  multiple
+                />
+              </div>
             </div>
           </div>
         </div>

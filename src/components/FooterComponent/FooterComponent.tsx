@@ -17,7 +17,8 @@ const FooterComponent = (props: Props) => {
   }, [profileV3]);
   return (
     <>
-      {!checkPage.includes("/cv/") &&
+      {!checkPage.includes("/recruiter/candidate-detail") &&
+        !checkPage.includes("/cv/") &&
         (!checkPage.includes("/recruiter") ? (
           <FooterUser />
         ) : (

@@ -138,7 +138,9 @@ const Option = (props: Props) => {
             func === 0 ? "bg-blue-500" : "bg-white hover:bg-blue-500"
           }`}
           onClick={() => {
-            setFunc(0);
+            if (func === 0) {
+              setFunc(-1);
+            } else setFunc(0);
           }}
         >
           <AiFillContainer
@@ -146,13 +148,13 @@ const Option = (props: Props) => {
               func === 0 ? "text-white" : "text-blue-500 group-hover:text-white"
             }`}
           />
-          <p
+          <button
             className={`font-medium text-xs text-center  ${
               func === 0 ? "text-white" : "group-hover:text-white"
             }`}
           >
             Đổi mẫu CV
-          </p>
+          </button>
           <div
             className={`absolute bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] inset-y-0 bottom-8 left-full translate-x-4 rounded-lg w-96 p-2  transition-all ${
               func === 0 ? "" : "hidden"
@@ -168,7 +170,8 @@ const Option = (props: Props) => {
                         ? "bg-black/10"
                         : "bg-black/20 hover:bg-black/10"
                     }`}
-                    onClick={() => {
+                    onClick={(e: any) => {
+                      e.stopPropagation();
                       setTemplateId(dt.id.toString());
                     }}
                   >
@@ -192,7 +195,9 @@ const Option = (props: Props) => {
             func === 1 ? "bg-blue-500" : "bg-white hover:bg-blue-500"
           }`}
           onClick={() => {
-            setFunc(1);
+            if (func === 1) {
+              setFunc(-1);
+            } else setFunc(1);
           }}
         >
           <HiDocumentAdd
@@ -200,18 +205,23 @@ const Option = (props: Props) => {
               func === 1 ? "text-white" : "text-blue-500 group-hover:text-white"
             }`}
           />
-          <p
+          <button
             className={`font-medium text-xs text-center  ${
               func === 1 ? "text-white" : "group-hover:text-white"
             }`}
           >
             Thêm mục
-          </p>
+          </button>
           <div
             className={`absolute bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] top-0 left-full translate-x-4 rounded-lg w-80 h-full p-2 transition-all ${
               func === 1 ? "" : "hidden"
             }`}
-            onMouseUp={() => {
+            onClick={(e: any) => {
+              e.stopPropagation();
+            }}
+            onMouseUp={(e: any) => {
+              // e.stopPropagation();
+
               if (checkAddCategory) {
                 handleRemove();
                 setAddCategory(false);
@@ -388,7 +398,9 @@ const Option = (props: Props) => {
             func === 2 ? "bg-blue-500" : "bg-white hover:bg-blue-500"
           }`}
           onClick={() => {
-            setFunc(2);
+            if (func === 2) {
+              setFunc(-1);
+            } else setFunc(2);
           }}
         >
           <BsBriefcaseFill
@@ -396,13 +408,13 @@ const Option = (props: Props) => {
               func === 2 ? "text-white" : "text-blue-500 group-hover:text-white"
             }`}
           />
-          <p
+          <button
             className={`font-medium text-xs text-center  ${
               func === 2 ? "text-white" : "group-hover:text-white"
             }`}
           >
             Việc làm gợi ý
-          </p>
+          </button>
           <div
             className={`absolute bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] top-0 left-full translate-x-4 rounded-lg w-80 h-full p-2 transition-all ${
               func === 2 ? "" : "hidden"
@@ -418,7 +430,9 @@ const Option = (props: Props) => {
             func === 3 ? "bg-blue-500" : "bg-white hover:bg-blue-500"
           }`}
           onClick={() => {
-            setFunc(3);
+            if (func === 3) {
+              setFunc(-1);
+            } else setFunc(3);
           }}
         >
           <AiFillExclamationCircle
@@ -426,13 +440,13 @@ const Option = (props: Props) => {
               func === 3 ? "text-white" : "text-blue-500 group-hover:text-white"
             }`}
           />
-          <p
+          <button
             className={`font-medium text-xs text-center  ${
               func === 3 ? "text-white" : "group-hover:text-white"
             }`}
           >
             Hướng dẫn sử dụng
-          </p>
+          </button>
           <div
             className={`absolute bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] top-0 left-full translate-x-4 rounded-lg w-80 h-full p-2 transition-all ${
               func === 3 ? "" : "hidden"

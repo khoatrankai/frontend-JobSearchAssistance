@@ -1,14 +1,13 @@
-import React from 'react';
-import { Col, Row } from 'antd';
-import styles from './style.module.scss';
-import './style.scss';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/reducer';
-import { BagChart, ChartCompanySave, ChartStar, EyeChart } from '@/icons';
-import { DataLog, DataLogRecuiter } from '@/app/analytics/typeChart';
-import CustomSkeleton from '@/components/CustomSkeleton';
-import { PropItemValue } from '@/components/LogChartComponent/typeChart';
-
+import React from "react";
+import { Col, Row } from "antd";
+import styles from "./style.module.scss";
+import "./style.scss";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/reducer";
+import { BagChart, ChartCompanySave, ChartStar, EyeChart } from "@/icons";
+import { DataLog, DataLogRecuiter } from "@/components/Analytics/typeChart";
+import CustomSkeleton from "@/components/CustomSkeleton";
+import { PropItemValue } from "@/components/LogChartComponent/typeChart";
 
 const Box: React.FC<{
   ItemValue: PropItemValue;
@@ -45,9 +44,9 @@ const ItemsChartCandidate: React.FC<{
   dataLog: DataLog | undefined;
   dataLogRecruiter: DataLogRecuiter | undefined;
 }> = (data) => {
-  const { dataLog , dataLogRecruiter } = data;
+  const { dataLog, dataLogRecruiter } = data;
   const languageRedux = useSelector(
-    (state: RootState) => state.changeLaguage.language,
+    (state: RootState) => state.changeLaguage.language
   );
   const elements: React.ReactNode[] = Array.from({ length: 3 }, (_, index) => (
     <React.Fragment key={index} />
@@ -56,47 +55,39 @@ const ItemsChartCandidate: React.FC<{
   const ItemValue: PropItemValue[] = [
     {
       id: 1,
-      title: languageRedux === 1
-          ? 'Việc làm đã ứng tuyển'
+      title:
+        languageRedux === 1
+          ? "Việc làm đã ứng tuyển"
           : languageRedux === 0
-          ? 'Applied job'
-          : '지원한 채용공고',
+          ? "Applied job"
+          : "지원한 채용공고",
       icon: <BagChart />,
       total: dataLog?.applyLogs.total,
-      path: dataLog
-        ? '/history'
-        : 
-          '',
+      path: dataLog ? "/history" : "",
     },
     {
       id: 2,
-      title:  languageRedux === 1
-          ? 'Việc làm đã xem'
+      title:
+        languageRedux === 1
+          ? "Việc làm đã xem"
           : languageRedux === 0
-          ? 'Viewed job'
-          : '본 채용공고',
+          ? "Viewed job"
+          : "본 채용공고",
       icon: <EyeChart />,
       total: dataLog?.resultViewJob?.total,
-      path: dataLog
-        ? 
-          ''
-        : 
-          '',
+      path: dataLog ? "" : "",
     },
     {
       id: 3,
       title:
         languageRedux === 1
-          ? 'Tìm kiếm việc làm'
+          ? "Tìm kiếm việc làm"
           : languageRedux === 0
-          ? 'Search job'
-          : '채용공고 검색',
+          ? "Search job"
+          : "채용공고 검색",
       icon: dataLog ? <ChartCompanySave /> : <ChartStar />,
-      total:dataLog?.resultSearchJob?.total,
-      path: dataLog
-        ? 
-          '/history?saved_jobs=1'
-        : '/history?candidate=4',
+      total: dataLog?.resultSearchJob?.total,
+      path: dataLog ? "/history?saved_jobs=1" : "/history?candidate=4",
     },
   ];
 

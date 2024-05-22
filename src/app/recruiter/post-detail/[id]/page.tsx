@@ -32,9 +32,10 @@ import BookmarksIcon from "@mui/icons-material/Bookmarks";
 import { useSelector } from "react-redux";
 import { useSrollContext } from "@/context/AppProvider";
 import ModalLogin from "@/components/ModalLogin/ModalLogin";
-import ModalApply from "../ModalApply/ModalApply";
 import axiosClient from "@/configs/axiosClient";
 import ShortText from "@/util/ShortText";
+import ModalApply from "@/components/ModalApply/ModalApply";
+import { TbFilePercent } from "react-icons/tb";
 
 type Props = {};
 
@@ -60,13 +61,14 @@ const page = (props: Props) => {
   const [checkSize, setCheckSize] = useState<boolean>(false);
   const [dataCompany, setDataCompany] = useState<any>();
   const [checkScroll, setCheckScroll] = useState<boolean>(false);
+  const { reponsiveMobile } = useSrollContext();
   const ref_slider = useRef<any>();
   const ref_des = useRef<any>();
   const [postDetail, setPostDetail] = useState<any>({});
   const [list_category, setListCategory] = useState<any>("");
   const [bookmarked, setBookmarked] = React.useState(false);
   const profile = useSelector((state: any) => state.profileRecruiter.profile);
-  const { handleLoadHrefPage } = useSrollContext();
+  const { handleLoadHrefPage, setSoureImage } = useSrollContext();
   const languageRedux = useSelector(
     (state: any) => state.changeLaguage.language
   );
@@ -85,7 +87,7 @@ const page = (props: Props) => {
   } = useSwiperAutoSlider(0);
   useEffect(() => {
     const fetchData = async () => {
-      handleLoadHrefPage();
+      // handleLoadHrefPage();
       const res = (await postsApi.getPostbyId(
         id as any,
         languageRedux === 1 ? "vi" : "en"
@@ -386,11 +388,11 @@ const page = (props: Props) => {
 
   return (
     <div
-      className="w-ful flex justify-center"
+      className="w-ful flex justify-center "
       style={{ backgroundColor: "#f4f5f5" }}
     >
       {" "}
-      <div className="max-w-6xl inline-flex flex-wrap justify-between w-full mt-6">
+      <div className="max-w-6xl inline-flex flex-wrap justify-between w-full my-6">
         <div className={`${checkSize ? "mx-7" : "max-w-[780px]"}  w-full`}>
           <div className="rounded-lg bg-white p-6">
             <h1 className="font-medium text-lg">
@@ -406,7 +408,13 @@ const page = (props: Props) => {
               >
                 {postDetail &&
                   postDetail?.images?.map((item: any, index: number) => (
-                    <li key={index} className="min-w-full min-h-full ">
+                    <li
+                      key={index}
+                      className="min-w-full min-h-full "
+                      onClick={() => {
+                        setSoureImage(item.image);
+                      }}
+                    >
                       <Image
                         className="h-full"
                         src={item.image}
@@ -496,6 +504,19 @@ const page = (props: Props) => {
                   </h2>
                 </div>
               </button>
+              <button className="w-fit p-4 flex items-center justify-center hover:bg-blue-400/20 rounded-xl">
+                <div className="w-10 h-10 p-2 bg-blue-700 rounded-full mr-2 text-white">
+                  <TbFilePercent className="w-full h-full" />
+                </div>
+                <div className="flex flex-col items-start justify-center">
+                  <h2 className="font-light">
+                    {languageRedux === 1 ? "Tỉ lệ phù hơp" : "Percent fit"}
+                  </h2>
+                  <h2 className="font-semibold text-start capitalize">
+                    {postDetail.fit}%
+                  </h2>
+                </div>
+              </button>
             </div>
             {
               <div className={`flex flex-wrap justify-center gap-4`}>
@@ -553,7 +574,7 @@ const page = (props: Props) => {
                     }}
                     className={`flex items-center min-w-[10rem] h-10 border-2 border-blue-500/70 hover:border-blue-500 rounded-lg justify-center ${
                       postDetail.bookmarked ? "bg-blue-500/70" : ""
-                    }`}
+                    } ${reponsiveMobile < 600 ? "w-full" : ""}`}
                   >
                     {postDetail.bookmarked ? (
                       <FavoriteIcon
@@ -667,7 +688,7 @@ const page = (props: Props) => {
               </div>
               <div className="flex gap-x-2">
                 <p className="text-gray-400 text-nowrap">Địa điểm:</p>
-                <p>
+                <p className="text-sm">
                   {handleShortTextHome(
                     postDetail.address +
                       "," +

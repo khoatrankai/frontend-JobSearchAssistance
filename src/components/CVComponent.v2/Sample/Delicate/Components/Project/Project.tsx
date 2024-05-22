@@ -178,7 +178,7 @@ const Project = (props: Props) => {
                         index,
                         indexItem,
                         item,
-                        "participant",
+                        "name",
                         i,
                         e.target.value
                       );

@@ -25,6 +25,10 @@ import PotentialCandidate from "@/components/ProfileComponent/RecruiterProfile/P
 import ProfileCompany from "@/components/ProfileComponent/RecruiterProfile/ProfileCompany/ProfileCompany";
 import SettingProfile from "@/components/ProfileComponent/RecruiterProfile/SettingProfile/SettingProfile";
 import { fetchProfileRecruiter } from "@/redux/reducer/profileReducer/profileSliceRecruiter";
+import { FaListCheck } from "react-icons/fa6";
+import { RiMoneyDollarCircleFill } from "react-icons/ri";
+import ListPostProfile from "@/components/ProfileComponent/RecruiterProfile/ListPostProfile/ListPostProfile";
+import RechargePrice from "@/components/ProfileComponent/RecruiterProfile/RechargePrice/RechargePrice";
 
 type Props = {};
 
@@ -33,19 +37,20 @@ const page = (props: Props) => {
   const dataProfile = useSelector(
     (state: RootState) => state.profileRecruiter.profile
   );
-  const { reponsiveMobile, selectProfileUser } = useSrollContext();
+  const { reponsiveMobile, selectProfileUser, selectProfileRecruiter } =
+    useSrollContext();
   const dispatch = useDispatch();
   const [dataInfo, setDataInfo] = useState<any>();
   const { handleLoadHrefPage } = useSrollContext();
   //   const [resizePage, setResizePage] = useState<boolean>(false);
   const [menuProfile, setMenuProfile] = useState<boolean>(false);
-  const [selectionMenu, setSelectionMenu] = useState<number>(2);
+  const [selectionMenu, setSelectionMenu] = useState<number>(6);
   const handleUpdateApi = () => {
     dispatch(fetchProfileRecruiter("vi") as any);
   };
-  // useEffect(() => {
-  //   setSelectionMenu(selectProfileUser);
-  // }, [selectProfileUser]);
+  useEffect(() => {
+    setSelectionMenu(selectProfileRecruiter);
+  }, [selectProfileRecruiter]);
   useEffect(() => {
     setDataInfo({
       ...dataProfile,
@@ -73,7 +78,7 @@ const page = (props: Props) => {
     });
   }, [dataProfile]);
   useEffect(() => {
-    handleLoadHrefPage();
+    // handleLoadHrefPage();
     const handleResize = () => {
       //   if (window.innerWidth < 1152) {
       //     setResizePage(true);
@@ -91,25 +96,25 @@ const page = (props: Props) => {
   return (
     <div>
       <div className="flex justify-center bg-gray-200/45">
-        <div className=" w-full flex gap-x-8 items-start pb-16 relative">
+        <div className=" w-full flex gap-x-8 items-start pb-16 relative px-4">
           <div
             className={`${
-              reponsiveMobile < 950
+              reponsiveMobile < 1152
                 ? "absolute z-40"
-                : "basis-1/4 min-w-[348px]"
+                : "min-w-[400px] w-[400px]"
             }  rounded-lg flex justify-center gap-y-6  flex-col items-center p-4`}
           >
             <div
               className={`bg-blue-500 rounded-lg w-full h-fit p-4 flex justify-center items-center ${
-                reponsiveMobile > 990 ? " flex-col" : "gap-x-2"
+                reponsiveMobile > 1152 ? " flex-col" : "gap-x-2"
               }`}
               onClick={() => {
-                if (reponsiveMobile < 950) {
+                if (reponsiveMobile < 1152) {
                   setMenuProfile(!menuProfile);
                 }
               }}
             >
-              {reponsiveMobile > 990 ? (
+              {reponsiveMobile > 1152 ? (
                 <AvatarProfile
                   dataInfo={dataInfo}
                   handleUpdateApi={handleUpdateApi}
@@ -124,7 +129,7 @@ const page = (props: Props) => {
                   alt={""}
                 />
               )}
-              {reponsiveMobile < 950 ? (
+              {reponsiveMobile < 1152 ? (
                 ""
               ) : (
                 <p className="font-bold text-white">{dataInfo?.name}</p>
@@ -137,7 +142,7 @@ const page = (props: Props) => {
                     ? "border-blue-500 bg-blue-200"
                     : "bg-white"
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
-                  reponsiveMobile < 950
+                  reponsiveMobile < 1152
                     ? `justify-center ${
                         menuProfile ? "" : "-top-20 opacity-0 -z-10"
                       }`
@@ -151,7 +156,7 @@ const page = (props: Props) => {
                 <AiFillDashboard />
                 <p
                   className={`${
-                    reponsiveMobile < 950
+                    reponsiveMobile < 1152
                       ? "absolute left-full text-white translate-x-5 text-nowrap"
                       : ""
                   }   `}
@@ -165,7 +170,7 @@ const page = (props: Props) => {
                     ? "border-blue-500 bg-blue-200"
                     : "bg-white"
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
-                  reponsiveMobile < 950
+                  reponsiveMobile < 1152
                     ? `justify-center ${
                         menuProfile ? "" : "-top-20 opacity-0 -z-10"
                       }`
@@ -179,7 +184,7 @@ const page = (props: Props) => {
                 <MdEditDocument />
                 <p
                   className={`${
-                    reponsiveMobile < 950
+                    reponsiveMobile < 1152
                       ? "absolute left-full text-white translate-x-5 text-nowrap"
                       : ""
                   }   `}
@@ -193,7 +198,7 @@ const page = (props: Props) => {
                     ? "border-blue-500 bg-blue-200"
                     : "bg-white"
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
-                  reponsiveMobile < 950
+                  reponsiveMobile < 1152
                     ? `justify-center ${
                         menuProfile ? "" : "-top-20 opacity-0 -z-10"
                       }`
@@ -207,7 +212,7 @@ const page = (props: Props) => {
                 <FaBuilding />
                 <p
                   className={`${
-                    reponsiveMobile < 950
+                    reponsiveMobile < 1152
                       ? "absolute left-full text-white translate-x-5 text-nowrap"
                       : ""
                   }   `}
@@ -221,7 +226,7 @@ const page = (props: Props) => {
                     ? "border-blue-500 bg-blue-200"
                     : "bg-white"
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
-                  reponsiveMobile < 950
+                  reponsiveMobile < 1152
                     ? `justify-center ${
                         menuProfile ? "" : "-top-20 opacity-0 -z-10"
                       }`
@@ -235,7 +240,7 @@ const page = (props: Props) => {
                 <MdWork />
                 <p
                   className={`${
-                    reponsiveMobile < 950
+                    reponsiveMobile < 1152
                       ? "absolute left-full text-white translate-x-5 text-nowrap"
                       : ""
                   }   `}
@@ -249,7 +254,7 @@ const page = (props: Props) => {
                     ? "border-blue-500 bg-blue-200"
                     : "bg-white"
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
-                  reponsiveMobile < 950
+                  reponsiveMobile < 1152
                     ? `justify-center ${
                         menuProfile ? "" : "-top-20 opacity-0 -z-10"
                       }`
@@ -260,10 +265,66 @@ const page = (props: Props) => {
                   setMenuProfile(false);
                 }}
               >
+                <FaListCheck />
+                <p
+                  className={`${
+                    reponsiveMobile < 1152
+                      ? "absolute left-full text-white translate-x-5 text-nowrap"
+                      : ""
+                  }   `}
+                >
+                  Danh sách bài viết
+                </p>
+              </div>
+              <div
+                className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
+                  selectionMenu === 6
+                    ? "border-blue-500 bg-blue-200"
+                    : "bg-white"
+                } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
+                  reponsiveMobile < 1152
+                    ? `justify-center ${
+                        menuProfile ? "" : "-top-20 opacity-0 -z-10"
+                      }`
+                    : "pl-6 hover:text-white"
+                }`}
+                onClick={() => {
+                  setSelectionMenu(6);
+                  setMenuProfile(false);
+                }}
+              >
+                <RiMoneyDollarCircleFill />
+                <p
+                  className={`${
+                    reponsiveMobile < 1152
+                      ? "absolute left-full text-white translate-x-5 text-nowrap"
+                      : ""
+                  }   `}
+                >
+                  Nạp tiền
+                </p>
+              </div>
+              <div
+                className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
+                  selectionMenu === 7
+                    ? "border-blue-500 bg-blue-200"
+                    : "bg-white"
+                } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
+                  reponsiveMobile < 1152
+                    ? `justify-center ${
+                        menuProfile ? "" : "-top-20 opacity-0 -z-10"
+                      }`
+                    : "pl-6 hover:text-white"
+                }`}
+                onClick={() => {
+                  setSelectionMenu(7);
+                  setMenuProfile(false);
+                }}
+              >
                 <IoMdSettings />
                 <p
                   className={`${
-                    reponsiveMobile < 950
+                    reponsiveMobile < 1152
                       ? "absolute left-full text-white translate-x-5 text-nowrap"
                       : ""
                   }   `}
@@ -275,11 +336,9 @@ const page = (props: Props) => {
           </div>
           <div
             className={`${
-              reponsiveMobile < 1280
-                ? reponsiveMobile < 992
-                  ? "flex-1"
-                  : "flex-1 mr-2"
-                : "flex-1 w-2/4 overflow-hidden"
+              reponsiveMobile < 1152
+                ? "flex-auto w-96 mt-16"
+                : "flex-auto mr-2 w-96"
             } rounded-lg h-full flex flex-col gap-y-4`}
           >
             {/* bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] */}
@@ -292,7 +351,9 @@ const page = (props: Props) => {
             )}
             {selectionMenu === 3 && <RecruitmentList />}
             {selectionMenu === 4 && <PotentialCandidate />}
-            {selectionMenu === 5 && <SettingProfile />}
+            {selectionMenu === 5 && <ListPostProfile />}
+            {selectionMenu === 6 && <RechargePrice />}
+            {selectionMenu === 7 && <SettingProfile />}
           </div>
         </div>
         {menuProfile && (

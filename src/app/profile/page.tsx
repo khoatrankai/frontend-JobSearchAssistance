@@ -66,7 +66,7 @@ const page = (props: Props) => {
     });
   }, [dataProfile]);
   useEffect(() => {
-    handleLoadHrefPage();
+    // handleLoadHrefPage();
     const handleResize = () => {
       if (window.innerWidth < 1152) {
         setResizePage(true);
@@ -282,6 +282,8 @@ const page = (props: Props) => {
                   ? "flex-1"
                   : "flex-1 mr-2"
                 : "basis-2/3"
+            } ${
+              reponsiveMobile < 950 ? "mt-16" : ""
             } rounded-lg h-full flex flex-col gap-y-4`}
           >
             {/* bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] */}

@@ -6,6 +6,7 @@ import { FaHeart, FaStar } from "react-icons/fa";
 type Props = {};
 
 const PostCandidate = (props: Props) => {
+  const { Option } = Select;
   return (
     <div className="flex flex-col gap-y-4">
       <p className="text-2xl font-bold">Gợi ý ứng viên</p>
@@ -13,12 +14,12 @@ const PostCandidate = (props: Props) => {
       <div className="flex gap-x-2 items-center px-2">
         <p>ID bài đăng</p>
         <Select className="w-36">
-          <option>(1) Việc chạy bàn</option>
-          <option>(2) Việc2 chạy bàn</option>
-          <option>(3) Việc3 chạy bàn</option>
-          <option>(3) Việc3 chạy bàn</option>
-          <option>(3) Việc3 chạy bàn</option>
-          <option>(3) Việc3 chạy bàn</option>
+          <Option>(1) Việc chạy bàn</Option>
+          <Option>(2) Việc2 chạy bàn</Option>
+          <Option>(3) Việc3 chạy bàn</Option>
+          <Option>(3) Việc3 chạy bàn</Option>
+          <Option>(3) Việc3 chạy bàn</Option>
+          <Option>(3) Việc3 chạy bàn</Option>
         </Select>
       </div>
       <div className="flex justify-between">

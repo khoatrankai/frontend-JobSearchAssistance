@@ -222,7 +222,7 @@ const ExperienceModal = (props: Props) => {
                     ? "Thêm"
                     : "Add"
                   : languageRedux === 1
-                  ? "Cập nhất"
+                  ? "Cập nhật"
                   : "Update"}
               </button>
               <button

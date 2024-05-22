@@ -74,11 +74,11 @@ const page = (props: Props) => {
   const languageRedux = useSelector(
     (state: any) => state.changeLaguage.language
   );
-  const profile = useSelector((state: any) => state.profile.profile);
+  const profile = useSelector((state: any) => state.profileRecruiter.profile);
 
-  useEffect(() => {
-    handleLoadHrefPage();
-  }, []);
+  // useEffect(() => {
+  //   handleLoadHrefPage();
+  // }, []);
   useEffect(() => {
     setDataReq({
       ...dataReq,
@@ -89,8 +89,8 @@ const page = (props: Props) => {
       ]),
     });
   }, [description]);
-  const handleUpdateData = (e: any, value: any = null) => {
 
+  const handleUpdateData = (e: any, value: any = null) => {
     if (value) {
       setDataReq({ ...dataReq, [e.target.name]: value });
     } else {
@@ -289,6 +289,10 @@ const page = (props: Props) => {
       setDataReq({
         ...dataReq,
         companyName: profile?.companyInfomation.name,
+        email: profile?.companyInfomation?.email,
+        phoneNumber: profile?.companyInfomation?.phone,
+        wardId: profile?.companyInfomation?.companyLocation?.id,
+        address: profile?.companyInfomation?.address,
       });
     }
   }, [profile]);
@@ -553,6 +557,7 @@ const page = (props: Props) => {
                   <input
                     name="companyName"
                     type="text"
+                    value={profile?.companyInfomation?.name}
                     className="font-bold p-2 w-full focus-within:border-black/30 outline-none border-dashed border-2"
                     placeholder={
                       languageRedux === 1 ? "Tên công ty" : "Company name"
@@ -571,6 +576,7 @@ const page = (props: Props) => {
                   <h2>Email</h2>
                   <input
                     name="email"
+                    defaultValue={profile?.companyInfomation?.email}
                     className="font-bold w-full p-2 focus-within:border-black/30 outline-none border-dashed border-2"
                     placeholder={
                       languageRedux === 1 ? "Email" : "Enter Email..."
@@ -590,6 +596,7 @@ const page = (props: Props) => {
                   <input
                     name="phoneNumber"
                     type="tel"
+                    defaultValue={profile?.companyInfomation?.phone}
                     className="font-bold p-2 w-full focus-within:border-black/30 outline-none border-dashed border-2"
                     placeholder={
                       languageRedux === 1
@@ -727,7 +734,7 @@ const page = (props: Props) => {
         </div>
       </div>
       <button
-        className="fixed bottom-14 right-24 p-4 transition-all bg-blue-500 rounded-lg hover:text-black/50 z-10 hover:bg-blue-400"
+        className="fixed bottom-14 right-8 p-4 transition-all bg-blue-500 rounded-lg hover:text-black/50 z-10 hover:bg-blue-400"
         onClick={handlePost}
       >
         <h2 className="text-xl font-semibold text-white">

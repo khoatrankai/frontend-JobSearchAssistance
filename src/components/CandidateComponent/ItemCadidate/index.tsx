@@ -62,7 +62,7 @@ const ItemCadidate: React.FC<ICadidate> = (props) => {
                 theme: "dark",
               }
             );
-            router.push(`/candidate-detail/${accountId}`);
+            router.push(`/recruiter/candidate-detail/${accountId}`);
           } else {
             toast.success(
               languageRedux

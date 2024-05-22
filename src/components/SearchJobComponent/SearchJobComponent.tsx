@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import "./SearchJobComponent.scss";
@@ -16,6 +17,8 @@ import ShortText from "@/util/ShortText";
 import DescriptionHoverProvider from "@/util/DescriptionHoverProvider/DescriptionHoverProvider";
 import FilterComponent from "../FilterComponent/FilterComponent";
 import { useRouter } from "next/navigation";
+import appplicationApi from "@/api/applicationApi";
+import ModalApply from "../ModalApply/ModalApply";
 
 type Props = {};
 
@@ -34,9 +37,6 @@ const SearchJobComponent: React.FC<Props> = (props) => {
   const [loading, setLoading] = useState(false);
   const [hasMoreData, setHasMoreData] = useState(true);
   const dispatch = useDispatch();
-  const languageRedux = useSelector(
-    (state: RootState) => state.changeLaguage.language
-  );
   const [page, setPage] = useState(0);
   const [listJob, setListJob] = React.useState<any>([]);
   const [openModalLogin, setOpenModalLogin] = useState(false);
@@ -50,6 +50,109 @@ const SearchJobComponent: React.FC<Props> = (props) => {
     salary_max: 0,
   });
   const [tabFilter, setTabFilter] = useState<Boolean>(true);
+  const languageRedux = useSelector(
+    (state: any) => state.changeLaguage.language
+  );
+  const profile = useSelector((state: any) => state.profile.profile);
+  const [postDetail, setPostDetail] = useState<any>({});
+
+  const [idCv, setIdCv] = useState<number>(0);
+  const [openModalApply, setOpenModalApply] = useState<boolean>(false);
+  const [filePDFParent, setFilePDFParent] = useState<File | null>(null);
+  const handleApply = async (type: string) => {
+    // type = 'upload' => upload cv
+    // type = 'near' => select cv in near cv
+    // type = 'all' => select cv in all cv
+    const dataApply = new FormData();
+    if (profile?.roleData === undefined || profile?.roleData === null) {
+      // setOpenModalLogin(true);
+      toast.warning(
+        languageRedux === 1
+          ? "Bạn cần đăng nhập để sử dụng tính năng này"
+          : "You need to login to use this feature",
+        {
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        }
+      );
+      return;
+    }
+    let errorResponse: any = null; // Sử dụng kiểu any
+
+    try {
+      const appData = new FormData();
+
+      appData.append("type", type);
+      appData.append("postId", postDetail?.id);
+      appData.append("accountId", profile.accountId);
+
+      if (type === "near" || type === "all") {
+        appData.append("idCv", idCv as any);
+      }
+
+      if (type === "upload") {
+        if (!filePDFParent) {
+          toast.warning(
+            languageRedux === 1
+              ? "Vui lòng chọn file CV"
+              : "Please select CV file",
+            {
+              position: "bottom-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            }
+          );
+          return;
+        }
+        appData.append("pdf", filePDFParent);
+      }
+      const res = (await appplicationApi.applyAplication(appData)) as any;
+
+      if (res && (res.data as any).code === 201) {
+        toast.success(
+          languageRedux === 1
+            ? "Ứng tuyển thành công"
+            : "Successful application",
+          {
+            position: "bottom-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark",
+          }
+        );
+      } else {
+        errorResponse = res.message;
+      }
+    } catch (error: any) {
+      errorResponse = error?.response?.data.message;
+    }
+
+    if (errorResponse) {
+      toast.warning(errorResponse, {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
+    }
+  };
   useEffect(() => {
     setAccountId(localStorage.getItem("accountId"));
   }, []);
@@ -64,7 +167,7 @@ const SearchJobComponent: React.FC<Props> = (props) => {
   const { handleLoadHrefPage } = useSrollContext();
 
   useEffect(() => {
-    handleLoadHrefPage();
+    // handleLoadHrefPage();
     const dataKeyWord = JSON.parse(localStorage.getItem("keyWord") || "{}");
     setDataRequest({ ...dataRequest, q: dataKeyWord.q });
   }, []);
@@ -516,6 +619,17 @@ const SearchJobComponent: React.FC<Props> = (props) => {
           handleToggleModal={() => setOpenModalLogin(!openModalLogin)}
         />
         <ToastContainer />
+        {openModalApply && (
+          <ModalApply
+            namePost={postDetail?.title}
+            openModalApply={openModalApply}
+            setOpenModalApply={setOpenModalApply}
+            profile={profile}
+            handleApply={handleApply}
+            setFilePDFParent={setFilePDFParent}
+            setIdCv={setIdCv}
+          />
+        )}
       </div>
     </>
   );

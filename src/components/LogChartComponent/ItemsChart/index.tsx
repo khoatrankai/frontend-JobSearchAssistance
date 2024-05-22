@@ -1,15 +1,20 @@
-import React from 'react';
-import { Col, Row } from 'antd';
-import styles from './style.module.scss';
-import './style.scss';
-import { useSelector } from 'react-redux';
-import { PropItemValue } from '../typeChart';
-import { Link } from 'react-router-dom';
-import { RootState } from '@/redux/reducer';
-import { BagChart, ChartCompanySave, ChartStar, EyeChart, RightChart } from '@/icons';
-import { DataLog, DataLogRecuiter } from '@/app/analytics/typeChart';
-import CustomSkeleton from '@/components/CustomSkeleton';
-
+import React from "react";
+import { Col, Row } from "antd";
+import styles from "./style.module.scss";
+import "./style.scss";
+import { useSelector } from "react-redux";
+import { PropItemValue } from "../typeChart";
+import { Link } from "react-router-dom";
+import { RootState } from "@/redux/reducer";
+import {
+  BagChart,
+  ChartCompanySave,
+  ChartStar,
+  EyeChart,
+  RightChart,
+} from "@/icons";
+import { DataLog, DataLogRecuiter } from "@/components/Analytics/typeChart";
+import CustomSkeleton from "@/components/CustomSkeleton";
 
 const Box: React.FC<{
   ItemValue: PropItemValue;
@@ -57,9 +62,9 @@ const ItemsChart: React.FC<{
   dataLog: DataLog | undefined;
   dataLogRecruiter: DataLogRecuiter | undefined;
 }> = (data) => {
-  const { dataLog , dataLogRecruiter } = data;
+  const { dataLog, dataLogRecruiter } = data;
   const languageRedux = useSelector(
-    (state: RootState) => state.changeLaguage.language,
+    (state: RootState) => state.changeLaguage.language
   );
   const elements: React.ReactNode[] = Array.from({ length: 3 }, (_, index) => (
     <React.Fragment key={index} />
@@ -68,70 +73,60 @@ const ItemsChart: React.FC<{
   const ItemValue: PropItemValue[] = [
     {
       id: 1,
-      title: dataLog 
+      title: dataLog
         ? languageRedux === 1
-          ? 'Việc làm đã ứng tuyển'
+          ? "Việc làm đã ứng tuyển"
           : languageRedux === 0
-          ? 'Applied job'
-          : '지원한 채용공고'
+          ? "Applied job"
+          : "지원한 채용공고"
         : languageRedux === 1
-        ? 'Ứng viên đã tuyển dụng'
+        ? "Ứng viên đã tuyển dụng"
         : languageRedux === 0
-        ? 'Recruited candidates'
-        : '지원한 구직자',
+        ? "Recruited candidates"
+        : "지원한 구직자",
       icon: <BagChart />,
       total: dataLog
         ? dataLog?.applyLogs.total
         : dataLogRecruiter?.applyLogs.total,
-      path: dataLog
-        ? '/history'
-        : 
-          '',
+      path: dataLog ? "/history" : "",
     },
     {
       id: 2,
       title: dataLog
         ? languageRedux === 1
-          ? 'Việc làm đã xem'
+          ? "Việc làm đã xem"
           : languageRedux === 0
-          ? 'Viewed job'
-          : '본 채용공고'
+          ? "Viewed job"
+          : "본 채용공고"
         : languageRedux === 1
-        ? 'Ứng viên đã xem'
+        ? "Ứng viên đã xem"
         : languageRedux === 0
-        ? 'Viewed candidates'
-        : '본 구지자',
+        ? "Viewed candidates"
+        : "본 구지자",
       icon: <EyeChart />,
       total: dataLog
         ? dataLog?.viewPostLogs?.total
         : dataLogRecruiter?.viewCandidateLogs?.total,
-      path: dataLog
-        ? 
-          ''
-        : 
-          '',
+      path: dataLog ? "" : "",
     },
     {
       id: 3,
       title: dataLog
         ? languageRedux === 1
-          ? 'Việc làm đã lưu'
+          ? "Việc làm đã lưu"
           : languageRedux === 0
-          ? 'Saved jobs'
-          : '저장된 작업'
+          ? "Saved jobs"
+          : "저장된 작업"
         : languageRedux === 1
-        ? 'Ứng viên đã lưu'
+        ? "Ứng viên đã lưu"
         : languageRedux === 0
-        ? 'Saved candidates'
-        : '저장한 구직자',
+        ? "Saved candidates"
+        : "저장한 구직자",
       icon: dataLog ? <ChartCompanySave /> : <ChartStar />,
       total: dataLog
         ? dataLog?.savePostLogs?.total
         : dataLogRecruiter?.saveCandidateLogs?.total,
-      path: dataLog
-        ? 
-          '/history?saved_jobs=1'
-        : '/history?candidate=4',
+      path: dataLog ? "/history?saved_jobs=1" : "/history?candidate=4",
     },
   ];
 

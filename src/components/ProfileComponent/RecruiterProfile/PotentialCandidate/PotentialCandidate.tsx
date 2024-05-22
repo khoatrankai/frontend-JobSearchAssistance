@@ -6,6 +6,7 @@ import { RootState } from "@/redux";
 import { Tabs } from "antd";
 import CandidateSuggested from "./CandidateSuggested/CandidateSuggested";
 import PostCandidate from "./PostCandidate/PostCandidate";
+import SuggestApplicationComponent from "@/components/SuggestApplicationComponent/SuggestApplicationComponent";
 
 type Props = {};
 
@@ -22,7 +23,7 @@ const PotentialCandidate = (props: Props) => {
     {
       key: "2",
       label: languageRedux === 1 ? "Gợi ý theo bài đăng" : "Follow company",
-      children: <PostCandidate />,
+      children: <SuggestApplicationComponent />,
     },
   ];
 

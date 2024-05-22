@@ -8,13 +8,18 @@ import { color } from "framer-motion";
 import analyticsApi from "@/api/analytics";
 import { Select } from "antd";
 import { tabClasses } from "@mui/material";
+import { useSrollContext } from "@/context/AppProvider";
+import postsApi from "@/api/posts/postsApi";
 
 type Props = {};
 
 const InfoJobMail = (props: Props) => {
   const { handleShortTextHome } = ShortText();
+  const { reponsiveMobile } = useSrollContext();
   const [selectSalary, setSelectSalary] = useState<any>(0);
   const [dataSalaryTop, setSalaryTop] = useState<any>([]);
+  const [idTopCategory, setTopCategory] = useState<any>(-1);
+  const [listJob, setListJob] = useState<any>([]);
   const [dataJobApplyTop, setDataJobApplyTop] = useState<any>([
     { name: "Kinh doanh" },
     { name: "Kỹ thuật máy tính" },
@@ -113,10 +118,38 @@ const InfoJobMail = (props: Props) => {
       const dataSalary = await analyticsApi.totalSalaryTop();
       setDataJobApplyTop(data.data);
       setSalaryTop(dataSalary.data);
+      setTopCategory(
+        dataSalary.data.resultWithMinMax?.[0]?.parent_categories_id
+      );
       console.log(dataSalary.data);
     };
     fetch();
   }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = (await postsApi.getPostNewestV3(
+        null,
+        Number(idTopCategory) ? Number(idTopCategory) : null,
+        null,
+        null,
+        3,
+        0,
+        "vi",
+        0
+      )) as any;
+      console.log(res);
+
+      if (res && res.status === 200) {
+        setListJob(res.data);
+
+        // setCurrentPage(res.currentPage);
+        console.log(res);
+      }
+    };
+    if (idTopCategory != -1) {
+      fetchData();
+    }
+  }, [idTopCategory]);
   useEffect(() => {
     setSalaryChart(
       dataSalaryChart.map((dt: any, ikey: any) => {
@@ -136,10 +169,18 @@ const InfoJobMail = (props: Props) => {
     console.log(dataJobApplyTop);
   }, [dataJobApplyTop]);
   return (
-    <div className="pb-16 bg-white">
-      <div className="flex justify-center h-[500px] ">
-        <div className="max-w-6xl w-full h-full relative flex gap-x-4">
-          <div className="basis-1/3 p-2  flex flex-col bg-blue-800 rounded-xl">
+    <div className="pb-16 pt-8 bg-white px-5">
+      <div className="flex justify-center ">
+        <div
+          className={`max-w-6xl w-full h-fit relative flex gap-4 ${
+            reponsiveMobile < 1152 ? "flex-col" : ""
+          }`}
+        >
+          <div
+            className={` p-2  flex flex-col bg-blue-800 rounded-xl ${
+              reponsiveMobile < 1152 ? "" : "basis-1/3"
+            }`}
+          >
             <div className="px-4 py-2 relative z-10">
               <p className="font-bold text-white text-3xl">
                 Top việc làm{" "}
@@ -157,72 +198,52 @@ const InfoJobMail = (props: Props) => {
                 />
               </div>
               <div className="flex-1 flex flex-col p-4 gap-y-2 w-full">
-                <div className="basis-1/3 w-full p-2 flex gap-x-2 items-center cursor-pointer">
-                  <Image
-                    src={"/goapply.png"}
-                    alt=""
-                    width={500}
-                    height={500}
-                    className="h-16 w-16 rounded-lg"
-                  />
-                  <div className="flex flex-col h-full justify-around">
-                    <p className="font-semibold text-white text-sm">
-                      Việc làm đỉnh cao KOL
-                    </p>
-                    <p className="font-medium text-xs text-gray-400">
-                      Công ty KOL
-                    </p>
-                    <p className="font-medium text-xs text-gray-400">TPHCM</p>
-                  </div>
-                </div>
-                <div className="basis-1/3 w-full p-2 flex gap-x-2 items-center cursor-pointer">
-                  <Image
-                    src={"/goapply.png"}
-                    alt=""
-                    width={500}
-                    height={500}
-                    className="h-16 w-16 rounded-lg"
-                  />
-                  <div className="flex flex-col h-full justify-around">
-                    <p className="font-semibold text-white text-sm">
-                      Việc làm đỉnh cao KOL
-                    </p>
-                    <p className="font-medium text-xs text-gray-400">
-                      Công ty KOL
-                    </p>
-                    <p className="font-medium text-xs text-gray-400">TPHCM</p>
-                  </div>
-                </div>
-                <div className="basis-1/3 w-full p-2 flex gap-x-2 items-center cursor-pointer">
-                  <Image
-                    src={"/goapply.png"}
-                    alt=""
-                    width={500}
-                    height={500}
-                    className="h-16 w-16 rounded-lg"
-                  />
-                  <div className="flex flex-col h-full justify-around">
-                    <p className="font-semibold text-white text-sm">
-                      Việc làm đỉnh cao KOL
-                    </p>
-                    <p className="font-medium text-xs text-gray-400">
-                      Công ty KOL
-                    </p>
-                    <p className="font-medium text-xs text-gray-400">TPHCM</p>
-                  </div>
-                </div>
+                {listJob.map((dt: any) => {
+                  return (
+                    <>
+                      <div className="basis-1/3 w-full p-2 flex gap-x-2 items-center cursor-pointer">
+                        <Image
+                          src={dt.image}
+                          alt=""
+                          width={500}
+                          height={500}
+                          className="h-16 w-16 rounded-lg"
+                        />
+                        <div className="flex flex-col h-full justify-around">
+                          <p className="font-semibold text-white text-sm">
+                            {dt.title}
+                          </p>
+                          <p className="font-medium text-xs text-gray-400">
+                            {dt.companyName}
+                          </p>
+                          <p className="font-medium text-xs text-gray-400">
+                            {dt.location.ward.fullName}
+                          </p>
+                        </div>
+                      </div>
+                    </>
+                  );
+                })}
               </div>
             </div>
           </div>
-          <div className="flex-1 px-4 py-5 bg-blue-800 flex flex-col gap-y-4 rounded-xl">
-            <div className="basis-1/4 flex w-full gap-x-4">
-              <div className="bg-black/30 w-full h-full rounded-xl pl-4 flex flex-col justify-center text-white">
+          <div
+            className={` px-4 py-5 bg-blue-800 flex flex-col gap-y-4 rounded-xl  ${
+              reponsiveMobile < 1152 ? "" : "flex-auto"
+            }`}
+          >
+            <div
+              className={`flex w-full gap-4 ${
+                reponsiveMobile < 600 ? "flex-col" : ""
+              }`}
+            >
+              <div className="bg-black/30 w-full min-h-[120px] rounded-xl pl-4 flex flex-col justify-center text-white">
                 <p className="font-bold text-3xl">
                   ${ChangeNumber(dataJobApplyTop.resultTotal?.[0].salaryMax)}
                 </p>
                 <p className="text-sm">Mức lương cao nhất</p>
               </div>
-              <div className="bg-black/30 w-full h-full rounded-xl pl-4 flex flex-col justify-center text-white">
+              <div className="bg-black/30 w-full min-h-[120px] rounded-xl pl-4 flex flex-col justify-center text-white">
                 <p className="font-bold text-3xl">
                   {ChangeNumber(
                     dataJobApplyTop.resultTotal?.[0].totalPost,
@@ -231,7 +252,7 @@ const InfoJobMail = (props: Props) => {
                 </p>
                 <p className="text-sm">Việc làm</p>
               </div>
-              <div className="bg-black/30 w-full h-full rounded-xl pl-4 flex flex-col justify-center text-white">
+              <div className="bg-black/30 w-full min-h-[120px] rounded-xl pl-4 flex flex-col justify-center text-white">
                 <p className="font-bold text-3xl">
                   {ChangeNumber(
                     dataJobApplyTop.resultTotal?.[0].totalParentCategory,
@@ -241,8 +262,12 @@ const InfoJobMail = (props: Props) => {
                 <p className="text-sm">Ngành nghề</p>
               </div>
             </div>
-            <div className="flex-1 flex w-full gap-x-4">
-              <div className="bg-black/30 w-full h-full rounded-xl p-4 flex flex-col gap-y-12">
+            <div
+              className={`flex-1 flex w-full gap-4 ${
+                reponsiveMobile < 1152 ? "flex-col" : ""
+              }`}
+            >
+              <div className="bg-black/30 w-full h-full rounded-xl p-4 flex flex-col gap-y-12 min-h-80 justify-between">
                 <p className="text-white font-bold">Số lượng ứng tuyển</p>
                 <div className="flex flex-col gap-y-6 justify-end h-full">
                   <div className="flex flex-col">
@@ -293,8 +318,10 @@ const InfoJobMail = (props: Props) => {
                         </p>
                       </div>
                       <div className="w-full relative group">
+                        <div className="h-1 bg-pink-400 w-full"></div>
+
                         <div
-                          className="h-1 bg-pink-400 w-full"
+                          className=" bg-pink-400/30 w-full"
                           style={{
                             height: `${
                               (160 * dataJobApplyTop.resultTop5?.[3].percent) /
@@ -407,7 +434,7 @@ const InfoJobMail = (props: Props) => {
                   </div>
                 </div>
               </div>
-              <div className="bg-black/30 w-full h-full rounded-xl p-4 flex flex-col gap-y-6">
+              <div className="bg-black/30 w-full h-full rounded-xl p-4 flex flex-col gap-y-6 min-h-80">
                 <div className="flex justify-between items-center">
                   <p className="text-white font-bold">Nhu cầu theo mức lương</p>
                   <Select
@@ -419,16 +446,14 @@ const InfoJobMail = (props: Props) => {
                   >
                     {salaryMilestone.map((dt: any, ikey: any) => {
                       return (
-                        <>
-                          <option
-                            onClick={() => {
-                              setSelectSalary(ikey);
-                            }}
-                            key={ikey}
-                          >
-                            {dt}
-                          </option>
-                        </>
+                        <option
+                          onClick={() => {
+                            setSelectSalary(ikey);
+                          }}
+                          key={ikey}
+                        >
+                          {dt}
+                        </option>
                       );
                     })}
                   </Select>
@@ -456,19 +481,20 @@ const InfoJobMail = (props: Props) => {
                   />
                   <div className="absolute inset-y-0 right-0 flex items-center">
                     <div className="flex flex-col ">
-                      {dataSalaryChart.map((dt: any) => {
+                      {dataSalaryChart.map((dt: any, index: any) => {
                         return (
-                          <>
-                            <div className="flex gap-x-1 items-center">
-                              <div
-                                className="h-2 w-2 rounded-full "
-                                style={{ backgroundColor: dt.color }}
-                              ></div>
-                              <p className="text-xs text-white font-medium">
-                                {handleShortTextHome(dt.label, 12)}
-                              </p>
-                            </div>
-                          </>
+                          <div
+                            className="flex gap-x-1 items-center"
+                            key={index}
+                          >
+                            <div
+                              className="h-2 w-2 rounded-full "
+                              style={{ backgroundColor: dt.color }}
+                            ></div>
+                            <p className="text-xs text-white font-medium">
+                              {handleShortTextHome(dt.label, 12)}
+                            </p>
+                          </div>
                         );
                       })}
                     </div>

@@ -18,8 +18,8 @@ const DashboardPreview = (props: Props) => {
   }, []);
   return (
     <div>
-      <div className="max-w-6xl flex justify-between">
-        <div className="w-1/4 h-[280px] p-4 bg-blue-900 rounded-md">
+      <div className="max-w-6xl flex justify-between flex-wrap gap-2 items-center">
+        <div className="w-[250px] h-[250px] p-4 bg-blue-900 rounded-md">
           <div>
             <div className="font-semibold flex items-center gap-x-2 text-lg text-white">
               <span>Đánh giá tốt</span>
@@ -58,7 +58,7 @@ const DashboardPreview = (props: Props) => {
             </div>
           </div>
         </div>
-        <div className="w-1/4 h-[280px] p-4 bg-blue-900 rounded-md">
+        <div className="w-[250px] h-[250px] p-4 bg-blue-900 rounded-md">
           <div>
             <div className="font-semibold flex items-center gap-x-2 text-lg text-white">
               <span>Chất lượng ứng tuyển</span>
@@ -90,7 +90,7 @@ const DashboardPreview = (props: Props) => {
             </div>
           </div>
         </div>
-        <div className="w-1/4 max-w-[220px] h-[280px] p-4 bg-blue-900 rounded-md">
+        <div className="w-[250px] h-[250px] p-4 bg-blue-900 rounded-md">
           <div>
             <div className="font-semibold flex items-center gap-x-2 text-lg text-white">
               <span>Chất lượng bài viết</span>
@@ -122,7 +122,7 @@ const DashboardPreview = (props: Props) => {
             </div>
           </div>
         </div>
-        <div className="w-1/4 h-[280px] p-4 bg-blue-900 rounded-md">
+        <div className="w-[250px] h-[250px] p-4 bg-blue-900 rounded-md">
           <div>
             <div className="font-semibold flex items-center gap-x-2 text-lg text-white">
               <span>Lượt trúng tuyển</span>

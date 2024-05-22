@@ -1,12 +1,12 @@
-import React from 'react';
-import {useSelector} from 'react-redux';
+import React from "react";
+import { useSelector } from "react-redux";
 
 // import ant
-import {Button, Cascader, Divider, Typography} from 'antd';
+import { Button, Cascader, Divider, Typography } from "antd";
 
-import './style.scss';
-import {RootState} from '@/redux/reducer';
-import {ArrowFilterIcon, LocationIcon} from '@/icons';
+import "./style.scss";
+import { RootState } from "@/redux/reducer";
+import { ArrowFilterIcon, LocationIcon } from "@/icons";
 interface ISearchLocation {
   setAddresses: any;
   setReset: Function;
@@ -15,16 +15,16 @@ interface ISearchLocation {
 }
 
 const SearchLocationCompany: React.FC<ISearchLocation> = (props) => {
-  const {setAddresses, reset, setReset, addresses} = props;
+  const { setAddresses, reset, setReset, addresses } = props;
   const dataLocations = useSelector(
-    (state: RootState) => state.dataLocation.data,
+    (state: RootState) => state.dataLocation.data
   );
   const [disable, setDisable] = React.useState<Boolean>(false);
-  const {SHOW_CHILD} = Cascader;
-  const {Text} = Typography;
+  const { SHOW_CHILD } = Cascader;
+  const { Text } = Typography;
 
   const languageRedux = useSelector(
-    (state: RootState) => state.changeLaguage.language,
+    (state: RootState) => state.changeLaguage.language
   );
   const onChange = (value: string[][]) => {
     setReset(false);
@@ -34,11 +34,11 @@ const SearchLocationCompany: React.FC<ISearchLocation> = (props) => {
   const DropdownRender = (menus: React.ReactNode) => (
     <div className="filter-loca-cate filter-candidate">
       <Text className="title-filter_location">
-        {languageRedux === 1 ? 'Địa điểm' : 'Location'}
+        {languageRedux === 1 ? "Địa điểm" : "Location"}
       </Text>
       {menus}
-      <Divider style={{margin: '8px 5px'}}>
-        {disable ? 'Vui lòng chọn địa điểm bạn muốn tìm kiếm.' : ''}
+      <Divider style={{ margin: "8px 5px" }}>
+        {disable ? "Vui lòng chọn địa điểm bạn muốn tìm kiếm." : ""}
       </Divider>
     </div>
   );
@@ -47,12 +47,12 @@ const SearchLocationCompany: React.FC<ISearchLocation> = (props) => {
     <div className="wrap-search_company">
       <div
         style={{
-          position: 'absolute',
-          zIndex: '1',
-          top: '10px',
-          left: '10px',
-          display: 'grid',
-          placeItems: 'center',
+          position: "absolute",
+          zIndex: "1",
+          top: "10px",
+          left: "10px",
+          display: "grid",
+          placeItems: "center",
         }}
       >
         <LocationIcon />
@@ -60,7 +60,7 @@ const SearchLocationCompany: React.FC<ISearchLocation> = (props) => {
       <Cascader
         getPopupContainer={(triggerNode) => triggerNode.parentElement}
         allowClear
-        style={{width: '100%'}}
+        style={{ width: "100%" }}
         onChange={onChange as any}
         multiple
         maxTagCount="responsive"
@@ -76,19 +76,19 @@ const SearchLocationCompany: React.FC<ISearchLocation> = (props) => {
                 value: dataLocation.province_id,
                 label: dataLocation.province_fullName,
                 children: dataLocation.districts.map(
-                  (child: {district_id: string; district: string}) => {
+                  (child: { district_id: string; district: string }) => {
                     var dis = false;
                     return {
                       value: child.district_id,
                       label: child.district,
                       disabled: dis,
                     };
-                  },
+                  }
                 ),
               }))
             : []
         }
-        placeholder={languageRedux === 1 ? 'Địa điểm' : 'Location'}
+        placeholder={languageRedux === 1 ? "Địa điểm" : "Location"}
       />
     </div>
   );

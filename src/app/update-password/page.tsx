@@ -35,7 +35,7 @@ const page = (props: Props) => {
   const { handleLoadHrefPage } = useSrollContext();
 
   useEffect(() => {
-    handleLoadHrefPage();
+    // handleLoadHrefPage();
   }, []);
 
   const handleUpdatePassword = () => {

@@ -48,6 +48,7 @@
     "js-cookie": "^3.0.5",
     "jspdf": "^2.5.1",
     "leaflet": "^1.9.4",
+    "lightgallery": "^2.7.2",
     "moment": "^2.29.4",
     "next": "13.4.19",
     "numeral": "^2.0.6",

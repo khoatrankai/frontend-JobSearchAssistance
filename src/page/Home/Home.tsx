@@ -22,8 +22,8 @@ const Home = (props: Props) => {
   const refJobNew = useRef<any>();
   const refJobTopic = useRef<any>();
   const refCompanyHot = useRef<any>();
-  const [scrollPosition, setScrollPosition] = useState<any>(false);
-  const { setPositionScrollJob, dataBgHome } = useSrollContext();
+  const { setPositionScrollJob, dataBgHome, scrollPosition } =
+    useSrollContext();
   const [dataBannerHome, setBannerHome] = useState<any>([
     {
       image: "/bgacb.jpg",
@@ -41,16 +41,7 @@ const Home = (props: Props) => {
       image: "/bgvpbank.jpg",
     },
   ]);
-  useEffect(() => {
-    window.addEventListener("scroll", (e) => {
-      let currentScrollPosition = window.scrollY || window.pageYOffset;
-      if (currentScrollPosition > 24) {
-        setScrollPosition(true);
-      } else {
-        setScrollPosition(false);
-      }
-    });
-  }, []);
+
   useEffect(() => {
     if (refJobHot && refJobHot && refJobTopic) {
       setPositionScrollJob([
@@ -65,29 +56,26 @@ const Home = (props: Props) => {
   return (
     <>
       <div className="flex flex-col items-center">
-        <div className="fixed -z-50 inset-0 flex">
-          <div className="fixed inset-0 z-10 bg-black/30"></div>
-          {/* <ReactPlayer
-          url={"/videos/introip.mp4"}
-          playing={true}
-          loop={true}
-          muted={true}
-          height=""
-          width="100vw"
-        /> */}
+        <div
+          className="fixed -z-50 inset-0 inline-block w-fit duration-500 transition-all "
+          style={{ transform: `translateY(${-dataBgHome * 100}%)` }}
+          key={""}
+        >
           {dataBannerHome.map((dt: any, index: any) => {
             return (
-              <>
-                <Image
-                  className={` h-vh transition-all  duration-700 ${
-                    dataBgHome === index ? "!w-full" : "!w-0 opacity-0 "
-                  }`}
+              <div className="w-screen h-full relative" key={index}>
+                <div
+                  className="absolute inset-0 z-10 bg-black"
+                  style={{ opacity: 0.4 }}
+                ></div>
+                <img
+                  className={`w-full h-full object-fill transition-all  duration-700`}
                   alt=""
                   src={dt.image}
-                  height={5000}
-                  width={dataBgHome === index ? 5000 : 0}
+                  // height={5000}
+                  // width={dataBgHome === index ? 5000 : 5000}
                 />
-              </>
+              </div>
             );
           })}
         </div>

@@ -55,6 +55,15 @@ const historyRecruiter = {
         Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
       },
     });
-  },
+  }
+  ,
+  getApplicationAll:(postId:any)=>{
+    const URL = `v1/history/recruiter/${postId}/applications`
+    return axiosClientRecruiter.get(URL, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
+      },
+    })
+  }
 };
 export default historyRecruiter;

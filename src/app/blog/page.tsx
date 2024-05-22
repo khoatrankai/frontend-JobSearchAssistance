@@ -12,6 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
 import { useSrollContext } from "@/context/AppProvider";
+import { FaComment, FaHeart, FaStar } from "react-icons/fa";
 
 type Props = {};
 
@@ -23,10 +24,10 @@ const page = (props: Props) => {
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
-  const { handleLoadHrefPage } = useSrollContext();
+  const { handleLoadHrefPage, reponsiveMobile } = useSrollContext();
 
   useEffect(() => {
-    handleLoadHrefPage();
+    // handleLoadHrefPage();
     const fetchData = async () => {
       const res = await communityApi.getCommunityNews("0", "6", "cm", 0, "vi");
 
@@ -115,16 +116,20 @@ const page = (props: Props) => {
   };
 
   return (
-    <div className="flex justify-center relative">
+    <div className="flex justify-center relative bg-blog">
       <div className="max-w-6xl w-full">
-        <div className="h-80">
-          <div className="bg-blog transition-all absolute z-0 top-0 inset-x-0 h-80 flex justify-center">
+        <div className="h-40">
+          <div className="bg-black/50 transition-all absolute z-0 top-0 inset-x-0 h-40 flex justify-center ">
             <div className="w-full max-w-6xl relative">
               <div className="absolute inset-x-0 top-8">
                 {/* <MenuBlogComponent /> */}
               </div>
             </div>
-            <h1 className="text-6xl text-white font-bold absolute inset-y-0 flex justify-center items-center pointer-events-none">
+            <h1
+              className={` text-gradient font-bold absolute inset-y-0 inset-x-8 flex justify-center items-center pointer-events-none ${
+                reponsiveMobile < 900 ? "text-2xl" : "text-4xl"
+              }`}
+            >
               {languageRedux === 1
                 ? "Blog - Ý tưởng phát triển sự nghiệp IT của bạn"
                 : "Blog - Your IT career development ideas"}
@@ -132,7 +137,7 @@ const page = (props: Props) => {
           </div>
         </div>
         <div className="my-8 relative">
-          <h1 className="text-2xl font-bold my-4">
+          <h1 className="text-2xl font-bold my-4 text-white px-5">
             {languageRedux === 1 ? `Mới nhất` : `Newest`}
           </h1>
           <div className="max-w-full">
@@ -174,28 +179,26 @@ const page = (props: Props) => {
                       </div>
                       <div className="h-fit p-4 flex gap-x-2 justify-end">
                         <div className="flex items-center">
-                          <h3 className="text-sm">
+                          <FaHeart
+                            className="w-4 text-red-500"
+
+                            // width={200}
+                            // height={200}
+                          />
+                          <h3 className="text-base font-semibold">
                             {item.communicationLikesCount}
                           </h3>
-                          <Image
-                            className="w-4"
-                            alt=""
-                            src={"/iconheart.svg"}
-                            width={200}
-                            height={200}
-                          />
                         </div>
                         <div className="flex items-center">
-                          <h3 className="text-sm">
+                          <FaComment
+                            className="w-4 text-blue-500"
+
+                            // width={200}
+                            // height={200}
+                          />
+                          <h3 className="text-base font-semibold">
                             {item.communicationCommentsCount}
                           </h3>
-                          <Image
-                            className="w-4"
-                            alt=""
-                            src={"/iconcomment.svg"}
-                            width={200}
-                            height={200}
-                          />
                         </div>
 
                         <div
@@ -207,11 +210,11 @@ const page = (props: Props) => {
                               handleBookmarked(item.id);
                             }
                           }}
-                          className="flex items-center p-2 rounded-md bg-blue-500 shadow-[7px_8px_40px_6px_#00000024] cursor-pointer ml-4 text-white"
+                          className="flex items-center p-2 rounded-md hover:bg-blue-700 bg-blue-800 shadow-[7px_8px_40px_6px_#00000024] w-24 cursor-pointer ml-4 text-white"
                         >
                           {item.bookmarked === true ? (
                             <>
-                              <SaveIconFill width={22} height={22} />
+                              <FaStar className="w-5 h-5 text-yellow-500" />
                               <h2 className="text-base ml-2">
                                 {" "}
                                 {languageRedux === 1 ? `Đã lưu` : `Saved`}
@@ -219,7 +222,7 @@ const page = (props: Props) => {
                             </>
                           ) : (
                             <>
-                              <SaveIconOutline width={22} height={22} />
+                              <FaStar className="w-5 h-5 text-white" />
                               <h2 className="text-base ml-2">
                                 {" "}
                                 {languageRedux === 1 ? `Lưu tin` : `Save news`}
@@ -234,7 +237,7 @@ const page = (props: Props) => {
             </ul>
           </div>
           <div
-            className="absolute top-0 right-0"
+            className="absolute top-0 right-8"
             onClick={() => {
               router.push("/blog/see-all-admin");
             }}
@@ -246,7 +249,7 @@ const page = (props: Props) => {
         </div>
 
         <div className="my-8 relative">
-          <h1 className="text-2xl font-bold my-4">
+          <h1 className="text-2xl font-bold my-4 text-white px-5">
             {languageRedux === 1 ? `Cẩm nang chia sẻ` : `Sharing handbook`}
           </h1>
           <div className="max-w-full">
@@ -289,28 +292,26 @@ const page = (props: Props) => {
                       </div>
                       <div className="h-fit p-4 flex gap-x-2 justify-end">
                         <div className="flex items-center">
-                          <h3 className="text-sm">
+                          <FaHeart
+                            className="w-4 text-red-500"
+
+                            // width={200}
+                            // height={200}
+                          />
+                          <h3 className="text-base font-semibold">
                             {item.communicationLikesCount}
                           </h3>
-                          <Image
-                            className="w-4"
-                            alt=""
-                            src={"/iconheart.svg"}
-                            width={200}
-                            height={200}
-                          />
                         </div>
                         <div className="flex items-center">
-                          <h3 className="text-sm">
+                          <FaComment
+                            className="w-4 text-blue-500"
+
+                            // width={200}
+                            // height={200}
+                          />
+                          <h3 className="text-base font-semibold">
                             {item.communicationCommentsCount}
                           </h3>
-                          <Image
-                            className="w-4"
-                            alt=""
-                            src={"/iconcomment.svg"}
-                            width={200}
-                            height={200}
-                          />
                         </div>
 
                         <div
@@ -322,11 +323,11 @@ const page = (props: Props) => {
                               handleBookmarked(item.id);
                             }
                           }}
-                          className="flex items-center p-2 rounded-md bg-blue-500 shadow-[7px_8px_40px_6px_#00000024] cursor-pointer ml-4 text-white"
+                          className="flex items-center p-2 rounded-md bg-blue-800 w-24 hover:bg-blue-700 shadow-[7px_8px_40px_6px_#00000024] cursor-pointer ml-4 text-white"
                         >
                           {item.bookmarked === true ? (
                             <>
-                              <SaveIconFill width={22} height={22} />
+                              <FaStar className="w-5 h-5 text-yellow-500" />
                               <h2 className="text-base ml-2">
                                 {" "}
                                 {languageRedux === 1 ? `Đã lưu` : `Saved`}
@@ -334,7 +335,7 @@ const page = (props: Props) => {
                             </>
                           ) : (
                             <>
-                              <SaveIconOutline width={22} height={22} />
+                              <FaStar className="w-5 h-5 text-white" />
                               <h2 className="text-base ml-2">
                                 {" "}
                                 {languageRedux === 1 ? `Lưu tin` : `Save news`}
@@ -349,7 +350,7 @@ const page = (props: Props) => {
             </ul>
           </div>
           <div
-            className="absolute top-0 right-0"
+            className="absolute top-0 right-8"
             onClick={() => {
               router.push("/blog/see-all");
             }}

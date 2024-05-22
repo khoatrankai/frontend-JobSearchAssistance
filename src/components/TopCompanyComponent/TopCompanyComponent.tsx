@@ -17,6 +17,9 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import DescriptionHoverProvider from "@/util/DescriptionHoverProvider/DescriptionHoverProvider";
 import { useRouter } from "next/navigation";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import ModalApply from "../ModalApply/ModalApply";
+import appplicationApi from "@/api/applicationApi";
+import { useSrollContext } from "@/context/AppProvider";
 
 type Props = {};
 
@@ -32,19 +35,107 @@ interface IBookmark {
 
 const TopCompanyComponent = (props: Props) => {
   const { handleShortTextHome, handleShortValueNumber } = ShortText();
+  const languageRedux = useSelector(
+    (state: any) => state.changeLaguage.language
+  );
+  const profile = useSelector((state: any) => state.profile.profile);
+  const handleApply = async (type: string) => {
+    // type = 'upload' => upload cv
+    // type = 'near' => select cv in near cv
+    // type = 'all' => select cv in all cv
+    const dataApply = new FormData();
+    if (profile?.roleData === undefined || profile?.roleData === null) {
+      // setOpenModalLogin(true);
+      toast.warning(
+        languageRedux === 1
+          ? "Bạn cần đăng nhập để sử dụng tính năng này"
+          : "You need to login to use this feature",
+        {
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        }
+      );
+      return;
+    }
+    let errorResponse: any = null; // Sử dụng kiểu any
 
-  const {
-    ref_list_slider,
-    handleNext,
-    checkNext,
-    checkPrev,
-    handlePrev,
-    handleClickDown,
-    handleUpData,
-    checkClick,
-    setCheckClick,
-  } = useSwiperAutoSlider(13);
+    try {
+      const appData = new FormData();
+
+      appData.append("type", type);
+      appData.append("postId", postDetail?.id);
+      appData.append("accountId", profile.accountId);
+
+      if (type === "near" || type === "all") {
+        appData.append("idCv", idCv as any);
+      }
+
+      if (type === "upload") {
+        if (!filePDFParent) {
+          toast.warning(
+            languageRedux === 1
+              ? "Vui lòng chọn file CV"
+              : "Please select CV file",
+            {
+              position: "bottom-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            }
+          );
+          return;
+        }
+        appData.append("pdf", filePDFParent);
+      }
+      const res = (await appplicationApi.applyAplication(appData)) as any;
+
+      if (res && (res.data as any).code === 201) {
+        toast.success(
+          languageRedux === 1
+            ? "Ứng tuyển thành công"
+            : "Successful application",
+          {
+            position: "bottom-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark",
+          }
+        );
+      } else {
+        errorResponse = res.message;
+      }
+    } catch (error: any) {
+      errorResponse = error?.response?.data.message;
+    }
+
+    if (errorResponse) {
+      toast.warning(errorResponse, {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
+    }
+  };
+
   const [theme, setTheme] = useState<any>([]);
+  const { reponsiveMobile } = useSrollContext();
   const { DescriptionHover, handleUpdatePosition } = DescriptionHoverProvider();
   const [pageNewJob, setPageNewJob] = useState<number>(0);
   const [pageTotal, setPageTotal] = useState<number>(0);
@@ -53,32 +144,50 @@ const TopCompanyComponent = (props: Props) => {
   const [thresholdNewJob, setThresholdNewJob] = useState<number>(0);
   const [idPrev, setIdPrev] = useState<number>(0);
   const [listJob, setListJob] = useState<any[]>([]);
-  const [themeId, setThemeId] = useState<number>(120);
+  const [themeId, setThemeId] = useState<number>(-1);
   const [bookmarked, setBookmarked] = React.useState(false);
   const accountId = localStorage.getItem("accountId");
   const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
   const language = useSelector((state: any) => state.changeLaguage.language);
+  const [postDetail, setPostDetail] = useState<any>({});
+
+  const [idCv, setIdCv] = useState<number>(0);
+  const [openModalApply, setOpenModalApply] = useState<boolean>(false);
+  const [filePDFParent, setFilePDFParent] = useState<File | null>(null);
+  const {
+    ref_list_slider,
+    handleNext,
+    checkNext,
+    checkPrev,
+    handleClickDownTouch,
+    handlePrev,
+    handleClickDown,
+    handleUpData,
+    checkClick,
+    setCheckClick,
+  } = useSwiperAutoSlider(13);
   const router = useRouter();
   useEffect(() => {
     handleUpData();
-  }, [listJob]);
+  }, [theme]);
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDataa = async () => {
       try {
         const reponse = (await themeApi.getThemesEnable("vi")) as any;
         console.log(reponse);
-        if (reponse && reponse?.code === 200) {
-          setTheme(reponse.data);
+        if (reponse && reponse?.status === 200) {
+          setTheme(reponse.data.data);
+          setThemeId(reponse.data.data?.[0]?.id);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-    fetchData();
+    fetchDataa();
   }, []);
   useEffect(() => {
-    console.log(theme);
-  }, [theme]);
+    console.log(listJob);
+  }, [listJob]);
   const fetchData = async () => {
     const res = (await postsApi.getPostByThemeId(
       Number(themeId),
@@ -99,7 +208,8 @@ const TopCompanyComponent = (props: Props) => {
     setPageNewJob(0);
   };
   useEffect(() => {
-    fetchData();
+    console.log(themeId);
+    if (themeId != -1) fetchData();
   }, [pageNewJob, themeId, bookmarked, language]);
 
   const handleNextNewJob = () => {
@@ -214,14 +324,18 @@ const TopCompanyComponent = (props: Props) => {
     <div className="flex justify-center w-full px-5 bg-blue-50">
       <div className="py-10 max-w-6xl w-full overflow-hidden">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="font-bold text-2xl text-blue-700">
+          <h1
+            className={`font-bold  text-blue-700 ${
+              reponsiveMobile < 700 ? "text-base" : "text-2xl"
+            }`}
+          >
             {language === 1 ? `Công việc theo địa danh` : `Subject work`}
           </h1>
 
           <div className="flex items-center gap-5">
             <Link
               href="/more-topic"
-              className=" text-blue-500 cursor-pointer underline hover:text-blue-600"
+              className=" text-blue-500 cursor-pointer underline hover:text-blue-600 text-sm"
             >
               {language === 1 ? `Xem thêm` : `See more`}
             </Link>
@@ -242,7 +356,7 @@ const TopCompanyComponent = (props: Props) => {
             </div>
           </div>
         </div>
-        <SkeletonAll data={listJob}>
+        <SkeletonAll data={theme}>
           <div className="relative" style={{ marginBottom: "0px" }}>
             {checkPrev && (
               <div className="absolute group bg-white bg-opacity-20 inset-y-0 flex items-center left-0 w-12 justify-center z-10">
@@ -257,6 +371,7 @@ const TopCompanyComponent = (props: Props) => {
             <ul
               ref={ref_list_slider}
               className={` select-none inline-flex justify-center relative`}
+              onTouchStart={handleClickDownTouch}
               onMouseDown={handleClickDown}
             >
               {theme &&
@@ -268,9 +383,9 @@ const TopCompanyComponent = (props: Props) => {
                     onClick={() => {
                       if (checkClick) {
                         handleGetData(item.id);
-                        refHoverPosition.current.style.transform = `translateX(${
-                          index * 291.25
-                        }px)`;
+                        // refHoverPosition.current.style.transform = `translateX(${
+                        //   index * 291.25
+                        // }px)`;
                       } else {
                         setCheckClick(true);
                       }
@@ -320,7 +435,9 @@ const TopCompanyComponent = (props: Props) => {
                 <li key={index} className="relative">
                   <Link
                     href={`/post-detail/${item.id}`}
-                    className={`w-[569.5px] h-fit group gap-x-2  px-4 border-[1px] hover:border-blue-500 transition-all duration-500  hover:bg-blue-50 bg-white hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md  py-6 flex justify-between items-center item-job`}
+                    className={` h-fit group gap-x-2  px-4 border-[1px] hover:border-blue-500 transition-all duration-500  hover:bg-blue-50 bg-white hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md  py-6 flex justify-between items-center item-job ${
+                      reponsiveMobile < 650 ? "w-[86vw]" : "w-[569.5px]"
+                    }`}
                   >
                     <div className="basis-3/12">
                       <div className="w-16 h-16 rounded-full overflow-hidden group-hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]  object-cover">
@@ -454,9 +571,17 @@ const TopCompanyComponent = (props: Props) => {
                                 >
                                   Xem chi tiết
                                 </div>
-                                <div className="font-bold flex-1 p-2 rounded-xl bg-blue-500 hover:bg-blue-600 flex justify-center items-center text-white">
-                                  Nộp đơn
-                                </div>
+                                {item?.companyResourceData?.id === 2 && (
+                                  <div
+                                    className="font-bold flex-1 p-2 rounded-xl bg-blue-500 hover:bg-blue-600 flex justify-center items-center text-white"
+                                    onClick={() => {
+                                      setPostDetail(item);
+                                      setOpenModalApply(true);
+                                    }}
+                                  >
+                                    Nộp đơn
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </DescriptionHover>
@@ -580,6 +705,17 @@ const TopCompanyComponent = (props: Props) => {
         handleToggleModal={handleToggleModal}
       />
       <ToastContainer />
+      {openModalApply && (
+        <ModalApply
+          namePost={postDetail?.title}
+          openModalApply={openModalApply}
+          setOpenModalApply={setOpenModalApply}
+          profile={profile}
+          handleApply={handleApply}
+          setFilePDFParent={setFilePDFParent}
+          setIdCv={setIdCv}
+        />
+      )}
     </div>
   );
 };

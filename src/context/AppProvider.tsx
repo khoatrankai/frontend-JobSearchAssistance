@@ -9,6 +9,7 @@ import React, {
   useEffect,
 } from "react";
 import { Provider, useSelector } from "react-redux";
+import { usePathname, useSearchParams } from "next/navigation";
 import { store } from "@/redux/store";
 import ChatContextProvider from "./ChatProvider";
 import { BrowserRouter, useLocation } from "react-router-dom";
@@ -37,12 +38,14 @@ type ScrollPosition = {
   selectItemProfileUser: any;
   setSelectItemProfileUser: any;
   setCheckPage: any;
-  scrollPosition: number;
-  setScrollPosition: Dispatch<SetStateAction<number>>;
+  scrollPosition: boolean;
+  setScrollPosition: Dispatch<SetStateAction<boolean>>;
   menuPosition: number;
   setMenuPosition: Dispatch<SetStateAction<number>>;
   selectProfileUser: any;
   setSelectProfileUser: any;
+  selectProfileRecruiter: any;
+  setSelectProfileRecruiter: any;
   transPosition: number;
   setTransPosition: Dispatch<SetStateAction<number>>;
   dataFilter: DataFilter;
@@ -58,43 +61,78 @@ type ScrollPosition = {
   setTabAlert: any;
   updateHandleAlert: any;
   callHandleAlert: any;
+  soureImageShow: any;
+  setSoureImage: any;
+  isLoading: any;
+  setIsLoading: any;
+  handlePersistGateLoaded: any;
+  scrollTopPosition: any;
 };
 
 export const Context = createContext<ScrollPosition>({} as ScrollPosition);
 
 export const ScrollContext = ({ children }: { children: ReactNode }) => {
+  const pathname = usePathname();
   const [dataFilter, setDataFilter] = useState<DataFilter | any>();
   const [dataBgHome, setBgHome] = useState<any>(0);
-  const [scrollPosition, setScrollPosition] = useState<number>(-1);
+  const [soureImageShow, setSoureImage] = useState<any>(null);
+  const [scrollPosition, setScrollPosition] = useState<boolean>(false);
+  const [scrollTopPosition, setScrollTopPosition] = useState<any>(0);
   const [menuPosition, setMenuPosition] = useState<number>(-1);
   const [transPosition, setTransPosition] = useState<number>(0);
   const [checkPage, setCheckPage] = useState<string>("/");
-  const [reponsiveMobile, setReponsiveMobile] = useState<number>(2000);
+  const [reponsiveMobile, setReponsiveMobile] = useState<number>(0);
   const [positionScrollJob, setPositionScrollJob] = useState<any>([]);
   const [selectProfileUser, setSelectProfileUser] = useState<any>(0);
+  const [selectProfileRecruiter, setSelectProfileRecruiter] = useState<any>(0);
   const [selectItemProfileUser, setSelectItemProfileUser] = useState<any>(1);
   const [handleAlert, setHandleAlert] = useState<any>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   const [tabAlert, setTabAlert] = useState<boolean>(false);
   const router = useRouter();
 
   const handleLoadHrefPage = () => {
-    console.log(location.pathname);
-    setCheckPage(location.pathname);
+    setCheckPage(pathname);
   };
+  useEffect(() => {
+    setCheckPage(pathname);
+    console.log(pathname);
+    // handleLoadHrefPage();
+  }, [pathname]);
   const updateHandleAlert = (handle: any) => {
     setHandleAlert([handle]);
   };
   const callHandleAlert = () => {
     handleAlert[0]();
   };
+  const handlePersistGateLoaded = () => {
+    setIsLoading(!isLoading);
+  };
   useEffect(() => {
+    window.addEventListener("scroll", (e) => {
+      let currentScrollPosition = window.scrollY || window.pageYOffset;
+      setScrollTopPosition(currentScrollPosition);
+      if (currentScrollPosition > 24) {
+        setScrollPosition(true);
+      } else {
+        setScrollPosition(false);
+      }
+    });
+  }, []);
+  useEffect(() => {
+    setReponsiveMobile(window.innerWidth);
+  }, []);
+  useEffect(() => {
+    setReponsiveMobile(window.innerWidth);
+
     window.addEventListener("load", (e: any) => {
       setReponsiveMobile(window.innerWidth);
     });
     window.addEventListener("resize", (e: any) => {
       setReponsiveMobile(window.innerWidth);
     });
-  }, [reponsiveMobile]);
+  }, []);
 
   useEffect(() => {
     handleLoadHrefPage();
@@ -117,6 +155,8 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
               setSelectItemProfileUser,
               selectProfileUser,
               setSelectProfileUser,
+              selectProfileRecruiter,
+              setSelectProfileRecruiter,
               positionScrollJob,
               setPositionScrollJob,
               scrollPosition,
@@ -137,6 +177,12 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
               setTabAlert,
               updateHandleAlert,
               callHandleAlert,
+              setSoureImage,
+              soureImageShow,
+              isLoading,
+              setIsLoading,
+              handlePersistGateLoaded,
+              scrollTopPosition,
             }}
           >
             {children}

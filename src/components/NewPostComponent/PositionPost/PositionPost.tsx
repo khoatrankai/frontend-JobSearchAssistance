@@ -90,7 +90,7 @@ const PositionPost = (props: Props) => {
             className="outline-none border-2 border-dashed rounded-md bg-transparent focus-within:border-black/40 focus-within:bg-white p-1 w-full"
             placeholder={languageRedux === 1 ? "Địa chỉ" : "Address"}
             type="text"
-            defaultValue={dataReq?.address}
+            value={dataReq?.address}
             onChange={(e) => {
               props.setDataReq({ ...props.dataReq, address: e.target.value });
             }}

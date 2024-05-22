@@ -4,7 +4,7 @@ import Chart from "chart.js/auto";
 import { useSelector } from "react-redux";
 // import { getAnalytics, logEvent } from "@firebase/analytics";
 import { RootState } from "@/redux/reducer";
-import { DataLog, DataLogRecuiter } from "@/app/analytics/typeChart";
+import { DataLog, DataLogRecuiter } from "@/components/Analytics/typeChart";
 interface Dataset {
   label: string;
   data: number[];

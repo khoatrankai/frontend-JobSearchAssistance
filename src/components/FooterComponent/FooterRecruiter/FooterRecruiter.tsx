@@ -4,9 +4,9 @@ type Props = {};
 
 const FooterRecruiter = (props: Props) => {
   return (
-    <div className="w-full flex justify-center bg-blue-900 text-white pt-16">
+    <div className="w-full flex justify-center bg-blue-900 text-white pt-16 px-4">
       <div className="max-w-6xl w-full flex flex-col gap-y-20">
-        <div className="flex justify-between">
+        <div className="flex justify-between flex-wrap gap-4">
           <div>
             <p className="mb-4 font-bold">Thông tin liên hệ</p>
             <div className="flex flex-col text-sm gap-y-1">

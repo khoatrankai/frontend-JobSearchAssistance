@@ -1,4 +1,5 @@
 import DashboardApi from "@/api/recruiter/dashboard/dashboardApi";
+import { useSrollContext } from "@/context/AppProvider";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
@@ -9,6 +10,7 @@ const DashboardApply = (props: Props) => {
   const [maxTop, setMaxTop] = useState<any>(0);
   const myArrayCount = new Array(11).fill(5);
   const [chooseMonth, setChooseMonth] = useState<any>(1);
+  const { reponsiveMobile } = useSrollContext();
   const [dataMonth, setDataMonth] = useState<any>([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -51,8 +53,16 @@ const DashboardApply = (props: Props) => {
   return (
     <div className="w-full max-w-6xl">
       <p className="font-bold text-2xl mb-4">Lượt ứng tuyển</p>
-      <div className="flex gap-x-2 bg-blue-900 p-4 rounded-md">
-        <div className="w-1/3 pb-4 px-8 rounded-md ">
+      <div
+        className={`flex bg-blue-900 p-4 rounded-md ${
+          reponsiveMobile < 1390 ? "flex-col gap-8" : "gap-x-2"
+        }`}
+      >
+        <div
+          className={` pb-4 px-8 rounded-md ${
+            reponsiveMobile < 1390 ? "w-full" : "w-1/3"
+          }`}
+        >
           <div className="w-full h-72 min-h-72  relative">
             <div className="w-full flex items-end max-w-[70vw]  overflow-x-scroll overflow-y-auto scroll-chart h-full pl-1">
               {dataApply.map((dt: any) => {
@@ -103,7 +113,11 @@ const DashboardApply = (props: Props) => {
             </div>
           </div>
         </div>
-        <div className="w-2/3 border-2 bg-white rounded-md p-4">
+        <div
+          className={` border-2 bg-white rounded-md p-4 ${
+            reponsiveMobile < 1390 ? "w-full" : "w-2/3"
+          }`}
+        >
           <div className="w-full flex flex-col gap-y-4 rounded-lg  bottom-full ">
             <div className="flex justify-between rounded-md p-2  group cursor-pointer items-center">
               <p className=" font-extrabold text-blue-700 pb-1 w-fit">
@@ -114,8 +128,8 @@ const DashboardApply = (props: Props) => {
               </p>
             </div>
 
-            <div className="flex flex-col gap-y-2">
-              <div className="flex gap-x-4 items-center justify-between font-bold text-xs w-full">
+            <div className="flex flex-col gap-y-2 overflow-x-scroll">
+              <div className="flex gap-x-4 items-center justify-between font-bold text-xs min-w-[850px] w-full">
                 <p className="w-8">STT</p>
                 <p className="w-2/12">Lượt ứng tuyển</p>
                 <p className="w-2/12">Lượt từ chối</p>
@@ -123,7 +137,7 @@ const DashboardApply = (props: Props) => {
                 <p className="w-3/12">Tên bài đăng</p>
                 <div className="w-[15%] h-full"></div>
               </div>
-              <div className="flex flex-col gap-y-2 overflow-y-scroll max-h-40">
+              <div className="flex flex-col gap-y-2 overflow-y-scroll max-h-40 min-w-[850px]">
                 <div className="flex gap-x-4 items-center justify-between font-medium text-xs w-full">
                   <p className="w-8 pl-2">1</p>
                   <p className="w-2/12 text-blue-500 pl-2">10,102</p>

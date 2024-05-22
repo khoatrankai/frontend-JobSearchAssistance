@@ -10,6 +10,7 @@ const useSwiperAutoSlider = (gap: number = 0,delay:number = 4000, typeSlider: bo
   const [checkNext, setCheckNext] = useState<boolean>(false);
   const [checkPrev, setCheckPrev] = useState<boolean>(false);
   const [checkClick, setCheckClick] = useState<boolean>(true);
+  useEffect(()=>{console.log(positionOld,position)},[positionOld,position])
   useEffect(() => {
     handleUpData();
   }, []);
@@ -27,7 +28,17 @@ const useSwiperAutoSlider = (gap: number = 0,delay:number = 4000, typeSlider: bo
       }
     }
   };
-  useEffect(()=>{console.log(ref_list_slider.current)},[ref_list_slider])
+  useEffect(()=>{
+    if(ref_list_slider.current){
+      ref_list_slider.current?.addEventListener('mousedown',handleClickDown)
+      ref_list_slider.current?.addEventListener('touchstart',handleClickDownTouch)
+      return()=>{
+        ref_list_slider.current?.removeEventListener('mousedown',handleClickDown)
+        ref_list_slider.current?.removeEventListener('touchstart',handleClickDownTouch)
+      }
+      // console.log(ref_list_slider)
+    }
+  },[ref_list_slider])
   useEffect(() => {
     if (ref_list_slider.current) {
       ref_list_slider.current.style.transform = `translateX(${position}px)`;
@@ -37,13 +48,21 @@ const useSwiperAutoSlider = (gap: number = 0,delay:number = 4000, typeSlider: bo
   useEffect(() => {
     if (checkDown) {
       const handleMove = (e: any) => {
+        console.log(e.clientX)
         setPosition(position + e.clientX - positionOld);
         setCheckClick(false);
       };
+      const handleMoveTouch = (e: any) => {
+        setPosition(position + e.touches[0].clientX - positionOld);
+        setCheckClick(false);
+      };
       window.addEventListener('mousemove', handleMove);
+      window.addEventListener('touchmove', handleMoveTouch);
       return () => {
         window.removeEventListener('mousemove', handleMove);
+        window.removeEventListener('touchmove', handleMoveTouch);
       };
+      
     }
   }, [checkDown, positionOld, widthList]);
   const handleUpData = () => {
@@ -58,6 +77,7 @@ const useSwiperAutoSlider = (gap: number = 0,delay:number = 4000, typeSlider: bo
     if (typeSlider) {
       setPosition(0);
     }
+    console.log(width,ref_list_slider.current)
     setMaxWidth(width);
     setWidthList(
       ref_list_slider.current?.parentElement.getBoundingClientRect().width,
@@ -71,7 +91,7 @@ const useSwiperAutoSlider = (gap: number = 0,delay:number = 4000, typeSlider: bo
         if (-position > maxWidth - widthList) {
           setPosition(-(maxWidth - widthList));
         } else {
-          const list = ref_list_slider.current.querySelectorAll('li');
+          const list = ref_list_slider.current?.querySelectorAll('li');
           let width = 0;
           let check = false;
           list.forEach((dt: any) => {
@@ -110,7 +130,7 @@ const useSwiperAutoSlider = (gap: number = 0,delay:number = 4000, typeSlider: bo
   useEffect(() => {
     const handleUp = () => {
       setCheckDown(false);
-      ref_list_slider.current.classList.add(`transition-transform`);
+      ref_list_slider.current?.classList.add(`transition-transform`);
       setTimeout(() => {
         ref_list_slider.current?.classList?.remove(`transition-transform`);
       }, 150);
@@ -118,8 +138,10 @@ const useSwiperAutoSlider = (gap: number = 0,delay:number = 4000, typeSlider: bo
     };
     if (checkDown) {
       window.addEventListener('mouseup', handleUp);
+      window.addEventListener('touchend', handleUp);
       return () => {
         window.removeEventListener('mouseup', handleUp);
+        window.removeEventListener('touchend', handleUp);
       };
     }
   }, [checkDown, position]);
@@ -137,6 +159,10 @@ const useSwiperAutoSlider = (gap: number = 0,delay:number = 4000, typeSlider: bo
   const handleClickDown = (e: any) => {
     setCheckDown(true);
     setPositionOld(e.clientX);
+  };
+  const handleClickDownTouch = (e: any) => {
+    setCheckDown(true);
+    setPositionOld(e.touches[0].clientX);
   };
   const handleNext = () => {
     const list = ref_list_slider.current.querySelectorAll('li');
@@ -212,6 +238,7 @@ const useSwiperAutoSlider = (gap: number = 0,delay:number = 4000, typeSlider: bo
     checkClick,
     setCheckClick,
     handleUpData,
+    handleClickDownTouch
   };
 };
 

@@ -122,7 +122,6 @@ const AllCompanyComponent = (props: Props) => {
             <ul
               ref={ref_list_slider}
               className={` select-none inline-flex justify-center gap-[15px] duration-500`}
-              onMouseDown={handleClickDown}
             >
               {listCompany &&
                 listCompany?.length > 0 &&

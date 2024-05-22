@@ -111,6 +111,26 @@ const cvsApi = {
           return result
 
     },
+    postCvIndex: async(name:any,cvIndex:any,templateId:any,file:any,images:any = null,type:any = 0)=>{
+      const URL =  `${V3}/api/v3/profiles-cvs`
+      const formData = new FormData()
+      formData.append('name',name)
+      formData.append('cvIndex',cvIndex)
+      formData.append('templateId',templateId)
+      formData.append('file',file)
+      images && formData.append('images',images)
+      formData.append('type',type)
+      const res3 = (await axiosClient.post(URL
+       ,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )) as any;
+      return res3
+    }
     
 }
 

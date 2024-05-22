@@ -25,7 +25,7 @@ const Dashboard = (props: Props) => {
       <div className="flex flex-col gap-y-4">
         <p className="font-semibold text-2xl">Số liệu thống kê</p>
         <div className="flex flex-wrap gap-4 max-w-6xl justify-center">
-          <div className="basis-[32%]  h-36 border-2 rounded-lg relative border-blue-800 flex">
+          <div className="basis-[32%] min-w-64  h-36 border-2 rounded-lg relative border-blue-800 flex">
             <div className="text-5xl h-full flex justify-center items-center w-1/4 border-r-2">
               <MdDocumentScanner />
             </div>
@@ -38,7 +38,7 @@ const Dashboard = (props: Props) => {
               </p>
             </div>
           </div>
-          <div className="basis-[32%] h-36 border-2 rounded-lg relative border-blue-800 flex">
+          <div className="basis-[32%] min-w-64 h-36 border-2 rounded-lg relative border-blue-800 flex">
             <div className="text-5xl h-full flex justify-center items-center w-1/4 border-r-2">
               <FaUserTie />
             </div>
@@ -49,7 +49,7 @@ const Dashboard = (props: Props) => {
               <p className="h-1/2 text-xl font-medium px-4">Lượt ứng tuyển</p>
             </div>
           </div>
-          <div className="basis-[32%] h-36 border-2 rounded-lg relative border-blue-800 flex">
+          <div className="basis-[32%] min-w-64 h-36 border-2 rounded-lg relative border-blue-800 flex">
             <div className="text-5xl h-full flex justify-center items-center w-1/4 border-r-2">
               <ImBlog />
             </div>
@@ -61,7 +61,7 @@ const Dashboard = (props: Props) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-y-16">
+        <div className="flex flex-col gap-y-16 max-w-6xl">
           <DashboardPost dataView={dataAnalystView} />
           <DashboardApply />
           <DashboardPreview />

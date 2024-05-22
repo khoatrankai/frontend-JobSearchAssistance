@@ -44,6 +44,10 @@ const postsApi = {
     const URL = `/v1/posts/${params}?lang=${lang}`;
     return axiosClient.get(URL);
   },
+  getPostRecruiterbyId: (params: number, lang: string) => {
+    const URL = `/v1/posts/${params}?lang=${lang}`;
+    return axiosClientRecruiter.get(URL);
+  },
 
   getPostByThemeId: (
     themeId: number | null,
@@ -93,6 +97,23 @@ const postsApi = {
       },
     })
   },
+  ownPost: ()=>{
+    const URL = `v1/posts/own`
+    return axiosClientRecruiter.get(URL,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+  },
+  updateStatus: (id:any,status:any)=>{
+    const URL = `v1/posts/sta`
+    return axiosClientRecruiter.put(URL,{id:id,status:status},{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`
+      },
+    })
+  }
 
 };
 

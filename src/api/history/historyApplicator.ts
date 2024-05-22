@@ -1,4 +1,5 @@
 import axiosClient from "@/configs/axiosClient"
+import axiosClientRecruiter from "@/configs/axiosRecruiter"
 
 // api/productApi.js
 const historyApplicator = {
@@ -16,6 +17,6 @@ const historyApplicator = {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
       },
     })
-  },
+  }
 }
 export default historyApplicator

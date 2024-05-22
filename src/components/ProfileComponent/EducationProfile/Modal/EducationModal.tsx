@@ -113,19 +113,21 @@ const EducationModal = (props: Props) => {
             <div className="px-3 py-2 border-2  duration-300 relative transition-all rounded-md group focus-within:border-blue-500 h-11">
               <Input
                 value={dataRequest?.companyName}
-                className={`font-serif outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${dataRequest?.companyName
+                className={`font-serif outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${
+                  dataRequest?.companyName
                     ? ""
                     : " z-30 group-focus-within:z-0 opacity-0 focus-within:opacity-100"
-                  }`}
+                }`}
                 type="text"
                 name="companyName"
                 onChange={handleUpdate}
               />
               <h2
-                className={`font-serif absolute flex items-center  duration-300 transition-all ${dataRequest?.companyName
+                className={`font-serif absolute flex items-center  duration-300 transition-all ${
+                  dataRequest?.companyName
                     ? "group-focus-within:text-blue-500 inset-auto z-10 px-1 -top-2 bg-white text-xs font-bold"
                     : "text-black/25 inset-x-3 inset-y-0 group-focus-within:z-10 group-focus-within:inset-auto group-focus-within:text-blue-500 group-focus-within:px-1 group-focus-within:-top-2 bg-transparent group-focus-within:bg-white text-lg group-focus-within:text-xs font-semibold group-focus-within:font-bold "
-                  }`}
+                }`}
               >
                 {languageRedux === 1 ? `Tên trường` : `School name`}
               </h2>
@@ -133,19 +135,21 @@ const EducationModal = (props: Props) => {
             <div className="px-3 py-2 border-2  duration-300 relative transition-all rounded-md group focus-within:border-blue-500 h-11">
               <Input
                 value={dataRequest?.major}
-                className={`font-serif outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${dataRequest?.major
+                className={`font-serif outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${
+                  dataRequest?.major
                     ? ""
                     : " z-30 group-focus-within:z-0 opacity-0 focus-within:opacity-100"
-                  }`}
+                }`}
                 type="text"
                 name="major"
                 onChange={handleUpdate}
               />
               <h2
-                className={`font-serif absolute flex items-center  duration-300 transition-all ${dataRequest?.major
+                className={`font-serif absolute flex items-center  duration-300 transition-all ${
+                  dataRequest?.major
                     ? "group-focus-within:text-blue-500 inset-auto z-10 px-1 -top-2 bg-white text-xs font-bold"
                     : "text-black/25 inset-x-3 inset-y-0 group-focus-within:z-10 group-focus-within:inset-auto group-focus-within:text-blue-500 group-focus-within:px-1 group-focus-within:-top-2 bg-transparent group-focus-within:bg-white text-lg group-focus-within:text-xs font-semibold group-focus-within:font-bold "
-                  }`}
+                }`}
               >
                 {languageRedux === 1 ? `Chuyên ngành` : `Major`}
               </h2>
@@ -153,19 +157,21 @@ const EducationModal = (props: Props) => {
             <div className="px-3 py-2 border-2  duration-300 relative transition-all rounded-md group focus-within:border-blue-500 h-11">
               <input
                 defaultValue={handleConvertToDate(dataRequest?.startDate)}
-                className={`font-serif outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${dataRequest?.startDate
+                className={`font-serif outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${
+                  dataRequest?.startDate
                     ? ""
                     : " z-30 group-focus-within:z-0 opacity-0 focus-within:opacity-100"
-                  }`}
+                }`}
                 type="date"
                 name="startDate"
                 onChange={handleUpdate}
               />
               <h2
-                className={`absolute font-serif flex items-center  duration-300 transition-all ${dataRequest?.startDate
+                className={`absolute font-serif flex items-center  duration-300 transition-all ${
+                  dataRequest?.startDate
                     ? "group-focus-within:text-blue-500 inset-auto z-10 px-1 -top-2 bg-white text-xs font-bold"
                     : "text-black/25 inset-x-3 inset-y-0 group-focus-within:z-10 group-focus-within:inset-auto group-focus-within:text-blue-500 group-focus-within:px-1 group-focus-within:-top-2 bg-transparent group-focus-within:bg-white text-lg group-focus-within:text-xs font-semibold group-focus-within:font-bold "
-                  }`}
+                }`}
               >
                 {languageRedux === 1 ? `Ngày bắt đầu` : `Start date`}
               </h2>
@@ -173,19 +179,21 @@ const EducationModal = (props: Props) => {
             <div className="px-3 py-2 border-2  duration-300 relative transition-all rounded-md group focus-within:border-blue-500 h-11">
               <input
                 defaultValue={handleConvertToDate(dataRequest?.endDate)}
-                className={`outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${dataRequest?.endDate
+                className={`outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${
+                  dataRequest?.endDate
                     ? ""
                     : " z-30 group-focus-within:z-0 opacity-0 focus-within:opacity-100"
-                  }`}
+                }`}
                 type="date"
                 name="endDate"
                 onChange={handleUpdate}
               />
               <h2
-                className={`absolute font-serif flex items-center  duration-300 transition-all ${dataRequest?.endDate
+                className={`absolute font-serif flex items-center  duration-300 transition-all ${
+                  dataRequest?.endDate
                     ? "group-focus-within:text-blue-500 inset-auto z-10 px-1 -top-2 bg-white text-xs font-bold"
                     : "text-black/25 inset-x-3 inset-y-0 group-focus-within:z-10 group-focus-within:inset-auto group-focus-within:text-blue-500 group-focus-within:px-1 group-focus-within:-top-2 bg-transparent group-focus-within:bg-white text-lg group-focus-within:text-xs font-semibold group-focus-within:font-bold "
-                  }`}
+                }`}
               >
                 {languageRedux === 1 ? `Ngày kết thúc` : `End date`}
               </h2>
@@ -195,10 +203,11 @@ const EducationModal = (props: Props) => {
                 value={dataRequest?.academicTypeId}
                 onChange={handleUpdate}
                 name="academicTypeId"
-                className={`font-serif outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${dataRequest?.academicTypeId
+                className={`font-serif outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${
+                  dataRequest?.academicTypeId
                     ? ""
                     : " z-30 group-focus-within:z-0 opacity-0 focus-within:opacity-100"
-                  }`}
+                }`}
               >
                 {dataAcademic.map((dt: any) => {
                   return (
@@ -209,10 +218,11 @@ const EducationModal = (props: Props) => {
                 })}
               </select>
               <h2
-                className={`absolute font-serif duration-300 transition-all ${dataRequest?.academicTypeId
+                className={`absolute font-serif duration-300 transition-all ${
+                  dataRequest?.academicTypeId
                     ? "group-focus-within:text-blue-500 inset-auto z-10 px-1 -top-2 bg-white text-xs font-bold"
                     : "text-black/25 group-focus-within:z-10 group-focus-within:inset-auto group-focus-within:text-blue-500 group-focus-within:px-1 group-focus-within:-top-2 bg-transparent group-focus-within:bg-white text-lg group-focus-within:text-xs font-semibold group-focus-within:font-bold "
-                  }`}
+                }`}
               >
                 {languageRedux === 1 ? `Bằng cấp` : `Academic type`}
               </h2>
@@ -220,18 +230,20 @@ const EducationModal = (props: Props) => {
             <div className="px-3 py-2 border-2  duration-300 relative transition-all rounded-md group focus-within:border-blue-500 h-28">
               <textarea
                 value={dataRequest?.extraInformation}
-                className={`font-serif outline-none bg-transparent resize-none inset-0 px-3 h-full absolute duration-100 text-lg py-2  ${dataRequest?.extraInformation
+                className={`font-serif outline-none bg-transparent resize-none inset-0 px-3 h-full absolute duration-100 text-lg py-2  ${
+                  dataRequest?.extraInformation
                     ? ""
                     : " z-30 group-focus-within:z-0 opacity-0 focus-within:opacity-100"
-                  }`}
+                }`}
                 name="extraInformation"
                 onChange={handleUpdate}
               />
               <h2
-                className={`absolute font-serif duration-300 transition-all ${dataRequest?.extraInformation
+                className={`absolute font-serif duration-300 transition-all ${
+                  dataRequest?.extraInformation
                     ? "group-focus-within:text-blue-500 inset-auto z-10 px-1 -top-2 bg-white text-xs font-bold"
                     : "text-black/25 group-focus-within:z-10 group-focus-within:inset-auto group-focus-within:text-blue-500 group-focus-within:px-1 group-focus-within:-top-2 bg-transparent group-focus-within:bg-white text-lg group-focus-within:text-xs font-semibold group-focus-within:font-bold "
-                  }`}
+                }`}
               >
                 {languageRedux === 1 ? `Mô tả` : `Description`}
               </h2>
@@ -243,7 +255,7 @@ const EducationModal = (props: Props) => {
                   setCheckModal(true);
                 }}
               >
-                {type === "add" ? "Thêm" : "Cập nhất"}
+                {type === "add" ? "Thêm" : "Cập nhật"}
               </button>
               <button
                 className="p-2  font-bold"

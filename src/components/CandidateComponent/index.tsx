@@ -39,9 +39,9 @@ const CandidatesAll = () => {
 
   const profileV3 = useSelector((state: RootState) => state.dataProfileV3.data);
 
-  useEffect(() => {
-    handleLoadHrefPage();
-  }, []);
+  // useEffect(() => {
+  //   handleLoadHrefPage();
+  // }, []);
 
   const getAllCandidates = async () => {
     try {

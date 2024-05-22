@@ -1,4 +1,5 @@
 import DashboardApi from "@/api/recruiter/dashboard/dashboardApi";
+import { useSrollContext } from "@/context/AppProvider";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
@@ -11,6 +12,7 @@ const DashboardPost = ({ dataView }: Props) => {
   const [arrayTop, setArrayTop] = useState<any>([
     10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 0, 0,
   ]);
+  const { reponsiveMobile } = useSrollContext();
   const [maxTop, setMaxTop] = useState<any>(0);
   const [arrayPost, setPost] = useState<any>([]);
   const myArrayCount = new Array(11).fill(5);
@@ -58,9 +60,17 @@ const DashboardPost = ({ dataView }: Props) => {
     // console.log((maxTop / 10) * value);
   };
   return (
-    <div className="w-full flex gap-x-2 px-2 h-96">
+    <div
+      className={`w-full flex  px-2  ${
+        reponsiveMobile < 1392 ? "h-fit flex-col gap-8" : "gap-x-2 h-96"
+      }`}
+    >
       {/* <p className="font-semibold text-2xl">Lượt bài đăng trong năm 2024</p> */}
-      <div className="w-3/4 h-full border-2 border-blue-800 rounded-md relative ">
+      <div
+        className={` border-2 border-blue-800 rounded-md relative ${
+          reponsiveMobile < 1392 ? "w-full h-96" : "w-3/4 h-full"
+        }`}
+      >
         <div className="flex gap-4 py-4 px-2 !pb-0 absolute inset-0 bottom-0  items-end">
           {arrayTop.map((dt: any, ikey: any) => {
             return (
@@ -232,20 +242,24 @@ const DashboardPost = ({ dataView }: Props) => {
           <p className="h-full flex items-end">0</p> */}
         </div>
       </div>
-      <div className="w-1/4 h-full bg-blue-800 rounded-md p-4 flex flex-col">
+      <div
+        className={`  bg-blue-800 rounded-md p-4 flex flex-col  ${
+          reponsiveMobile < 1392 ? "w-full h-96" : "w-1/4 h-full"
+        }`}
+      >
         <p className="text-white font-medium text-lg mb-4">Top lượt xem</p>
         <div className="flex gap-y-1 flex-col">
           <div className="flex gap-x-4 border-transparent rounded-md cursor-pointer font-bold text-white">
             <p>BXH</p>
             <p>Tên bài đăng</p>
           </div>
-          <div className="flex flex-col justify-between flex-1 text-[0.8vw]">
+          <div className="flex flex-col justify-between flex-1 text-sm">
             <div className="flex gap-x-4 border-[1px] border-transparent rounded-md p-2 hover:bg-white group cursor-pointer">
-              <p className="text-white font-semibold group-hover:font-bold group-hover:text-blue-800">
+              <p className="text-white font-semibold  group-hover:text-blue-800">
                 #1
               </p>
 
-              <p className="text-white group-hover:text-blue-700 group-hover:font-medium">
+              <p className="text-white group-hover:text-blue-700 ">
                 Việc làm cung ứng ...
               </p>
               <div className="flex text-green-400 items-center gap-x-1 group-hover:text-green-700">
@@ -254,11 +268,11 @@ const DashboardPost = ({ dataView }: Props) => {
               </div>
             </div>
             <div className=" border-transparent flex gap-x-4 border-[1px] rounded-md p-2 hover:bg-white group cursor-pointer">
-              <p className="text-white font-semibold group-hover:font-bold group-hover:text-blue-800">
+              <p className="text-white font-semibold  group-hover:text-blue-800">
                 #2
               </p>
 
-              <p className="text-white group-hover:text-blue-700 group-hover:font-medium">
+              <p className="text-white group-hover:text-blue-700 ">
                 Việc làm cung ứng ...
               </p>
               <div className="flex text-green-400 items-center gap-x-1">
@@ -267,11 +281,11 @@ const DashboardPost = ({ dataView }: Props) => {
               </div>
             </div>
             <div className=" border-transparent flex gap-x-4 border-[1px] rounded-md p-2 hover:bg-white group cursor-pointer">
-              <p className="text-white font-semibold group-hover:font-bold group-hover:text-blue-800">
+              <p className="text-white font-semibold  group-hover:text-blue-800">
                 #3
               </p>
 
-              <p className="text-white group-hover:text-blue-700 group-hover:font-medium">
+              <p className="text-white group-hover:text-blue-700 ">
                 Việc làm cung ứng ...
               </p>
               <div className="flex text-red-400 items-center gap-x-1">
@@ -280,11 +294,11 @@ const DashboardPost = ({ dataView }: Props) => {
               </div>
             </div>
             <div className=" border-transparent flex gap-x-4 border-[1px] rounded-md p-2 hover:bg-white group cursor-pointer">
-              <p className="text-white font-semibold group-hover:font-bold group-hover:text-blue-800">
+              <p className="text-white font-semibold  group-hover:text-blue-800">
                 #4
               </p>
 
-              <p className="text-white group-hover:text-blue-700 group-hover:font-medium">
+              <p className="text-white group-hover:text-blue-700 ">
                 Việc làm cung ứng ...
               </p>
               <div className="flex text-green-400 items-center gap-x-1">
@@ -293,11 +307,11 @@ const DashboardPost = ({ dataView }: Props) => {
               </div>
             </div>
             <div className=" border-transparent flex gap-x-4 border-[1px] rounded-md p-2 hover:bg-white group cursor-pointer">
-              <p className="text-white font-semibold group-hover:font-bold group-hover:text-blue-800">
+              <p className="text-white font-semibold  group-hover:text-blue-800">
                 #5
               </p>
 
-              <p className="text-white group-hover:text-blue-700 group-hover:font-medium">
+              <p className="text-white group-hover:text-blue-700 ">
                 Việc làm cung ứng ...
               </p>
               <div className="flex text-green-400 items-center gap-x-1">
@@ -306,11 +320,11 @@ const DashboardPost = ({ dataView }: Props) => {
               </div>
             </div>
             <div className=" border-transparent flex gap-x-4 border-[1px] rounded-md p-2 hover:bg-white group cursor-pointer">
-              <p className="text-white font-semibold group-hover:font-bold group-hover:text-blue-800">
+              <p className="text-white font-semibold  group-hover:text-blue-800">
                 #6
               </p>
 
-              <p className="text-white group-hover:text-blue-700 group-hover:font-medium">
+              <p className="text-white group-hover:text-blue-700 ">
                 Việc làm cung ứng ...
               </p>
               <div className="flex text-green-400 items-center gap-x-1">

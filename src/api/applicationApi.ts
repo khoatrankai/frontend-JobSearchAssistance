@@ -2,14 +2,14 @@ import axios from "axios"
 
 const appplicationApi = {
   updateApplication: (id: number, status: number) => {
-    const URL = `https://vice-tk.onrender.com/api/v1/application/update`
+    const URL = `http://localhost:8888/api/v1/application/update`
 
     return axios.put(
       URL,
       { id, status },
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
         },
       }
     )

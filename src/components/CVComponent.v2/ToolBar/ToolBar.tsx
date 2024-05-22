@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 /* eslint-disable react/jsx-key */
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import { PDFDownloadLink, pdf } from "@react-pdf/renderer";
 import React, { useEffect, useRef, useState } from "react";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import Passion from "../PDF/Sample/Passion/Passion";
@@ -21,26 +21,23 @@ const ToolBar = (props: Props) => {
   const { id, funcLibrary } = props;
   const [tabColorTopic, setTabColorTopic] = useState<boolean>(false);
   const [urlSave, setUrlSave] = useState<any>("");
-  const [titleCV, setTitleCV] = useState<any>("");
-  const handleBam = () => {
-    const element = document.querySelector(".canvas-pdf");
-
-    const fileName = "image.jpg"; // Tên tệp mới
-
-    captureElementAsFile(element, fileName)
-      .then((imageFile: any) => {
-        // Sử dụng đối tượng File của hình ảnh tại đây
-        console.log(imageFile);
-      })
-      .catch((error: any) => {
-        // Xử lý lỗi nếu có
-        console.error(error);
-      });
+  const [pdfExport, setPdfExport] = useState<any>();
+  const handlePdfSave = (blob: any) => {
+    setPdfExport(blob);
+    return "Lưu và tải xuống";
   };
-
+  const handleSavePdf = async () => {
+    if (dataLoad) {
+      // const blob = await pdf(<Passion funcLibrary={funcLibrary} />).toBlob();
+      // return blob;
+      return pdfExport;
+    }
+  };
   const refBtnMenu = useRef<any>();
   const {
     dataForm,
+    nameCv,
+    setNameCv,
     dataRequest,
     dataGhostDrag,
     handleCheckPass,
@@ -65,6 +62,7 @@ const ToolBar = (props: Props) => {
     setDataLoad,
     setDataForm,
     handleChangeLayout,
+    handleResetActive,
     BGLayout,
     handleNext,
     handlePrev,
@@ -86,10 +84,10 @@ const ToolBar = (props: Props) => {
           <input
             className="outline-none text-lg font-semibold h-full w-full"
             type="text"
-            value={titleCV ?? ""}
+            value={nameCv ?? ""}
             placeholder="Tiêu đề"
             onChange={(e: any) => {
-              setTitleCV(e.target.value);
+              setNameCv(e.target.value);
             }}
           />
         </div>
@@ -175,23 +173,23 @@ const ToolBar = (props: Props) => {
           <button
             className="p-2 font-semibold text-blue-500  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] border-2 hover:bg-blue-500 hover:text-white rounded-lg"
             // onClick={handleBtnSave}
+            onClick={(e: any) => {}}
           >
             <PDFDownloadLink
               className="href-link-pdf"
               document={<Passion funcLibrary={funcLibrary} />}
-              fileName={`${titleCV ? titleCV : "CV-old"}-${id}.pdf`}
+              fileName={`${nameCv ? nameCv : "CV-old"}-${id}.pdf`}
             >
-              {({ blob, url, loading, error }) =>
-                loading ? "Đang cập nhật..." : "Lưu và tải xuống"
-              }
+              {({ blob, url, loading, error }) => handlePdfSave(blob)}
             </PDFDownloadLink>
           </button>
           <button
             className="p-2 font-semibold bg-blue-500 rounded-lg"
             onClick={() => {
-              // handleBtnSave();
+              handleResetActive();
+              handleBtnSave(handleSavePdf);
               // console.log("Bam");
-              handleBam();
+              // handleBam();
             }}
           >
             Lưu lại

@@ -11,6 +11,7 @@ import ShortText from "@/util/ShortText";
 import { useRouter } from "next/navigation";
 import { fetchSearchResult } from "@/redux/reducer/searchReducer";
 import axiosClientRecruiter from "@/configs/axiosRecruiter";
+import { useSrollContext } from "@/context/AppProvider";
 
 type Props = {
   setSearchActive?: any;
@@ -21,7 +22,7 @@ const SearchAllComponent = (props: Props) => {
   const { setSearchActive, DefaultActive } = props;
   const { handleShortTextHome, handleShortValueNumber } = ShortText();
   const language = useSelector((state: any) => state.changeLaguage.language);
-
+  const { reponsiveMobile } = useSrollContext();
   const [activeSearch, setActiveSearch] = useState<any>(false);
   const [dataSuggest, setDataSuggest] = useState<any>([]);
   const [dataHistoryKey, setHistoryKey] = useState<any>([]);
@@ -109,7 +110,7 @@ const SearchAllComponent = (props: Props) => {
       );
       // dataKeySearch(dataKeyWord?.q ?? "");
       setKeySearch(dataKeyWord.q ?? "");
-      setDataSuggest(res2.data);
+      setDataSuggest(res2?.data);
     };
     fetchData();
   }, []);
@@ -145,29 +146,32 @@ const SearchAllComponent = (props: Props) => {
           Tìm kiếm
         </button>
         <div
-          className={`absolute inset-0 rounded-xl  top-16 transition-all overflow-hidden duration-300 cursor-default bg-white ${
+          className={`absolute inset-0 rounded-xl overflow-y-scroll max-h-[420px]  top-16 transition-all overflow-hidden duration-300 cursor-default bg-white ${
             activeSearch ? " min-h-32 h-fit" : "h-0"
           }`}
         >
-          <div className="flex p-8 h-full gap-x-4">
+          <div
+            className={`flex p-8 h-full gap-4 ${
+              reponsiveMobile < 700 ? "flex-col" : ""
+            }`}
+          >
             <div className="flex flex-1 flex-col gap-y-4">
               {dataKeyAvailability.length > 0 && (
                 <div className="flex-1 flex flex-col">
                   <p className="font-medium text-xl mb-2">Từ khóa gần nhất</p>
-                  {dataKeyAvailability?.map((dt: any) => {
+                  {dataKeyAvailability?.map((dt: any, index: any) => {
                     return (
-                      <>
-                        <div
-                          className="p-2"
-                          onClick={() => {
-                            handleSearch(dt.title);
-                          }}
-                        >
-                          <p className="underline cursor-pointer hover:text-blue-600">
-                            {handleShortTextHome(dt.title, 70)}
-                          </p>
-                        </div>
-                      </>
+                      <div
+                        className="p-2"
+                        onClick={() => {
+                          handleSearch(dt.title);
+                        }}
+                        key={index}
+                      >
+                        <p className="underline cursor-pointer hover:text-blue-600">
+                          {handleShortTextHome(dt.title, 70)}
+                        </p>
+                      </div>
                     );
                   })}
                 </div>
@@ -176,18 +180,17 @@ const SearchAllComponent = (props: Props) => {
               <div className="">
                 <p className="font-medium text-xl mb-2">Từ khóa gợi ý</p>
                 <div className="flex gap-2 flex-wrap">
-                  {dataSuggest?.map((dt: any) => {
+                  {dataSuggest?.map((dt: any, index: any) => {
                     return (
-                      <>
-                        <div
-                          className="px-2 py-1 rounded-lg border-[1px] hover:border-black transition-all duration-500 cursor-pointer"
-                          onClick={() => {
-                            handleSearch(dt.keyword);
-                          }}
-                        >
-                          {dt.keyword}
-                        </div>
-                      </>
+                      <div
+                        className="px-2 py-1 rounded-lg border-[1px] hover:border-black transition-all duration-500 cursor-pointer"
+                        onClick={() => {
+                          handleSearch(dt.keyword);
+                        }}
+                        key={index}
+                      >
+                        {dt.keyword}
+                      </div>
                     );
                   })}
                 </div>
@@ -195,14 +198,19 @@ const SearchAllComponent = (props: Props) => {
             </div>
             <div className="basis-1/3 flex flex-col">
               <p className="font-medium text-xl mb-2">Lịch sử tìm kiếm</p>
-              {dataHistoryKey?.map((dt: any) => {
-                return (
-                  <>
+              <div
+                className={`flex flex-col  ${
+                  reponsiveMobile < 700 ? "max-h-24 overflow-y-scroll" : ""
+                }`}
+              >
+                {dataHistoryKey?.map((dt: any, index: any) => {
+                  return (
                     <div
                       className="flex justify-between items-center p-1 hover:bg-blue-50 rounded-lg cursor-pointer"
                       onClick={() => {
                         handleSearch(dt.keyword);
                       }}
+                      key={index}
                     >
                       <div className="flex gap-x-2 text-lg items-center text-gray-500">
                         <VscDebugRestart />
@@ -220,9 +228,9 @@ const SearchAllComponent = (props: Props) => {
                         <IoCloseSharp />
                       </div>
                     </div>
-                  </>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>

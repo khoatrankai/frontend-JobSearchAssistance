@@ -20,6 +20,13 @@ import { Button, Modal } from "antd";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import CheckPageLogin from "@/util/CheckPageLogin";
 
+import LightGallery from "lightgallery/react";
+import lgZoom from "lightgallery/plugins/zoom";
+import lgThumbnail from "lightgallery/plugins/thumbnail";
+import { LightGallery as ILightGallery } from "lightgallery/lightgallery";
+import CustomLightImage from "@/util/CustomLightImage/CustomLightImage";
+import { IoCopy } from "react-icons/io5";
+
 type Props = {};
 
 interface IDeleteProfileCv {
@@ -29,7 +36,7 @@ interface IDeleteProfileCv {
 
 const page = (props: Props) => {
   CheckPageLogin();
-  const { handleLoadHrefPage } = useSrollContext();
+  const { handleLoadHrefPage, setSoureImage } = useSrollContext();
   const language = useSelector((state: any) => state.changeLaguage.language);
   const profile = useSelector((state: any) => state.profile.profile);
   const [profileCV, setProfileCV] = React.useState<any>([]);
@@ -51,11 +58,12 @@ const page = (props: Props) => {
     React.useState<boolean>(false);
   useEffect(() => {
     setProfileCV(profile.profilesCvs);
+    console.log(profile);
   }, [profile]);
 
-  useEffect(() => {
-    handleLoadHrefPage();
-  }, []);
+  // useEffect(() => {
+  //   handleLoadHrefPage();
+  // }, []);
 
   const handleDeleteCv = (id: number) => {
     const fetchData = async () => {
@@ -100,7 +108,7 @@ const page = (props: Props) => {
     fetchData();
   };
   return (
-    <div className=" flex min-h-[89.5vh] pt-16 bg-[#f0f0f0] flex-col items-center gap-8">
+    <div className=" flex min-h-[89.5vh] py-16 bg-[#f0f0f0] flex-col items-center gap-8">
       <div className="w-full max-w-6xl h-64 bg-blue-400 rounded-xl flex items-center justify-between relative">
         <div className="flex flex-col pl-12 justify-center">
           <p className="font-semibold text-2xl">
@@ -161,16 +169,23 @@ const page = (props: Props) => {
                     className="flex flex-col w-1/2 h-fit min-w-[220px] max-w-[440px] mt-10"
                     key={index}
                   >
-                    <div className="h-1/2 relative">
+                    <div
+                      className="h-96 relative overflow-hidden border-[1px] border-gray-300 rounded-md group"
+                      onClick={() => {
+                        setSoureImage(item?.imageURL);
+                      }}
+                    >
                       <img
                         src={item.imageURL}
                         alt=""
-                        className="w-full h-full max-h-96"
+                        className="w-full group-hover:scale-105 transition-all duration-500"
                         onError={(e: any) => {
                           e.target.onerror = null;
                           e.target.src = "https://via.placeholder.com/150";
                         }}
                       />
+                      {/* <CustomLightImage src={item.imageURL}/> */}
+
                       <div>
                         <div className="absolute top-2 right-2">
                           {item.status === 1 && (
@@ -207,7 +222,9 @@ const page = (props: Props) => {
                             </div>
                             <div
                               className="text-[#fff] text-sm"
-                              onClick={() => {
+                              onClick={(e: any) => {
+                                e.stopPropagation();
+
                                 if (item.status === 0) {
                                   {
                                     setOpenModalConfirmPushTop(true);
@@ -246,7 +263,8 @@ const page = (props: Props) => {
                             </div>
                             <div
                               className="text-[#fff] text-sm w-fit cursor-pointer"
-                              onClick={() => {
+                              onClick={(e: any) => {
+                                e.stopPropagation();
                                 window.open(item.pdfURL, "_blank");
                               }}
                             >
@@ -254,7 +272,23 @@ const page = (props: Props) => {
                             </div>
                           </div>
                           <div
-                            onClick={() => {
+                            className="cursor-pointer"
+                            onClick={(e: any) => {
+                              e.stopPropagation();
+                              window.open(
+                                `/cv/create-v2/create-back/${item.cvIndex}`,
+                                "_blank"
+                              );
+                              // router.push(
+                              //   `/cv/create-v2/create-back/${item.cvIndex}`
+                              // );
+                            }}
+                          >
+                            <IoCopy className="text-black text-2xl" />
+                          </div>
+                          <div
+                            onClick={(e: any) => {
+                              e.stopPropagation();
                               setIdDelete(item.id);
                               setOpenModalConfirmDelete(true);
                             }}
@@ -275,7 +309,9 @@ const page = (props: Props) => {
                       <div
                         className="cursor-pointer"
                         onClick={() => {
-                          router.push(`/cv/${item?.cvIndex}`);
+                          router.push(
+                            `/cv/create-v2/${item?.templateId}/${item?.cvIndex}`
+                          );
                         }}
                       >
                         <EditIcon />

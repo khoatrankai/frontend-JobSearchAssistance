@@ -1,26 +1,26 @@
-'use client';
-import React, {useEffect, FormEvent, useState} from 'react';
-import {Skeleton, Space} from 'antd';
-import {message} from 'antd';
-import {useSelector} from 'react-redux';
-import './style.scss';
-import {RootState} from '@/redux/reducer';
-import {PencilIcon} from '@/icons';
-import RollTop from '@/components/RollTop';
-import EditLogoCompanyComponent from '../EditLogoCompanyComponent';
-import apiCompany from '@/api/company/apiCompany';
-import EditNameTaxCompanyComponent from '../EditNameTaxCompanyComponent';
-import EditAddressCompanyComponent from '../EditAddressCompanyComponent';
-import EditPhoneMailCompanyComponent from '../EditPhoneMailCompanyComponent';
-import EditRoleWebCompanyComponent from '../EditRoleWebCompanyComponent';
-import EditFieldScaleCompanyComponent from '../EditFieldScaleCompanyComponent';
-import EditDescripeCompanyComponent from '../EditDescripeCompanyComponent';
-import ModalEditCompanySuccessComponent from '../ModalEditCompanySuccessComponent';
-import EditImageCompanyComponent from '../EditImageCompanyComponent';
-import 'react-toastify/dist/ReactToastify.css';
-import {ToastContainer, toast} from 'react-toastify';
-import {useSrollContext} from '@/context/AppProvider';
-import {CircularProgress} from '@mui/material';
+"use client";
+import React, { useEffect, FormEvent, useState } from "react";
+import { Skeleton, Space } from "antd";
+import { message } from "antd";
+import { useSelector } from "react-redux";
+import "./style.scss";
+import { RootState } from "@/redux/reducer";
+import { PencilIcon } from "@/icons";
+import RollTop from "@/components/RollTop";
+import EditLogoCompanyComponent from "../EditLogoCompanyComponent";
+import apiCompany from "@/api/company/apiCompany";
+import EditNameTaxCompanyComponent from "../EditNameTaxCompanyComponent";
+import EditAddressCompanyComponent from "../EditAddressCompanyComponent";
+import EditPhoneMailCompanyComponent from "../EditPhoneMailCompanyComponent";
+import EditRoleWebCompanyComponent from "../EditRoleWebCompanyComponent";
+import EditFieldScaleCompanyComponent from "../EditFieldScaleCompanyComponent";
+import EditDescripeCompanyComponent from "../EditDescripeCompanyComponent";
+import ModalEditCompanySuccessComponent from "../ModalEditCompanySuccessComponent";
+import EditImageCompanyComponent from "../EditImageCompanyComponent";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+import { useSrollContext } from "@/context/AppProvider";
+import { CircularProgress } from "@mui/material";
 
 export interface FormValues {
   id: string;
@@ -80,42 +80,42 @@ interface ICompany {
 }
 
 const Company: React.FC<ICompany> = (props) => {
-  const {display, is_profile} = props;
+  const { display, is_profile } = props;
   const languageRedux = useSelector(
-    (state: RootState) => state.changeLaguage.language,
+    (state: RootState) => state.changeLaguage.language
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [messageApi, contextHolder] = message.useMessage();
   const [haveCompany, setHaveCompany] = useState(false);
-  const {handleLoadHrefPage} = useSrollContext();
+  const { handleLoadHrefPage } = useSrollContext();
   const [companyId, setCompanyId] = useState<any>();
   const profileV3 = useSelector((state: RootState) => state.profile.profile);
   const [dataCompany, setDataCompany] = useState<any | null>({
-    name: '',
-    address: '',
-    companyLocation: '',
-    companyRoleInfomation: '',
-    companyCategory: '',
-    companySizeInfomation: '',
-    taxCode: '',
-    phone: '',
-    email: '',
-    website: '',
-    description: '',
-    logoPath: '',
+    name: "",
+    address: "",
+    companyLocation: "",
+    companyRoleInfomation: "",
+    companyCategory: "",
+    companySizeInfomation: "",
+    taxCode: "",
+    phone: "",
+    email: "",
+    website: "",
+    description: "",
+    logoPath: "",
   });
   const [openModalEditCompany, setOpenModalEditCompanySuccess] =
     React.useState(false);
   const [loadingUpdate, setLoadingUpdate] = useState<boolean>(false);
   React.useEffect(() => {
     document.title =
-      languageRedux === 1 ? 'Thông tin công ty' : 'Company Information';
+      languageRedux === 1 ? "Thông tin công ty" : "Company Information";
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [languageRedux]);
 
-  useEffect(() => {
-    handleLoadHrefPage();
-  }, []);
+  // useEffect(() => {
+  //   handleLoadHrefPage();
+  // }, []);
 
   const getCompanyInforByAccount = async () => {
     try {
@@ -147,13 +147,13 @@ const Company: React.FC<ICompany> = (props) => {
 
   const validURL = (str: string) => {
     var pattern = new RegExp(
-      '^(https?:\\/\\/)?' + // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-        '(\\#[-a-z\\d_]*)?$',
-      'i',
+      "^(https?:\\/\\/)?" + // protocol
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+        "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+        "(\\#[-a-z\\d_]*)?$",
+      "i"
     ); // fragment locator
     return !!pattern.test(str);
   };
@@ -163,63 +163,63 @@ const Company: React.FC<ICompany> = (props) => {
   // valid values form data
   const validValue = () => {
     if (
-      dataCompany?.logoPath === '' ||
-      dataCompany?.logoPath?.status === 'removed'
+      dataCompany?.logoPath === "" ||
+      dataCompany?.logoPath?.status === "removed"
     ) {
       return {
         message:
           languageRedux === 1
-            ? 'Vui lòng chọn logo công ty'
-            : 'Please select company logo',
+            ? "Vui lòng chọn logo công ty"
+            : "Please select company logo",
         checkForm: false,
       };
     }
-    if (dataCompany?.name?.trim() === '') {
+    if (dataCompany?.name?.trim() === "") {
       return {
         message:
           languageRedux === 1
-            ? 'Vui lòng nhập tên công ty'
-            : 'Please enter company name',
+            ? "Vui lòng nhập tên công ty"
+            : "Please enter company name",
         checkForm: false,
       };
     }
-    if (dataCompany?.companyLocation === '') {
+    if (dataCompany?.companyLocation === "") {
       return {
         message:
           languageRedux === 1
-            ? 'Vui lòng chọn tỉnh thành phố'
-            : 'Please select province',
+            ? "Vui lòng chọn tỉnh thành phố"
+            : "Please select province",
         checkForm: false,
       };
     }
-    if (dataCompany?.address === '' || dataCompany?.address?.length <= 10) {
+    if (dataCompany?.address === "" || dataCompany?.address?.length <= 10) {
       return {
         message:
           languageRedux === 1
-            ? 'Địa chỉ phải dài hơn 10 ký tự'
-            : 'Address must be longer than 10 characters',
+            ? "Địa chỉ phải dài hơn 10 ký tự"
+            : "Address must be longer than 10 characters",
         checkForm: false,
       };
     }
     if (
-      dataCompany?.phone === '' ||
+      dataCompany?.phone === "" ||
       (dataCompany?.phone && dataCompany?.phone?.length < 10) ||
       (dataCompany?.phone && dataCompany?.phone?.length > 11)
     ) {
       return {
         message:
           languageRedux === 1
-            ? 'Số điện thoại sai định dạng'
-            : 'Phone must be 10 or 11 characters',
+            ? "Số điện thoại sai định dạng"
+            : "Phone must be 10 or 11 characters",
         checkForm: false,
       };
     }
-    if (dataCompany?.email === '') {
+    if (dataCompany?.email === "") {
       return {
         message:
           languageRedux === 1
-            ? 'Vui lòng nhập email công ty'
-            : 'Please enter company email',
+            ? "Vui lòng nhập email công ty"
+            : "Please enter company email",
         checkForm: false,
       };
     }
@@ -227,26 +227,26 @@ const Company: React.FC<ICompany> = (props) => {
       return {
         message:
           languageRedux === 1
-            ? 'Định dạng email không đúng'
-            : 'Email format is incorrect',
+            ? "Định dạng email không đúng"
+            : "Email format is incorrect",
         checkForm: false,
       };
     }
-    if (dataCompany?.companyRoleInfomation === '') {
+    if (dataCompany?.companyRoleInfomation === "") {
       return {
         message:
           languageRedux === 1
-            ? 'Vui lòng chọn vai trò của bạn'
-            : 'Please select your role',
+            ? "Vui lòng chọn vai trò của bạn"
+            : "Please select your role",
         checkForm: false,
       };
     }
-    if (dataCompany?.website === '') {
+    if (dataCompany?.website === "") {
       return {
         message:
           languageRedux === 1
-            ? 'Vui lòng nhập website công ty'
-            : 'Please select your website',
+            ? "Vui lòng nhập website công ty"
+            : "Please select your website",
         checkForm: false,
       };
     }
@@ -254,186 +254,186 @@ const Company: React.FC<ICompany> = (props) => {
       return {
         message:
           languageRedux === 1
-            ? 'Định dạng website không chính xác'
-            : 'Website format is incorrect',
+            ? "Định dạng website không chính xác"
+            : "Website format is incorrect",
         checkForm: false,
       };
     }
-    if (dataCompany?.companyCategory === '') {
+    if (dataCompany?.companyCategory === "") {
       return {
         message:
           languageRedux === 1
-            ? 'Vui lòng chọn danh mục nghề nghiệp'
-            : 'Please select career category',
+            ? "Vui lòng chọn danh mục nghề nghiệp"
+            : "Please select career category",
         checkForm: false,
       };
     }
-    if (dataCompany?.companySizeInfomation === '') {
+    if (dataCompany?.companySizeInfomation === "") {
       return {
         message:
           languageRedux === 1
-            ? 'Vui lòng chọn quy mô công ty'
-            : 'Please select company size',
+            ? "Vui lòng chọn quy mô công ty"
+            : "Please select company size",
         checkForm: false,
       };
     }
-    if (dataCompany?.description === '') {
+    if (dataCompany?.description === "") {
       return {
         message:
           languageRedux === 1
-            ? 'Vui lòng nhập mô tả công ty'
-            : 'Please select description',
+            ? "Vui lòng nhập mô tả công ty"
+            : "Please select description",
         checkForm: false,
       };
     }
 
     return {
-      message: '',
+      message: "",
       checkForm: true,
     };
   };
 
   const handleCreateCompany = async (formData: any) => {
-    const {message, checkForm} = validValue();
+    const { message, checkForm } = validValue();
     try {
       if (checkForm) {
-        if (Array.from(formData.values()).some((value) => value !== '')) {
+        if (Array.from(formData.values()).some((value) => value !== "")) {
           setLoadingUpdate(true);
           const result = await apiCompany.createCampany(formData);
 
           if (result) {
             toast.success(
               languageRedux === 1
-                ? 'Tạo công ty thành công'
-                : 'Create a successful company',
+                ? "Tạo công ty thành công"
+                : "Create a successful company",
               {
-                position: 'bottom-center',
+                position: "bottom-center",
                 autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
-                theme: 'colored',
-              },
+                theme: "colored",
+              }
             );
             setLoadingUpdate(false);
           } else {
             toast.error(
               languageRedux === 1
-                ? 'Tạo công ty không thành công'
-                : 'Creating a company fails',
+                ? "Tạo công ty không thành công"
+                : "Creating a company fails",
               {
-                position: 'bottom-center',
+                position: "bottom-center",
                 autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
-                theme: 'colored',
-              },
+                theme: "colored",
+              }
             );
             setLoadingUpdate(false);
           }
         }
       } else {
         toast.warning(message, {
-          position: 'bottom-center',
+          position: "bottom-center",
           autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: 'colored',
+          theme: "colored",
         });
         setLoadingUpdate(false);
       }
     } catch (error) {
-      console.error('error', error);
+      console.error("error", error);
     }
   };
   const handleUpdateCompany = async (formData: any) => {
     // valid value form data
-    const {message, checkForm} = validValue();
+    const { message, checkForm } = validValue();
     try {
       if (checkForm) {
-        if (Array.from(formData.values()).some((value) => value !== '')) {
+        if (Array.from(formData.values()).some((value) => value !== "")) {
           setLoadingUpdate(true);
           const result = await apiCompany.updateCampany(companyId, formData);
           if (result) {
             setOpenModalEditCompanySuccess(true);
             toast.success(
               languageRedux === 1
-                ? 'Tạo công ty thành công'
-                : 'Create a successful company',
+                ? "Tạo công ty thành công"
+                : "Create a successful company",
               {
-                position: 'bottom-center',
+                position: "bottom-center",
                 autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
-                theme: 'colored',
-              },
+                theme: "colored",
+              }
             );
             setLoadingUpdate(false);
           }
         }
       } else {
         toast.warning(message, {
-          position: 'bottom-center',
+          position: "bottom-center",
           autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: 'colored',
+          theme: "colored",
         });
         setLoadingUpdate(false);
       }
     } catch (error) {
-      console.error('error', error);
+      console.error("error", error);
       setLoadingUpdate(false);
     }
   };
 
   const handleSubmit = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent> | FormEvent,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent> | FormEvent
   ) => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append('name', String(dataCompany?.name?.trim()));
-    formData.append('address', String(dataCompany?.address));
-    formData.append('wardId', String(dataCompany?.companyLocation?.id));
-    formData.append('taxCode', String(dataCompany?.taxCode));
-    formData.append('phone', String(dataCompany?.phone));
-    formData.append('email', String(dataCompany?.email));
-    formData.append('website', String(dataCompany?.website));
-    formData.append('description', String(dataCompany?.description));
+    formData.append("name", String(dataCompany?.name?.trim()));
+    formData.append("address", String(dataCompany?.address));
+    formData.append("wardId", String(dataCompany?.companyLocation?.id));
+    formData.append("taxCode", String(dataCompany?.taxCode));
+    formData.append("phone", String(dataCompany?.phone));
+    formData.append("email", String(dataCompany?.email));
+    formData.append("website", String(dataCompany?.website));
+    formData.append("description", String(dataCompany?.description));
     formData.append(
-      'companyRoleId',
-      String(dataCompany?.companyRoleInfomation?.id),
+      "companyRoleId",
+      String(dataCompany?.companyRoleInfomation?.id)
     );
     formData.append(
-      'companySizeId',
-      String(dataCompany?.companySizeInfomation?.id),
+      "companySizeId",
+      String(dataCompany?.companySizeInfomation?.id)
     );
-    formData.append('categoryId', String(dataCompany?.companyCategory?.id));
-    formData.append('logo', dataCompany?.logoPath);
+    formData.append("categoryId", String(dataCompany?.companyCategory?.id));
+    formData.append("logo", dataCompany?.logoPath);
     dataCompany?.images &&
       dataCompany?.images?.forEach((image: any) => {
         if (image.type) {
-          formData.append('images', image);
+          formData.append("images", image);
         }
       });
     dataCompany.deleteImages &&
       dataCompany.deleteImages?.forEach((id: any) => {
-        formData.append('deleteImages', id);
+        formData.append("deleteImages", id);
       });
 
     if (formData) {
@@ -448,8 +448,8 @@ const Company: React.FC<ICompany> = (props) => {
       className="company-container relative"
       style={{
         display: display,
-        marginTop: is_profile ? '30px' : '50px',
-        width: is_profile ? '100%' : 'unset',
+        marginTop: is_profile ? "30px" : "50px",
+        width: is_profile ? "100%" : "unset",
       }}
     >
       {loadingUpdate && (
@@ -458,51 +458,51 @@ const Company: React.FC<ICompany> = (props) => {
         </div>
       )}
       {contextHolder}
-      <div style={{display: loading ? 'none' : 'block'}}></div>
+      <div style={{ display: loading ? "none" : "block" }}></div>
       <div
         className="company-content"
         style={{
-          padding: is_profile ? '0px' : '0px 0px',
-          pointerEvents: loadingUpdate ? 'none' : 'auto',
+          padding: is_profile ? "0px" : "0px 0px",
+          pointerEvents: loadingUpdate ? "none" : "auto",
         }}
       >
         <div
           className="company-title"
           style={{
-            marginBottom: is_profile ? '24px' : '32px',
+            marginBottom: is_profile ? "24px" : "32px",
           }}
         >
           <div className="company-title_top">
             <h1>
               {languageRedux === 1
-                ? 'Thông tin công ty'
-                : 'Company Information'}
+                ? "Thông tin công ty"
+                : "Company Information"}
             </h1>
 
             <Space
               style={{
-                cursor: 'pointer',
-                display: is_profile ? 'flex' : 'none',
+                cursor: "pointer",
+                display: is_profile ? "flex" : "none",
               }}
-              onClick={() => window.open(`/company-infor`, '_parent')}
+              onClick={() => window.open(`/company-infor`, "_parent")}
             >
               <div className="edit-icon">
                 <PencilIcon width={15} height={15} />
               </div>
 
-              <p style={{color: '#d4a650', fontSize: '14px'}}>
-                {languageRedux === 1 ? 'Chỉnh sửa' : 'Edit'}
+              <p style={{ color: "#d4a650", fontSize: "14px" }}>
+                {languageRedux === 1 ? "Chỉnh sửa" : "Edit"}
               </p>
             </Space>
           </div>
           <div
             className="company-title_bottom"
-            style={{display: is_profile ? 'block' : 'none'}}
+            style={{ display: is_profile ? "block" : "none" }}
           >
             <p>
               {languageRedux === 1
-                ? 'Bạn cần điền thông tin công ty của mình để đăng tin tuyển dụng, tìm kiếm ứng viên.'
-                : 'You need to fill in your company information to post job vacancies, search for candidates.'}
+                ? "Bạn cần điền thông tin công ty của mình để đăng tin tuyển dụng, tìm kiếm ứng viên."
+                : "You need to fill in your company information to post job vacancies, search for candidates."}
             </p>
           </div>
         </div>
@@ -555,9 +555,9 @@ const Company: React.FC<ICompany> = (props) => {
               type="submit"
               onClick={handleSubmit}
               className="btn-edit_submitForm"
-              style={{display: is_profile ? 'none' : 'block'}}
+              style={{ display: is_profile ? "none" : "block" }}
             >
-              {languageRedux === 1 ? 'Lưu thông tin' : 'Save information'}
+              {languageRedux === 1 ? "Lưu thông tin" : "Save information"}
             </button>
           </form>
         </Skeleton>
@@ -568,7 +568,7 @@ const Company: React.FC<ICompany> = (props) => {
         languageRedux={languageRedux}
         language={languageRedux}
       />
-      <div style={{display: is_profile ? 'none' : 'block'}}>
+      <div style={{ display: is_profile ? "none" : "block" }}>
         <RollTop />
       </div>
       <ToastContainer />

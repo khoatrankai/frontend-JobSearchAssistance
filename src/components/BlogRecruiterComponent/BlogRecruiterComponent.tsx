@@ -1,3 +1,4 @@
+import { useSrollContext } from "@/context/AppProvider";
 import ShortText from "@/util/ShortText";
 import Image from "next/image";
 import React from "react";
@@ -5,19 +6,26 @@ import React from "react";
 type Props = {};
 
 const BlogRecruiterComponent = (props: Props) => {
+  const { reponsiveMobile } = useSrollContext();
   const { handleShortTextHome } = ShortText();
 
   return (
     <div className="flex justify-center bg-gray-100 py-10 px-5">
       <div className="max-w-6xl w-full overflow-hidden justify-center flex flex-col">
         <div className="w-full flex items-center justify-center mb-8">
-          <p className="font-bold text-4xl ">Các Blog tuyển dụng</p>
+          <p
+            className={`font-bold  ${
+              reponsiveMobile < 800 ? "text-2xl" : "text-4xl"
+            }`}
+          >
+            Các Blog tuyển dụng
+          </p>
           {/* <button className="text-blue-500 hover:text-blue-600 underline">
             Xem thêm
           </button> */}
         </div>
 
-        <div className="flex gap-x-4 flex-wrap justify-center">
+        <div className="flex gap-6 flex-wrap justify-center">
           <div className="rounded-xl max-w-[276px] min-w-[276px] h-fit border-[1px] overflow-hidden bg-white group hover:border-blue-500">
             <div className=" cursor-pointer">
               <Image

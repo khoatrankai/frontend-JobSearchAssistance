@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import axiosClient from "@/configs/axiosClient";
 import { useSelector } from "react-redux";
+import axiosClientRecruiter from "@/configs/axiosRecruiter";
 
 type Props = {
   dataReq: any;
@@ -42,7 +43,7 @@ const Salary = (props: Props) => {
   }, [tabType]);
   useEffect(() => {
     const fetchData = async () => {
-      const res = (await axiosClient.get(
+      const res = (await axiosClientRecruiter.get(
         `http://localhost:8888/api/v1/salary-types?lang=${
           languageRedux === 1 ? "vi" : "en"
         }`
@@ -99,7 +100,7 @@ const Salary = (props: Props) => {
         <div className="flex flex-wrap gap-2 text-sm items-center ">
           <input
             name="salaryMin"
-            defaultValue={props?.dataReq?.salaryMin}
+            value={props?.dataReq?.salaryMin}
             className="p-2 rounded-lg outline-none border-dashed border-2 bg-transparent focus-within:bg-white border-black/20 focus-within:border-black/60 w-[120px]"
             type="number"
             placeholder={languageRedux === 1 ? "Tối thiểu" : "Minimum"}
@@ -107,7 +108,7 @@ const Salary = (props: Props) => {
           />
           <input
             name="salaryMax"
-            defaultValue={props?.dataReq?.salaryMax}
+            value={props?.dataReq?.salaryMax}
             className="p-2 rounded-lg outline-none border-dashed border-2 bg-transparent focus-within:bg-white border-black/20 focus-within:border-black/60 w-[120px]"
             type="number"
             placeholder={languageRedux === 1 ? "Tối đa" : "Maximum"}

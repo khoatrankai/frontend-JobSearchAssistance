@@ -12,10 +12,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { handleLoadHrefPage } = useSrollContext();
+  // const { handleLoadHrefPage } = useSrollContext();
 
-  useEffect(() => {
-    handleLoadHrefPage();
-  }, []);
+  // useEffect(() => {
+  //   handleLoadHrefPage();
+  // }, []);
   return <>{children}</>;
 }

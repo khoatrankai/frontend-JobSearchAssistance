@@ -1,31 +1,37 @@
-import React from 'react';
-import {Avatar, message} from 'antd';
-import {UserOutlined} from '@ant-design/icons';
-import './style.scss';
-import {Input} from 'antd';
-import {useDispatch, useSelector} from 'react-redux';
+import React from "react";
+import { Avatar, message } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+import "./style.scss";
+import { Input } from "antd";
+import { useDispatch, useSelector } from "react-redux";
 //@ts-ignore
-import ModalLogin from '#components/Home/ModalLogin';
-import {useLocation} from 'react-router-dom';
-import {RootState} from '@/redux/reducer';
-import communityApi from '@/api/community/apiCommunity';
-import {setAlertCancleSave, setAlertSave} from '@/redux/reducer/alertReducer';
-import {setCookie} from '@/cookies';
-import { CommentIcon, EysIcon, LikeIcon, SaveIconFill, SaveIconOutline } from '@/icons';
-import ShowCancleSave from '@/components/HistoryComponent/ShowCancelSave';
+import ModalLogin from "#components/Home/ModalLogin";
+import { useLocation } from "react-router-dom";
+import { RootState } from "@/redux/reducer";
+import communityApi from "@/api/community/apiCommunity";
+import { setAlertCancleSave, setAlertSave } from "@/redux/reducer/alertReducer";
+import { setCookie } from "@/cookies";
+import {
+  CommentIcon,
+  EysIcon,
+  LikeIcon,
+  SaveIconFill,
+  SaveIconOutline,
+} from "@/icons";
+import ShowCancleSave from "@/components/HistoryComponent/ShowCancelSave";
 
 const UTENewsCard: React.FC<any> = (props) => {
   const language = useSelector(
-    (state: RootState) => state.dataLanguage.languages,
+    (state: RootState) => state.dataLanguage.languages
   );
-  const {item, index, setSaveListPost, saveListPost} = props;
+  const { item, index, setSaveListPost, saveListPost } = props;
   const [like, setLike] = React.useState(item?.liked);
   const [bookmark, setBookmark] = React.useState(item?.bookmarked);
   const [totalLike, setTotalLike] = React.useState(
-    item?.communicationLikesCount,
+    item?.communicationLikesCount
   );
   const [shouldShowMoreButton, setShouldShowMoreButton] = React.useState(false);
-  const [showText, setShowText] = React.useState('');
+  const [showText, setShowText] = React.useState("");
   const contentRef = React.useRef<any>(null);
   const [openModalLogin, setOpenModalLogin] = React.useState(false);
   const dispatch = useDispatch();
@@ -40,7 +46,7 @@ const UTENewsCard: React.FC<any> = (props) => {
 
   const handleLikeCommunity = async (communicationId: number, e: any) => {
     e.stopPropagation();
-    if (!localStorage.getItem('accessToken')) {
+    if (!localStorage.getItem("accessToken")) {
       setOpenModalLogin(true);
       return;
     }
@@ -54,7 +60,7 @@ const UTENewsCard: React.FC<any> = (props) => {
           setTotalLike(totalLike - 1);
         }
       } else {
-        message.error('Vui lòng đăng nhập để thực hiện chức năng');
+        message.error("Vui lòng đăng nhập để thực hiện chức năng");
       }
     } catch (error) {
       console.log(error);
@@ -65,7 +71,7 @@ const UTENewsCard: React.FC<any> = (props) => {
 
   const handleClickSave = async (e: any) => {
     e.stopPropagation();
-    if (!localStorage.getItem('accessToken')) {
+    if (!localStorage.getItem("accessToken")) {
       setOpenModalLogin(true);
       return;
     }
@@ -87,23 +93,23 @@ const UTENewsCard: React.FC<any> = (props) => {
         setOpenModalLogin(true);
       }
     } catch (error) {
-      console.log('error', error);
+      console.log("error", error);
     }
   };
 
   const handleMoveToDetailPage = (id: any, e: any) => {
     e.stopPropagation();
-    location?.pathname === '/history'
-      ? setCookie('fromHistory', '30', 365)
-      : setCookie('fromHistory', '0', 365);
-    window.open(`/detail-community?post-community=${id}&type=0`, '_parent');
+    location?.pathname === "/history"
+      ? setCookie("fromHistory", "30", 365)
+      : setCookie("fromHistory", "0", 365);
+    window.open(`/detail-community?post-community=${id}&type=0`, "_parent");
   };
 
   React.useEffect(() => {
     if (contentRef.current) {
       const contentHeight = contentRef.current.scrollHeight;
       const lineHeight = parseInt(
-        window.getComputedStyle(contentRef.current).lineHeight,
+        window.getComputedStyle(contentRef.current).lineHeight
       );
 
       const numLines = Math.floor(contentHeight / lineHeight);
@@ -113,11 +119,11 @@ const UTENewsCard: React.FC<any> = (props) => {
 
   const handleAddText = (e: any) => {
     e.stopPropagation();
-    if (showText === '') {
-      setShowText('showText');
+    if (showText === "") {
+      setShowText("showText");
       setShouldShowMoreButton(!shouldShowMoreButton);
     } else {
-      setShowText('');
+      setShowText("");
       setShouldShowMoreButton(!shouldShowMoreButton);
     }
   };
@@ -166,7 +172,7 @@ const UTENewsCard: React.FC<any> = (props) => {
               </ul>
               {shouldShowMoreButton ? (
                 <span onClick={(e) => handleAddText(e)}>
-                  {!showText ? `${language?.more}...` : 'Xem ít...'}
+                  {!showText ? `${language?.more}...` : "Xem ít..."}
                 </span>
               ) : (
                 <></>
@@ -186,7 +192,7 @@ const UTENewsCard: React.FC<any> = (props) => {
                   <p>Hijob</p>
                 </div>
               </div>
-              <p>{new Date(item?.createdAt).toLocaleDateString('en-GB')}</p>
+              <p>{new Date(item?.createdAt).toLocaleDateString("en-GB")}</p>
             </div>
             <div className="comunitypostNew-card-wrap_status">
               <div className="status-item">
@@ -194,7 +200,7 @@ const UTENewsCard: React.FC<any> = (props) => {
                 <p>{item?.communicationViewsCount}</p>
               </div>
               <div
-                className={like ? 'status-item liked' : 'status-item'}
+                className={like ? "status-item liked" : "status-item"}
                 onClick={(e) => handleLikeCommunity(item?.id, e)}
               >
                 <LikeIcon />

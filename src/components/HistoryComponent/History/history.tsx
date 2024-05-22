@@ -227,7 +227,7 @@ const HistoryPost = () => {
   }, []);
 
   React.useEffect(() => {
-    handleLoadHrefPage();
+    // handleLoadHrefPage();
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) window.open(`/`, "_parent");
     // eslint-disable-next-line react-hooks/exhaustive-deps

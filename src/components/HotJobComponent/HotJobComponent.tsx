@@ -19,10 +19,12 @@ import { GiHummingbird } from "react-icons/gi";
 import { IoIosPeople } from "react-icons/io";
 import { BiSolidTimer } from "react-icons/bi";
 import { MdFiberNew } from "react-icons/md";
+import { useSrollContext } from "@/context/AppProvider";
 
 type Props = {};
 
 const HotJobComponent = forwardRef<HTMLDivElement>((props, ref) => {
+  const { reponsiveMobile } = useSrollContext();
   const {
     ref_list_slider,
     handleNext,
@@ -31,6 +33,7 @@ const HotJobComponent = forwardRef<HTMLDivElement>((props, ref) => {
     handlePrev,
     handleClickDown,
     handleUpData,
+    handleClickDownTouch,
     checkClick,
     setCheckClick,
   } = useSwiperAutoSlider(13);
@@ -58,7 +61,11 @@ const HotJobComponent = forwardRef<HTMLDivElement>((props, ref) => {
   return (
     <div className="flex justify-center w-full px-5 bg-white">
       <div className="py-10 max-w-6xl w-full overflow-hidden">
-        <h1 className="font-bold text-2xl mb-8 text-blue-700">
+        <h1
+          className={`font-bold text-2xl mb-8 text-blue-700 ${
+            reponsiveMobile < 700 ? "text-xl" : "text-2xl"
+          }`}
+        >
           {language === 1 ? `Công việc nổi bật` : `Outstanding work`}
         </h1>
         <div className="relative" ref={ref}>
@@ -76,7 +83,8 @@ const HotJobComponent = forwardRef<HTMLDivElement>((props, ref) => {
           <ul
             ref={ref_list_slider}
             className={` select-none inline-flex justify-center`}
-            onMouseDown={handleClickDown}
+
+            // onTouchStart={handleClickDown}
           >
             {topic && topic?.length > 0 && (
               <>

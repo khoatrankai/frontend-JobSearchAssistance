@@ -59,7 +59,7 @@ const ComunityCreatePost = () => {
   //   setAccountId(localStorage.getItem("accountId"));
   // }, []);
   React.useEffect(() => {
-    handleLoadHrefPage();
+    // handleLoadHrefPage();
     if (typeof localStorage !== undefined) {
       const accountId = localStorage.getItem("accountId");
       if (!accountId) {

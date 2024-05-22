@@ -3,46 +3,61 @@ import "./InfoPerson.scss";
 import Image from "next/image";
 import { FaFacebookF, FaPhone } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-type Props = {};
+import TimeStamp from "@/util/TimeStamp/TimeStamp";
+type Props = {
+  dataProfile?: any;
+};
 
-const InfoPerson = (props: Props) => {
+const InfoPerson = ({ dataProfile }: Props) => {
+  const { handleConvertToDate } = TimeStamp();
   return (
     <div className="h-screen w-full bg-white flex flex-col px-12 justify-center gap-y-8">
       <div className=" flex flex-col">
         <p className="text-7xl font-extrabold text-blue-700 uppercase">
-          Trần Tấn Khoa
+          {dataProfile?.name}
         </p>
         <div className="flex gap-x-1 text-2xl font-semibold text-gray-600 uppercase">
-          <p>24/11/2002</p>
+          <p>{handleConvertToDate(Number(dataProfile?.birthday))}</p>
           <span>-</span>
-          <p className="text-blue-700">Nam</p>
+          <p className="text-blue-700">{dataProfile?.gender ? "Nam" : "Nữ"}</p>
           <span>-</span>
-          <p>27/6 đường nguyễn văn quân</p>
+          <p>{dataProfile?.addressText?.fullName}</p>
         </div>
       </div>
 
       <p className="text-gray-400 text-lg font-medium">
-        Giới thiệu bản thân là việc trình bày thông tin cơ bản về bản thân mình
-        cho người khác để họ hiểu thêm về chúng ta, đến từ đâu và một số thông
-        tin quan trọng về cuộc sống và sở thích của cá nhân. Mục đích chính của
-        việc giới thiệu bản thân là tạo ra một sự kết nối ban đầu, thiết lập mối
-        quan hệ hoặc bắt đầu một cuộc trò chuyện. Thông qua việc giới thiệu,
-        người khác có cơ hội biết về bản thân mình, có thể tạo ra một cơ sở cho
-        giao tiếp và tương tác tiếp theo.
+        {dataProfile?.introduction ?? "Chưa có mô tả"}
       </p>
       <div className="flex gap-x-8 text-white text-2xl font-bold">
-        <button className="w-12 h-12 flex justify-center items-center rounded-full bg-gray-600">
+        <a
+          target="_blank"
+          className="w-12 h-12 flex justify-center items-center rounded-full bg-gray-600"
+          href={dataProfile?.facebook}
+        
+        >
           <FaFacebookF />
-        </button>
-        <button className="w-12 h-12 flex justify-center items-center  rounded-full bg-gray-600">
+        </a>
+        <a
+          target="_blank"
+          className="w-12 h-12 flex justify-center items-center  rounded-full bg-gray-600"
+          href={`tel:${dataProfile?.email}`}
+        >
           <FaPhone />
-        </button>
-        <button className="w-12 h-12 flex justify-center items-center  rounded-full bg-gray-600">
+        </a>
+        <a
+          target="_blank"
+          className="w-12 h-12 flex justify-center items-center  rounded-full bg-gray-600"
+          href={`mailto:${dataProfile?.email}`}
+        >
           <MdEmail />
-        </button>
-        <button className="w-12 h-12 flex justify-center items-center  rounded-full bg-gray-600">
+        </a>
+        <a
+          target="_blank"
+          className="w-12 h-12 flex justify-center items-center  rounded-full bg-gray-600"
+          href={dataProfile?.linkedin}
+        >
           <g>in</g>
-        </button>
+        </a>
       </div>
     </div>
   );

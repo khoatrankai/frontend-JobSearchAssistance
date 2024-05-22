@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import templateApi from "@/api/template/templateApi";
 import { useSrollContext } from "@/context/AppProvider";
@@ -22,12 +24,12 @@ const Page = () => {
   const language = useSelector((state: any) => state.changeLaguage.language);
   const [age, setAge] = React.useState("");
   const [dataTemplate, setDataTemplate] = React.useState([]);
-  const { handleLoadHrefPage } = useSrollContext();
+  // const { handleLoadHrefPage } = useSrollContext();
 
   const router = useRouter();
 
   useEffect(() => {
-    handleLoadHrefPage();
+    // handleLoadHrefPage();
     const fetchData = async () => {
       const res = await templateApi.getAllTemplates();
 
@@ -43,7 +45,7 @@ const Page = () => {
     <div className="justify-center flex py-12 bg-[#f0f0f0]">
       <div className="w-full max-w-6xl ">
         <div className="flex flex-col">
-          <div className="py-3 text-xl font-bold text-[#a18c2b]">
+          <div className="p-3 text-xl font-bold text-[#a18c2b]">
             {language === 1
               ? "Danh sách mẫu CV xin việc"
               : "List of job application CV samples"}
@@ -81,7 +83,7 @@ const Page = () => {
                   <div
                     className="flex justify-center w-[200px] h-[300px]"
                     onClick={() => {
-                      router.push(`/cv/create-test/${item.id - 1}`);
+                      router.push(`/cv/create-v2/${item.id - 1}/new`);
                     }}
                   >
                     <img src={item.image} alt="" />
