@@ -163,14 +163,17 @@ const CompanyAll = () => {
   // const analytics: any = getAnalytics();
   React.useEffect(() => {
     // Cập nhật title và screen name trong Firebase Analytics
-    document.title =
-      languageRedux === 1 ? "Tìm kiếm công ty" : "Search for company";
+    if (typeof document !== "undefined") {
+      document.title =
+        languageRedux === 1 ? "Tìm kiếm công ty" : "Search for company";
+    }
+
     // logEvent(analytics, 'screen_view' as string, {
     //   // screen_name: screenName as string,
     //   page_title: '/list-company' as string,
     // });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [languageRedux]);
+  }, [languageRedux, document]);
 
   return (
     <div className="company-all-container px-5">

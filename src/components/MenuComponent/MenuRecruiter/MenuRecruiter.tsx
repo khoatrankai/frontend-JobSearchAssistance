@@ -75,16 +75,19 @@ const MenuRecruiter = (props: Props) => {
     dispatch(fetchProfileRecruiter("vi") as any);
   }, []);
   useEffect(() => {
+    console.log(profile);
+  }, [profile]);
+  useEffect(() => {
     const dataObj = JSON.parse(localStorage.getItem("dataRequest") || "{}");
 
     const fetchData = async () => {
-      const res = (await notificationApi.getNotification(
+      const res = (await notificationApi.getNotificationRecruiter(
         "vi"
       )) as unknown as INotification;
 
       if (res && res.code === 200) {
         console.log(res);
-        setDataNotification(res.data.notifications);
+        setDataNotification(res.data);
       }
     };
 
@@ -194,13 +197,18 @@ const MenuRecruiter = (props: Props) => {
                       color={` ${selectionMenu === 1 ? "#2563eb" : "white"}`}
                       fontSize="1.5em"
                     />
+                    <div className="flex justify-center items-center w-5 h-5 absolute bottom-full right-0 bg-red-500 text-xs rounded-full translate-y-2">
+                      <p className="text-white">
+                        {dataNotification.total_is_not_read}
+                      </p>
+                    </div>
                     <div
                       className={`flex flex-col gap-y-4 absolute pointer-events-none text-black ${
                         selectionMenu === 1 ? "h-fit opacity-100" : "opacity-0"
                       } top-full transition-all translate-y-2 right-0 w-96 overflow-hidden duration-300 px-4 py-6 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]`}
                     >
                       {dataNotification &&
-                        dataNotification?.map(
+                        dataNotification?.notifications?.map(
                           (notificate: any, index: number) => {
                             return (
                               <div

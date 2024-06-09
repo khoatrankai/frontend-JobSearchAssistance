@@ -12,7 +12,7 @@ import bookMarkApi from "@/api/bookmarks/bookMarkApi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import InfiniteScroll from "react-infinite-scroll-component";
-import ModalLogin from "@/components/ModalLogin/ModalLogin";
+
 import { useSelector } from "react-redux";
 import { CircularProgress } from "@mui/material";
 import ShortText from "@/util/ShortText";
@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 import EncodingDescription from "@/util/EncodingDescription/EncodingDescription";
 import ModalApply from "@/components/ModalApply/ModalApply";
 import appplicationApi from "@/api/applicationApi";
+import SkeletonAll from "@/util/SkeletonAll";
 
 type Props = {};
 
@@ -50,7 +51,7 @@ const Page = (props: Props) => {
     checkClick,
     setCheckClick,
     handleUpData,
-  } = useSwiperAutoSlider();
+  } = useSwiperAutoSlider(13);
   const [theme, setTheme] = useState<any>([]);
   const [thresholdNewJob, setThresholdNewJob] = useState<number>(0);
   const [pageNewJob, setPageNewJob] = useState<number>(0);
@@ -184,12 +185,13 @@ const Page = (props: Props) => {
   }, []);
   useEffect(() => {
     handleUpData();
-  }, [listJob]);
+  }, [theme]);
 
   const fetchData = async () => {
+    setListJob([]);
     const res = (await postsApi.getPostByThemeId(
       Number(themeId),
-      14,
+      9,
       thresholdNewJob,
       language === 1 ? "vi" : "en",
       pageNewJob
@@ -307,7 +309,7 @@ const Page = (props: Props) => {
       setTimeout(async () => {
         const res = (await postsApi.getPostByThemeId(
           Number(themeId),
-          14,
+          9,
           thresholdNewJob,
           language === 1 ? "vi" : "en",
           pageNewJob
@@ -341,8 +343,9 @@ const Page = (props: Props) => {
             : `All work by subject`}
         </h1>
 
-        {loadingUi === false && (
-          <>
+        {/* {loadingUi === false && ( */}
+        <>
+          <SkeletonAll data={theme} type={3}>
             <div className="relative" style={{ marginBottom: "30px" }}>
               {checkPrev && (
                 <div className="absolute group bg-white bg-opacity-20 inset-y-0 flex items-center left-0 w-12 justify-center z-10">
@@ -363,14 +366,14 @@ const Page = (props: Props) => {
 
               <ul
                 ref={ref_list_slider}
-                className={` select-none inline-flex justify-center`}
+                className={` select-none inline-flex justify-center gap-x-[13px]`}
               >
                 {theme &&
                   theme?.length > 0 &&
                   theme.map((item: any, index: number) => (
                     <li
                       key={index}
-                      className="w-[160px] h-[160px] bg-red-500 rounded-lg flex flex-col items-center justify-center item-company overflow-hidden mx-2 "
+                      className="w-[160px] h-[160px] bg-red-500 rounded-lg flex flex-col items-center justify-center item-company overflow-hidden"
                       onClick={() => {
                         if (checkClick) {
                           handleGetData(item.id);
@@ -386,10 +389,10 @@ const Page = (props: Props) => {
                         height={160}
                         alt="Kinh doanh"
                       />
-                      <h2 className="font-bold absolute bottom-8 text-white">
+                      <h2 className="font-bold absolute text-sm bottom-8 text-white max-w-36 text-wrap">
                         {item.title}
                       </h2>
-                      <p className="font-bold absolute bottom-3 text-white">
+                      <p className="font-bold absolute text-xs bottom-3 text-white">
                         {item.number_of_posts} việc làm
                       </p>
                     </li>
@@ -412,7 +415,8 @@ const Page = (props: Props) => {
                 </div>
               )}
             </div>
-
+          </SkeletonAll>
+          <SkeletonAll data={listJob} type={"newJob"}>
             <InfiniteScroll
               style={{
                 display: "flex",
@@ -432,7 +436,7 @@ const Page = (props: Props) => {
                       <li key={index} className="relative">
                         <Link
                           href={`/post-detail/${item.id}`}
-                          className={`w-[360px] h-fit group gap-x-2  px-4 border-[1px] hover:border-blue-500 transition-all duration-500  hover:bg-blue-50 bg-white hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md  py-6 flex justify-between items-center item-job`}
+                          className={`w-[370px] h-fit group gap-x-2  px-4 border-[1px] hover:border-blue-500 transition-all duration-500  hover:bg-blue-50 bg-white hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md  py-6 flex justify-between items-center item-job`}
                         >
                           <div className="basis-3/12">
                             <div className="w-16 h-16 rounded-full overflow-hidden group-hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]  object-cover">
@@ -667,15 +671,20 @@ const Page = (props: Props) => {
                 </ul>
               </div>
             </InfiniteScroll>
-          </>
-        )}
+          </SkeletonAll>
+          {loading && (
+            <div className="mt-5">
+              <SkeletonAll type={"newJob"} data={!loading}>
+                loading
+              </SkeletonAll>
+            </div>
+          )}
+        </>
+        {/* )} */}
       </div>
 
-      <ToastContainer />
-      <ModalLogin
-        isOpen={openModalLogin}
-        handleToggleModal={handleToggleModal}
-      />
+      {/* <ToastContainer /> */}
+
       {openModalApply && (
         <ModalApply
           namePost={postDetail?.title}

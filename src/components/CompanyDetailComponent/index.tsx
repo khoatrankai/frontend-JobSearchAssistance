@@ -11,7 +11,7 @@ import ContactInfo from "./ContactInfo";
 import ApplyPosition from "./ApplyPosition";
 import { CateIcon, LocationHomeIcon } from "@/icons";
 import ShowCancleSave from "../HistoryComponent/ShowCancelSave";
-import ModalLogin from "../ModalLogin/ModalLogin";
+
 import ReviewCompany from "./ReviewCompany";
 import { useParams } from "next/navigation";
 import searchApi from "@/api/search/apiSearch";
@@ -269,11 +269,7 @@ const DetailCompany = () => {
         </Skeleton>
       </div>
       <ShowCancleSave />
-      <ModalLogin
-        isOpen={openModalLogin}
-        handleToggleModal={setOpenModalLogin}
-      />
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };

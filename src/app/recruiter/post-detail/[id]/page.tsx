@@ -31,7 +31,7 @@ import EncodingDescription from "@/util/EncodingDescription/EncodingDescription"
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
 import { useSelector } from "react-redux";
 import { useSrollContext } from "@/context/AppProvider";
-import ModalLogin from "@/components/ModalLogin/ModalLogin";
+
 import axiosClient from "@/configs/axiosClient";
 import ShortText from "@/util/ShortText";
 import ModalApply from "@/components/ModalApply/ModalApply";
@@ -827,7 +827,7 @@ const page = (props: Props) => {
           </div>
         </div>
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       {openModalApply && (
         <ModalApply
           namePost={postDetail?.title}
@@ -839,10 +839,6 @@ const page = (props: Props) => {
           setIdCv={setIdCv}
         />
       )}
-      {/* <ModalLogin
-        isOpen={openModalLogin}
-        handleToggleModal={handleToggleModal}
-      /> */}
     </div>
   );
 };

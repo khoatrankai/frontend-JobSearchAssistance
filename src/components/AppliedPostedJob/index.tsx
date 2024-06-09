@@ -24,7 +24,6 @@ import { RootState } from "@/redux/reducer";
 import bannersApi from "@/api/banner/apiBanner";
 import historyApplicator from "@/api/history/historyApplicator";
 import historyRecruiter from "@/api/history/historyRecruiter";
-import ModalLogin from "../ModalLogin/ModalLogin";
 
 const AppliedPostedJob: React.FC = () => {
   const languageRedux = useSelector(
@@ -323,10 +322,6 @@ const AppliedPostedJob: React.FC = () => {
             >
               <CircularProgress color="inherit" />
             </Backdrop>
-            <ModalLogin
-              isOpen={openModalLogin}
-              handleToggleModal={handleToggleModal}
-            />
           </Box>
         </div>
       </div>
@@ -373,10 +368,6 @@ const AppliedPostedJob: React.FC = () => {
             }
           })}
         </Swiper>
-        <ModalLogin
-          isOpen={openModalLogin}
-          handleToggleModal={handleToggleModal}
-        />
       </Box>
     );
   }

@@ -177,7 +177,7 @@ const AllCompanyComponent = (props: Props) => {
           </div>
         </SkeletonAll>
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };

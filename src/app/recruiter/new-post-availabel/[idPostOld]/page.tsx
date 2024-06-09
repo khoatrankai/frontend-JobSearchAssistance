@@ -335,7 +335,8 @@ const page = (props: Props) => {
         return;
       } else {
         const res = (await postsApi.createPost(
-          formData
+          formData,
+          dataReq.description
         )) as unknown as INewPost;
 
         if (res && res.code === 200) {
@@ -882,7 +883,7 @@ const page = (props: Props) => {
           {languageRedux === 1 ? "Đăng bài" : "Post"}
         </h2>
       </button>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };

@@ -294,7 +294,7 @@ const Page = () => {
         </div>
       </div>
       {!isTablet && <div className="w-1/3 h-screen bg-right"></div>}
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };

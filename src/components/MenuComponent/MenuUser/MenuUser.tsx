@@ -12,7 +12,6 @@ import FilterComponent from "../../FilterComponent/FilterComponent";
 import { getCookie, setCookie } from "@/cookies";
 import jobApi from "../../../api/job/jobApi";
 import numeral from "numeral";
-import ModalLogin from "../../ModalLogin/ModalLogin";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProfile } from "@/redux/reducer/profileReducer/profileSlice";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -152,18 +151,20 @@ const MenuComponent = (props: Props) => {
   // }, [location.pathname]);
 
   useEffect(() => {
-    const funcStopScroll = () => {
-      document.body.style.overflow = "hidden";
-    };
-    const funcScroll = () => {
-      document.body.style.overflow = "scroll";
-    };
-    if (onMenuAll) {
-      funcStopScroll();
-    } else {
-      funcScroll();
+    if (typeof document !== "undefined") {
+      const funcStopScroll = () => {
+        document.body.style.overflow = "hidden";
+      };
+      const funcScroll = () => {
+        document.body.style.overflow = "scroll";
+      };
+      if (onMenuAll) {
+        funcStopScroll();
+      } else {
+        funcScroll();
+      }
     }
-  }, [onMenuAll]);
+  }, [onMenuAll, document]);
 
   useEffect(() => {
     // console.log(scrollPositionSearch);
@@ -188,63 +189,73 @@ const MenuComponent = (props: Props) => {
   }, [language]);
   const [dataSuggest, setDataSuggest] = React.useState<any>([]);
   useEffect(() => {
-    const handleBlurTab = (e: any) => {
-      if (
-        !ref_menu.current.contains(e.target) &&
-        e.target.parentElement?.name !== "btn_close_filter"
-      ) {
-        setTabFilter(false);
-      }
-    };
-    document.addEventListener("click", handleBlurTab);
-    return () => {
-      document.removeEventListener("click", handleBlurTab);
-    };
-  }, []);
+    if (typeof document !== "undefined") {
+      const handleBlurTab = (e: any) => {
+        if (
+          !ref_menu.current.contains(e.target) &&
+          e.target.parentElement?.name !== "btn_close_filter"
+        ) {
+          setTabFilter(false);
+        }
+      };
+      document.addEventListener("click", handleBlurTab);
+      return () => {
+        document.removeEventListener("click", handleBlurTab);
+      };
+    }
+  }, [document]);
   useEffect(() => {
-    const handleBlurTab = (e: any) => {
-      if (tabNotify && !ref_btn_notify.current.contains(e.target)) {
-        setTabNotify(false);
-      }
-    };
-    document.addEventListener("click", handleBlurTab);
-    return () => {
-      document.removeEventListener("click", handleBlurTab);
-    };
-  }, [tabNotify]);
+    if (typeof document !== "undefined") {
+      const handleBlurTab = (e: any) => {
+        if (tabNotify && !ref_btn_notify.current.contains(e.target)) {
+          setTabNotify(false);
+        }
+      };
+      document.addEventListener("click", handleBlurTab);
+      return () => {
+        document.removeEventListener("click", handleBlurTab);
+      };
+    }
+  }, [tabNotify, document]);
   useEffect(() => {
-    const handleBlurTab = (e: any) => {
-      if (tabMenu && !ref_btn_menu.current?.contains(e.target)) {
-        setTabMenu(false);
-      }
-    };
-    document.addEventListener("click", handleBlurTab);
-    return () => {
-      document.removeEventListener("click", handleBlurTab);
-    };
-  }, [tabMenu]);
+    if (typeof document !== "undefined") {
+      const handleBlurTab = (e: any) => {
+        if (tabMenu && !ref_btn_menu.current?.contains(e.target)) {
+          setTabMenu(false);
+        }
+      };
+      document.addEventListener("click", handleBlurTab);
+      return () => {
+        document.removeEventListener("click", handleBlurTab);
+      };
+    }
+  }, [tabMenu, document]);
   useEffect(() => {
-    const handleBlurTab = (e: any) => {
-      if (tabSuggest && !ref_input.current?.contains(e.target)) {
-        setTabSuggest(false);
-      }
-    };
-    document.addEventListener("click", handleBlurTab);
-    return () => {
-      document.removeEventListener("click", handleBlurTab);
-    };
-  }, [tabSuggest]);
+    if (typeof document !== "undefined") {
+      const handleBlurTab = (e: any) => {
+        if (tabSuggest && !ref_input.current?.contains(e.target)) {
+          setTabSuggest(false);
+        }
+      };
+      document.addEventListener("click", handleBlurTab);
+      return () => {
+        document.removeEventListener("click", handleBlurTab);
+      };
+    }
+  }, [tabSuggest, document]);
   useEffect(() => {
-    const handleBlurTab = (e: any) => {
-      if (openModalProfile && !ref_btn_profile.current.contains(e.target)) {
-        setOpenModalProfile(false);
-      }
-    };
-    document.addEventListener("click", handleBlurTab);
-    return () => {
-      document.removeEventListener("click", handleBlurTab);
-    };
-  }, [openModalProfile]);
+    if (typeof document !== "undefined") {
+      const handleBlurTab = (e: any) => {
+        if (openModalProfile && !ref_btn_profile.current.contains(e.target)) {
+          setOpenModalProfile(false);
+        }
+      };
+      document.addEventListener("click", handleBlurTab);
+      return () => {
+        document.removeEventListener("click", handleBlurTab);
+      };
+    }
+  }, [openModalProfile, document]);
   useEffect(() => {
     console.log(profile);
     setProfileData(profile);
@@ -256,27 +267,6 @@ const MenuComponent = (props: Props) => {
       setCheckPageLoad(false);
     }
   }, [checkPage]);
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     if (window.innerWidth < 700) {
-  //       setCheckReponsive(true);
-  //     } else {
-  //       setCheckReponsive(false);
-  //     }
-  //   };
-  //   handleResize();
-  //   window.addEventListener("resize", handleResize);
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, []);
-  // useEffect(() => {
-  //   if (scrollPosition != -1) {
-  //     setNav(true);
-  //   } else {
-  //     setNav(true);
-  //   }
-  // }, [scrollPosition]);
   const handleScroll = () => {
     const scroll = window.pageYOffset;
     if (scroll > positionScroll) {
@@ -1439,11 +1429,6 @@ const MenuComponent = (props: Props) => {
             </Button>
           </div>
         </Modal>
-
-        <ModalLogin
-          isOpen={openModalLogin}
-          handleToggleModal={handleToggleModal}
-        />
       </div>
       <ModalNoteCreateCompany
         openModalNoteCreateCompany={openModalNoteCreateCompany}

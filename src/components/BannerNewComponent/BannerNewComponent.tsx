@@ -3,6 +3,7 @@ import Image from "next/image";
 import "./BannerNewComponent.scss";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useSrollContext } from "@/context/AppProvider";
+import SkeletonAll from "@/util/SkeletonAll";
 type Props = {
   children: ReactNode;
 };
@@ -61,93 +62,99 @@ const BannerNewComponent = ({ children }: Props) => {
       {children}
 
       <div className="absolute left-[20%] top-1/4 text-white">
-        <div
-          className={`h-10 overflow-hidden text-white/70 font-bold uppercase  ${
-            reponsiveMobile < 1152 ? "text-2xl" : "text-3xl"
-          }`}
-        >
+        <SkeletonAll data={dataCompany} type={2}>
           <div
-            className="h-fit transition-all duration-700"
-            style={{ transform: `translateY(-${2.5 * dataBgHome}rem)` }}
+            className={`h-10 overflow-hidden text-white/70 font-bold uppercase  ${
+              reponsiveMobile < 1152 ? "text-2xl" : "text-3xl"
+            }`}
           >
-            {dataCompany.map((dt: any, index: any) => {
-              if (index < 5)
-                return (
-                  <p
-                    className="h-10 w-full max-w-96 flex items-center"
-                    key={index}
-                  >
-                    {dt.title}
-                  </p>
-                );
-            })}
+            <div
+              className="h-fit transition-all duration-700"
+              style={{ transform: `translateY(-${2.5 * dataBgHome}rem)` }}
+            >
+              {dataCompany.map((dt: any, index: any) => {
+                if (index < 5)
+                  return (
+                    <p
+                      className="h-10 w-full max-w-96 flex items-center"
+                      key={index}
+                    >
+                      {dt.title}
+                    </p>
+                  );
+              })}
+            </div>
           </div>
-        </div>
-        <div
-          className={` h-36 overflow-hidden  font-bold uppercase  ${
-            reponsiveMobile < 1152 ? "text-3xl" : "text-4xl"
-          }`}
-        >
           <div
-            className="h-fit transition-all duration-700"
-            style={{ transform: `translateY(-${9 * dataBgHome}rem)` }}
+            className={` h-36 overflow-hidden  font-bold uppercase  ${
+              reponsiveMobile < 1152 ? "text-3xl" : "text-4xl"
+            }`}
           >
-            {dataCompany.map((dt: any, index: any) => {
-              if (index < 5)
-                return (
-                  <p className="h-36 w-full max-w-96 pt-2 " key={index}>
-                    {dt.content}
-                  </p>
-                );
-            })}
+            <div
+              className="h-fit transition-all duration-700"
+              style={{ transform: `translateY(-${9 * dataBgHome}rem)` }}
+            >
+              {dataCompany.map((dt: any, index: any) => {
+                if (index < 5)
+                  return (
+                    <p className="h-36 w-full max-w-96 pt-2 " key={index}>
+                      {dt.content}
+                    </p>
+                  );
+              })}
+            </div>
           </div>
-        </div>
-        <div className="  h-[56px] overflow-hidden">
-          <div
-            className="h-fit transition-all duration-700 flex flex-col gap-y-1"
-            style={{ transform: `translateY(-${60 * dataBgHome}px)` }}
-          >
-            {dataCompany.map((dt: any, index: any) => {
-              if (index < 5)
-                return (
-                  <button
-                    className="px-4 h-14 flex justify-center items-center rounded-xl border-[2px] bg-black text-white  font-semibold w-fit hover:bg-white hover:text-black transition-all duration-500"
-                    key={index}
-                  >
-                    {dt.contentClick}
-                  </button>
-                );
-            })}
+          <div className="  h-[56px] overflow-hidden">
+            <div
+              className="h-fit transition-all duration-700 flex flex-col gap-y-1"
+              style={{ transform: `translateY(-${60 * dataBgHome}px)` }}
+            >
+              {dataCompany.map((dt: any, index: any) => {
+                if (index < 5)
+                  return (
+                    <button
+                      className="px-4 h-14 flex justify-center items-center rounded-xl border-[2px] bg-black text-white  font-semibold w-fit hover:bg-white hover:text-black transition-all duration-500"
+                      key={index}
+                    >
+                      {dt.contentClick}
+                    </button>
+                  );
+              })}
+            </div>
           </div>
-        </div>
+        </SkeletonAll>
       </div>
       <div className="flex max-w-6xl w-full relative -translate-y-32 gap-x-4 overflow-hidden justify-center">
-        {dataCompany.map((dt: any, index: any) => {
-          if (index < 5)
-            return (
-              <div
-                className={`w-[217.59px]  h-36 rounded-xl p-4 bg-white/70 border-2 border-transparent  cursor-pointer transition-all duration-500  shadow-[inset_-12px_-8px_40px_#46464620] ${
-                  dataBgHome === index
-                    ? ""
-                    : "  hover:border-blue-500 hover:bg-black/50 opacity-10"
-                } ${
-                  reponsiveMobile < 1200 && dataBgHome !== index ? "hidden" : ""
-                }`}
-                onClick={() => {
-                  setBgHome(index);
-                }}
-                key={index}
-              >
-                <Image
-                  className="h-full"
-                  width={500}
-                  height={500}
-                  alt=""
-                  src={`/company/logo${dt.name}.png`}
-                />
-              </div>
-            );
-        })}
+        <SkeletonAll data={dataCompany} type={1}>
+          {dataCompany.map((dt: any, index: any) => {
+            if (index < 5)
+              return (
+                <div
+                  className={`w-[217.59px]  h-36 rounded-xl p-4 bg-white/70 border-2 border-transparent  cursor-pointer transition-all duration-500  shadow-[inset_-12px_-8px_40px_#46464620] ${
+                    dataBgHome === index
+                      ? ""
+                      : "  hover:border-blue-500 hover:bg-black/50 opacity-10"
+                  } ${
+                    reponsiveMobile < 1200 && dataBgHome !== index
+                      ? "hidden"
+                      : ""
+                  }`}
+                  onClick={() => {
+                    setBgHome(index);
+                  }}
+                  key={index}
+                >
+                  <Image
+                    className="h-full"
+                    width={500}
+                    height={500}
+                    alt=""
+                    src={`/company/logo${dt.name}.png`}
+                  />
+                </div>
+              );
+          })}
+        </SkeletonAll>
       </div>
       <div className="absolute inset-x-0 gap-6 bottom-10  px-4 flex justify-center items-center">
         <button

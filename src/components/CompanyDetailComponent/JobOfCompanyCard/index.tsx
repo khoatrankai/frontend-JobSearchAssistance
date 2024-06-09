@@ -14,7 +14,7 @@ import {
   SaveIconFill,
   SaveIconOutline,
 } from "@/icons";
-import ModalLogin from "@/components/ModalLogin/ModalLogin";
+
 interface Iprops {
   item: any;
   accountId: any;
@@ -256,10 +256,6 @@ const JobOfCompanyCard: React.FC<Iprops> = (props) => {
           </ImageListItem>
         </ul>
       </Card>
-      <ModalLogin
-        isOpen={openModalLogin}
-        handleToggleModal={() => setOpenModalLogin(!openModalLogin)}
-      />
     </>
   );
 };

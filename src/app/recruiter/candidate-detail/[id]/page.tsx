@@ -80,7 +80,7 @@ const page = (props: Props) => {
       setAccountId(localStorage.getItem("accountIdRecruiter"));
       console.log(listData);
       if (listData.length === 2) {
-        setApplicationId(Number(listData?.[0]));
+        setApplicationId(listData?.[0]);
         setPostId(Number(listData?.[1]));
 
         // console.log(listData);
@@ -88,12 +88,12 @@ const page = (props: Props) => {
           listData?.[1],
           listData?.[0]
         )) as any;
-
+        console.log(res);
         if (res && res.code === 200) {
           setDataProfile(res.data);
 
           if (res.data.applicationProfile?.application_status === 0) {
-            handleUpdateStatus(Number(listData?.[0]), 0);
+            handleUpdateStatus(listData?.[0], 0);
           } else {
             setStatus(res.data.applicationProfile?.application_status);
           }
@@ -103,6 +103,7 @@ const page = (props: Props) => {
           );
 
           if (res2 && res2.status === 200) {
+            console.log(res2);
             setDataProfilePOST(res2.data);
           }
           setTypeSeen(false);
@@ -123,9 +124,9 @@ const page = (props: Props) => {
     fetchData();
   }, []);
 
-  const handleUpdateApi = () => {
-    dispatch(fetchProfileRecruiter("vi") as any);
-  };
+  // const handleUpdateApi = () => {
+  //   dispatch(fetchProfileRecruiter("vi") as any);
+  // };
   const handleTabScroll = () => {
     if (ref_Info?.current?.getBoundingClientRect()?.bottom >= 20) {
       return 0;
@@ -563,7 +564,7 @@ const page = (props: Props) => {
           <InfoCV dataProfile={dataProfilePOST} />
         </div>
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       {tabModal && (
         <div
           className="fixed bg-black/50 inset-0 flex justify-center items-center z-50"

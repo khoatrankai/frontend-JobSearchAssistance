@@ -5,8 +5,9 @@
 "use client";
 import "./page.scss";
 import { useSrollContext } from "@/context/AppProvider";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import imageCompression from "browser-image-compression";
 import EditIcon from "@mui/icons-material/Edit";
 import { useRouter } from "next/navigation";
 import ReplyIcon from "@mui/icons-material/Reply";
@@ -26,6 +27,11 @@ import lgThumbnail from "lightgallery/plugins/thumbnail";
 import { LightGallery as ILightGallery } from "lightgallery/lightgallery";
 import CustomLightImage from "@/util/CustomLightImage/CustomLightImage";
 import { IoCopy } from "react-icons/io5";
+import { MdOutlineDriveFolderUpload, MdUploadFile } from "react-icons/md";
+import Image from "next/image";
+import { IoMdDownload } from "react-icons/io";
+import cvsApi from "@/api/cvs";
+import CookieCustom from "@/util/CookieCustom";
 
 type Props = {};
 
@@ -37,14 +43,50 @@ interface IDeleteProfileCv {
 const page = (props: Props) => {
   CheckPageLogin();
   const { handleLoadHrefPage, setSoureImage } = useSrollContext();
+  const { setCookieCustom } = CookieCustom();
+  const handleConvertDataDocs = (data: any) => {
+    const newData = Object.keys(data).map((dt: any) => {
+      if (dt === "info_person") {
+        return { type: dt, ...data[dt], moreCvInformations: [] };
+      }
+      if (dt === "info_project") {
+        return { type: dt, moreCvProjects: data[dt] };
+      }
+      return { type: dt, moreCvExtraInformations: data[dt] };
+    });
+    return newData;
+  };
   const language = useSelector((state: any) => state.changeLaguage.language);
   const profile = useSelector((state: any) => state.profile.profile);
   const [profileCV, setProfileCV] = React.useState<any>([]);
+  const [tabUploadDocs, setTabUploadDocs] = useState<boolean>(false);
   const [openModalConfirmDelete, setOpenModalConfirmDelete] =
     React.useState<boolean>(false);
   const router = useRouter();
   const dispatch = useDispatch();
   const [idDelete, setIdDelete] = React.useState<number>(0);
+  const [statusDrag, setStatusDrag] = useState<boolean>(false);
+  const [templateChoose, setTemplateChoose] = useState<any>(0);
+  const [isLoadingDocs, setIsLoadingDocs] = useState<boolean>(false);
+  const refInputCV = useRef<any>();
+  const [dataDocShow, setDataDocShow] = useState<any>();
+  const [typeTemplate, setTypeTemplate] = useState<any>([
+    { id: 0 },
+    { id: 1 },
+    { id: 2 },
+    { id: 3 },
+    { id: 4 },
+    { id: 5 },
+    { id: 6 },
+    { id: 8 },
+    { id: 9 },
+    { id: 7 },
+    { id: 10 },
+    { id: 11 },
+    { id: 12 },
+    { id: 13 },
+    { id: 14 },
+  ]);
   const [openModalConfirmPushTop, setOpenModalConfirmPushTop] =
     React.useState<boolean>(false);
   const handleCloseModal = () => {
@@ -53,6 +95,7 @@ const page = (props: Props) => {
   const handleCloseModalPushTop = () => {
     setOpenModalConfirmPushTop(false);
   };
+  const handleUploadImage = (file: any) => {};
   const [idPushTop, setIdPushTop] = React.useState<number>(0);
   const [openModalConfirmHideCV, setOpenModalConfirmHideCv] =
     React.useState<boolean>(false);
@@ -61,10 +104,20 @@ const page = (props: Props) => {
     console.log(profile);
   }, [profile]);
 
-  // useEffect(() => {
-  //   handleLoadHrefPage();
-  // }, []);
-
+  const handleUpLoadDocs = async (e: any) => {
+    const dataFile = e.target.files?.[0] || e.dataTransfer?.files?.[0];
+    if (dataFile) {
+      setStatusDrag(false);
+      setIsLoadingDocs(true);
+      const res = await cvsApi.cvDocs(dataFile);
+      if (res && res.statusCode === 200) {
+        setIsLoadingDocs(false);
+        setDataDocShow(handleConvertDataDocs(res.data));
+        setCookieCustom("cvsDocs", res.data);
+      }
+    }
+    // handleUploadImage(dataFile);
+  };
   const handleDeleteCv = (id: number) => {
     const fetchData = async () => {
       const res = (await profileCvsApi.deleteCvs([
@@ -132,26 +185,45 @@ const page = (props: Props) => {
             <div className="text-2xl font-bold">
               {language === 1 ? "CV đã tạo trên Jobs" : "CV created on Jobs"}
             </div>
-            <div
-              className="flex items-center w-fit h-hit"
-              style={{
-                backgroundColor: "#00b14f",
-                borderRadius: "32px",
-                padding: "5px 10px",
-              }}
-            >
-              <AddIcon
-                sx={{
-                  color: "#fff",
-                }}
-              />
+            <div className="flex gap-2">
               <div
-                className="text-white cursor-pointer"
-                onClick={() => {
-                  router.push("/cv-all");
+                className="flex items-center w-fit h-hit bg-blue-500"
+                style={{
+                  borderRadius: "32px",
+                  padding: "5px 10px",
                 }}
               >
-                {language === 1 ? "Tạo CV mới" : "Create new CV"}
+                <MdOutlineDriveFolderUpload className="text-white" />
+                <div
+                  className="text-white cursor-pointer"
+                  onClick={() => {
+                    setTabUploadDocs(true);
+                  }}
+                >
+                  {language === 1 ? "Tải tài liệu" : "Upload CV"}
+                </div>
+              </div>
+              <div
+                className="flex items-center w-fit h-hit"
+                style={{
+                  backgroundColor: "#00b14f",
+                  borderRadius: "32px",
+                  padding: "5px 10px",
+                }}
+              >
+                <AddIcon
+                  sx={{
+                    color: "#fff",
+                  }}
+                />
+                <div
+                  className="text-white cursor-pointer"
+                  onClick={() => {
+                    router.push("/cv-all");
+                  }}
+                >
+                  {language === 1 ? "Tạo CV mới" : "Create new CV"}
+                </div>
               </div>
             </div>
           </div>
@@ -484,6 +556,479 @@ const page = (props: Props) => {
           </Button>
         </div>
       </Modal>
+      {tabUploadDocs && (
+        <div
+          className={`bg-black/30 flex justify-center items-center fixed inset-0 z-50`}
+          onClick={() => {
+            setTabUploadDocs(false);
+          }}
+        >
+          <div
+            className=" bg-white rounded-lg p-4 flex flex-col gap-y-4"
+            style={{ width: "500px" }}
+            onClick={(e: any) => {
+              e.stopPropagation();
+            }}
+          >
+            <p className="text-black font-semibold">Thông tin đã nhận diện</p>
+            <div className="flex gap-2 justify-between">
+              <div className="w-80 h-80 p-2 flex flex-col  bg-blue-400 rounded-lg relative">
+                {isLoadingDocs ? (
+                  <>
+                    <div className="flex flex-col justify-center items-center w-full h-full">
+                      <p className="text-white font-semibold text-xs">
+                        Đang phân tích ...
+                      </p>
+                      <div className="loader-animation"></div>
+                    </div>
+                  </>
+                ) : dataDocShow ? (
+                  <div className="w-full h-full overflow-y-scroll">
+                    {dataDocShow?.map((dt: any) => {
+                      if (dt.type === "info_person") {
+                        return (
+                          <>
+                            <div className=" rounded-lg p-2">
+                              <p className="text-sm font-bold text-white mb-1">
+                                Thông tin của bạn
+                              </p>
+                              <div className="flex flex-col gap-1">
+                                <div className="bg-white rounded-md p-1 gap-1">
+                                  {Object.keys(dt).map((dtt: any) => {
+                                    return (
+                                      <>
+                                        <div className="pl-2 text-gray-400  text-xs">
+                                          <p className="font-semibold">
+                                            {dtt}:
+                                            <span className="font-medium text-blue-600">
+                                              {dt[dtt]}
+                                            </span>
+                                          </p>
+                                        </div>
+                                      </>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        );
+                      }
+                      if (dt.type === "info_project") {
+                        return (
+                          <>
+                            <div className=" rounded-lg p-2">
+                              <p className="text-sm font-bold text-white mb-1">
+                                Dự án của bạn
+                              </p>
+                              <div className="flex flex-col gap-1">
+                                {dt.moreCvProjects.map((dtt: any) => {
+                                  return (
+                                    <>
+                                      <div className="bg-white rounded-md p-1 gap-1">
+                                        {Object.keys(dtt).map((dttt: any) => {
+                                          return (
+                                            <>
+                                              <div className="pl-2 text-gray-400  text-xs">
+                                                <p className="font-semibold">
+                                                  {dttt}:
+                                                  <span className="font-medium text-blue-600">
+                                                    {dtt[dttt]}
+                                                  </span>
+                                                </p>
+                                              </div>
+                                            </>
+                                          );
+                                        })}
+                                      </div>
+                                    </>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </>
+                        );
+                      }
+                      if (dt.type === "info_study") {
+                        return (
+                          <>
+                            <div className=" rounded-lg p-2">
+                              <p className="text-sm font-bold text-white mb-1">
+                                Học tập
+                              </p>
+                              <div className="flex flex-col gap-1">
+                                {dt.moreCvExtraInformations.map((dtt: any) => {
+                                  return (
+                                    <>
+                                      <div className="bg-white rounded-md p-1 gap-1">
+                                        {Object.keys(dtt).map((dttt: any) => {
+                                          if (dtt[dttt] != null) {
+                                            return (
+                                              <>
+                                                <div className="pl-2 text-gray-400  text-xs">
+                                                  <p className="font-semibold">
+                                                    {dttt}:
+                                                    <span className="font-medium text-blue-600">
+                                                      {dtt[dttt]}
+                                                    </span>
+                                                  </p>
+                                                </div>
+                                              </>
+                                            );
+                                          }
+                                        })}
+                                      </div>
+                                    </>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </>
+                        );
+                      }
+                      if (dt.type === "info_experience") {
+                        return (
+                          <>
+                            <div className=" rounded-lg p-2">
+                              <p className="text-sm font-bold text-white mb-1">
+                                Kinh nghiệm
+                              </p>
+                              <div className="flex flex-col gap-1">
+                                {dt.moreCvExtraInformations.map((dtt: any) => {
+                                  return (
+                                    <>
+                                      <div className="bg-white rounded-md p-1 gap-1">
+                                        {Object.keys(dtt).map((dttt: any) => {
+                                          if (dtt[dttt] != null) {
+                                            return (
+                                              <>
+                                                <div className="pl-2 text-gray-400  text-xs">
+                                                  <p className="font-semibold">
+                                                    {dttt}:
+                                                    <span className="font-medium text-blue-600">
+                                                      {dtt[dttt]}
+                                                    </span>
+                                                  </p>
+                                                </div>
+                                              </>
+                                            );
+                                          }
+                                        })}
+                                      </div>
+                                    </>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </>
+                        );
+                      }
+                      if (dt.type === "info_activate") {
+                        return (
+                          <>
+                            <div className=" rounded-lg p-2">
+                              <p className="text-sm font-bold text-white mb-1">
+                                Hoạt động
+                              </p>
+                              <div className="flex flex-col gap-1">
+                                {dt.moreCvExtraInformations.map((dtt: any) => {
+                                  return (
+                                    <>
+                                      <div className="bg-white rounded-md p-1 gap-1">
+                                        {Object.keys(dtt).map((dttt: any) => {
+                                          if (dtt[dttt] != null) {
+                                            return (
+                                              <>
+                                                <div className="pl-2 text-gray-400  text-xs">
+                                                  <p className="font-semibold">
+                                                    {dttt}:
+                                                    <span className="font-medium text-blue-600">
+                                                      {dtt[dttt]}
+                                                    </span>
+                                                  </p>
+                                                </div>
+                                              </>
+                                            );
+                                          }
+                                        })}
+                                      </div>
+                                    </>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </>
+                        );
+                      }
+                      if (dt.type === "info_award") {
+                        return (
+                          <>
+                            <div className=" rounded-lg p-2">
+                              <p className="text-sm font-bold text-white mb-1">
+                                Giải thưởng
+                              </p>
+                              <div className="flex flex-col gap-1">
+                                {dt.moreCvExtraInformations.map((dtt: any) => {
+                                  return (
+                                    <>
+                                      <div className="bg-white rounded-md p-1 gap-1">
+                                        {Object.keys(dtt).map((dttt: any) => {
+                                          if (dtt[dttt] != null) {
+                                            return (
+                                              <>
+                                                <div className="pl-2 text-gray-400  text-xs">
+                                                  <p className="font-semibold">
+                                                    {dttt}:
+                                                    <span className="font-medium text-blue-600">
+                                                      {dtt[dttt]}
+                                                    </span>
+                                                  </p>
+                                                </div>
+                                              </>
+                                            );
+                                          }
+                                        })}
+                                      </div>
+                                    </>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </>
+                        );
+                      }
+                      if (dt.type === "info_skill") {
+                        return (
+                          <>
+                            <div className=" rounded-lg p-2">
+                              <p className="text-sm font-bold text-white mb-1">
+                                Kỹ năng
+                              </p>
+                              <div className="flex flex-col gap-1">
+                                {dt.moreCvExtraInformations.map((dtt: any) => {
+                                  return (
+                                    <>
+                                      <div className="bg-white rounded-md p-1 gap-1">
+                                        {Object.keys(dtt).map((dttt: any) => {
+                                          if (dtt[dttt] != null) {
+                                            return (
+                                              <>
+                                                <div className="pl-2 text-gray-400  text-xs">
+                                                  <p className="font-semibold">
+                                                    {dttt}:
+                                                    <span className="font-medium text-blue-600">
+                                                      {dtt[dttt]}
+                                                    </span>
+                                                  </p>
+                                                </div>
+                                              </>
+                                            );
+                                          }
+                                        })}
+                                      </div>
+                                    </>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </>
+                        );
+                      }
+                      if (dt.type === "info_achivement") {
+                        return (
+                          <>
+                            <div className=" rounded-lg p-2">
+                              <p className="text-sm font-bold text-white mb-1">
+                                Chứng chỉ
+                              </p>
+                              <div className="flex flex-col gap-1">
+                                {dt.moreCvExtraInformations.map((dtt: any) => {
+                                  return (
+                                    <>
+                                      <div className="bg-white rounded-md p-1 gap-1">
+                                        {Object.keys(dtt).map((dttt: any) => {
+                                          if (dtt[dttt] != null) {
+                                            return (
+                                              <>
+                                                <div className="pl-2 text-gray-400  text-xs">
+                                                  <p className="font-semibold">
+                                                    {dttt}:
+                                                    <span className="font-medium text-blue-600">
+                                                      {dtt[dttt]}
+                                                    </span>
+                                                  </p>
+                                                </div>
+                                              </>
+                                            );
+                                          }
+                                        })}
+                                      </div>
+                                    </>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </>
+                        );
+                      }
+                      if (dt.type === "info_hobby") {
+                        return (
+                          <>
+                            <div className=" rounded-lg p-2">
+                              <p className="text-sm font-bold text-white mb-1">
+                                Sở thích
+                              </p>
+                              <div className="flex flex-col gap-1">
+                                {dt.moreCvExtraInformations.map((dtt: any) => {
+                                  return (
+                                    <>
+                                      <div className="bg-white rounded-md p-1 gap-1">
+                                        {Object.keys(dtt).map((dttt: any) => {
+                                          if (dtt[dttt] != null) {
+                                            return (
+                                              <>
+                                                <div className="pl-2 text-gray-400  text-xs">
+                                                  <p className="font-semibold">
+                                                    {dttt}:
+                                                    <span className="font-medium text-blue-600">
+                                                      {dtt[dttt]}
+                                                    </span>
+                                                  </p>
+                                                </div>
+                                              </>
+                                            );
+                                          }
+                                        })}
+                                      </div>
+                                    </>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </>
+                        );
+                      }
+                    })}
+                  </div>
+                ) : (
+                  <div
+                    className="w-full h-full flex justify-center items-center flex-col cursor-pointer"
+                    onClick={() => {
+                      refInputCV.current.click();
+                    }}
+                    onDragEnter={() => {
+                      setStatusDrag(true);
+                    }}
+                    onDragLeave={() => {
+                      setStatusDrag(false);
+                    }}
+                    onDragOver={(e: any) => {
+                      e.preventDefault();
+                      // setStatusDrag(false);
+                    }}
+                    onDrop={(e: any) => {
+                      e.preventDefault();
+                      handleUpLoadDocs(e);
+                    }}
+                  >
+                    {statusDrag ? (
+                      <>
+                        <div className="absolute inset-0 bg-black/20 pointer-events-none flex justify-center items-center flex-col gap-5">
+                          <IoMdDownload className="text-6xl text-white up-down-animation" />
+                          <p className="text-xs font-medium text-white">
+                            *Thả ra để được thêm vào
+                          </p>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <MdUploadFile className="text-6xl text-white" />
+                        <p className="text-xs font-medium">
+                          *Thả hoặc nhấn để thêm file word để được nhận diện
+                        </p>
+                      </>
+                    )}
+                  </div>
+                )}
+                <input
+                  type="file"
+                  ref={refInputCV}
+                  hidden
+                  onChange={(e: any) => {
+                    handleUpLoadDocs(e);
+                  }}
+                />
+              </div>
+              <div className="flex flex-col gap-2 h-80">
+                <p className="px-2 font-semibold text-blue-500 text-sm">
+                  Mẫu CV
+                </p>
+                <div className="overflow-y-scroll flex-1">
+                  <ul className="flex flex-col gap-2 px-2">
+                    {typeTemplate?.map((dt: any, index: any) => {
+                      return (
+                        <li
+                          className={`w-24 h-24 object-contain rounded-xl overflow-hidden relative text-sm font-bold uppercase  cursor-pointer
+                        `}
+                          onClick={(e: any) => {
+                            e.stopPropagation();
+                            setTemplateChoose(index);
+                          }}
+                          key={index}
+                        >
+                          {/* <span className="select-none">{dt.id}</span>
+                           */}
+                          {templateChoose === index && (
+                            <div className="absolute inset-0 bg-blue-500/50"></div>
+                          )}
+                          <Image
+                            className={` duration-700 transition-all ${
+                              templateChoose !== index && "hover:scale-150"
+                            }`}
+                            width={200}
+                            height={200}
+                            alt=""
+                            src={`/formCV/cv${index + 1}.webp`}
+                          />
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-end gap-2">
+              <button
+                className="px-2 py-1 border-2 hover:border-blue-500 text-blue-500 rounded-lg"
+                onClick={() => {
+                  setTabUploadDocs(false);
+                }}
+              >
+                Quay lại
+              </button>
+              {dataDocShow && (
+                <button
+                  className="px-2 py-1 text-white hover:bg-yellow-400 bg-green-500 rounded-lg"
+                  onClick={() => {
+                    refInputCV.current?.click();
+                  }}
+                >
+                  Tải lại
+                </button>
+              )}
+
+              <button
+                className="px-2 py-1 text-white hover:bg-blue-400 bg-blue-500 rounded-lg"
+                onClick={() => {
+                  router.push("/cv/create-v2/upload/new");
+                }}
+              >
+                Tạo
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

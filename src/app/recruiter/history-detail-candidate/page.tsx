@@ -28,6 +28,7 @@ import RejectedApplication from "@/components/CandidateDetail/RejectedApplicatio
 import RecuitApplication from "@/components/CandidateDetail/RecuitApplication";
 import CvProfile from "@/components/ProfileComponent/CvProfile/CvProfile";
 import CheckPageLogin from "@/util/CheckPageLogin";
+import { fetchProfileRecruiter } from "@/redux/reducer/profileReducer/profileSliceRecruiter";
 
 type Props = {};
 
@@ -85,7 +86,7 @@ const page = (props: Props) => {
   }, []);
 
   const handleUpdateApi = () => {
-    dispatch(fetchProfile("vi") as any);
+    dispatch(fetchProfileRecruiter("vi") as any);
   };
   useEffect(() => {
     setDataInfo({
@@ -356,7 +357,7 @@ const page = (props: Props) => {
           </div>
         </div>
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };

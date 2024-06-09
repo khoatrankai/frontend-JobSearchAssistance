@@ -20,6 +20,7 @@ import { IoIosPeople } from "react-icons/io";
 import { BiSolidTimer } from "react-icons/bi";
 import { MdFiberNew } from "react-icons/md";
 import { useSrollContext } from "@/context/AppProvider";
+import SkeletonAll from "@/util/SkeletonAll";
 
 type Props = {};
 
@@ -86,32 +87,34 @@ const HotJobComponent = forwardRef<HTMLDivElement>((props, ref) => {
 
             // onTouchStart={handleClickDown}
           >
-            {topic && topic?.length > 0 && (
+            <SkeletonAll data={topic} type={3}>
               <>
                 <li
                   key={0}
                   className="w-[278.25px] h-[220px] relative bg-blue-800 text-white border-[1px] hover:border-blue-800 transition-all duration-500 hover:text-blue-800 hover:bg-white rounded-lg flex flex-col items-center justify-center gap-y-8 item-company overflow-hidden cursor-pointer"
                   onMouseEnter={() => {
-                    router.prefetch(`/more-hotjob/${topic[0].id}`);
+                    router.prefetch(`/more-hotjob/${topic?.[0]?.id}`);
                   }}
                   onClick={() => {
                     if (checkClick) {
-                      router.push(`/more-hotjob/${topic[0].id}`);
+                      router.push(`/more-hotjob/${topic?.[0]?.id}`);
                       // logEvent(analytics, "select_hotjob");
                     } else {
                       setCheckClick(true);
                     }
                   }}
                 >
-                  {/* {checkClick && <a href="`/more-hotjob/${topic[0].id}`"></a>} */}
+                  {/* {checkClick && <a href="`/more-hotjob/${topic?.[0]?.id}`"></a>} */}
 
                   <div className="text-6xl">
                     <MdControlCamera />
                   </div>
                   <div className="flex flex-col justify-center items-center gap-y-2">
-                    <h2 className=" font-semibold text-lg">{topic[0].title}</h2>
+                    <h2 className=" font-semibold text-lg">
+                      {topic?.[0]?.title}
+                    </h2>
                     <p className="font-light text-sm">
-                      {language === 1 ? `Việc làm` : `Job`} {topic[0].count}
+                      {language === 1 ? `Việc làm` : `Job`} {topic?.[0]?.count}
                     </p>
                   </div>
                 </li>
@@ -119,26 +122,28 @@ const HotJobComponent = forwardRef<HTMLDivElement>((props, ref) => {
                   key={1}
                   className="w-[278.25px] h-[220px] relative bg-blue-800 text-white border-[1px] hover:border-blue-800 transition-all duration-500 hover:text-blue-800 hover:bg-white rounded-lg flex flex-col items-center justify-center gap-y-8 item-company overflow-hidden cursor-pointer"
                   onMouseEnter={() => {
-                    router.prefetch(`/more-hotjob/${topic[1].id}`);
+                    router.prefetch(`/more-hotjob/${topic?.[1]?.id}`);
                   }}
                   onClick={() => {
                     if (checkClick) {
-                      router.push(`/more-hotjob/${topic[1].id}`);
+                      router.push(`/more-hotjob/${topic?.[1]?.id}`);
                       // logEvent(analytics, "select_hotjob");
                     } else {
                       setCheckClick(true);
                     }
                   }}
                 >
-                  {/* {checkClick && <a href="`/more-hotjob/${topic[0].id}`"></a>} */}
+                  {/* {checkClick && <a href="`/more-hotjob/${topic?.[0]?.id}`"></a>} */}
 
                   <div className="text-6xl">
                     <TbTruckDelivery />
                   </div>
                   <div className="flex flex-col justify-center items-center gap-y-2">
-                    <h2 className=" font-semibold text-lg">{topic[1].title}</h2>
+                    <h2 className=" font-semibold text-lg">
+                      {topic?.[1]?.title}
+                    </h2>
                     <p className="font-light text-sm">
-                      {language === 1 ? `Việc làm` : `Job`} {topic[1].count}
+                      {language === 1 ? `Việc làm` : `Job`} {topic?.[1]?.count}
                     </p>
                   </div>
                 </li>
@@ -146,26 +151,28 @@ const HotJobComponent = forwardRef<HTMLDivElement>((props, ref) => {
                   key={2}
                   className="w-[278.25px] h-[220px] relative bg-blue-800 text-white border-[1px] hover:border-blue-800 transition-all duration-500 hover:text-blue-800 hover:bg-white rounded-lg flex flex-col items-center justify-center gap-y-8 item-company overflow-hidden cursor-pointer"
                   onMouseEnter={() => {
-                    router.prefetch(`/more-hotjob/${topic[2].id}`);
+                    router.prefetch(`/more-hotjob/${topic?.[2]?.id}`);
                   }}
                   onClick={() => {
                     if (checkClick) {
-                      router.push(`/more-hotjob/${topic[2].id}`);
+                      router.push(`/more-hotjob/${topic?.[2]?.id}`);
                       // logEvent(analytics, "select_hotjob");
                     } else {
                       setCheckClick(true);
                     }
                   }}
                 >
-                  {/* {checkClick && <a href="`/more-hotjob/${topic[0].id}`"></a>} */}
+                  {/* {checkClick && <a href="`/more-hotjob/${topic?.[0]?.id}`"></a>} */}
 
                   <div className="text-6xl">
                     <GiHummingbird />
                   </div>
                   <div className="flex flex-col justify-center items-center gap-y-2">
-                    <h2 className=" font-semibold text-lg">{topic[2].title}</h2>
+                    <h2 className=" font-semibold text-lg">
+                      {topic?.[2]?.title}
+                    </h2>
                     <p className="font-light text-sm">
-                      {language === 1 ? `Việc làm` : `Job`} {topic[2].count}
+                      {language === 1 ? `Việc làm` : `Job`} {topic?.[2]?.count}
                     </p>
                   </div>
                 </li>
@@ -173,26 +180,28 @@ const HotJobComponent = forwardRef<HTMLDivElement>((props, ref) => {
                   key={3}
                   className="w-[278.25px] h-[220px] relative bg-blue-800 text-white border-[1px] hover:border-blue-800 transition-all duration-500 hover:text-blue-800 hover:bg-white rounded-lg flex flex-col items-center justify-center gap-y-8 item-company overflow-hidden cursor-pointer"
                   onMouseEnter={() => {
-                    router.prefetch(`/more-hotjob/${topic[3].id}`);
+                    router.prefetch(`/more-hotjob/${topic?.[3]?.id}`);
                   }}
                   onClick={() => {
                     if (checkClick) {
-                      router.push(`/more-hotjob/${topic[3].id}`);
+                      router.push(`/more-hotjob/${topic?.[3]?.id}`);
                       // logEvent(analytics, "select_hotjob");
                     } else {
                       setCheckClick(true);
                     }
                   }}
                 >
-                  {/* {checkClick && <a href="`/more-hotjob/${topic[0].id}`"></a>} */}
+                  {/* {checkClick && <a href="`/more-hotjob/${topic?.[0]?.id}`"></a>} */}
 
                   <div className="text-6xl">
                     <IoIosPeople />
                   </div>
                   <div className="flex flex-col justify-center items-center gap-y-2">
-                    <h2 className=" font-semibold text-lg">{topic[3].title}</h2>
+                    <h2 className=" font-semibold text-lg">
+                      {topic?.[3]?.title}
+                    </h2>
                     <p className="font-light text-sm">
-                      {language === 1 ? `Việc làm` : `Job`} {topic[3].count}
+                      {language === 1 ? `Việc làm` : `Job`} {topic?.[3]?.count}
                     </p>
                   </div>
                 </li>
@@ -200,26 +209,28 @@ const HotJobComponent = forwardRef<HTMLDivElement>((props, ref) => {
                   key={4}
                   className="w-[278.25px] h-[220px] relative bg-blue-800 text-white border-[1px] hover:border-blue-800 transition-all duration-500 hover:text-blue-800 hover:bg-white rounded-lg flex flex-col items-center justify-center gap-y-8 item-company overflow-hidden cursor-pointer"
                   onMouseEnter={() => {
-                    router.prefetch(`/more-hotjob/${topic[4].id}`);
+                    router.prefetch(`/more-hotjob/${topic?.[4]?.id}`);
                   }}
                   onClick={() => {
                     if (checkClick) {
-                      router.push(`/more-hotjob/${topic[4].id}`);
+                      router.push(`/more-hotjob/${topic?.[4]?.id}`);
                       // logEvent(analytics, "select_hotjob");
                     } else {
                       setCheckClick(true);
                     }
                   }}
                 >
-                  {/* {checkClick && <a href="`/more-hotjob/${topic[0].id}`"></a>} */}
+                  {/* {checkClick && <a href="`/more-hotjob/${topic?.[0]?.id}`"></a>} */}
 
                   <div className="text-6xl">
                     <BiSolidTimer />
                   </div>
                   <div className="flex flex-col justify-center items-center gap-y-2">
-                    <h2 className=" font-semibold text-lg">{topic[4].title}</h2>
+                    <h2 className=" font-semibold text-lg">
+                      {topic?.[4]?.title}
+                    </h2>
                     <p className="font-light text-sm">
-                      {language === 1 ? `Việc làm` : `Job`} {topic[4].count}
+                      {language === 1 ? `Việc làm` : `Job`} {topic?.[4]?.count}
                     </p>
                   </div>
                 </li>
@@ -227,31 +238,33 @@ const HotJobComponent = forwardRef<HTMLDivElement>((props, ref) => {
                   key={5}
                   className="w-[278.25px] h-[220px] relative bg-blue-800 text-white border-[1px] hover:border-blue-800 transition-all duration-500 hover:text-blue-800 hover:bg-white rounded-lg flex flex-col items-center justify-center gap-y-8 item-company overflow-hidden cursor-pointer"
                   onMouseEnter={() => {
-                    router.prefetch(`/more-hotjob/${topic[5].id}`);
+                    router.prefetch(`/more-hotjob/${topic?.[5]?.id}`);
                   }}
                   onClick={() => {
                     if (checkClick) {
-                      router.push(`/more-hotjob/${topic[5].id}`);
+                      router.push(`/more-hotjob/${topic?.[5]?.id}`);
                       // logEvent(analytics, "select_hotjob");
                     } else {
                       setCheckClick(true);
                     }
                   }}
                 >
-                  {/* {checkClick && <a href="`/more-hotjob/${topic[0].id}`"></a>} */}
+                  {/* {checkClick && <a href="`/more-hotjob/${topic?.[0]?.id}`"></a>} */}
 
                   <div className="text-6xl">
                     <MdFiberNew />
                   </div>
                   <div className="flex flex-col justify-center items-center gap-y-2">
-                    <h2 className=" font-semibold text-lg">{topic[5].title}</h2>
+                    <h2 className=" font-semibold text-lg">
+                      {topic?.[5]?.title}
+                    </h2>
                     <p className="font-light text-sm">
-                      {language === 1 ? `Việc làm` : `Job`} {topic[5].count}
+                      {language === 1 ? `Việc làm` : `Job`} {topic?.[5]?.count}
                     </p>
                   </div>
                 </li>
               </>
-            )}
+            </SkeletonAll>
           </ul>
           {checkNext && (
             <div className="absolute group bg-white bg-opacity-20 inset-y-0 flex items-center right-0 w-12 justify-center z-10">

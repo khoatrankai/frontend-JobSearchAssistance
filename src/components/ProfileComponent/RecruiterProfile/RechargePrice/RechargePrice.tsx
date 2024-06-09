@@ -24,7 +24,7 @@ interface ILocation {
 }
 
 const RechargePrice = (props: Props) => {
-  const ChangeNumber = (data: any, type = true) => {
+  const ChangeNumber = (data: any, type = true, typeSpace = ".") => {
     if (!data) {
       return 0;
     }
@@ -49,7 +49,7 @@ const RechargePrice = (props: Props) => {
       const lengthChange = Math.round(numberArray.length / 3 - 1);
       let vt = numberArray.length - (lengthChange * 3 + 1);
       for (let i = 0; i < lengthChange; i++) {
-        numberArray.splice(vt, 0, ".");
+        numberArray.splice(vt, 0, typeSpace);
         vt = vt + 4;
       }
       numberArray.pop();
@@ -201,11 +201,11 @@ const RechargePrice = (props: Props) => {
                       <input checked={checkValue === ikey} type="radio" />
                     </div>
                     <p className="w-40">
-                      {ChangeNumber(dt.toString(), false)}
+                      {ChangeNumber(dt.toString(), false, ",")}
                       <span className="ml-1 text-xs text-black">VNĐ</span>
                     </p>
                     <p className="w-44">
-                      {dt.toString()}
+                      {ChangeNumber(dt.toString(), false)}
                       <span className="ml-1 text-xs text-black">đ</span>
                     </p>
                   </div>
@@ -253,18 +253,22 @@ const RechargePrice = (props: Props) => {
                     <p>Điểm được thêm</p>
                     <p>
                       {checkValue === dataPrice.length
-                        ? valueOther
-                        : dataPrice[checkValue]}
+                        ? ChangeNumber(valueOther, false)
+                        : ChangeNumber(
+                            dataPrice[checkValue].toString(),
+                            false
+                          )}{" "}
                     </p>
                   </div>
                   <div className="flex justify-between w-full py-2 border-b-[1px]">
                     <p>Giá</p>
                     <p>
                       {checkValue === dataPrice.length
-                        ? ChangeNumber(valueOther, false)
+                        ? ChangeNumber(valueOther, false, ",")
                         : ChangeNumber(
                             dataPrice[checkValue].toString(),
-                            false
+                            false,
+                            ","
                           )}{" "}
                       <span className="ml-1 text-xs text-black">VNĐ</span>
                     </p>

@@ -875,7 +875,7 @@ const EditPostedPage: React.FC<Props> = () => {
           {languageRedux === 1 ? "Cập nhật" : "Update"}
         </h2>
       </button>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };

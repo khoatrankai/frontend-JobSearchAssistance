@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { fetchSearchResult } from "@/redux/reducer/searchReducer";
 import { RootState } from "@/redux";
 import { useSrollContext } from "@/context/AppProvider";
-import ModalLogin from "../ModalLogin/ModalLogin";
+
 import ShortText from "@/util/ShortText";
 import DescriptionHoverProvider from "@/util/DescriptionHoverProvider/DescriptionHoverProvider";
 import FilterComponent from "../FilterComponent/FilterComponent";
@@ -614,11 +614,8 @@ const SearchJobComponent: React.FC<Props> = (props) => {
             </InfiniteScroll>
           </div>
         </div>
-        <ModalLogin
-          isOpen={openModalLogin}
-          handleToggleModal={() => setOpenModalLogin(!openModalLogin)}
-        />
-        <ToastContainer />
+
+        {/* <ToastContainer /> */}
         {openModalApply && (
           <ModalApply
             namePost={postDetail?.title}

@@ -8,6 +8,7 @@ import Passion from "../PDF/Sample/Passion/Passion";
 
 import { usePDFJS } from "@/util/ConvertPdfToImg";
 import { captureElementAsFile } from "@/util/ConvertPdf";
+import { useSrollContext } from "@/context/AppProvider";
 
 // import convertImg from "@/util/ConvertPdfToImg";
 
@@ -19,6 +20,7 @@ type Props = { id: any; funcLibrary: any };
 
 const ToolBar = (props: Props) => {
   const { id, funcLibrary } = props;
+  const { updateHandleAlert, setContentAlert } = useSrollContext();
   const [tabColorTopic, setTabColorTopic] = useState<boolean>(false);
   const [urlSave, setUrlSave] = useState<any>("");
   const [pdfExport, setPdfExport] = useState<any>();
@@ -187,6 +189,7 @@ const ToolBar = (props: Props) => {
             className="p-2 font-semibold bg-blue-500 rounded-lg"
             onClick={() => {
               handleResetActive();
+
               handleBtnSave(handleSavePdf);
               // console.log("Bam");
               // handleBam();

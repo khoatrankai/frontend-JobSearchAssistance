@@ -17,7 +17,7 @@ const PriceListComponent = (props: Props) => {
             </p>
           </div>
           <div className="flex gap-6 flex-wrap justify-center">
-            <div className="min-h-96 h-fit w-64 rounded-lg bg-white shadow-2xl shadow-red-500/20 overflow-hidden">
+            <div className="min-h-fit h-auto w-64 rounded-lg bg-white shadow-2xl shadow-red-500/20 overflow-hidden">
               <p className="text-xl font-bold px-4 py-4 bg-red-600 text-white">
                 VIP PRO MAX
               </p>
@@ -33,9 +33,15 @@ const PriceListComponent = (props: Props) => {
                   <p className="text-xs">* Giá trên chưa bao gồm VAT</p>
                 </div>
 
-                <button className="w-full py-2 hover:bg-blue-700 hover:text-white rounded-lg border-[1px] border-blue-700 text-blue-700 font-semibold">
-                  Mua gói
-                </button>
+                <div>
+                  <button className="w-full py-2 hover:bg-blue-700 hover:text-white rounded-lg border-[1px] border-blue-700 text-blue-700 font-semibold mb-1">
+                    Mua gói
+                  </button>
+                  <button className="w-full py-2 bg-blue-700 hover:bg-blue-600 rounded-lg border-[1px] border-blue-700 text-white font-semibold">
+                    Xem chi tiết
+                  </button>
+                </div>
+
                 <div>
                   <p className="text-gray-600 text-sm font-bold uppercase mb-4">
                     Quyền lợi
@@ -67,7 +73,7 @@ const PriceListComponent = (props: Props) => {
                 </div>
               </div>
             </div>
-            <div className="min-h-96 h-fit w-64 rounded-lg bg-white shadow-2xl shadow-yellow-500/20 overflow-hidden">
+            <div className="min-h-fit h-auto w-64 rounded-lg bg-white shadow-2xl shadow-yellow-500/20 overflow-hidden">
               <p className="text-xl font-bold px-4 py-4 bg-yellow-500 text-white">
                 VIP PRO
               </p>
@@ -83,9 +89,14 @@ const PriceListComponent = (props: Props) => {
                   <p className="text-xs">* Giá trên chưa bao gồm VAT</p>
                 </div>
 
-                <button className="w-full py-2 hover:bg-blue-700 hover:text-white rounded-lg border-[1px] border-blue-700 text-blue-700 font-semibold">
-                  Mua gói
-                </button>
+                <div>
+                  <button className="w-full py-2 hover:bg-blue-700 hover:text-white rounded-lg border-[1px] border-blue-700 text-blue-700 font-semibold mb-1">
+                    Mua gói
+                  </button>
+                  <button className="w-full py-2 bg-blue-700 hover:bg-blue-600 rounded-lg border-[1px] border-blue-700 text-white font-semibold">
+                    Xem chi tiết
+                  </button>
+                </div>
                 <div>
                   <p className="text-gray-600 text-sm font-bold uppercase mb-4">
                     Quyền lợi
@@ -110,7 +121,7 @@ const PriceListComponent = (props: Props) => {
                 </div>
               </div>
             </div>
-            <div className="min-h-96 h-fit w-64 rounded-lg bg-white border-[1px] shadow-2xl shadow-green-500/20 overflow-hidden">
+            <div className="min-h-fit h-auto w-64 rounded-lg bg-white border-[1px] shadow-2xl shadow-green-500/20 overflow-hidden">
               <p className="text-xl font-bold px-4 py-4 bg-green-600 text-white">
                 PRO
               </p>
@@ -126,9 +137,14 @@ const PriceListComponent = (props: Props) => {
                   <p className="text-xs">* Giá trên chưa bao gồm VAT</p>
                 </div>
 
-                <button className="w-full py-2 hover:bg-blue-700 hover:text-white rounded-lg border-[1px] border-blue-700 text-blue-700 font-semibold">
-                  Mua gói
-                </button>
+                <div>
+                  <button className="w-full py-2 hover:bg-blue-700 hover:text-white rounded-lg border-[1px] border-blue-700 text-blue-700 font-semibold mb-1">
+                    Mua gói
+                  </button>
+                  <button className="w-full py-2 bg-blue-700 hover:bg-blue-600 rounded-lg border-[1px] border-blue-700 text-white font-semibold">
+                    Xem chi tiết
+                  </button>
+                </div>
                 <div>
                   <p className="text-gray-600 text-sm font-bold uppercase mb-4">
                     Quyền lợi
@@ -153,7 +169,7 @@ const PriceListComponent = (props: Props) => {
                 </div>
               </div>
             </div>
-            <div className="min-h-96 h-fit w-64 rounded-lg bg-white border-[1px] shadow-2xl shadow-blue-500/20 overflow-hidden">
+            <div className="min-h-fit h-auto w-64 rounded-lg bg-white border-[1px] shadow-2xl shadow-blue-500/20 overflow-hidden">
               <p className="text-xl font-bold px-4 py-4 bg-blue-500 text-white">
                 PLUS
               </p>
@@ -169,9 +185,14 @@ const PriceListComponent = (props: Props) => {
                   <p className="text-xs">* Giá trên chưa bao gồm VAT</p>
                 </div>
 
-                <button className="w-full py-2 hover:bg-blue-700 hover:text-white rounded-lg border-[1px] border-blue-700 text-blue-700 font-semibold">
-                  Mua gói
-                </button>
+                <div>
+                  <button className="w-full py-2 hover:bg-blue-700 hover:text-white rounded-lg border-[1px] border-blue-700 text-blue-700 font-semibold mb-1">
+                    Mua gói
+                  </button>
+                  <button className="w-full py-2 bg-blue-700 hover:bg-blue-600 rounded-lg border-[1px] border-blue-700 text-white font-semibold">
+                    Xem chi tiết
+                  </button>
+                </div>
                 <div>
                   <p className="text-gray-600 text-sm font-bold uppercase mb-4">
                     Quyền lợi

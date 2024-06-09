@@ -1,5 +1,6 @@
 import axiosClient from '@/configs/axiosClient';
 import axiosClientRecruiter from '@/configs/axiosRecruiter';
+import { V3 } from '../linkLocal';
 
 const postsApi = {
   getPostNewestV3: (
@@ -37,6 +38,11 @@ const postsApi = {
       `${provinceId ? `provinceId=${provinceId}&` : ``}` +
       `limit=${limit}${threshold ? `&threshold=${threshold}` : ``}` +
       `&lang=${lang}` + `&page=${page}` ;
+    return axiosClient.get(URL);
+  },
+  getPostHot: (
+  ) => {
+    const URL = `${V3}/api/v3/posts/hot?limit=5`;
     return axiosClient.get(URL);
   },
 
@@ -88,14 +94,34 @@ const postsApi = {
       },
     })
   },
-  createPost: (newPost: any) => {
+  createPost: async(newPost: any,des:any) => {
+    // console.log(des)
     const URL = `v1/posts`
-    return axiosClientRecruiter.post(URL, newPost, {
+    const dataPost:any = await axiosClientRecruiter.post(URL, newPost, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
         'Content-Type': 'multipart/form-data',
       },
     })
+    if(dataPost){
+      const listCV = await axiosClientRecruiter.get(`${V3}/api/v3/cvs-posts/cvs?postId=${dataPost.data.postId}`)
+      if(listCV){
+        console.log(listCV)
+        const urlAI = 'http://127.0.0.1:8000/aiFilterCV/'
+        console.log(des,listCV.data.data.cvs)
+        const dataFilterCV = await axiosClientRecruiter.post(urlAI,{contentPost: des,listCV: listCV.data.data[0].cvs})
+        if(dataFilterCV){
+          console.log(dataFilterCV)
+          const urlMapLoad = `${V3}/api/v3/cvs-posts`
+          const dataUpdate = await axiosClientRecruiter.post(urlMapLoad,{data: dataFilterCV.data.map((dt:any)=>{
+            return{...dt,postId:dataPost.data.postId,type:1}
+          })})
+          return dataUpdate
+        }
+      }
+      
+    }
+    // return 0
   },
   ownPost: ()=>{
     const URL = `v1/posts/own`

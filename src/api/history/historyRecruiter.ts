@@ -58,7 +58,7 @@ const historyRecruiter = {
   }
   ,
   getApplicationAll:(postId:any)=>{
-    const URL = `v1/history/recruiter/${postId}/applications`
+    const URL = `v1/history/recruiter/${postId}/applications?page=0&limit=100`
     return axiosClientRecruiter.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,

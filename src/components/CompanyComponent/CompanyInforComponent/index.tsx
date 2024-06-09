@@ -571,7 +571,7 @@ const Company: React.FC<ICompany> = (props) => {
       <div style={{ display: is_profile ? "none" : "block" }}>
         <RollTop />
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };

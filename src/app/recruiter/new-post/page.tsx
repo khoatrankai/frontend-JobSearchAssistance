@@ -203,10 +203,11 @@ const page = (props: Props) => {
         return;
       } else {
         const res = (await postsApi.createPost(
-          formData
-        )) as unknown as INewPost;
+          formData,
+          dataReq.description
+        )) as unknown as any;
 
-        if (res && res.code === 200) {
+        if (res && res.statusCode === 201) {
           // logEvent(analytics, "post_recruiter");
           toast.success("Tạo bài đăng thành công", {
             position: "bottom-center",
@@ -741,7 +742,7 @@ const page = (props: Props) => {
           {languageRedux === 1 ? "Đăng bài" : "Post"}
         </h2>
       </button>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };

@@ -5,7 +5,6 @@ import "./style.scss";
 import { Input } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 //@ts-ignore
-import ModalLogin from "#components/Home/ModalLogin";
 import { useLocation } from "react-router-dom";
 import { RootState } from "@/redux/reducer";
 import communityApi from "@/api/community/apiCommunity";

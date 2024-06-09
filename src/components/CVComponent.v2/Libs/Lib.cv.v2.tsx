@@ -25,6 +25,8 @@ import { HiDocumentText } from "react-icons/hi";
 import cvsApi from "@/api/cvs";
 import { captureElementAsFile } from "@/util/ConvertPdf";
 import TimeStamp from "@/util/TimeStamp/TimeStamp";
+import ToastCustom from "@/util/ToastCustom";
+import CookieCustom from "@/util/CookieCustom";
 
 type Props = {
   cvIndex?: any;
@@ -38,6 +40,8 @@ interface ILoad {
 
 const LibCvV2 = (props: Props) => {
   const { cvIndex, template } = props;
+  const { getCookie } = CookieCustom();
+  const { hdError, hdSuccess } = ToastCustom();
   const profile = useSelector((state: any) => state.profile.profile);
   const [checkBlurItem, setCheckBlurItem] = useState<boolean>(false);
   const { handleConvertToDate } = TimeStamp();
@@ -45,7 +49,13 @@ const LibCvV2 = (props: Props) => {
   const [nameCv, setNameCv] = useState<any>("Tiêu đề CV");
   const [filePdf, setFilePdf] = useState<any>("");
   const [checkAddCategory, setAddCategory] = useState<boolean>(false);
-  const { setTabAlert, setHandleAlert, updateHandleAlert } = useSrollContext();
+  const {
+    setTabAlert,
+    setHandleAlert,
+    updateHandleAlert,
+    setContentAlert,
+    dataDocsCv,
+  } = useSrollContext();
   const [dataForm, setDataForm] = useState<any>({
     cvIndex: 0,
     layout: ["33.33,66.67", "25,75", "75,25"],
@@ -97,94 +107,7 @@ const LibCvV2 = (props: Props) => {
     part: -1,
     index: -1,
   });
-  const [dataLoad, setDataLoad] = useState<any>([
-    // {
-    //   id: 78,
-    //   email: "",
-    //   name: "",
-    //   phone: "",
-    //   address: "",
-    //   intent: "",
-    //   type: "info_person",
-    //   avatar: null,
-    //   link: "",
-    //   row: 0,
-    //   part: 0,
-    //   col: 0,
-    //   cvIndex: 0,
-    //   moreCvInformations: [
-    //     {
-    //       content: "",
-    //     },
-    //   ],
-    // },
-    // {
-    //   type: "info_activate",
-    //   row: 0,
-    //   col: 0,
-    //   cvIndex: 0,
-    //   part: 1,
-    //   moreCvExtraInformations: [
-    //     {
-    //       position: "",
-    //       time: "",
-    //       company: "",
-    //       description: "",
-    //       index: 0,
-    //     },
-    //   ],
-    // },
-    // {
-    //   type: "info_hobby",
-    //   row: 0,
-    //   col: 1,
-    //   cvIndex: 0,
-    //   part: 0,
-    //   moreCvExtraInformations: [
-    //     {
-    //       position: "",
-    //       time: "",
-    //       company: "",
-    //       description: "",
-    //       index: 0,
-    //     },
-    //   ],
-    // },
-    // {
-    //   type: "info_achivement",
-    //   row: 0,
-    //   col: 1,
-    //   cvIndex: 0,
-    //   part: 1,
-    //   moreCvExtraInformations: [
-    //     {
-    //       position: "",
-    //       time: "",
-    //       company: "",
-    //       description: "",
-    //       index: 0,
-    //     },
-    //   ],
-    // },
-    // {
-    //   type: "info_project",
-    //   row: 1,
-    //   part: 0,
-    //   col: 1,
-    //   cvIndex: 0,
-    //   moreCvProjects: [
-    //     {
-    //       time: "",
-    //       link: "",
-    //       participant: "",
-    //       position: "",
-    //       functionality: "",
-    //       technology: "",
-    //       index: 0,
-    //     },
-    //   ],
-    // },
-  ]);
+  const [dataLoad, setDataLoad] = useState<any>([]);
   const [imageAvatar, setImgAvatar] = useState<any>();
 
   const [addType, setAddType] = useState<any>({
@@ -261,6 +184,7 @@ const LibCvV2 = (props: Props) => {
 
       moreCvProjects: [
         {
+          name: "",
           padIndex: 1,
           time: "",
           link: "",
@@ -308,6 +232,7 @@ const LibCvV2 = (props: Props) => {
       index: 0,
     },
     {
+      name: "",
       padIndex: 1,
       time: "",
       link: "",
@@ -404,60 +329,65 @@ const LibCvV2 = (props: Props) => {
     index: any,
     dataNew: any
   ) => {
-    switch (type) {
-      case "typeName":
-      case "phone":
-      case "address":
-      case "email":
-      case "name":
-      case "link":
-      case "avatar":
-      case "intent":
-        const newData = dataLoad.map((dt: any) => {
-          if (dt.part === part && dt.col === col && dt.row === row) {
-            return { ...dt, [type]: dataNew };
+    // switch (type) {
+    //   case "typeName":
+    //   case "phone":
+    //   case "address":
+    //   case "email":
+    //   case "name":
+    //   case "link":
+    //   case "avatar":
+    //   case "intent":
+    console.log(part, col, row, type, index, dataNew);
+    if (index != null || index === 0) {
+      const newData2 = dataLoad.map((dt: any) => {
+        if (dt.part === part && dt.col === col && dt.row === row) {
+          let newItem =
+            dt?.moreCvInformations ||
+            dt?.moreCvProjects ||
+            dt?.moreCvExtraInformations;
+          newItem = newItem.map((dtt: any, i: any) => {
+            if (i === index) {
+              return { ...dtt, [type]: dataNew };
+            }
+            return dtt;
+          });
+          if (dt?.moreCvInformations) {
+            return { ...dt, moreCvInformations: newItem };
           }
-          return dt;
-        });
-        setDataLoad(newData);
-        setBackNext({
-          back: backNext,
-          present: { dataForm: backNext.present.dataForm, dataLoad: newData },
-          next: {},
-        });
-        break;
-      default:
-        const newData2 = dataLoad.map((dt: any) => {
-          if (dt.part === part && dt.col === col && dt.row === row) {
-            let newItem =
-              dt?.moreCvInformations ||
-              dt?.moreCvProjects ||
-              dt?.moreCvExtraInformations;
-            newItem = newItem.map((dtt: any, i: any) => {
-              if (i === index) {
-                return { ...dtt, [type]: dataNew };
-              }
-              return dtt;
-            });
-            if (dt?.moreCvInformations) {
-              return { ...dt, moreCvInformations: newItem };
-            }
-            if (dt?.moreCvProjects) {
-              return { ...dt, moreCvProjects: newItem };
-            }
-            if (dt?.moreCvExtraInformations) {
-              return { ...dt, moreCvExtraInformations: newItem };
-            }
+          if (dt?.moreCvProjects) {
+            return { ...dt, moreCvProjects: newItem };
           }
-          return dt;
-        });
+          if (dt?.moreCvExtraInformations) {
+            return { ...dt, moreCvExtraInformations: newItem };
+          }
+        }
+        return dt;
+      });
 
-        setDataLoad(newData2);
-        setBackNext({
-          back: backNext,
-          present: { dataForm: backNext.present.dataForm, dataLoad: newData2 },
-          next: {},
-        });
+      setDataLoad(newData2);
+      setBackNext({
+        back: backNext,
+        present: { dataForm: backNext.present.dataForm, dataLoad: newData2 },
+        next: {},
+      });
+    } else {
+      // break;
+      // default:
+      const newData = dataLoad.map((dt: any) => {
+        if (dt.part === part && dt.col === col && dt.row === row) {
+          return { ...dt, [type]: dataNew };
+        }
+        return dt;
+      });
+      console.log("vao day", newData);
+
+      setDataLoad(newData);
+      setBackNext({
+        back: backNext,
+        present: { dataForm: backNext.present.dataForm, dataLoad: newData },
+        next: {},
+      });
     }
   };
   const handleTimes = (data: any) => {
@@ -2081,6 +2011,14 @@ const LibCvV2 = (props: Props) => {
     return iCol;
   };
   const handleBtnSave = async (file: any) => {
+    if (cvIndex === cvID) {
+      console.log(cvIndex, cvID);
+      setContentAlert({
+        title: "Bạn muốn lưu lại",
+        confirmAgain: "Bạn có chắc muốn cập nhật",
+      });
+    }
+
     const element = document.querySelector(".canvas-pdf");
     const fileName = `${nameCv}.jpg`; // Tên tệp mới
     const imgFile = await file();
@@ -2099,16 +2037,79 @@ const LibCvV2 = (props: Props) => {
               imageFile,
               1
             );
-            console.log(resultCV);
+            const dataAI = await cvsApi.postCV(
+              dataLoad,
+              cvID,
+              profile?.accountId
+            );
+            if (cvID === cvIndex) {
+              if (resultCV && dataAI) {
+                hdSuccess("Đã cập nhật thành cập");
+              } else {
+                hdError("Cập nhật thất bại");
+              }
+            } else {
+              if (resultCV && dataAI) {
+                hdSuccess("Đã tạo CV thành công");
+              } else {
+                hdError("Tạo CV thất bại");
+              }
+            }
           }
         };
-        fetchData();
+        if (cvIndex === cvID) {
+          updateHandleAlert(fetchData);
+        } else {
+          fetchData();
+        }
       })
       .catch((error: any) => {
         console.error(error);
       });
   };
+  const handleChangeUploadDocs = (cvNew: any) => {
+    const data: any = getCookie("cvsDocs") || {};
+    localStorage.removeItem("cvsDocs");
+    let row = -1;
+    const cvIndexDocs = cvNew;
+    const readDataDoc = Object.keys(data).map((dt: any) => {
+      row += 1;
+      if (dt === "info_project") {
+        return {
+          col: 0,
+          cvIndex: cvIndexDocs,
+          padIndex: 1,
+          part: 0,
+          row: row,
+          type: dt,
+          moreCvProjects: data[dt],
+        };
+      } else if (dt === "info_person") {
+        return {
+          col: 0,
+          cvIndex: cvIndexDocs,
+          padIndex: 1,
+          part: 0,
+          row: row,
+          type: dt,
+          ...data[dt],
+        };
+      } else {
+        return {
+          col: 0,
+          cvIndex: cvIndexDocs,
+          padIndex: 1,
+          part: 0,
+          row: row,
+          type: dt,
+          moreCvExtraInformations: data[dt],
+        };
+      }
+    });
 
+    return readDataDoc;
+  };
+  // handleChangeUploadDocs();
   useEffect(() => {
     console.log(dataLoad, dataRequest, dataForm);
   }, [dataLoad, dataRequest, dataForm]);
@@ -2147,74 +2148,110 @@ const LibCvV2 = (props: Props) => {
         setTemplateId(templateIDOld.toString());
       }
     } else {
-      if (profile) {
-        if (handleCheckCvs(cvIndex) === cvIndex) {
-          handleLoadData();
-        } else {
-          const dataNew = handleLoadTempData(templateId);
-
-          setDataForm({
-            layout: dataNew.layout,
-            color: dataNew.color,
-            pad: dataNew.pad,
-            padPart: dataNew.padPart,
-            cvIndex: handleCheckCvs("new"),
-            colorTopic: dataNew.colorTopic,
-            indexTopic: 0,
-          });
-          const newDataLoad = dataNew.data.map((dt: any) => {
-            const dataOld = dataLoad.filter((dtt: any) => {
-              return dtt.type === dt.type;
-            });
-            if (dataOld.length === 1) {
-              const dataMore =
-                dataOld[0]?.moreCvInformations ||
-                dataOld[0]?.moreCvExtraInformations ||
-                dataOld[0]?.moreCvProjects;
-              let propertyName = dataOld[0]?.moreCvInformations
-                ? "moreCvInformations"
-                : dataOld[0]?.moreCvExtraInformations
-                ? "moreCvExtraInformations"
-                : "moreCvProjects";
-              return { ...dt, [propertyName]: dataMore };
-            }
-            return dt;
-          });
-          setDataLoad(
-            newDataLoad.map((dt: any) => {
-              if (dt.type === "info_person") {
-                return {
-                  ...dt,
-                  cvIndex: handleCheckCvs("new"),
-                  phone: profile?.phone,
-                  email: profile?.email,
-                  name: profile?.name,
-                  address: profile?.addressText?.fullName,
-                  link: profile?.facebook,
-                  intent: handleConvertToDate(profile?.birthday),
-                };
-              }
-              return { ...dt, cvIndex: handleCheckCvs("new") };
-            })
-          );
-          setBackNext({
-            back: {},
-            present: {
-              dataForm: {
-                layout: dataNew.layout,
-                color: dataNew.color,
-                pad: dataNew.pad,
-                padPart: dataNew.padPart,
-                cvIndex: handleCheckCvs("new"),
-                colorTopic: dataNew.colorTopic,
-                indexTopic: 0,
-              },
-              dataLoad: dataNew.data.map((dt: any) => {
-                return { ...dt, cvIndex: handleCheckCvs("new") };
-              }),
+      if (template === "upload") {
+        const dataNewLoad = handleChangeUploadDocs(handleCheckCvs("new"));
+        const dataNewForm = handleLoadTempData(2);
+        console.log(dataNewLoad);
+        setDataLoad(dataNewLoad);
+        setDataForm({
+          layout: dataNewForm.layout,
+          color: dataNewForm.color,
+          pad: dataNewForm.pad,
+          padPart: dataNewForm.padPart,
+          cvIndex: handleCheckCvs("new"),
+          colorTopic: dataNewForm.colorTopic,
+          indexTopic: 0,
+        });
+        setBackNext({
+          back: {},
+          present: {
+            dataForm: {
+              layout: dataNewForm.layout,
+              color: dataNewForm.color,
+              pad: dataNewForm.pad,
+              padPart: dataNewForm.padPart,
+              cvIndex: handleCheckCvs("new"),
+              colorTopic: dataNewForm.colorTopic,
+              indexTopic: 0,
             },
-            next: {},
-          });
+            dataLoad: dataNewLoad.map((dt: any) => {
+              return { ...dt, cvIndex: handleCheckCvs("new") };
+            }),
+          },
+          next: {},
+        });
+        setTemplateId("2");
+      } else {
+        if (Object.keys(profile).length !== 0) {
+          if (handleCheckCvs(cvIndex) === cvIndex) {
+            handleLoadData();
+          } else {
+            const dataNew = handleLoadTempData(templateId);
+            console.log(dataNew);
+            setDataForm({
+              layout: dataNew.layout,
+              color: dataNew.color,
+              pad: dataNew.pad,
+              padPart: dataNew.padPart,
+              cvIndex: handleCheckCvs("new"),
+              colorTopic: dataNew.colorTopic,
+              indexTopic: 0,
+            });
+            const newDataLoad = dataNew.data.map((dt: any) => {
+              const dataOld = dataLoad.filter((dtt: any) => {
+                return dtt.type === dt.type;
+              });
+              if (dataOld.length === 1) {
+                const dataMore =
+                  dataOld[0]?.moreCvInformations ||
+                  dataOld[0]?.moreCvExtraInformations ||
+                  dataOld[0]?.moreCvProjects;
+                let propertyName = dataOld[0]?.moreCvInformations
+                  ? "moreCvInformations"
+                  : dataOld[0]?.moreCvExtraInformations
+                  ? "moreCvExtraInformations"
+                  : "moreCvProjects";
+                return { ...dt, [propertyName]: dataMore };
+              }
+              return dt;
+            });
+
+            setDataLoad(
+              newDataLoad.map((dt: any) => {
+                if (dt.type === "info_person") {
+                  return {
+                    ...dt,
+                    cvIndex: handleCheckCvs("new"),
+                    phone: profile?.phone,
+                    email: profile?.email,
+                    name: profile?.name,
+                    address: profile?.addressText?.fullName,
+                    link: profile?.facebook,
+                    intent: handleConvertToDate(profile?.birthday).toString(),
+                  };
+                }
+                return { ...dt, cvIndex: handleCheckCvs("new") };
+              })
+            );
+            setBackNext({
+              back: {},
+              present: {
+                dataForm: {
+                  layout: dataNew.layout,
+                  color: dataNew.color,
+                  pad: dataNew.pad,
+                  padPart: dataNew.padPart,
+                  cvIndex: handleCheckCvs("new"),
+                  colorTopic: dataNew.colorTopic,
+                  indexTopic: 0,
+                },
+                dataLoad: dataNew.data.map((dt: any) => {
+                  return { ...dt, cvIndex: handleCheckCvs("new") };
+                }),
+              },
+              next: {},
+            });
+          }
         }
       }
     }
@@ -2871,6 +2908,7 @@ const LibCvV2 = (props: Props) => {
     handleBtnSave,
     BGToolType,
     setFilePdf,
+    cvID,
   };
 };
 

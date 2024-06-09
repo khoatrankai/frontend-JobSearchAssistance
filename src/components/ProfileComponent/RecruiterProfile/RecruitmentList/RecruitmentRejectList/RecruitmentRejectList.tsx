@@ -119,7 +119,7 @@ const RecruitmentRejectList = (props: Props) => {
                       className="p-2 rounded-md text-blue-500 hover:underline"
                       onClick={() => {
                         pushBlank(
-                          `/recruiter/candidate-detail/${dt.account_id}-POST${idPost}`
+                          `/recruiter/candidate-detail/${dt.id}POST${idPost}`
                         );
                       }}
                     >

@@ -84,7 +84,7 @@ const page = (props: Props) => {
   const refDrag = useRef<any>();
   const [refFormCv, setRefFormCv] = useState<any>();
   const [dataSave, setDataSave] = useState<any>();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const handleSave = (data: any) => {
     let pushArray: any = [];
     data?.forEach((dt: any) => {
@@ -152,7 +152,7 @@ const page = (props: Props) => {
         const res = (await profileCvsApi.saveCv(formData)) as any;
 
         if (res && res.statusCode === 201) {
-          dispatch(fetchProfile("vi") as any);
+          // dispatch(fetchProfile("vi") as any);
           toast.success(
             language === 1
               ? "Cập nhật CV thành công"
@@ -668,7 +668,7 @@ const page = (props: Props) => {
           )}
         </div>
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };

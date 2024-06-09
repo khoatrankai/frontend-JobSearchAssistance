@@ -22,11 +22,14 @@ const TextEditorOne = ({
   return (
     <>
       <TextareaAutosize
+        aria-label="empty textarea"
         style={{ ...style, lineHeight: "2rem", backgroundColor: "transparent" }}
         placeholder={placeholder}
-        value={children}
+        defaultValue={children}
         onChange={onBlur}
         onFocus={onFocus}
+        inputMode="text"
+        spellCheck="false"
         className={` !min-w-2 resize-none ${className} outline-none`}
       />
     </>

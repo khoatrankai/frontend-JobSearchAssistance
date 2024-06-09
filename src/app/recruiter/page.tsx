@@ -13,7 +13,7 @@ type Props = {};
 const page = (props: Props) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   CheckRoleRecruiter();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const refService = useRef<any>();
   // dispatch(fetchProfileRecruiter("vi") as any);
   const profile = useSelector((state: any) => state.profileRecruiter.profile);

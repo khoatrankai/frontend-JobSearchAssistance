@@ -25,7 +25,7 @@ const BlogRecruiterComponent = (props: Props) => {
           </button> */}
         </div>
 
-        <div className="flex gap-6 flex-wrap justify-center">
+        <div className="flex gap-4 flex-wrap justify-center">
           <div className="rounded-xl max-w-[276px] min-w-[276px] h-fit border-[1px] overflow-hidden bg-white group hover:border-blue-500">
             <div className=" cursor-pointer">
               <Image

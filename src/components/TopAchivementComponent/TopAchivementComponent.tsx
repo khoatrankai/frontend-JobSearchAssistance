@@ -1,14 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import "./TopAchivementComponent.scss";
 import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useSrollContext } from "@/context/AppProvider";
 type Props = {};
+const MyComponent = memo(({ dt, index }: any) => {
+  return (
+    <div
+      className={`bubble cursor-pointer p-4 border-[1px] hover:shadow-sm border-transparent hover:bg-blue-200 x${
+        Math.floor(Math.random() * (10 - 1 + 1)) + 1
+      } group`}
+      style={{
+        left: `${Math.floor(Math.random() * (80 - 55 + 10)) + 55}%`,
+        top: `${Math.floor(Math.random() * (85 - 5 + 4)) + 5}%`,
+        scale: `${Math.random() * (0.6 - 0.4) + 0.4}`,
+      }}
+      key={index + "vo"}
+    >
+      <div className="rounded-full absolute inset-0 flex justify-center items-center">
+        <Image
+          className="scale-50 group-hover:scale-75 transition-all duration-500"
+          width={500}
+          height={500}
+          alt=""
+          src={`/company/logo${dt.name}.png`}
+        />
+      </div>
+    </div>
+  );
+});
 
+MyComponent.displayName = "BannerAnimation";
 const TopAchivementComponent = (props: Props) => {
   const router = useRouter();
   const { reponsiveMobile } = useSrollContext();
+
   const [dataCompany, setDataCompany] = useState<any>([
     { name: "acer", link: "https://www.acer.com/" },
     { name: "apple", link: "https://www.acer.com/" },
@@ -26,42 +53,7 @@ const TopAchivementComponent = (props: Props) => {
     { name: "nissan", link: "https://www.acer.com/" },
     { name: "tesla", link: "https://www.acer.com/" },
   ]);
-  const [timeout, setTimeoutT] = useState<any>();
-  //   useEffect(() => {
-  //     setInterval(() => {
-  //       const X = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
 
-  //       setTimeoutT(X);
-  //     }, 12000);
-  //   }, []);
-  useEffect(() => {}, []);
-  const handleAddClassBubble = (data: any, index: any) => {
-    const left = Math.floor(Math.random() * (80 - 55 + 10)) + 55;
-    const top = Math.floor(Math.random() * (85 - 5 + 4)) + 5;
-    const scale = Math.random() * (0.6 - 0.4) + 0.4;
-    const X = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
-    return (
-      <div
-        className={`bubble cursor-pointer p-4 border-[1px] hover:shadow-sm border-transparent hover:bg-blue-200 x${X} group`}
-        style={{
-          left: `${left}%`,
-          top: `${top}%`,
-          scale: `${scale}`,
-        }}
-        key={index}
-      >
-        <div className="rounded-full absolute inset-0 flex justify-center items-center">
-          <Image
-            className="scale-50 group-hover:scale-75 transition-all duration-500"
-            width={500}
-            height={500}
-            alt=""
-            src={`/company/logo${data.name}.png`}
-          />
-        </div>
-      </div>
-    );
-  };
   return (
     <div className="gradient-bg-mid w-full relative flex flex-col items-center py-8 h-[440px] px-5">
       {/* <p className="font-extrabold text-3xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
@@ -96,7 +88,7 @@ const TopAchivementComponent = (props: Props) => {
       </div>
       <div className="absolute inset-0 overflow-hidden">
         {dataCompany.map((dt: any, index: any) => {
-          return handleAddClassBubble(dt, index);
+          return <MyComponent key={index} dt={dt} index={index} />;
         })}
       </div>
     </div>

@@ -195,7 +195,7 @@ const page = (props: Props) => {
       >
         {languageRedux !== 1 ? "Update" : "Cập nhật"}
       </Button>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };

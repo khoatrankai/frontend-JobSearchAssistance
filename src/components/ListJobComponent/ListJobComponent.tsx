@@ -10,7 +10,7 @@ import bookMarkApi from "@/api/bookmarks/bookMarkApi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
-import ModalLogin from "../ModalLogin/ModalLogin";
+//
 import ShortText from "@/util/ShortText";
 import SkeletonAll from "@/util/SkeletonAll";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
@@ -29,6 +29,7 @@ import ModalApply from "../ModalApply/ModalApply";
 import appplicationApi from "@/api/applicationApi";
 import useRouterCustom from "@/util/useRouterCustom/useRouterCustom";
 import { useSrollContext } from "@/context/AppProvider";
+import SkeletonCustom from "@/util/FormSkeleton/SkeletonCustom";
 
 type Props = {};
 
@@ -79,10 +80,10 @@ const ListJobComponent = (props: Props) => {
   const [thresholdNewJob, setThresholdNewJob] = useState<number>(0);
   const [idPrev, setIdPrev] = useState<number>(0);
   const [listJob, setListJob] = useState<any[]>([]);
-  const [bookmarked, setBookmarked] = React.useState(false);
+  // const [bookmarked, setBookmarked] = React.useState(false);
   const accountId = localStorage.getItem("accountId");
   const categoryId = useSelector((state: any) => state.categoryId);
-  const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
+  // const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
   const [dataLocationFilter, setLocationFilter] = useState<any>([]);
   const [dataListCareer, setListCareer] = useState<any>([]);
   const language = useSelector((state: any) => state.changeLaguage.language);
@@ -117,8 +118,9 @@ const ListJobComponent = (props: Props) => {
         console.log(res);
       }
     };
+    setListJob([]);
     fetchData();
-  }, [bookmarked, careerId, provinceId, language, currentPage]);
+  }, [careerId, provinceId, language, currentPage]);
   const handleNextNewJob = () => {
     if (currentPage <= totalPage) {
       setCurrentPage(currentPage + 1);
@@ -232,7 +234,6 @@ const ListJobComponent = (props: Props) => {
         const res = (await bookMarkApi.createBookMark(
           id
         )) as unknown as IBookmark;
-
         if (res && res.code === 200) {
           toast.success(
             language === 1 ? "Lưu bài viết thành công" : "Save post success",
@@ -247,9 +248,33 @@ const ListJobComponent = (props: Props) => {
               theme: "dark",
             }
           );
-          setBookmarked(!bookmarked);
+          // console.log("bam", id, listJob);
+          setListJob(
+            listJob.map((dt: any) => {
+              if (dt.id === id) {
+                return { ...dt, bookmarked: true };
+              }
+              return dt;
+            })
+          );
+          // setBookmarked(!bookmarked);
         } else {
-          setOpenModalLogin(true);
+          toast.error(
+            language === 1
+              ? "Lưu bài viết không thành công"
+              : "Save post success",
+            {
+              position: "bottom-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            }
+          );
+          // setOpenModalLogin(true);
         }
       };
 
@@ -296,7 +321,15 @@ const ListJobComponent = (props: Props) => {
               theme: "dark",
             }
           );
-          setBookmarked(!bookmarked);
+          setListJob(
+            listJob.map((dt: any) => {
+              if (dt.id === id) {
+                return { ...dt, bookmarked: false };
+              }
+              return dt;
+            })
+          );
+          // setBookmarked(!bookmarked);
         }
       };
 
@@ -320,9 +353,10 @@ const ListJobComponent = (props: Props) => {
     }
   };
 
-  const handleToggleModal = () => {
-    setOpenModalLogin(false);
-  };
+  // const handleToggleModal = () => {
+  //   setOpenModalLogin(false);
+  // };
+
   useEffect(() => {
     const fetchData = async () => {
       const res = (await locationApi.getAllProvinces(
@@ -462,73 +496,84 @@ const ListJobComponent = (props: Props) => {
             </button>
             <div className="flex-1 overflow-hidden h-full flex items-center w-8">
               {/* {chooseFilter === 0 ? ( */}
-              <ul
-                className={`flex gap-x-2 h-full min-w-fit items-center ${
-                  chooseFilter !== 0 && "hidden"
-                }`}
-                ref={ref_list_slider}
-                onMouseDown={(e: any) => {
-                  e.preventDefault();
-                  handleClickDown(e);
-                }}
-                onMouseUp={(e: any) => {
-                  setCheckClick(true);
-                }}
+              <SkeletonCustom
+                data={dataLocationFilter[0]}
+                className={"w-96 h-9"}
               >
-                {dataLocationFilter.map((dt: any, ikey: any) => {
-                  return (
-                    <li
-                      className={`flex min-w-fit p-2  items-center justify-center bg-gray-200 rounded-2xl cursor-pointer ${
-                        provinceId === dt.id && "!bg-blue-500 !text-white"
-                      }  ${
-                        checkClick ? "hover:bg-blue-500 hover:text-white" : ""
-                      }`}
-                      key={ikey}
-                      onClick={() => {
-                        setProvinceId(dt.id);
-                      }}
-                    >
-                      <h2 className="mr-1 text-sm font-medium pointer-events-none">
-                        {dt.name}
-                      </h2>
-                    </li>
-                  );
-                })}
-              </ul>
+                <ul
+                  className={`flex gap-x-2 h-full min-w-fit items-center ${
+                    chooseFilter !== 0 && "hidden"
+                  }`}
+                  ref={ref_list_slider}
+                  onMouseDown={(e: any) => {
+                    e.preventDefault();
+                    handleClickDown(e);
+                  }}
+                  onMouseUp={(e: any) => {
+                    setCheckClick(true);
+                  }}
+                >
+                  {dataLocationFilter.map((dt: any, ikey: any) => {
+                    return (
+                      <li
+                        className={`flex min-w-fit p-2  items-center justify-center bg-gray-200 rounded-2xl cursor-pointer ${
+                          provinceId === dt.id && "!bg-blue-500 !text-white"
+                        }  ${
+                          checkClick ? "hover:bg-blue-500 hover:text-white" : ""
+                        }`}
+                        key={ikey}
+                        onClick={() => {
+                          setProvinceId(dt.id);
+                        }}
+                      >
+                        <h2 className="mr-1 text-sm font-medium pointer-events-none">
+                          {dt.name}
+                        </h2>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </SkeletonCustom>
+
               {/* ) : ( */}
-              <ul
-                className={`flex gap-x-2 h-full min-w-fit items-center ${
-                  chooseFilter === 0 && "hidden"
-                }`}
-                ref={ref_list_slider2}
-                onMouseDown={(e: any) => {
-                  e.preventDefault();
-                  handleClickDown2(e);
-                }}
-                onMouseUp={(e: any) => {
-                  setCheckClick2(true);
-                }}
-              >
-                {dataListCareer.map((dt: any, ikey: any) => {
-                  return (
-                    <li
-                      className={`flex min-w-fit p-2  items-center justify-center bg-gray-200 rounded-2xl cursor-pointer  ${
-                        careerId === dt.id && "!bg-blue-500 !text-white"
-                      } ${
-                        checkClick2 ? "hover:bg-blue-500 hover:text-white" : ""
-                      }`}
-                      key={ikey}
-                      onClick={() => {
-                        setCareerId(dt.id);
-                      }}
-                    >
-                      <h2 className="mr-1 text-sm font-medium pointer-events-none">
-                        {dt.name}
-                      </h2>
-                    </li>
-                  );
-                })}
-              </ul>
+              <SkeletonCustom data={dataListCareer[0]} className={"w-96 h-9"}>
+                <ul
+                  className={`flex gap-x-2 h-full min-w-fit items-center ${
+                    chooseFilter === 0 && "hidden"
+                  }`}
+                  ref={ref_list_slider2}
+                  onMouseDown={(e: any) => {
+                    e.preventDefault();
+                    handleClickDown2(e);
+                  }}
+                  onMouseUp={(e: any) => {
+                    setCheckClick2(true);
+                  }}
+                >
+                  {dataListCareer.map((dt: any, ikey: any) => {
+                    return (
+                      <li
+                        className={`flex min-w-fit p-2  items-center justify-center bg-gray-200 rounded-2xl cursor-pointer  ${
+                          careerId === dt.id && "!bg-blue-500 !text-white"
+                        } ${
+                          checkClick2
+                            ? "hover:bg-blue-500 hover:text-white"
+                            : ""
+                        }`}
+                        key={ikey}
+                        onClick={() => {
+                          setCareerId(dt.id);
+                        }}
+                      >
+                        <h2 className="mr-1 text-sm font-medium pointer-events-none">
+                          {dt.name}
+                        </h2>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </SkeletonCustom>
+
               {/* )} */}
             </div>
             <button
@@ -545,7 +590,7 @@ const ListJobComponent = (props: Props) => {
             </button>
           </div>
         </div>
-        <SkeletonAll data={listJob}>
+        <SkeletonAll data={listJob} type={"newJob"}>
           <div className="flex justify-center">
             <ul className="inline-flex flex-wrap justify-center list-job gap-5 w-full">
               {listJob &&
@@ -553,7 +598,7 @@ const ListJobComponent = (props: Props) => {
                 listJob.map((item, index) => (
                   <li key={index} className="relative">
                     <Link
-                      href={`/post-detail/${item.id}`}
+                      href={`/post-detail/${item?.id}`}
                       target="_blank"
                       className={`w-[370px] h-fit group gap-x-2  px-4 border-[1px] hover:border-blue-500 transition-all duration-500  hover:bg-blue-50 bg-white hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md  py-6 flex justify-between items-center item-job`}
                     >
@@ -805,11 +850,8 @@ const ListJobComponent = (props: Props) => {
           </button>
         </div>
       </div>
-      <ModalLogin
-        isOpen={openModalLogin}
-        handleToggleModal={handleToggleModal}
-      />
-      <ToastContainer />
+
+      {/* <ToastContainer /> */}
       {openModalApply && (
         <ModalApply
           namePost={postDetail?.title}

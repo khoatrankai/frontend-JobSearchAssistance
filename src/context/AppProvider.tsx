@@ -65,6 +65,10 @@ type ScrollPosition = {
   setSoureImage: any;
   isLoading: any;
   setIsLoading: any;
+  dataDocsCv: any;
+  setDataDocsCv: any;
+  contentAlert: any;
+  setContentAlert: any;
   handlePersistGateLoaded: any;
   scrollTopPosition: any;
 };
@@ -87,8 +91,9 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
   const [selectProfileRecruiter, setSelectProfileRecruiter] = useState<any>(0);
   const [selectItemProfileUser, setSelectItemProfileUser] = useState<any>(1);
   const [handleAlert, setHandleAlert] = useState<any>();
+  const [contentAlert, setContentAlert] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
+  const [dataDocsCv, setDataDocsCv] = useState<any>();
   const [tabAlert, setTabAlert] = useState<boolean>(false);
   const router = useRouter();
 
@@ -100,6 +105,26 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
     console.log(pathname);
     // handleLoadHrefPage();
   }, [pathname]);
+  // setInterval(() => {
+  //   if (dataBgHome === 4) {
+  //     setBgHome(0);
+  //   } else {
+  //     setBgHome(dataBgHome + 1);
+  //   }
+  // }, 5000);
+  const handleTimeBG = () => {
+    if (dataBgHome === 4) {
+      setBgHome(0);
+    } else {
+      setBgHome(dataBgHome + 1);
+    }
+  };
+  useEffect(() => {
+    const timeoutID = setTimeout(handleTimeBG, 4000);
+    return () => {
+      clearTimeout(timeoutID);
+    };
+  }, [dataBgHome]);
   const updateHandleAlert = (handle: any) => {
     setHandleAlert([handle]);
   };
@@ -110,7 +135,7 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
     setIsLoading(!isLoading);
   };
   useEffect(() => {
-    window.addEventListener("scroll", (e) => {
+    const handleScrollFull = () => {
       let currentScrollPosition = window.scrollY || window.pageYOffset;
       setScrollTopPosition(currentScrollPosition);
       if (currentScrollPosition > 24) {
@@ -118,30 +143,37 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
       } else {
         setScrollPosition(false);
       }
-    });
-  }, []);
-  useEffect(() => {
-    setReponsiveMobile(window.innerWidth);
-  }, []);
-  useEffect(() => {
-    setReponsiveMobile(window.innerWidth);
-
-    window.addEventListener("load", (e: any) => {
-      setReponsiveMobile(window.innerWidth);
-    });
-    window.addEventListener("resize", (e: any) => {
-      setReponsiveMobile(window.innerWidth);
-    });
-  }, []);
-
-  useEffect(() => {
-    handleLoadHrefPage();
-    const handlePopstate = (e: any) => {
-      handleLoadHrefPage();
     };
-    window.addEventListener("popstate", handlePopstate);
-    return () => window.removeEventListener("popstate", handlePopstate);
+    window.addEventListener("scroll", handleScrollFull);
+    return () => {
+      window.removeEventListener("scroll", handleScrollFull);
+    };
   }, []);
+  useEffect(() => {
+    setReponsiveMobile(window.innerWidth);
+  }, []);
+  useEffect(() => {
+    const handleResizeFull = () => {
+      setReponsiveMobile(window.innerWidth);
+    };
+    // setReponsiveMobile(window.innerWidth);
+
+    window.addEventListener("load", handleResizeFull);
+    window.addEventListener("resize", handleResizeFull);
+    return () => {
+      window.removeEventListener("load", handleResizeFull);
+      window.removeEventListener("resize", handleResizeFull);
+    };
+  }, []);
+
+  // useEffect(() => {
+  //   handleLoadHrefPage();
+  //   const handlePopstate = (e: any) => {
+  //     handleLoadHrefPage();
+  //   };
+  //   window.addEventListener("popstate", handlePopstate);
+  //   return () => window.removeEventListener("popstate", handlePopstate);
+  // }, []);
   useEffect(() => {}, [dataFilter]);
   return (
     <BrowserRouter>
@@ -183,6 +215,10 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
               setIsLoading,
               handlePersistGateLoaded,
               scrollTopPosition,
+              contentAlert,
+              setContentAlert,
+              dataDocsCv,
+              setDataDocsCv,
             }}
           >
             {children}

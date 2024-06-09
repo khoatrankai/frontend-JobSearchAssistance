@@ -33,7 +33,7 @@ const TimeStamp = () => {
       let year = date.getFullYear();
       let month = (date.getMonth() + 1).toString().padStart(2, '0');
       let day = date.getDate().toString().padStart(2, '0');
-    let fixedDateStr = year + '-' + month + '-' + day;
+    let fixedDateStr =  day.toString()+'/'+month.toString()+'/'+year.toString();
     return fixedDateStr
     }
     const handleDecodingDescription = (data:any) => {

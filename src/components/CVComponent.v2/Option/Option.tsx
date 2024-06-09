@@ -21,6 +21,9 @@ import { FaRunning } from "react-icons/fa";
 import { HiDocumentCheck, HiDocumentPlus } from "react-icons/hi2";
 import { PiProjectorScreenChartFill, PiStudentFill } from "react-icons/pi";
 import { GiSkills } from "react-icons/gi";
+import SkeletonAll from "@/util/SkeletonAll";
+import { useSelector } from "react-redux";
+import cvsApi from "@/api/cvs";
 
 type Props = { id: any; funcLibrary: any };
 
@@ -57,8 +60,10 @@ const Option = (props: Props) => {
     BGLayout,
     templateId,
     setTemplateId,
+    cvID,
   } = funcLibrary;
   const [func, setFunc] = useState<any>(1);
+  const profile = useSelector((state: any) => state.profile.profile);
   const [typeTemplate, setTypeTemplate] = useState<any>([
     { id: 0 },
     { id: 1 },
@@ -129,7 +134,29 @@ const Option = (props: Props) => {
     }
     return false;
   };
+  useEffect(() => {
+    console.log(profile);
+  }, [profile]);
+  const [listJobSuggest, setListJobSuggest] = useState<any>([]);
+  useEffect(() => {
+    console.log(id, profile);
+    const fetchData = async () => {
+      const dataNew = await cvsApi.cvsIdPost(id, profile.accountId);
+      console.log(dataNew);
+      if (dataNew) {
+        setListJobSuggest(dataNew.data);
+      }
+    };
 
+    if (Object.keys(profile).length > 0) {
+      const countId = profile.profilesCvs.filter((dt: any) => {
+        return dt.cvIndex == id;
+      });
+      if (countId.length > 0) {
+        fetchData();
+      }
+    }
+  }, [id, profile]);
   return (
     <>
       <div className="fixed flex flex-col left-2 top-52 gap-y-4 h-full z-[10] w-24">
@@ -416,13 +443,147 @@ const Option = (props: Props) => {
             Việc làm gợi ý
           </button>
           <div
-            className={`absolute bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] top-0 left-full translate-x-4 rounded-lg w-80 h-full p-2 transition-all ${
+            className={`absolute bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] top-0 left-full translate-x-4 rounded-lg w-80 h-fit p-2 transition-all ${
               func === 2 ? "" : "hidden"
             }`}
           >
             <h1 className="font-medium text-xl mb-10">
               Việc làm phù hợp với CV
             </h1>
+            <SkeletonAll data={listJobSuggest} type={4}>
+              <div className="flex flex-col gap-2 h-96 overflow-y-scroll">
+                {listJobSuggest.map((dt: any) => {
+                  return (
+                    <>
+                      <div className="w-full p-2 flex gap-x-2 items-center cursor-pointer border-[1px] rounded-md">
+                        <Image
+                          src={dt.image || "/goapply.png"}
+                          alt=""
+                          width={500}
+                          height={500}
+                          className="h-16 w-16 rounded-lg"
+                        />
+                        <div className="flex flex-col h-full justify-around">
+                          <p className="font-semibold text-black text-sm">
+                            {dt.title}
+                          </p>
+                          <p className="font-medium text-xs text-gray-400">
+                            {dt.companyName}
+                          </p>
+                          <p className="font-medium text-xs text-gray-400">
+                            {dt.salaryMax}VNĐ
+                          </p>
+                        </div>
+                      </div>
+                    </>
+                  );
+                })}
+                {listJobSuggest.map((dt: any) => {
+                  return (
+                    <>
+                      <div className="w-full p-2 flex gap-x-2 items-center cursor-pointer border-[1px] rounded-md">
+                        <Image
+                          src={dt.image || "/goapply.png"}
+                          alt=""
+                          width={500}
+                          height={500}
+                          className="h-16 w-16 rounded-lg"
+                        />
+                        <div className="flex flex-col h-full justify-around">
+                          <p className="font-semibold text-black text-sm">
+                            {dt.title}
+                          </p>
+                          <p className="font-medium text-xs text-gray-400">
+                            {dt.companyName}
+                          </p>
+                          <p className="font-medium text-xs text-gray-400">
+                            {dt.salaryMax}VNĐ
+                          </p>
+                        </div>
+                      </div>
+                    </>
+                  );
+                })}
+                {listJobSuggest.map((dt: any) => {
+                  return (
+                    <>
+                      <div className="w-full p-2 flex gap-x-2 items-center cursor-pointer border-[1px] rounded-md">
+                        <Image
+                          src={dt.image || "/goapply.png"}
+                          alt=""
+                          width={500}
+                          height={500}
+                          className="h-16 w-16 rounded-lg"
+                        />
+                        <div className="flex flex-col h-full justify-around">
+                          <p className="font-semibold text-black text-sm">
+                            {dt.title}
+                          </p>
+                          <p className="font-medium text-xs text-gray-400">
+                            {dt.companyName}
+                          </p>
+                          <p className="font-medium text-xs text-gray-400">
+                            {dt.salaryMax}VNĐ
+                          </p>
+                        </div>
+                      </div>
+                    </>
+                  );
+                })}
+                {listJobSuggest.map((dt: any) => {
+                  return (
+                    <>
+                      <div className="w-full p-2 flex gap-x-2 items-center cursor-pointer border-[1px] rounded-md">
+                        <Image
+                          src={dt.image || "/goapply.png"}
+                          alt=""
+                          width={500}
+                          height={500}
+                          className="h-16 w-16 rounded-lg"
+                        />
+                        <div className="flex flex-col h-full justify-around">
+                          <p className="font-semibold text-black text-sm">
+                            {dt.title}
+                          </p>
+                          <p className="font-medium text-xs text-gray-400">
+                            {dt.companyName}
+                          </p>
+                          <p className="font-medium text-xs text-gray-400">
+                            {dt.salaryMax}VNĐ
+                          </p>
+                        </div>
+                      </div>
+                    </>
+                  );
+                })}
+                {listJobSuggest.map((dt: any) => {
+                  return (
+                    <>
+                      <div className="w-full p-2 flex gap-x-2 items-center cursor-pointer border-[1px] rounded-md">
+                        <Image
+                          src={dt.image || "/goapply.png"}
+                          alt=""
+                          width={500}
+                          height={500}
+                          className="h-16 w-16 rounded-lg"
+                        />
+                        <div className="flex flex-col h-full justify-around">
+                          <p className="font-semibold text-black text-sm">
+                            {dt.title}
+                          </p>
+                          <p className="font-medium text-xs text-gray-400">
+                            {dt.companyName}
+                          </p>
+                          <p className="font-medium text-xs text-gray-400">
+                            {dt.salaryMax}VNĐ
+                          </p>
+                        </div>
+                      </div>
+                    </>
+                  );
+                })}
+              </div>
+            </SkeletonAll>
           </div>
         </div>
         <div

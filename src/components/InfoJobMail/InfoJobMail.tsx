@@ -10,6 +10,8 @@ import { Select } from "antd";
 import { tabClasses } from "@mui/material";
 import { useSrollContext } from "@/context/AppProvider";
 import postsApi from "@/api/posts/postsApi";
+import SkeletonAll from "@/util/SkeletonAll";
+import SkeletonCustom from "@/util/FormSkeleton/SkeletonCustom";
 
 type Props = {};
 
@@ -17,7 +19,7 @@ const InfoJobMail = (props: Props) => {
   const { handleShortTextHome } = ShortText();
   const { reponsiveMobile } = useSrollContext();
   const [selectSalary, setSelectSalary] = useState<any>(0);
-  const [dataSalaryTop, setSalaryTop] = useState<any>([]);
+  const [dataSalaryTop, setSalaryTop] = useState<any>();
   const [idTopCategory, setTopCategory] = useState<any>(-1);
   const [listJob, setListJob] = useState<any>([]);
   const [dataJobApplyTop, setDataJobApplyTop] = useState<any>([
@@ -127,16 +129,7 @@ const InfoJobMail = (props: Props) => {
   }, []);
   useEffect(() => {
     const fetchData = async () => {
-      const res = (await postsApi.getPostNewestV3(
-        null,
-        Number(idTopCategory) ? Number(idTopCategory) : null,
-        null,
-        null,
-        3,
-        0,
-        "vi",
-        0
-      )) as any;
+      const res = (await postsApi.getPostHot()) as any;
       console.log(res);
 
       if (res && res.status === 200) {
@@ -156,10 +149,10 @@ const InfoJobMail = (props: Props) => {
         return {
           ...dt,
           label:
-            dataSalaryTop.resultWithMinMax?.[selectSalary].data?.[ikey]
+            dataSalaryTop?.resultWithMinMax?.[selectSalary].data?.[ikey]
               .parent_categories_name,
           value:
-            dataSalaryTop.resultWithMinMax?.[selectSalary].data?.[ikey]
+            dataSalaryTop?.resultWithMinMax?.[selectSalary].data?.[ikey]
               .total_post,
         };
       })
@@ -198,10 +191,13 @@ const InfoJobMail = (props: Props) => {
                 />
               </div>
               <div className="flex-1 flex flex-col p-4 gap-y-2 w-full">
-                {listJob.map((dt: any) => {
-                  return (
-                    <>
-                      <div className="basis-1/3 w-full p-2 flex gap-x-2 items-center cursor-pointer">
+                <SkeletonAll data={listJob} type={4}>
+                  {listJob.map((dt: any, index: any) => {
+                    return (
+                      <div
+                        className="basis-1/3 w-full p-2 flex gap-x-2 items-center cursor-pointer"
+                        key={index}
+                      >
                         <Image
                           src={dt.image}
                           alt=""
@@ -221,9 +217,9 @@ const InfoJobMail = (props: Props) => {
                           </p>
                         </div>
                       </div>
-                    </>
-                  );
-                })}
+                    );
+                  })}
+                </SkeletonAll>
               </div>
             </div>
           </div>
@@ -238,27 +234,48 @@ const InfoJobMail = (props: Props) => {
               }`}
             >
               <div className="bg-black/30 w-full min-h-[120px] rounded-xl pl-4 flex flex-col justify-center text-white">
-                <p className="font-bold text-3xl">
-                  ${ChangeNumber(dataJobApplyTop.resultTotal?.[0].salaryMax)}
-                </p>
+                {
+                  <SkeletonCustom
+                    data={dataJobApplyTop.resultTotal?.[0].salaryMax}
+                    className={"font-bold text-3xl w-16"}
+                  >
+                    <p className="font-bold text-3xl">
+                      $
+                      {ChangeNumber(dataJobApplyTop.resultTotal?.[0].salaryMax)}
+                    </p>
+                  </SkeletonCustom>
+                }
+
                 <p className="text-sm">Mức lương cao nhất</p>
               </div>
               <div className="bg-black/30 w-full min-h-[120px] rounded-xl pl-4 flex flex-col justify-center text-white">
-                <p className="font-bold text-3xl">
-                  {ChangeNumber(
-                    dataJobApplyTop.resultTotal?.[0].totalPost,
-                    false
-                  )}
-                </p>
+                <SkeletonCustom
+                  data={dataJobApplyTop.resultTotal?.[0].totalPost}
+                  className={"font-bold text-3xl w-16"}
+                >
+                  <p className="font-bold text-3xl">
+                    {ChangeNumber(
+                      dataJobApplyTop.resultTotal?.[0].totalPost,
+                      false
+                    )}
+                  </p>
+                </SkeletonCustom>
+
                 <p className="text-sm">Việc làm</p>
               </div>
               <div className="bg-black/30 w-full min-h-[120px] rounded-xl pl-4 flex flex-col justify-center text-white">
-                <p className="font-bold text-3xl">
-                  {ChangeNumber(
-                    dataJobApplyTop.resultTotal?.[0].totalParentCategory,
-                    false
-                  )}
-                </p>
+                <SkeletonCustom
+                  data={dataJobApplyTop.resultTotal?.[0].totalParentCategory}
+                  className={"font-bold text-3xl w-16"}
+                >
+                  <p className="font-bold text-3xl">
+                    {ChangeNumber(
+                      dataJobApplyTop.resultTotal?.[0].totalParentCategory,
+                      false
+                    )}
+                  </p>
+                </SkeletonCustom>
+
                 <p className="text-sm">Ngành nghề</p>
               </div>
             </div>
@@ -271,165 +288,224 @@ const InfoJobMail = (props: Props) => {
                 <p className="text-white font-bold">Số lượng ứng tuyển</p>
                 <div className="flex flex-col gap-y-6 justify-end h-full">
                   <div className="flex flex-col">
-                    <div className="w-full flex gap-x-2 items-end">
-                      <div className="w-full relative group">
-                        <div className="h-1 bg-green-400 w-full"></div>
-                        <div
-                          className=" bg-green-400/30 w-full"
-                          style={{
-                            height: `${
-                              (160 * dataJobApplyTop.resultTop5?.[0].percent) /
-                              100
-                            }px`,
-                          }}
-                        ></div>
-                        <p className="absolute bottom-full -translate-y-1 inset-x-0 flex justify-center text-xs font-semibold text-white transition-all duration-500 group-hover:text-green-400">
-                          {dataJobApplyTop.resultTop5?.[0]?.total_application}
-                        </p>
-                      </div>
-                      <div className="w-full relative group">
-                        <div className="h-1 bg-blue-400 w-full"></div>
-                        <div
-                          className=" bg-blue-400/30 w-full"
-                          style={{
-                            height: `${
-                              (160 * dataJobApplyTop.resultTop5?.[1].percent) /
-                              100
-                            }px`,
-                          }}
-                        ></div>
-                        <p className="absolute bottom-full -translate-y-1 inset-x-0 flex justify-center text-xs font-semibold text-white transition-all duration-500 group-hover:text-blue-400">
-                          {dataJobApplyTop.resultTop5?.[1]?.total_application}
-                        </p>
-                      </div>
-                      <div className="w-full relative group">
-                        <div className="h-1 bg-violet-400 w-full"></div>
-                        <div
-                          className=" bg-violet-400/30 w-full"
-                          style={{
-                            height: `${
-                              (160 * dataJobApplyTop.resultTop5?.[2].percent) /
-                              100
-                            }px`,
-                          }}
-                        ></div>
-                        <p className="absolute bottom-full -translate-y-1 inset-x-0 flex justify-center text-xs font-semibold text-white transition-all duration-500 group-hover:text-violet-400">
-                          {dataJobApplyTop.resultTop5?.[2]?.total_application}
-                        </p>
-                      </div>
-                      <div className="w-full relative group">
-                        <div className="h-1 bg-pink-400 w-full"></div>
+                    <SkeletonAll data={dataJobApplyTop.resultTop5} type={5}>
+                      <div className="w-full flex gap-x-2 items-end">
+                        <div className="w-full relative group">
+                          <div className="h-1 bg-green-400 w-full"></div>
+                          <div
+                            className=" bg-green-400/30 w-full"
+                            style={{
+                              height: `${
+                                (160 *
+                                  dataJobApplyTop.resultTop5?.[0].percent) /
+                                100
+                              }px`,
+                            }}
+                          ></div>
+                          <p className="absolute bottom-full -translate-y-1 inset-x-0 flex justify-center text-xs font-semibold text-white transition-all duration-500 group-hover:text-green-400">
+                            {dataJobApplyTop.resultTop5?.[0]?.total_application}
+                          </p>
+                        </div>
+                        <div className="w-full relative group">
+                          <div className="h-1 bg-blue-400 w-full"></div>
+                          <div
+                            className=" bg-blue-400/30 w-full"
+                            style={{
+                              height: `${
+                                (160 *
+                                  dataJobApplyTop.resultTop5?.[1].percent) /
+                                100
+                              }px`,
+                            }}
+                          ></div>
+                          <p className="absolute bottom-full -translate-y-1 inset-x-0 flex justify-center text-xs font-semibold text-white transition-all duration-500 group-hover:text-blue-400">
+                            {dataJobApplyTop.resultTop5?.[1]?.total_application}
+                          </p>
+                        </div>
+                        <div className="w-full relative group">
+                          <div className="h-1 bg-violet-400 w-full"></div>
+                          <div
+                            className=" bg-violet-400/30 w-full"
+                            style={{
+                              height: `${
+                                (160 *
+                                  dataJobApplyTop.resultTop5?.[2].percent) /
+                                100
+                              }px`,
+                            }}
+                          ></div>
+                          <p className="absolute bottom-full -translate-y-1 inset-x-0 flex justify-center text-xs font-semibold text-white transition-all duration-500 group-hover:text-violet-400">
+                            {dataJobApplyTop.resultTop5?.[2]?.total_application}
+                          </p>
+                        </div>
+                        <div className="w-full relative group">
+                          <div className="h-1 bg-pink-400 w-full"></div>
 
-                        <div
-                          className=" bg-pink-400/30 w-full"
-                          style={{
-                            height: `${
-                              (160 * dataJobApplyTop.resultTop5?.[3].percent) /
-                              100
-                            }px`,
-                          }}
-                        ></div>
-                        <p className="absolute bottom-full -translate-y-1 inset-x-0 flex justify-center text-xs font-semibold text-white transition-all duration-500 group-hover:text-pink-400">
-                          {dataJobApplyTop.resultTop5?.[3]?.total_application}
-                        </p>
-                        <div className=" bg-pink-400/30 w-full"></div>
+                          <div
+                            className=" bg-pink-400/30 w-full"
+                            style={{
+                              height: `${
+                                (160 *
+                                  dataJobApplyTop.resultTop5?.[3].percent) /
+                                100
+                              }px`,
+                            }}
+                          ></div>
+                          <p className="absolute bottom-full -translate-y-1 inset-x-0 flex justify-center text-xs font-semibold text-white transition-all duration-500 group-hover:text-pink-400">
+                            {dataJobApplyTop.resultTop5?.[3]?.total_application}
+                          </p>
+                          <div className=" bg-pink-400/30 w-full"></div>
+                        </div>
+                        <div className="w-full relative group">
+                          <div className="h-1 bg-orange-400 w-full"></div>
+                          <div
+                            className=" bg-orange-400/30 w-full"
+                            style={{
+                              height: `${
+                                (160 *
+                                  dataJobApplyTop.resultTop5?.[4].percent) /
+                                100
+                              }px`,
+                            }}
+                          ></div>
+                          <p className="absolute bottom-full -translate-y-1 inset-x-0 flex justify-center text-xs font-semibold text-white transition-all duration-500 group-hover:text-orange-400">
+                            {dataJobApplyTop.resultTop5?.[4]?.total_application}
+                          </p>
+                        </div>
+                        <div className="w-full relative group">
+                          <div className="h-1 bg-yellow-400 w-full"></div>
+                          <div
+                            className="h-4 bg-yellow-400/30 w-full"
+                            style={{
+                              height: `${
+                                (160 *
+                                  dataJobApplyTop.resultTop5?.[5].percent) /
+                                100
+                              }px`,
+                            }}
+                          ></div>
+                          <p className="absolute bottom-full -translate-y-1 inset-x-0 flex justify-center text-xs font-semibold text-white transition-all duration-500 group-hover:text-yellow-400">
+                            {dataJobApplyTop.resultTop5?.[5]?.total_application}
+                          </p>
+                        </div>
                       </div>
-                      <div className="w-full relative group">
-                        <div className="h-1 bg-orange-400 w-full"></div>
-                        <div
-                          className=" bg-orange-400/30 w-full"
-                          style={{
-                            height: `${
-                              (160 * dataJobApplyTop.resultTop5?.[4].percent) /
-                              100
-                            }px`,
-                          }}
-                        ></div>
-                        <p className="absolute bottom-full -translate-y-1 inset-x-0 flex justify-center text-xs font-semibold text-white transition-all duration-500 group-hover:text-orange-400">
-                          {dataJobApplyTop.resultTop5?.[4]?.total_application}
-                        </p>
-                      </div>
-                      <div className="w-full relative group">
-                        <div className="h-1 bg-yellow-400 w-full"></div>
-                        <div
-                          className="h-4 bg-yellow-400/30 w-full"
-                          style={{
-                            height: `${
-                              (160 * dataJobApplyTop.resultTop5?.[5].percent) /
-                              100
-                            }px`,
-                          }}
-                        ></div>
-                        <p className="absolute bottom-full -translate-y-1 inset-x-0 flex justify-center text-xs font-semibold text-white transition-all duration-500 group-hover:text-yellow-400">
-                          {dataJobApplyTop.resultTop5?.[5]?.total_application}
-                        </p>
-                      </div>
-                    </div>
+                    </SkeletonAll>
                   </div>
                   <div className="flex flex-wrap justify-between">
                     <div className="flex gap-x-1 items-center basis-1/3">
-                      <div className="h-2 w-2 rounded-full bg-green-400"></div>
-                      <p className="text-xs text-white font-medium">
-                        {handleShortTextHome(
+                      <SkeletonCustom
+                        data={
                           dataJobApplyTop.resultTop5?.[0]
-                            ?.parent_categories_name,
-                          10
-                        )}
-                      </p>
+                            ?.parent_categories_name
+                        }
+                        className={"text-xs text-white font-medium w-20"}
+                      >
+                        <div className="h-2 w-2 rounded-full bg-green-400"></div>
+
+                        <p className="text-xs text-white font-medium">
+                          {handleShortTextHome(
+                            dataJobApplyTop.resultTop5?.[0]
+                              ?.parent_categories_name,
+                            10
+                          )}
+                        </p>
+                      </SkeletonCustom>
                     </div>
                     <div className="flex gap-x-1 items-center  basis-1/3">
-                      <div className="h-2 w-2 rounded-full bg-blue-400"></div>
-                      <p className="text-xs text-white font-medium">
-                        {" "}
-                        {handleShortTextHome(
+                      <SkeletonCustom
+                        data={
                           dataJobApplyTop.resultTop5?.[1]
-                            ?.parent_categories_name,
-                          10
-                        )}
-                      </p>
+                            ?.parent_categories_name
+                        }
+                        className={"text-xs text-white font-medium w-20"}
+                      >
+                        <div className="h-2 w-2 rounded-full bg-blue-400"></div>
+
+                        <p className="text-xs text-white font-medium">
+                          {handleShortTextHome(
+                            dataJobApplyTop.resultTop5?.[1]
+                              ?.parent_categories_name,
+                            10
+                          )}
+                        </p>
+                      </SkeletonCustom>
                     </div>
                     <div className="flex gap-x-1 items-center  basis-1/3">
-                      <div className="h-2 w-2 rounded-full bg-violet-400"></div>
-                      <p className="text-xs text-white font-medium">
-                        {handleShortTextHome(
+                      <SkeletonCustom
+                        data={
                           dataJobApplyTop.resultTop5?.[2]
-                            ?.parent_categories_name,
-                          10
-                        )}
-                      </p>
+                            ?.parent_categories_name
+                        }
+                        className={"text-xs text-white font-medium w-20"}
+                      >
+                        <div className="h-2 w-2 rounded-full bg-violet-400"></div>
+
+                        <p className="text-xs text-white font-medium">
+                          {handleShortTextHome(
+                            dataJobApplyTop.resultTop5?.[2]
+                              ?.parent_categories_name,
+                            10
+                          )}
+                        </p>
+                      </SkeletonCustom>
                     </div>
                     <div className="flex gap-x-1 items-center  basis-1/3">
-                      <div className="h-2 w-2 rounded-full bg-pink-400"></div>
-                      <p className="text-xs text-white font-medium">
-                        {" "}
-                        {handleShortTextHome(
+                      <SkeletonCustom
+                        data={
                           dataJobApplyTop.resultTop5?.[3]
-                            ?.parent_categories_name,
-                          10
-                        )}
-                      </p>
+                            ?.parent_categories_name
+                        }
+                        className={"text-xs text-white font-medium w-20"}
+                      >
+                        <div className="h-2 w-2 rounded-full bg-pink-400"></div>
+
+                        <p className="text-xs text-white font-medium">
+                          {handleShortTextHome(
+                            dataJobApplyTop.resultTop5?.[3]
+                              ?.parent_categories_name,
+                            10
+                          )}
+                        </p>
+                      </SkeletonCustom>
                     </div>
                     <div className="flex gap-x-1 items-center  basis-1/3">
-                      <div className="h-2 w-2 rounded-full bg-orange-400"></div>
-                      <p className="text-xs text-white font-medium">
-                        {" "}
-                        {handleShortTextHome(
+                      <SkeletonCustom
+                        data={
                           dataJobApplyTop.resultTop5?.[4]
-                            ?.parent_categories_name,
-                          10
-                        )}
-                      </p>
+                            ?.parent_categories_name
+                        }
+                        className={"text-xs text-white font-medium w-20"}
+                      >
+                        <div className="h-2 w-2 rounded-full bg-orange-400"></div>
+
+                        <p className="text-xs text-white font-medium">
+                          {handleShortTextHome(
+                            dataJobApplyTop.resultTop5?.[4]
+                              ?.parent_categories_name,
+                            10
+                          )}
+                        </p>
+                      </SkeletonCustom>
                     </div>
 
                     <div className="flex gap-x-1 items-center  basis-1/3">
-                      <div className="h-2 w-2 rounded-full bg-yellow-400"></div>
-                      <p className="text-xs text-white font-medium">
-                        {handleShortTextHome(
+                      <SkeletonCustom
+                        data={
                           dataJobApplyTop.resultTop5?.[5]
-                            ?.parent_categories_name,
-                          10
-                        )}
-                      </p>
+                            ?.parent_categories_name
+                        }
+                        className={"text-xs text-white font-medium w-20"}
+                      >
+                        <div className="h-2 w-2 rounded-full bg-yellow-400"></div>
+
+                        <p className="text-xs text-white font-medium">
+                          {handleShortTextHome(
+                            dataJobApplyTop.resultTop5?.[5]
+                              ?.parent_categories_name,
+                            10
+                          )}
+                        </p>
+                      </SkeletonCustom>
                     </div>
                   </div>
                 </div>
@@ -459,26 +535,32 @@ const InfoJobMail = (props: Props) => {
                   </Select>
                 </div>
                 <div className="flex justify-center items-center relative">
-                  <PieChart
-                    slotProps={{
-                      legend: { hidden: true },
-                    }}
-                    series={[
-                      {
-                        data: dataSalaryChart,
-                        highlightScope: {
-                          faded: "global",
-                          highlighted: "item",
+                  <SkeletonCustom
+                    data={dataSalaryTop}
+                    className={"w-48 h-48 rounded-full"}
+                  >
+                    <PieChart
+                      slotProps={{
+                        legend: { hidden: true },
+                      }}
+                      series={[
+                        {
+                          data: dataSalaryChart,
+                          highlightScope: {
+                            faded: "global",
+                            highlighted: "item",
+                          },
+                          faded: {
+                            innerRadius: 30,
+                            additionalRadius: -30,
+                            color: "gray",
+                          },
                         },
-                        faded: {
-                          innerRadius: 30,
-                          additionalRadius: -30,
-                          color: "gray",
-                        },
-                      },
-                    ]}
-                    height={200}
-                  />
+                      ]}
+                      height={200}
+                    />
+                  </SkeletonCustom>
+
                   <div className="absolute inset-y-0 right-0 flex items-center">
                     <div className="flex flex-col ">
                       {dataSalaryChart.map((dt: any, index: any) => {
@@ -487,13 +569,15 @@ const InfoJobMail = (props: Props) => {
                             className="flex gap-x-1 items-center"
                             key={index}
                           >
-                            <div
-                              className="h-2 w-2 rounded-full "
-                              style={{ backgroundColor: dt.color }}
-                            ></div>
-                            <p className="text-xs text-white font-medium">
-                              {handleShortTextHome(dt.label, 12)}
-                            </p>
+                            <SkeletonCustom data={dt.label} className={"w-16"}>
+                              <div
+                                className="h-2 w-2 rounded-full "
+                                style={{ backgroundColor: dt.color }}
+                              ></div>
+                              <p className="text-xs text-white font-medium">
+                                {handleShortTextHome(dt.label, 12)}
+                              </p>
+                            </SkeletonCustom>
                           </div>
                         );
                       })}

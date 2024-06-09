@@ -9,7 +9,7 @@ import { RootState } from "@/redux";
 import { fetchProfile } from "@/redux/reducer/profileReducer/profileSlice";
 import { useSrollContext } from "@/context/AppProvider";
 import { AiFillDashboard } from "react-icons/ai";
-import { MdEditDocument } from "react-icons/md";
+import { MdEditDocument, MdOutlineManageHistory } from "react-icons/md";
 import { FaBuilding } from "react-icons/fa";
 import { MdWork } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
@@ -29,6 +29,7 @@ import { FaListCheck } from "react-icons/fa6";
 import { RiMoneyDollarCircleFill } from "react-icons/ri";
 import ListPostProfile from "@/components/ProfileComponent/RecruiterProfile/ListPostProfile/ListPostProfile";
 import RechargePrice from "@/components/ProfileComponent/RecruiterProfile/RechargePrice/RechargePrice";
+import PackageService from "@/components/ProfileComponent/RecruiterProfile/PackageService/PackageService";
 
 type Props = {};
 
@@ -321,6 +322,34 @@ const page = (props: Props) => {
                   setMenuProfile(false);
                 }}
               >
+                <MdOutlineManageHistory />
+                <p
+                  className={`${
+                    reponsiveMobile < 1152
+                      ? "absolute left-full text-white translate-x-5 text-nowrap"
+                      : ""
+                  }   `}
+                >
+                  Dịch vụ
+                </p>
+              </div>
+              <div
+                className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
+                  selectionMenu === 8
+                    ? "border-blue-500 bg-blue-200"
+                    : "bg-white"
+                } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
+                  reponsiveMobile < 1152
+                    ? `justify-center ${
+                        menuProfile ? "" : "-top-20 opacity-0 -z-10"
+                      }`
+                    : "pl-6 hover:text-white"
+                }`}
+                onClick={() => {
+                  setSelectionMenu(8);
+                  setMenuProfile(false);
+                }}
+              >
                 <IoMdSettings />
                 <p
                   className={`${
@@ -353,7 +382,9 @@ const page = (props: Props) => {
             {selectionMenu === 4 && <PotentialCandidate />}
             {selectionMenu === 5 && <ListPostProfile />}
             {selectionMenu === 6 && <RechargePrice />}
-            {selectionMenu === 7 && <SettingProfile />}
+            {selectionMenu === 7 && <PackageService />}
+
+            {selectionMenu === 8 && <SettingProfile />}
           </div>
         </div>
         {menuProfile && (

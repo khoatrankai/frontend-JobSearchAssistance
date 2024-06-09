@@ -16,6 +16,8 @@ import { usePathname } from "next/navigation";
 import AlertOne from "@/util/Alert/AlertOne";
 import ShowImage from "@/util/ShowImage/ShowImage";
 import ChatAIComponent from "@/components/ChatAIComponent/ChatAIComponent";
+import ShowConfirm from "@/util/ShowConfirm/ShowConfirm";
+import { ToastContainer } from "react-toastify";
 
 // export const metadata = {
 //   title: "Create Next App",
@@ -76,6 +78,7 @@ export default function RootLayout({
             ""
           )}
           <AlertOne />
+          <ShowConfirm />
           <ShowImage />
           {pathname.split("/").length <= 3
             ? !allowedPath.includes(pathname) &&
@@ -83,6 +86,7 @@ export default function RootLayout({
             : !(urlCustom.trim() === "/candidate/reset-password") && (
                 <FooterComponent />
               )}
+          <ToastContainer />
         </ScrollContext>
       </body>
     </html>

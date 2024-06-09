@@ -198,7 +198,7 @@ const AllBlogComponent = (props: Props) => {
             ))}
         </ul>
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };
