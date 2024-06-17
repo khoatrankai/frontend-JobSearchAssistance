@@ -20,7 +20,7 @@ const CheckRoleRecruiter = () => {
 
     const router = useRouter();
     useEffect(() => {       
-  console.log(accessToken)
+  //console.log(accessToken)
        
       if (!accessToken) {
         router.push("/recruiter/login");

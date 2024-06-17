@@ -40,6 +40,9 @@ const Home = (props: Props) => {
     {
       image: "/bgvpbank.jpg",
     },
+    {
+      image: "/bgvcb.jpg",
+    },
   ]);
 
   useEffect(() => {
@@ -53,6 +56,9 @@ const Home = (props: Props) => {
       ]);
     }
   }, [refJobHot, refJobNew, refJobTopic, setPositionScrollJob]);
+  useEffect(() => {
+    console.log("vao page");
+  }, []);
   return (
     <>
       <div className="flex flex-col items-center">
@@ -68,12 +74,12 @@ const Home = (props: Props) => {
                   className="absolute inset-0 z-10 bg-black"
                   style={{ opacity: 0.4 }}
                 ></div>
-                <img
+                <Image
                   className={`w-full h-full object-fill transition-all  duration-700`}
                   alt=""
                   src={dt.image}
-                  // height={5000}
-                  // width={dataBgHome === index ? 5000 : 5000}
+                  height={5000}
+                  width={5000}
                 />
               </div>
             );
@@ -91,16 +97,10 @@ const Home = (props: Props) => {
           </div>
         </BannerNewComponent>
 
-        {/* <BannerComponent /> */}
-        {/* <div ref={refCompanyHot} className="w-full">
-            <AllCompanyComponent />
-          </div> */}
-
         <div className="flex flex-col w-full z-40">
           <div ref={refJobHot}>
             <HotJobComponent />
           </div>
-          {/* <AllCompanyComponent /> */}
           <InfoJobMail />
           <TopAchivementComponent />
           <div ref={refJobNew}>

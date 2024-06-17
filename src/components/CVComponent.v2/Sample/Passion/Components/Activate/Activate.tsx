@@ -23,7 +23,7 @@ const Activate = (props: Props) => {
     dataForm,
   } = funcLibrary;
   useEffect(() => {
-    console.log(data);
+    //console.log(data);
   }, [data]);
   return (
     <>

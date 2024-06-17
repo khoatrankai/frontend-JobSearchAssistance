@@ -76,7 +76,7 @@ const SuggestJobComponent = (props: Props) => {
               theme: "dark",
             }
           );
-          // console.log("bam", id, listJob);
+          // //console.log("bam", id, listJob);
           setListJob(
             listJob.map((dt: any) => {
               if (dt.id === id) {

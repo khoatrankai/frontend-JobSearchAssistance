@@ -61,7 +61,7 @@ const ListUserChat: React.FC<IOpenListChat> = (props) => {
         });
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -79,7 +79,7 @@ const ListUserChat: React.FC<IOpenListChat> = (props) => {
         setStateUserChat(result?.data?.data);
       }
     } catch (error) {
-      console.log("error", error);
+      //console.log("error", error);
     }
   };
 

@@ -74,7 +74,7 @@ const ToolBar = (props: Props) => {
   // useEffect(() => {
   //   if (urlSave !== "") {
   //     usePDFJS(async (pdfjs) => {
-  //       console.log(pdfjs);
+  //       //console.log(pdfjs);
   //     });
   //   }
   // }, [urlSave]);
@@ -126,6 +126,7 @@ const ToolBar = (props: Props) => {
                           ...backNext,
                           back: backNext,
                           present: {
+                            ...backNext.present,
                             dataLoad: backNext.present.dataLoad,
                             dataForm: { ...dataForm, indexTopic: index },
                           },
@@ -191,7 +192,7 @@ const ToolBar = (props: Props) => {
               handleResetActive();
 
               handleBtnSave(handleSavePdf);
-              // console.log("Bam");
+              // //console.log("Bam");
               // handleBam();
             }}
           >

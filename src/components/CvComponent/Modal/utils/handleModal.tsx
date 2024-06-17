@@ -217,10 +217,10 @@ const handleModal = (props: Props) => {
   }, [dataLoad]);
   useEffect(() => {
     const handleBlurTab = (e: any) => {
-      // console.log(refPdf.current, e.target);
+      // //console.log(refPdf.current, e.target);
 
       if (refPdf.current && !refPdf.current.contains(e.target)) {
-        // console.log(refPdf.current, e.target.parentElement);
+        // //console.log(refPdf.current, e.target.parentElement);
         setPositionFocus({ type: -1, index: -1 });
       }
     };

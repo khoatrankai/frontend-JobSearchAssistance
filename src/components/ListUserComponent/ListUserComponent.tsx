@@ -11,7 +11,7 @@ const ListUserComponent = (props: Props) => {
     try {
       const result = await messageApi.getUserChated("vi");
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 

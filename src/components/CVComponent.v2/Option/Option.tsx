@@ -61,6 +61,7 @@ const Option = (props: Props) => {
     templateId,
     setTemplateId,
     cvID,
+    handleChangeTemplate,
   } = funcLibrary;
   const [func, setFunc] = useState<any>(1);
   const profile = useSelector((state: any) => state.profile.profile);
@@ -124,7 +125,7 @@ const Option = (props: Props) => {
     },
   ]);
   const handleCheckType = (data: any) => {
-    // console.log(dataLoad);
+    // //console.log(dataLoad);
     if (data === "info_more") return false;
     const checkData = dataLoad.filter((dt: any) => {
       return dt.type === data;
@@ -135,14 +136,14 @@ const Option = (props: Props) => {
     return false;
   };
   useEffect(() => {
-    console.log(profile);
+    //console.log(profile);
   }, [profile]);
   const [listJobSuggest, setListJobSuggest] = useState<any>([]);
   useEffect(() => {
-    console.log(id, profile);
+    //console.log(id, profile);
     const fetchData = async () => {
       const dataNew = await cvsApi.cvsIdPost(id, profile.accountId);
-      console.log(dataNew);
+      //console.log(dataNew);
       if (dataNew) {
         setListJobSuggest(dataNew.data);
       }
@@ -199,7 +200,7 @@ const Option = (props: Props) => {
                     }`}
                     onClick={(e: any) => {
                       e.stopPropagation();
-                      setTemplateId(dt.id.toString());
+                      handleChangeTemplate(dt.id.toString());
                     }}
                   >
                     {/* <span className="select-none">{dt.id}</span>

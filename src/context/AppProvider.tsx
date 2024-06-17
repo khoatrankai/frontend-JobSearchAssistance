@@ -102,7 +102,7 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
   };
   useEffect(() => {
     setCheckPage(pathname);
-    console.log(pathname);
+    //console.log(pathname);
     // handleLoadHrefPage();
   }, [pathname]);
   // setInterval(() => {
@@ -113,7 +113,7 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
   //   }
   // }, 5000);
   const handleTimeBG = () => {
-    if (dataBgHome === 4) {
+    if (dataBgHome === 5) {
       setBgHome(0);
     } else {
       setBgHome(dataBgHome + 1);
@@ -132,6 +132,7 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
     handleAlert[0]();
   };
   const handlePersistGateLoaded = () => {
+    console.log("vao thay doi");
     setIsLoading(!isLoading);
   };
   useEffect(() => {

@@ -117,24 +117,13 @@ const MenuComponent = (props: Props) => {
   const { handlePersistGateLoaded } = useSrollContext();
   const [tabNotify, setTabNotify] = useState<boolean>(false);
   const [tabSuggest, setTabSuggest] = useState<boolean>(false);
-  // const [bg_language, set_bg_language] = useState(false);
-  const [checkNav, setNav] = useState(false);
-  const [checkScroll, setCheckScroll] = useState(true);
-  const [positionScroll, setPositionScroll] = useState(0);
-  const [tabFilter, setTabFilter] = useState<Boolean>(false);
-  const [checkPageLoad, setCheckPageLoad] = useState<boolean>(false);
-  // const [checkReponsive, setCheckReponsive] = useState<boolean>(false);
-  const [totalJob, setTotalJob] = useState<number>(0);
-  const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
   const [profileData, setProfileData] = useState<any>({});
   const profile = useSelector((state: any) => state.profile.profile);
-  const [imageError, setImageError] = useState(false);
   const [openModalProfile, setOpenModalProfile] = useState<boolean>(false);
   const [dataNotification, setDataNotification] = useState<any>([]);
   const dispatch = useDispatch();
   const [tabMenu, setTabMenu] = useState<boolean>(false);
   const router = useRouter();
-  const {} = router;
   const [openModalTurnOffStatus, setOpenModalTurnOffStatus] = useState(false);
   const language = useSelector((state: any) => state.changeLaguage.language);
   const [openModalNoteCreateCompany, setOpenModalNoteCreateCompany] =
@@ -144,11 +133,8 @@ const MenuComponent = (props: Props) => {
   const [onMenuAll, setOnMenuAll] = useState<boolean>(false);
   const [selectionMenu, setSelectionMenu] = useState<number>(0);
   useEffect(() => {
-    console.log(profile);
+    //console.log(profile);
   }, [profile]);
-  // useEffect(() => {
-  //   handleLoadHrefPage();
-  // }, [location.pathname]);
 
   useEffect(() => {
     if (typeof document !== "undefined") {
@@ -167,7 +153,7 @@ const MenuComponent = (props: Props) => {
   }, [onMenuAll, document]);
 
   useEffect(() => {
-    // console.log(scrollPositionSearch);
+    // //console.log(scrollPositionSearch);
     if (checkPage !== "/") {
       setScrollPositionSearch(true);
     } else {
@@ -182,28 +168,11 @@ const MenuComponent = (props: Props) => {
     }
   }, [checkPage, scrollPositionSearch]);
   useEffect(() => {
-    console.log(profileData);
+    //console.log(profileData);
   }, [profileData]);
   useEffect(() => {
     dispatch(fetchProfile(language === 1 ? "vi" : "en") as any);
   }, [language]);
-  const [dataSuggest, setDataSuggest] = React.useState<any>([]);
-  useEffect(() => {
-    if (typeof document !== "undefined") {
-      const handleBlurTab = (e: any) => {
-        if (
-          !ref_menu.current.contains(e.target) &&
-          e.target.parentElement?.name !== "btn_close_filter"
-        ) {
-          setTabFilter(false);
-        }
-      };
-      document.addEventListener("click", handleBlurTab);
-      return () => {
-        document.removeEventListener("click", handleBlurTab);
-      };
-    }
-  }, [document]);
   useEffect(() => {
     if (typeof document !== "undefined") {
       const handleBlurTab = (e: any) => {
@@ -257,58 +226,9 @@ const MenuComponent = (props: Props) => {
     }
   }, [openModalProfile, document]);
   useEffect(() => {
-    console.log(profile);
+    //console.log(profile);
     setProfileData(profile);
   }, [profile]);
-  useEffect(() => {
-    if (checkPage === "/") {
-      setCheckPageLoad(true);
-    } else {
-      setCheckPageLoad(false);
-    }
-  }, [checkPage]);
-  const handleScroll = () => {
-    const scroll = window.pageYOffset;
-    if (scroll > positionScroll) {
-      setCheckScroll(false);
-    } else {
-      setCheckScroll(true);
-    }
-    setPositionScroll(scroll);
-  };
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [positionScroll, checkScroll, handleScroll]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await jobApi.getTotalJob("vi");
-
-      if (res) {
-        setTotalJob(res.data?.total);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const handleToggleModal = () => {
-    setOpenModalLogin(false);
-  };
-
-  const handleLogOut = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("id");
-    localStorage.removeItem("role");
-    localStorage.removeItem("accountId");
-    socket.current.disconnect();
-    window.location.href = "/";
-  };
-
   useEffect(() => {
     const dataObj = JSON.parse(localStorage.getItem("dataRequest") || "{}");
     setDataRequest({ ...dataRequest, q: dataObj.q || "" });
@@ -331,6 +251,7 @@ const MenuComponent = (props: Props) => {
     applicationId: number,
     typeText: string
   ) => {
+    console.log("bấm");
     if (typeText === "recruiter") {
       let res;
       const fetchData = async () => {
@@ -379,72 +300,6 @@ const MenuComponent = (props: Props) => {
         progress: undefined,
         theme: "colored",
       });
-      setOpenModalLogin(true);
-    }
-  };
-
-  const IOSSwitch = styled((props: SwitchProps) => (
-    <Switch
-      focusVisibleClassName=".Mui-focusVisible"
-      disableRipple
-      {...props}
-    />
-  ))(({ theme }) => ({
-    width: 42,
-    height: 26,
-    padding: 0,
-    "& .MuiSwitch-switchBase": {
-      padding: 0,
-      margin: 2,
-      transitionDuration: "300ms",
-      "&.Mui-checked": {
-        transform: "translateX(16px)",
-        color: "#fff",
-        "& + .MuiSwitch-track": {
-          backgroundColor:
-            theme.palette.mode === "dark" ? "#2ECA45" : "#65C466",
-          opacity: 1,
-          border: 0,
-        },
-        "&.Mui-disabled + .MuiSwitch-track": {
-          opacity: 0.5,
-        },
-      },
-      "&.Mui-focusVisible .MuiSwitch-thumb": {
-        color: "#33cf4d",
-        border: "6px solid #fff",
-      },
-      "&.Mui-disabled .MuiSwitch-thumb": {
-        color:
-          theme.palette.mode === "light"
-            ? theme.palette.grey[100]
-            : theme.palette.grey[600],
-      },
-      "&.Mui-disabled + .MuiSwitch-track": {
-        opacity: theme.palette.mode === "light" ? 0.7 : 0.3,
-      },
-    },
-    "& .MuiSwitch-thumb": {
-      boxSizing: "border-box",
-      width: 22,
-      height: 22,
-    },
-    "& .MuiSwitch-track": {
-      borderRadius: 26 / 2,
-      backgroundColor: theme.palette.mode === "light" ? "#E9E9EA" : "#39393D",
-      opacity: 1,
-      transition: theme.transitions.create(["background-color"], {
-        duration: 500,
-      }),
-    },
-  }));
-
-  const handleOnchangeSearch = async (e: any) => {
-    if (profile.isSearch === 1) {
-      setOpenModalTurnOffStatus(true);
-    } else {
-      await profileAPi.putProfileJobV3(null, 1);
-      dispatch(fetchProfile("vi") as any);
     }
   };
 
@@ -477,7 +332,7 @@ const MenuComponent = (props: Props) => {
       });
 
       socket.current.on("connect", () => {
-        // console.log('ket noi thanh cong');
+        // //console.log('ket noi thanh cong');
       });
     }
   }, []);
@@ -487,7 +342,7 @@ const MenuComponent = (props: Props) => {
 
     fetchData();
   }, []);
-  useEffect(() => {});
+
   return (
     <>
       <div className={`h-20 `} ref={ref_menu}>
@@ -545,7 +400,7 @@ const MenuComponent = (props: Props) => {
                       <div
                         onClick={() => {
                           if (checkPage === "/") {
-                            positionScrollJob[0].scrollIntoView({
+                            positionScrollJob[0]?.scrollIntoView({
                               behavior: "smooth",
                             });
                           } else {
@@ -561,7 +416,7 @@ const MenuComponent = (props: Props) => {
                       <div
                         onClick={() => {
                           if (checkPage === "/") {
-                            positionScrollJob[1].scrollIntoView({
+                            positionScrollJob[1]?.scrollIntoView({
                               behavior: "smooth",
                             });
                           } else {
@@ -575,7 +430,7 @@ const MenuComponent = (props: Props) => {
                       <div
                         onClick={() => {
                           if (checkPage === "/") {
-                            positionScrollJob[2].scrollIntoView({
+                            positionScrollJob[2]?.scrollIntoView({
                               behavior: "smooth",
                             });
                           } else {
@@ -605,14 +460,14 @@ const MenuComponent = (props: Props) => {
                     <div className="px-8 py-6 font-medium rounded-xl invisible opacity-0 group-hover:visible bg-slate-100 absolute top-full -mt-4 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-max text-black flex group-hover:opacity-100 transition-all flex-col gap-y-3">
                       <div
                         onClick={() => {
-                          if (checkPage === "/") {
-                            positionScrollJob[3].scrollIntoView({
-                              behavior: "smooth",
-                            });
-                          } else {
-                            router.push("/");
-                            setCheckPage("/");
-                          }
+                          // if (checkPage === "/") {
+                          //   positionScrollJob[3].scrollIntoView({
+                          //     behavior: "smooth",
+                          //   });
+                          // } else {
+                          //   router.push("/");
+                          //   setCheckPage("/");
+                          // }
                         }}
                       >
                         <h2 className="hover:text-blue-800">Công ty nổi bật</h2>
@@ -763,11 +618,14 @@ const MenuComponent = (props: Props) => {
                           fontSize="1.5em"
                         />
                         <div
-                          className={`flex flex-col gap-y-4 absolute pointer-events-none text-black ${
+                          className={`flex flex-col gap-y-4 absolute text-black ${
                             selectionMenu === 1
                               ? "h-fit opacity-100"
-                              : "opacity-0"
+                              : "opacity-0 invisible"
                           } top-full transition-all translate-y-2 right-0 w-96 overflow-hidden duration-300 px-4 py-6 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]`}
+                          // onClick={(e: any) => {
+                          //   e.stopPropagation();
+                          // }}
                         >
                           {dataNotification &&
                             dataNotification?.map(
@@ -997,7 +855,7 @@ const MenuComponent = (props: Props) => {
                         <Image
                           className="shadow-sm rounded-full"
                           alt=""
-                          src={profile?.avatarPath}
+                          src={profile?.avatarPath || "/goapply.png"}
                           width={100}
                           height={100}
                         />
@@ -1355,23 +1213,7 @@ const MenuComponent = (props: Props) => {
               </div>
             </div>
           </nav>
-          {/* <FilterComponent
-            dataRequest={dataRequest}
-            setDataRequest={setDataRequest}
-            checkReponsive={checkReponsive}
-            tabSearchFilter={tabFilter}
-            setTabFilter={setTabFilter}
-          /> */}
         </div>
-        {/* {checkNav && checkPageLoad && (
-          <div
-            className={`w-full bg-white z-20 flex justify-center fixed top-20 border-b-2 transition-all duration-700 ${
-              !checkScroll && "-translate-y-28"
-            }`}
-          >
-            <NavbarComponent />
-          </div>
-        )} */}
 
         <Modal
           width={614}

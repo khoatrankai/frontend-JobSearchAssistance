@@ -1,11 +1,10 @@
-import React, { useState, memo } from 'react';
-import Typography from '@mui/material/Typography';
-import { Modal, Upload, message } from 'antd';
-import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/reducer';
-import { ChangeLogoCompanyicon, UploadLogoCompanyicon } from '@/icons';
-
+import React, { useState, memo } from "react";
+import Typography from "@mui/material/Typography";
+import { Modal, Upload, message } from "antd";
+import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/reducer";
+import { ChangeLogoCompanyicon, UploadLogoCompanyicon } from "@/icons";
 
 interface IEditLogoCompany {
   dataCompany: any;
@@ -16,25 +15,25 @@ interface IEditLogoCompany {
 
 const EditLogoCompany: React.FC<IEditLogoCompany> = (props) => {
   const languageRedux = useSelector(
-    (state: RootState) => state.changeLaguage.language,
+    (state: RootState) => state.changeLaguage.language
   );
   const { dataCompany, setDataCompany, language, is_profile } = props;
   const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewTitle, setPreviewTitle] = useState('');
-  const [previewImage, setPreviewImage] = useState('');
+  const [previewTitle, setPreviewTitle] = useState("");
+  const [previewImage, setPreviewImage] = useState("");
 
   const [fileList, setFileList] = useState<UploadFile[]>(
-    dataCompany?.logoPath && dataCompany?.logopath !== ''
+    dataCompany?.logoPath && dataCompany?.logopath !== ""
       ? [
           {
-            uid: '-1',
-            name: 'logo.png',
-            status: 'done',
+            uid: "-1",
+            name: "logo.png",
+            status: "done",
             url: dataCompany?.logoPath,
             thumbUrl: dataCompany?.logoPath,
           },
         ]
-      : [],
+      : []
   );
 
   const propsUpload: UploadProps = {
@@ -45,7 +44,7 @@ const EditLogoCompany: React.FC<IEditLogoCompany> = (props) => {
         logoPath: fileList[0] as RcFile,
       }));
 
-      // console.log('newFileList', newFileList);
+      // //console.log('newFileList', newFileList);
     },
     onRemove: (file) => {
       const index = fileList.indexOf(file);
@@ -59,7 +58,11 @@ const EditLogoCompany: React.FC<IEditLogoCompany> = (props) => {
       var checFileSize = true;
       if (file.size > 1024 * 1024 * 5) {
         checFileSize = false;
-        message.error(language === 1 ? 'File phải nhỏ hơn 5mb': 'File size must be greater than 1024');
+        message.error(
+          language === 1
+            ? "File phải nhỏ hơn 5mb"
+            : "File size must be greater than 1024"
+        );
       } else {
         setFileList([file]);
         return false;
@@ -70,7 +73,7 @@ const EditLogoCompany: React.FC<IEditLogoCompany> = (props) => {
       handlePreview(file);
     },
     maxCount: 1,
-    listType: 'picture-card',
+    listType: "picture-card",
     fileList,
     disabled: is_profile ? true : false,
   };
@@ -93,7 +96,7 @@ const EditLogoCompany: React.FC<IEditLogoCompany> = (props) => {
     setPreviewImage(file.url || (file.preview as string));
     setPreviewOpen(true);
     setPreviewTitle(
-      file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1),
+      file.name || file.url!.substring(file.url!.lastIndexOf("/") + 1)
     );
   };
 
@@ -102,15 +105,15 @@ const EditLogoCompany: React.FC<IEditLogoCompany> = (props) => {
       <div className="edit-logo-company-content">
         <Typography
           sx={{
-            fontSize: '16px',
+            fontSize: "16px",
             fontWeight: 700,
           }}
           variant="body1"
           component="label"
           htmlFor="editJob"
         >
-          {languageRedux === 1 ? 'Logo công ty' : "Company's logo"}{' '}
-          <span style={{ color: 'red' }}>*</span>
+          {languageRedux === 1 ? "Logo công ty" : "Company's logo"}{" "}
+          <span style={{ color: "red" }}>*</span>
         </Typography>
         <div className="company-logo">
           <Upload {...propsUpload}>
@@ -128,7 +131,7 @@ const EditLogoCompany: React.FC<IEditLogoCompany> = (props) => {
           footer={null}
           onCancel={handleCancel}
         >
-          <img alt="example" style={{ width: '100%' }} src={previewImage} />
+          <img alt="example" style={{ width: "100%" }} src={previewImage} />
         </Modal>
       </div>
     </div>

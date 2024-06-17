@@ -85,7 +85,7 @@ const page = (props: Props) => {
   );
   const profile = useSelector((state: any) => state.profileRecruiter.profile);
   useEffect(() => {
-    console.log(dataReq);
+    //console.log(dataReq);
   }, [dataReq]);
 
   const blobToBase64 = async (blob: any) => {
@@ -122,7 +122,7 @@ const page = (props: Props) => {
           "vi"
         );
         if (dataPost) {
-          console.log(dataPost);
+          //console.log(dataPost);
           const dataOld = dataPost.data;
           setTypeTimeJob(dataOld?.is_date_period === 1 ? true : false);
           const promisesBase64 = dataOld?.images.map(async (dt: any) => {

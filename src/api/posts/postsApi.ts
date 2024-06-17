@@ -13,7 +13,7 @@ const postsApi = {
     lang: string,
     page: number | null
   ) => {
-    console.log(page)
+    // //console.log(page)
     const URL =
       `http://localhost:1902/api/v3/posts/newest?` +
       `${
@@ -95,7 +95,7 @@ const postsApi = {
     })
   },
   createPost: async(newPost: any,des:any) => {
-    // console.log(des)
+    // //console.log(des)
     const URL = `v1/posts`
     const dataPost:any = await axiosClientRecruiter.post(URL, newPost, {
       headers: {
@@ -106,12 +106,12 @@ const postsApi = {
     if(dataPost){
       const listCV = await axiosClientRecruiter.get(`${V3}/api/v3/cvs-posts/cvs?postId=${dataPost.data.postId}`)
       if(listCV){
-        console.log(listCV)
+        // //console.log(listCV)
         const urlAI = 'http://127.0.0.1:8000/aiFilterCV/'
-        console.log(des,listCV.data.data.cvs)
+        // //console.log(des,listCV.data.data.cvs)
         const dataFilterCV = await axiosClientRecruiter.post(urlAI,{contentPost: des,listCV: listCV.data.data[0].cvs})
         if(dataFilterCV){
-          console.log(dataFilterCV)
+          // //console.log(dataFilterCV)
           const urlMapLoad = `${V3}/api/v3/cvs-posts`
           const dataUpdate = await axiosClientRecruiter.post(urlMapLoad,{data: dataFilterCV.data.map((dt:any)=>{
             return{...dt,postId:dataPost.data.postId,type:1}

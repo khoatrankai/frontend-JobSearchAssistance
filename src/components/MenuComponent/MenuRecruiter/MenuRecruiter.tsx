@@ -37,7 +37,6 @@ const MenuRecruiter = (props: Props) => {
   const [tabMenuChoose, setTabMenuChoose] = useState<any>(0);
 
   const dispatch = useDispatch();
-  const [tabSetting, setTabSetting] = useState<boolean>(false);
   const profile = useSelector((state: any) => state.profileRecruiter.profile);
   const handleClickNoty = (
     postId: number,
@@ -75,7 +74,7 @@ const MenuRecruiter = (props: Props) => {
     dispatch(fetchProfileRecruiter("vi") as any);
   }, []);
   useEffect(() => {
-    console.log(profile);
+    //console.log(profile);
   }, [profile]);
   useEffect(() => {
     const dataObj = JSON.parse(localStorage.getItem("dataRequest") || "{}");
@@ -86,7 +85,7 @@ const MenuRecruiter = (props: Props) => {
       )) as unknown as INotification;
 
       if (res && res.code === 200) {
-        console.log(res);
+        //console.log(res);
         setDataNotification(res.data);
       }
     };
@@ -95,7 +94,7 @@ const MenuRecruiter = (props: Props) => {
   }, []);
   const router = useRouter();
   useEffect(() => {
-    console.log(profile);
+    //console.log(profile);
   }, [profile]);
   return (
     <div className="h-20 ">
@@ -155,6 +154,14 @@ const MenuRecruiter = (props: Props) => {
                 >
                   Hỗ trợ
                 </div>
+                <div
+                  className="cursor-pointer"
+                  onClick={() => {
+                    router.push("/recruiter/candidate");
+                  }}
+                >
+                  Ứng viên
+                </div>
               </div>
             )}
           </div>
@@ -203,7 +210,7 @@ const MenuRecruiter = (props: Props) => {
                       </p>
                     </div>
                     <div
-                      className={`flex flex-col gap-y-4 absolute pointer-events-none text-black ${
+                      className={`flex flex-col gap-y-4 absolute text-black ${
                         selectionMenu === 1 ? "h-fit opacity-100" : "opacity-0"
                       } top-full transition-all translate-y-2 right-0 w-96 overflow-hidden duration-300 px-4 py-6 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]`}
                     >

@@ -92,7 +92,7 @@ const page = (props: Props) => {
         id as any,
         languageRedux === 1 ? "vi" : "en"
       )) as unknown as IPostDetail;
-      console.log(res.data?.company_name);
+      // //console.log(res.data?.company_name);
       const res2 = (await axiosClient.get(
         `http://localhost:1902/api/v3/companies/by-name?name=${res.data?.company_name}`
       )) as unknown as { status: any; data: any };
@@ -128,7 +128,7 @@ const page = (props: Props) => {
     }
   };
   useEffect(() => {
-    console.log(postDetail);
+    // //console.log(postDetail);
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => {
@@ -385,7 +385,25 @@ const page = (props: Props) => {
   const handleToggleModal = () => {
     setOpenModalLogin(false);
   };
-
+  const CheckApplyProfile = () => {
+    if (Object.keys(profile).length === 0) {
+      router.push("/login");
+    } else {
+      if (profile.roleData === 0) {
+        setOpenModalApply(true);
+      }
+    }
+  };
+  const handleSendChat = () => {
+    if (Object.keys(profile).length === 0) {
+      router.push("/login");
+    } else {
+      if (profile.roleData === 0 || profile.roleData === 3) {
+        handleToMessage(postDetail.account_id, postDetail.id);
+        // handleViewPost();
+      }
+    }
+  };
   return (
     <div
       className="w-ful flex justify-center "
@@ -417,7 +435,7 @@ const page = (props: Props) => {
                     >
                       <Image
                         className="h-full"
-                        src={item.image}
+                        src={item.image || "/goapply.png"}
                         alt="anh"
                         width={1900}
                         height={1332}
@@ -520,56 +538,57 @@ const page = (props: Props) => {
             </div>
             {
               <div className={`flex flex-wrap justify-center gap-4`}>
-                {!(
+                {/* {!(
                   postDetail?.resource?.company_resource_id === 2 &&
                   profile.roleData === 3
-                ) && (
-                  <button className="flex flex-1 px-2 gap-2 text-sm items-center h-10 min-w-[12rem] bg-blue-600/95 hover:bg-blue-600 justify-center rounded-lg  text-white">
-                    <BookmarksIcon />
-                    {postDetail?.resource?.company_resource_id === 2 ? (
-                      <h2
-                        className="font-semibold"
-                        onClick={() => {
-                          setOpenModalApply(true);
-                        }}
-                      >
-                        {languageRedux === 1 ? "Ứng tuyển ngay" : "Apply now"}
-                      </h2>
-                    ) : (
-                      <h2
-                        className="font-semibold  text-sm"
-                        onClick={() => handleViewPost()}
-                      >
-                        {languageRedux === 1 ? "Xem tin" : "View post"}
-                      </h2>
-                    )}
-                  </button>
-                )}
-                {postDetail?.resource?.company_resource_id === 2 &&
-                  profile.roleData !== 3 && (
-                    <button
-                      onClick={() =>
-                        handleToMessage(postDetail.account_id, postDetail.id)
-                      }
-                      className="flex items-center w-fit text-sm gap-2 px-2  h-10 border-2 border-blue-500/70 hover:border-blue-500 rounded-lg justify-center"
+                ) && ( */}
+                <button className="flex flex-1 px-2 gap-2 text-sm items-center h-10 min-w-[12rem] bg-blue-600/95 hover:bg-blue-600 justify-center rounded-lg  text-white">
+                  <BookmarksIcon />
+                  {postDetail?.resource?.company_resource_id === 2 ? (
+                    <h2
+                      className="font-semibold"
+                      onClick={() => {
+                        CheckApplyProfile();
+                      }}
                     >
-                      <ChatIcon width={19} height={18} />
-                      <h2
-                        className="font-bold"
-                        onClick={() => handleViewPost()}
-                      >
-                        {languageRedux === 1 ? "Nhắn tin" : "Send message"}
-                      </h2>
-                    </button>
+                      {languageRedux === 1 ? "Ứng tuyển ngay" : "Apply now"}
+                    </h2>
+                  ) : (
+                    <h2
+                      className="font-semibold  text-sm"
+                      onClick={() => handleViewPost()}
+                    >
+                      {languageRedux === 1 ? "Xem tin" : "View post"}
+                    </h2>
                   )}
+                </button>
+                {/* )} */}
+                {/* {postDetail?.resource?.company_resource_id === 2 &&
+                  profile.roleData !== 3 && ( */}
+                <button
+                  onClick={() => {
+                    handleSendChat();
+                  }}
+                  className="flex items-center w-fit text-sm gap-2 px-2  h-10 border-2 border-blue-500/70 hover:border-blue-500 rounded-lg justify-center"
+                >
+                  <ChatIcon width={19} height={18} />
+                  <h2 className="font-bold">
+                    {languageRedux === 1 ? "Nhắn tin" : "Send message"}
+                  </h2>
+                </button>
+                {/* )} */}
 
                 {postDetail.account_id !== profile.accountId && (
                   <button
                     onClick={() => {
-                      if (postDetail.bookmarked) {
-                        handleDeleteBookmarked(postDetail.id);
+                      if (Object.keys(profile).length === 0) {
+                        router.push("/login");
                       } else {
-                        handleBookmarked(postDetail.id);
+                        if (postDetail.bookmarked) {
+                          handleDeleteBookmarked(postDetail.id);
+                        } else {
+                          handleBookmarked(postDetail.id);
+                        }
                       }
                     }}
                     className={`flex items-center min-w-[10rem] h-10 border-2 border-blue-500/70 hover:border-blue-500 rounded-lg justify-center ${
@@ -674,7 +693,7 @@ const page = (props: Props) => {
                   width={500}
                   height={500}
                   className=""
-                  src={postDetail?.images?.[0]?.image}
+                  src={postDetail?.images?.[0]?.image || "/goapply.png"}
                 />
               </div>
               <div className="font-semibold text-lg">

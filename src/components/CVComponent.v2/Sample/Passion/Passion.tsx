@@ -113,7 +113,7 @@ const page = (props: Props) => {
                                     : "hover:border-gray-300 border-transparent"
                                 } ${checkGhost(dttt) && "bg-green-300"}`}
                                 onClick={(e: any) => {
-                                  // console.log("click khac");
+                                  // //console.log("click khac");
                                   // handleOnClickRow(e, index, indexItem, item);
                                 }}
                                 onMouseMove={(e: any) => {

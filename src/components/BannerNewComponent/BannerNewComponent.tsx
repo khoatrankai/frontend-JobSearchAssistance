@@ -45,7 +45,13 @@ const BannerNewComponent = ({ children }: Props) => {
       content: "Hành động vì ước mơ của bạn",
       contentClick: "Tham gia",
     },
-    { name: "lenovo", link: "https://www.acer.com/" },
+    {
+      name: "lenovo",
+      link: "https://www.acer.com/",
+      title: "Lenovo",
+      content: "Chung niềm tin, Vững tương lai",
+      contentClick: "Join our expert team",
+    },
     { name: "microsoft", link: "https://www.acer.com/" },
     { name: "razer", link: "https://www.acer.com/" },
     { name: "rog", link: "https://www.acer.com/" },
@@ -73,7 +79,7 @@ const BannerNewComponent = ({ children }: Props) => {
               style={{ transform: `translateY(-${2.5 * dataBgHome}rem)` }}
             >
               {dataCompany.map((dt: any, index: any) => {
-                if (index < 5)
+                if (index < 6)
                   return (
                     <p
                       className="h-10 w-full max-w-96 flex items-center"
@@ -95,7 +101,7 @@ const BannerNewComponent = ({ children }: Props) => {
               style={{ transform: `translateY(-${9 * dataBgHome}rem)` }}
             >
               {dataCompany.map((dt: any, index: any) => {
-                if (index < 5)
+                if (index < 6)
                   return (
                     <p className="h-36 w-full max-w-96 pt-2 " key={index}>
                       {dt.content}
@@ -110,7 +116,7 @@ const BannerNewComponent = ({ children }: Props) => {
               style={{ transform: `translateY(-${60 * dataBgHome}px)` }}
             >
               {dataCompany.map((dt: any, index: any) => {
-                if (index < 5)
+                if (index < 6)
                   return (
                     <button
                       className="px-4 h-14 flex justify-center items-center rounded-xl border-[2px] bg-black text-white  font-semibold w-fit hover:bg-white hover:text-black transition-all duration-500"
@@ -127,10 +133,10 @@ const BannerNewComponent = ({ children }: Props) => {
       <div className="flex max-w-6xl w-full relative -translate-y-32 gap-x-4 overflow-hidden justify-center">
         <SkeletonAll data={dataCompany} type={1}>
           {dataCompany.map((dt: any, index: any) => {
-            if (index < 5)
+            if (index < 6)
               return (
                 <div
-                  className={`w-[217.59px]  h-36 rounded-xl p-4 bg-white/70 border-2 border-transparent  cursor-pointer transition-all duration-500  shadow-[inset_-12px_-8px_40px_#46464620] ${
+                  className={`w-[180px]  h-28 rounded-xl p-4 bg-white/70 border-2 border-transparent  cursor-pointer transition-all duration-500  shadow-[inset_-12px_-8px_40px_#46464620] ${
                     dataBgHome === index
                       ? ""
                       : "  hover:border-blue-500 hover:bg-black/50 opacity-10"
@@ -161,7 +167,7 @@ const BannerNewComponent = ({ children }: Props) => {
           className="text-3xl p-2 text-black/80 hover:text-white transition-all duration-300 rounded-full border-2 flex justify-center items-center"
           onClick={() => {
             if (dataBgHome === 0) {
-              setBgHome(4);
+              setBgHome(5);
             } else {
               setBgHome(dataBgHome - 1);
             }
@@ -172,7 +178,7 @@ const BannerNewComponent = ({ children }: Props) => {
         {reponsiveMobile < 1200 && (
           <div className="flex gap-2">
             {dataCompany.map((dt: any, index: any) => {
-              if (index < 5) {
+              if (index < 6) {
                 return (
                   <button
                     key={index}
@@ -192,7 +198,7 @@ const BannerNewComponent = ({ children }: Props) => {
         <button
           className="text-3xl p-2 text-black/80 hover:text-white transition-all duration-300 rounded-full border-2 flex justify-center items-center"
           onClick={() => {
-            if (dataBgHome === 4) {
+            if (dataBgHome === 5) {
               setBgHome(0);
             } else {
               setBgHome(dataBgHome + 1);

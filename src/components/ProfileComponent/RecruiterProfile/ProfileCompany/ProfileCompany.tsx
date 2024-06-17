@@ -101,7 +101,7 @@ const ProfileCompany = (props: Props) => {
   }, [profile]);
   useEffect(() => {}, [dataRequest]);
   useEffect(() => {
-    console.log(dataRequest);
+    //console.log(dataRequest);
   }, [dataRequest]);
   useEffect;
   useEffect(() => {
@@ -193,7 +193,7 @@ const ProfileCompany = (props: Props) => {
         setListBase(base64Strings);
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
     setListFile(files);
   };
@@ -207,7 +207,7 @@ const ProfileCompany = (props: Props) => {
           setLogoShowImg(base64String);
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
     }
   };
@@ -231,12 +231,12 @@ const ProfileCompany = (props: Props) => {
     if (logoFileImg === null) {
       delete newData.logo;
     }
-    console.log(newData, dataRequest);
+    //console.log(newData, dataRequest);
     const formData = new FormData();
     for (let i in newData) {
       if (i === "images") {
         newData[i]?.forEach((image: any) => {
-          console.log(image);
+          //console.log(image);
           formData.append("images", image);
         });
       } else {
@@ -458,7 +458,7 @@ const ProfileCompany = (props: Props) => {
               value={dataRequest?.companyCategory?.id}
               onChange={(e: any) => {
                 // e.target.name = "companyRoleInfomation";
-                console.log(e);
+                //console.log(e);
                 handleChangeData(e, false, null, "companyCategory");
               }}
             >

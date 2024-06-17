@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Passion from "./Passion/Passion";
 import Image from "next/image";
 import Delicate from "./Delicate/Delicate";
+import SampleCustom from "./SampleCustom/SampleCustom";
 
 type Props = {
   id: any;
@@ -49,8 +50,9 @@ const Sample = (props: Props) => {
           dataGhostDrag.part !== -1 && "cursor-pointer"
         }`}
       >
-        {templateId === "2" && <Passion funcLibrary={funcLibrary} id={id} />}
-        {templateId === "1" && <Delicate funcLibrary={funcLibrary} id={id} />}
+        {/* {templateId === "2" && <Passion funcLibrary={funcLibrary} id={id} />}
+        {templateId === "1" && <Delicate funcLibrary={funcLibrary} id={id} />} */}
+        <SampleCustom funcLibrary={funcLibrary} id={id} />
       </div>
     </>
   );

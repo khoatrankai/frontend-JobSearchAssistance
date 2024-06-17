@@ -120,8 +120,8 @@ const ItemsOtherChartCandidate: React.FC<{
         </h3>
         <Row className={styles.row} align="top">
           {(dataLog && !dataLogRecruiter) || (!dataLog && dataLogRecruiter)
-            ? itemsOther.otherTop.map((other: PropItemValue) => (
-                <Col span={6} className={styles.col} key={""}>
+            ? itemsOther.otherTop.map((other: PropItemValue, index: any) => (
+                <Col span={6} className={styles.col} key={index}>
                   <div className={`${styles.col_left} col_left__itemsChart`}>
                     {other.icon}
                   </div>
@@ -192,8 +192,8 @@ const ItemsOtherChartCandidate: React.FC<{
         </h3>
         <Row className={styles.row} align="top">
           {(dataLog && !dataLogRecruiter) || (!dataLog && dataLogRecruiter)
-            ? itemsOther.otherBottom.map((other: PropItemValue) => (
-                <Col span={6} className={styles.col} key={""}>
+            ? itemsOther.otherBottom.map((other: PropItemValue, index: any) => (
+                <Col span={6} className={styles.col} key={index}>
                   <div className={`${styles.col_left} col_left__itemsChart`}>
                     {other.icon}
                   </div>

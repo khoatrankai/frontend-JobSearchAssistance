@@ -18,7 +18,7 @@ type Props = {
 
 const Persional = (props: Props) => {
   const { data, funcLibrary, index, indexItem, item } = props;
-  // console.log(data);
+  // //console.log(data);
   const refItem = useRef<any>();
   const {
     handleOnClickRow,

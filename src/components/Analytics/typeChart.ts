@@ -10,12 +10,15 @@ export interface LogActivity {
   }
   
   export interface DataLog {
+    viewYourCompanyLogs: number | undefined;
+    saveYourCompanyLogs: number | undefined;
     type: 'Normal';
     viewPostLogs: LogData;
     applyLogs: LogData;
     savePostLogs: LogData;
     viewProfileLogs: number;
     searchLogs: number;
+    countPostBookmark:number;
     saveYourProfileLogs: number;
     saveCommunityLogs: number;
     createCommunityLogs: number;

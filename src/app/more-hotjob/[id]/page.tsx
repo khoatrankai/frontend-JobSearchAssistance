@@ -356,7 +356,7 @@ const page = (props: Props) => {
         setProvincesData(result.data);
       }
     } catch (error) {
-      console.log("error", error);
+      //console.log("error", error);
     }
   };
 

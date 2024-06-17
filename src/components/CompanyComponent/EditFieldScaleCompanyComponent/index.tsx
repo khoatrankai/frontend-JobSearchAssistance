@@ -67,7 +67,7 @@ const EditFieldScaleCompany: React.FC<IEditPostAddress> = memo((props) => {
         setDataSizes(sizes);
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
   const getCateogrys = async () => {

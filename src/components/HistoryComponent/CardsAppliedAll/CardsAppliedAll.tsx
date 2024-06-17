@@ -50,7 +50,7 @@ const CardsAppliedAll: React.FC<ICardsAppliedAll> = (props) => {
         setLastPostId(result.data[result.data.length - 1].id);
       }
     } catch (error) {
-      console.log("error", error);
+      //console.log("error", error);
     }
   };
 

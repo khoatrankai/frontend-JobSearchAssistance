@@ -60,10 +60,10 @@ const page = (props: Props) => {
     const fetchData = async () => {
       if (idPackage) {
         const dataPack: any = await packageServiceApi.getIdPackage(idPackage);
-        console.log(dataPack);
+        //console.log(dataPack);
 
         if (dataPack && dataPack.status === 200) {
-          console.log(dataPack);
+          //console.log(dataPack);
           setDataPackage(dataPack?.data);
         }
       }

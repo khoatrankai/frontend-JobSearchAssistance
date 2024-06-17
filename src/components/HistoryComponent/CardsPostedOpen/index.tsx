@@ -56,7 +56,7 @@ const CardsPostedOpen: React.FC<CardsPostedOpen> = (props) => {
         }
       }
     } catch (error) {
-      console.log("error", error);
+      //console.log("error", error);
     }
   };
 
@@ -103,7 +103,7 @@ const CardsPostedOpen: React.FC<CardsPostedOpen> = (props) => {
           return sortData.sortDataByDate(newOld, array);
         });
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const handleShowDetail = (
@@ -164,7 +164,7 @@ const CardsPostedOpen: React.FC<CardsPostedOpen> = (props) => {
             width: 130,
             height: 40,
             backgroundColor: `#f5f5f5`,
-            marginBottom: '2rem',
+            marginBottom: "2rem",
           }}
           value={newOld}
           onChange={handleChange}
@@ -188,7 +188,7 @@ const CardsPostedOpen: React.FC<CardsPostedOpen> = (props) => {
               zIndex: (theme: any) => theme.zIndex.drawer + 1,
             }}
             open={loading}
-          // onClick={handleClose}
+            // onClick={handleClose}
           >
             <CircularProgress color="inherit" />
           </Backdrop>

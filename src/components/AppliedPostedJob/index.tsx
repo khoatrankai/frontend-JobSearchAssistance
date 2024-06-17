@@ -48,7 +48,7 @@ const AppliedPostedJob: React.FC = () => {
         setBanner(result.data);
       }
     } catch (error) {
-      console.log("error", error);
+      //console.log("error", error);
     }
   };
 
@@ -103,7 +103,7 @@ const AppliedPostedJob: React.FC = () => {
         setAppliedPostedJob(result.data);
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 

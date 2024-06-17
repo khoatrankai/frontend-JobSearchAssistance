@@ -134,7 +134,7 @@ const Company: React.FC<ICompany> = (props) => {
         setHaveCompany(false);
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -568,9 +568,9 @@ const Company: React.FC<ICompany> = (props) => {
         languageRedux={languageRedux}
         language={languageRedux}
       />
-      <div style={{ display: is_profile ? "none" : "block" }}>
+      {/* <div style={{ display: is_profile ? "none" : "block" }}>
         <RollTop />
-      </div>
+      </div> */}
       {/* <ToastContainer /> */}
     </div>
   );

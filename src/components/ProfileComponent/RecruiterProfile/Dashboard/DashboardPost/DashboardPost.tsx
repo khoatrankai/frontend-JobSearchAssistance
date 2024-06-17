@@ -29,7 +29,7 @@ const DashboardPost = ({ dataView }: Props) => {
       setArrayTop(
         arrayTop?.map((dt: any, ikey: any) => {
           const dataTotal = dataView?.countAnalyticsPosted12Month?.[ikey].total;
-          console.log(dataTotal, total);
+          //console.log(dataTotal, total);
           if (!total || !dataTotal) {
             return 0;
           }
@@ -50,14 +50,14 @@ const DashboardPost = ({ dataView }: Props) => {
     }
   }, [dataView]);
   useEffect(() => {
-    console.log(arrayPost);
+    //console.log(arrayPost);
   }, [arrayPost]);
   const handlePercent = (value: any) => {
     if (maxTop > 10) {
       return Math.round((maxTop / 10) * (10 - value));
     }
     return 1 * (10 - value);
-    // console.log((maxTop / 10) * value);
+    // //console.log((maxTop / 10) * value);
   };
   return (
     <div

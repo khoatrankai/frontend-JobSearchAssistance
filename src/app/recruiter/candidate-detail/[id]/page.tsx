@@ -78,17 +78,17 @@ const page = (props: Props) => {
     const fetchData = async () => {
       const listData = dataId.split("POST");
       setAccountId(localStorage.getItem("accountIdRecruiter"));
-      console.log(listData);
+      // //console.log(listData);
       if (listData.length === 2) {
         setApplicationId(listData?.[0]);
         setPostId(Number(listData?.[1]));
 
-        // console.log(listData);
+        // //console.log(listData);
         const res = (await applicationApi.getRecruiterAplication(
           listData?.[1],
           listData?.[0]
         )) as any;
-        console.log(res);
+        // //console.log(res);
         if (res && res.code === 200) {
           setDataProfile(res.data);
 
@@ -103,7 +103,7 @@ const page = (props: Props) => {
           );
 
           if (res2 && res2.status === 200) {
-            console.log(res2);
+            // //console.log(res2);
             setDataProfilePOST(res2.data);
           }
           setTypeSeen(false);
@@ -149,7 +149,7 @@ const page = (props: Props) => {
   };
   useEffect(() => {
     setPositionScroll(handleTabScroll());
-    // console.log(scrollTopPosition);
+    // //console.log(scrollTopPosition);
   }, [
     scrollTopPosition,
     ref_Info,
@@ -223,7 +223,7 @@ const page = (props: Props) => {
       3,
       description
     );
-    console.log(dataDelete);
+    // //console.log(dataDelete);
     setTabModal(false);
     setStatus(3);
   };
@@ -264,12 +264,7 @@ const page = (props: Props) => {
       });
     }
   };
-  useEffect(() => {
-    console.log(
-      ref_Info?.current?.getBoundingClientRect(),
-      ref_Study?.current?.getBoundingClientRect()
-    );
-  }, [ref_Info, ref_Study]);
+
   return (
     <div className="flex gap-x-2 w-full min-h-96 overflow-scroll">
       <div

@@ -11,7 +11,7 @@ const BannerSignRecruiterComponent = (props: Props) => {
   const { reponsiveMobile } = useSrollContext();
   const router = useRouter();
   useEffect(() => {
-    console.log(profile?.companyInfomation?.companyInfomation?.id, profile);
+    //console.log(profile?.companyInfomation?.companyInfomation?.id, profile);
   }, [profile]);
   return (
     <div className="w-full flex justify-center gradient-bg-sign px-4">

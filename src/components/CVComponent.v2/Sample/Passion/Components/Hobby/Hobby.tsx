@@ -46,7 +46,7 @@ const Hobby = (props: Props) => {
               <div
                 className="relative flex flex-col gap-1"
                 onMouseDown={(e: any) => {
-                  console.log("click up");
+                  //console.log("click up");
                   handleOnClickRowItem(e, index, indexItem, item, i);
                 }}
               >

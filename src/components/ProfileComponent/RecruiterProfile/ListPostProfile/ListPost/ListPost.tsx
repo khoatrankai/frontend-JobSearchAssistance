@@ -17,7 +17,7 @@ const ListPost = (props: Props) => {
   const [listDataFilter, setListDataFilter] = useState<any>([]);
   const handleUpdateStatus = async (id: any, status: any) => {
     const data = await postsApi.updateStatus(id, status);
-    console.log(data);
+    //console.log(data);
   };
   const handleRemovePost = (id: any) => {};
   const handleSearch = (e: any) => {

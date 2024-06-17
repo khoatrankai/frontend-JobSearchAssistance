@@ -174,7 +174,7 @@ const TopCompanyComponent = (props: Props) => {
     const fetchDataa = async () => {
       try {
         const reponse = (await themeApi.getThemesEnable("vi")) as any;
-        console.log(reponse);
+        //console.log(reponse);
         if (reponse && reponse?.status === 200) {
           setTheme(reponse.data.data);
           setThemeId(reponse.data.data?.[0]?.id);
@@ -186,7 +186,7 @@ const TopCompanyComponent = (props: Props) => {
     fetchDataa();
   }, []);
   useEffect(() => {
-    console.log(listJob);
+    //console.log(listJob);
   }, [listJob]);
   const fetchData = async () => {
     const res = (await postsApi.getPostByThemeId(
@@ -196,7 +196,7 @@ const TopCompanyComponent = (props: Props) => {
       language === 1 ? "vi" : "en",
       pageNewJob
     )) as any;
-    console.log(res);
+    //console.log(res);
     if (res && res.success === true) {
       setListJob(res.data?.posts);
       setPageTotal(res.data?.totalPage);
@@ -208,7 +208,7 @@ const TopCompanyComponent = (props: Props) => {
     setPageNewJob(0);
   };
   useEffect(() => {
-    console.log(themeId);
+    //console.log(themeId);
     if (themeId != -1) {
       setListJob([]);
       fetchData();

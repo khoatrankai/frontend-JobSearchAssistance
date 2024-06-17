@@ -131,7 +131,7 @@ const CandidatesAll = () => {
         }
       }
     } catch (error) {
-      console.log("error", error);
+      //console.log("error", error);
       message.error("Lỗi server!");
       return;
     }

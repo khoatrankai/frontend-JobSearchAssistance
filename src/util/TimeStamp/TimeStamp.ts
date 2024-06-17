@@ -1,6 +1,6 @@
 const TimeStamp = () => {
     const handleConvertToTimestamp = (time:any)=>{
-      console.log(time)
+      //console.log(time)
       const newTime =  time.toString()?.split(":")
       const timestamp = new Date(
         1970,

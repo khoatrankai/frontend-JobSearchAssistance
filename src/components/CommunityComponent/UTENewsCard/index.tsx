@@ -62,7 +62,7 @@ const UTENewsCard: React.FC<any> = (props) => {
         message.error("Vui lòng đăng nhập để thực hiện chức năng");
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -92,7 +92,7 @@ const UTENewsCard: React.FC<any> = (props) => {
         setOpenModalLogin(true);
       }
     } catch (error) {
-      console.log("error", error);
+      //console.log("error", error);
     }
   };
 

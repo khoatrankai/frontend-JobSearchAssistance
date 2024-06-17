@@ -8,7 +8,7 @@ type Props = {
 const InfoCV = ({ dataProfile }: Props) => {
   const { setSoureImage } = useSrollContext();
   useEffect(() => {
-    console.log(dataProfile);
+    //console.log(dataProfile);
   }, [dataProfile]);
   return (
     <div className="py-12 px-8 flex flex-col items-center gap-y-6 justify-center">

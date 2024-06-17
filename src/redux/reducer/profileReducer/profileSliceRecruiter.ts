@@ -16,7 +16,7 @@ export const fetchProfileRecruiter = createAsyncThunk(
     const response = (await profileAPi.getProfileRecruiterV3(
       languageId === '1' ? 'vi' : 'en',
     )) as unknown as IProfile;
-    console.log(response)
+    //console.log(response)
     return response.data;
   },
 );

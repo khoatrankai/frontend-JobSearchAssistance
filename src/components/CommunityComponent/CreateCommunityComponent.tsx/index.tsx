@@ -21,10 +21,11 @@ import RollTop from "@/components/RollTop";
 import { CameraComunityIcon, DeleteImageComunityIcon } from "@/icons";
 import validatePostImages from "@/validations/post/image";
 import { useRouter, useSearchParams } from "next/navigation";
-const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
+// const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useSrollContext } from "@/context/AppProvider";
+import TextEditorCustomBlog from "@/util/TextEditCustom/TextEditorCustomBlog";
 
 const ComunityCreatePost = () => {
   const language = useSelector(
@@ -84,7 +85,7 @@ const ComunityCreatePost = () => {
         }
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -140,7 +141,7 @@ const ComunityCreatePost = () => {
             ]);
           }
         } catch (error) {
-          console.log(error);
+          //console.log(error);
         }
       }
     }
@@ -309,6 +310,7 @@ const ComunityCreatePost = () => {
   const handleSaveCommunity = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent> | FormEvent
   ) => {
+    console.log("bam blog");
     e.preventDefault();
 
     const formData = new FormData();
@@ -322,9 +324,6 @@ const ComunityCreatePost = () => {
       deleteImages.forEach((id: any) => {
         formData.append("deleteImages", id);
       });
-
-    for (const pair of formData.entries()) {
-    }
 
     if (formData) {
       POST_COMMUNITY_ID ? updateCommunity(formData) : createCommunity(formData);
@@ -382,9 +381,16 @@ const ComunityCreatePost = () => {
           );
         }
       } else {
-        messageApi.open({
-          type: "error",
-          content: message,
+        console.log(checkForm);
+        toast.error(message, {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+          progress: undefined,
         });
       }
     } catch (error) {}
@@ -423,13 +429,19 @@ const ComunityCreatePost = () => {
           });
         }
       } else {
-        messageApi.open({
-          type: "error",
-          content: message,
+        toast.error(message, {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+          progress: undefined,
         });
       }
     } catch (error) {
-      console.log("Error", error);
+      //console.log("Error", error);
     }
   };
 
@@ -476,7 +488,11 @@ const ComunityCreatePost = () => {
           </div>
           <div className="create-post-body_input">
             <h3>{languageRedux === 1 ? "2. Nội dung" : "2. Contents"}</h3>
-            <JoditEditor
+            <TextEditorCustomBlog
+              dataReq={valueContent}
+              handleChangeData={onBlurValue}
+            />
+            {/* <JoditEditor
               value={valueContent}
               config={{
                 readonly: false,
@@ -491,7 +507,7 @@ const ComunityCreatePost = () => {
                 },
               }}
               onBlur={(e) => onBlurValue(e)}
-            />
+            /> */}
           </div>
           <div className="create-post-body_input">
             <h3>
@@ -587,7 +603,9 @@ const ComunityCreatePost = () => {
           </div>
           <div className="save_btn">
             <Button
-              onClick={handleSaveCommunity}
+              onClick={(e: any) => {
+                handleSaveCommunity(e);
+              }}
               className={
                 valueTitle === "" || valueContent === ""
                   ? "submit"
@@ -605,7 +623,7 @@ const ComunityCreatePost = () => {
           </div>
         </div>
       </div>
-      <RollTop />
+      {/* <RollTop /> */}
       <Modal
         open={previewOpen}
         title={previewTitle}

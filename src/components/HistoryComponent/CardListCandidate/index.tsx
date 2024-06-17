@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import Grid from '@mui/material/Grid';
-import { Box, Typography} from '@mui/material';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
-import './style.scss';
-import { message, Button } from 'antd';
-import ListCardSaveCandidate from './ListCardSaveCandidate';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/reducer';
-import candidateSearch from '@/api/candidate/apiCandidates';
-import NoDataComponent from '@/util/NoDataPage';
+import React, { useEffect, useState } from "react";
+import Grid from "@mui/material/Grid";
+import { Box, Typography } from "@mui/material";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import "./style.scss";
+import { message, Button } from "antd";
+import ListCardSaveCandidate from "./ListCardSaveCandidate";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/reducer";
+import candidateSearch from "@/api/candidate/apiCandidates";
+import NoDataComponent from "@/util/NoDataPage";
 
 const CardListCandidate: React.FC = () => {
   const [candidateData, setCandidateData] = useState<any>();
@@ -17,10 +17,10 @@ const CardListCandidate: React.FC = () => {
   const [pageNumber, setPageNumber] = React.useState(0);
   const [isVisible, setIsVisible] = useState(true);
   const languageRedux = useSelector(
-    (state: RootState) => state.changeLaguage.language,
+    (state: RootState) => state.changeLaguage.language
   );
   const language = useSelector(
-    (state: RootState) => state.dataLanguage.languages,
+    (state: RootState) => state.dataLanguage.languages
   );
 
   const dataCandidates = async () => {
@@ -28,17 +28,17 @@ const CardListCandidate: React.FC = () => {
       const result = await candidateSearch.getBookmarkCandidate(
         0,
         10,
-        languageRedux === 1 ? 'vi' : 'en',
+        languageRedux === 1 ? "vi" : "en"
       );
 
       if (result) {
         setCandidateData(result.data);
         if (result.data.candidateBookmarks.length < 10) {
-          setIsVisible(false)
+          setIsVisible(false);
         }
       }
     } catch (error) {
-      console.log('error', error);
+      //console.log('error', error);
     }
   };
 
@@ -49,23 +49,28 @@ const CardListCandidate: React.FC = () => {
       const result = await candidateSearch.getBookmarkCandidate(
         nextPage,
         10,
-        languageRedux === 1 ? 'vi' : 'en',
+        languageRedux === 1 ? "vi" : "en"
       );
 
       if (result && result.data.candidateBookmarks.length !== 0) {
-        setCandidateData((prev: any) => [...prev, ...result?.data?.candidateBookmarks]);
+        setCandidateData((prev: any) => [
+          ...prev,
+          ...result?.data?.candidateBookmarks,
+        ]);
         setPageNumber(nextPage);
         setUploading(false);
       } else {
         setIsVisible(false);
         setPageNumber(0);
         setUploading(false);
-        message.error(languageRedux === 1 ?
-          'Không còn ứng cử viên để xem'
-          : 'No more candidates to see');
+        message.error(
+          languageRedux === 1
+            ? "Không còn ứng cử viên để xem"
+            : "No more candidates to see"
+        );
       }
     } catch (error) {
-      console.log('error', error);
+      //console.log('error', error);
     }
   };
 
@@ -80,7 +85,7 @@ const CardListCandidate: React.FC = () => {
         dataCandidates();
       }
     } catch (error) {
-      console.log('error', error);
+      //console.log('error', error);
     }
   };
 
@@ -88,29 +93,27 @@ const CardListCandidate: React.FC = () => {
     <>
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
         <Typography
           sx={{
-            fontWeight: '600',
-            fontSize: '16px',
-            lineHeight: '24px',
+            fontWeight: "600",
+            fontSize: "16px",
+            lineHeight: "24px",
           }}
         >
-          {
-            languageRedux === 1
-              ? 'Danh sách ứng viên đã lưu'
-              : 'Saved candidate list'
-          }
+          {languageRedux === 1
+            ? "Danh sách ứng viên đã lưu"
+            : "Saved candidate list"}
         </Typography>
       </Box>
       <Backdrop
         sx={{
-          color: '#d4a650 ',
-          backgroundColor: 'transparent',
+          color: "#d4a650 ",
+          backgroundColor: "transparent",
           zIndex: (theme: any) => theme.zIndex.drawer + 1,
         }}
         open={false}
@@ -125,7 +128,7 @@ const CardListCandidate: React.FC = () => {
                 // <Skeleton loading={loading} active>
                 <ListCardSaveCandidate
                   item={dataBookmark}
-                  handleDeleteBookmark={() => { }}
+                  handleDeleteBookmark={() => {}}
                   index={i}
                   key={i}
                   language={[]}
@@ -135,26 +138,26 @@ const CardListCandidate: React.FC = () => {
                   }
                 />
                 //</Skeleton>
-              ),
+              )
             )}
           </Grid>
           <Box
             sx={{
-              margin: '12px auto',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              margin: "12px auto",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             <Button
               style={{
                 width: 130,
                 height: 40,
-                marginBottom: '2rem',
+                marginBottom: "2rem",
                 backgroundColor: `#d4a650`,
-                color: '#FFFFFF',
-                fontWeight: 'bold',
-                display: isVisible ? 'block' : 'none',
+                color: "#FFFFFF",
+                fontWeight: "bold",
+                display: isVisible ? "block" : "none",
               }}
               loading={uploading}
               onClick={handleGetmoreCandidates}

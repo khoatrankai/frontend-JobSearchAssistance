@@ -16,6 +16,7 @@ import SkeletonCustom from "@/util/FormSkeleton/SkeletonCustom";
 type Props = {};
 
 const InfoJobMail = (props: Props) => {
+  const { Option } = Select;
   const { handleShortTextHome } = ShortText();
   const { reponsiveMobile } = useSrollContext();
   const [selectSalary, setSelectSalary] = useState<any>(0);
@@ -123,20 +124,20 @@ const InfoJobMail = (props: Props) => {
       setTopCategory(
         dataSalary.data.resultWithMinMax?.[0]?.parent_categories_id
       );
-      console.log(dataSalary.data);
+      //console.log(dataSalary.data);
     };
     fetch();
   }, []);
   useEffect(() => {
     const fetchData = async () => {
       const res = (await postsApi.getPostHot()) as any;
-      console.log(res);
+      //console.log(res);
 
       if (res && res.status === 200) {
         setListJob(res.data);
 
         // setCurrentPage(res.currentPage);
-        console.log(res);
+        //console.log(res);
       }
     };
     if (idTopCategory != -1) {
@@ -159,7 +160,7 @@ const InfoJobMail = (props: Props) => {
     );
   }, [dataSalaryTop, selectSalary]);
   useEffect(() => {
-    console.log(dataJobApplyTop);
+    //console.log(dataJobApplyTop);
   }, [dataJobApplyTop]);
   return (
     <div className="pb-16 pt-8 bg-white px-5">
@@ -522,14 +523,14 @@ const InfoJobMail = (props: Props) => {
                   >
                     {salaryMilestone.map((dt: any, ikey: any) => {
                       return (
-                        <option
+                        <Option
                           onClick={() => {
                             setSelectSalary(ikey);
                           }}
                           key={ikey}
                         >
                           {dt}
-                        </option>
+                        </Option>
                       );
                     })}
                   </Select>

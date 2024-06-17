@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {useSelector} from 'react-redux';
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import {
   Button,
   Cascader,
@@ -8,14 +8,14 @@ import {
   Select,
   Space,
   Radio,
-} from 'antd';
-import type {RadioChangeEvent} from 'antd';
+} from "antd";
+import type { RadioChangeEvent } from "antd";
 
-import './style.scss';
-import {RootState} from '@/redux/reducer';
-import apiCompany from '@/api/company/apiCompany';
-import { PersonIcon } from '@/icons/iconCandidate';
-import { ArrowFilterIcon } from '@/icons';
+import "./style.scss";
+import { RootState } from "@/redux/reducer";
+import apiCompany from "@/api/company/apiCompany";
+import { PersonIcon } from "@/icons/iconCandidate";
+import { ArrowFilterIcon } from "@/icons";
 
 const CustomOption = ({
   sizeType,
@@ -32,7 +32,7 @@ const CustomOption = ({
   setValueRender: Function;
   reset: boolean;
 }) => {
-  const onChange = ({target: {value}}: RadioChangeEvent) => {
+  const onChange = ({ target: { value } }: RadioChangeEvent) => {
     const valueRender = sizeType.find((item: any) => item.id === value);
 
     setSize(value);
@@ -43,24 +43,24 @@ const CustomOption = ({
   };
 
   const languageRedux = useSelector(
-    (state: RootState) => state.changeLaguage.language,
+    (state: RootState) => state.changeLaguage.language
   );
 
   return (
     <div className="wrap-radio_company">
       <div className="title-company">
-        <h3>{languageRedux === 1 ? 'Quy mô công ty' : "Company's size"}</h3>
+        <h3>{languageRedux === 1 ? "Quy mô công ty" : "Company's size"}</h3>
       </div>
       <Radio.Group
-        style={{width: '100%'}}
+        style={{ width: "100%" }}
         name="radiogroup"
         onChange={onChange}
         value={typeSizeCompany && reset ? undefined : typeSizeCompany}
       >
-        <Space direction="vertical" style={{width: '100%'}}>
+        <Space direction="vertical" style={{ width: "100%" }}>
           {sizeType?.map((value: any, index: number) => {
             return (
-              <Radio key={index} style={{width: '100%'}} value={value.id}>
+              <Radio key={index} style={{ width: "100%" }} value={value.id}>
                 {value.nameText}
               </Radio>
             );
@@ -78,27 +78,27 @@ interface ISeachEducation {
 }
 
 const SearchSizeCompany: React.FC<ISeachEducation> = (props) => {
-  const {setSize, setReset, reset} = props;
+  const { setSize, setReset, reset } = props;
   const [sizeType, setSizeType] = React.useState<any>([]);
 
-  const {Option} = Select;
+  const { Option } = Select;
 
   const [typeSizeCompany, setTypeSizeCompany] = React.useState(null);
   const [valueRender, setValueRender] = React.useState<any>();
   const languageRedux = useSelector(
-    (state: RootState) => state.changeLaguage.language,
+    (state: RootState) => state.changeLaguage.language
   );
 
   const getSizeCompany = async () => {
     try {
       const result = await apiCompany.getAllSizesCompany(
-        languageRedux === 1 ? 'vi' : 'en',
+        languageRedux === 1 ? "vi" : "en"
       );
       if (result) {
         setSizeType(result);
       }
     } catch (error) {
-      console.log('error: ' + error);
+      //console.log('error: ' + error);
     }
   };
 
@@ -122,13 +122,13 @@ const SearchSizeCompany: React.FC<ISeachEducation> = (props) => {
         <PersonIcon />
       </div>
       <Select
-        style={{width: '100%'}}
+        style={{ width: "100%" }}
         onChange={handleChange}
         optionLabelProp="label"
         value={reset && valueRender ? undefined : valueRender?.nameText}
         className="inputTypeSalary input-filter_nav"
         size="large"
-        placeholder={languageRedux === 1 ? 'Quy mô công ty' : "Company's size"}
+        placeholder={languageRedux === 1 ? "Quy mô công ty" : "Company's size"}
         suffixIcon={<ArrowFilterIcon width={14} height={10} />}
       >
         <Option className="type-salary" value={valueRender?.id} label="">

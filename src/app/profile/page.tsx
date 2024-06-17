@@ -23,7 +23,7 @@ import CheckPageLogin from "@/util/CheckPageLogin";
 type Props = {};
 
 const page = (props: Props) => {
-  // CheckPageLogin();
+  CheckPageLogin();
   const dataProfile = useSelector((state: RootState) => state.profile.profile);
   const { reponsiveMobile, selectProfileUser, setSelectProfileUser } =
     useSrollContext();

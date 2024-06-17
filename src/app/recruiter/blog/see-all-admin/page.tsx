@@ -2,7 +2,7 @@
 "use client";
 import React, { useEffect } from "react";
 import AllBlogComponent from "@/components/BlogComponent/AllBlogComponent/AllBlogComponent";
-import communityApi from "@/api/community/apiCommunityRecruiter";
+import communityApi from "@/api/community/apiCommunity";
 
 type Props = {};
 
@@ -13,7 +13,7 @@ const page = (props: Props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const resUser = await communityApi.getCommunityNews(
+      const resUser = await communityApi.getCommunityNewsRecruiter(
         "0",
         "10",
         "cm",

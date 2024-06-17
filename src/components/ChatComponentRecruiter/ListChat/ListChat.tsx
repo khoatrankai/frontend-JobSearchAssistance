@@ -102,11 +102,11 @@ const ListChat: React.FC<IOpenListChat> = (props) => {
 
       if (result) {
         setAllListChat(result?.data?.data);
-        console.log(result?.data?.data);
+        //console.log(result?.data?.data);
         setOpenBackdrop(false);
       }
     } catch (error) {
-      console.log("error", error);
+      //console.log("error", error);
     }
   };
 

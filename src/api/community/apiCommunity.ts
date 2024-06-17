@@ -1,6 +1,7 @@
 // api/productApi.js
 
 import axiosClient from '@/configs/axiosClient';
+import axiosClientRecruiter from '@/configs/axiosRecruiter';
 
 export interface FormCommunity {
   title: string;
@@ -34,12 +35,30 @@ const communityApi = {
       },
     });
   },
+  postCommunicationsRecruiter: (newCommunity: FormCommunity) => {
+    const URL = `http://localhost:1902/api/v3/communications`;
+    return axiosClientRecruiter.post(URL, newCommunity, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
 
   deleteComent: (postId: any, cmtId: any) => {
     const URL = `http://localhost:1902/api/v3/communication-comments/${postId}/${cmtId}`;
     return axiosClient.delete(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+  deleteCommentRecruiter: (postId: any, cmtId: any) => {
+    const URL = `http://localhost:1902/api/v3/communication-comments/${postId}/${cmtId}`;
+    return axiosClientRecruiter.delete(URL, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
         'Content-Type': 'multipart/form-data',
       },
     });
@@ -54,6 +73,15 @@ const communityApi = {
     const URL = `http://localhost:1902/api/v3/communications?page=${page}&limit=${limit}&sort=${sort}&type=${type}`;
     return axiosClient.get(URL);
   },
+  getCommunitationsRecruiter: (
+    page: string,
+    limit: string,
+    sort: string,
+    type: number,
+  ) => {
+    const URL = `http://localhost:1902/api/v3/communications?page=${page}&limit=${limit}&sort=${sort}&type=${type}`;
+    return axiosClientRecruiter.get(URL);
+  },
 
   getCommunityNews: (
     page: string,
@@ -65,10 +93,24 @@ const communityApi = {
     const URL = `http://localhost:1902/api/v3/communications/news?page=${page}&limit=${limit}&sort=${sort}&type=${type}&lang=${lang}`;
     return axiosClient.get(URL);
   },
+  getCommunityNewsRecruiter: (
+    page: string,
+    limit: string,
+    sort: string,
+    type: number,
+    lang: any,
+  ) => {
+    const URL = `http://localhost:1902/api/v3/communications/news?page=${page}&limit=${limit}&sort=${sort}&type=${type}&lang=${lang}`;
+    return axiosClientRecruiter.get(URL);
+  },
 
   getCommunityWorkingStory: () => {
     const URL = `http://localhost:1902/api/v3/communications/working-story`;
     return axiosClient.get(URL);
+  },
+  getCommunityWorkingStoryRecruiter: () => {
+    const URL = `http://localhost:1902/api/v3/communications/working-story`;
+    return axiosClientRecruiter.get(URL);
   },
 
   getCommunityTodayByAccount: (page: string, limit: string, sort: string) => {
@@ -76,6 +118,14 @@ const communityApi = {
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
+    });
+  },
+  getCommunityTodayByAccountRecruiter: (page: string, limit: string, sort: string) => {
+    const URL = `http://localhost:1902/api/v3/communications/today/by-account?page=${page}&limit=${limit}&sort=${sort}`;
+    return axiosClientRecruiter.get(URL, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
       },
     });
   },
@@ -93,12 +143,34 @@ const communityApi = {
       },
     });
   },
+  getCommunityByAccountRecruiter: (
+    page: string,
+    limit: string,
+    sort: string,
+    lang: any,
+  ) => {
+    const URL = `http://localhost:1902/api/v3/communications/by-account?page=${page}&limit=${limit}&sort=${sort}&lang=${lang}`;
+    return axiosClientRecruiter.get(URL, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
+      },
+    });
+  },
 
   putCommunityByAccount: (id: number, putCommunity: FormPutCommunity) => {
     const URL = `http://localhost:1902/api/v3/communications/${id}`;
     return axiosClient.put(URL, putCommunity, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+  putCommunityByAccountRecruiter: (id: number, putCommunity: FormPutCommunity) => {
+    const URL = `http://localhost:1902/api/v3/communications/${id}`;
+    return axiosClientRecruiter.put(URL, putCommunity, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
         'Content-Type': 'multipart/form-data',
       },
     });
@@ -122,7 +194,10 @@ const communityApi = {
     const URL = `http://localhost:1902/api/v3/communications/detail/${id}?lang=${lang}`;
     return axiosClient.get(URL);
   },
-
+  getCommunityDetailRecruiterId: (id: string, lang: any) => {
+    const URL = `http://localhost:1902/api/v3/communications/detail/${id}?lang=${lang}`;
+    return axiosClientRecruiter.get(URL);
+  },
   // ---------------------------------------------------------------------------------------- ADMIN
   postCommunityByAdmin: (newCommunityAdmin: FormCommunity) => {
     const URL = `http://localhost:1902/api/v3/communications/by-admin`;
@@ -161,12 +236,35 @@ const communityApi = {
       },
     );
   },
+  postCommunityLikeRecruiter: (communicationId: number) => {
+    const URL = `http://localhost:1902/api/v3/communication-likes`;
+    return axiosClientRecruiter.post(
+      URL,
+      {
+        communicationId: communicationId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      },
+    );
+  },
 
   getCommunityLike: (id: string) => {
     const URL = `http://localhost:1902/api/v3/communication-likes/${id}`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
+    });
+  },
+  getCommunityLikeRecruiter: (id: string) => {
+    const URL = `http://localhost:1902/api/v3/communication-likes/${id}`;
+    return axiosClientRecruiter.get(URL, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
       },
     });
   },
@@ -194,12 +292,29 @@ const communityApi = {
       },
     });
   },
+  postCommunityCommentRecruiter: (newCommentCommunity: FormPostCommunityComment) => {
+    const URL = `http://localhost:1902/api/v3/communication-comments`;
+    return axiosClientRecruiter.post(URL, newCommentCommunity, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
 
   getCommunityComment: (id: string) => {
     const URL = `http://localhost:1902/api/v3/communication-comments/${id}`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
+    });
+  },
+  getCommunityCommentRecruiter: (id: string) => {
+    const URL = `http://localhost:1902/api/v3/communication-comments/${id}`;
+    return axiosClientRecruiter.get(URL, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
       },
     });
   },
@@ -213,6 +328,19 @@ const communityApi = {
     return axiosClient.put(URL, putCommunityComment, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+  putCommunityCommentRecruiter: (
+    communicationId: number,
+    commentId: number,
+    putCommunityComment: FormPutCommunity,
+  ) => {
+    const URL = `http://localhost:1902/api/v3/communication-comments/${communicationId}/${commentId}`;
+    return axiosClientRecruiter.put(URL, putCommunityComment, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
         'Content-Type': 'multipart/form-data',
       },
     });
@@ -235,12 +363,35 @@ const communityApi = {
       },
     );
   },
+  postCommunityBookmarkedRecruiter: (communicationId: number) => {
+    const URL = `http://localhost:1902/api/v3/communication-bookmarked`;
+    return axiosClientRecruiter.post(
+      URL,
+      {
+        communicationId: communicationId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      },
+    );
+  },
 
   getCommunityBookmarked: (page: number) => {
     const URL = `http://localhost:1902/api/v3/communication-bookmarked?page=${page}`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
+    });
+  },
+  getCommunityBookmarkedRecruiter: (page: number) => {
+    const URL = `http://localhost:1902/api/v3/communication-bookmarked?page=${page}`;
+    return axiosClientRecruiter.get(URL, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
       },
     });
   },

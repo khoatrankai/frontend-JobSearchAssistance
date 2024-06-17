@@ -18,7 +18,7 @@ const BlogRecruiter = (props: Props) => {
 
       if (res && res.status === 200) {
         setDataBlog(res.data.communications);
-        console.log(res);
+        //console.log(res);
       }
     };
     fetchData();

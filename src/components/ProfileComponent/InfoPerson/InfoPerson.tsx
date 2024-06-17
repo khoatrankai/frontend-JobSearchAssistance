@@ -247,9 +247,9 @@ const InfoPerson = (props: Props) => {
               >
                 {dataLocation?.map((dt: any) => {
                   return (
-                    <option key={dt.id} value={dt.id}>
+                    <Option key={dt.id} value={dt.id}>
                       {dt.name}
-                    </option>
+                    </Option>
                   );
                 })}
               </Select>

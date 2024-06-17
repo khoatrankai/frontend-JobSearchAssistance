@@ -12,7 +12,7 @@ import { SlOptionsVertical } from "react-icons/sl";
 import axios from "axios";
 import axiosClient from "@/configs/axiosClient";
 
-const RollTop: React.FC = () => {
+const ChatRoll: React.FC = () => {
   const [showButton, setShowButton] = useState(true);
   const [questionSurvey, setQuestionSurvey] = useState<any>([
     {
@@ -138,7 +138,7 @@ const RollTop: React.FC = () => {
   };
   const handleChatBot = async () => {
     // const data: any = await axios.pó("http://127.0.0.1:8000/aiJob/");
-    // console.log(data);
+    // //console.log(data);
     const dataVip: any = await axiosClient.post(
       "http://127.0.0.1:8000/aiChat/",
       {
@@ -209,20 +209,21 @@ const RollTop: React.FC = () => {
   return (
     <div className="roll-top-container ">
       {showButton && (
-        <Button
-          className={`group flex !pl-2 border-4 justify-center items-center ${
+        <div
+          className={`group flex border-4 justify-center items-center rounded-full cursor-pointer ${
             reponsiveMobile
               ? "roll-chat-btn-mobile bottom-[125px]"
               : "roll-chat-btn bottom-[130px]"
           }`}
-          shape="circle"
-          icon={
-            <SmartToyIcon className="text-white group-hover:text-blue-500" />
-          }
+          // shape="circle"
+          // icon={
+
+          // }
           // onClick={() => {
           //   router.push("/chat-bot");
           // }}
         >
+          <SmartToyIcon className="text-white group-hover:text-blue-500" />
           <div className="group-hover:w-80 px-4 group-hover:h-96 max-h-96 h-0 w-0 opacity-0 group-hover:opacity-100 absolute group-hover:right-full right-0 bottom-0 transition-all duration-500">
             <div className="w-full h-full flex flex-col rounded-md overflow-hidden bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
               <div className="h-12 bg-blue-700 bg-chat flex justify-between px-4  items-center">
@@ -498,10 +499,10 @@ const RollTop: React.FC = () => {
               </div>
             </div>
           </div>
-        </Button>
+        </div>
       )}
     </div>
   );
 };
 
-export default RollTop;
+export default ChatRoll;

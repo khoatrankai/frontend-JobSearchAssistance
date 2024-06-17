@@ -89,7 +89,7 @@ const SuggestApplicationComponent = (props: Props) => {
           setDataPost(result.data);
         }
       } catch (error) {
-        console.log("error", error);
+        //console.log("error", error);
       }
     };
     getAllPosted();

@@ -7,7 +7,7 @@ type Props = {}
 const CheckPageLogin = () => {
     // const profile = useSelector((state: any) => state.profile.profile);
     const accessToken = localStorage.getItem('accessToken')
-    console.log(accessToken)
+    //console.log(accessToken)
     const router = useRouter();
     useEffect(() => {       
        

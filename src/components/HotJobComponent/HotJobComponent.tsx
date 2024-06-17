@@ -67,7 +67,7 @@ const HotJobComponent = forwardRef<HTMLDivElement>((props, ref) => {
             reponsiveMobile < 700 ? "text-xl" : "text-2xl"
           }`}
         >
-          {language === 1 ? `Công việc nổi bật` : `Outstanding work`}
+          {language === 1 ? `Ngành nghề nổi bật` : `Outstanding work`}
         </h1>
         <div className="relative" ref={ref}>
           {checkPrev && (

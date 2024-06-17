@@ -109,13 +109,13 @@ const ListJobComponent = (props: Props) => {
         language === 1 ? "vi" : "en",
         currentPage
       )) as any;
-      console.log(res);
+      //console.log(res);
 
       if (res && res.status === 200) {
         setListJob(res.data);
         setTotalPage(res.totalPage);
         // setCurrentPage(res.currentPage);
-        console.log(res);
+        //console.log(res);
       }
     };
     setListJob([]);
@@ -248,7 +248,7 @@ const ListJobComponent = (props: Props) => {
               theme: "dark",
             }
           );
-          // console.log("bam", id, listJob);
+          // //console.log("bam", id, listJob);
           setListJob(
             listJob.map((dt: any) => {
               if (dt.id === id) {
@@ -366,10 +366,10 @@ const ListJobComponent = (props: Props) => {
 
       if (res && res.code === 200) {
         setLocationFilter(res.data);
-        console.log(res);
+        //console.log(res);
       }
       if (dataCareer && dataCareer.code === 200) {
-        console.log(dataCareer);
+        //console.log(dataCareer);
         setListCareer(dataCareer.data);
       }
     };
@@ -392,7 +392,7 @@ const ListJobComponent = (props: Props) => {
     setCurrentPage(0);
   }, [careerId, provinceId]);
   useEffect(() => {
-    console.log(listJob);
+    //console.log(listJob);
   }, [listJob]);
 
   return (

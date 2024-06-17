@@ -1,20 +1,20 @@
-'use client';
-import React, { useEffect, useState } from 'react';
-import Grid from '@mui/material/Grid';
-import { Box, Typography } from '@mui/material';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
-import './style.scss';
-import { message, Button, Select } from 'antd';
-import { useDispatch } from 'react-redux';
-import JobCardSaveHistory from './JobCardSaveHstory';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/reducer';
-import historyBookmark from '@/api/historyBookmark';
-import sortData from '@/util/SortDataHistory/sortData';
-import bookMarkApi from '@/api/bookmarks/bookMarkApi';
-import NoDataComponent from '@/util/NoDataPage';
-import { setAlertCancleSave } from '@/redux/reducer/alertReducer';
+"use client";
+import React, { useEffect, useState } from "react";
+import Grid from "@mui/material/Grid";
+import { Box, Typography } from "@mui/material";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import "./style.scss";
+import { message, Button, Select } from "antd";
+import { useDispatch } from "react-redux";
+import JobCardSaveHistory from "./JobCardSaveHstory";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/reducer";
+import historyBookmark from "@/api/historyBookmark";
+import sortData from "@/util/SortDataHistory/sortData";
+import bookMarkApi from "@/api/bookmarks/bookMarkApi";
+import NoDataComponent from "@/util/NoDataPage";
+import { setAlertCancleSave } from "@/redux/reducer/alertReducer";
 
 interface ICardsApplied {
   activeChild: string;
@@ -22,11 +22,11 @@ interface ICardsApplied {
 
 const CardsSavedJob: React.FC<ICardsApplied> = (props) => {
   const languageRedux = useSelector(
-    (state: RootState) => state.changeLaguage.language,
+    (state: RootState) => state.changeLaguage.language
   );
   const [loading, setLoading] = useState<boolean>(true);
   const [dataBookmarks, setDataBookmarks] = useState<any>(null);
-  const [newOld, setnewOld] = React.useState('Mới nhất');
+  const [newOld, setnewOld] = React.useState("Mới nhất");
   const [uploading, setUploading] = useState(false);
   const [lastPostId, setLastPostId] = useState(0);
   const dispatch = useDispatch();
@@ -40,7 +40,7 @@ const CardsSavedJob: React.FC<ICardsApplied> = (props) => {
     const result = await historyBookmark.getAllBookmark(
       lastPostId,
       11,
-      languageRedux === 1 ? 'vi' : 'en',
+      languageRedux === 1 ? "vi" : "en"
     );
     if (result.data.length <= 10) {
       setIsVisible(false);
@@ -57,7 +57,7 @@ const CardsSavedJob: React.FC<ICardsApplied> = (props) => {
       const result = await historyBookmark.getAllBookmark(
         newCount,
         10,
-        languageRedux === 1 ? 'vi' : 'en',
+        languageRedux === 1 ? "vi" : "en"
       );
 
       if (result) {
@@ -65,7 +65,7 @@ const CardsSavedJob: React.FC<ICardsApplied> = (props) => {
         setDataBookmarks(sortData.sortDataByDate(newOld, result.data));
       }
     } catch (error) {
-      console.log('error', error);
+      //console.log('error', error);
     }
   };
 
@@ -88,9 +88,7 @@ const CardsSavedJob: React.FC<ICardsApplied> = (props) => {
 
   const handleChange = (event: any) => {
     setnewOld(event);
-    setDataBookmarks(
-      sortData.sortDataByDate(event, dataBookmarks),
-    );
+    setDataBookmarks(sortData.sortDataByDate(event, dataBookmarks));
   };
 
   const handleClickAddItem = async () => {
@@ -99,7 +97,7 @@ const CardsSavedJob: React.FC<ICardsApplied> = (props) => {
       const result = await historyBookmark.getAllBookmark(
         lastPostId,
         10,
-        languageRedux === 1 ? 'vi' : 'en',
+        languageRedux === 1 ? "vi" : "en"
       );
 
       if (result) {
@@ -107,11 +105,11 @@ const CardsSavedJob: React.FC<ICardsApplied> = (props) => {
         if (result.data.length === 0) {
           setIsVisible(false);
           messageApi.open({
-            type: 'error',
+            type: "error",
             content:
               languageRedux === 1
-                ? 'Đã hết công việc để hiển thị'
-                : 'No more jobs to display',
+                ? "Đã hết công việc để hiển thị"
+                : "No more jobs to display",
           });
           return;
         }
@@ -122,14 +120,14 @@ const CardsSavedJob: React.FC<ICardsApplied> = (props) => {
         });
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
   const handleDeleteBookmark = async (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     index: number,
-    bookmarkId: number,
+    bookmarkId: number
   ) => {
     const result = await bookMarkApi.deleteBookMark(bookmarkId);
 
@@ -151,26 +149,26 @@ const CardsSavedJob: React.FC<ICardsApplied> = (props) => {
       {contextHolder}
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
         <Typography
           sx={{
-            fontWeight: '600',
-            fontSize: '16px',
-            lineHeight: '24px',
+            fontWeight: "600",
+            fontSize: "16px",
+            lineHeight: "24px",
           }}
         >
-          {languageRedux === 1 ? 'Các công việc đã lưu' : 'Saved jobs'}
+          {languageRedux === 1 ? "Các công việc đã lưu" : "Saved jobs"}
         </Typography>
         <Select
           style={{
             width: 130,
             height: 40,
             backgroundColor: `#f5f5f5`,
-            marginBottom: '2rem',
+            marginBottom: "2rem",
           }}
           value={newOld}
           onChange={handleChange}
@@ -185,8 +183,8 @@ const CardsSavedJob: React.FC<ICardsApplied> = (props) => {
       </Box>
       <Backdrop
         sx={{
-          color: '#d4a650 ',
-          backgroundColor: 'transparent',
+          color: "#d4a650 ",
+          backgroundColor: "transparent",
           zIndex: (theme: any) => theme.zIndex.drawer + 1,
         }}
         open={loading}
@@ -209,21 +207,21 @@ const CardsSavedJob: React.FC<ICardsApplied> = (props) => {
           </Grid>
           <Box
             sx={{
-              margin: '12px auto',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              margin: "12px auto",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             <Button
               style={{
                 width: 130,
                 height: 40,
-                marginBottom: '2rem',
+                marginBottom: "2rem",
                 backgroundColor: `#d4a650`,
-                color: '#FFFFFF',
-                fontWeight: 'bold',
-                display: isVisible ? 'block' : 'none',
+                color: "#FFFFFF",
+                fontWeight: "bold",
+                display: isVisible ? "block" : "none",
               }}
               loading={uploading}
               onClick={handleClickAddItem}

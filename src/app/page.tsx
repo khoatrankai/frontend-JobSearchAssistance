@@ -27,6 +27,15 @@ const Home = () => {
   const hotJobRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // if (navigator.geolocation) {
+    //   navigator.geolocation.getCurrentPosition(
+    //     (position) => {
+    //       console.log(position.coords.latitude, position.coords.longitude);
+    //     },
+    //     (error) => {}
+    //   );
+    // } else {
+    // }
     setCheckPage(location.pathname);
   }, []);
 
@@ -35,19 +44,21 @@ const Home = () => {
       hotJobRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [categoryId]);
-
+  // useEffect(() => {
+  //   console.log(isLoading);
+  // }, [isLoading]);
   return (
     <>
-      {isLoading && <LoadingPageComponent />}
-      <PersistGate
-        loading={false}
+      {/* {isLoading && <LoadingPageComponent />} */}
+      {/* <PersistGate
+        loading={null}
         persistor={persistor}
         onBeforeLift={handlePersistGateLoaded}
-      >
-        <div className="w-full h-full -z-10">
-          <PageHome />
-        </div>
-      </PersistGate>
+      > */}
+      <div className="w-full h-full -z-10">
+        <PageHome />
+      </div>
+      {/* </PersistGate> */}
     </>
   );
 };

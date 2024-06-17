@@ -101,7 +101,7 @@ const page = (props: Props) => {
     React.useState<boolean>(false);
   useEffect(() => {
     setProfileCV(profile.profilesCvs);
-    console.log(profile);
+    // //console.log(profile);
   }, [profile]);
 
   const handleUpLoadDocs = async (e: any) => {

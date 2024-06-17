@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import './style.scss';
-import Grid from '@mui/material/Grid';
-import { Button, Select } from 'antd';
-import { message } from 'antd';
-import { Box, Typography, MenuItem, TextField } from '@mui/material';
-import { LeftOutlined } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
-import { RootState } from '@/redux/reducer';
-import historyRecruiter from '@/api/history/historyRecruiter';
-import sortData from '@/util/SortDataHistory/sortData';
-import JobCardPostHistory from '../JobCardPostHistoryComponent';
-import NoDataComponent from '@/util/NoDataPage';
-import DetailPosted from '../DetailPosted';
+import React, { useEffect, useState } from "react";
+import "./style.scss";
+import Grid from "@mui/material/Grid";
+import { Button, Select } from "antd";
+import { message } from "antd";
+import { Box, Typography, MenuItem, TextField } from "@mui/material";
+import { LeftOutlined } from "@ant-design/icons";
+import { useSelector } from "react-redux";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import { RootState } from "@/redux/reducer";
+import historyRecruiter from "@/api/history/historyRecruiter";
+import sortData from "@/util/SortDataHistory/sortData";
+import JobCardPostHistory from "../JobCardPostHistoryComponent";
+import NoDataComponent from "@/util/NoDataPage";
+import DetailPosted from "../DetailPosted";
 
 interface ICardsPostedAll {
   setShowDetailPosted: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,13 +23,13 @@ interface ICardsPostedAll {
 const CardsPostedAll: React.FC<ICardsPostedAll> = (props) => {
   const { setShowDetailPosted, showDetailPosted } = props;
   const languageRedux = useSelector(
-    (state: RootState) => state.changeLaguage.language,
+    (state: RootState) => state.changeLaguage.language
   );
   const language = useSelector((state: any) => state.changeLaguage.language);
   const [detailPosted, setDetailPosted] = React.useState<any>(null);
   const [dataPosted, setDataPosted] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [newOld, setnewOld] = React.useState('Mới nhất');
+  const [newOld, setnewOld] = React.useState("Mới nhất");
 
   const [uploading, setUploading] = useState(false);
   const [lastPostId, setLastPostId] = useState(0);
@@ -43,8 +43,8 @@ const CardsPostedAll: React.FC<ICardsPostedAll> = (props) => {
       const result = await historyRecruiter.GetInformationAndCandidatesCount(
         postID,
         10,
-        '-1',
-        languageRedux === 1 ? 'vi' : 'en',
+        "-1",
+        languageRedux === 1 ? "vi" : "en"
       );
 
       if (result) {
@@ -55,7 +55,7 @@ const CardsPostedAll: React.FC<ICardsPostedAll> = (props) => {
         }
       }
     } catch (error) {
-      console.log('error', error);
+      //console.log('error', error);
     }
   };
 
@@ -81,16 +81,19 @@ const CardsPostedAll: React.FC<ICardsPostedAll> = (props) => {
       const result = await historyRecruiter.GetInformationAndCandidatesCount(
         lastPostId,
         5,
-        '-1',
-        languageRedux === 1 ? 'vi' : 'en',
+        "-1",
+        languageRedux === 1 ? "vi" : "en"
       );
       if (result) {
         setUploading(false);
         if (result.data.length === 0) {
           setIsVisible(false);
           messageApi.open({
-            type: 'error',
-            content: language === 1 ? 'Đã hết công việc để hiển thị' : 'No more jobs to display',
+            type: "error",
+            content:
+              language === 1
+                ? "Đã hết công việc để hiển thị"
+                : "No more jobs to display",
           });
           return;
         }
@@ -101,12 +104,12 @@ const CardsPostedAll: React.FC<ICardsPostedAll> = (props) => {
         });
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
   const handleShowDetail = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    posted: any,
+    posted: any
   ) => {
     event.stopPropagation();
 
@@ -128,9 +131,9 @@ const CardsPostedAll: React.FC<ICardsPostedAll> = (props) => {
       {contextHolder}
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
         <div className="back-container">
@@ -141,17 +144,17 @@ const CardsPostedAll: React.FC<ICardsPostedAll> = (props) => {
             icon={<LeftOutlined />}
             onClick={handleHideDetail}
             style={{
-              display: showDetailPosted ? 'block' : 'none',
+              display: showDetailPosted ? "block" : "none",
             }}
           />
           <Typography
             sx={{
-              fontWeight: '600',
-              fontSize: '24px',
-              lineHeight: '24px',
+              fontWeight: "600",
+              fontSize: "24px",
+              lineHeight: "24px",
             }}
           >
-            {language === 1 ? 'Các công việc đã đăng tuyển' : 'Posted jobs'}
+            {language === 1 ? "Các công việc đã đăng tuyển" : "Posted jobs"}
           </Typography>
         </div>
         <Select
@@ -159,7 +162,7 @@ const CardsPostedAll: React.FC<ICardsPostedAll> = (props) => {
             width: 130,
             height: 40,
             backgroundColor: `#f5f5f5`,
-            marginBottom: '2rem',
+            marginBottom: "2rem",
           }}
           value={newOld}
           onChange={handleChange}
@@ -177,8 +180,8 @@ const CardsPostedAll: React.FC<ICardsPostedAll> = (props) => {
         <>
           <Backdrop
             sx={{
-              color: '#d4a650 ',
-              backgroundColor: 'transparent',
+              color: "#d4a650 ",
+              backgroundColor: "transparent",
               zIndex: (theme: any) => theme.zIndex.drawer + 1,
             }}
             open={loading}
@@ -201,10 +204,10 @@ const CardsPostedAll: React.FC<ICardsPostedAll> = (props) => {
               </Grid>
               <Box
                 sx={{
-                  margin: '12px auto',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  margin: "12px auto",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
                 <Button
@@ -212,16 +215,15 @@ const CardsPostedAll: React.FC<ICardsPostedAll> = (props) => {
                     width: 130,
                     height: 40,
                     backgroundColor: `#d4a650`,
-                    marginBottom: '2rem',
-                    color: '#FFFFFF',
-                    fontWeight: 'bold',
-                    display: isVisible ? 'block' : 'none',
+                    marginBottom: "2rem",
+                    color: "#FFFFFF",
+                    fontWeight: "bold",
+                    display: isVisible ? "block" : "none",
                   }}
                   loading={uploading}
                   onClick={handleAddItem}
                 >
-
-                  {language === 1 ? 'Xem thêm' : 'See more'}
+                  {language === 1 ? "Xem thêm" : "See more"}
                 </Button>
               </Box>
             </div>

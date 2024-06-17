@@ -31,6 +31,6 @@ export async function captureElementAsFile(element: any,fileName:any) {
   const blob = await fetch(dataURL).then((res) => res.blob());
   const file = new File([blob], fileName, { type: 'image/jpeg' });
 
-  console.log(dataURL)
+  //console.log(dataURL)
   return file
 }

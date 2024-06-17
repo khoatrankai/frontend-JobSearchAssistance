@@ -12,7 +12,7 @@ type Props = {
 const CustomLightImage = ({ src }: Props) => {
   const [dynamicEl, setdynamicEl] = useState<any>();
   useEffect(() => {
-    console.log(src);
+    //console.log(src);
     setdynamicEl([{ src: src }]);
   }, [src]);
   return (

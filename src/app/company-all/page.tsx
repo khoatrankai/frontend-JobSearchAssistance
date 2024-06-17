@@ -74,7 +74,7 @@ const CompanyAll = () => {
         setHasMore(false);
       }
     } catch (error) {
-      console.log("error", error);
+      //console.log("error", error);
     }
   };
   React.useEffect(() => {
@@ -116,7 +116,7 @@ const CompanyAll = () => {
         setListData([]);
       }
     } catch (error) {
-      console.log("error", error);
+      //console.log("error", error);
     }
   };
 
@@ -157,7 +157,7 @@ const CompanyAll = () => {
         setPage("0");
       }
     } catch (error) {
-      console.log("error", error);
+      //console.log("error", error);
     }
   };
   // const analytics: any = getAnalytics();

@@ -37,7 +37,7 @@ const DetailCompany = () => {
   const searchParams = useParams();
   const companyId = searchParams?.id;
 
-  console.log(companyId);
+  //console.log(companyId);
   const getCompanyInfo = async () => {
     try {
       setLoading(true);
@@ -121,7 +121,7 @@ const DetailCompany = () => {
       key: "2",
       label: (
         <p>
-          {languageRedux === 1 ? "Vị trí ứng tuyển" : "Application positions"}
+          {languageRedux === 1 ? "Các công việc" : "All jobs"}
           <span style={{ color: "#0D99FF" }}>
             {" "}
             {"("}

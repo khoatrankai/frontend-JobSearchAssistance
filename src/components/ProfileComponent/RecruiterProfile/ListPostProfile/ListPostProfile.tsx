@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
 import { Tabs } from "antd";
 import ListPost from "./ListPost/ListPost";
+import ListBlog from "./ListBlog/ListBlog";
 
 type Props = {};
 
@@ -13,8 +14,13 @@ const ListPostProfile = (props: Props) => {
   const items = [
     {
       key: "1",
-      label: languageRedux === 1 ? "Bài viết" : "Employer view profile",
+      label: languageRedux === 1 ? "Bài việc làm" : "Employer view profile",
       children: <ListPost />,
+    },
+    {
+      key: "2",
+      label: languageRedux === 1 ? "Bài blog" : "Employer view profile",
+      children: <ListBlog />,
     },
   ];
 

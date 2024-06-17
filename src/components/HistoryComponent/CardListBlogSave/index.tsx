@@ -49,7 +49,7 @@ const CardListBlogSave = () => {
         }
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -78,7 +78,7 @@ const CardListBlogSave = () => {
         setIsVisible(false);
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 

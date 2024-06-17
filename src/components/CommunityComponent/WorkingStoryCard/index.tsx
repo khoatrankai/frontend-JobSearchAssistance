@@ -1,15 +1,22 @@
-import React, { memo, useRef } from 'react';
-import { Avatar, message } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
-import './style.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import { RootState } from '@/redux/reducer';
-import communityApi from '@/api/community/apiCommunity';
-import { setCookie } from '@/cookies';
-import { setAlertCancleSave, setAlertSave } from '@/redux/reducer/alertReducer';
-import { CommentIcon, EysIcon, LikeIcon, SaveIconFill, SaveIconOutline, SettingIcon } from '@/icons';
-import ShowCancleSave from '@/components/HistoryComponent/ShowCancelSave';
+import React, { memo, useRef } from "react";
+import { Avatar, message } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+import "./style.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { RootState } from "@/redux/reducer";
+import communityApi from "@/api/community/apiCommunity";
+import { setCookie } from "@/cookies";
+import { setAlertCancleSave, setAlertSave } from "@/redux/reducer/alertReducer";
+import {
+  CommentIcon,
+  EysIcon,
+  LikeIcon,
+  SaveIconFill,
+  SaveIconOutline,
+  SettingIcon,
+} from "@/icons";
+import ShowCancleSave from "@/components/HistoryComponent/ShowCancelSave";
 
 interface IWorkingStoryCard {
   item: any;
@@ -23,10 +30,10 @@ const WorkingStoryCard: React.FC<IWorkingStoryCard> = (props) => {
   const [like, setLike] = React.useState(item && item?.liked);
   const [bookmark, setBookmark] = React.useState(item?.bookmarked);
   const [totalLike, setTotalLike] = React.useState(
-    item?.communicationLikesCount,
+    item?.communicationLikesCount
   );
   const [shouldShowMoreButton, setShouldShowMoreButton] = React.useState(false);
-  const [showText, setShowText] = React.useState('');
+  const [showText, setShowText] = React.useState("");
   const contentRef = useRef<any>(null);
   const [owner, setOwner] = React.useState(false);
   const [openModalLogin, setOpenModalLogin] = React.useState(false);
@@ -36,7 +43,7 @@ const WorkingStoryCard: React.FC<IWorkingStoryCard> = (props) => {
     if (contentRef.current) {
       const contentHeight = contentRef.current.scrollHeight;
       const lineHeight = parseInt(
-        window.getComputedStyle(contentRef.current).lineHeight,
+        window.getComputedStyle(contentRef.current).lineHeight
       );
 
       const numLines = Math.floor(contentHeight / lineHeight);
@@ -47,18 +54,18 @@ const WorkingStoryCard: React.FC<IWorkingStoryCard> = (props) => {
 
   const handleAddText = (e: any) => {
     e.stopPropagation();
-    if (showText === '') {
-      setShowText('showText');
+    if (showText === "") {
+      setShowText("showText");
       setShouldShowMoreButton(!shouldShowMoreButton);
     } else {
-      setShowText('');
+      setShowText("");
       setShouldShowMoreButton(!shouldShowMoreButton);
     }
   };
 
   const handleLikeCommunity = async (communicationId: number, e: any) => {
     e.stopPropagation();
-    if (!localStorage.getItem('accessToken')) {
+    if (!localStorage.getItem("accessToken")) {
       setOpenModalLogin(true);
       return;
     }
@@ -72,16 +79,16 @@ const WorkingStoryCard: React.FC<IWorkingStoryCard> = (props) => {
           setTotalLike(totalLike - 1);
         }
       } else {
-        message.error('Vui lòng đăng nhập để thực hiện chức năng');
+        message.error("Vui lòng đăng nhập để thực hiện chức năng");
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
   React.useEffect(() => {
     setTotalLike(item?.communicationLikesCount);
-    if (item?.profileData?.id === localStorage.getItem('accountId')) {
+    if (item?.profileData?.id === localStorage.getItem("accountId")) {
       setOwner(true);
     } else {
       setOwner(false);
@@ -96,21 +103,21 @@ const WorkingStoryCard: React.FC<IWorkingStoryCard> = (props) => {
 
   const handleMoveToDetailPage = (id: any, e: any) => {
     e.stopPropagation();
-    location?.pathname === '/history'
-      ? setCookie('fromHistory', '30', 365)
-      : setCookie('fromHistory', '0', 365);
-    localStorage.setItem('reload', 'true');
-    window.open(`/detail-community?post-community=${id}&type=1`, '_parent');
+    location?.pathname === "/history"
+      ? setCookie("fromHistory", "30", 365)
+      : setCookie("fromHistory", "0", 365);
+    localStorage.setItem("reload", "true");
+    window.open(`/detail-community?post-community=${id}&type=1`, "_parent");
   };
 
   React.useEffect(() => {
-    const content = document.querySelector('.text-content_postNew');
+    const content = document.querySelector(".text-content_postNew");
   }, []);
 
   const handleClickSave = async (e: any) => {
     e.stopPropagation();
-    // console.log('handleClick save');
-    if (!localStorage.getItem('accessToken')) {
+    // //console.log('handleClick save');
+    if (!localStorage.getItem("accessToken")) {
       setOpenModalLogin(true);
       return;
     }
@@ -128,24 +135,24 @@ const WorkingStoryCard: React.FC<IWorkingStoryCard> = (props) => {
           setBookmark(false);
         }
       } else {
-        message.error('Vui lòng đăng nhập để thực hiện chức năng');
+        message.error("Vui lòng đăng nhập để thực hiện chức năng");
       }
     } catch (error) {
-      console.log('error', error);
+      //console.log('error', error);
     }
   };
 
   const handleMoveToEdit = (id: any, e: any) => {
     e.stopPropagation();
-    if (!localStorage.getItem('accessToken')) {
+    if (!localStorage.getItem("accessToken")) {
       setOpenModalLogin(true);
       return;
     } else {
-      window.open(`/comunity-create?post-community=${id}`, '_parent');
+      window.open(`/comunity-create?post-community=${id}`, "_parent");
     }
   };
 
-  // console.log('item', item);
+  // //console.log('item', item);
 
   return (
     <>
@@ -155,7 +162,6 @@ const WorkingStoryCard: React.FC<IWorkingStoryCard> = (props) => {
         key={index}
         onClick={(e) => handleMoveToDetailPage(item?.id, e)}
       >
-
         <div className="comunityPostNew-card-content">
           <div className="comunityPostNew-card-content-title">
             <h3>{item?.title}</h3>
@@ -164,7 +170,7 @@ const WorkingStoryCard: React.FC<IWorkingStoryCard> = (props) => {
               onClick={(e) => {
                 e.stopPropagation();
 
-                if (!localStorage.getItem('accessToken')) {
+                if (!localStorage.getItem("accessToken")) {
                   setOpenModalLogin(true);
                   return;
                 } else {
@@ -190,7 +196,7 @@ const WorkingStoryCard: React.FC<IWorkingStoryCard> = (props) => {
               />
               <div className="info-actor_comunity">
                 <p>Tác giả</p>
-                <p>{item?.profileData?.name.slice(0, 2) + '...'}</p>
+                <p>{item?.profileData?.name.slice(0, 2) + "..."}</p>
               </div>
             </div>
             <p>{item?.createdAtText}</p>
@@ -201,7 +207,7 @@ const WorkingStoryCard: React.FC<IWorkingStoryCard> = (props) => {
             </ul>
             {shouldShowMoreButton ? (
               <span onClick={(e) => handleAddText(e)}>
-                {!showText ? 'Xem thêm...' : 'Xem ít...'}
+                {!showText ? "Xem thêm..." : "Xem ít..."}
               </span>
             ) : (
               <></>
@@ -214,7 +220,7 @@ const WorkingStoryCard: React.FC<IWorkingStoryCard> = (props) => {
             <p>{item?.communicationViewsCount}</p>
           </div>
           <div
-            className={like ? 'status-item liked' : 'status-item'}
+            className={like ? "status-item liked" : "status-item"}
             onClick={(e) => handleLikeCommunity(item?.id, e)}
           >
             <LikeIcon />
@@ -228,7 +234,6 @@ const WorkingStoryCard: React.FC<IWorkingStoryCard> = (props) => {
             <p>{item?.communicationCommentsCount}</p>
           </div>
         </div>
-
       </div>
       <ShowCancleSave />
       {/* <ShowNotificativeSave />

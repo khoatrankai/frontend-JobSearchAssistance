@@ -10,7 +10,6 @@ const useSwiperAutoSlider = (gap: number = 0,delay:number = 4000, typeSlider: bo
   const [checkNext, setCheckNext] = useState<boolean>(false);
   const [checkPrev, setCheckPrev] = useState<boolean>(false);
   const [checkClick, setCheckClick] = useState<boolean>(true);
-  useEffect(()=>{console.log(positionOld,position)},[positionOld,position])
   useEffect(() => {
     handleUpData();
   }, []);
@@ -36,7 +35,7 @@ const useSwiperAutoSlider = (gap: number = 0,delay:number = 4000, typeSlider: bo
         ref_list_slider.current?.removeEventListener('mousedown',handleClickDown)
         ref_list_slider.current?.removeEventListener('touchstart',handleClickDownTouch)
       }
-      // console.log(ref_list_slider)
+      // //console.log(ref_list_slider)
     }
   },[ref_list_slider])
   useEffect(() => {
@@ -48,7 +47,7 @@ const useSwiperAutoSlider = (gap: number = 0,delay:number = 4000, typeSlider: bo
   useEffect(() => {
     if (checkDown) {
       const handleMove = (e: any) => {
-        console.log(e.clientX)
+        //console.log(e.clientX)
         setPosition(position + e.clientX - positionOld);
         setCheckClick(false);
       };
@@ -77,7 +76,7 @@ const useSwiperAutoSlider = (gap: number = 0,delay:number = 4000, typeSlider: bo
     if (typeSlider) {
       setPosition(0);
     }
-    console.log(width,ref_list_slider.current)
+    //console.log(width,ref_list_slider.current)
     setMaxWidth(width);
     setWidthList(
       ref_list_slider.current?.parentElement.getBoundingClientRect().width,

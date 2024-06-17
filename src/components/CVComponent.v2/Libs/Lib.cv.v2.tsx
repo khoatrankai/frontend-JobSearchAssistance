@@ -49,6 +49,27 @@ const LibCvV2 = (props: Props) => {
   const [nameCv, setNameCv] = useState<any>("Tiêu đề CV");
   const [filePdf, setFilePdf] = useState<any>("");
   const [checkAddCategory, setAddCategory] = useState<boolean>(false);
+  const [positionAddType, setPositionAddType] = useState<any>();
+  const [listRatio, setListRatio] = useState<any>([
+    "100",
+    "50,50",
+    "66.67,33.33",
+    "33.33,66.67",
+    "75,25",
+    "25,75",
+    "58.33,41.67",
+    "41.67,58.33",
+    "33.33,33.34,33.33",
+    "25,50,25",
+    "25,25,50",
+    "50,25,25",
+    "25,33.33,41.67",
+    "33.33,25,41.67",
+    "41.67,33.33,25",
+    "25,41.67,33.33",
+    "33.33,41.67,25",
+    "25,25,25,25",
+  ]);
   const {
     setTabAlert,
     setHandleAlert,
@@ -60,6 +81,7 @@ const LibCvV2 = (props: Props) => {
     cvIndex: 0,
     layout: ["33.33,66.67", "25,75", "75,25"],
     color: ["#,#", "#,#", "#,#"],
+    colorText: ["#,#", "#,#", "#,#"],
   });
   const [backNext, setBackNext] = useState<any>();
   const [dataGhostDrag, setDataGhostDrag] = useState<any>({
@@ -69,20 +91,32 @@ const LibCvV2 = (props: Props) => {
   });
   const [listDataForm, setListDataForm] = useState<any>([
     {
-      layout: "100:100",
+      layout: "35,65",
+      colorCol: "#626262,#",
+      colorText: "#ffffff,#222228",
       colorTopic: "#529300,#3B82F6",
-      data: "1:7.8.3.2.0.0.9.5",
+      data: "1.9.5.4.2.0,8.3.7.6",
     },
     {
       layout: "100:100:33.33,33.34,33.33",
       colorTopic: "#529300,#3B82F6",
-
+      colorCol: "#:#:#,#,#",
+      colorText: "#000000:#000000:#000000,#000000,#000000",
       data: "1:7.8.3.2.0:0,9,5",
     },
     {
-      layout: "100",
+      layout: "25,75",
+      colorCol: "#353A3D,#",
+      colorText: "#ffffff,#222228",
       colorTopic: "#529300,#3B82F6",
-      data: "1.4.5.6.9.7.8.3.2.0",
+      data: "1.9.5.4.2.0,8.3.7.6",
+    },
+    {
+      layout: "100:100",
+      colorCol: "#:#",
+      colorText: "#000000:#000000",
+      colorTopic: "#000000,#529300,#3B82F6",
+      data: "1:2.3.4.5.6.7.8.9",
     },
     {
       layout: "100:100:50,50:33.33,33.34,33.33:33.33,33.34,33.33",
@@ -284,6 +318,8 @@ const LibCvV2 = (props: Props) => {
   };
   const handleLoadTempData = (temId: any) => {
     const layout = listDataForm[temId].layout.split(":");
+    const colorCol = listDataForm[temId].colorCol.split(":");
+    const colorText = listDataForm[temId].colorText.split(":");
     const pad = layout.map((dt: any) => {
       const lengthPadCol = dt.split(",").length;
       const result = ",1".repeat(lengthPadCol).slice(1);
@@ -293,11 +329,17 @@ const LibCvV2 = (props: Props) => {
       return 1;
     });
     let dataNew: any = [];
-    const color = layout.map((dt: any) => {
-      const lengthdt = dt.split(",").length;
-      const resultdt = ",#".repeat(lengthdt).slice(1);
-      return resultdt;
-    });
+    // const color = colorCol.map((dt: any) => {
+
+    //   const lengthdt = dt.split(",").length;
+    //   if(lengthdt>0 && dt[0] == "#"){
+    //     return dt
+    //   }else{
+    //     const resultdt = ",#".repeat(lengthdt).slice(1);
+    //     return resultdt;
+    //   }
+
+    // });
 
     listDataForm[temId].data.split(":").map((dt: any, part: any) => {
       dt.split(",").map((dtt: any, col: any) => {
@@ -314,7 +356,8 @@ const LibCvV2 = (props: Props) => {
     return {
       ...listDataForm[temId],
       layout: layout,
-      color: color,
+      color: colorCol,
+      colorText: colorText,
       data: dataNew,
       padPart: padPart,
       pad: pad,
@@ -338,7 +381,7 @@ const LibCvV2 = (props: Props) => {
     //   case "link":
     //   case "avatar":
     //   case "intent":
-    console.log(part, col, row, type, index, dataNew);
+    //console.log(part, col, row, type, index, dataNew);
     if (index != null || index === 0) {
       const newData2 = dataLoad.map((dt: any) => {
         if (dt.part === part && dt.col === col && dt.row === row) {
@@ -368,7 +411,7 @@ const LibCvV2 = (props: Props) => {
       setDataLoad(newData2);
       setBackNext({
         back: backNext,
-        present: { dataForm: backNext.present.dataForm, dataLoad: newData2 },
+        present: { ...backNext.present, dataLoad: newData2 },
         next: {},
       });
     } else {
@@ -380,12 +423,12 @@ const LibCvV2 = (props: Props) => {
         }
         return dt;
       });
-      console.log("vao day", newData);
+      //console.log("vao day", newData);
 
       setDataLoad(newData);
       setBackNext({
         back: backNext,
-        present: { dataForm: backNext.present.dataForm, dataLoad: newData },
+        present: { ...backNext.present, dataLoad: newData },
         next: {},
       });
     }
@@ -443,8 +486,24 @@ const LibCvV2 = (props: Props) => {
     setBackNext({
       back: backNext,
       present: {
+        ...backNext.present,
         dataForm: { ...dataForm, color: dataNew },
-        dataLoad: backNext.present.dataLoad,
+      },
+      next: {},
+    });
+  };
+  const handleChangeColorText = (color: any, part: any, col: any) => {
+    let arrayColor = dataRequest[part].colorText.slice();
+    arrayColor[col] = "#" + color;
+    const dataColor = arrayColor.join(",");
+    const dataNew = dataForm.color.slice();
+    dataNew[part] = dataColor;
+    setDataForm({ ...dataForm, colorText: dataNew });
+    setBackNext({
+      back: backNext,
+      present: {
+        ...backNext.present,
+        dataForm: { ...dataForm, colorText: dataNew },
       },
       next: {},
     });
@@ -497,8 +556,19 @@ const LibCvV2 = (props: Props) => {
           ...dataLoad,
           { ...addType, part: part, col: col, row: maxRow.row + 1 },
         ]);
+        setBackNext({
+          back: backNext,
+          present: {
+            ...backNext.present,
+            dataLoad: [
+              ...dataLoad,
+              { ...addType, part: part, col: col, row: maxRow.row + 1 },
+            ],
+          },
+          next: {},
+        });
         setDataGhostDrag({ part: part, col: col, row: maxRow.row + 1 });
-        console.log("2");
+        //console.log("2");
         setCheckActive({
           part: part,
           col: col,
@@ -517,7 +587,7 @@ const LibCvV2 = (props: Props) => {
               }
               if (dt.row === dataGhostDrag.row) {
                 setDataGhostDrag({ ...dataGhostDrag, row: maxRow.row });
-                console.log("3");
+                //console.log("3");
                 setCheckActive({
                   ...dataGhostDrag,
                   row: maxRow.row,
@@ -533,6 +603,11 @@ const LibCvV2 = (props: Props) => {
             return dt;
           });
           setDataLoad(dataNew);
+          setBackNext({
+            back: backNext,
+            present: { ...backNext.present, dataLoad: dataNew },
+            next: {},
+          });
         } else {
           const dataNew = dataLoad.map((dt: any) => {
             if (
@@ -548,7 +623,7 @@ const LibCvV2 = (props: Props) => {
               dt.row === dataGhostDrag.row
             ) {
               setDataGhostDrag({ part: part, col: col, row: maxRow.row + 1 });
-              console.log("4");
+              //console.log("4");
               setCheckActive({
                 part: part,
                 col: col,
@@ -561,6 +636,11 @@ const LibCvV2 = (props: Props) => {
             return dt;
           });
           setDataLoad(dataNew);
+          setBackNext({
+            back: backNext,
+            present: { ...backNext.present, dataLoad: dataNew },
+            next: {},
+          });
         }
       }
     }
@@ -590,7 +670,7 @@ const LibCvV2 = (props: Props) => {
     row = -1,
     index = -1,
   }) => {
-    console.log("6");
+    //console.log("6");
     setCheckActive({ part: part, col: col, row: row, index: index });
   };
   const handleChangePosition = (e: any, data: any) => {
@@ -620,7 +700,7 @@ const LibCvV2 = (props: Props) => {
                 row: data.row,
                 part: data.part,
               });
-              console.log("7");
+              //console.log("7");
               setCheckActive({
                 col: data.col,
                 row: data.row,
@@ -669,7 +749,7 @@ const LibCvV2 = (props: Props) => {
                     row: data.row - 1,
                     part: data.part,
                   });
-                  console.log("8");
+                  //console.log("8");
                   setCheckActive({
                     col: data.col,
                     row: data.row - 1,
@@ -726,8 +806,24 @@ const LibCvV2 = (props: Props) => {
           row: data.row,
           index: -1,
         });
+        // setBackNext({
+        //   back: backNext,
+        //   present: {
+        //     ...backNext.present,
+        //     dataLoad: [
+        //       ...dataNew,
+        //       { ...addType, part: data.part, col: data.col, row: data.row },
+        //     ],
+        //   },
+        //   next: {},
+        // });
       } else {
         setDataLoad(dataNew);
+        // setBackNext({
+        //   back: backNext,
+        //   present: { ...backNext.present, dataLoad: dataNew },
+        //   next: {},
+        // });
       }
     };
     const handleDown = () => {
@@ -859,7 +955,25 @@ const LibCvV2 = (props: Props) => {
           ...dataNew,
           { ...addType, part: data.part, col: data.col, row: data.row + 1 },
         ]);
-      } else setDataLoad(dataNew);
+        // setBackNext({
+        //   back: backNext,
+        //   present: {
+        //     ...backNext.present,
+        //     dataLoad: [
+        //       ...dataNew,
+        //       { ...addType, part: data.part, col: data.col, row: data.row + 1 },
+        //     ],
+        //   },
+        //   next: {},
+        // });
+      } else {
+        setDataLoad(dataNew);
+        // setBackNext({
+        //   back: backNext,
+        //   present: { ...backNext.present, dataLoad: dataNew },
+        //   next: {},
+        // });
+      }
     };
     const vt =
       e.target.getBoundingClientRect().y +
@@ -917,6 +1031,11 @@ const LibCvV2 = (props: Props) => {
         });
         setCheckActive({ ...checkActive, row: checkActive.row - 1 });
         setDataLoad(dataNew);
+        setBackNext({
+          back: backNext,
+          present: { ...backNext.present, dataLoad: dataNew },
+          next: {},
+        });
         return;
       }
       if (checkActive.col !== -1) {
@@ -929,11 +1048,15 @@ const LibCvV2 = (props: Props) => {
           }
           return dt;
         });
-        // console.log(dataNew);
+        // //console.log(dataNew);
         setCheckActive({ ...checkActive, col: checkActive.col - 1 });
 
         setDataLoad(dataNew);
-
+        setBackNext({
+          back: backNext,
+          present: { ...backNext.present, dataLoad: dataNew },
+          next: {},
+        });
         return;
       }
       const dataNew = dataLoad.map((dt: any) => {
@@ -946,6 +1069,15 @@ const LibCvV2 = (props: Props) => {
         return dt;
       });
       const dataNewColor = dataForm.color.map((dt: any, i: any) => {
+        if (checkActive.part - 1 === i) {
+          return dataForm.color[checkActive.part];
+        }
+        if (checkActive.part === i) {
+          return dataForm.color[checkActive.part - 1];
+        }
+        return dt;
+      });
+      const dataNewColorText = dataForm.colorText.map((dt: any, i: any) => {
         if (checkActive.part - 1 === i) {
           return dataForm.color[checkActive.part];
         }
@@ -975,13 +1107,29 @@ const LibCvV2 = (props: Props) => {
       setDataForm({
         ...dataForm,
         color: dataNewColor,
+        colorText: dataNewColorText,
         layout: dataNewLayout,
         pad: dataNewPad,
       });
-      // console.log(dataNew, "part 1");
+
+      // //console.log(dataNew, "part 1");
       setCheckActive({ ...checkActive, part: checkActive.part - 1 });
 
       setDataLoad(dataNew);
+      setBackNext({
+        back: backNext,
+        present: {
+          dataForm: {
+            ...dataForm,
+            color: dataNewColor,
+            colorText: dataNewColorText,
+            layout: dataNewLayout,
+            pad: dataNewPad,
+          },
+          dataLoad: dataNew,
+        },
+        next: {},
+      });
       return;
     } else {
       if (checkActive.row !== -1) {
@@ -1005,6 +1153,11 @@ const LibCvV2 = (props: Props) => {
         setCheckActive({ ...checkActive, row: checkActive.row + 1 });
 
         setDataLoad(dataNew);
+        setBackNext({
+          back: backNext,
+          present: { ...backNext.present, dataLoad: dataNew },
+          next: {},
+        });
         return;
       }
       if (checkActive.col !== -1) {
@@ -1020,6 +1173,11 @@ const LibCvV2 = (props: Props) => {
         setCheckActive({ ...checkActive, col: checkActive.col + 1 });
 
         setDataLoad(dataNew);
+        setBackNext({
+          back: backNext,
+          present: { ...backNext.present, dataLoad: dataNew },
+          next: {},
+        });
         return;
       }
       const dataNew = dataLoad.map((dt: any) => {
@@ -1038,6 +1196,15 @@ const LibCvV2 = (props: Props) => {
         }
         if (checkActive.part === i) {
           return dataForm.color[checkActive.part + 1];
+        }
+        return dt;
+      });
+      const dataNewColorText = dataForm.colorText.map((dt: any, i: any) => {
+        if (checkActive.part + 1 === i) {
+          return dataForm.colorText[checkActive.part];
+        }
+        if (checkActive.part === i) {
+          return dataForm.colorText[checkActive.part + 1];
         }
         return dt;
       });
@@ -1062,10 +1229,25 @@ const LibCvV2 = (props: Props) => {
       setDataForm({
         ...dataForm,
         color: dataNewColor,
+        colorText: dataNewColorText,
         layout: dataNewLayout,
         pad: dataNewPad,
       });
       setDataLoad(dataNew);
+      setBackNext({
+        back: backNext,
+        present: {
+          dataForm: {
+            ...dataForm,
+            color: dataNewColor,
+            colorText: dataNewColorText,
+            layout: dataNewLayout,
+            pad: dataNewPad,
+          },
+          dataLoad: dataNew,
+        },
+        next: {},
+      });
       return;
     }
   };
@@ -1110,7 +1292,7 @@ const LibCvV2 = (props: Props) => {
     });
   };
   const handleOnMouseMoveRow = (e: any, data: any) => {
-    // console.log(e, data);
+    // //console.log(e, data);
     if (dataGhostDrag.part !== -1) handleChangePosition(e, data);
   };
   const handleAddMore = (part: any, col: any, row: any) => {
@@ -1138,6 +1320,11 @@ const LibCvV2 = (props: Props) => {
       return dt;
     });
     setDataLoad(newData);
+    setBackNext({
+      back: backNext,
+      present: { ...backNext.present, dataLoad: newData },
+      next: {},
+    });
   };
   const handleToolMouseMoveTransRow = (e: any, data: any) => {
     e.preventDefault();
@@ -1162,13 +1349,16 @@ const LibCvV2 = (props: Props) => {
   };
   const handleChangeLayout = (index: any, type: any) => {
     let dataColorOld = dataForm.color[index].split(",");
+    let dataColorTextOld = dataForm.colorText[index].split(",");
     let dataPadOld = dataForm.pad[index].split(",");
 
     const changeLayout = () => {
       let dataNew = dataForm.layout.slice();
       let dataNewColor = dataForm.color.slice();
+      let dataNewColorText = dataForm.colorText.slice();
       dataNewColor.splice(index, 1, dataColorOld);
-      console.log(dataNewColor);
+      dataNewColorText.splice(index, 1, dataColorTextOld);
+      //console.log(dataNewColor);
       let dataNewPad = dataForm.pad.slice();
       dataNewPad.splice(index, 1, dataPadOld);
       switch (type) {
@@ -1178,18 +1368,21 @@ const LibCvV2 = (props: Props) => {
             ...dataForm,
             layout: dataNew,
             color: dataNewColor,
+            colorText: dataNewColorText,
             pad: dataNewPad,
           });
           setBackNext({
             back: backNext,
             present: {
+              ...backNext.present,
               dataForm: {
                 ...dataForm,
                 layout: dataNew,
                 color: dataNewColor,
+                colorText: dataNewColorText,
+
                 pad: dataNewPad,
               },
-              dataLoad: backNext.present.dataLoad,
             },
             next: {},
           });
@@ -1200,18 +1393,22 @@ const LibCvV2 = (props: Props) => {
             ...dataForm,
             layout: dataNew,
             color: dataNewColor,
+            colorText: dataNewColorText,
+
             pad: dataNewPad,
           });
           setBackNext({
             back: backNext,
             present: {
+              ...backNext.present,
               dataForm: {
                 ...dataForm,
                 layout: dataNew,
                 color: dataNewColor,
+                colorText: dataNewColorText,
+
                 pad: dataNewPad,
               },
-              dataLoad: backNext.present.dataLoad,
             },
             next: {},
           });
@@ -1222,18 +1419,22 @@ const LibCvV2 = (props: Props) => {
             ...dataForm,
             layout: dataNew,
             color: dataNewColor,
+            colorText: dataNewColorText,
+
             pad: dataNewPad,
           });
           setBackNext({
             back: backNext,
             present: {
+              ...backNext.present,
               dataForm: {
                 ...dataForm,
                 layout: dataNew,
                 color: dataNewColor,
+                colorText: dataNewColorText,
+
                 pad: dataNewPad,
               },
-              dataLoad: backNext.present.dataLoad,
             },
             next: {},
           });
@@ -1244,18 +1445,22 @@ const LibCvV2 = (props: Props) => {
             ...dataForm,
             layout: dataNew,
             color: dataNewColor,
+            colorText: dataNewColorText,
+
             pad: dataNewPad,
           });
           setBackNext({
             back: backNext,
             present: {
+              ...backNext.present,
               dataForm: {
                 ...dataForm,
                 layout: dataNew,
                 color: dataNewColor,
+                colorText: dataNewColorText,
+
                 pad: dataNewPad,
               },
-              dataLoad: backNext.present.dataLoad,
             },
             next: {},
           });
@@ -1266,18 +1471,22 @@ const LibCvV2 = (props: Props) => {
             ...dataForm,
             layout: dataNew,
             color: dataNewColor,
+            colorText: dataNewColorText,
+
             pad: dataNewPad,
           });
           setBackNext({
             back: backNext,
             present: {
+              ...backNext.present,
               dataForm: {
                 ...dataForm,
                 layout: dataNew,
                 color: dataNewColor,
+                colorText: dataNewColorText,
+
                 pad: dataNewPad,
               },
-              dataLoad: backNext.present.dataLoad,
             },
             next: {},
           });
@@ -1288,18 +1497,22 @@ const LibCvV2 = (props: Props) => {
             ...dataForm,
             layout: dataNew,
             color: dataNewColor,
+            colorText: dataNewColorText,
+
             pad: dataNewPad,
           });
           setBackNext({
             back: backNext,
             present: {
+              ...backNext.present,
               dataForm: {
                 ...dataForm,
                 layout: dataNew,
                 color: dataNewColor,
+                colorText: dataNewColorText,
+
                 pad: dataNewPad,
               },
-              dataLoad: backNext.present.dataLoad,
             },
             next: {},
           });
@@ -1310,18 +1523,22 @@ const LibCvV2 = (props: Props) => {
             ...dataForm,
             layout: dataNew,
             color: dataNewColor,
+            colorText: dataNewColorText,
+
             pad: dataNewPad,
           });
           setBackNext({
             back: backNext,
             present: {
+              ...backNext.present,
               dataForm: {
                 ...dataForm,
                 layout: dataNew,
                 color: dataNewColor,
+                colorText: dataNewColorText,
+
                 pad: dataNewPad,
               },
-              dataLoad: backNext.present.dataLoad,
             },
             next: {},
           });
@@ -1332,18 +1549,22 @@ const LibCvV2 = (props: Props) => {
             ...dataForm,
             layout: dataNew,
             color: dataNewColor,
+            colorText: dataNewColorText,
+
             pad: dataNewPad,
           });
           setBackNext({
             back: backNext,
             present: {
+              ...backNext.present,
               dataForm: {
                 ...dataForm,
                 layout: dataNew,
                 color: dataNewColor,
+                colorText: dataNewColorText,
+
                 pad: dataNewPad,
               },
-              dataLoad: backNext.present.dataLoad,
             },
             next: {},
           });
@@ -1354,18 +1575,22 @@ const LibCvV2 = (props: Props) => {
             ...dataForm,
             layout: dataNew,
             color: dataNewColor,
+            colorText: dataNewColorText,
+
             pad: dataNewPad,
           });
           setBackNext({
             back: backNext,
             present: {
+              ...backNext.present,
               dataForm: {
                 ...dataForm,
                 layout: dataNew,
                 color: dataNewColor,
+                colorText: dataNewColorText,
+
                 pad: dataNewPad,
               },
-              dataLoad: backNext.present.dataLoad,
             },
             next: {},
           });
@@ -1376,18 +1601,22 @@ const LibCvV2 = (props: Props) => {
             ...dataForm,
             layout: dataNew,
             color: dataNewColor,
+            colorText: dataNewColorText,
+
             pad: dataNewPad,
           });
           setBackNext({
             back: backNext,
             present: {
+              ...backNext.present,
               dataForm: {
                 ...dataForm,
                 layout: dataNew,
                 color: dataNewColor,
+                colorText: dataNewColorText,
+
                 pad: dataNewPad,
               },
-              dataLoad: backNext.present.dataLoad,
             },
             next: {},
           });
@@ -1398,17 +1627,21 @@ const LibCvV2 = (props: Props) => {
             ...dataForm,
             layout: dataNew,
             color: dataNewColor,
+            colorText: dataNewColorText,
+            pad: dataNewPad,
           });
           setBackNext({
             back: backNext,
             present: {
+              ...backNext.present,
               dataForm: {
                 ...dataForm,
                 layout: dataNew,
                 color: dataNewColor,
+                colorText: dataNewColorText,
+
                 pad: dataNewPad,
               },
-              dataLoad: backNext.present.dataLoad,
             },
             next: {},
           });
@@ -1419,18 +1652,20 @@ const LibCvV2 = (props: Props) => {
             ...dataForm,
             layout: dataNew,
             color: dataNewColor,
+            colorText: dataNewColorText,
             pad: dataNewPad,
           });
           setBackNext({
             back: backNext,
             present: {
+              ...backNext.present,
               dataForm: {
                 ...dataForm,
                 layout: dataNew,
                 color: dataNewColor,
+                colorText: dataNewColorText,
                 pad: dataNewPad,
               },
-              dataLoad: backNext.present.dataLoad,
             },
             next: {},
           });
@@ -1441,18 +1676,20 @@ const LibCvV2 = (props: Props) => {
             ...dataForm,
             layout: dataNew,
             color: dataNewColor,
+            colorText: dataNewColorText,
             pad: dataNewPad,
           });
           setBackNext({
             back: backNext,
             present: {
+              ...backNext.present,
               dataForm: {
                 ...dataForm,
                 layout: dataNew,
                 color: dataNewColor,
+                colorText: dataNewColorText,
                 pad: dataNewPad,
               },
-              dataLoad: backNext.present.dataLoad,
             },
             next: {},
           });
@@ -1463,18 +1700,20 @@ const LibCvV2 = (props: Props) => {
             ...dataForm,
             layout: dataNew,
             color: dataNewColor,
+            colorText: dataNewColorText,
             pad: dataNewPad,
           });
           setBackNext({
             back: backNext,
             present: {
+              ...backNext.present,
               dataForm: {
                 ...dataForm,
                 layout: dataNew,
                 color: dataNewColor,
+                colorText: dataNewColorText,
                 pad: dataNewPad,
               },
-              dataLoad: backNext.present.dataLoad,
             },
             next: {},
           });
@@ -1485,18 +1724,20 @@ const LibCvV2 = (props: Props) => {
             ...dataForm,
             layout: dataNew,
             color: dataNewColor,
+            colorText: dataNewColorText,
             pad: dataNewPad,
           });
           setBackNext({
             back: backNext,
             present: {
+              ...backNext.present,
               dataForm: {
                 ...dataForm,
                 layout: dataNew,
                 color: dataNewColor,
+                colorText: dataNewColorText,
                 pad: dataNewPad,
               },
-              dataLoad: backNext.present.dataLoad,
             },
             next: {},
           });
@@ -1507,18 +1748,20 @@ const LibCvV2 = (props: Props) => {
             ...dataForm,
             layout: dataNew,
             color: dataNewColor,
+            colorText: dataNewColorText,
             pad: dataNewPad,
           });
           setBackNext({
             back: backNext,
             present: {
+              ...backNext.present,
               dataForm: {
                 ...dataForm,
                 layout: dataNew,
                 color: dataNewColor,
+                colorText: dataNewColorText,
                 pad: dataNewPad,
               },
-              dataLoad: backNext.present.dataLoad,
             },
             next: {},
           });
@@ -1529,18 +1772,20 @@ const LibCvV2 = (props: Props) => {
             ...dataForm,
             layout: dataNew,
             color: dataNewColor,
+            colorText: dataNewColorText,
             pad: dataNewPad,
           });
           setBackNext({
             back: backNext,
             present: {
+              ...backNext.present,
               dataForm: {
                 ...dataForm,
                 layout: dataNew,
                 color: dataNewColor,
+                colorText: dataNewColorText,
                 pad: dataNewPad,
               },
-              dataLoad: backNext.present.dataLoad,
             },
             next: {},
           });
@@ -1550,19 +1795,21 @@ const LibCvV2 = (props: Props) => {
           setDataForm({
             ...dataForm,
             layout: dataNew,
+            colorText: dataNewColorText,
             color: dataNewColor,
             pad: dataNewPad,
           });
           setBackNext({
             back: backNext,
             present: {
+              ...backNext.present,
               dataForm: {
                 ...dataForm,
                 layout: dataNew,
                 color: dataNewColor,
+                colorText: dataNewColorText,
                 pad: dataNewPad,
               },
-              dataLoad: backNext.present.dataLoad,
             },
             next: {},
           });
@@ -1589,8 +1836,13 @@ const LibCvV2 = (props: Props) => {
         }
         return dt;
       });
-      // console.log(dataNew, dataLoad, countRow, sizeCol);
+      // //console.log(dataNew, dataLoad, countRow, sizeCol);
       setDataLoad(dataNew);
+      setBackNext({
+        back: backNext,
+        present: { ...backNext.present, dataLoad: dataNew },
+        next: {},
+      });
     };
     if (type === 0) {
       changeSize(0);
@@ -1598,14 +1850,18 @@ const LibCvV2 = (props: Props) => {
     if (type > 0 && type < 8) {
       if (dataColorOld.length === 1) {
         dataColorOld = [...dataColorOld, "#"];
+        dataColorTextOld = [...dataColorTextOld, "#000000"];
         dataPadOld = [...dataPadOld, "1"];
       }
       if (dataColorOld.length === 3) {
         dataColorOld.splice(2, 1);
+        dataColorTextOld.splice(2, 1);
         dataPadOld.splice(2, 1);
       }
       if (dataColorOld.length === 4) {
         dataColorOld.splice(2, 2);
+        dataColorTextOld.splice(2, 2);
+
         dataPadOld.splice(2, 2);
       }
       changeSize(1);
@@ -1613,14 +1869,18 @@ const LibCvV2 = (props: Props) => {
     if (type > 7 && type < 17) {
       if (dataColorOld.length === 1) {
         dataColorOld = [...dataColorOld, "#"];
+        dataColorTextOld = [...dataColorTextOld, "#000000"];
         dataPadOld = [...dataPadOld, "1"];
       }
       if (dataColorOld.length === 2) {
         dataColorOld = [...dataColorOld, "#"];
+        dataColorTextOld = [...dataColorTextOld, "#000000"];
+
         dataPadOld = [...dataPadOld, "1"];
       }
       if (dataColorOld.length === 4) {
         dataColorOld.splice(3, 1);
+        dataColorTextOld.splice(3, 1);
         dataPadOld.splice(3, 1);
       }
       changeSize(2);
@@ -1628,18 +1888,29 @@ const LibCvV2 = (props: Props) => {
     if (type === 17) {
       if (dataColorOld.length === 1) {
         dataColorOld = [...dataColorOld, "#", "#", "#"];
+        dataColorTextOld = [
+          ...dataColorTextOld,
+          "#000000",
+          "#000000",
+          "#000000",
+        ];
         dataPadOld = [...dataPadOld, "1", "1", "1"];
       }
       if (dataColorOld.length === 2) {
         dataColorOld = [...dataColorOld, "#", "#"];
+        dataColorTextOld = [...dataColorTextOld, "#000000", "#000000"];
+
         dataPadOld = [...dataPadOld, "1", "1"];
       }
       if (dataColorOld.length === 3) {
         dataColorOld = [...dataColorOld, "#"];
+        dataColorTextOld = [...dataColorTextOld, "#000000"];
+
         dataPadOld = [...dataPadOld, "1"];
       }
     }
     dataColorOld = dataColorOld.join(",");
+    dataColorTextOld = dataColorTextOld.join(",");
     dataPadOld = dataPadOld.join(",");
 
     changeLayout();
@@ -1659,7 +1930,7 @@ const LibCvV2 = (props: Props) => {
         `http://localhost:1902/api/v3/cv-layout/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const dataNew = [...res.data, ...res2.data, res3.data];
-      // console.log(res, res2, res3, res4, profile);
+      // //console.log(res, res2, res3, res4, profile);
       setDataLoad(dataNew);
       setDataForm(res4.data);
       setBackNext({
@@ -1686,7 +1957,7 @@ const LibCvV2 = (props: Props) => {
         `http://localhost:1902/api/v3/cv-layout/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const dataNew = [...res.data, ...res2.data, res3.data];
-      console.log(res, res2, res3, res4, profile, cvNew);
+      //console.log(res, res2, res3, res4, profile, cvNew);
       setDataLoad(
         dataNew.map((dt: any) => {
           return { ...dt, cvIndex: cvNew };
@@ -1740,6 +2011,11 @@ const LibCvV2 = (props: Props) => {
       return dt;
     });
     setDataLoad(newData);
+    setBackNext({
+      back: backNext,
+      present: { ...backNext.present, dataLoad: newData },
+      next: {},
+    });
     setCheckActive({ ...checkActive, index: checkActive.index - 1 });
   };
   const handleDownItem = () => {
@@ -1776,12 +2052,19 @@ const LibCvV2 = (props: Props) => {
       return dt;
     });
     setDataLoad(newData);
+    setBackNext({
+      back: backNext,
+      present: { ...backNext.present, dataLoad: newData },
+      next: {},
+    });
     setCheckActive({ ...checkActive, index: checkActive.index + 1 });
   };
   const handleNext = () => {
     if (Object.keys(backNext.next).length !== 0) {
       setDataLoad(backNext.next.present.dataLoad);
       setDataForm(backNext.next.present.dataForm);
+      setTemplateId(backNext.next.present.template);
+
       setBackNext({
         ...backNext,
         back: backNext.next.back,
@@ -1792,9 +2075,9 @@ const LibCvV2 = (props: Props) => {
   };
   const handlePrev = () => {
     if (Object.keys(backNext.back).length !== 0) {
-      setDataLoad(backNext.back.present);
       setDataLoad(backNext.back.present.dataLoad);
       setDataForm(backNext.back.present.dataForm);
+      setTemplateId(backNext.back.present.template);
       setBackNext({
         ...backNext,
         back: backNext.back.back,
@@ -1822,7 +2105,7 @@ const LibCvV2 = (props: Props) => {
             : "moreCvProjects";
           const newDataIndex = dataMore.map((dtt: any, index: any) => {
             if (index === checkActive.index) {
-              console.log(dtt);
+              //console.log(dtt);
               return { ...dtt, padIndex: dtt.padIndex ? 0 : 1 };
             }
             return dtt;
@@ -1832,6 +2115,11 @@ const LibCvV2 = (props: Props) => {
         return dt;
       });
       setDataLoad(newDataLoad);
+      setBackNext({
+        back: backNext,
+        present: { ...backNext.present, dataLoad: newDataLoad },
+        next: {},
+      });
       return;
     }
     if (checkActive.row !== -1) {
@@ -1845,8 +2133,13 @@ const LibCvV2 = (props: Props) => {
         }
         return dt;
       });
-      console.log(newDataLoad);
+      //console.log(newDataLoad);
       setDataLoad(newDataLoad);
+      setBackNext({
+        back: backNext,
+        present: { ...backNext.present, dataLoad: newDataLoad },
+        next: {},
+      });
       return;
     }
     if (checkActive.col !== -1) {
@@ -1866,6 +2159,14 @@ const LibCvV2 = (props: Props) => {
         return dt;
       });
       setDataForm({ ...dataForm, pad: dataNew });
+      setBackNext({
+        back: backNext,
+        present: {
+          ...backNext.present,
+          dataForm: { ...dataForm, pad: dataNew },
+        },
+        next: {},
+      });
       return;
     }
     const dataNew = dataForm?.padPart.map((dt: any, iPart: any) => {
@@ -1875,6 +2176,14 @@ const LibCvV2 = (props: Props) => {
       return dt;
     });
     setDataForm({ ...dataForm, padPart: dataNew });
+    setBackNext({
+      back: backNext,
+      present: {
+        ...backNext.present,
+        dataForm: { ...dataForm, padPart: dataNew },
+      },
+      next: {},
+    });
   };
   const handleRemove = () => {
     handleResetActive();
@@ -1910,6 +2219,14 @@ const LibCvV2 = (props: Props) => {
           return dt;
         });
         setDataLoad(dataNewLoad);
+        setBackNext({
+          back: backNext,
+          present: {
+            ...backNext.present,
+            dataLoad: dataNewLoad,
+          },
+          next: {},
+        });
         return;
       }
       if (checkActive.row !== -1) {
@@ -1920,7 +2237,7 @@ const LibCvV2 = (props: Props) => {
             checkActive.row === dt.row
           );
         });
-        console.log(removeDataFil);
+        //console.log(removeDataFil);
         const newDataLoad = removeDataFil.map((dt: any) => {
           if (
             checkActive.part === dt.part &&
@@ -1933,6 +2250,14 @@ const LibCvV2 = (props: Props) => {
           return dt;
         });
         setDataLoad(newDataLoad);
+        setBackNext({
+          back: backNext,
+          present: {
+            ...backNext.present,
+            dataLoad: newDataLoad,
+          },
+          next: {},
+        });
         return;
       }
       if (checkActive.col !== -1) {
@@ -1972,7 +2297,7 @@ const LibCvV2 = (props: Props) => {
             return newPadCol;
           }
         });
-        console.log(newDataColor, newDataLoad, newDataLayout, newDataPad);
+        //console.log(newDataColor, newDataLoad, newDataLayout, newDataPad);
         return;
       }
       const newDataRemove = dataLoad.filter((dt: any) => {
@@ -1987,7 +2312,11 @@ const LibCvV2 = (props: Props) => {
       const newDataColor = dataForm.color.filter((dt: any, iPart: any) => {
         return !(iPart === checkActive.part);
       });
-
+      const newDataColorText = dataForm.colorText.filter(
+        (dt: any, iPart: any) => {
+          return !(iPart === checkActive.part);
+        }
+      );
       const newDataLayout = dataForm.layout.filter((dt: any, iPart: any) => {
         return !(iPart === checkActive.part);
       });
@@ -2000,8 +2329,23 @@ const LibCvV2 = (props: Props) => {
       setDataForm({
         ...dataForm,
         color: newDataColor,
+        colorText: newDataColorText,
         layout: newDataLayout,
         pad: newDataPad,
+      });
+      setBackNext({
+        back: backNext,
+        present: {
+          dataForm: {
+            ...dataForm,
+            color: newDataColor,
+            colorText: newDataColorText,
+            layout: newDataLayout,
+            pad: newDataPad,
+          },
+          dataLoad: newDataLoad,
+        },
+        next: {},
       });
     }
   };
@@ -2012,7 +2356,7 @@ const LibCvV2 = (props: Props) => {
   };
   const handleBtnSave = async (file: any) => {
     if (cvIndex === cvID) {
-      console.log(cvIndex, cvID);
+      //console.log(cvIndex, cvID);
       setContentAlert({
         title: "Bạn muốn lưu lại",
         confirmAgain: "Bạn có chắc muốn cập nhật",
@@ -2022,8 +2366,8 @@ const LibCvV2 = (props: Props) => {
     const element = document.querySelector(".canvas-pdf");
     const fileName = `${nameCv}.jpg`; // Tên tệp mới
     const imgFile = await file();
-    // console.log(templateId);
-    // console.log(imgFile);
+    // //console.log(templateId);
+    // //console.log(imgFile);
     captureElementAsFile(element, fileName)
       .then((imageFile: any) => {
         const fetchData = async () => {
@@ -2109,10 +2453,257 @@ const LibCvV2 = (props: Props) => {
 
     return readDataDoc;
   };
-  // handleChangeUploadDocs();
+  const handleAddPartPage = () => {
+    setDataForm({
+      ...dataForm,
+      color: [...dataForm.color, "#"],
+      colorText: [...dataForm.colorText, "#000000"],
+      layout: [...dataForm.layout, "100"],
+      pad: [...dataForm.pad, "1"],
+      padPart: [...dataForm.padPart, 1],
+    });
+    setBackNext({
+      back: backNext,
+      present: {
+        ...backNext.present,
+        dataForm: {
+          ...dataForm,
+          color: [...dataForm.color, "#"],
+          colorText: [...dataForm.colorText, "#000000"],
+          layout: [...dataForm.layout, "100"],
+          pad: [...dataForm.pad, "1"],
+          padPart: [...dataForm.padPart, 1],
+        },
+      },
+      next: {},
+    });
+  };
+  const handleAddType = (type: any) => {
+    setPositionAddType(undefined);
+    const maxRow =
+      dataRequest[positionAddType.part].data[positionAddType.col].length;
+    switch (type) {
+      case "info_person":
+        setDataLoad([
+          ...dataLoad,
+          {
+            ...formType[0],
+            type: type,
+            part: positionAddType.part,
+            col: positionAddType.col,
+            row: maxRow,
+          },
+        ]);
+        setBackNext({
+          back: backNext,
+          present: {
+            ...backNext.present,
+            dataLoad: [
+              ...dataLoad,
+              {
+                ...formType[0],
+                type: type,
+                part: positionAddType.part,
+                col: positionAddType.col,
+                row: maxRow,
+              },
+            ],
+          },
+          next: {},
+        });
+        break;
+      case "info_project":
+        setDataLoad([
+          ...dataLoad,
+          {
+            ...formType[2],
+            type: type,
+            part: positionAddType.part,
+            col: positionAddType.col,
+            row: maxRow,
+          },
+        ]);
+        setBackNext({
+          back: backNext,
+          present: {
+            ...backNext.present,
+            dataLoad: [
+              ...dataLoad,
+              {
+                ...formType[2],
+                type: type,
+                part: positionAddType.part,
+                col: positionAddType.col,
+                row: maxRow,
+              },
+            ],
+          },
+          next: {},
+        });
+        break;
+      case "info_study":
+      case "info_activate":
+      case "info_experience":
+        setDataLoad([
+          ...dataLoad,
+          {
+            ...formType[1],
+            type: type,
+            part: positionAddType.part,
+            col: positionAddType.col,
+            row: maxRow,
+          },
+        ]);
+        setBackNext({
+          back: backNext,
+          present: {
+            ...backNext.present,
+            dataLoad: [
+              ...dataLoad,
+              {
+                ...formType[1],
+                type: type,
+                part: positionAddType.part,
+                col: positionAddType.col,
+                row: maxRow,
+              },
+            ],
+          },
+          next: {},
+        });
+        break;
+      default:
+        setDataLoad([
+          ...dataLoad,
+          {
+            ...formType[3],
+            type: type,
+            part: positionAddType.part,
+            col: positionAddType.col,
+            row: maxRow,
+          },
+        ]);
+        setBackNext({
+          back: backNext,
+          present: {
+            ...backNext.present,
+            dataLoad: [
+              ...dataLoad,
+              {
+                ...formType[3],
+                type: type,
+                part: positionAddType.part,
+                col: positionAddType.col,
+                row: maxRow,
+              },
+            ],
+          },
+          next: {},
+        });
+    }
+  };
+  const handleChangeTemplate = (templateNew: any) => {
+    const dataNew = handleLoadTempData(templateNew);
+
+    const dataNewTemplate = dataNew.data.map((dt: any) => {
+      const data = dataLoad.filter((dtt: any) => {
+        return dtt.type === dt.type;
+      });
+      if (data.length > 0) {
+        return { ...data[0], part: dt.part, col: dt.col, row: dt.row };
+      }
+      return dt;
+    });
+    let infoRemove = "";
+    const dataRemove = dataLoad.map((dt: any) => {
+      const data = dataNewTemplate.filter((dtt: any) => {
+        return dtt.type === dt.type;
+      });
+      if (data.length === 0) {
+        switch (dt.type) {
+          case "info_more":
+            infoRemove = infoRemove + "|Thông tin thêm";
+            break;
+          case "info_person":
+            infoRemove = infoRemove + "|Thông tin cá nhân";
+            break;
+          case "info_award":
+            infoRemove = infoRemove + "|Giải thưởng";
+            break;
+          case "info_activate":
+            infoRemove = infoRemove + "|Hoạt động";
+            break;
+          case "info_hobby":
+            infoRemove = infoRemove + "|Sở thích";
+            break;
+          case "info_achivement":
+            infoRemove = infoRemove + "|Chứng chỉ";
+            break;
+          case "info_project":
+            infoRemove = infoRemove + "|Dự án";
+            break;
+          case "info_study":
+            infoRemove = infoRemove + "|Học vấn";
+            break;
+          case "info_experience":
+            infoRemove = infoRemove + "|Kinh nghiệm";
+            break;
+          case "info_skill":
+            infoRemove = infoRemove + "|Kỹ năng";
+            break;
+          case "info_target":
+            infoRemove = infoRemove + "|Mục tiêu";
+            break;
+        }
+      }
+    });
+    const handleUpdateTemplate = () => {
+      setTemplateId(templateNew);
+      setDataLoad(dataNewTemplate);
+      setDataForm({
+        ...dataForm,
+        layout: dataNew.layout,
+        color: dataNew.color,
+        pad: dataNew.pad,
+        padPart: dataNew.padPart,
+        colorText: dataNew.colorText,
+        colorTopic: dataNew.colorTopic,
+        indexTopic: 0,
+      });
+      setBackNext({
+        back: backNext,
+        present: {
+          template: templateNew,
+          dataForm: {
+            ...dataForm,
+            layout: dataNew.layout,
+            color: dataNew.color,
+            pad: dataNew.pad,
+            padPart: dataNew.padPart,
+            colorText: dataNew.colorText,
+            colorTopic: dataNew.colorTopic,
+            indexTopic: 0,
+          },
+          dataLoad: dataNewTemplate,
+        },
+        next: {},
+      });
+    };
+    if (infoRemove === "") {
+      handleUpdateTemplate();
+    } else {
+      setContentAlert({
+        title: `${infoRemove} là các thông tin sẽ bị mất`,
+        confirmAgain: `Bạn có chắc muốn chuyển qua template ${
+          Number(templateNew) + 1
+        }`,
+      });
+      updateHandleAlert(handleUpdateTemplate);
+    }
+  };
   useEffect(() => {
-    console.log(dataLoad, dataRequest, dataForm);
-  }, [dataLoad, dataRequest, dataForm]);
+    console.log(backNext, dataForm);
+  }, [dataLoad, dataRequest, dataForm, backNext]);
   useEffect(() => {
     const handleCheckCvs = (cvs: any) => {
       let dataCvID = 0;
@@ -2144,18 +2735,19 @@ const LibCvV2 = (props: Props) => {
         const templateIDOld = profile?.profilesCvs?.filter((dt: any) => {
           return dt.cvIndex == cvIndex;
         })[0].templateId;
-        // console.log(templateIDOld, templateId);
+        // //console.log(templateIDOld, templateId);
         setTemplateId(templateIDOld.toString());
       }
     } else {
       if (template === "upload") {
         const dataNewLoad = handleChangeUploadDocs(handleCheckCvs("new"));
         const dataNewForm = handleLoadTempData(2);
-        console.log(dataNewLoad);
+        //console.log(dataNewLoad);
         setDataLoad(dataNewLoad);
         setDataForm({
           layout: dataNewForm.layout,
           color: dataNewForm.color,
+          colorText: dataNewForm.colorText,
           pad: dataNewForm.pad,
           padPart: dataNewForm.padPart,
           cvIndex: handleCheckCvs("new"),
@@ -2187,11 +2779,12 @@ const LibCvV2 = (props: Props) => {
             handleLoadData();
           } else {
             const dataNew = handleLoadTempData(templateId);
-            console.log(dataNew);
+            //console.log(dataNew);
             setDataForm({
               layout: dataNew.layout,
               color: dataNew.color,
               pad: dataNew.pad,
+              colorText: dataNew.colorText,
               padPart: dataNew.padPart,
               cvIndex: handleCheckCvs("new"),
               colorTopic: dataNew.colorTopic,
@@ -2215,39 +2808,38 @@ const LibCvV2 = (props: Props) => {
               }
               return dt;
             });
-
-            setDataLoad(
-              newDataLoad.map((dt: any) => {
-                if (dt.type === "info_person") {
-                  return {
-                    ...dt,
-                    cvIndex: handleCheckCvs("new"),
-                    phone: profile?.phone,
-                    email: profile?.email,
-                    name: profile?.name,
-                    address: profile?.addressText?.fullName,
-                    link: profile?.facebook,
-                    intent: handleConvertToDate(profile?.birthday).toString(),
-                  };
-                }
-                return { ...dt, cvIndex: handleCheckCvs("new") };
-              })
-            );
+            const dataNewLoad = newDataLoad.map((dt: any) => {
+              if (dt.type === "info_person") {
+                return {
+                  ...dt,
+                  cvIndex: handleCheckCvs("new"),
+                  phone: profile?.phone,
+                  email: profile?.email,
+                  name: profile?.name,
+                  address: profile?.addressText?.fullName,
+                  link: profile?.facebook,
+                  intent: handleConvertToDate(profile?.birthday).toString(),
+                };
+              }
+              return { ...dt, cvIndex: handleCheckCvs("new") };
+            });
+            setDataLoad(dataNewLoad);
             setBackNext({
               back: {},
               present: {
                 dataForm: {
                   layout: dataNew.layout,
                   color: dataNew.color,
+                  colorText: dataNew.colorText,
+
                   pad: dataNew.pad,
                   padPart: dataNew.padPart,
                   cvIndex: handleCheckCvs("new"),
                   colorTopic: dataNew.colorTopic,
                   indexTopic: 0,
                 },
-                dataLoad: dataNew.data.map((dt: any) => {
-                  return { ...dt, cvIndex: handleCheckCvs("new") };
-                }),
+                dataLoad: dataNewLoad,
+                template: template,
               },
               next: {},
             });
@@ -2355,12 +2947,13 @@ const LibCvV2 = (props: Props) => {
             }
           }
         });
-        // console.log(newDataaa);
+        // //console.log(newDataaa);
         dataa.push(dataaa);
       });
       return {
         layout: dt.split(",").map(Number),
         color: dataForm.color[index].split(","),
+        colorText: dataForm.colorText[index].split(","),
         padPart: dataForm.padPart?.[index],
         pad: dataForm.pad?.[index]?.split(",").map((padItem: any) => {
           return Number(padItem);
@@ -2368,7 +2961,7 @@ const LibCvV2 = (props: Props) => {
         data: dataa,
       };
     });
-    console.log(data);
+    //console.log(data);
     setDataRequest(data);
   }, [dataLoad, dataForm]);
   useEffect(() => {
@@ -2499,8 +3092,9 @@ const LibCvV2 = (props: Props) => {
       }
       `}
             onMouseUp={() => {
-              if (checkActive.col !== -1) console.log("22");
-              setCheckActive({ ...checkActive, row: -1, col: -1, index: -1 });
+              if (checkActive.col !== -1)
+                //console.log("22");
+                setCheckActive({ ...checkActive, row: -1, col: -1, index: -1 });
             }}
           >
             <MdTableRows />
@@ -2517,8 +3111,9 @@ const LibCvV2 = (props: Props) => {
       }
       `}
             onMouseUp={() => {
-              if (checkActive.row !== -1) console.log("23");
-              setCheckActive({ ...checkActive, row: -1, index: -1 });
+              if (checkActive.row !== -1)
+                //console.log("23");
+                setCheckActive({ ...checkActive, row: -1, index: -1 });
             }}
           >
             <MdViewColumn />
@@ -2535,8 +3130,9 @@ const LibCvV2 = (props: Props) => {
       }
       `}
             onMouseUp={() => {
-              if (checkActive.index !== -1) console.log("24");
-              setCheckActive({ ...checkActive, index: -1 });
+              if (checkActive.index !== -1)
+                //console.log("24");
+                setCheckActive({ ...checkActive, index: -1 });
             }}
           >
             <HiDocumentText />
@@ -2608,7 +3204,12 @@ const LibCvV2 = (props: Props) => {
   const BGToolCol = ({ dt, indexItem, index }: any) => {
     return (
       <>
-        <div className="w-8 h-8 text-blue-500 font-bold text-lg flex justify-center items-center rounded-md bg-black border-blue-500 border-[1px] hover:bg-blue-500 hover:text-white cursor-pointer">
+        <div
+          className="w-8 h-8 text-blue-500 font-bold text-lg flex justify-center items-center rounded-md bg-black border-blue-500 border-[1px] hover:bg-blue-500 hover:text-white cursor-pointer"
+          onMouseDown={() => {
+            setPositionAddType({ part: index, col: indexItem });
+          }}
+        >
           <IoMdAdd />
         </div>
         <div
@@ -2805,45 +3406,55 @@ const LibCvV2 = (props: Props) => {
         }}
       >
         <div
-          className="w-full h-full max-w-3xl max-h-96 bg-white rounded-lg p-4 gap-y-8 flex flex-col"
+          className="w-full h-full max-w-3xl max-h-96 bg-white rounded-lg p-4 gap-y-4 flex flex-col"
           onMouseUp={(e: any) => {
             e.stopPropagation();
           }}
         >
-          <p className="font-bold text-xl">Đổi bố cục</p>
-          <div className="flex flex-wrap gap-x-4">
-            <div
-              className="p-2 rounded-xl border-2 cursor-pointer"
+          <p className="font-bold text-xl">Đổi bố cục theo tỉ lệ</p>
+          <p className="text-xs text-red-500">*Click để thay đổi kích thước</p>
+          <div className="flex flex-wrap gap-4 flex-1 overflow-y-scroll">
+            {listRatio.map((dt: any, index: any) => {
+              return (
+                <>
+                  <div
+                    className="p-2 rounded-xl bg-gray-200 cursor-pointer flex flex-col justify-center items-center"
+                    onMouseUp={() => {
+                      handleChangeLayout(checkActive.part, index);
+                      setCheckLayout(false);
+                    }}
+                    key={index}
+                  >
+                    <p className="text-xs font-semibold mb-2">
+                      {dt.replaceAll(/,/g, " x ")}
+                    </p>
+                    <div className="h-12 w-52 flex gap-1">
+                      {dt.split(",").map((dtt: any, i: any) => {
+                        return (
+                          <>
+                            <div
+                              className="h-full bg-blue-200 rounded-xl"
+                              style={{ width: `${dtt}%` }}
+                              key={i}
+                            ></div>
+                          </>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </>
+              );
+            })}
+          </div>
+          <div className="w-full flex justify-end gap-2">
+            <button
+              className="px-2 py-1 rounded-lg bg-slate-200 hover:bg-slate-100 font-bold text-gray-300"
               onMouseUp={() => {
-                handleChangeLayout(checkActive.part, 10);
+                setCheckLayout(false);
               }}
             >
-              1 | 2 | 1 | 1
-            </div>
-            <div
-              className="p-2 rounded-xl border-2 cursor-pointer"
-              onMouseUp={() => {
-                handleChangeLayout(checkActive.part, 5);
-              }}
-            >
-              1 | 1 | 1 | 1
-            </div>
-            <div
-              className="p-2 rounded-xl border-2 cursor-pointer"
-              onMouseUp={() => {
-                handleChangeLayout(checkActive.part, 0);
-              }}
-            >
-              1 | 2 | 2 | 1
-            </div>
-            <div
-              className="p-2 rounded-xl border-2 cursor-pointer"
-              onMouseUp={() => {
-                handleChangeLayout(checkActive.part, 17);
-              }}
-            >
-              1 | 2 | 2
-            </div>
+              Quay lại
+            </button>
           </div>
         </div>
       </div>
@@ -2909,6 +3520,13 @@ const LibCvV2 = (props: Props) => {
     BGToolType,
     setFilePdf,
     cvID,
+    handleAddPartPage,
+    setPositionAddType,
+    handleAddType,
+    positionAddType,
+    handleChangeTemplate,
+    handleChangeColorText,
+    listRatio,
   };
 };
 

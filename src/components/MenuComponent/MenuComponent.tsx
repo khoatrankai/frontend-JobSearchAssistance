@@ -12,7 +12,7 @@ const MenuComponent = (props: Props) => {
   const { checkPage } = useSrollContext();
   const profileV3 = useSelector((state: RootState) => state.profile.profile);
   useEffect(() => {
-    console.log(profileV3);
+    //console.log(profileV3);
   }, [profileV3]);
   return (
     <>{!checkPage.includes("/recruiter") ? <MenuUser /> : <MenuRecruiter />}</>

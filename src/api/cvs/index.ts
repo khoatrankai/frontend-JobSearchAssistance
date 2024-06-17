@@ -133,7 +133,7 @@ const cvsApi = {
     },
     postCV: async(dataCV:any,cvId:any,accountId:any)=>{
       const urlFilterAI = 'http://127.0.0.1:8000/jobFit/'
-      console.log(dataCV)
+      // //console.log(dataCV)
       const dataFilterAI = await axiosClient.post(urlFilterAI,{content:dataCV})
       if(dataFilterAI){
         const dataMap = dataFilterAI.data.map((dt:any)=>{
@@ -144,10 +144,10 @@ const cvsApi = {
         if(updateAICV){
           const dataPost = await axiosClient.get(urlV3 +`?cvIndex=${cvId}`)
           if(dataPost){
-            console.log(dataCV,dataPost)
+            // //console.log(dataCV,dataPost)
             const dataFilterPost = await axiosClient.post('http://127.0.0.1:8000/aiFilterPOST/',{contentCV: dataCV,listPost: dataPost.data})
             if(dataFilterPost){
-              console.log(dataFilterPost)
+              // //console.log(dataFilterPost)
               const updateDataFilter = await axiosClient.post(`${V3}/api/v3/cvs-posts`,{data: dataFilterPost.data.map((dt:any)=>{
                 return {...dt,type: 0,cvIndex: cvId,accountId:accountId}
               })})

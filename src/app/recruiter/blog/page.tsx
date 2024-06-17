@@ -4,7 +4,7 @@
 import React, { useEffect } from "react";
 import "./page.scss";
 import Image from "next/image";
-import communityApi from "@/api/community/apiCommunityRecruiter";
+import communityApi from "@/api/community/apiCommunity";
 import { useRouter } from "next/navigation";
 import { SaveIconFill, SaveIconOutline } from "@/icons";
 import "react-toastify/dist/ReactToastify.css";
@@ -29,13 +29,19 @@ const page = (props: Props) => {
   useEffect(() => {
     // handleLoadHrefPage();
     const fetchData = async () => {
-      const res = await communityApi.getCommunityNews("0", "6", "cm", 0, "vi");
+      const res = await communityApi.getCommunityNewsRecruiter(
+        "0",
+        "6",
+        "cm",
+        0,
+        "vi"
+      );
 
       if (res && res.status === 200) {
         setCommunityAdmin(res.data.communications);
       }
 
-      const resUser = await communityApi.getCommunityNews(
+      const resUser = await communityApi.getCommunityNewsRecruiter(
         "0",
         "6",
         "cm",
@@ -53,7 +59,7 @@ const page = (props: Props) => {
 
   const handleBookmarked = async (id: number) => {
     const fetchData = async () => {
-      const res = await communityApi.postCommunityBookmarked(id);
+      const res = await communityApi.postCommunityBookmarkedRecruiter(id);
 
       if (res && res.status === 201) {
         setBookmarked(!bookmarked);
@@ -85,7 +91,7 @@ const page = (props: Props) => {
 
   const handleDeleteBookmarked = async (id: number) => {
     const fetchData = async () => {
-      const res = await communityApi.postCommunityBookmarked(id);
+      const res = await communityApi.postCommunityBookmarkedRecruiter(id);
 
       if (res && res.status === 200) {
         setBookmarked(!bookmarked);

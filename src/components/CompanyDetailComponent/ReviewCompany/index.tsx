@@ -61,7 +61,7 @@ const ReviewCompany: React.FC<IReviewCompany> = (props) => {
         }
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -117,7 +117,7 @@ const ReviewCompany: React.FC<IReviewCompany> = (props) => {
         });
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       setOpenBackdrop(false);
       message.error("Error");
     }
@@ -190,7 +190,7 @@ const ReviewCompany: React.FC<IReviewCompany> = (props) => {
         20,
         languageRedux === 1 ? "vi" : "en"
       );
-      console.log(result);
+      //console.log(result);
       if (result && result.data.companyRatings.length !== 0) {
         setCompanyRating((prev: any) => [
           ...prev,

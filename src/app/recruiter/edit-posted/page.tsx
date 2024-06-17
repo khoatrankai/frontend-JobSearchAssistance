@@ -288,7 +288,7 @@ const EditPostedPage: React.FC<Props> = () => {
         dataReq.images
       );
 
-      console.log(checkPost);
+      //console.log(checkPost);
 
       const validation = checkPost.validateAllFields();
 
@@ -377,7 +377,7 @@ const EditPostedPage: React.FC<Props> = () => {
           type: compressedImage.type,
         })
       );
-      console.log(compressedImages);
+      //console.log(compressedImages);
       setDataReq({
         ...dataReq,
         images: [...dataReq.images, ...compressedImages],
@@ -392,7 +392,7 @@ const EditPostedPage: React.FC<Props> = () => {
     });
   }, [profile]);
   useEffect(() => {
-    console.log(dataReq);
+    //console.log(dataReq);
   }, [dataReq]);
   return (
     <div className="flex justify-center bg-[rgb(244, 245, 245)]">

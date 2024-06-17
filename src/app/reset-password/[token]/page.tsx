@@ -83,7 +83,7 @@ const Page = () => {
         token as string,
         verifyPassword as string
       )) as any;
-      console.log(res);
+      //console.log(res);
       if (res.data.statusCode === 200) {
         toast.success("Cập nhật mật khẩu thành công", {
           position: "bottom-center",

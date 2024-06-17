@@ -49,10 +49,10 @@ const page = (props: Props) => {
     const fetchData = async () => {
       if (id) {
         const dataPack: any = await packageServiceApi.getIdPackage(id);
-        console.log(dataPack);
+        //console.log(dataPack);
 
         if (dataPack && dataPack.status === 200) {
-          console.log(dataPack);
+          //console.log(dataPack);
           setDataPackage(dataPack?.data);
         }
       }

@@ -64,7 +64,7 @@ const ModifyFieldScaleCompany: React.FC<IEditPostAddress> = memo((props) => {
         setDataSizes(sizes);
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
   const getCateogrys = async () => {
@@ -148,19 +148,18 @@ const ModifyFieldScaleCompany: React.FC<IEditPostAddress> = memo((props) => {
           }}
           style={{
             marginTop: "8px",
-            border: isClickField && !selectedCategory ? "1px solid red" : "none",
+            border:
+              isClickField && !selectedCategory ? "1px solid red" : "none",
             borderRadius: isClickField && !selectedCategory ? "5px" : "",
           }}
         />
-        {
-          isClickField && !selectedCategory && (
-            <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
-              {languageRedux === 1
-                ? "Lĩnh vực hoạt động không được để trống"
-                : "Field of activity cannot be empty"}
-            </p>
-          )
-        }
+        {isClickField && !selectedCategory && (
+          <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
+            {languageRedux === 1
+              ? "Lĩnh vực hoạt động không được để trống"
+              : "Field of activity cannot be empty"}
+          </p>
+        )}
       </div>
 
       <div className="w-1/2">
@@ -199,15 +198,13 @@ const ModifyFieldScaleCompany: React.FC<IEditPostAddress> = memo((props) => {
             borderRadius: isClickSize && !selectedSize ? "5px" : "",
           }}
         />
-        {
-          isClickSize && !selectedSize && (
-            <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
-              {languageRedux === 1
-                ? "Quy mô công ty không được để trống"
-                : "Company scale cannot be empty"}
-            </p>
-          )
-        }
+        {isClickSize && !selectedSize && (
+          <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
+            {languageRedux === 1
+              ? "Quy mô công ty không được để trống"
+              : "Company scale cannot be empty"}
+          </p>
+        )}
       </div>
     </div>
   );

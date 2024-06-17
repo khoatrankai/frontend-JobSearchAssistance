@@ -15,7 +15,7 @@ const AvatarProfile = (props: Props) => {
 
   useEffect(() => {
     setDataImg(dataInfo?.companyInfomation?.logoPath);
-    console.log(dataInfo);
+    //console.log(dataInfo);
   }, [dataInfo]);
   return (
     <div className="relative w-fit mb-6">

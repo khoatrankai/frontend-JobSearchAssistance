@@ -50,7 +50,7 @@ const ModifyRoleWebComponent: React.FC<IEditPostAddress> = memo((props) => {
         setDataRoles(roles);
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 

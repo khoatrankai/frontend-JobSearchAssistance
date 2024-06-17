@@ -54,11 +54,11 @@ const BannerComponent = (props: Props) => {
     const result = await bannersApi.getBannersApi("vi", null);
     try {
       if (result) {
-        console.log(result);
+        //console.log(result);
         setDataBanners(result.data);
       }
     } catch (error) {
-      console.log("error", error);
+      //console.log("error", error);
     }
   };
 

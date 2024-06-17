@@ -1,13 +1,13 @@
-import React, {useEffect, useState, useContext} from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
-import './style.scss';
-import moment from 'moment';
-import {ChatContext} from '@/context/ChatProvider';
-import postsApi from '@/api/posts/postsApi';
-import messageApi from '@/api/messageApi';
-import {SeenIcon} from '@/icons';
-import {useSearchParams} from 'next/navigation';
+import React, { useEffect, useState, useContext } from "react";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import "./style.scss";
+import moment from "moment";
+import { ChatContext } from "@/context/ChatProvider";
+import postsApi from "@/api/posts/postsApi";
+import messageApi from "@/api/messageApi";
+import { SeenIcon } from "@/icons";
+import { useSearchParams } from "next/navigation";
 
 interface IOpenListChat {
   setOpenListChat: (params: any) => any;
@@ -17,12 +17,12 @@ interface IOpenListChat {
 }
 
 const ListUserChat: React.FC<IOpenListChat> = (props) => {
-  const {language, languageRedux} = props;
+  const { language, languageRedux } = props;
   const searchParams: any = useSearchParams();
   const [windowWidth, setWindowWidth] = useState(false);
   const [openBackDrop, setBackDrop] = useState(false);
   const [listUserChat, setStateUserChat] = useState<any>([]);
-  const [userId, setUserId] = useState<any>('');
+  const [userId, setUserId] = useState<any>("");
 
   const {
     setUserInfoChat,
@@ -36,8 +36,8 @@ const ListUserChat: React.FC<IOpenListChat> = (props) => {
   const getPostById = async () => {
     try {
       const result = await postsApi.getPostV3(
-        Number(searchParams.get('post_id')),
-        languageRedux === 1 ? 'vi' : 'en',
+        Number(searchParams.get("post_id")),
+        languageRedux === 1 ? "vi" : "en"
       );
       if (result.data !== null) {
         setUserInfoChat({
@@ -56,12 +56,12 @@ const ListUserChat: React.FC<IOpenListChat> = (props) => {
           post_id: result?.data?.id,
           applied: result?.data?.applied,
           user_id: result?.data?.accountId,
-          message: '',
+          message: "",
           status: 0,
         });
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -72,14 +72,14 @@ const ListUserChat: React.FC<IOpenListChat> = (props) => {
   const getAllUserChat = async () => {
     try {
       const result = await messageApi.getUserChated(
-        languageRedux === 1 ? 'vi' : 'en',
+        languageRedux === 1 ? "vi" : "en"
       );
 
       if (result) {
         setStateUserChat(result?.data?.data);
       }
     } catch (error) {
-      console.log('error', error);
+      //console.log('error', error);
     }
   };
 
@@ -106,33 +106,33 @@ const ListUserChat: React.FC<IOpenListChat> = (props) => {
     setBackDrop(true);
     window.history.pushState(
       {},
-      '',
-      `/chat?post_id=${user.post_id}&user_id=${user.user_id}`,
+      "",
+      `/chat?post_id=${user.post_id}&user_id=${user.user_id}`
     );
 
     const currentURL = window.location.href;
 
     const url = new URL(currentURL);
 
-    setUserId(url.searchParams.get('user_id'));
+    setUserId(url.searchParams.get("user_id"));
 
     getAllUserChat();
     setReceivedMessages([
       {
-        receiverId: url.searchParams.get('user_id'),
-        message: '',
+        receiverId: url.searchParams.get("user_id"),
+        message: "",
         createdAt: 0,
-        type: '',
-        postId: Number(url.searchParams.get('post_id')),
+        type: "",
+        postId: Number(url.searchParams.get("post_id")),
       },
     ]);
     setSendMessages([
       {
-        receiverId: url.searchParams.get('user_id'),
-        message: '',
+        receiverId: url.searchParams.get("user_id"),
+        message: "",
         createdAt: 0,
-        type: '',
-        postId: Number(url.searchParams.get('post_id')),
+        type: "",
+        postId: Number(url.searchParams.get("post_id")),
       },
     ]);
 
@@ -142,8 +142,8 @@ const ListUserChat: React.FC<IOpenListChat> = (props) => {
     windowWidth && props.setOpenListChat(true);
 
     if (props.openListChat === true && windowWidth) {
-      let listChatElement = document.querySelector('.list_userChat');
-      listChatElement?.classList.add('.hide-list-userChat');
+      let listChatElement = document.querySelector(".list_userChat");
+      listChatElement?.classList.add(".hide-list-userChat");
     }
   };
 
@@ -151,7 +151,7 @@ const ListUserChat: React.FC<IOpenListChat> = (props) => {
     return (
       <div
         className={`list_userChat ${
-          props.openListChat === true && windowWidth ? 'hide-list-userChat' : ''
+          props.openListChat === true && windowWidth ? "hide-list-userChat" : ""
         }`}
       >
         <div className="header-list_userChat">
@@ -164,8 +164,8 @@ const ListUserChat: React.FC<IOpenListChat> = (props) => {
         <div className="list-infoUser">
           <Backdrop
             sx={{
-              color: '#d4a650 ',
-              backgroundColor: 'transparent',
+              color: "#d4a650 ",
+              backgroundColor: "transparent",
               zIndex: (theme: any) => theme.zIndex.drawer + 1,
             }}
             open={openBackDrop}
@@ -177,7 +177,7 @@ const ListUserChat: React.FC<IOpenListChat> = (props) => {
             listUserChat.map((user: any, index: number) => (
               <div
                 className={`wrap-userInfo ${
-                  userId === user?.user_id ? 'readed-message' : ''
+                  userId === user?.user_id ? "readed-message" : ""
                 } `}
                 key={index}
                 onClick={() => handleClickUserInfo(user)}
@@ -190,22 +190,22 @@ const ListUserChat: React.FC<IOpenListChat> = (props) => {
                   )}
                   <span
                     className={`user-online ${
-                      user?.is_online ? 'user-online_true' : ''
+                      user?.is_online ? "user-online_true" : ""
                     }`}
                   ></span>
                 </div>
                 <div className="info-user_chat">
                   <h4>{user?.name ? user?.name : user?.company_name}</h4>
-                  <h5>{user?.name ? '' : user?.post_title}</h5>
+                  <h5>{user?.name ? "" : user?.post_title}</h5>
                   <p>{user?.message}</p>
                 </div>
                 <div className="info-chat_icon">
                   <small>
                     {user?.created_at
-                      ? new Date(user?.created_at).toLocaleString('en-GB')
-                      : moment(new Date()).format('DD/MM/YYYY') +
-                        ' ' +
-                        moment(new Date()).format('HH:mm:ss')}
+                      ? new Date(user?.created_at).toLocaleString("en-GB")
+                      : moment(new Date()).format("DD/MM/YYYY") +
+                        " " +
+                        moment(new Date()).format("HH:mm:ss")}
                   </small>
                   {user?.status === 1 ? (
                     <span className="count-message_readed">

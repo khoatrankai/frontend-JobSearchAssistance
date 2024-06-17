@@ -158,7 +158,7 @@ const SearchJobComponent: React.FC<Props> = (props) => {
   }, []);
   useEffect(() => {
     setListJob(searchResult.posts);
-    console.log(searchResult);
+    //console.log(searchResult);
     // if(!checkKey){
     setPage(1);
     setHasMoreData(true);
@@ -172,7 +172,7 @@ const SearchJobComponent: React.FC<Props> = (props) => {
     setDataRequest({ ...dataRequest, q: dataKeyWord.q });
   }, []);
   useEffect(() => {
-    console.log(listJob, page);
+    //console.log(listJob, page);
   }, [listJob, page]);
   const handleBookmarked = (id: number) => {
     try {

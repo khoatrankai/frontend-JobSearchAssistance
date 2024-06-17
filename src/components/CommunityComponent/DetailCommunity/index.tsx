@@ -92,7 +92,7 @@ const Comunity = () => {
         }
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -131,7 +131,7 @@ const Comunity = () => {
         handleDeleteCmt(postId, cmtId);
       },
       onCancel() {
-        console.log("Cancel");
+        //console.log("Cancel");
       },
     });
   };
@@ -148,7 +148,7 @@ const Comunity = () => {
         result.status === 201 ? setLike(true) : setLike(false);
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -186,7 +186,7 @@ const Comunity = () => {
         }
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -217,7 +217,7 @@ const Comunity = () => {
         setCmtContent("");
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 

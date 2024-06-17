@@ -41,7 +41,7 @@ const DashboardApply = (props: Props) => {
       return Math.round((maxTop / 10) * (10 - value));
     }
     return 1 * (10 - value);
-    // console.log((maxTop / 10) * value);
+    // //console.log((maxTop / 10) * value);
   };
   useEffect(() => {
     const fetchData = async () => {

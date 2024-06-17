@@ -92,7 +92,7 @@ const page = (props: Props) => {
         id as any,
         languageRedux === 1 ? "vi" : "en"
       )) as unknown as IPostDetail;
-      console.log(res.data?.company_name);
+      //console.log(res.data?.company_name);
       const res2 = (await axiosClient.get(
         `http://localhost:1902/api/v3/companies/by-name?name=${res.data?.company_name}`
       )) as unknown as { status: any; data: any };
@@ -128,7 +128,7 @@ const page = (props: Props) => {
     }
   };
   useEffect(() => {
-    console.log(postDetail);
+    //console.log(postDetail);
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => {

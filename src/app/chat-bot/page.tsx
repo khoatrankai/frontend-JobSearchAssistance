@@ -66,7 +66,7 @@ const ChatGPTDemo = () => {
         },
       ]);
     } catch (error) {
-      console.error("There was an error with the API request", error);
+      // console.error("There was an error with the API request", error);
     } finally {
       setIsLoading(false);
     }

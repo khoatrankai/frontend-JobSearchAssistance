@@ -114,7 +114,7 @@ const page = (props: Props) => {
         res2 &&
         res2.status === 200
       ) {
-        console.log(id);
+        // //console.log(id);
         setDataLoad(res2.data.concat(res.data.concat(res3.data)));
         setBackNext({
           back: {},
@@ -350,9 +350,7 @@ const page = (props: Props) => {
   useEffect(() => {
     handleLoadData();
   }, []);
-  useEffect(() => {
-    console.log(id);
-  }, [id]);
+
   useEffect(() => {
     if (dataLoad) {
       const dataPush = [];

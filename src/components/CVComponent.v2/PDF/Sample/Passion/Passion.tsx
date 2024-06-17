@@ -22,7 +22,7 @@ const Passion = (props: Props) => {
   const { funcLibrary } = props;
   const { dataRequest } = funcLibrary;
   useEffect(() => {
-    console.log(dataRequest);
+    //console.log(dataRequest);
   }, [dataRequest]);
   Font.register({
     family: "Inter",

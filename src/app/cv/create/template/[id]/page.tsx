@@ -255,7 +255,7 @@ const page = (props: Props) => {
         const imageDataURL = canvas.toDataURL();
         // const imgElement = document.createElement("img");
         // imgElement.src = imageDataURL;
-        console.log(imageDataURL, refMain.current);
+        //console.log(imageDataURL, refMain.current);
       })
       .catch((error) => {
         console.error("Lỗi khi chụp ảnh của div:", error);
@@ -375,7 +375,7 @@ const page = (props: Props) => {
       }
     };
     if (data.length > 0) {
-      console.log(dataArray, dataContent, dataInfo, dataProject);
+      // //console.log(dataArray, dataContent, dataInfo, dataProject);
       fetchData();
     }
   };

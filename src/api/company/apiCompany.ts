@@ -77,7 +77,7 @@ const apiCompany = {
     return axiosClient.get(URL);
   },
   deleteCompanyReview: (id: any) => {
-    console.log(id)
+    // //console.log(id)
     const URL = `http://localhost:1902/api/v3/company-ratings/account/company/${id}`;
     return axiosClient.delete(URL, {
       headers: {

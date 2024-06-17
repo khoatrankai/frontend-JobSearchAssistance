@@ -3,6 +3,7 @@
 import "./globals.css";
 import "global";
 import { Inter } from "next/font/google";
+import { persistStore } from "redux-persist";
 import { ScrollContext } from "@/context/AppProvider";
 import MenuComponent from "@/components/MenuComponent/MenuComponent";
 import { useEffect, useState } from "react";
@@ -10,6 +11,8 @@ import RollTop from "@/components/RollTop";
 import ChatRoll from "@/components/ChatRoll";
 import ChangeLanguage from "@/components/ChangeLanguage/ChangeLanguage";
 import FooterComponent from "@/components/FooterComponent/FooterComponent";
+import { PersistGate } from "redux-persist/integration/react";
+import { store } from "@/redux/store";
 
 const inter = Inter({ subsets: ["vietnamese"] });
 import { usePathname } from "next/navigation";
@@ -29,6 +32,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const persistor = persistStore(store);
+
   const [reponsiveMobile, setReponsiveMobile] = useState<number>(0);
   useEffect(() => {
     window.addEventListener("load", () => {
@@ -58,35 +63,38 @@ export default function RootLayout({
     <html lang="en">
       <body suppressHydrationWarning={true} className={inter.className}>
         <ScrollContext>
-          {pathname.split("/").length <= 3
-            ? !allowedPath.includes(pathname) && <MenuComponent />
-            : !(urlCustom.trim() === "/candidate/reset-password") && (
-                <MenuComponent />
-              )}
-          {/* Alternatively, you can use curly braces */}
-          {/* {router.pathname !== "/login" && <MenuComponent />} */}
-          {/* <div>nice</div> */}
-          {children}
-          {reponsiveMobile >= 1280 ? (
-            <>
-              {/* <ChatAIComponent /> */}
-              <ChangeLanguage />
-              <ChatRoll />
-              <RollTop />
-            </>
-          ) : (
-            ""
-          )}
-          <AlertOne />
-          <ShowConfirm />
-          <ShowImage />
-          {pathname.split("/").length <= 3
-            ? !allowedPath.includes(pathname) &&
-              !allowedFooter.includes(pathname) && <FooterComponent />
-            : !(urlCustom.trim() === "/candidate/reset-password") && (
-                <FooterComponent />
-              )}
-          <ToastContainer />
+          <PersistGate loading={null} persistor={persistor}>
+            {pathname.split("/").length <= 3
+              ? !allowedPath.includes(pathname) && <MenuComponent />
+              : !(urlCustom.trim() === "/candidate/reset-password") && (
+                  <MenuComponent />
+                )}
+            {/* Alternatively, you can use curly braces */}
+            {/* {router.pathname !== "/login" && <MenuComponent />} */}
+            {/* <div>nice</div> */}
+            {children}
+
+            {reponsiveMobile >= 1280 ? (
+              <>
+                {/* <ChatAIComponent /> */}
+                <ChangeLanguage />
+                <ChatRoll />
+                <RollTop />
+              </>
+            ) : (
+              ""
+            )}
+            <AlertOne />
+            <ShowConfirm />
+            <ShowImage />
+            {pathname.split("/").length <= 3
+              ? !allowedPath.includes(pathname) &&
+                !allowedFooter.includes(pathname) && <FooterComponent />
+              : !(urlCustom.trim() === "/candidate/reset-password") && (
+                  <FooterComponent />
+                )}
+            <ToastContainer />
+          </PersistGate>
         </ScrollContext>
       </body>
     </html>

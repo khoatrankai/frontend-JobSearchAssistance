@@ -21,7 +21,7 @@ import {
 const TypeInfoPerson = (props: Props) => {
   const { data, type } = props;
   const handleCheckImage = (dataa: any) => {
-    console.log(dataa);
+    //console.log(dataa);
     if (typeof dataa !== "string") {
       const file = dataa?.[0];
       if (file) {
