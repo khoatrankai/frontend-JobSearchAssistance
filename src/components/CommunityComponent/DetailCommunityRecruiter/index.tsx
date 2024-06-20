@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-key */
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, message } from "antd";
 // @ts-ignore
@@ -26,9 +26,10 @@ import {
 } from "@/icons";
 import ShowCancleSave from "@/components/HistoryComponent/ShowCancelSave";
 import { useSearchParams } from "next/navigation";
+import useRouterCustom from "@/util/useRouterCustom/useRouterCustom";
 const { TextArea } = Input;
 
-const ComunityRecruiter = () => {
+const ComunityRecruiter = ({ idCommunity }: any) => {
   const language = useSelector((state: RootState) => {
     return state.dataLanguage.languages;
   });
@@ -39,6 +40,7 @@ const ComunityRecruiter = () => {
     (state: RootState) => state.profileRecruiter.profile
   );
   const [detail, setDetail] = React.useState<any>();
+  const { pushRouter } = useRouterCustom();
   const searchParams: any = useSearchParams();
   const POST_COMMUNITY_ID = searchParams.get("post-community");
   const [previewOpen, setPreviewOpen] = React.useState(false);
@@ -54,7 +56,7 @@ const ComunityRecruiter = () => {
   const dispatch = useDispatch();
 
   const handelChangeCmt = (event: any) => {
-    if (!localStorage.getItem("accessTokenRecruiter")) {
+    if (!localStorage.getItem("accessToken")) {
       setOpenModalLogin(true);
       return;
     }
@@ -72,9 +74,9 @@ const ComunityRecruiter = () => {
 
   const handleGetDetailCommunityById = async () => {
     try {
-      if (POST_COMMUNITY_ID) {
+      if (idCommunity) {
         const result = await communityApi.getCommunityDetailRecruiterId(
-          POST_COMMUNITY_ID,
+          idCommunity,
           languageRedux === 1 ? "vi" : "en"
         );
         if (result && result.status !== 400) {
@@ -87,10 +89,28 @@ const ComunityRecruiter = () => {
           } else {
             setCookie("workingId", result.data.id, 365);
           }
-        } else {
-          POST_COMMUNITY_ID === "1"
-            ? window.open("/recruiter/blog", "_parent")
-            : window.open("/recruiter/blog", "_parent");
+        }
+      } else {
+        if (POST_COMMUNITY_ID) {
+          const result = await communityApi.getCommunityDetailRecruiterId(
+            POST_COMMUNITY_ID,
+            languageRedux === 1 ? "vi" : "en"
+          );
+          if (result && result.status !== 400) {
+            setLike(result?.data?.liked);
+            setDetail(result?.data);
+            setBookmark(result?.data?.bookmarked);
+
+            if (result.data.type === 0) {
+              setCookie("hijobId", result.data.id, 365);
+            } else {
+              setCookie("workingId", result.data.id, 365);
+            }
+          } else {
+            POST_COMMUNITY_ID === "1"
+              ? window.open("/recruiter/blog", "_parent")
+              : window.open("/recruiter/blog", "_parent");
+          }
         }
       }
     } catch (error) {
@@ -101,7 +121,9 @@ const ComunityRecruiter = () => {
   React.useEffect(() => {
     setFromHistory(getCookie("fromHistory"));
   }, []);
-
+  useEffect(() => {
+    handleGetDetailCommunityById();
+  }, [idCommunity]);
   React.useEffect(() => {
     handleGetDetailCommunityById();
   }, [
@@ -139,7 +161,7 @@ const ComunityRecruiter = () => {
   };
 
   const handleLikeCommunity = async (communicationId: number) => {
-    if (!localStorage.getItem("accessTokenRecruiter")) {
+    if (!localStorage.getItem("accessToken")) {
       setOpenModalLogin(true);
       return;
     }
@@ -171,7 +193,7 @@ const ComunityRecruiter = () => {
   }, [detail]);
 
   const handleSaveCommunity = async (communicationId: number) => {
-    if (!localStorage.getItem("accessTokenRecruiter")) {
+    if (!localStorage.getItem("accessToken")) {
       setOpenModalLogin(true);
       return;
     }
@@ -195,7 +217,7 @@ const ComunityRecruiter = () => {
   };
 
   const handleCommentCommunity = async () => {
-    if (!localStorage.getItem("accessTokenRecruiter")) {
+    if (!localStorage.getItem("accessToken")) {
       setOpenModalLogin(true);
       return;
     }
@@ -233,7 +255,7 @@ const ComunityRecruiter = () => {
   };
 
   const handleKeyPress = (e: any) => {
-    if (!localStorage.getItem("accessTokenRecruiter")) {
+    if (!localStorage.getItem("accessToken")) {
       setOpenModalLogin(true);
       return;
     }
@@ -259,7 +281,7 @@ const ComunityRecruiter = () => {
   };
 
   const hanleClickComment = () => {
-    if (!localStorage.getItem("accessTokenRecruiter")) {
+    if (!localStorage.getItem("accessToken")) {
       setOpenModalLogin(true);
     }
   };
@@ -286,16 +308,29 @@ const ComunityRecruiter = () => {
           </div>
           <div className="title-comunity">
             <h3>{detail?.title}</h3>
-            <div className="title-comunity_icon">
-              <span onClick={() => handleSaveCommunity(detail?.id)}>
-                {bookmark ? (
-                  <SaveIconFill width={24} height={24} />
-                ) : (
-                  <SaveIconOutline width={24} height={24} />
-                )}
-                {language?.save}
-              </span>
-            </div>
+            {dataProfile?.accountId === detail?.profileData?.id ? (
+              <div
+                className="p-2 rounded-lg border-2 cursor-pointer"
+                onClick={() => {
+                  pushRouter(
+                    `/recruiter/community-create?post-community=${POST_COMMUNITY_ID}`
+                  );
+                }}
+              >
+                Chỉnh sửa
+              </div>
+            ) : (
+              <div className="title-comunity_icon">
+                <span onClick={() => handleSaveCommunity(detail?.id)}>
+                  {bookmark ? (
+                    <SaveIconFill width={24} height={24} />
+                  ) : (
+                    <SaveIconOutline width={24} height={24} />
+                  )}
+                  {language?.save}
+                </span>
+              </div>
+            )}
           </div>
           <div className="comunityDetail-wrap_actor">
             <div className="comunityDetail-wrap">

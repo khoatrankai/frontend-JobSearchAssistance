@@ -1,14 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode:true,
   images: {
     domains: [
       'i02.appmifile.com',
       'res.cloudinary.com'
     ],
   },
-  experimental:{
-    forceSwcTransforms: true,
-  },
+  // experimental:{
+  //   forceSwcTransforms: true,
+  // },
   
   env: {
     REACT_APP_GOOGLE_CLIENT_ID:

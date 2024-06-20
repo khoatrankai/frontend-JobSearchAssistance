@@ -7,6 +7,7 @@ import axiosClient from "@/configs/axiosClient";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
 import Validate from "@/util/Validate/Validate";
+import ToastCustom from "@/util/ToastCustom";
 
 type Props = {
   dataInfo: any;
@@ -20,6 +21,7 @@ interface IData {
 const EducationProfile = (props: Props) => {
   const { dataInfo, handleUpdateApi } = props;
   const { ModalValidate } = Validate();
+  const { hdError, hdSuccess } = ToastCustom();
   const [checkModal, setCheckModal] = useState<boolean>(false);
   const [idRemove, setIdRemove] = useState<any>();
   const { handleConvertToDate } = TimeStamp();
@@ -40,7 +42,10 @@ const EducationProfile = (props: Props) => {
       { educationId: id }
     )) as unknown as IData;
     if (res && res.code === 200) {
+      hdSuccess("Xoá thông tin thành công");
       handleUpdateApi();
+    } else {
+      hdError("Xoá thông tin không thành công");
     }
   };
   const handleUpdate = (index: number) => {

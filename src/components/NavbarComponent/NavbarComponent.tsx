@@ -78,6 +78,7 @@ const NavbarComponent = (props: Props) => {
         console.error("Error fetching data:", error);
       }
     };
+
     fetchData();
   }, [languageRedux]);
   const handleClickCategory = (id: number) => {

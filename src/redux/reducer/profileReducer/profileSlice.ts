@@ -8,7 +8,7 @@ interface IProfile {
 }
 
 
-export const fetchProfile = createAsyncThunk(
+export const fetchProfile:any = createAsyncThunk(
   'profile/fetchProfile',
   async (lang: string) => {
     const languageId = getCookie('languageId')

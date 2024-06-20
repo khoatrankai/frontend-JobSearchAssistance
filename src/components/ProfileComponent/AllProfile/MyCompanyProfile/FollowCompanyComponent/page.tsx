@@ -1,4 +1,5 @@
 import apiCompany from "@/api/company/apiCompany";
+import ToastCustom from "@/util/ToastCustom";
 import { Button } from "antd";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -7,6 +8,7 @@ import { FaAddressCard } from "react-icons/fa";
 
 function CompanyFollowComponent() {
   const [data, setData] = useState([]);
+  const { hdError, hdSuccess } = ToastCustom();
   const router = useRouter();
   const fetchData = async () => {
     try {
@@ -27,7 +29,10 @@ function CompanyFollowComponent() {
       const response = await apiCompany.createFollowCompany(companyId);
 
       if (response) {
+        hdSuccess("Bỏ theo dõi thành công");
         fetchData();
+      } else {
+        hdError("Bỏ theo dõi không thành công");
       }
     } catch (error) {}
   };

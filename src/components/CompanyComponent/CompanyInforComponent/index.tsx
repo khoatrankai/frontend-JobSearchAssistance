@@ -108,8 +108,11 @@ const Company: React.FC<ICompany> = (props) => {
     React.useState(false);
   const [loadingUpdate, setLoadingUpdate] = useState<boolean>(false);
   React.useEffect(() => {
-    document.title =
-      languageRedux === 1 ? "Thông tin công ty" : "Company Information";
+    if (typeof document !== "undefined") {
+      document.title =
+        languageRedux === 1 ? "Thông tin công ty" : "Company Information";
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [languageRedux]);
 

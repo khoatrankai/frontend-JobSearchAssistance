@@ -6,6 +6,7 @@ import ExperienceModal from "./Modal/ExperienceModal";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
 import Validate from "@/util/Validate/Validate";
+import ToastCustom from "@/util/ToastCustom";
 
 type Props = {
   dataInfo: any;
@@ -20,6 +21,7 @@ interface IData {
 const ExperienceProfile = (props: Props) => {
   const { dataInfo, handleUpdateApi } = props;
   const { ModalValidate } = Validate();
+  const { hdError, hdSuccess } = ToastCustom();
   const [checkModal, setCheckModal] = useState<boolean>(false);
   const [idRemove, setIdRemove] = useState<any>();
   const { handleConvertToDate } = TimeStamp();
@@ -41,7 +43,10 @@ const ExperienceProfile = (props: Props) => {
       { experienceId: id }
     )) as unknown as IData;
     if (res && res.code === 200) {
+      hdSuccess("Xóa thông tin thành công");
       handleUpdateApi();
+    } else {
+      hdError("Xóa thông tin không thành công");
     }
   };
   const handleUpdate = (index: number) => {

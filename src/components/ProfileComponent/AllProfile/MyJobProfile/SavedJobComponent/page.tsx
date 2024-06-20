@@ -10,9 +10,11 @@ import historyBookmark from "@/api/historyBookmark";
 import { SaveIconFill, SaveIconOutline } from "@/icons";
 import bookMarkApi from "@/api/bookmarks/bookMarkApi";
 import { Select } from "antd";
+import ToastCustom from "@/util/ToastCustom";
 
 function SavedJobComponent() {
   const [lastPostId, setLastPostId] = useState(0);
+  const { hdError, hdSuccess } = ToastCustom();
   const [dataBookmarks, setDataBookmarks] = useState<any>(null);
   const [newOld, setnewOld] = useState("Mới nhất");
 
@@ -47,7 +49,10 @@ function SavedJobComponent() {
       const fetchData = async () => {
         const response = (await bookMarkApi.deleteBookMark(id)) as any;
         if (response && response.code === 200) {
+          hdSuccess("Hủy lưu bài viết thành công");
           getAllPosted(0);
+        } else {
+          hdError("Hủy lưu bài viết không thành công");
         }
       };
       fetchData();
@@ -76,7 +81,7 @@ function SavedJobComponent() {
           <Select.Option value="Mới nhất">Mới nhất</Select.Option>
           <Select.Option value="Cũ nhất">Cũ nhất</Select.Option>
         </Select>
-        <div className="mt-5">
+        <div className="mt-5 overflow-y-scroll h-[470px]">
           {dataBookmarks && dataBookmarks.length > 0 ? (
             dataBookmarks.map((item: any, index: number) => {
               return (

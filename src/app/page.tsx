@@ -1,7 +1,7 @@
 "use client";
 // Import specific react components instead of importing all of React
 import React, { useEffect, useRef, useState } from "react";
-import { persistStore } from "redux-persist";
+// import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import BannerComponent from "@/components/BannerComponent/BannerComponent";
 import TopCompanyComponent from "@/components/TopCompanyComponent/TopCompanyComponent";
@@ -20,8 +20,8 @@ import { useSrollContext } from "@/context/AppProvider";
 interface PageProps {}
 
 const Home = () => {
-  const persistor = persistStore(store);
-  const { isLoading, handlePersistGateLoaded } = useSrollContext();
+  // const persistor = persistStore(store);
+  const { isLoading } = useSrollContext();
   const [checkPage, setCheckPage] = useState<string>("/");
   const categoryId = useSelector((state: any) => state.categoryId);
   const hotJobRef = useRef<HTMLDivElement>(null);

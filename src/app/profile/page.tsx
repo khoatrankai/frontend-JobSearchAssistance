@@ -10,7 +10,7 @@ import { fetchProfile } from "@/redux/reducer/profileReducer/profileSlice";
 import { useSrollContext } from "@/context/AppProvider";
 import { AiFillDashboard } from "react-icons/ai";
 import { MdEditDocument } from "react-icons/md";
-import { FaBuilding } from "react-icons/fa";
+import { FaBuilding, FaClipboardList } from "react-icons/fa";
 import { MdWork } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
 import InfoProfile from "@/components/ProfileComponent/AllProfile/InfoProfile/InfoProfile";
@@ -19,6 +19,9 @@ import MyCompanyProfile from "@/components/ProfileComponent/AllProfile/MyCompany
 import MyJobProfile from "@/components/ProfileComponent/AllProfile/MyJobProfile/MyJobProfile";
 import SettingProfile from "@/components/ProfileComponent/AllProfile/SettingProfile/SettingProfile";
 import CheckPageLogin from "@/util/CheckPageLogin";
+import PostBlogProfile from "@/components/ProfileComponent/PostBlogProfile/PostBlogProfile";
+import { GoPasskeyFill } from "react-icons/go";
+import KeywordProfile from "@/components/ProfileComponent/AllProfile/KeywordProfile/KeywordProfile";
 
 type Props = {};
 
@@ -40,6 +43,7 @@ const page = (props: Props) => {
     setSelectionMenu(selectProfileUser);
   }, [selectProfileUser]);
   useEffect(() => {
+    console.log(dataProfile);
     setDataInfo({
       ...dataProfile,
       address: dataProfile?.addressText?.id,
@@ -120,7 +124,7 @@ const page = (props: Props) => {
               {reponsiveMobile < 950 ? (
                 ""
               ) : (
-                <p className="font-bold text-white">Nguyễn Tuấn Kiệt Quệ</p>
+                <p className="font-bold text-white">{dataProfile?.name}</p>
               )}
             </div>
             <div className="flex flex-col items-center gap-y-3 w-full justify-center">
@@ -262,6 +266,66 @@ const page = (props: Props) => {
                   setMenuProfile(false);
                 }}
               >
+                <FaClipboardList />
+                <p
+                  className={`${
+                    reponsiveMobile < 950
+                      ? "absolute left-full text-white translate-x-5 text-nowrap"
+                      : ""
+                  }   `}
+                >
+                  Danh sách bài viết
+                </p>
+              </div>
+              <div
+                className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
+                  selectionMenu === 6
+                    ? "border-blue-500 bg-blue-200"
+                    : "bg-white"
+                } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
+                  reponsiveMobile < 950
+                    ? `justify-center ${
+                        menuProfile ? "" : "-top-20 opacity-0 -z-10"
+                      }`
+                    : "pl-6 hover:text-white"
+                }`}
+                onClick={() => {
+                  setSelectionMenu(6);
+                  setSelectProfileUser(6);
+
+                  setMenuProfile(false);
+                }}
+              >
+                <GoPasskeyFill />
+                <p
+                  className={`${
+                    reponsiveMobile < 950
+                      ? "absolute left-full text-white translate-x-5 text-nowrap"
+                      : ""
+                  }   `}
+                >
+                  Tìm việc theo từ khóa
+                </p>
+              </div>
+              <div
+                className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
+                  selectionMenu === 7
+                    ? "border-blue-500 bg-blue-200"
+                    : "bg-white"
+                } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
+                  reponsiveMobile < 950
+                    ? `justify-center ${
+                        menuProfile ? "" : "-top-20 opacity-0 -z-10"
+                      }`
+                    : "pl-6 hover:text-white"
+                }`}
+                onClick={() => {
+                  setSelectionMenu(7);
+                  setSelectProfileUser(7);
+
+                  setMenuProfile(false);
+                }}
+              >
                 <IoMdSettings />
                 <p
                   className={`${
@@ -296,7 +360,9 @@ const page = (props: Props) => {
             )}
             {selectionMenu === 3 && <MyCompanyProfile />}
             {selectionMenu === 4 && <MyJobProfile />}
-            {selectionMenu === 5 && <SettingProfile />}
+            {selectionMenu === 5 && <PostBlogProfile />}
+            {selectionMenu === 6 && <KeywordProfile />}
+            {selectionMenu === 7 && <SettingProfile />}
           </div>
         </div>
         {menuProfile && (

@@ -75,7 +75,7 @@ function ViewedJobComponent() {
           <Select.Option value="Mới nhất">Mới nhất</Select.Option>
           <Select.Option value="Cũ nhất">Cũ nhất</Select.Option>
         </Select>
-        <div className="mt-5">
+        <div className="mt-5 overflow-y-scroll h-[470px]">
           {data && data.length > 0 ? (
             data.map((item: any, index: number) => {
               return (

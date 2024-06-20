@@ -382,7 +382,7 @@ const TopCompanyComponent = (props: Props) => {
                 theme.map((item: any, index: number) => (
                   <li
                     key={index}
-                    className="w-[278.25px] h-[200px] group border-[1px] relative hover:border-blue-500 transition-all cursor-pointer rounded-lg flex flex-col items-center justify-center item-company overflow-hidden"
+                    className={`w-[278.25px] h-[200px] group border-[1px] relative hover:border-blue-500 transition-all cursor-pointer rounded-lg flex flex-col items-center justify-center item-company overflow-hidden`}
                     onClick={() => {
                       if (checkClick) {
                         handleGetData(item.id);
@@ -401,7 +401,13 @@ const TopCompanyComponent = (props: Props) => {
                       height={160}
                       alt="Kinh doanh"
                     />
-                    <div className="absolute inset-0 bg-black/50 group-hover:bg-black/20 z-10"></div>
+                    <div
+                      className={`absolute inset-0  z-10 ${
+                        themeId === item.id
+                          ? "bg-black/20"
+                          : "bg-black/50 group-hover:bg-black/20"
+                      }`}
+                    ></div>
                     <h2 className="font-bold absolute bottom-8 text-white z-20 group-hover:shadow-black">
                       {handleShortTextHome(item.title, 15)}
                     </h2>

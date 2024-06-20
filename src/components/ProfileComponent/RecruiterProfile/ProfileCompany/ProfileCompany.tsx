@@ -17,6 +17,8 @@ import { IoIosAdd } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import { TbBorderCorners } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
+import { ValidationProfile } from "./validation/validation";
+import ToastCustom from "@/util/ToastCustom";
 
 type Props = {
   dataInfo?: any;
@@ -31,6 +33,7 @@ interface ILocation {
 const ProfileCompany = (props: Props) => {
   const { Option } = Select;
   const { dataInfo, handleUpdateApi } = props;
+  const { hdError, hdSuccess } = ToastCustom();
   const refImg = useRef<any>();
   const [dataLocation, setDataLocation] = useState<any>([]);
   const [dataRequest, setDataRequest] = useState<any>();
@@ -60,7 +63,7 @@ const ProfileCompany = (props: Props) => {
   const dispatch = useDispatch();
   const profile = useSelector((state: any) => state.profileRecruiter.profile);
   useEffect(() => {
-    dispatch(fetchProfileRecruiter("vi") as any);
+    // dispatch(fetchProfileRecruiter("vi") as any);
     const fetchData = async () => {
       const data = await roleApi.getRoleRecruiter();
       setRole(data);
@@ -228,28 +231,35 @@ const ProfileCompany = (props: Props) => {
       images: listFile,
       deleteImages: listDeleteImg,
     };
-    if (logoFileImg === null) {
-      delete newData.logo;
-    }
-    //console.log(newData, dataRequest);
-    const formData = new FormData();
-    for (let i in newData) {
-      if (i === "images") {
-        newData[i]?.forEach((image: any) => {
-          //console.log(image);
-          formData.append("images", image);
-        });
-      } else {
-        formData.append(i, newData[i]);
+    const checkPost = new ValidationProfile(newData);
+    const validate = checkPost.validateAllFields();
+    if (validate && !validate.status) {
+      hdError(validate.message);
+    } else {
+      if (logoFileImg === null) {
+        delete newData.logo;
       }
-    }
-    const postData = async () => {
-      const data = await profileApi.postProfile(dataRequest.id, formData);
-      if (data) {
-        dispatch(fetchProfileRecruiter("vi") as any);
+      //console.log(newData, dataRequest);
+      const formData = new FormData();
+      for (let i in newData) {
+        if (i === "images") {
+          newData[i]?.forEach((image: any) => {
+            //console.log(image);
+            formData.append("images", image);
+          });
+        } else {
+          formData.append(i, newData[i]);
+        }
       }
-    };
-    postData();
+      const postData = async () => {
+        const data = await profileApi.postProfile(dataRequest.id, formData);
+        if (data) {
+          hdSuccess("Cập nhật thông tin công ty thành công");
+          dispatch(fetchProfileRecruiter("vi") as any);
+        }
+      };
+      postData();
+    }
   };
   return (
     <div className="flex flex-col mt-5">

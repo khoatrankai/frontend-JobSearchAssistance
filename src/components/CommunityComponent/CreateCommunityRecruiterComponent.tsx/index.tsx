@@ -11,7 +11,7 @@ import type { RcFile } from "antd/es/upload/interface";
 import { useDropzone } from "react-dropzone";
 import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 // @ts-ignore
 import communityApi from "@/api/community/apiCommunity";
 import { RootState } from "@/redux/reducer";
@@ -27,7 +27,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useSrollContext } from "@/context/AppProvider";
 import TextEditorCustomBlog from "@/util/TextEditCustom/TextEditorCustomBlog";
 
-const ComunityCreatePostRecruiter = () => {
+const ComunityCreatePostRecruiter = ({ setTab }: any) => {
   const language = useSelector(
     (state: RootState) => state.dataLanguage.languages
   );
@@ -62,10 +62,10 @@ const ComunityCreatePostRecruiter = () => {
   React.useEffect(() => {
     // handleLoadHrefPage();
     if (typeof localStorage !== undefined) {
-      const accountId = localStorage.getItem("accountIdRecruiter");
+      const accountId = localStorage.getItem("accountId");
       if (!accountId) {
         // window.open("/", "_parent");
-        router.push("/recruiter");
+        router.push("/");
       }
     }
   }, []);
@@ -310,7 +310,6 @@ const ComunityCreatePostRecruiter = () => {
   const handleSaveCommunity = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent> | FormEvent
   ) => {
-    console.log("bam blog");
     e.preventDefault();
 
     const formData = new FormData();
@@ -413,7 +412,8 @@ const ComunityCreatePostRecruiter = () => {
             progress: undefined,
             theme: "dark",
           });
-          router.push("/blog");
+          // router.push("/blog");
+          if (setTab) setTab(false);
 
           localStorage.setItem("community_success", "true");
         } else {

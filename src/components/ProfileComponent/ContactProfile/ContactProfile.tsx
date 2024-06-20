@@ -5,6 +5,8 @@ import axiosClient from "@/configs/axiosClient";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
 import { Input } from "antd";
+import ToastCustom from "@/util/ToastCustom";
+import { ValidationProfile } from "./validation/validation";
 
 type Props = {
   dataInfo: any;
@@ -18,6 +20,7 @@ interface IData {
 const ContactProfile = (props: Props) => {
   const { dataInfo, handleUpdateApi } = props;
   const [dataRequest, setDataRequest] = useState<any>();
+  const { hdError, hdSuccess } = ToastCustom();
   const [rsContact, setRSContact] = useState<boolean>(false);
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
@@ -31,9 +34,13 @@ const ContactProfile = (props: Props) => {
         "http://localhost:8888/api/v1/profiles/con",
         dataRequest
       )) as unknown as IData;
+
       if (res && res.code === 200) {
         setRSContact(!rsContact);
         handleUpdateApi();
+        hdSuccess("Cập nhật thông tin liên hệ thành công");
+      } else {
+        hdError("Cập nhật thông tin liên hệ không thành công");
       }
     };
     fetchData();
@@ -48,7 +55,13 @@ const ContactProfile = (props: Props) => {
         setRSContact(!rsContact);
         break;
       case "save":
-        handleUpdateData();
+        const checkPost = new ValidationProfile(dataRequest?.email);
+        const validate = checkPost.validateAllFields();
+        if (validate && !validate.status) {
+          hdError(validate.message);
+        } else {
+          handleUpdateData();
+        }
         break;
       case "close":
         handleBack();

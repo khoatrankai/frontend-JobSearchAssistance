@@ -1,5 +1,7 @@
 import DashboardApi from "@/api/recruiter/dashboard/dashboardApi";
 import { useSrollContext } from "@/context/AppProvider";
+import ShortText from "@/util/ShortText";
+import useRouterCustom from "@/util/useRouterCustom/useRouterCustom";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
@@ -7,9 +9,43 @@ type Props = {};
 
 const DashboardApply = (props: Props) => {
   const [dataApply, setApply] = useState<any>([]);
+  const { handleShortTextHome } = ShortText();
+  const { pushBlank } = useRouterCustom();
+  const ChangeNumber = (data: any, type = true, typeSpace = ".") => {
+    if (!data) {
+      return 0;
+    }
+    if (type) {
+      const numberArray = data?.split("");
+      if (numberArray.length <= 4) {
+        return data;
+      }
+      const lengthChange = Math.round(numberArray.length / 3 - 1);
+      let vt = numberArray.length - (lengthChange * 3 + 1);
+      for (let i = 0; i < lengthChange; i++) {
+        numberArray.splice(vt, 0, ".");
+        vt = vt + 4;
+      }
+      return numberArray.join("");
+    } else {
+      const numberArray = data?.split("");
+      if (numberArray.length <= 3) {
+        return data;
+      }
+      numberArray.push("");
+      const lengthChange = Math.round(numberArray.length / 3 - 1);
+      let vt = numberArray.length - (lengthChange * 3 + 1);
+      for (let i = 0; i < lengthChange; i++) {
+        numberArray.splice(vt, 0, typeSpace);
+        vt = vt + 4;
+      }
+      numberArray.pop();
+      return numberArray.join("");
+    }
+  };
   const [maxTop, setMaxTop] = useState<any>(0);
   const myArrayCount = new Array(11).fill(5);
-  const [chooseMonth, setChooseMonth] = useState<any>(1);
+  const [chooseMonth, setChooseMonth] = useState<any>();
   const { reponsiveMobile } = useSrollContext();
   const [dataMonth, setDataMonth] = useState<any>([]);
   useEffect(() => {
@@ -48,7 +84,9 @@ const DashboardApply = (props: Props) => {
       const data = await DashboardApi.getDetailMonth(chooseMonth);
       setDataMonth(data);
     };
-    fetchData();
+    if (chooseMonth) {
+      fetchData();
+    }
   }, [chooseMonth]);
   return (
     <div className="w-full max-w-6xl">
@@ -68,7 +106,12 @@ const DashboardApply = (props: Props) => {
               {dataApply.map((dt: any) => {
                 return (
                   <>
-                    <div className="flex flex-col h-full items-center justify-end gap-y-1 px-4 w-full hover:bg-black/5">
+                    <div
+                      className="flex flex-col h-full items-center justify-end gap-y-1 px-4 w-full hover:bg-black/5 cursor-pointer"
+                      onClick={() => {
+                        setChooseMonth(dt?.month);
+                      }}
+                    >
                       <div className="flex gap-x-1 h-[81.5%] w-full items-end ">
                         <div
                           className="bg-red-400/50 w-9 relative group min-h-[4%]"
@@ -102,7 +145,7 @@ const DashboardApply = (props: Props) => {
                 return (
                   <>
                     <div className="flex gap-x-2 justify-between">
-                      <p className="h-full flex items-end w-full flex justify-center">
+                      <p className="h-full flex items-end w-full justify-center">
                         {handlePercent(ikey)}
                       </p>
                       <span>-</span>
@@ -138,94 +181,39 @@ const DashboardApply = (props: Props) => {
                 <div className="w-[15%] h-full"></div>
               </div>
               <div className="flex flex-col gap-y-2 overflow-y-scroll max-h-40 min-w-[850px]">
-                <div className="flex gap-x-4 items-center justify-between font-medium text-xs w-full">
-                  <p className="w-8 pl-2">1</p>
-                  <p className="w-2/12 text-blue-500 pl-2">10,102</p>
-                  <p className="w-2/12 text-red-500 pl-2">300</p>
-                  <p className="w-2/12 text-green-500 pl-2">600</p>
-                  <p className="w-3/12">Việc làm cung ứng</p>
+                {dataMonth?.data?.map((dt: any, ikey: any) => {
+                  return (
+                    <>
+                      <div
+                        className="flex gap-x-4 items-center justify-between font-medium text-xs w-full"
+                        key={ikey}
+                      >
+                        <p className="w-8 pl-2">1</p>
+                        <p className="w-2/12 text-blue-500 pl-2">
+                          {ChangeNumber(dt.seen, false, ",")}
+                        </p>
+                        <p className="w-2/12 text-red-500 pl-2">
+                          {ChangeNumber(dt.rejected, false, ",")}
+                        </p>
+                        <p className="w-2/12 text-green-500 pl-2">
+                          {ChangeNumber(dt.accepted, false, ",")}
+                        </p>
+                        <p className="w-3/12">
+                          {handleShortTextHome(dt.posts_title, 20)}
+                        </p>
 
-                  <button className=" hover:text-blue-400 p-1 w-[15%] font-bold rounded-xl text-blue-700 text-nowrap">
-                    Xem chi tiết
-                  </button>
-                </div>
-                <div className="flex gap-x-4 items-center justify-between font-medium text-xs w-full">
-                  <p className="w-8 pl-2">1</p>
-                  <p className="w-2/12 text-blue-500 pl-2">10,102</p>
-                  <p className="w-2/12 text-red-500 pl-2">300</p>
-                  <p className="w-2/12 text-green-500 pl-2">600</p>
-                  <p className="w-3/12">Việc làm cung ứng</p>
-
-                  <button className=" hover:text-blue-400 p-1 w-[15%] font-bold rounded-xl text-blue-700 text-nowrap">
-                    Xem chi tiết
-                  </button>
-                </div>
-                <div className="flex gap-x-4 items-center justify-between font-medium text-xs w-full">
-                  <p className="w-8 pl-2">1</p>
-                  <p className="w-2/12 text-blue-500 pl-2">10,102</p>
-                  <p className="w-2/12 text-red-500 pl-2">300</p>
-                  <p className="w-2/12 text-green-500 pl-2">600</p>
-                  <p className="w-3/12">Việc làm cung ứng</p>
-
-                  <button className=" hover:text-blue-400 p-1 w-[15%] font-bold rounded-xl text-blue-700 text-nowrap">
-                    Xem chi tiết
-                  </button>
-                </div>
-                <div className="flex gap-x-4 items-center justify-between font-medium text-xs w-full">
-                  <p className="w-8 pl-2">1</p>
-                  <p className="w-2/12 text-blue-500 pl-2">10,102</p>
-                  <p className="w-2/12 text-red-500 pl-2">300</p>
-                  <p className="w-2/12 text-green-500 pl-2">600</p>
-                  <p className="w-3/12">Việc làm cung ứng</p>
-
-                  <button className=" hover:text-blue-400 p-1 w-[15%] font-bold rounded-xl text-blue-700 text-nowrap">
-                    Xem chi tiết
-                  </button>
-                </div>
-                <div className="flex gap-x-4 items-center justify-between font-medium text-xs w-full">
-                  <p className="w-8 pl-2">1</p>
-                  <p className="w-2/12 text-blue-500 pl-2">10,102</p>
-                  <p className="w-2/12 text-red-500 pl-2">300</p>
-                  <p className="w-2/12 text-green-500 pl-2">600</p>
-                  <p className="w-3/12">Việc làm cung ứng</p>
-
-                  <button className=" hover:text-blue-400 p-1 w-[15%] font-bold rounded-xl text-blue-700 text-nowrap">
-                    Xem chi tiết
-                  </button>
-                </div>
-                <div className="flex gap-x-4 items-center justify-between font-medium text-xs w-full">
-                  <p className="w-8 pl-2">1</p>
-                  <p className="w-2/12 text-blue-500 pl-2">10,102</p>
-                  <p className="w-2/12 text-red-500 pl-2">300</p>
-                  <p className="w-2/12 text-green-500 pl-2">600</p>
-                  <p className="w-3/12">Việc làm cung ứng</p>
-
-                  <button className=" hover:text-blue-400 p-1 w-[15%] font-bold rounded-xl text-blue-700 text-nowrap">
-                    Xem chi tiết
-                  </button>
-                </div>
-                <div className="flex gap-x-4 items-center justify-between font-medium text-xs w-full">
-                  <p className="w-8 pl-2">1</p>
-                  <p className="w-2/12 text-blue-500 pl-2">10,102</p>
-                  <p className="w-2/12 text-red-500 pl-2">300</p>
-                  <p className="w-2/12 text-green-500 pl-2">600</p>
-                  <p className="w-3/12">Việc làm cung ứng</p>
-
-                  <button className=" hover:text-blue-400 p-1 w-[15%] font-bold rounded-xl text-blue-700 text-nowrap">
-                    Xem chi tiết
-                  </button>
-                </div>
-                <div className="flex gap-x-4 items-center justify-between font-medium text-xs w-full">
-                  <p className="w-8 pl-2">1</p>
-                  <p className="w-2/12 text-blue-500 pl-2">10,102</p>
-                  <p className="w-2/12 text-red-500 pl-2">300</p>
-                  <p className="w-2/12 text-green-500 pl-2">600</p>
-                  <p className="w-3/12">Việc làm cung ứng</p>
-
-                  <button className=" hover:text-blue-400 p-1 w-[15%] font-bold rounded-xl text-blue-700 text-nowrap">
-                    Xem chi tiết
-                  </button>
-                </div>
+                        <button
+                          className=" hover:text-blue-400 p-1 w-[15%] font-bold rounded-xl text-blue-700 text-nowrap"
+                          onClick={() => {
+                            pushBlank(`/recruiter/post-detail/${dt.postId}`);
+                          }}
+                        >
+                          Xem chi tiết
+                        </button>
+                      </div>
+                    </>
+                  );
+                })}
               </div>
             </div>
             {/* <div className="flex justify-center">

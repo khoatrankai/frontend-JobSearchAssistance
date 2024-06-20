@@ -42,7 +42,7 @@ const postsApi = {
   },
   getPostHot: (
   ) => {
-    const URL = `${V3}/api/v3/posts/hot?limit=5`;
+    const URL = `${V3}/api/v3/posts/hot?limit=3`;
     return axiosClient.get(URL);
   },
 

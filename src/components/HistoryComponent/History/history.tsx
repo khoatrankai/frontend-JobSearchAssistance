@@ -111,11 +111,12 @@ const HistoryPost = () => {
   ];
 
   React.useEffect(() => {
-    document.title =
-      languageRedux === 1
-        ? "Lịch sử ứng tuyển/đăng tuyển"
-        : "Job application/posting history";
-
+    if (typeof document !== "undefined") {
+      document.title =
+        languageRedux === 1
+          ? "Lịch sử ứng tuyển/đăng tuyển"
+          : "Job application/posting history";
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [languageRedux, language]);
 

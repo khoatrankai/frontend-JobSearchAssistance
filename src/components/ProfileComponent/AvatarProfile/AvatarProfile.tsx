@@ -14,7 +14,7 @@ const AvatarProfile = (props: Props) => {
   const [dataImg, setDataImg] = useState<any>(dataInfo?.avatarPath);
 
   useEffect(() => {
-    setDataImg(dataInfo?.companyInfomation?.logoPath);
+    setDataImg(dataInfo?.avatarPath);
     //console.log(dataInfo);
   }, [dataInfo]);
   return (

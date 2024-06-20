@@ -161,7 +161,7 @@ const page = (props: Props) => {
     fetchData();
   };
   return (
-    <div className=" flex min-h-[89.5vh] py-16 bg-[#f0f0f0] flex-col items-center gap-8">
+    <div className=" flex min-h-[89.5vh] py-16 bg-[#f0f0f0] flex-col items-center gap-8 px-4">
       <div className="w-full max-w-6xl h-64 bg-blue-400 rounded-xl flex items-center justify-between relative">
         <div className="flex flex-col pl-12 justify-center">
           <p className="font-semibold text-2xl">
@@ -277,7 +277,7 @@ const page = (props: Props) => {
                           )}
                         </div>
 
-                        <div className="absolute bottom-2 flex gap-2 items-center w-full justify-center">
+                        <div className="absolute bottom-2 flex gap-2 items-center w-full justify-center flex-wrap">
                           <div
                             className="flex gap-2 rounded-lg p-1 items-center w-fit cursor-pointer"
                             style={{

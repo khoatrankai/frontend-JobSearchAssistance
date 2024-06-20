@@ -3,6 +3,8 @@ import axiosClient from "@/configs/axiosClient";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
 import Validate from "@/util/Validate/Validate";
+import ToastCustom from "@/util/ToastCustom";
+import { ValidationProfile } from "./validation/validation";
 type Props = {
   type: any;
   dataAchivement?: any;
@@ -21,7 +23,7 @@ const AchivementModal = (props: Props) => {
   const { ModalValidate } = Validate();
   const [checkModal, setCheckModal] = useState<boolean>(false);
   const [valueNotify, setValueNotify] = useState<any>("Bạn chắc chắn không ?");
-
+  const { hdSuccess, hdError } = ToastCustom();
   const { dataAchivement, handleUpdateApi, type, setTabModal } = props;
   const [dataRequest, setDataRequest] = useState<any>();
   const languageRedux = useSelector(
@@ -34,8 +36,11 @@ const AchivementModal = (props: Props) => {
         dataRequest
       )) as unknown as IResquest;
       if (res && res.statusCode === 201) {
+        hdSuccess("Thêm mới giải thưởng thành công");
         handleUpdateApi();
         setTabModal(false);
+      } else {
+        hdError("Thêm mới giải thưởng không thành công");
       }
     } else {
       const res = (await axiosClient.put(
@@ -46,8 +51,11 @@ const AchivementModal = (props: Props) => {
         }
       )) as unknown as IResquest;
       if (res && res.statusCode === 200) {
+        hdSuccess("Cập nhật giải thưởng thành công");
         handleUpdateApi();
         setTabModal(false);
+      } else {
+        hdError("Cập nhật giải thưởng không thành công");
       }
     }
   };
@@ -55,7 +63,16 @@ const AchivementModal = (props: Props) => {
     setDataRequest({ ...dataRequest, [e.target.name]: e.target.value });
   };
   const handleYes = () => {
-    handleUpdateData();
+    const checkPost = new ValidationProfile(
+      dataRequest?.title ?? "",
+      dataRequest?.description ?? ""
+    );
+    const validate = checkPost.validateAllFields();
+    if (validate && !validate.status) {
+      hdError(validate.message);
+    } else {
+      handleUpdateData();
+    }
   };
   const haneleNo = () => {
     setCheckModal(false);

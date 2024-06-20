@@ -32,7 +32,17 @@ const ShortText = () => {
         
         return truncatedText
     }
- return{handleShortTextHome,handleShortValueNumber}
+    const handleConvertText = (htmlString: any) => {
+        var virtualElement = document.createElement("div");
+    
+        // Đặt chuỗi HTML vào phần tử ảo
+        virtualElement.innerHTML = htmlString;
+    
+        // Lấy nội dung văn bản từ phần tử ảo
+        var textContent = virtualElement.innerText || virtualElement.textContent;
+        return textContent;
+      };
+ return{handleShortTextHome,handleShortValueNumber,handleConvertText}
 }
 
 export default ShortText

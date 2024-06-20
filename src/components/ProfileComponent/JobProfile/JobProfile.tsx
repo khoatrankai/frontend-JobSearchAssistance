@@ -7,6 +7,7 @@ import TypeJob from "./Modals/TypeJob/TypeJob";
 import axiosClient from "@/configs/axiosClient";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
+import ToastCustom from "@/util/ToastCustom";
 
 type Props = {
   dataInfo: any;
@@ -62,6 +63,7 @@ const JobProfile = (props: Props) => {
         "http://localhost:8888/api/v1/profiles/per",
         dataRequest
       )) as unknown as IData;
+      const { hdError, hdSuccess } = ToastCustom();
       if (
         resCat &&
         resType &&
@@ -74,7 +76,10 @@ const JobProfile = (props: Props) => {
         resLoc.data &&
         resType.data
       ) {
+        hdSuccess("Cập nhật thông tin liên hệ thành công");
         handleUpdateApi();
+      } else {
+        hdError("Cập nhật thông tin liên hệ không thành công");
       }
     };
     fetchData();

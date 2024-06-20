@@ -22,6 +22,8 @@ export interface LogActivity {
     saveYourProfileLogs: number;
     saveCommunityLogs: number;
     createCommunityLogs: number;
+    resultViewJob:any
+    resultSearchJob:any
   }
   
   export interface DataLogRecuiter {

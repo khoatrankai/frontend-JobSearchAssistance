@@ -2,6 +2,7 @@
 "use client";
 import { ColorPicker } from "antd";
 import React, { useEffect, useState } from "react";
+import jsPDF from "jspdf";
 import {
   FaArrowDown,
   FaCompressArrowsAlt,
@@ -27,6 +28,7 @@ import { captureElementAsFile } from "@/util/ConvertPdf";
 import TimeStamp from "@/util/TimeStamp/TimeStamp";
 import ToastCustom from "@/util/ToastCustom";
 import CookieCustom from "@/util/CookieCustom";
+import html2canvas from "html2canvas";
 
 type Props = {
   cvIndex?: any;
@@ -75,6 +77,8 @@ const LibCvV2 = (props: Props) => {
     setHandleAlert,
     updateHandleAlert,
     setContentAlert,
+    handleOffTabLoading,
+    handlePersistGateLoaded,
     dataDocsCv,
   } = useSrollContext();
   const [dataForm, setDataForm] = useState<any>({
@@ -2371,7 +2375,13 @@ const LibCvV2 = (props: Props) => {
     captureElementAsFile(element, fileName)
       .then((imageFile: any) => {
         const fetchData = async () => {
-          const result = await cvsApi.totalPosts(dataLoad, dataForm, cvID);
+          handlePersistGateLoaded("Vui lòng chờ AI đang quét");
+          const newData = dataLoad.map((dt: any) => {
+            const { id, ...rest } = dt;
+            return rest;
+          });
+
+          const result = await cvsApi.totalPosts(newData, dataForm, cvID);
           if (result) {
             const resultCV = await cvsApi.postCvIndex(
               nameCv,
@@ -2382,20 +2392,29 @@ const LibCvV2 = (props: Props) => {
               1
             );
             const dataAI = await cvsApi.postCV(
-              dataLoad,
+              newData,
               cvID,
               profile?.accountId
             );
             if (cvID === cvIndex) {
               if (resultCV && dataAI) {
+                // downloadPDF();
+                handleOffTabLoading();
+
                 hdSuccess("Đã cập nhật thành cập");
+                imageFile;
               } else {
+                handleOffTabLoading();
                 hdError("Cập nhật thất bại");
               }
             } else {
               if (resultCV && dataAI) {
+                // downloadPDF();
+                handleOffTabLoading();
                 hdSuccess("Đã tạo CV thành công");
               } else {
+                handleOffTabLoading();
+
                 hdError("Tạo CV thất bại");
               }
             }
@@ -2411,6 +2430,20 @@ const LibCvV2 = (props: Props) => {
         console.error(error);
       });
   };
+
+  async function downloadPDF() {
+    const element: any = document.querySelector(".canvas-pdf");
+    const canvas = await html2canvas(element);
+    const imgData = canvas.toDataURL("image/png");
+
+    const pdf = new jsPDF();
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    pdf.save(`${nameCv}.pdf`);
+  }
   const handleChangeUploadDocs = (cvNew: any) => {
     const data: any = getCookie("cvsDocs") || {};
     localStorage.removeItem("cvsDocs");

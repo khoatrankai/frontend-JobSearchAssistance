@@ -21,7 +21,7 @@ import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import BusinessIcon from "@mui/icons-material/Business";
 import { styled } from "@mui/material/styles";
 import Switch, { SwitchProps } from "@mui/material/Switch";
-import { FaUser } from "react-icons/fa";
+import { FaClipboardList, FaUser } from "react-icons/fa";
 import { FaUserEdit } from "react-icons/fa";
 import { MdEditDocument, MdWork } from "react-icons/md";
 import { CiLogout } from "react-icons/ci";
@@ -66,6 +66,7 @@ import { useLocation } from "react-router-dom";
 import axiosClient from "@/configs/axiosClient";
 import ModalBG from "@/util/ModalBG/ModalBG";
 import ShortText from "@/util/ShortText";
+import { GoPasskeyFill } from "react-icons/go";
 
 type Props = {
   // scrollPosition: Number;
@@ -114,7 +115,6 @@ const MenuComponent = (props: Props) => {
     salary_min: 0,
     salary_max: 0,
   });
-  const { handlePersistGateLoaded } = useSrollContext();
   const [tabNotify, setTabNotify] = useState<boolean>(false);
   const [tabSuggest, setTabSuggest] = useState<boolean>(false);
   const [profileData, setProfileData] = useState<any>({});
@@ -137,26 +137,31 @@ const MenuComponent = (props: Props) => {
   }, [profile]);
 
   useEffect(() => {
-    if (typeof document !== "undefined") {
-      const funcStopScroll = () => {
-        document.body.style.overflow = "hidden";
-      };
-      const funcScroll = () => {
-        document.body.style.overflow = "scroll";
-      };
-      if (onMenuAll) {
-        funcStopScroll();
-      } else {
-        funcScroll();
-      }
+    const funcStopScroll = () => {
+      document.body.style.overflow = "hidden";
+    };
+    const funcScroll = () => {
+      document.body.style.overflow = "scroll";
+    };
+    if (onMenuAll) {
+      funcStopScroll();
+    } else {
+      funcScroll();
     }
   }, [onMenuAll, document]);
-
   useEffect(() => {
-    // //console.log(scrollPositionSearch);
     if (checkPage !== "/") {
       setScrollPositionSearch(true);
     } else {
+      setScrollPositionSearch(false);
+    }
+  }, [checkPage]);
+  useEffect(() => {
+    if (checkPage !== "/") {
+      setScrollPositionSearch(true);
+    } else {
+      // setScrollPositionSearch(false);
+
       window.addEventListener("scroll", (e) => {
         let currentScrollPosition = window.scrollY || window.pageYOffset;
         if (currentScrollPosition > 24) {
@@ -174,56 +179,48 @@ const MenuComponent = (props: Props) => {
     dispatch(fetchProfile(language === 1 ? "vi" : "en") as any);
   }, [language]);
   useEffect(() => {
-    if (typeof document !== "undefined") {
-      const handleBlurTab = (e: any) => {
-        if (tabNotify && !ref_btn_notify.current.contains(e.target)) {
-          setTabNotify(false);
-        }
-      };
-      document.addEventListener("click", handleBlurTab);
-      return () => {
-        document.removeEventListener("click", handleBlurTab);
-      };
-    }
+    const handleBlurTab = (e: any) => {
+      if (tabNotify && !ref_btn_notify.current.contains(e.target)) {
+        setTabNotify(false);
+      }
+    };
+    document.addEventListener("click", handleBlurTab);
+    return () => {
+      document.removeEventListener("click", handleBlurTab);
+    };
   }, [tabNotify, document]);
   useEffect(() => {
-    if (typeof document !== "undefined") {
-      const handleBlurTab = (e: any) => {
-        if (tabMenu && !ref_btn_menu.current?.contains(e.target)) {
-          setTabMenu(false);
-        }
-      };
-      document.addEventListener("click", handleBlurTab);
-      return () => {
-        document.removeEventListener("click", handleBlurTab);
-      };
-    }
+    const handleBlurTab = (e: any) => {
+      if (tabMenu && !ref_btn_menu.current?.contains(e.target)) {
+        setTabMenu(false);
+      }
+    };
+    document.addEventListener("click", handleBlurTab);
+    return () => {
+      document.removeEventListener("click", handleBlurTab);
+    };
   }, [tabMenu, document]);
   useEffect(() => {
-    if (typeof document !== "undefined") {
-      const handleBlurTab = (e: any) => {
-        if (tabSuggest && !ref_input.current?.contains(e.target)) {
-          setTabSuggest(false);
-        }
-      };
-      document.addEventListener("click", handleBlurTab);
-      return () => {
-        document.removeEventListener("click", handleBlurTab);
-      };
-    }
+    const handleBlurTab = (e: any) => {
+      if (tabSuggest && !ref_input.current?.contains(e.target)) {
+        setTabSuggest(false);
+      }
+    };
+    document.addEventListener("click", handleBlurTab);
+    return () => {
+      document.removeEventListener("click", handleBlurTab);
+    };
   }, [tabSuggest, document]);
   useEffect(() => {
-    if (typeof document !== "undefined") {
-      const handleBlurTab = (e: any) => {
-        if (openModalProfile && !ref_btn_profile.current.contains(e.target)) {
-          setOpenModalProfile(false);
-        }
-      };
-      document.addEventListener("click", handleBlurTab);
-      return () => {
-        document.removeEventListener("click", handleBlurTab);
-      };
-    }
+    const handleBlurTab = (e: any) => {
+      if (openModalProfile && !ref_btn_profile.current.contains(e.target)) {
+        setOpenModalProfile(false);
+      }
+    };
+    document.addEventListener("click", handleBlurTab);
+    return () => {
+      document.removeEventListener("click", handleBlurTab);
+    };
   }, [openModalProfile, document]);
   useEffect(() => {
     //console.log(profile);
@@ -363,7 +360,6 @@ const MenuComponent = (props: Props) => {
                 <div
                   onClick={() => {
                     router.push("/");
-                    handlePersistGateLoaded();
                     setCheckPage("/");
                   }}
                 >
@@ -409,9 +405,7 @@ const MenuComponent = (props: Props) => {
                           }
                         }}
                       >
-                        <h2 className="hover:text-blue-800">
-                          Công việc nổi bật
-                        </h2>
+                        <h2 className="hover:text-blue-800">Ngành nổi bật</h2>
                       </div>
                       <div
                         onClick={() => {
@@ -439,9 +433,7 @@ const MenuComponent = (props: Props) => {
                           }
                         }}
                       >
-                        <h2 className="hover:text-blue-800">
-                          Công việc chủ đề
-                        </h2>
+                        <h2 className="hover:text-blue-800">Theo địa danh</h2>
                       </div>
                       <div
                         onClick={() => {
@@ -460,14 +452,16 @@ const MenuComponent = (props: Props) => {
                     <div className="px-8 py-6 font-medium rounded-xl invisible opacity-0 group-hover:visible bg-slate-100 absolute top-full -mt-4 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-max text-black flex group-hover:opacity-100 transition-all flex-col gap-y-3">
                       <div
                         onClick={() => {
-                          // if (checkPage === "/") {
-                          //   positionScrollJob[3].scrollIntoView({
-                          //     behavior: "smooth",
-                          //   });
-                          // } else {
-                          //   router.push("/");
-                          //   setCheckPage("/");
-                          // }
+                          // setOnMenuAll(false);
+                          if (checkPage === "/") {
+                            window.scrollTo({
+                              top: 0,
+                              behavior: "smooth",
+                            });
+                          } else {
+                            router.push("/");
+                            setCheckPage("/");
+                          }
                         }}
                       >
                         <h2 className="hover:text-blue-800">Công ty nổi bật</h2>
@@ -617,6 +611,13 @@ const MenuComponent = (props: Props) => {
                           }`}
                           fontSize="1.5em"
                         />
+                        {/* {dataNotification.total_is_not_read && (
+                          <div className="flex justify-center items-center w-5 h-5 absolute bottom-full right-0 bg-red-500 text-xs rounded-full translate-y-2">
+                            <p className="text-white">
+                              {dataNotification.total_is_not_read}
+                            </p>
+                          </div>
+                        )} */}
                         <div
                           className={`flex flex-col gap-y-4 absolute text-black ${
                             selectionMenu === 1
@@ -729,7 +730,7 @@ const MenuComponent = (props: Props) => {
                         >
                           <div className="flex items-center justify-between">
                             <Image
-                              className="shadow-sm rounded-full"
+                              className="shadow-sm rounded-full  w-12 h-12"
                               alt=""
                               src={profile?.avatarPath}
                               width={50}
@@ -801,6 +802,29 @@ const MenuComponent = (props: Props) => {
                               className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
                               onClick={() => {
                                 setSelectProfileUser(5);
+                                if (checkPage !== "/profile")
+                                  router.push("/profile");
+                              }}
+                            >
+                              <FaClipboardList />
+                              <p className="ml-2">Danh sách bài viết</p>
+                            </div>
+                            <div
+                              className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
+                              onClick={() => {
+                                setSelectProfileUser(6);
+                                if (checkPage !== "/profile")
+                                  router.push("/profile");
+                              }}
+                            >
+                              <GoPasskeyFill />
+
+                              <p className="ml-2">Từ khóa tìm việc</p>
+                            </div>
+                            <div
+                              className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
+                              onClick={() => {
+                                setSelectProfileUser(7);
                                 if (checkPage !== "/profile")
                                   router.push("/profile");
                               }}
@@ -907,7 +931,7 @@ const MenuComponent = (props: Props) => {
                                 }
                               }}
                             >
-                              Công việc nổi bật
+                              Ngành nổi bật
                             </button>
                             <button
                               className="py-2 hover:text-blue-500"
@@ -939,7 +963,7 @@ const MenuComponent = (props: Props) => {
                                 }
                               }}
                             >
-                              Công việc chủ đề
+                              Theo địa danh
                             </button>
                             <button
                               className="py-2 hover:text-blue-500"
@@ -980,7 +1004,8 @@ const MenuComponent = (props: Props) => {
                               onClick={() => {
                                 setOnMenuAll(false);
                                 if (checkPage === "/") {
-                                  positionScrollJob[3].scrollIntoView({
+                                  window.scrollTo({
+                                    top: 0,
                                     behavior: "smooth",
                                   });
                                 } else {

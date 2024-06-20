@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
 import Validate from "@/util/Validate/Validate";
 import { Input } from "antd";
+import ToastCustom from "@/util/ToastCustom";
+import { ValidationProfile } from "./validation/validation";
 type Props = {
   type: any;
   dataEducation?: any;
@@ -25,9 +27,13 @@ const EducationModal = (props: Props) => {
   const { dataEducation, handleUpdateApi, type, setTabModal } = props;
   const { ModalValidate } = Validate();
   const [valueNotify, setValueNotify] = useState<any>("Bạn chắc chắn không ?");
-
+  const { hdError, hdSuccess } = ToastCustom();
   const [checkModal, setCheckModal] = useState<boolean>(false);
-  const { handleConvertToDate, handleConvertDateToTimestamp } = TimeStamp();
+  const {
+    handleConvertToDate,
+    handleConvertDateToTimestamp,
+    handleConvertToDateCus,
+  } = TimeStamp();
   const [dataRequest, setDataRequest] = useState<any>();
   const [dataAcademic, setDataAcademic] = useState<any>([]);
   const languageRedux = useSelector(
@@ -40,8 +46,11 @@ const EducationModal = (props: Props) => {
         dataRequest
       )) as unknown as IResquest;
       if (res && res.code === 200) {
+        hdSuccess("Thêm thông tin học vấn thành công");
         handleUpdateApi();
         setTabModal(false);
+      } else {
+        hdError("Thêm thông tin học vấn không thành công");
       }
     } else {
       const res = (await axiosClient.put(
@@ -49,12 +58,16 @@ const EducationModal = (props: Props) => {
         dataRequest
       )) as unknown as IResquest;
       if (res && res.code === 200) {
+        hdSuccess("Cập nhật thông tin học vấn thành công");
         handleUpdateApi();
         setTabModal(false);
+      } else {
+        hdError("Cập nhật thông tin học vấn không thành công");
       }
     }
   };
   const handleUpdate = (e: any) => {
+    console.log(e.target.name, e.target.value);
     if (e.target.name === "startDate" || e.target.name === "endDate") {
       setDataRequest({
         ...dataRequest,
@@ -66,7 +79,19 @@ const EducationModal = (props: Props) => {
     }
   };
   const handleYes = () => {
-    handleUpdateData();
+    const checkPost = new ValidationProfile(
+      dataRequest?.companyName ?? "",
+      dataRequest?.major ?? "",
+      dataRequest?.startDate ?? "",
+      dataRequest?.endDate ?? "",
+      dataRequest?.academicTypeId ?? ""
+    );
+    const validate = checkPost.validateAllFields();
+    if (validate && !validate.status) {
+      hdError(validate.message);
+    } else {
+      handleUpdateData();
+    }
   };
   const haneleNo = () => {
     setCheckModal(false);
@@ -82,6 +107,9 @@ const EducationModal = (props: Props) => {
     };
     fetchData();
   }, []);
+  useEffect(() => {
+    console.log(dataRequest);
+  }, [dataRequest]);
   useEffect(() => {
     if (type === "update") {
       setDataRequest({ ...dataEducation, educationId: dataEducation?.id });
@@ -156,7 +184,7 @@ const EducationModal = (props: Props) => {
             </div>
             <div className="px-3 py-2 border-2  duration-300 relative transition-all rounded-md group focus-within:border-blue-500 h-11">
               <input
-                defaultValue={handleConvertToDate(dataRequest?.startDate)}
+                defaultValue={handleConvertToDateCus(dataRequest?.startDate)}
                 className={`font-serif outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${
                   dataRequest?.startDate
                     ? ""
@@ -178,7 +206,7 @@ const EducationModal = (props: Props) => {
             </div>
             <div className="px-3 py-2 border-2  duration-300 relative transition-all rounded-md group focus-within:border-blue-500 h-11">
               <input
-                defaultValue={handleConvertToDate(dataRequest?.endDate)}
+                defaultValue={handleConvertToDateCus(dataRequest?.endDate)}
                 className={`outline-none bg-transparent inset-0 px-3 absolute duration-100 text-lg  ${
                   dataRequest?.endDate
                     ? ""

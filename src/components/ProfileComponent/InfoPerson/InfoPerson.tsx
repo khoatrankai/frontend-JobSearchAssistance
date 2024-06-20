@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
 import { Input, Select } from "antd";
 import { Option } from "antd/es/mentions";
+import ToastCustom from "@/util/ToastCustom";
+import { ValidationProfile } from "./validation/validation";
 
 type Props = {
   dataInfo: any;
@@ -19,6 +21,7 @@ interface ILocation {
 }
 const InfoPerson = (props: Props) => {
   const { dataInfo, handleUpdateApi } = props;
+  const { hdError } = ToastCustom();
   const [dataLocation, setDataLocation] = useState<any>([]);
   const [dataRequest, setDataRequest] = useState<any>();
   const [rsInfo, setRSInfo] = useState<boolean>(false);
@@ -42,7 +45,19 @@ const InfoPerson = (props: Props) => {
     setDataRequest(dataInfo);
   };
   const saveData = () => {
-    handleUpdateData();
+    const checkPost = new ValidationProfile(
+      dataRequest?.name,
+      dataRequest?.birthday,
+      dataRequest?.gender,
+      dataRequest?.address,
+      dataRequest?.jobTypeName
+    );
+    const validate = checkPost.validateAllFields();
+    if (validate && !validate.status) {
+      hdError(validate.message);
+    } else {
+      handleUpdateData();
+    }
   };
   const handleUpdateData = () => {
     const fetchData = async () => {
@@ -50,7 +65,13 @@ const InfoPerson = (props: Props) => {
         "http://localhost:8888/api/v1/profiles/per",
         dataRequest
       )) as unknown as ILocation;
+      const { hdError, hdSuccess } = ToastCustom();
+
       if (res && res.code === 200) {
+        hdSuccess("Cập nhật thông tin cá nhân thành công");
+        setRSInfo(!rsInfo);
+      } else {
+        hdError("Cập nhật thông tin cá nhân không thành công");
       }
     };
     fetchData();
@@ -76,7 +97,6 @@ const InfoPerson = (props: Props) => {
         break;
       case "save":
         saveData();
-        setRSInfo(!rsInfo);
         break;
       case "close":
         setRSInfo(!rsInfo);

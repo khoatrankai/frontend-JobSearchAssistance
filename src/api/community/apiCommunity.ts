@@ -157,7 +157,7 @@ const communityApi = {
     });
   },
 
-  putCommunityByAccount: (id: number, putCommunity: FormPutCommunity) => {
+  putCommunityByAccount: (id: number, putCommunity: any) => {
     const URL = `http://localhost:1902/api/v3/communications/${id}`;
     return axiosClient.put(URL, putCommunity, {
       headers: {
@@ -166,7 +166,7 @@ const communityApi = {
       },
     });
   },
-  putCommunityByAccountRecruiter: (id: number, putCommunity: FormPutCommunity) => {
+  putCommunityByAccountRecruiter: (id: number, putCommunity: any) => {
     const URL = `http://localhost:1902/api/v3/communications/${id}`;
     return axiosClientRecruiter.put(URL, putCommunity, {
       headers: {
@@ -380,7 +380,7 @@ const communityApi = {
   },
 
   getCommunityBookmarked: (page: number) => {
-    const URL = `http://localhost:1902/api/v3/communication-bookmarked?page=${page}`;
+    const URL = `http://localhost:1902/api/v3/communication-bookmarked`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

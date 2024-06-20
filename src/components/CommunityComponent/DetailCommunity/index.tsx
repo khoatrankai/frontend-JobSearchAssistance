@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-key */
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, message } from "antd";
 // @ts-ignore
@@ -26,9 +26,10 @@ import {
 } from "@/icons";
 import ShowCancleSave from "@/components/HistoryComponent/ShowCancelSave";
 import { useSearchParams } from "next/navigation";
+import useRouterCustom from "@/util/useRouterCustom/useRouterCustom";
 const { TextArea } = Input;
 
-const Comunity = () => {
+const Comunity = ({ idCommunity }: any) => {
   const language = useSelector((state: RootState) => {
     return state.dataLanguage.languages;
   });
@@ -37,6 +38,7 @@ const Comunity = () => {
   });
   const dataProfile = useSelector((state: RootState) => state.profile.profile);
   const [detail, setDetail] = React.useState<any>();
+  const { pushRouter } = useRouterCustom();
   const searchParams: any = useSearchParams();
   const POST_COMMUNITY_ID = searchParams.get("post-community");
   const [previewOpen, setPreviewOpen] = React.useState(false);
@@ -70,9 +72,9 @@ const Comunity = () => {
 
   const handleGetDetailCommunityById = async () => {
     try {
-      if (POST_COMMUNITY_ID) {
+      if (idCommunity) {
         const result = await communityApi.getCommunityDetailId(
-          POST_COMMUNITY_ID,
+          idCommunity,
           languageRedux === 1 ? "vi" : "en"
         );
         if (result && result.status !== 400) {
@@ -85,10 +87,28 @@ const Comunity = () => {
           } else {
             setCookie("workingId", result.data.id, 365);
           }
-        } else {
-          POST_COMMUNITY_ID === "1"
-            ? window.open("/blog", "_parent")
-            : window.open("/blog", "_parent");
+        }
+      } else {
+        if (POST_COMMUNITY_ID) {
+          const result = await communityApi.getCommunityDetailId(
+            POST_COMMUNITY_ID,
+            languageRedux === 1 ? "vi" : "en"
+          );
+          if (result && result.status !== 400) {
+            setLike(result?.data?.liked);
+            setDetail(result?.data);
+            setBookmark(result?.data?.bookmarked);
+
+            if (result.data.type === 0) {
+              setCookie("hijobId", result.data.id, 365);
+            } else {
+              setCookie("workingId", result.data.id, 365);
+            }
+          } else {
+            POST_COMMUNITY_ID === "1"
+              ? window.open("/blog", "_parent")
+              : window.open("/blog", "_parent");
+          }
         }
       }
     } catch (error) {
@@ -99,7 +119,9 @@ const Comunity = () => {
   React.useEffect(() => {
     setFromHistory(getCookie("fromHistory"));
   }, []);
-
+  useEffect(() => {
+    handleGetDetailCommunityById();
+  }, [idCommunity]);
   React.useEffect(() => {
     handleGetDetailCommunityById();
   }, [
@@ -279,16 +301,29 @@ const Comunity = () => {
           </div>
           <div className="title-comunity">
             <h3>{detail?.title}</h3>
-            <div className="title-comunity_icon">
-              <span onClick={() => handleSaveCommunity(detail?.id)}>
-                {bookmark ? (
-                  <SaveIconFill width={24} height={24} />
-                ) : (
-                  <SaveIconOutline width={24} height={24} />
-                )}
-                {language?.save}
-              </span>
-            </div>
+            {dataProfile?.accountId === detail?.profileData?.id ? (
+              <div
+                className="p-2 rounded-lg border-2 cursor-pointer"
+                onClick={() => {
+                  pushRouter(
+                    `/community-create?post-community=${POST_COMMUNITY_ID}`
+                  );
+                }}
+              >
+                Chỉnh sửa
+              </div>
+            ) : (
+              <div className="title-comunity_icon">
+                <span onClick={() => handleSaveCommunity(detail?.id)}>
+                  {bookmark ? (
+                    <SaveIconFill width={24} height={24} />
+                  ) : (
+                    <SaveIconOutline width={24} height={24} />
+                  )}
+                  {language?.save}
+                </span>
+              </div>
+            )}
           </div>
           <div className="comunityDetail-wrap_actor">
             <div className="comunityDetail-wrap">

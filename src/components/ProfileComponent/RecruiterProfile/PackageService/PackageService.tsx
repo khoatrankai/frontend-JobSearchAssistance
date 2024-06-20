@@ -29,7 +29,7 @@ const PackageService = (props: Props) => {
 
   return (
     <Tabs
-      className="mt-5 h-screen"
+      className="mt-5 h-screen max-w-[100vw] overflow-x-scroll"
       style={{
         backgroundColor: "white",
         padding: "20px",

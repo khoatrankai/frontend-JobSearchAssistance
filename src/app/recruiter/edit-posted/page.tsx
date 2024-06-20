@@ -22,6 +22,7 @@ import { useSelector } from "react-redux";
 import CheckPageLogin from "@/util/CheckPageLogin";
 import CheckLoginRecruiter from "@/util/CheckLoginRecruiter";
 import CheckRoleRecruiter from "@/util/CheckRoleRecruiter";
+import { useSrollContext } from "@/context/AppProvider";
 
 type Props = {};
 
@@ -67,6 +68,7 @@ const EditPostedPage: React.FC<Props> = () => {
   // CheckPageLogin();
   CheckRoleRecruiter();
   const searchParams = useSearchParams();
+  const { handlePersistGateLoaded, handleOffTabLoading } = useSrollContext();
   const {
     handleEncodingDescription,
     handleDecodingDescription,
@@ -243,6 +245,7 @@ const EditPostedPage: React.FC<Props> = () => {
     }
   };
   const handlePost = () => {
+    handlePersistGateLoaded();
     const formData = new FormData();
     for (let i in dataReq) {
       if (i === "categoryIds" || i === "images") {
@@ -293,6 +296,7 @@ const EditPostedPage: React.FC<Props> = () => {
       const validation = checkPost.validateAllFields();
 
       if (validation && validation.status === false) {
+        handleOffTabLoading();
         toast.warning(validation.message, {
           position: "bottom-center",
           autoClose: 2000,
@@ -310,6 +314,7 @@ const EditPostedPage: React.FC<Props> = () => {
         )) as unknown as IUpdatePost;
 
         if (res && res.code === 200) {
+          handleOffTabLoading();
           toast.success("Cập nhật bài đăng thành công", {
             position: "bottom-center",
             autoClose: 2000,
@@ -321,6 +326,7 @@ const EditPostedPage: React.FC<Props> = () => {
             theme: "dark",
           });
         } else {
+          handleOffTabLoading();
           toast.error("Cập nhật bài đăng thất bại", {
             position: "bottom-center",
             autoClose: 2000,

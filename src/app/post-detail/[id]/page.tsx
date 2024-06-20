@@ -94,7 +94,7 @@ const page = (props: Props) => {
       )) as unknown as IPostDetail;
       // //console.log(res.data?.company_name);
       const res2 = (await axiosClient.get(
-        `http://localhost:1902/api/v3/companies/by-name?name=${res.data?.company_name}`
+        `http://localhost:1902/api/v3/companies/by-name?name=${res?.data?.company_name}`
       )) as unknown as { status: any; data: any };
 
       if (res && (res?.code as any) === 200) {

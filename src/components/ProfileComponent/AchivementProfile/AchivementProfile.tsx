@@ -5,6 +5,7 @@ import AchivementModal from "./Modal/AchivementModal";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
 import Validate from "@/util/Validate/Validate";
+import ToastCustom from "@/util/ToastCustom";
 
 type Props = {
   dataInfo: any;
@@ -20,7 +21,7 @@ const AchivementProfile = (props: Props) => {
   const { dataInfo, handleUpdateApi } = props;
   const { ModalValidate } = Validate();
   const [checkModal, setCheckModal] = useState<boolean>(false);
-
+  const { hdError, hdSuccess } = ToastCustom();
   const [tabModal, setTabModal] = useState<boolean>(false);
   const [idRemove, setIdRemove] = useState<any>();
   const [positionUpdate, setPositionUpdate] = useState<any>(-1);
@@ -41,7 +42,10 @@ const AchivementProfile = (props: Props) => {
       }
     )) as unknown as IData;
     if (res && res.statusCode === 200) {
+      hdSuccess("Xóa thông tin thành công");
       handleUpdateApi();
+    } else {
+      hdSuccess("Xóa thông tin không thành công");
     }
   };
   const handleUpdate = (index: number) => {

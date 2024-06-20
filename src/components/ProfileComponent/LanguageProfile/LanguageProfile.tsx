@@ -5,6 +5,7 @@ import axiosClient from "@/configs/axiosClient";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
 import { Input } from "antd";
+import ToastCustom from "@/util/ToastCustom";
 
 type Props = {
   dataInfo: any;
@@ -23,6 +24,7 @@ const LanguageProfile = (props: Props) => {
     (state: RootState) => state.changeLaguage.language
   );
   const [dataRequest, setDataRequest] = useState<any>([]);
+  const { hdError, hdSuccess } = ToastCustom();
   const [dataAdd, setDataAdd] = useState<any>([]);
   const [dataRemove, setDataRemove] = useState<any>({ ids: [] });
   const [dataLevel, setDataLevel] = useState<any>([]);
@@ -203,9 +205,12 @@ const LanguageProfile = (props: Props) => {
         if (resUp === 200) {
           const resCre = await handleApiCreate();
           if (resCre === 201) {
+            hdSuccess("Cập nhật thông tin ngoại ngữ thành công");
             setDataAdd([]);
             handleUpdateApi();
             setLanguage(!rsLanguage);
+          } else {
+            hdError("Cập nhật thông tin ngoại ngữ không thành công");
           }
         }
       }

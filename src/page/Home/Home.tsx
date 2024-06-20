@@ -56,9 +56,7 @@ const Home = (props: Props) => {
       ]);
     }
   }, [refJobHot, refJobNew, refJobTopic, setPositionScrollJob]);
-  useEffect(() => {
-    console.log("vao page");
-  }, []);
+
   return (
     <>
       <div className="flex flex-col items-center">
@@ -85,7 +83,7 @@ const Home = (props: Props) => {
             );
           })}
         </div>
-        <BannerNewComponent>
+        <BannerNewComponent setBannerHome={setBannerHome}>
           <div className=" w-full flex flex-col items-center">
             <div
               className={`max-w-6xl w-full transition-all duration-700 ${

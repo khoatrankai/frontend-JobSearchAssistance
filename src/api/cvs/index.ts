@@ -30,9 +30,9 @@ const cvsApi = {
               return dt.type === "info_person";
             })[0];
             if (dataInfo) {
-              const dataMoreInfo = dataInfo.moreCvInformations.map((dt: any) => {
+              const dataMoreInfo = dataInfo.moreCvInformations?.map((dt: any) => {
                 return { cvInformationId: dataInfo.cvIndex, ...dt };
-              });
+              }) || [];
       
               const formData = new FormData();
               for (let i in dataInfo) {

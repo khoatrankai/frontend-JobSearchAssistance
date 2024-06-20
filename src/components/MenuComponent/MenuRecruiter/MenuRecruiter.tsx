@@ -1,14 +1,21 @@
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
+import { GrServices } from "react-icons/gr";
+
 import "./MenuRecruiter.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProfileRecruiter } from "@/redux/reducer/profileReducer/profileSliceRecruiter";
 import { Router } from "next/router";
 import { useRouter } from "next/navigation";
 import { AiFillDashboard, AiFillMessage } from "react-icons/ai";
-import { MdEditDocument, MdWork } from "react-icons/md";
-import { FaBuilding, FaHeart, FaUser } from "react-icons/fa";
-import { IoMdNotifications, IoMdSettings } from "react-icons/io";
+import {
+  MdContactSupport,
+  MdEditDocument,
+  MdNewReleases,
+  MdWork,
+} from "react-icons/md";
+import { FaBuilding, FaHeart, FaUser, FaUserTie } from "react-icons/fa";
+import { IoIosPricetag, IoMdNotifications, IoMdSettings } from "react-icons/io";
 import { CiLogout } from "react-icons/ci";
 import { useSrollContext } from "@/context/AppProvider";
 import notificationApi from "@/api/notification/notificationApi";
@@ -73,9 +80,6 @@ const MenuRecruiter = (props: Props) => {
   useEffect(() => {
     dispatch(fetchProfileRecruiter("vi") as any);
   }, []);
-  useEffect(() => {
-    //console.log(profile);
-  }, [profile]);
   useEffect(() => {
     const dataObj = JSON.parse(localStorage.getItem("dataRequest") || "{}");
 
@@ -154,14 +158,16 @@ const MenuRecruiter = (props: Props) => {
                 >
                   Hỗ trợ
                 </div>
-                <div
-                  className="cursor-pointer"
-                  onClick={() => {
-                    router.push("/recruiter/candidate");
-                  }}
-                >
-                  Ứng viên
-                </div>
+                {Object.keys(profile).length !== 0 && (
+                  <div
+                    className="cursor-pointer"
+                    onClick={() => {
+                      router.push("/recruiter/candidate");
+                    }}
+                  >
+                    Ứng viên
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -204,14 +210,19 @@ const MenuRecruiter = (props: Props) => {
                       color={` ${selectionMenu === 1 ? "#2563eb" : "white"}`}
                       fontSize="1.5em"
                     />
-                    <div className="flex justify-center items-center w-5 h-5 absolute bottom-full right-0 bg-red-500 text-xs rounded-full translate-y-2">
-                      <p className="text-white">
-                        {dataNotification.total_is_not_read}
-                      </p>
-                    </div>
+                    {dataNotification.total_is_not_read && (
+                      <div className="flex justify-center items-center w-5 h-5 absolute bottom-full right-0 bg-red-500 text-xs rounded-full translate-y-2">
+                        <p className="text-white">
+                          {dataNotification.total_is_not_read}
+                        </p>
+                      </div>
+                    )}
+
                     <div
                       className={`flex flex-col gap-y-4 absolute text-black ${
-                        selectionMenu === 1 ? "h-fit opacity-100" : "opacity-0"
+                        selectionMenu === 1
+                          ? "h-fit opacity-100"
+                          : "opacity-0 invisible"
                       } top-full transition-all translate-y-2 right-0 w-96 overflow-hidden duration-300 px-4 py-6 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]`}
                     >
                       {dataNotification &&
@@ -259,9 +270,10 @@ const MenuRecruiter = (props: Props) => {
                             );
                           }
                         )}
-                      {dataNotification === undefined && (
-                        <div>Chưa có thông báo</div>
-                      )}
+                      {dataNotification === undefined ||
+                        (dataNotification.length === 0 && (
+                          <div>Chưa có thông báo</div>
+                        ))}
                     </div>
                   </div>
                   <div
@@ -272,7 +284,7 @@ const MenuRecruiter = (props: Props) => {
                       if (selectionMenu === 2) {
                         setSelectionMenu(0);
                       } else setSelectionMenu(2);
-                      router.push("/chat");
+                      router.push("/recruiter/chat");
                     }}
                   >
                     <AiFillMessage
@@ -303,7 +315,7 @@ const MenuRecruiter = (props: Props) => {
                     >
                       <div className="flex items-center justify-between">
                         <Image
-                          className="shadow-sm rounded-full"
+                          className="shadow-sm rounded-full w-12 h-12"
                           alt=""
                           src={
                             profile?.companyInfomation?.logoPath ??
@@ -469,177 +481,101 @@ const MenuRecruiter = (props: Props) => {
                       <button
                         className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
                         onClick={() => {
-                          if (tabMenuChoose === 1) {
-                            setTabMenuChoose(0);
-                          } else {
-                            setTabMenuChoose(1);
-                          }
+                          router.push("/recruiter");
+                          // if (tabMenuChoose === 1) {
+                          //   setTabMenuChoose(0);
+                          // } else {
+                          //   setTabMenuChoose(1);
+                          // }
                         }}
                       >
-                        <MdWork />
-                        <p>Việc làm</p>
+                        <MdNewReleases />
+                        <p>Giới thiệu</p>
                       </button>
-
-                      <div
-                        className={`flex flex-col font-medium bg-black text-white transition-all duration-500 items-start px-5 ${
-                          tabMenuChoose === 1 ? "py-2" : "h-0 opacity-0"
-                        }`}
-                      >
-                        <button
-                          className="py-2 hover:text-blue-500"
-                          onClick={() => {
-                            setOnMenuAll(false);
-                          }}
-                        >
-                          Công việc nổi bật
-                        </button>
-                        <button
-                          className="py-2 hover:text-blue-500"
-                          onClick={() => {
-                            setOnMenuAll(false);
-                          }}
-                        >
-                          Việc làm mới
-                        </button>
-                        <button
-                          className="py-2 hover:text-blue-500"
-                          onClick={() => {
-                            setOnMenuAll(false);
-                          }}
-                        >
-                          Công việc chủ đề
-                        </button>
-                        <button
-                          className="py-2 hover:text-blue-500"
-                          onClick={() => {
-                            setOnMenuAll(false);
-                          }}
-                        >
-                          Việc làm đã lưu
-                        </button>
-                      </div>
                     </div>
                     <div className="hover:bg-gray-50 overflow-hidden">
                       <button
                         className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
                         onClick={() => {
-                          if (tabMenuChoose === 2) {
-                            setTabMenuChoose(0);
-                          } else {
-                            setTabMenuChoose(2);
-                          }
+                          // if (tabMenuChoose === 2) {
+                          //   setTabMenuChoose(0);
+                          // } else {
+                          //   setTabMenuChoose(2);
+                          // }
+                          router.push("/recruiter/product-catalog");
                         }}
                       >
-                        <FaBuilding />
-                        <p>Công ty</p>
+                        <IoIosPricetag />
+                        <p>Báo giá</p>
                       </button>
-
-                      <div
-                        className={`flex flex-col font-medium bg-black text-white transition-all duration-500 items-start px-5 ${
-                          tabMenuChoose === 2 ? "py-2" : "h-0 opacity-0"
-                        }`}
-                      >
-                        <button
-                          className="py-2 hover:text-blue-500"
-                          onClick={() => {
-                            setOnMenuAll(false);
-                          }}
-                        >
-                          Công ty nổi bật
-                        </button>
-                        <button
-                          className="py-2 hover:text-blue-500"
-                          onClick={() => {
-                            setOnMenuAll(false);
-                          }}
-                        >
-                          Các công ty
-                        </button>
-                      </div>
                     </div>
                     <div className="hover:bg-gray-50 overflow-hidden">
                       <button
                         className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
                         onClick={() => {
-                          if (tabMenuChoose === 3) {
-                            setTabMenuChoose(0);
-                          } else {
-                            setTabMenuChoose(3);
-                          }
+                          // if (tabMenuChoose === 3) {
+                          //   setTabMenuChoose(0);
+                          // } else {
+                          //   setTabMenuChoose(3);
+                          // }
+                          router.push("/recruiter");
+                        }}
+                      >
+                        <GrServices />
+                        <p>Dịch vụ</p>
+                      </button>
+                    </div>
+                    <div className="hover:bg-gray-50 overflow-hidden">
+                      <button
+                        className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
+                        onClick={() => {
+                          // if (tabMenuChoose === 4) {
+                          //   setTabMenuChoose(0);
+                          // } else {
+                          //   setTabMenuChoose(4);
+                          // }
+                          router.push("/recruiter/blog");
                         }}
                       >
                         <FaHeart />
                         <p>Blog</p>
                       </button>
-
-                      <div
-                        className={`flex flex-col font-medium bg-black text-white transition-all duration-500 items-start px-5 ${
-                          tabMenuChoose === 3 ? "py-2" : "h-0 opacity-0"
-                        }`}
-                      >
-                        <button
-                          className="py-2 hover:text-blue-500"
-                          onClick={() => {
-                            setOnMenuAll(false);
-                          }}
-                        >
-                          Các bài viết
-                        </button>
-                        <button
-                          className="py-2 hover:text-blue-500"
-                          onClick={() => {
-                            setOnMenuAll(false);
-                          }}
-                        >
-                          Tạo bài viết
-                        </button>
-                      </div>
                     </div>
                     <div className="hover:bg-gray-50 overflow-hidden">
                       <button
                         className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
                         onClick={() => {
-                          if (tabMenuChoose === 4) {
-                            setTabMenuChoose(0);
-                          } else {
-                            setTabMenuChoose(4);
-                          }
+                          // if (tabMenuChoose === 4) {
+                          //   setTabMenuChoose(0);
+                          // } else {
+                          //   setTabMenuChoose(4);
+                          // }
+                          router.push("/recruiter/help-contact");
                         }}
                       >
-                        <IoDocumentText />
-                        <p>Hồ sơ CV</p>
+                        <MdContactSupport />
+                        <p>Hỗ trợ</p>
                       </button>
-
-                      <div
-                        className={`flex flex-col font-medium bg-black text-white transition-all duration-500 items-start px-5 ${
-                          tabMenuChoose === 4 ? "py-2" : "h-0 opacity-0"
-                        }`}
-                      >
+                    </div>
+                    {Object.keys(profile).length !== 0 && (
+                      <div className="hover:bg-gray-50 overflow-hidden">
                         <button
-                          className="py-2 hover:text-blue-500"
+                          className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
                           onClick={() => {
-                            setOnMenuAll(false);
-                            if (profile) {
-                              router.push("/manage-cv");
-                              // window.location.href = "/manage-cv";
-                            } else {
-                              router.push("");
-                            }
+                            // if (tabMenuChoose === 4) {
+                            //   setTabMenuChoose(0);
+                            // } else {
+                            //   setTabMenuChoose(4);
+                            // }
+                            router.push("/recruiter/candidate");
                           }}
                         >
-                          Quản lý hồ sơ
-                        </button>
-                        <button
-                          className="py-2 hover:text-blue-500"
-                          onClick={() => {
-                            setOnMenuAll(false);
-                            router.push("/cv-all");
-                          }}
-                        >
-                          Tạo mới CV
+                          <FaUserTie />
+                          <p>Ứng viên</p>
                         </button>
                       </div>
-                    </div>
+                    )}
+
                     {Object.keys(profile).length !== 0 ? (
                       <div className="hover:bg-gray-50 overflow-hidden">
                         <button
@@ -653,7 +589,7 @@ const MenuRecruiter = (props: Props) => {
                           }}
                         >
                           <IoMdSettings />
-                          <p>Thông tin cá nhân</p>
+                          <p>Thông tin công ty</p>
                         </button>
 
                         <div
@@ -675,7 +611,7 @@ const MenuRecruiter = (props: Props) => {
                               setOnMenuAll(false);
                             }}
                           >
-                            Hồ sơ cá nhân
+                            Hồ sơ thông tin
                           </button>
                           <button
                             className="py-2 hover:text-blue-500"
@@ -683,7 +619,7 @@ const MenuRecruiter = (props: Props) => {
                               setOnMenuAll(false);
                             }}
                           >
-                            Công ty của tôi
+                            Hồ sơ tuyển dụng
                           </button>
                           <button
                             className="py-2 hover:text-blue-500"
@@ -691,7 +627,23 @@ const MenuRecruiter = (props: Props) => {
                               setOnMenuAll(false);
                             }}
                           >
-                            Việc làm của tôi
+                            Ứng viên tiềm năng
+                          </button>
+                          <button
+                            className="py-2 hover:text-blue-500"
+                            onClick={() => {
+                              setOnMenuAll(false);
+                            }}
+                          >
+                            Danh sách bài viết
+                          </button>
+                          <button
+                            className="py-2 hover:text-blue-500"
+                            onClick={() => {
+                              setOnMenuAll(false);
+                            }}
+                          >
+                            Nạp tiền
                           </button>
                           <button
                             className="py-2 hover:text-blue-500"
@@ -712,7 +664,7 @@ const MenuRecruiter = (props: Props) => {
                           <button
                             className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
                             onClick={() => {
-                              window.location.href = "/login";
+                              window.location.href = "/recruiter/login";
                               // router.push("/candidate/login");
                             }}
                           >

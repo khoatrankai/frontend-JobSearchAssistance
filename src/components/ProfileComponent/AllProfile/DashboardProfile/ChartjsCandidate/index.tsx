@@ -34,12 +34,14 @@ const ChartjsCandidate: React.FC<{
   const [selectedYear, setSelectedYear] = useState<number>(2023);
   // const analytics: any = getAnalytics();
   React.useEffect(() => {
-    document.title =
-      languageRedux === 1
-        ? "Tổng quan hoạt động"
-        : languageRedux === 0
-        ? "Activity overview"
-        : "활동 대시보드";
+    // if (typeof document !== "undefined") {
+    //   document.title =
+    //     languageRedux === 1
+    //       ? "Tổng quan hoạt động"
+    //       : languageRedux === 0
+    //       ? "Activity overview"
+    //       : "활동 대시보드";
+    // }
     // logEvent(analytics, "screen_view" as string, {
     //   // screen_name: screenName as string,
     //   page_title: "/web_hotJob" as string,

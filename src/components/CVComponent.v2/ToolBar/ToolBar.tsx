@@ -20,11 +20,17 @@ type Props = { id: any; funcLibrary: any };
 
 const ToolBar = (props: Props) => {
   const { id, funcLibrary } = props;
-  const { updateHandleAlert, setContentAlert } = useSrollContext();
+  const {
+    updateHandleAlert,
+    setContentAlert,
+    handlePersistGateLoaded,
+    setTitleIsLoading,
+  } = useSrollContext();
   const [tabColorTopic, setTabColorTopic] = useState<boolean>(false);
   const [urlSave, setUrlSave] = useState<any>("");
   const [pdfExport, setPdfExport] = useState<any>();
   const handlePdfSave = (blob: any) => {
+    console.log("save cv");
     setPdfExport(blob);
     return "Lưu và tải xuống";
   };
@@ -192,8 +198,6 @@ const ToolBar = (props: Props) => {
               handleResetActive();
 
               handleBtnSave(handleSavePdf);
-              // //console.log("Bam");
-              // handleBam();
             }}
           >
             Lưu lại

@@ -41,7 +41,7 @@ interface IBookmark {
 const ListJobComponent = (props: Props) => {
   const { DescriptionHover, handleUpdatePosition } = DescriptionHoverProvider();
   const { handleShortTextHome, handleShortValueNumber } = ShortText();
-  const { pushBlank } = useRouterCustom();
+  const { pushBlank, pushRouter } = useRouterCustom();
   const {
     ref_list_slider,
     handleNext,
@@ -599,7 +599,6 @@ const ListJobComponent = (props: Props) => {
                   <li key={index} className="relative">
                     <Link
                       href={`/post-detail/${item?.id}`}
-                      target="_blank"
                       className={`w-[370px] h-fit group gap-x-2  px-4 border-[1px] hover:border-blue-500 transition-all duration-500  hover:bg-blue-50 bg-white hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-md  py-6 flex justify-between items-center item-job`}
                     >
                       <div className="basis-3/12">
@@ -735,7 +734,7 @@ const ListJobComponent = (props: Props) => {
                                     className="font-bold flex-1 p-2 rounded-xl bg-red-500 hover:bg-red-600 flex justify-center items-center text-white"
                                     onClick={() => {
                                       // router.push(`/post-detail/${item.id}`);
-                                      pushBlank(`/post-detail/${item.id}`);
+                                      pushRouter(`/post-detail/${item.id}`);
                                     }}
                                   >
                                     Xem chi tiết

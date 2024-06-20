@@ -1,5 +1,7 @@
 import DashboardApi from "@/api/recruiter/dashboard/dashboardApi";
 import { useSrollContext } from "@/context/AppProvider";
+import ShortText from "@/util/ShortText";
+import useRouterCustom from "@/util/useRouterCustom/useRouterCustom";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
@@ -12,19 +14,23 @@ const DashboardPost = ({ dataView }: Props) => {
   const [arrayTop, setArrayTop] = useState<any>([
     10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 0, 0,
   ]);
+  const { pushBlank } = useRouterCustom();
   const { reponsiveMobile } = useSrollContext();
+  const { handleShortTextHome } = ShortText();
   const [maxTop, setMaxTop] = useState<any>(0);
   const [arrayPost, setPost] = useState<any>([]);
   const myArrayCount = new Array(11).fill(5);
   useEffect(() => {
+    console.log(dataView);
     if (dataView) {
       const total = dataView?.countAnalyticsPosted12Month?.reduce(
         (max: any, current: any) => {
-          if (current > max) return current;
+          if (current?.total > max) return current?.total;
           return max;
         },
         0
       );
+
       setMaxTop(total);
       setArrayTop(
         arrayTop?.map((dt: any, ikey: any) => {
@@ -50,7 +56,7 @@ const DashboardPost = ({ dataView }: Props) => {
     }
   }, [dataView]);
   useEffect(() => {
-    //console.log(arrayPost);
+    console.log(arrayPost);
   }, [arrayPost]);
   const handlePercent = (value: any) => {
     if (maxTop > 10) {
@@ -105,43 +111,80 @@ const DashboardPost = ({ dataView }: Props) => {
                         <div className="w-20 h-full"></div>
                       </div>
                       <div className="flex flex-col gap-y-2">
-                        <div className="flex gap-x-6 items-center font-medium text-xs w-full">
-                          <Image
-                            width={300}
-                            height={300}
-                            alt=""
-                            src={"/goapply.png"}
-                            className="w-8 h-8 rounded-full overflow-hidden "
-                          />
-                          <p className="w-max flex-1 text-blue-500">10,012</p>
-                          <p className="w-32 h-">Việc làm cung...</p>
-                          <p className="w-28 font-semibold text-green-500">
-                            Đang hoạt động
-                          </p>
+                        {arrayPost?.[ikey]?.data?.map((dt: any, keyy: any) => {
+                          if (keyy < 6) {
+                            return (
+                              <>
+                                {dt.status ? (
+                                  <div
+                                    className="flex gap-x-6 items-center font-medium text-xs w-full"
+                                    key={keyy}
+                                  >
+                                    <Image
+                                      width={300}
+                                      height={300}
+                                      alt=""
+                                      src={"/goapply.png"}
+                                      className="w-8 h-8 rounded-full overflow-hidden "
+                                    />
+                                    <p className="w-max flex-1 text-blue-500">
+                                      10,012
+                                    </p>
+                                    <p className="w-32 h-">
+                                      {handleShortTextHome(dt.title, 15)}
+                                    </p>
+                                    <p className="w-28 font-semibold text-green-500">
+                                      Đang hoạt động
+                                    </p>
 
-                          <button className=" hover:text-blue-400 p-1 w-20 font-bold rounded-xl text-blue-700 text-nowrap">
-                            Xem chi tiết
-                          </button>
-                        </div>
-                        <div className="flex gap-x-6 items-center font-medium text-xs w-full">
-                          <Image
-                            width={300}
-                            height={300}
-                            alt=""
-                            src={"/goapply.png"}
-                            className="w-8 h-8 rounded-full overflow-hidden "
-                          />
-                          <p className="w-max flex-1 text-blue-500">10,012</p>
-                          <p className="w-32 h-">Việc làm cung...</p>
-                          <p className="w-28 font-semibold text-yellow-500">
-                            Tạm dừng
-                          </p>
+                                    <button
+                                      className=" hover:text-blue-400 p-1 w-20 font-bold rounded-xl text-blue-700 text-nowrap"
+                                      onClick={() => {
+                                        pushBlank(
+                                          `/recruiter/post-detail/${dt.id}`
+                                        );
+                                      }}
+                                    >
+                                      Xem chi tiết
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <div className="flex gap-x-6 items-center font-medium text-xs w-full">
+                                    <Image
+                                      width={300}
+                                      height={300}
+                                      alt=""
+                                      src={"/goapply.png"}
+                                      className="w-8 h-8 rounded-full overflow-hidden "
+                                    />
+                                    <p className="w-max flex-1 text-blue-500">
+                                      10,012
+                                    </p>
+                                    <p className="w-32 h-">
+                                      {handleShortTextHome(dt.title, 15)}
+                                    </p>
+                                    <p className="w-28 font-semibold text-yellow-500">
+                                      Tạm dừng
+                                    </p>
 
-                          <button className=" hover:text-blue-400 p-1 w-20 font-bold rounded-xl text-blue-700 text-nowrap">
-                            Xem chi tiết
-                          </button>
-                        </div>
-                        <div className="flex gap-x-6 items-center font-medium text-xs w-full">
+                                    <button
+                                      className=" hover:text-blue-400 p-1 w-20 font-bold rounded-xl text-blue-700 text-nowrap"
+                                      onClick={() => {
+                                        pushBlank(
+                                          `/recruiter/post-detail/${dt.id}`
+                                        );
+                                      }}
+                                    >
+                                      Xem chi tiết
+                                    </button>
+                                  </div>
+                                )}
+                              </>
+                            );
+                          }
+                        })}
+
+                        {/* <div className="flex gap-x-6 items-center font-medium text-xs w-full">
                           <Image
                             width={300}
                             height={300}
@@ -194,7 +237,7 @@ const DashboardPost = ({ dataView }: Props) => {
                           <button className=" hover:text-blue-400 p-1 w-20 font-bold rounded-xl text-blue-700 text-nowrap">
                             Xem chi tiết
                           </button>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                     <div className="flex justify-center">
@@ -254,7 +297,40 @@ const DashboardPost = ({ dataView }: Props) => {
             <p>Tên bài đăng</p>
           </div>
           <div className="flex flex-col justify-between flex-1 text-sm">
-            <div className="flex gap-x-4 border-[1px] border-transparent rounded-md p-2 hover:bg-white group cursor-pointer">
+            {dataView.analyticViewJobQuery?.map((dt: any, ikey: any) => {
+              return (
+                <>
+                  <div
+                    className="flex gap-x-4 border-[1px] border-transparent rounded-md p-2 hover:bg-white group cursor-pointer"
+                    key={ikey}
+                  >
+                    <p className="text-white font-semibold  group-hover:text-blue-800">
+                      #{ikey + 1}
+                    </p>
+
+                    <p className="text-white group-hover:text-blue-700 ">
+                      {handleShortTextHome(dt.post_title, 20)}
+                    </p>
+                    {dt.status === "up" ? (
+                      <div className="flex text-green-400 items-center gap-x-1 group-hover:text-green-700">
+                        <FaArrowUp />
+                        <p>{dt.views}</p>
+                      </div>
+                    ) : dt.status === "down" ? (
+                      <div className="flex text-red-400 items-center gap-x-1 group-hover:text-red-700">
+                        <FaArrowDown />
+                        <p>{dt.views}</p>
+                      </div>
+                    ) : (
+                      <div className="flex text-white items-center gap-x-1 group-hover:text-black">
+                        <p>{dt.views}</p>
+                      </div>
+                    )}
+                  </div>
+                </>
+              );
+            })}
+            {/* <div className="flex gap-x-4 border-[1px] border-transparent rounded-md p-2 hover:bg-white group cursor-pointer">
               <p className="text-white font-semibold  group-hover:text-blue-800">
                 #1
               </p>
@@ -331,7 +407,7 @@ const DashboardPost = ({ dataView }: Props) => {
                 <FaArrowUp />
                 <p>1</p>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

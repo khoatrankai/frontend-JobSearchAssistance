@@ -12,7 +12,7 @@ import ChatRoll from "@/components/ChatRoll";
 import ChangeLanguage from "@/components/ChangeLanguage/ChangeLanguage";
 import FooterComponent from "@/components/FooterComponent/FooterComponent";
 import { PersistGate } from "redux-persist/integration/react";
-import { store } from "@/redux/store";
+import { store, persistor } from "@/redux/store";
 
 const inter = Inter({ subsets: ["vietnamese"] });
 import { usePathname } from "next/navigation";
@@ -21,6 +21,7 @@ import ShowImage from "@/util/ShowImage/ShowImage";
 import ChatAIComponent from "@/components/ChatAIComponent/ChatAIComponent";
 import ShowConfirm from "@/util/ShowConfirm/ShowConfirm";
 import { ToastContainer } from "react-toastify";
+import ShowLoading from "@/util/ShowLoading/ShowLoading";
 
 // export const metadata = {
 //   title: "Create Next App",
@@ -32,7 +33,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const persistor = persistStore(store);
+  // const persistor = persistStore(store);
 
   const [reponsiveMobile, setReponsiveMobile] = useState<number>(0);
   useEffect(() => {
@@ -74,16 +75,16 @@ export default function RootLayout({
             {/* <div>nice</div> */}
             {children}
 
-            {reponsiveMobile >= 1280 ? (
-              <>
-                {/* <ChatAIComponent /> */}
-                <ChangeLanguage />
-                <ChatRoll />
-                <RollTop />
-              </>
-            ) : (
+            {/* {reponsiveMobile >= 1280 ? ( */}
+            <>
+              {/* <ChatAIComponent /> */}
+              <ChangeLanguage />
+              <ChatRoll />
+              <RollTop />
+            </>
+            {/* ) : (
               ""
-            )}
+            )} */}
             <AlertOne />
             <ShowConfirm />
             <ShowImage />
@@ -93,7 +94,9 @@ export default function RootLayout({
               : !(urlCustom.trim() === "/candidate/reset-password") && (
                   <FooterComponent />
                 )}
+
             <ToastContainer />
+            <ShowLoading />
           </PersistGate>
         </ScrollContext>
       </body>

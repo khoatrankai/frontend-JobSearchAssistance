@@ -28,7 +28,9 @@ const Message = () => {
   const searchParams: any = useSearchParams();
 
   useEffect(() => {
-    document.title = languageRedux === 1 ? "Nhắn tin" : "Messaging";
+    if (typeof document !== "undefined") {
+      document.title = languageRedux === 1 ? "Nhắn tin" : "Messaging";
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [languageRedux, language]);
 

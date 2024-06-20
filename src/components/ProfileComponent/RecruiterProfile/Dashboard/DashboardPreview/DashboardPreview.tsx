@@ -50,7 +50,7 @@ const DashboardPreview = (props: Props) => {
                 endAngle={140}
               />
               <span className="absolute inset-0 text-4xl flex justify-center translate-y-1 text-green-500 items-center font-semibold cursor-pointer">
-                {dataPercent?.percentCompanyRatings?.percent}%
+                {dataPercent?.percentCompanyRatings?.percent.toFixed(2)}%
               </span>
               <span className="absolute inset-0 flex justify-center text-white items-end font-semibold ">
                 {dataPercent?.percentCompanyRatings?.totalCompanyRating}
@@ -82,7 +82,7 @@ const DashboardPreview = (props: Props) => {
                 endAngle={140}
               />
               <span className="absolute inset-0 text-4xl flex justify-center translate-y-1 text-blue-400 items-center font-semibold cursor-pointer">
-                {dataPercent?.percentViewPostAndApply?.percent}%
+                {dataPercent?.percentViewPostAndApply?.percent.toFixed(2)}%
               </span>
               <span className="absolute inset-0 flex justify-center text-white items-end font-semibold ">
                 {dataPercent?.percentViewPostAndApply?.totalViewPost}
@@ -114,7 +114,7 @@ const DashboardPreview = (props: Props) => {
                 endAngle={140}
               />
               <span className="absolute inset-0 text-4xl flex justify-center text-yellow-400 translate-y-1 text- items-center font-semibold cursor-pointer">
-                {dataPercent?.percentPostAndBookmark?.percent}%
+                {dataPercent?.percentPostAndBookmark?.percent.toFixed(2)}%
               </span>
               <span className="absolute inset-0 flex justify-center text-white items-end font-semibold">
                 {dataPercent?.percentPostAndBookmark?.totalPost}
@@ -152,7 +152,7 @@ const DashboardPreview = (props: Props) => {
                 endAngle={140}
               />
               <span className="absolute inset-0 text-4xl flex justify-center translate-y-1 text-teal-400 items-center font-semibold cursor-pointer">
-                {dataPercent?.percentApplication?.percent}%
+                {dataPercent?.percentApplication?.percent.toFixed(2)}%
               </span>
               <span className="absolute inset-0 flex justify-center text-white items-end font-semibold cursor-pointer ">
                 {dataPercent?.percentApplication?.totalApplication}

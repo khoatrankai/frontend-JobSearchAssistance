@@ -36,11 +36,20 @@ const TimeStamp = () => {
     let fixedDateStr =  day.toString()+'/'+month.toString()+'/'+year.toString();
     return fixedDateStr
     }
+    const handleConvertToDateCus = (time:any,cus="-")=>{
+      const date = new Date(time)
+      let year = date.getFullYear();
+      let month = (date.getMonth() + 1).toString().padStart(2, '0');
+      let day = date.getDate().toString().padStart(2, '0');
+    let fixedDateStr =  day.toString()+cus+month.toString()+cus+year.toString();
+    console.log(fixedDateStr)
+    return fixedDateStr
+    }
     const handleDecodingDescription = (data:any) => {
        const arrayData = data.split('/$/')
        return arrayData
     }
-    return {handleDecodingDescription,handleConvertToTimestamp,handleConvertToDate,handleConvertDateToTimestamp,handleConvertTimestampToTime}
+    return {handleDecodingDescription,handleConvertToTimestamp,handleConvertToDate,handleConvertToDateCus,handleConvertDateToTimestamp,handleConvertTimestampToTime}
   }
   
   export default TimeStamp

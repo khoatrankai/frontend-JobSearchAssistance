@@ -4,6 +4,7 @@ import { RootState } from "@/redux";
 import { Tabs } from "antd";
 import ListPost from "./ListPost/ListPost";
 import ListBlog from "./ListBlog/ListBlog";
+import SavedBlogComponent from "./SavedBlogComponent/page";
 
 type Props = {};
 
@@ -22,11 +23,16 @@ const ListPostProfile = (props: Props) => {
       label: languageRedux === 1 ? "Bài blog" : "Employer view profile",
       children: <ListBlog />,
     },
+    {
+      key: "3",
+      label: languageRedux === 1 ? "Bài blog đã lưu" : "Employer view profile",
+      children: <SavedBlogComponent />,
+    },
   ];
 
   return (
     <Tabs
-      className="mt-5 h-screen"
+      className="mt-5 h-screen max-w-[100vw] overflow-x-scroll"
       style={{
         backgroundColor: "white",
         padding: "20px",

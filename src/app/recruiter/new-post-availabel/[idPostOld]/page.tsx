@@ -76,7 +76,7 @@ const page = (props: Props) => {
   });
   const [indexImage, setIndexImage] = useState<any>({ index: 0, count: 0 });
   const [typeTimeJob, setTypeTimeJob] = useState<boolean>(false);
-  const { handleLoadHrefPage } = useSrollContext();
+  const { handleLoadHrefPage, handlePersistGateLoaded } = useSrollContext();
   const handleUpdateDes = (e: any) => {
     setDescription({ ...description, [e.target.name]: e.target.value });
   };
@@ -272,6 +272,7 @@ const page = (props: Props) => {
     );
   };
   const handlePost = () => {
+    handlePersistGateLoaded();
     const formData = new FormData();
     for (let i in dataReq) {
       if (i === "categoryIds") {
@@ -322,6 +323,7 @@ const page = (props: Props) => {
       const validation = checkPost.validateAllFields();
 
       if (validation && validation.status === false) {
+        handlePersistGateLoaded();
         toast.warning(validation.message, {
           position: "bottom-center",
           autoClose: 2000,
@@ -341,6 +343,7 @@ const page = (props: Props) => {
 
         if (res && res.code === 200) {
           // logEvent(analytics, "post_recruiter");
+          handlePersistGateLoaded();
           toast.success("Tạo bài đăng thành công", {
             position: "bottom-center",
             autoClose: 2000,
@@ -352,6 +355,7 @@ const page = (props: Props) => {
             theme: "dark",
           });
         } else {
+          handlePersistGateLoaded();
           toast.error("Tạo bài đăng thất bại", {
             position: "bottom-center",
             autoClose: 2000,

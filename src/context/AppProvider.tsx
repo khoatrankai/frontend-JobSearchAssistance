@@ -71,6 +71,10 @@ type ScrollPosition = {
   setContentAlert: any;
   handlePersistGateLoaded: any;
   scrollTopPosition: any;
+  titleIsLoading: any;
+  setTitleIsLoading: any;
+  handleOffTabLoading: any;
+  setMaxBGHome: any;
 };
 
 export const Context = createContext<ScrollPosition>({} as ScrollPosition);
@@ -92,9 +96,97 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
   const [selectItemProfileUser, setSelectItemProfileUser] = useState<any>(1);
   const [handleAlert, setHandleAlert] = useState<any>();
   const [contentAlert, setContentAlert] = useState<any>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [maxBGHome, setMaxBGHome] = useState<any>(5);
+  const [titleIsLoading, setTitleIsLoading] = useState<any>();
   const [dataDocsCv, setDataDocsCv] = useState<any>();
   const [tabAlert, setTabAlert] = useState<boolean>(false);
+  const [listPathTitle, setListPathTitle] = useState<any>([
+    {
+      path: "/",
+      title: "Trang chủ",
+    },
+    {
+      path: "/recruiter",
+      title: "Trang chủ",
+    },
+    {
+      path: "/blog",
+      title: "Blog",
+    },
+    {
+      path: "/manage-cv",
+      title: "Quản lý CV",
+    },
+    {
+      path: "/cv-all",
+      title: "Mẫu CV",
+    },
+    {
+      path: "/chat",
+      title: "Nhắn tin",
+    },
+    {
+      path: "/community-create",
+      title: "Tạo bài viết mới",
+    },
+    {
+      path: "/company-all",
+      title: "Tất cả công ty",
+    },
+    {
+      path: "/forgot-password",
+      title: "Quên mật khẩu",
+    },
+    {
+      path: "/login",
+      title: "Đăng nhập",
+    },
+    {
+      path: "/more-hotjob",
+      title: "Việc làm nổi bật",
+    },
+    {
+      path: "/more-new",
+      title: "Việc làm mới",
+    },
+    {
+      path: "/more-suggest",
+      title: "Việc làm đề xuất",
+    },
+    {
+      path: "/more-topic",
+      title: "Việc làm theo địa danh",
+    },
+    {
+      path: "/profile",
+      title: "Thông tin hồ sơ",
+    },
+    {
+      path: "/search-result",
+      title: "Kết quả tìm kiếm",
+    },
+    {
+      path: "/sign-up",
+      title: "Đăng ký",
+    },
+    {
+      path: "/update-password",
+      title: "Cập nhật password",
+    },
+    {
+      path: "/new-post",
+      title: "Tạo bài viết mới",
+    },
+    {
+      path: "/product-catalog",
+      title: "Báo giá",
+    },
+    {
+      path: "/help-contact",
+      title: "Hỗ trợ",
+    },
+  ]);
   const router = useRouter();
 
   const handleLoadHrefPage = () => {
@@ -102,6 +194,26 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
   };
   useEffect(() => {
     setCheckPage(pathname);
+    const titleDoc = listPathTitle.filter((dt: any) => {
+      if (pathname.includes(dt.path)) {
+        return dt;
+      }
+    });
+
+    if (pathname.includes("/recruiter")) {
+      if (pathname === "/recruiter") {
+        document.title = titleDoc[1]?.title;
+      } else {
+        document.title = titleDoc[2]?.title;
+      }
+    } else {
+      if (pathname === "/") {
+        document.title = titleDoc[0]?.title;
+      } else {
+        document.title = titleDoc[1]?.title;
+      }
+    }
+
     //console.log(pathname);
     // handleLoadHrefPage();
   }, [pathname]);
@@ -113,7 +225,7 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
   //   }
   // }, 5000);
   const handleTimeBG = () => {
-    if (dataBgHome === 5) {
+    if (dataBgHome >= maxBGHome) {
       setBgHome(0);
     } else {
       setBgHome(dataBgHome + 1);
@@ -131,9 +243,13 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
   const callHandleAlert = () => {
     handleAlert[0]();
   };
-  const handlePersistGateLoaded = () => {
-    console.log("vao thay doi");
-    setIsLoading(!isLoading);
+  const handlePersistGateLoaded = (data = "") => {
+    setTitleIsLoading(data);
+    setIsLoading(true);
+  };
+  const handleOffTabLoading = () => {
+    setTitleIsLoading("");
+    setIsLoading(false);
   };
   useEffect(() => {
     const handleScrollFull = () => {
@@ -220,6 +336,10 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
               setContentAlert,
               dataDocsCv,
               setDataDocsCv,
+              titleIsLoading,
+              setTitleIsLoading,
+              handleOffTabLoading,
+              setMaxBGHome,
             }}
           >
             {children}

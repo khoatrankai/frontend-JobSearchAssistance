@@ -120,30 +120,32 @@ const SeachAge: React.FC<ISeachAge> = (props) => {
   const [valueMaxAge, setValueMaxAge] = React.useState(0);
   const selectRef = React.useRef<any>(null);
   React.useEffect(() => {
-    const handleOutsideClick = (event: any) => {
-      const element = document.querySelector(".wrap-radio_candidateAge");
-      if (
-        (selectRef.current && !selectRef.current?.contains(event.target)) ||
-        (element && !element.contains(event.target))
-      ) {
-        setIsSelectOpen(false); // Đóng Select khi click bên ngoài
-      }
-      const element1 = document.querySelector(".wrap-radio_candidateAge");
+    if (typeof document !== "undefined") {
+      const handleOutsideClick = (event: any) => {
+        const element = document.querySelector(".wrap-radio_candidateAge");
+        if (
+          (selectRef.current && !selectRef.current?.contains(event.target)) ||
+          (element && !element.contains(event.target))
+        ) {
+          setIsSelectOpen(false); // Đóng Select khi click bên ngoài
+        }
+        const element1 = document.querySelector(".wrap-radio_candidateAge");
 
-      if (
-        (selectRef.current && selectRef.current?.contains(event.target)) ||
-        (element && element.contains(event.target))
-      ) {
-        // Đóng Select khi click bên ngoài
-        setIsSelectOpen(true);
-      }
-    };
+        if (
+          (selectRef.current && selectRef.current?.contains(event.target)) ||
+          (element && element.contains(event.target))
+        ) {
+          // Đóng Select khi click bên ngoài
+          setIsSelectOpen(true);
+        }
+      };
 
-    document.addEventListener("mousedown", handleOutsideClick);
+      document.addEventListener("mousedown", handleOutsideClick);
 
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
+      return () => {
+        document.removeEventListener("mousedown", handleOutsideClick);
+      };
+    }
   }, [isSelectOpen]);
 
   return (

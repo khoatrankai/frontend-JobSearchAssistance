@@ -5,6 +5,7 @@ import axiosClient from "@/configs/axiosClient";
 import { RootState } from "@/redux";
 import { useSelector } from "react-redux";
 import { Input } from "antd";
+import ToastCustom from "@/util/ToastCustom";
 type Props = {
   dataInfo: any;
   handleUpdateApi: any;
@@ -17,6 +18,7 @@ interface IData {
 
 const SkillProfile = (props: Props) => {
   const { dataInfo, handleUpdateApi } = props;
+  const { hdError, hdSuccess } = ToastCustom();
   const [rsSkill, setSkill] = useState<boolean>(false);
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
@@ -183,7 +185,10 @@ const SkillProfile = (props: Props) => {
       }
     )) as unknown as IData;
     if (resUp?.statusCode === 201 && resUp) {
+      // hdSuccess("Thêm kỹ năng thông tin thành công");
       return true;
+    } else {
+      // hdSuccess("Thêm kỹ năng thông tin không thành công");
     }
     return false;
   };
@@ -203,10 +208,13 @@ const SkillProfile = (props: Props) => {
         if (resUp === 200) {
           const resCre = await handleApiCreate();
           if (resCre === 201) {
+            hdSuccess("Cập nhật thông tin kỹ năng thành công");
             setDataAdd([]);
             handleUpdateApi();
             setSkill(!rsSkill);
           }
+        } else {
+          hdError("Cập nhật thông tin kỹ năng không thành công");
         }
       }
     };

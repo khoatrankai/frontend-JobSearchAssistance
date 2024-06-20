@@ -1,6 +1,21 @@
+// import ToastCustom from '@/util/ToastCustom';
 import axiosClient from '../../configs/axiosClient';
+import { V1 } from '../linkLocal';
 
 const profileAPi = {
+
+  uploadAvatar: async(data:any)=>{
+    // const {hdError,hdSuccess} = ToastCustom()
+    const formData = new FormData()
+    formData.append('images',data)
+    const dataRes:any = await axiosClient.put(`${V1}/api/v1/profiles/avt`,formData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return dataRes
+  },
   getProfileV3: (lang: string) => {
     const URL = `http://localhost:1902/api/v3/profiles/me?lang=${lang}`;
 

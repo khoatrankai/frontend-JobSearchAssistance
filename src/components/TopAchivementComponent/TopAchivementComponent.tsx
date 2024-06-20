@@ -1,59 +1,72 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useMemo, useState } from "react";
 import "./TopAchivementComponent.scss";
 import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useSrollContext } from "@/context/AppProvider";
+import apiCompany from "@/api/company/apiCompany";
+import useRouterCustom from "@/util/useRouterCustom/useRouterCustom";
 type Props = {};
-const MyComponent = memo(({ dt, index }: any) => {
-  return (
-    <div
-      className={`bubble cursor-pointer p-4 border-[1px] hover:shadow-sm border-transparent hover:bg-blue-200 x${
-        Math.floor(Math.random() * (10 - 1 + 1)) + 1
-      } group`}
-      style={{
-        left: `${Math.floor(Math.random() * (80 - 55 + 10)) + 55}%`,
-        top: `${Math.floor(Math.random() * (85 - 5 + 4)) + 5}%`,
-        scale: `${Math.random() * (0.6 - 0.4) + 0.4}`,
-      }}
-      key={index + "vo"}
-    >
-      <div className="rounded-full absolute inset-0 flex justify-center items-center">
-        <Image
-          className="scale-50 group-hover:scale-75 transition-all duration-500"
-          width={500}
-          height={500}
-          alt=""
-          src={`/company/logo${dt.name}.png`}
-        />
-      </div>
-    </div>
-  );
-});
 
-MyComponent.displayName = "BannerAnimation";
 const TopAchivementComponent = (props: Props) => {
+  // const MyComponent = ({ dt, index, pushBlank }: any) => {
+  //   return (
+
+  //   );
+  // };
+
+  // MyComponent.displayName = "BannerAnimation";
+  const [bubbleStyles, setBubbleStyles] = useState<any>([]);
+  const { pushBlank } = useRouterCustom();
   const router = useRouter();
   const { reponsiveMobile } = useSrollContext();
 
   const [dataCompany, setDataCompany] = useState<any>([
-    { name: "acer", link: "https://www.acer.com/" },
-    { name: "apple", link: "https://www.acer.com/" },
-    { name: "asus", link: "https://www.acer.com/" },
-    { name: "dell", link: "https://www.acer.com/" },
-    { name: "hp", link: "https://www.acer.com/" },
-    { name: "lenovo", link: "https://www.acer.com/" },
-    { name: "microsoft", link: "https://www.acer.com/" },
-    { name: "razer", link: "https://www.acer.com/" },
-    { name: "rog", link: "https://www.acer.com/" },
-    { name: "disney", link: "https://www.acer.com/" },
-    { name: "hcmute", link: "https://www.acer.com/" },
-    { name: "just", link: "https://www.acer.com/" },
-    { name: "nike", link: "https://www.acer.com/" },
-    { name: "nissan", link: "https://www.acer.com/" },
-    { name: "tesla", link: "https://www.acer.com/" },
+    // { name: "acer", link: "https://www.acer.com/" },
+    // { name: "apple", link: "https://www.acer.com/" },
+    // { name: "asus", link: "https://www.acer.com/" },
+    // { name: "dell", link: "https://www.acer.com/" },
+    // { name: "hp", link: "https://www.acer.com/" },
+    // { name: "lenovo", link: "https://www.acer.com/" },
+    // { name: "microsoft", link: "https://www.acer.com/" },
+    // { name: "razer", link: "https://www.acer.com/" },
+    // { name: "rog", link: "https://www.acer.com/" },
+    // { name: "disney", link: "https://www.acer.com/" },
+    // { name: "hcmute", link: "https://www.acer.com/" },
+    // { name: "just", link: "https://www.acer.com/" },
+    // { name: "nike", link: "https://www.acer.com/" },
+    // { name: "nissan", link: "https://www.acer.com/" },
+    // { name: "tesla", link: "https://www.acer.com/" },
   ]);
+  useEffect(() => {
+    // const generateRandomStyle = () => {
+    //   return {
+    //     left: `${Math.floor(Math.random() * (80 - 55 + 10)) + 55}%`,
+    //     top: `${Math.floor(Math.random() * (85 - 5 + 4)) + 5}%`,
+    //     scale: `${Math.random() * (0.6 - 0.4) + 0.4}`,
+    //   };
+    // };
 
+    const styles = dataCompany.map(() => {
+      return {
+        left: `${Math.floor(Math.random() * (80 - 55 + 10)) + 55}%`,
+        top: `${Math.floor(Math.random() * (85 - 5 + 4)) + 5}%`,
+        scale: `${Math.random() * (0.6 - 0.4) + 0.4}`,
+        random: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
+      };
+    });
+    setBubbleStyles(styles);
+  }, [dataCompany]);
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log("bam");
+      const data = await apiCompany.getAllCompany(0, 20);
+      if (data) {
+        setDataCompany(data.data.companies);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <div className="gradient-bg-mid w-full relative flex flex-col items-center py-8 h-[440px] px-5">
       {/* <p className="font-extrabold text-3xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
@@ -88,7 +101,30 @@ const TopAchivementComponent = (props: Props) => {
       </div>
       <div className="absolute inset-0 overflow-hidden">
         {dataCompany.map((dt: any, index: any) => {
-          return <MyComponent key={index} dt={dt} index={index} />;
+          return (
+            <div
+              className={`bubble cursor-pointer p-4 border-[1px] hover:shadow-sm border-transparent hover:bg-blue-200 x${bubbleStyles[index]?.random} group`}
+              style={{
+                left: `${bubbleStyles[index]?.left}`,
+                top: `${bubbleStyles[index]?.top}`,
+                scale: `${bubbleStyles[index]?.scale}`,
+              }}
+              key={index + "vo"}
+              onClick={() => {
+                pushBlank(`/company-detail/${dt.id}`);
+              }}
+            >
+              <div className="rounded-full absolute inset-0 flex justify-center items-center">
+                <Image
+                  className="scale-50 group-hover:scale-75 transition-all duration-500 rounded-full"
+                  width={500}
+                  height={500}
+                  alt=""
+                  src={`${dt.logoPath ?? "/goapply.png"}`}
+                />
+              </div>
+            </div>
+          );
         })}
       </div>
     </div>

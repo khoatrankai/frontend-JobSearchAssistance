@@ -95,8 +95,11 @@ const ItemCadidate: React.FC<ICadidate> = (props) => {
     }
   };
   React.useEffect(() => {
-    document.title =
-      languageRedux === 1 ? "Tìm kiếm nhân tài" : "Search for talent";
+    if (typeof document !== "undefined") {
+      document.title =
+        languageRedux === 1 ? "Tìm kiếm nhân tài" : "Search for talent";
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [languageRedux]);
 

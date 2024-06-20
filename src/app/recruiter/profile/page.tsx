@@ -30,6 +30,7 @@ import { RiMoneyDollarCircleFill } from "react-icons/ri";
 import ListPostProfile from "@/components/ProfileComponent/RecruiterProfile/ListPostProfile/ListPostProfile";
 import RechargePrice from "@/components/ProfileComponent/RecruiterProfile/RechargePrice/RechargePrice";
 import PackageService from "@/components/ProfileComponent/RecruiterProfile/PackageService/PackageService";
+import AvatarRecruiterProfile from "@/components/ProfileComponent/AvatarRecruiterProfile/AvatarProfile";
 
 type Props = {};
 
@@ -116,7 +117,7 @@ const page = (props: Props) => {
               }}
             >
               {reponsiveMobile > 1152 ? (
-                <AvatarProfile
+                <AvatarRecruiterProfile
                   dataInfo={dataInfo}
                   handleUpdateApi={handleUpdateApi}
                   checkUpdate={false}
