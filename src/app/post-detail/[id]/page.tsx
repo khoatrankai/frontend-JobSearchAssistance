@@ -99,6 +99,7 @@ const page = (props: Props) => {
 
       if (res && (res?.code as any) === 200) {
         setPostDetail(res.data);
+        document.title = res.data.title;
         const data = res.data.categories.map((item: any) => {
           return item.child_category;
         });
@@ -114,7 +115,7 @@ const page = (props: Props) => {
       }
     };
     fetchData();
-  }, [bookmarked, languageRedux]);
+  }, [languageRedux]);
   const handleResize = () => {
     handleUpData();
     const widthMaxSlide = ref_slider.current.getBoundingClientRect().width;

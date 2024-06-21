@@ -191,7 +191,7 @@ const page = (props: Props) => {
               }`}
             >
               {languageRedux === 1
-                ? "Blog - Ý tưởng phát triển sự nghiệp IT của bạn"
+                ? "Blog - Nơi chia sẻ kinh nghiệm"
                 : "Blog - Your IT career development ideas"}
             </h1>
           </div>

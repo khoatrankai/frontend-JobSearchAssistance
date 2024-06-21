@@ -119,12 +119,15 @@ const Comunity = ({ idCommunity }: any) => {
   React.useEffect(() => {
     setFromHistory(getCookie("fromHistory"));
   }, []);
-  useEffect(() => {
-    handleGetDetailCommunityById();
-  }, [idCommunity]);
+  // useEffect(() => {
+  //   if (idCommunity) {
+  //     handleGetDetailCommunityById();
+  //   }
+  // }, [idCommunity]);
   React.useEffect(() => {
     handleGetDetailCommunityById();
   }, [
+    idCommunity,
     POST_COMMUNITY_ID,
     like,
     bookmark,
@@ -283,22 +286,25 @@ const Comunity = ({ idCommunity }: any) => {
     <div className="comunity-container">
       <div className="comunity-content">
         <div className="comunity-detail_post">
-          <div className="back" onClick={handleMoveToList}>
-            <div className="icon-back">
-              <BackIcon width={15} height={15} fill="white" />
+          {!idCommunity && (
+            <div className="back" onClick={handleMoveToList}>
+              <div className="icon-back">
+                <BackIcon width={15} height={15} fill="white" />
+              </div>
+              <h3>
+                {fromHistory === "31" || fromHistory === "30"
+                  ? language?.history
+                  : detail?.type === 1
+                  ? languageRedux === 1
+                    ? "Câu chuyện việc làm"
+                    : "Working story"
+                  : languageRedux === 1
+                  ? "Tin tức"
+                  : "Recruitment news"}
+              </h3>
             </div>
-            <h3>
-              {fromHistory === "31" || fromHistory === "30"
-                ? language?.history
-                : detail?.type === 1
-                ? languageRedux === 1
-                  ? "Câu chuyện việc làm"
-                  : "Working story"
-                : languageRedux === 1
-                ? "Tin tức"
-                : "Recruitment news"}
-            </h3>
-          </div>
+          )}
+
           <div className="title-comunity">
             <h3>{detail?.title}</h3>
             {dataProfile?.accountId === detail?.profileData?.id ? (

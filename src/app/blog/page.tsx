@@ -66,6 +66,7 @@ const page = (props: Props) => {
     setTabModal(false);
   };
   const handleBookmarked = async (id: number) => {
+    console.log(id);
     const fetchData = async () => {
       const res = await communityApi.postCommunityBookmarked(id);
 
@@ -73,7 +74,7 @@ const page = (props: Props) => {
         // setBookmarked(!bookmarked);
         setCommunityAdmin(
           communityAdmin.map((dt: any) => {
-            if (dt.id) {
+            if (dt.id === id) {
               return { ...dt, bookmarked: true };
             }
             return dt;
@@ -128,13 +129,14 @@ const page = (props: Props) => {
     }
   };
   const handleDeleteBookmarked = async (id: number) => {
+    console.log(id);
     const fetchData = async () => {
       const res = await communityApi.postCommunityBookmarked(id);
 
       if (res && res.status === 200) {
         setCommunityAdmin(
           communityAdmin.map((dt: any) => {
-            if (dt.id) {
+            if (dt.id === id) {
               return { ...dt, bookmarked: false };
             }
             return dt;
@@ -182,7 +184,7 @@ const page = (props: Props) => {
               }`}
             >
               {languageRedux === 1
-                ? "Blog - Ý tưởng phát triển sự nghiệp IT của bạn"
+                ? "Blog - Nơi chia sẻ kinh nghiệm"
                 : "Blog - Your IT career development ideas"}
             </h1>
           </div>
@@ -448,18 +450,19 @@ const page = (props: Props) => {
               e.stopPropagation();
             }}
           >
-            <div className="absolute w-full bg-white h-28 z-10">
-              <div
-                className="absolute p-2 rounded-full top-6 right-6 border-2 text-xl cursor-pointer"
-                onClick={() => {
-                  setTabModalDetail(false);
-                }}
-              >
-                <IoClose />
-              </div>
+            {/* <div className="absolute w-full h-20 z-10"> */}
+            <div
+              className="absolute p-2 rounded-full top-6 right-4 border-2 text-xl cursor-pointer"
+              onClick={() => {
+                setTabModalDetail(false);
+              }}
+            >
+              <IoClose />
             </div>
-
-            <Comunity idCommunity={idCommunity} />
+            {/* </div> */}
+            <div>
+              <Comunity idCommunity={idCommunity} />
+            </div>
           </div>
         </div>
       )}

@@ -107,7 +107,7 @@ const postsApi = {
       const listCV = await axiosClientRecruiter.get(`${V3}/api/v3/cvs-posts/cvs?postId=${dataPost.data.postId}`)
       if(listCV){
         // //console.log(listCV)
-        const urlAI = 'http://127.0.0.1:8000/aiFilterCV/'
+        const urlAI = 'https://buildteamv9.pythonanywhere.com/aiFilterCV/'
         // //console.log(des,listCV.data.data.cvs)
         const dataFilterCV = await axiosClientRecruiter.post(urlAI,{contentPost: des,listCV: listCV.data.data[0].cvs})
         if(dataFilterCV){

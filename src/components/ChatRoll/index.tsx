@@ -137,10 +137,10 @@ const ChatRoll: React.FC = () => {
     return itemMang + ":" + "http://localhost:3000/cv/create-v2/1/new";
   };
   const handleChatBot = async () => {
-    // const data: any = await axios.pó("http://127.0.0.1:8000/aiJob/");
+    // const data: any = await axios.pó("https://buildteamv9.pythonanywhere.com/aiJob/");
     // //console.log(data);
     const dataVip: any = await axiosClient.post(
-      "http://127.0.0.1:8000/aiChat/",
+      "https://buildteamv9.pythonanywhere.com/aiChat/",
       {
         id: idChat.toString(),
         content: listChat?.[listChat.length - 1]?.content,
@@ -159,7 +159,10 @@ const ChatRoll: React.FC = () => {
     }
   };
   const handleCreateAI = async () => {
-    const dataId = await axiosClient.post("http://127.0.0.1:8000/aiStartChat/");
+    const dataId = await axiosClient.post(
+      "https://buildteamv9.pythonanywhere.com/aiStartChat/"
+    );
+    console.log(dataId);
     if (dataId) {
       setIdChat(dataId.data);
       setListChat([
