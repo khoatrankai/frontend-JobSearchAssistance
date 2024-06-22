@@ -63,42 +63,46 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={inter.className}>
-        <ScrollContext>
-          <PersistGate loading={null} persistor={persistor}>
-            {pathname.split("/").length <= 3
-              ? !allowedPath.includes(pathname) && <MenuComponent />
-              : !(urlCustom.trim() === "/candidate/reset-password") && (
-                  <MenuComponent />
-                )}
-            {/* Alternatively, you can use curly braces */}
-            {/* {router.pathname !== "/login" && <MenuComponent />} */}
-            {/* <div>nice</div> */}
-            {children}
+        {typeof window !== "undefined" && typeof document !== "undefined" ? (
+          <ScrollContext>
+            <PersistGate loading={null} persistor={persistor}>
+              {pathname.split("/").length <= 3
+                ? !allowedPath.includes(pathname) && <MenuComponent />
+                : !(urlCustom.trim() === "/candidate/reset-password") && (
+                    <MenuComponent />
+                  )}
+              {/* Alternatively, you can use curly braces */}
+              {/* {router.pathname !== "/login" && <MenuComponent />} */}
+              {/* <div>nice</div> */}
+              {children}
 
-            {/* {reponsiveMobile >= 1280 ? ( */}
-            <>
-              {/* <ChatAIComponent /> */}
-              <ChangeLanguage />
-              <ChatRoll />
-              <RollTop />
-            </>
-            {/* ) : (
-              ""
-            )} */}
-            <AlertOne />
-            <ShowConfirm />
-            <ShowImage />
-            {pathname.split("/").length <= 3
-              ? !allowedPath.includes(pathname) &&
-                !allowedFooter.includes(pathname) && <FooterComponent />
-              : !(urlCustom.trim() === "/candidate/reset-password") && (
-                  <FooterComponent />
-                )}
+              {/* {reponsiveMobile >= 1280 ? ( */}
+              <>
+                {/* <ChatAIComponent /> */}
+                <ChangeLanguage />
+                <ChatRoll />
+                <RollTop />
+              </>
+              {/* ) : (
+            ""
+          )} */}
+              <AlertOne />
+              <ShowConfirm />
+              <ShowImage />
+              {pathname.split("/").length <= 3
+                ? !allowedPath.includes(pathname) &&
+                  !allowedFooter.includes(pathname) && <FooterComponent />
+                : !(urlCustom.trim() === "/candidate/reset-password") && (
+                    <FooterComponent />
+                  )}
 
-            <ToastContainer />
-            <ShowLoading />
-          </PersistGate>
-        </ScrollContext>
+              <ToastContainer />
+              <ShowLoading />
+            </PersistGate>
+          </ScrollContext>
+        ) : (
+          children
+        )}
       </body>
     </html>
   );

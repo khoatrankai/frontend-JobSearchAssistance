@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-key */
+"use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import axiosClient from "@/configs/axiosClient";

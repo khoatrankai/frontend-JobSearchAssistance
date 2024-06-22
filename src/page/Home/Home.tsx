@@ -1,5 +1,4 @@
-import AllCompanyComponent from "@/components/AllCompanyComponent/page";
-import BannerComponent from "@/components/BannerComponent/BannerComponent";
+"use client";
 import HotJobComponent from "@/components/HotJobComponent/HotJobComponent";
 import ListJobComponent from "@/components/ListJobComponent/ListJobComponent";
 import SearchAllComponent from "@/components/SearchAllComponent/SearchAllComponent";
@@ -59,61 +58,63 @@ const Home = (props: Props) => {
 
   return (
     <>
-      <div className="flex flex-col items-center">
-        <div
-          className="fixed -z-50 inset-0 inline-block w-fit duration-500 transition-all "
-          style={{ transform: `translateY(${-dataBgHome * 100}%)` }}
-          key={""}
-        >
-          {dataBannerHome.map((dt: any, index: any) => {
-            return (
-              <div className="w-screen h-full relative" key={index}>
-                <div
-                  className="absolute inset-0 z-10 bg-black"
-                  style={{ opacity: 0.4 }}
-                ></div>
-                <Image
-                  className={`w-full h-full object-fill transition-all  duration-700`}
-                  alt=""
-                  src={dt.image}
-                  height={5000}
-                  width={5000}
-                />
+      {typeof window !== "undefined" && typeof document !== "undefined" && (
+        <div className="flex flex-col items-center">
+          <div
+            className="fixed -z-50 inset-0 inline-block w-fit duration-500 transition-all "
+            style={{ transform: `translateY(${-dataBgHome * 100}%)` }}
+            key={""}
+          >
+            {dataBannerHome.map((dt: any, index: any) => {
+              return (
+                <div className="w-screen h-full relative" key={index}>
+                  <div
+                    className="absolute inset-0 z-10 bg-black"
+                    style={{ opacity: 0.4 }}
+                  ></div>
+                  <Image
+                    className={`w-full h-full object-fill transition-all  duration-700`}
+                    alt=""
+                    src={dt.image}
+                    height={5000}
+                    width={5000}
+                  />
+                </div>
+              );
+            })}
+          </div>
+          <BannerNewComponent setBannerHome={setBannerHome}>
+            <div className=" w-full flex flex-col items-center">
+              <div
+                className={`max-w-6xl w-full transition-all duration-700 ${
+                  scrollPosition ? "invisible opacity-0" : "opacity-100"
+                }`}
+              >
+                <SearchAllComponent DefaultActive={true} />
               </div>
-            );
-          })}
-        </div>
-        <BannerNewComponent setBannerHome={setBannerHome}>
-          <div className=" w-full flex flex-col items-center">
-            <div
-              className={`max-w-6xl w-full transition-all duration-700 ${
-                scrollPosition ? "invisible opacity-0" : "opacity-100"
-              }`}
-            >
-              <SearchAllComponent DefaultActive={true} />
             </div>
-          </div>
-        </BannerNewComponent>
+          </BannerNewComponent>
 
-        <div className="flex flex-col w-full z-40">
-          <div ref={refJobHot}>
-            <HotJobComponent />
-          </div>
-          <InfoJobMail />
-          <TopAchivementComponent />
-          <div ref={refJobNew}>
-            <ListJobComponent />
-          </div>
-          <InfoHomeCompany />
+          <div className="flex flex-col w-full z-40">
+            <div ref={refJobHot}>
+              <HotJobComponent />
+            </div>
+            <InfoJobMail />
+            <TopAchivementComponent />
+            <div ref={refJobNew}>
+              <ListJobComponent />
+            </div>
+            <InfoHomeCompany />
 
-          <div ref={refJobTopic}>
-            <TopCompanyComponent />
-          </div>
-          <BannerReceiveEmail />
+            <div ref={refJobTopic}>
+              <TopCompanyComponent />
+            </div>
+            <BannerReceiveEmail />
 
-          <BlogRecruiter />
+            <BlogRecruiter />
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

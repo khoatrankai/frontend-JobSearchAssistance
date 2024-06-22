@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import axiosClient from "@/configs/axiosClient";

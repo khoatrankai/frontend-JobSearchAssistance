@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import RecruitmentSuccessList from "./RecruitmentSuccessList/RecruitmentSuccessList";
 import { useSelector } from "react-redux";

@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import { FaUserTie } from "react-icons/fa";
 import { MdDocumentScanner } from "react-icons/md";

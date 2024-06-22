@@ -1,3 +1,4 @@
+"use client"
 import { fetchProfileRecruiter } from '@/redux/reducer/profileReducer/profileSliceRecruiter';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'

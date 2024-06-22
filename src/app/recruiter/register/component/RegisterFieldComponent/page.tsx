@@ -1,4 +1,5 @@
 /* eslint-disable react/display-name */
+"use client";
 import React, { useState, useEffect, memo } from "react";
 import Typography from "@mui/material/Typography";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -12,14 +13,18 @@ const styleLabel = {
   fontWeight: 700,
   color: "#000000",
 };
-
+type Props = {
+  setDataCompany: any;
+  dataCompany: any;
+  is_profile: boolean;
+};
 interface IEditPostAddress {
   setDataCompany: any;
   dataCompany: any;
   is_profile: boolean;
 }
 
-const ModifyFieldScaleCompany: React.FC<IEditPostAddress> = memo((props) => {
+const ModifyFieldScaleCompany: React.FC<any> = memo((props: Props) => {
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );

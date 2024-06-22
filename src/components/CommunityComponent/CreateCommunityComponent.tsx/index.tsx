@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
+"use client";
 import React, { useState, FormEvent, useEffect } from "react";
-import "global";
 import "./style.scss";
 import imageCompression from "browser-image-compression";
 import { Button, Input, message, Modal } from "antd";
@@ -451,7 +451,6 @@ const ComunityCreatePost = ({ setTab }: any) => {
 
   return (
     <div className="comunity-create-post-container">
-      {/* {contextHolder} */}
       <div className="comunity-create-post-content">
         <div className="create-post-header">
           <h3 style={{ fontWeight: "800" }}>
@@ -492,22 +491,6 @@ const ComunityCreatePost = ({ setTab }: any) => {
               dataReq={valueContent}
               handleChangeData={onBlurValue}
             />
-            {/* <JoditEditor
-              value={valueContent}
-              config={{
-                readonly: false,
-                height: 600,
-                toolbar: true,
-                toolbarButtonSize: "large",
-                showTooltip: true,
-                showTooltipDelay: 0,
-                style: {
-                  background: "white",
-                  color: "black",
-                },
-              }}
-              onBlur={(e) => onBlurValue(e)}
-            /> */}
           </div>
           <div className="create-post-body_input">
             <h3>
@@ -623,7 +606,6 @@ const ComunityCreatePost = ({ setTab }: any) => {
           </div>
         </div>
       </div>
-      {/* <RollTop /> */}
       <Modal
         open={previewOpen}
         title={previewTitle}
@@ -632,7 +614,6 @@ const ComunityCreatePost = ({ setTab }: any) => {
       >
         <img alt="example" style={{ width: "100%" }} src={previewImage} />
       </Modal>
-      {/* <ToastContainer /> */}
     </div>
   );
 };
