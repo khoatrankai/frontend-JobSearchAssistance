@@ -5,6 +5,7 @@ import AchivementModal from "./Modal/AchivementModal";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
 import Validate from "@/util/Validate/Validate";
+import ToastCustom from "@/util/ToastCustom";
 
 type Props = {
   dataInfo: any;
@@ -20,7 +21,7 @@ const AchivementProfile = (props: Props) => {
   const { dataInfo, handleUpdateApi } = props;
   const { ModalValidate } = Validate();
   const [checkModal, setCheckModal] = useState<boolean>(false);
-
+  const { hdError, hdSuccess } = ToastCustom();
   const [tabModal, setTabModal] = useState<boolean>(false);
   const [idRemove, setIdRemove] = useState<any>();
   const [positionUpdate, setPositionUpdate] = useState<any>(-1);
@@ -35,13 +36,16 @@ const AchivementProfile = (props: Props) => {
   );
   const handleRemove = async (id: number) => {
     const res = (await axiosClient.delete(
-      "http://localhost:1902/api/v3/profiles-awards/remove",
+      "https://backend-hcmute-nestjs.onrender.com/api/v3/profiles-awards/remove",
       {
         data: { ids: [id] },
       }
     )) as unknown as IData;
     if (res && res.statusCode === 200) {
+      hdSuccess("Xóa thông tin thành công");
       handleUpdateApi();
+    } else {
+      hdSuccess("Xóa thông tin không thành công");
     }
   };
   const handleUpdate = (index: number) => {
@@ -75,7 +79,7 @@ const AchivementProfile = (props: Props) => {
         rsAchi
           ? "shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] "
           : "border-transparent"
-      } p-4 rounded-xl mb-8 relative`}
+      } p-4 rounded-xl relative`}
     >
       {checkModal &&
         ModalValidate(

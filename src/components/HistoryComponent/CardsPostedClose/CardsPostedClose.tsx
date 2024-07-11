@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import Grid from '@mui/material/Grid';
-import { message, Button, Select } from 'antd';
-import { Box, Typography } from '@mui/material';
-import { LeftOutlined, } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
-import JobCardPostHistory from '../JobCardPostHistoryComponent';
-import { RootState } from '@/redux/reducer';
-import historyRecruiter from '@/api/history/historyRecruiter';
-import sortData from '@/util/SortDataHistory/sortData';
-import NoDataComponent from '@/util/NoDataPage';
-import DetailPosted from '../DetailPosted';
+import React, { useEffect, useState } from "react";
+import Grid from "@mui/material/Grid";
+import { message, Button, Select } from "antd";
+import { Box, Typography } from "@mui/material";
+import { LeftOutlined } from "@ant-design/icons";
+import { useSelector } from "react-redux";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import JobCardPostHistory from "../JobCardPostHistoryComponent";
+import { RootState } from "@/redux/reducer";
+import historyRecruiter from "@/api/history/historyRecruiter";
+import sortData from "@/util/SortDataHistory/sortData";
+import NoDataComponent from "@/util/NoDataPage";
+import DetailPosted from "../DetailPosted";
 
 interface ICardsPostedClose {
   setShowDetailPosted: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,21 +21,20 @@ interface ICardsPostedClose {
 const CardsPostedClose: React.FC<ICardsPostedClose> = (props) => {
   const { setShowDetailPosted, showDetailPosted } = props;
   const languageRedux = useSelector(
-    (state: RootState) => state.changeLaguage.language,
+    (state: RootState) => state.changeLaguage.language
   );
   const language = useSelector(
-    (state: RootState) => state.dataLanguage.languages,
+    (state: RootState) => state.dataLanguage.languages
   );
   const [detailPosted, setDetailPosted] = React.useState<any>(null);
   const [dataPosted, setDataPosted] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [newOld, setnewOld] = React.useState('Mới nhất');
+  const [newOld, setnewOld] = React.useState("Mới nhất");
   const [uploading, setUploading] = useState(false);
   const [lastPostId, setLastPostId] = useState(0);
 
   const [messageApi, contextHolder] = message.useMessage();
   const [isVisible, setIsVisible] = useState(true);
-
 
   //   getData
   const getAllPosted = async (newCount: number) => {
@@ -43,8 +42,8 @@ const CardsPostedClose: React.FC<ICardsPostedClose> = (props) => {
       const result = await historyRecruiter.GetInformationAndCandidatesCount(
         newCount,
         10,
-        '3',
-        languageRedux === 1 ? 'vi' : 'en',
+        "3",
+        languageRedux === 1 ? "vi" : "en"
       );
 
       if (result) {
@@ -55,7 +54,7 @@ const CardsPostedClose: React.FC<ICardsPostedClose> = (props) => {
         }
       }
     } catch (error) {
-      console.log('error', error);
+      //console.log('error', error);
     }
   };
 
@@ -79,16 +78,19 @@ const CardsPostedClose: React.FC<ICardsPostedClose> = (props) => {
       const result = await historyRecruiter.GetInformationAndCandidatesCount(
         lastPostId,
         5,
-        '3',
-        languageRedux === 1 ? 'vi' : 'en',
+        "3",
+        languageRedux === 1 ? "vi" : "en"
       );
       if (result) {
         setUploading(false);
         if (result.data.length === 0) {
           setIsVisible(false);
           messageApi.open({
-            type: 'error',
-            content: languageRedux === 1 ? 'Đã hết công việc để hiển thị' : 'No more jobs to show',
+            type: "error",
+            content:
+              languageRedux === 1
+                ? "Đã hết công việc để hiển thị"
+                : "No more jobs to show",
           });
           return;
         }
@@ -99,13 +101,13 @@ const CardsPostedClose: React.FC<ICardsPostedClose> = (props) => {
         });
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
   const handleShowDetail = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    posted: any,
+    posted: any
   ) => {
     event.stopPropagation();
     setShowDetailPosted(true);
@@ -127,9 +129,9 @@ const CardsPostedClose: React.FC<ICardsPostedClose> = (props) => {
       {contextHolder}
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
         <div className="back-container">
@@ -140,14 +142,14 @@ const CardsPostedClose: React.FC<ICardsPostedClose> = (props) => {
             icon={<LeftOutlined />}
             onClick={handleHideDetail}
             style={{
-              display: showDetailPosted ? 'block' : 'none',
+              display: showDetailPosted ? "block" : "none",
             }}
           />
           <Typography
             sx={{
-              fontWeight: '600',
-              fontSize: '24px',
-              lineHeight: '24px',
+              fontWeight: "600",
+              fontSize: "24px",
+              lineHeight: "24px",
             }}
           >
             {language?.history_page?.closed_jobs}
@@ -158,7 +160,7 @@ const CardsPostedClose: React.FC<ICardsPostedClose> = (props) => {
             width: 130,
             height: 40,
             backgroundColor: `#f5f5f5`,
-            marginBottom: '2rem',
+            marginBottom: "2rem",
           }}
           value={newOld}
           onChange={handleChange}
@@ -177,12 +179,12 @@ const CardsPostedClose: React.FC<ICardsPostedClose> = (props) => {
           {/* <Skeleton loading={loading} active> */}
           <Backdrop
             sx={{
-              color: '#d4a650 ',
-              backgroundColor: 'transparent',
+              color: "#d4a650 ",
+              backgroundColor: "transparent",
               zIndex: (theme: any) => theme.zIndex.drawer + 1,
             }}
             open={loading}
-          // onClick={handleClose}
+            // onClick={handleClose}
           >
             <CircularProgress color="inherit" />
           </Backdrop>
@@ -202,10 +204,10 @@ const CardsPostedClose: React.FC<ICardsPostedClose> = (props) => {
               </Grid>
               <Box
                 sx={{
-                  margin: '12px auto',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  margin: "12px auto",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
                 <Button
@@ -213,10 +215,10 @@ const CardsPostedClose: React.FC<ICardsPostedClose> = (props) => {
                     width: 130,
                     height: 40,
                     backgroundColor: `#d4a650`,
-                    color: '#FFFFFF',
-                    marginBottom: '2rem',
-                    fontWeight: 'bold',
-                    display: isVisible ? 'block' : 'none',
+                    color: "#FFFFFF",
+                    marginBottom: "2rem",
+                    fontWeight: "bold",
+                    display: isVisible ? "block" : "none",
                   }}
                   loading={uploading}
                   onClick={handleAddItem}

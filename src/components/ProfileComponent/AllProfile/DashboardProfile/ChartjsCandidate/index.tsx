@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/reducer";
-import { DataLog, DataLogRecuiter } from "@/app/analytics/typeChart";
+import { DataLog, DataLogRecuiter } from "@/components/Analytics/typeChart";
 interface Dataset {
   label: string;
   data: number[];
@@ -34,12 +34,14 @@ const ChartjsCandidate: React.FC<{
   const [selectedYear, setSelectedYear] = useState<number>(2023);
   // const analytics: any = getAnalytics();
   React.useEffect(() => {
-    document.title =
-      languageRedux === 1
-        ? "Tổng quan hoạt động"
-        : languageRedux === 0
-        ? "Activity overview"
-        : "활동 대시보드";
+    // if (typeof document !== "undefined") {
+    //   document.title =
+    //     languageRedux === 1
+    //       ? "Tổng quan hoạt động"
+    //       : languageRedux === 0
+    //       ? "Activity overview"
+    //       : "활동 대시보드";
+    // }
     // logEvent(analytics, "screen_view" as string, {
     //   // screen_name: screenName as string,
     //   page_title: "/web_hotJob" as string,
@@ -97,11 +99,12 @@ const ChartjsCandidate: React.FC<{
     const datasets: Datasets = {
       2023: [
         {
-          label:languageRedux === 1
-                ? "Việc làm đã ứng tuyển"
-                : languageRedux === 0
-                ? "Applied job":
-                "지원한 채용공고",
+          label:
+            languageRedux === 1
+              ? "Việc làm đã ứng tuyển"
+              : languageRedux === 0
+              ? "Applied job"
+              : "지원한 채용공고",
           data:
             dataLog.type === "Normal" && dataLog
               ? dataLog.applyLogs.activities.map(
@@ -120,11 +123,12 @@ const ChartjsCandidate: React.FC<{
           hoverBackgroundColor: "rgba(13, 153, 255, 1)",
         },
         {
-          label: languageRedux === 1
-                ? "Việc làm đã xem"
-                : languageRedux === 0
-                ? "Viewed job"
-                : "본 채용공고",
+          label:
+            languageRedux === 1
+              ? "Việc làm đã xem"
+              : languageRedux === 0
+              ? "Viewed job"
+              : "본 채용공고",
           data:
             dataLog.type === "Normal" && dataLog
               ? dataLog.resultViewJob?.activities.map(
@@ -143,12 +147,12 @@ const ChartjsCandidate: React.FC<{
           hoverBackgroundColor: "rgba(52, 168, 83, 1)",
         },
         {
-          label: 
-              languageRedux === 1
-                ? "Việc làm tìm kiếm"
-                : languageRedux === 0
-                ? "Search job"
-                : "채용공고 검색",
+          label:
+            languageRedux === 1
+              ? "Việc làm tìm kiếm"
+              : languageRedux === 0
+              ? "Search job"
+              : "채용공고 검색",
           data:
             dataLog.type === "Normal" && dataLog
               ? dataLog.resultSearchJob?.activities.map(

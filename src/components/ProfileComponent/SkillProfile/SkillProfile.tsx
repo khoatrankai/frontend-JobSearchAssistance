@@ -1,10 +1,12 @@
 /* eslint-disable react/jsx-key */
+"use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import axiosClient from "@/configs/axiosClient";
 import { RootState } from "@/redux";
 import { useSelector } from "react-redux";
 import { Input } from "antd";
+import ToastCustom from "@/util/ToastCustom";
 type Props = {
   dataInfo: any;
   handleUpdateApi: any;
@@ -17,6 +19,7 @@ interface IData {
 
 const SkillProfile = (props: Props) => {
   const { dataInfo, handleUpdateApi } = props;
+  const { hdError, hdSuccess } = ToastCustom();
   const [rsSkill, setSkill] = useState<boolean>(false);
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
@@ -156,7 +159,7 @@ const SkillProfile = (props: Props) => {
     let check = true;
     if (dt.api) {
       const resUp = (await axiosClient.put(
-        `http://localhost:1902/api/v3/profiles-skills/${dt.id}`,
+        `https://backend-hcmute-nestjs.onrender.com/api/v3/profiles-skills/${dt.id}`,
         { skillName: dt.skillName, skillLevelId: dt.skillLevelId }
       )) as unknown as IData;
       if (resUp?.statusCode !== 200) {
@@ -174,7 +177,7 @@ const SkillProfile = (props: Props) => {
   };
   const fetchCreatedata = async (dt: any) => {
     const resUp = (await axiosClient.post(
-      "http://localhost:1902/api/v3/profiles-skills",
+      "https://backend-hcmute-nestjs.onrender.com/api/v3/profiles-skills",
       dt,
       {
         headers: {
@@ -183,7 +186,10 @@ const SkillProfile = (props: Props) => {
       }
     )) as unknown as IData;
     if (resUp?.statusCode === 201 && resUp) {
+      // hdSuccess("Thêm kỹ năng thông tin thành công");
       return true;
+    } else {
+      // hdSuccess("Thêm kỹ năng thông tin không thành công");
     }
     return false;
   };
@@ -192,7 +198,7 @@ const SkillProfile = (props: Props) => {
       let resRemove = { statusCode: 200, data: [] };
       if (dataRemove.ids.length > 0) {
         resRemove = (await axiosClient.delete(
-          "http://localhost:1902/api/v3/profiles-skills/remove",
+          "https://backend-hcmute-nestjs.onrender.com/api/v3/profiles-skills/remove",
           { data: dataRemove }
         )) as unknown as IData;
       }
@@ -203,10 +209,13 @@ const SkillProfile = (props: Props) => {
         if (resUp === 200) {
           const resCre = await handleApiCreate();
           if (resCre === 201) {
+            hdSuccess("Cập nhật thông tin kỹ năng thành công");
             setDataAdd([]);
             handleUpdateApi();
             setSkill(!rsSkill);
           }
+        } else {
+          hdError("Cập nhật thông tin kỹ năng không thành công");
         }
       }
     };
@@ -247,7 +256,7 @@ const SkillProfile = (props: Props) => {
         rsSkill
           ? "shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] "
           : "border-transparent"
-      } p-4 rounded-xl mb-4 relative`}
+      } p-4 rounded-xl relative`}
     >
       <div className="flex justify-between flex-wrap mb-8">
         <div className="flex h-fit items-center">

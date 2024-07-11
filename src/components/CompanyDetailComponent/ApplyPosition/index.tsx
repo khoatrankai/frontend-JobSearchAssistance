@@ -1,15 +1,14 @@
-import { Box, Grid } from '@mui/material';
-import { Skeleton, Spin, message } from 'antd';
-import React, { memo, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { useSelector } from 'react-redux';
-import { LoadingOutlined } from '@ant-design/icons';
-import { RootState } from '@/redux/reducer';
-import apiCompany from '@/api/company/apiCompany';
-import NoDataComponent from '@/util/NoDataPage';
-import JobOfCompanyCard from '../JobOfCompanyCard';
-import searchApi from '@/api/search/apiSearch';
-
+import { Box, Grid } from "@mui/material";
+import { Skeleton, Spin, message } from "antd";
+import React, { memo, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { useSelector } from "react-redux";
+import { LoadingOutlined } from "@ant-design/icons";
+import { RootState } from "@/redux/reducer";
+import apiCompany from "@/api/company/apiCompany";
+import NoDataComponent from "@/util/NoDataPage";
+import JobOfCompanyCard from "../JobOfCompanyCard";
+import searchApi from "@/api/search/apiSearch";
 
 interface IApplyPosition {
   postOfCompany: any;
@@ -35,7 +34,7 @@ const ApplyPosition: React.FC<IApplyPosition> = (props) => {
     accountId,
   } = props;
   const languageRedux = useSelector(
-    (state: RootState) => state.changeLaguage.language,
+    (state: RootState) => state.changeLaguage.language
   );
   const [loading, setLoading] = React.useState(false);
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -43,7 +42,7 @@ const ApplyPosition: React.FC<IApplyPosition> = (props) => {
   const fetchMoreData = async () => {
     try {
       const nextPage = parseInt(page) + 1;
-      const result = await searchApi.getSearchByQueryV2(
+      const result = (await searchApi.getSearchByQueryV2(
         nameCompany,
         null,
         null,
@@ -58,9 +57,8 @@ const ApplyPosition: React.FC<IApplyPosition> = (props) => {
         null,
         null,
         null,
-        languageRedux === 1 ? 'vi' : 'en',
-      ) as any;
-      console.log(result)
+        languageRedux === 1 ? "vi" : "en"
+      )) as any;
 
       if (result && result.data.posts.length === 20) {
         setPostOfCompany((prev: any) => [...prev, ...result?.data?.posts]);
@@ -73,19 +71,19 @@ const ApplyPosition: React.FC<IApplyPosition> = (props) => {
       ) {
         setHasMore(false);
         setPostOfCompany((prev: any) => [...prev, ...result?.data?.posts]);
-        setPage('0');
+        setPage("0");
       } else {
         setHasMore(false);
         setPostOfCompany((prev: any) => [...prev, []]);
-        setPage('0');
+        setPage("0");
         message.error(
           languageRedux === 1
-            ? 'Không còn công việc để xem'
-            : 'No more jobs available',
+            ? "Không còn công việc để xem"
+            : "No more jobs available"
         );
       }
     } catch (error) {
-      console.log('error', error);
+      //console.log('error', error);
     }
   };
 
@@ -101,8 +99,8 @@ const ApplyPosition: React.FC<IApplyPosition> = (props) => {
           dataLength={postOfCompany?.length}
           next={fetchMoreData}
           hasMore={hasMore}
-          loader={<Spin style={{ width: '100%' }} indicator={antIcon} />}
-          style={{ overflow: 'unset' }}
+          loader={<Spin style={{ width: "100%" }} indicator={antIcon} />}
+          style={{ overflow: "unset" }}
           scrollableTarget="scrollableDiv"
         >
           <Skeleton loading={loading} active>

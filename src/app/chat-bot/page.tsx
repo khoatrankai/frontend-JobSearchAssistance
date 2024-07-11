@@ -1,34 +1,34 @@
-'use client';
-import React, {useEffect, useState} from 'react';
-import axios from 'axios';
-import {useSrollContext} from '@/context/AppProvider';
+"use client";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useSrollContext } from "@/context/AppProvider";
 
 const ChatGPTDemo = () => {
-  const [userInput, setUserInput] = useState('');
+  const [userInput, setUserInput] = useState("");
   const [messages, setMessages] = useState([
     {
-      role: 'system',
+      role: "system",
       content:
         "You're a helpful chat bot. Answer short and concise in 150 tokens only.",
     },
   ]);
-  const {handleLoadHrefPage} = useSrollContext();
+  const { handleLoadHrefPage } = useSrollContext();
   const [isLoading, setIsLoading] = useState(false);
 
   const messageClasses = (role: any) => ({
-    'text-right justify-end': role === 'user',
-    'text-left justify-start': role === 'assistant',
+    "text-right justify-end": role === "user",
+    "text-left justify-start": role === "assistant",
   });
 
-  useEffect(() => {
-    handleLoadHrefPage();
-  }, []);
+  // useEffect(() => {
+  //   handleLoadHrefPage();
+  // }, []);
 
   const sendMessage = async () => {
     const data = [
       ...messages,
       {
-        role: 'user',
+        role: "user",
         content: userInput,
       },
     ];
@@ -38,35 +38,35 @@ const ChatGPTDemo = () => {
 
     try {
       setIsLoading(true);
-      setUserInput('');
+      setUserInput("");
 
       // Send API request to OpenAI endpoint
       const response = await axios.post(
-        'http://localhost:8000/v1/chat/completions',
+        "http://localhost:8000/v1/chat/completions",
         {
-          model: 'gpt-4-1106-preview',
+          model: "gpt-4-1106-preview",
           messages: data,
           temperature: 0.9,
           max_tokens: 150,
         },
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer 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`,
           },
-        },
+        }
       );
 
       // Append ChatGPT response
       setMessages((prevMessages) => [
         ...prevMessages,
         {
-          role: 'assistant',
+          role: "assistant",
           content: response.data.choices[0].message.content,
         },
       ]);
     } catch (error) {
-      console.error('There was an error with the API request', error);
+      // console.error("There was an error with the API request", error);
     } finally {
       setIsLoading(false);
     }
@@ -91,7 +91,7 @@ const ChatGPTDemo = () => {
                   placeholder="Type your message here..."
                   className="flex-1 rounded-md shadow-sm p-2 w-full"
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
+                    if (e.key === "Enter") {
                       sendMessage();
                     }
                   }}
@@ -104,11 +104,11 @@ const ChatGPTDemo = () => {
                 >
                   {isLoading ? (
                     <>
-                      <span className="animate-spin mr-1">&#128259;</span>{' '}
+                      <span className="animate-spin mr-1">&#128259;</span>{" "}
                       Loading
                     </>
                   ) : (
-                    'Send'
+                    "Send"
                   )}
                 </button>
               </div>
@@ -120,11 +120,11 @@ const ChatGPTDemo = () => {
                 <li key={index} className="py-3 sm:py-4">
                   <div
                     className={`flex items-center space-x-4 ${messageClasses(
-                      message.role,
+                      message.role
                     )}`}
                   >
                     <div className="flex-shrink-0">
-                      {message.role === 'assistant' && (
+                      {message.role === "assistant" && (
                         <img
                           className="w-8 h-8 rounded-full"
                           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTagONv1r-0HPnlnWClF12amS_KdrPX83zlhcXHyek&s"
@@ -135,10 +135,10 @@ const ChatGPTDemo = () => {
                     <div className="flex-1 min-w-0">
                       <p
                         className={`text-sm text-gray-800 break-normal whitespace-pre-line ${messageClasses(
-                          message.role,
+                          message.role
                         )}`}
                       >
-                        {message.role === 'user' && (
+                        {message.role === "user" && (
                           <span className="font-bold">User: </span>
                         )}
                         {message.content}

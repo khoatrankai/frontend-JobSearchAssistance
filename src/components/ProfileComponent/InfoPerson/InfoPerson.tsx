@@ -6,6 +6,9 @@ import moment from "moment";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
 import { Input, Select } from "antd";
+import { Option } from "antd/es/mentions";
+import ToastCustom from "@/util/ToastCustom";
+import { ValidationProfile } from "./validation/validation";
 
 type Props = {
   dataInfo: any;
@@ -18,9 +21,11 @@ interface ILocation {
 }
 const InfoPerson = (props: Props) => {
   const { dataInfo, handleUpdateApi } = props;
+  const { hdError } = ToastCustom();
   const [dataLocation, setDataLocation] = useState<any>([]);
   const [dataRequest, setDataRequest] = useState<any>();
   const [rsInfo, setRSInfo] = useState<boolean>(false);
+  const { Option } = Select;
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
@@ -40,15 +45,33 @@ const InfoPerson = (props: Props) => {
     setDataRequest(dataInfo);
   };
   const saveData = () => {
-    handleUpdateData();
+    const checkPost = new ValidationProfile(
+      dataRequest?.name,
+      dataRequest?.birthday,
+      dataRequest?.gender,
+      dataRequest?.address,
+      dataRequest?.jobTypeName
+    );
+    const validate = checkPost.validateAllFields();
+    if (validate && !validate.status) {
+      hdError(validate.message);
+    } else {
+      handleUpdateData();
+    }
   };
   const handleUpdateData = () => {
     const fetchData = async () => {
       const res = (await axiosClient.put(
-        "http://localhost:8888/api/v1/profiles/per",
+        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/per",
         dataRequest
       )) as unknown as ILocation;
+      const { hdError, hdSuccess } = ToastCustom();
+
       if (res && res.code === 200) {
+        hdSuccess("Cập nhật thông tin cá nhân thành công");
+        setRSInfo(!rsInfo);
+      } else {
+        hdError("Cập nhật thông tin cá nhân không thành công");
       }
     };
     fetchData();
@@ -59,7 +82,7 @@ const InfoPerson = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        "http://localhost:8888/api/v1/locations/p"
+        "https://backend-hcmute-nodejs.onrender.com/api/v1/locations/p"
       )) as unknown as ILocation;
       if (res && res.code === 200) {
         setDataLocation(res.data);
@@ -74,7 +97,6 @@ const InfoPerson = (props: Props) => {
         break;
       case "save":
         saveData();
-        setRSInfo(!rsInfo);
         break;
       case "close":
         setRSInfo(!rsInfo);
@@ -85,10 +107,11 @@ const InfoPerson = (props: Props) => {
 
   return (
     <div
-      className={`bg-white ${rsInfo
-        ? "shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] "
-        : "border-transparent"
-        } transition-all p-4 rounded-xl relative`}
+      className={`bg-white ${
+        rsInfo
+          ? "shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] "
+          : "border-transparent"
+      } transition-all p-4 rounded-xl relative`}
     >
       <div className="mb-8 flex justify-between flex-wrap">
         <div className="flex h-fit items-center ">
@@ -168,8 +191,9 @@ const InfoPerson = (props: Props) => {
             <div className="basis-2/3 font-bold">
               <Input
                 value={dataRequest?.name ?? ""}
-                className={`font-serif outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${rsInfo ? "border-dashed border-black/30" : "bg-transparent"
-                  }`}
+                className={`font-serif outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${
+                  rsInfo ? "border-dashed border-black/30" : "bg-transparent"
+                }`}
                 name="name"
                 onChange={handleUpdate}
                 disabled={!rsInfo}
@@ -183,8 +207,9 @@ const InfoPerson = (props: Props) => {
             </label>
             <div className="basis-2/3 font-bold">
               <Input
-                className={`font-serif outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${rsInfo ? "border-dashed border-black/30" : "bg-transparent"
-                  }`}
+                className={`font-serif outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${
+                  rsInfo ? "border-dashed border-black/30" : "bg-transparent"
+                }`}
                 value={moment(dataRequest?.birthday).format("yyyy-MM-DD")}
                 name="birthday"
                 onChange={handleUpdate}
@@ -201,23 +226,24 @@ const InfoPerson = (props: Props) => {
               <Select
                 // @ts-ignore
                 name="gender"
-                className={`font-serif focus-within:bg-black/5 w-full rounded-lg appearance-none ${rsInfo ? "border-dashed border-black/30" : "bg-transparent"
-                  }`}
+                className={`font-serif focus-within:bg-black/5 w-full rounded-lg appearance-none ${
+                  rsInfo ? "border-dashed border-black/30" : "bg-transparent"
+                }`}
                 value={dataRequest?.gender}
                 disabled={!rsInfo}
                 onChange={(e) => {
                   setDataRequest({
                     ...dataRequest,
-                    "gender": e
+                    gender: e,
                   });
                 }}
               >
-                <option value={1}>
+                <Option value={1}>
                   {languageRedux === 1 ? "Nam" : "Male"}
-                </option>
-                <option value={0}>
+                </Option>
+                <Option value={0}>
                   {languageRedux === 1 ? "Nữ" : "Female"}
-                </option>
+                </Option>
               </Select>
             </div>
           </div>
@@ -228,24 +254,22 @@ const InfoPerson = (props: Props) => {
             <div className="basis-2/3 font-bold">
               <Select
                 value={dataRequest?.address}
-                // @ts-ignore
-                name="address"
-                className={`font-serif focus-within:bg-black/5 w-full rounded-lg appearance-none ${rsInfo ? "border-dashed border-black/30" : "bg-transparent"
-                  }`}
+                className={`focus-within:bg-black/5 border-[1px] w-full rounded-lg appearance-none ${
+                  rsInfo ? "border-dashed " : "bg-transparent"
+                }`}
                 onChange={(e) => {
                   setDataRequest({
                     ...dataRequest,
-                    "address": e
+                    address: e,
                   });
-                
                 }}
                 disabled={!rsInfo}
               >
                 {dataLocation?.map((dt: any) => {
                   return (
-                    <option key={dt.id} value={dt.id}>
+                    <Option key={dt.id} value={dt.id}>
                       {dt.name}
-                    </option>
+                    </Option>
                   );
                 })}
               </Select>
@@ -260,8 +284,9 @@ const InfoPerson = (props: Props) => {
             <div className="basis-2/3 font-bold">
               <Input
                 value={dataRequest?.jobTypeName ?? ""}
-                className={`font-serif outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${rsInfo ? "border-dashed border-black/30" : "bg-transparent"
-                  }`}
+                className={`font-serif outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${
+                  rsInfo ? "border-dashed border-black/30" : "bg-transparent"
+                }`}
                 name="jobTypeName"
                 onChange={handleUpdate}
                 disabled={!rsInfo}

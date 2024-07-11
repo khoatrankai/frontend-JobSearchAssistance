@@ -23,7 +23,9 @@ const HistoryPost = () => {
     (state: RootState) => state.changeLaguage.language
   );
 
-  const profile = useSelector((state: RootState) => state.profile.profile);
+  const profile = useSelector(
+    (state: RootState) => state.profileRecruiter.profile
+  );
   const [queryParams, setQueryParams] = useState<any>({});
   useEffect(() => {
     setQueryParams(queryString.parse(window.location.search));
@@ -38,31 +40,31 @@ const HistoryPost = () => {
     hotjobtype === 2
       ? "2-1"
       : candidate === 4
-        ? "4-0"
-        : community_post === 31
-          ? "3-1"
-          : community_post === 30
-            ? "3-0"
-            : saved_jobs === 1
-              ? "1-0"
-              : recruitment_post === "opening"
-                ? "2-1"
-                : recruitment_post === "closed"
-                  ? "2-2"
-                  : "0-0"
+      ? "4-0"
+      : community_post === 31
+      ? "3-1"
+      : community_post === 30
+      ? "3-0"
+      : saved_jobs === 1
+      ? "1-0"
+      : recruitment_post === "opening"
+      ? "2-1"
+      : recruitment_post === "closed"
+      ? "2-2"
+      : "0-0"
   );
   const [ItemLeft, setItemLeft] = React.useState<null | number>(
     hotjobtype === 2
       ? 2
       : community_post === 31
-        ? 3
-        : community_post === 30
-          ? 3
-          : candidate === 4
-            ? 4
-            : saved_jobs === 1
-              ? 1
-              : 0
+      ? 3
+      : community_post === 30
+      ? 3
+      : candidate === 4
+      ? 4
+      : saved_jobs === 1
+      ? 1
+      : 0
   );
   const [showDetailPosted, setShowDetailPosted] =
     React.useState<boolean>(false);
@@ -109,11 +111,12 @@ const HistoryPost = () => {
   ];
 
   React.useEffect(() => {
-    document.title =
-      languageRedux === 1
-        ? "Lịch sử ứng tuyển/đăng tuyển"
-        : "Job application/posting history";
-
+    if (typeof document !== "undefined") {
+      document.title =
+        languageRedux === 1
+          ? "Lịch sử ứng tuyển/đăng tuyển"
+          : "Job application/posting history";
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [languageRedux, language]);
 
@@ -225,7 +228,7 @@ const HistoryPost = () => {
   }, []);
 
   React.useEffect(() => {
-    handleLoadHrefPage();
+    // handleLoadHrefPage();
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) window.open(`/`, "_parent");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -247,16 +250,16 @@ const HistoryPost = () => {
                 hotjobtype && hotjobtype === 2
                   ? ["2", "1"]
                   : community_post && community_post === 31
-                    ? ["3", "1"]
-                    : community_post && community_post === 30
-                      ? ["3", "0"]
-                      : saved_jobs === 1
-                        ? ["1", "0"]
-                        : candidate === 4
-                          ? ["4", "0"]
-                          : profile?.roleData !== 3
-                            ? ["0", "0"]
-                            : ["2", "0"]
+                  ? ["3", "1"]
+                  : community_post && community_post === 30
+                  ? ["3", "0"]
+                  : saved_jobs === 1
+                  ? ["1", "0"]
+                  : candidate === 4
+                  ? ["4", "0"]
+                  : profile?.roleData !== 3
+                  ? ["0", "0"]
+                  : ["2", "0"]
               }
               accordion
               bordered={false}
@@ -269,8 +272,9 @@ const HistoryPost = () => {
                     header={
                       <div
                         onClick={() => handleClickSubTitle(index)}
-                        className={`${ItemLeft === index ? "activeItem" : ""
-                          } panel-title_text font-serif`}
+                        className={`${
+                          ItemLeft === index ? "activeItem" : ""
+                        } panel-title_text font-serif`}
                       >
                         <RightOutlined style={{ fontSize: "12px" }} />
                         <span style={{ marginLeft: "8px" }}>{item.title}</span>
@@ -285,8 +289,8 @@ const HistoryPost = () => {
                             ? "none"
                             : "block"
                           : item?.id === 0
-                            ? "none"
-                            : "block",
+                          ? "none"
+                          : "block",
                     }}
                   >
                     {item.childs.map((child: string, idx: number) => (
@@ -320,7 +324,7 @@ const HistoryPost = () => {
         </Box>
       </div>
       <ShowCancleSave />
-      <RollTop />
+      {/* <RollTop /> */}
     </div>
   );
 };

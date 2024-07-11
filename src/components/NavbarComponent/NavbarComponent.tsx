@@ -78,6 +78,7 @@ const NavbarComponent = (props: Props) => {
         console.error("Error fetching data:", error);
       }
     };
+
     fetchData();
   }, [languageRedux]);
   const handleClickCategory = (id: number) => {
@@ -105,7 +106,7 @@ const NavbarComponent = (props: Props) => {
   }, []);
   return (
     <div
-      className="w-full max-w-6xl relative py-4 overflow-hidden"
+      className="w-screen max-w-6xl relative py-4 overflow-hidden"
       ref={ref_nav}
     >
       {checkPrev && (
@@ -128,7 +129,6 @@ const NavbarComponent = (props: Props) => {
       <ul
         className="flex max-w-fit translate-x-2 item-center text-black select-none"
         ref={ref_list_slider}
-        onMouseDown={handleClickDown}
       >
         {listParentCategory.map((item, index) => (
           <li
@@ -162,7 +162,7 @@ const NavbarComponent = (props: Props) => {
               <div
                 className="border-selected"
                 style={{
-                  backgroundColor: "#d4a650",
+                  backgroundColor: "#3B82F6",
                   height: "2px",
                   width: "100%",
                 }}

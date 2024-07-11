@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-key */
-import React from "react";
+import React, { useRef } from "react";
 import { Box, Typography } from "@mui/material";
 import { Button, message } from "antd";
 import { useSelector } from "react-redux";
@@ -36,6 +36,7 @@ const CardListBlogSave = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -49,7 +50,7 @@ const CardListBlogSave = () => {
         }
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -78,7 +79,7 @@ const CardListBlogSave = () => {
         setIsVisible(false);
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 

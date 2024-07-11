@@ -1,65 +1,67 @@
 .header {
-    .title {
-        color: #2f5097;
-        font-size: 20px;
-        font-weight: 600;
-        font-style: normal;
-    }
+  .title {
+    color: #2f5097;
+    font-size: 20px;
+    font-weight: 600;
+    font-style: normal;
+  }
 }
 
 .login {
-    label {
-        color: #4d5965;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 20px;
-    }
+  label {
+    color: #4d5965;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+  }
 
-    .forgot-password {
-        color: #00b14f;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 20px;
-        text-align: right;
-    }
+  .forgot-password {
+    color: #00b14f;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: right;
+  }
 
-    .move-register {
-        color: #5290e0;
-        font-weight: 600;
-    }
+  .move-register {
+    color: #5290e0;
+    font-weight: 600;
+  }
 
-    .back-login{
-        color: #5290e0;
-        font-weight: 600;
-    }
+  .back-login {
+    color: #5290e0;
+    font-weight: 600;
+  }
 }
 
 .bg-right {
-    background-image: url(https://res.cloudinary.com/ddwjnjssj/image/upload/v1709741967/images/banners/tde00h9gzlhdax3skc7m.jpg);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.7); /* Adjust brightness by changing the last value */
+  background-image: url(https://res.cloudinary.com/ddwjnjssj/image/upload/v1709741967/images/banners/tde00h9gzlhdax3skc7m.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.7); /* Adjust brightness by changing the last value */
 }
-
 
 .basic {
-    font-size: 14px;
-    font-weight: 400;
-    font-style: normal;
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
 }
 
-.back{
-    width: 30px;
-    height: 30px;
-    background: #ffcc00;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.back {
+  width: 30px;
+  height: 30px;
+  background: #006dff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  :hover{
+    color: white;
+  }
 }

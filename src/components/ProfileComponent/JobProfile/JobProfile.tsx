@@ -7,6 +7,7 @@ import TypeJob from "./Modals/TypeJob/TypeJob";
 import axiosClient from "@/configs/axiosClient";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
+import ToastCustom from "@/util/ToastCustom";
 
 type Props = {
   dataInfo: any;
@@ -51,17 +52,18 @@ const JobProfile = (props: Props) => {
   const handleUpdateData = () => {
     const fetchData = async () => {
       const resCat = (await axiosClient.put(
-        "http://localhost:8888/api/v1/profiles/cat",
+        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/cat",
         dataRequest
       )) as unknown as IData;
       const resLoc = (await axiosClient.put(
-        "http://localhost:8888/api/v1/profiles/loc",
+        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/loc",
         dataRequest
       )) as unknown as IData;
       const resType = (await axiosClient.put(
-        "http://localhost:8888/api/v1/profiles/per",
+        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/per",
         dataRequest
       )) as unknown as IData;
+      const { hdError, hdSuccess } = ToastCustom();
       if (
         resCat &&
         resType &&
@@ -69,12 +71,12 @@ const JobProfile = (props: Props) => {
         resLoc &&
         resCat.code === 200 &&
         resLoc.code === 200 &&
-        resType.code === 200 &&
-        resCat.data &&
-        resLoc.data &&
-        resType.data
+        resType.code === 200
       ) {
+        hdSuccess("Cập nhật thông tin liên hệ thành công");
         handleUpdateApi();
+      } else {
+        hdError("Cập nhật thông tin liên hệ không thành công");
       }
     };
     fetchData();
@@ -85,7 +87,7 @@ const JobProfile = (props: Props) => {
         rsJob
           ? "shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] "
           : "border-transparent"
-      } transition-all  p-4 rounded-xl mb-8 relative`}
+      } transition-all  p-4 rounded-xl relative`}
     >
       <div className="flex justify-between flex-wrap mb-8">
         <div className="flex h-fit items-center">

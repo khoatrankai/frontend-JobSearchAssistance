@@ -91,7 +91,7 @@ const CategoryProfile = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        `http://localhost:8888/api/v1/categories?lang=${
+        `https://backend-hcmute-nodejs.onrender.com/api/v1/categories?lang=${
           languageRedux === 1 ? "vi" : "en"
         }`
       )) as unknown as IData;
@@ -120,7 +120,7 @@ const CategoryProfile = (props: Props) => {
               return (
                 <li
                   key={dt}
-                  className={`flex w-fit items-center p-2 border-[1px] rounded-xl ${
+                  className={`flex min-w-fit flex-1 items-center justify-center p-2 border-[1px] rounded-xl ${
                     rsJob ? "border-dashed border-black/30" : ""
                   }`}
                 >

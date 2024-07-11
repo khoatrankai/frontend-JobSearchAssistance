@@ -4,7 +4,7 @@ import Chart from "chart.js/auto";
 import { useSelector } from "react-redux";
 // import { getAnalytics, logEvent } from "@firebase/analytics";
 import { RootState } from "@/redux/reducer";
-import { DataLog, DataLogRecuiter } from "@/app/analytics/typeChart";
+import { DataLog, DataLogRecuiter } from "@/components/Analytics/typeChart";
 interface Dataset {
   label: string;
   data: number[];
@@ -35,12 +35,14 @@ const Chartjs: React.FC<{
   const [selectedYear, setSelectedYear] = useState<number>(2023);
   // const analytics: any = getAnalytics();
   React.useEffect(() => {
-    document.title =
-      languageRedux === 1
-        ? "Tổng quan hoạt động"
-        : languageRedux === 0
-        ? "Activity overview"
-        : "활동 대시보드";
+    // if (typeof document !== "undefined") {
+    //   document.title =
+    //     languageRedux === 1
+    //       ? "Tổng quan hoạt động"
+    //       : languageRedux === 0
+    //       ? "Activity overview"
+    //       : "활동 대시보드";
+    // }
     // logEvent(analytics, "screen_view" as string, {
     //   // screen_name: screenName as string,
     //   page_title: "/web_hotJob" as string,

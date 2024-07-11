@@ -1,31 +1,35 @@
-import React from 'react';
-import{ useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import './style.scss';
-import Card from '@mui/material/Card';
-import Typography from '@mui/material/Typography';
-import ImageListItem from '@mui/material/ImageListItem';
-import { Space, Tooltip } from 'antd';
-import { DolaIcon, LocationHomeIcon, SaveIconFill, SaveIconOutline } from '@/icons';
-import bookMarkApi from '@/api/bookmarks/bookMarkApi';
-import { setAlertCancleSave, setAlertSave } from '@/redux/reducer/alertReducer';
+import React from "react";
+import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
+import "./style.scss";
+import Card from "@mui/material/Card";
+import Typography from "@mui/material/Typography";
+import ImageListItem from "@mui/material/ImageListItem";
+import { Space, Tooltip } from "antd";
+import {
+  DolaIcon,
+  LocationHomeIcon,
+  SaveIconFill,
+  SaveIconOutline,
+} from "@/icons";
+import bookMarkApi from "@/api/bookmarks/bookMarkApi";
+import { setAlertCancleSave, setAlertSave } from "@/redux/reducer/alertReducer";
 
 interface Iprops {
   item?: any;
 }
 
 const JobCard: React.FC<Iprops> = (props) => {
-
   const dispatch = useDispatch();
   const [checkBookMark, setCheckBookMark] = React.useState(true);
   const [error, setError] = React.useState(false);
   const [openModalLogin, setOpenModalLogin] = React.useState(false);
 
   const handleClickItem = (e: React.MouseEvent<HTMLDivElement>, id: number) => {
-    if (location.pathname === '/post-detail') {
-      window.open(`/post-detail/${id}`, '_parent');
+    if (location.pathname === "/post-detail") {
+      window.open(`/post-detail/${id}`, "_parent");
     } else {
-      window.open(`/post-detail/${id}`, '_blank');
+      window.open(`/post-detail/${id}`, "_blank");
     }
   };
 
@@ -42,22 +46,22 @@ const JobCard: React.FC<Iprops> = (props) => {
         /> */}
         <Card
           sx={{
-            position: 'relative',
-            minWidth: '100%',
-            display: 'flex',
-            padding: '12px',
-            cursor: 'pointer',
-            '&:hover': {
-              background: '#E7E7ED',
-              transition: 'all 0.3s linear',
+            position: "relative",
+            minWidth: "100%",
+            display: "flex",
+            padding: "12px",
+            cursor: "pointer",
+            "&:hover": {
+              background: "#E7E7ED",
+              transition: "all 0.3s linear",
             },
-            borderRadius: '12px',
-            justifyContent: 'space-between',
-            backgroundColor: '#ffffff',
-            background: '#ffffff',
-            overlow: 'unset',
+            borderRadius: "12px",
+            justifyContent: "space-between",
+            backgroundColor: "#ffffff",
+            background: "#ffffff",
+            overlow: "unset",
             boxShadow:
-              '0px 2px 1px -1px rgba(0, 0, 0, 0), 0px 1px 1px 0px rgba(0, 0, 0, 0), 0px 1px 3px 0px rgba(0, 0, 0, 0)',
+              "0px 2px 1px -1px rgba(0, 0, 0, 0), 0px 1px 1px 0px rgba(0, 0, 0, 0), 0px 1px 3px 0px rgba(0, 0, 0, 0)",
           }}
           onClick={(e) => {
             handleClickItem(e, props.item.id);
@@ -66,35 +70,35 @@ const JobCard: React.FC<Iprops> = (props) => {
           <ul className="div-card-post-left">
             <ImageListItem
               key={props.item.image}
-              sx={{ flex: 1, display: 'flex' }}
+              sx={{ flex: 1, display: "flex" }}
             >
               <img
                 src={`${props.item.image}?w=164&h=164&fit=crop&auto=format`}
                 srcSet={`${props.item.image}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                 alt={props.item.title}
                 style={{
-                  width: '120px',
-                  height: '120px',
+                  width: "120px",
+                  height: "120px",
                   borderRadius: 10,
                 }}
               />
               <div className="div-card-post-left_info">
-                {' '}
+                {" "}
                 <Tooltip placement="top" title={props.item.title}>
                   <Typography
                     gutterBottom
                     variant="h6"
                     component="div"
                     sx={{
-                      fontSize: '16px',
+                      fontSize: "16px",
                       margin: 0,
-                      whiteSpace: 'nowrap',
-                      width: '100%',
-                      textOverflow: 'ellipsis',
-                      overflow: 'hidden',
-                      fontWeight: '700',
-                      lineheight: '20px',
-                      color: '#000000',
+                      whiteSpace: "nowrap",
+                      width: "100%",
+                      textOverflow: "ellipsis",
+                      overflow: "hidden",
+                      fontWeight: "700",
+                      lineheight: "20px",
+                      color: "#000000",
                       fontFamily: "'Roboto', -apple-system, sans-serif",
                     }}
                   >
@@ -107,14 +111,14 @@ const JobCard: React.FC<Iprops> = (props) => {
                     variant="h6"
                     component="div"
                     sx={{
-                      fontSize: '12px',
-                      whiteSpace: 'nowrap',
-                      width: '100%',
-                      textOverflow: 'ellipsis',
-                      overflow: 'hidden',
-                      fontWeight: '400',
-                      lineheight: '16px',
-                      color: '#575757',
+                      fontSize: "12px",
+                      whiteSpace: "nowrap",
+                      width: "100%",
+                      textOverflow: "ellipsis",
+                      overflow: "hidden",
+                      fontWeight: "400",
+                      lineheight: "16px",
+                      color: "#575757",
                       fontFamily: "'Roboto', -apple-system, sans-serif",
                     }}
                   >
@@ -124,9 +128,9 @@ const JobCard: React.FC<Iprops> = (props) => {
                 <div
                   className="text-card-post-left_info"
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
                   }}
                 >
                   <LocationHomeIcon />
@@ -134,14 +138,14 @@ const JobCard: React.FC<Iprops> = (props) => {
                     variant="body2"
                     color="text.secondary"
                     sx={{
-                      whiteSpace: 'nowrap',
-                      width: '100%',
-                      textOverflow: 'ellipsis',
-                      overflow: 'hidden',
-                      marginLeft: '4px',
-                      fontSize: '12px',
-                      fontWeight: '400',
-                      color: '#000000',
+                      whiteSpace: "nowrap",
+                      width: "100%",
+                      textOverflow: "ellipsis",
+                      overflow: "hidden",
+                      marginLeft: "4px",
+                      fontSize: "12px",
+                      fontWeight: "400",
+                      color: "#000000",
                       fontFamily: "'Roboto', -apple-system, sans-serif",
                     }}
                   >
@@ -151,9 +155,9 @@ const JobCard: React.FC<Iprops> = (props) => {
                 <div
                   className="text-card-post-left_info"
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
                   }}
                 >
                   <DolaIcon />
@@ -161,23 +165,23 @@ const JobCard: React.FC<Iprops> = (props) => {
                     variant="body2"
                     color="text.secondary"
                     sx={{
-                      whiteSpace: 'nowrap',
-                      width: '100%',
-                      textOverflow: 'ellipsis',
-                      overflow: 'hidden',
-                      marginLeft: '4px',
-                      fontSize: '12px',
-                      fontWeight: '400',
-                      color: '#000000',
+                      whiteSpace: "nowrap",
+                      width: "100%",
+                      textOverflow: "ellipsis",
+                      overflow: "hidden",
+                      marginLeft: "4px",
+                      fontSize: "12px",
+                      fontWeight: "400",
+                      color: "#000000",
                       fontFamily: "'Roboto', -apple-system, sans-serif",
                     }}
                   >
-                    {new Intl.NumberFormat('en-US').format(
-                      props.item.salary_min,
-                    )}{' '}
-                    {props?.item?.money_type_text} -{' '}
-                    {new Intl.NumberFormat('en-US').format(
-                      props.item.salary_max,
+                    {new Intl.NumberFormat("en-US").format(
+                      props.item.salary_min
+                    )}{" "}
+                    {props?.item?.money_type_text} -{" "}
+                    {new Intl.NumberFormat("en-US").format(
+                      props.item.salary_max
                     ) +
                       ` ${props?.item?.money_type_text}` +
                       `/${props.item.salary_type}`}
@@ -190,10 +194,10 @@ const JobCard: React.FC<Iprops> = (props) => {
                 >
                   <p
                     style={{
-                      color: '#575757',
+                      color: "#575757",
                       fontSize: 12,
-                      fontStyle: 'italic',
-                      fontWeight: '400',
+                      fontStyle: "italic",
+                      fontWeight: "400",
                       fontFamily: "'Roboto', -apple-system, sans-serif",
                     }}
                   >
@@ -205,32 +209,32 @@ const JobCard: React.FC<Iprops> = (props) => {
           </ul>
 
           <Space
-            style={{ justifyContent: 'space-between' }}
+            style={{ justifyContent: "space-between" }}
             direction="vertical"
             align="center"
             className="div-card-post-right"
           >
             <div
               style={{
-                display: 'flex',
-                alignItems: 'flex-end',
-                justifyContent: 'center',
-                flexDirection: 'column',
+                display: "flex",
+                alignItems: "flex-end",
+                justifyContent: "center",
+                flexDirection: "column",
               }}
             >
               <div
                 onClick={async (e) => {
                   try {
                     e.stopPropagation();
-                    // console.log('props.item, ', props.item);
+                    // //console.log('props.item, ', props.item);
 
-                    if (!localStorage.getItem('accessToken')) {
+                    if (!localStorage.getItem("accessToken")) {
                       setOpenModalLogin(true);
                       return;
                     }
                     if (props.item.bookmarked) {
                       const result = await bookMarkApi.deleteBookMark(
-                        props.item.id,
+                        props.item.id
                       );
                       props.item.bookmarked = false;
                       if (result) {
@@ -239,7 +243,7 @@ const JobCard: React.FC<Iprops> = (props) => {
                       }
                     } else {
                       const result = await bookMarkApi.createBookMark(
-                        props.item.id,
+                        props.item.id
                       );
                       props.item.bookmarked = true;
                       if (result) {
@@ -248,7 +252,7 @@ const JobCard: React.FC<Iprops> = (props) => {
                       }
                     }
                   } catch (error) {
-                    console.log(error);
+                    //console.log(error);
                   }
                 }}
               >
@@ -265,7 +269,7 @@ const JobCard: React.FC<Iprops> = (props) => {
                     src={
                       props.item.resource.company_icon
                         ? props.item.resource.company_icon
-                        : ''
+                        : ""
                     }
                     alt="ảnh"
                   />
@@ -277,7 +281,7 @@ const JobCard: React.FC<Iprops> = (props) => {
             <p
               style={{
                 fontSize: 12,
-                color: '#d4a650',
+                color: "#d4a650",
                 fontWeight: 500,
                 fontFamily: "'Roboto', -apple-system, sans-serif",
               }}

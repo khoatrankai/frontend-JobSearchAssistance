@@ -87,7 +87,7 @@ const EditImageCompany: React.FC<IEditImageCompany> = (props) => {
             }));
           }
         } catch (error) {
-          console.log(error);
+          //console.log(error);
         }
       }
     }

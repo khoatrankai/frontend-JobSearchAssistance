@@ -5,6 +5,7 @@ import axiosClient from "@/configs/axiosClient";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
 import { Input } from "antd";
+import ToastCustom from "@/util/ToastCustom";
 
 type Props = {
   dataInfo: any;
@@ -23,6 +24,7 @@ const LanguageProfile = (props: Props) => {
     (state: RootState) => state.changeLaguage.language
   );
   const [dataRequest, setDataRequest] = useState<any>([]);
+  const { hdError, hdSuccess } = ToastCustom();
   const [dataAdd, setDataAdd] = useState<any>([]);
   const [dataRemove, setDataRemove] = useState<any>({ ids: [] });
   const [dataLevel, setDataLevel] = useState<any>([]);
@@ -156,7 +158,7 @@ const LanguageProfile = (props: Props) => {
     let check = true;
     if (dt.api) {
       const resUp = (await axiosClient.put(
-        `http://localhost:1902/api/v3/profile-languages/${dt.id}`,
+        `https://backend-hcmute-nestjs.onrender.com/api/v3/profile-languages/${dt.id}`,
         { languageName: dt.languageName, languageLevelId: dt.languageLevelId }
       )) as unknown as IData;
       if (resUp?.statusCode !== 200) {
@@ -174,7 +176,7 @@ const LanguageProfile = (props: Props) => {
   };
   const fetchCreatedata = async (dt: any) => {
     const resUp = (await axiosClient.post(
-      "http://localhost:1902/api/v3/profile-languages",
+      "https://backend-hcmute-nestjs.onrender.com/api/v3/profile-languages",
       dt,
       {
         headers: {
@@ -192,7 +194,7 @@ const LanguageProfile = (props: Props) => {
       let resRemove = { statusCode: 200, data: [] };
       if (dataRemove.ids.length > 0) {
         resRemove = (await axiosClient.delete(
-          "http://localhost:1902/api/v3/profile-languages/remove",
+          "https://backend-hcmute-nestjs.onrender.com/api/v3/profile-languages/remove",
           { data: dataRemove }
         )) as unknown as IData;
       }
@@ -203,9 +205,12 @@ const LanguageProfile = (props: Props) => {
         if (resUp === 200) {
           const resCre = await handleApiCreate();
           if (resCre === 201) {
+            hdSuccess("Cập nhật thông tin ngoại ngữ thành công");
             setDataAdd([]);
             handleUpdateApi();
             setLanguage(!rsLanguage);
+          } else {
+            hdError("Cập nhật thông tin ngoại ngữ không thành công");
           }
         }
       }

@@ -1,26 +1,26 @@
-import React from 'react';
+import React from "react";
 
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 //import scss
-import './style.scss';
+import "./style.scss";
 
 //MUI
-import Card from '@mui/material/Card';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import ImageListItem from '@mui/material/ImageListItem';
+import Card from "@mui/material/Card";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import ImageListItem from "@mui/material/ImageListItem";
 
-import {Space, Tooltip} from 'antd';
+import { Space, Tooltip } from "antd";
 
-import moment from 'moment';
-import {setAlertCancleSave, setAlertSave} from '@/redux/reducer/alertReducer';
+import moment from "moment";
+import { setAlertCancleSave, setAlertSave } from "@/redux/reducer/alertReducer";
 import {
   DolaIcon,
   LocationHomeIcon,
   SaveIconFill,
   SaveIconOutline,
-} from '@/icons';
-import bookMarkApi from '@/api/bookmarks/bookMarkApi';
+} from "@/icons";
+import bookMarkApi from "@/api/bookmarks/bookMarkApi";
 
 interface IitemNewJob {
   item: {
@@ -55,7 +55,7 @@ interface IitemNewJob {
 }
 
 const JobCardHistory: React.FC<IitemNewJob> = (props) => {
-  const {language, languageRedux} = props;
+  const { language, languageRedux } = props;
   const dispatch = useDispatch();
   const [checkBookMark, setCheckBookMark] = React.useState(true);
   const [error, setError] = React.useState(false);
@@ -73,54 +73,57 @@ const JobCardHistory: React.FC<IitemNewJob> = (props) => {
     <>
       <Card
         sx={{
-          minWidth: '100%',
-          display: 'flex',
-          padding: '12px',
-          cursor: 'pointer',
-          margin: '10px 0',
-          '&:hover': {
-            background: '#E7E7ED',
-            transition: 'all 0.3s linear',
+          minWidth: "100%",
+          display: "flex",
+          padding: "12px",
+          cursor: "pointer",
+          margin: "10px 0",
+          "&:hover": {
+            background: "#E7E7ED",
+            transition: "all 0.3s linear",
           },
-          boxShadow: 'none',
-          borderRadius: '5px',
-          justifyContent: 'space-between',
+          boxShadow: "none",
+          borderRadius: "5px",
+          justifyContent: "space-between",
         }}
         onClick={(e) => {
           handleClickItem(e, props.item.post_id);
         }}
       >
         <ul className="div-card-post-left">
-          <ImageListItem key={props.item.image} sx={{flex: 1, display: 'flex'}}>
+          <ImageListItem
+            key={props.item.image}
+            sx={{ flex: 1, display: "flex" }}
+          >
             <img
               src={`${props.item.image}?w=164&h=164&fit=crop&auto=format`}
               srcSet={`${props.item.image}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
               alt={props.item.title}
               style={{
-                width: '120px',
-                height: '120px',
-                minWidth: '120px',
-                minHeight: '120px',
+                width: "120px",
+                height: "120px",
+                minWidth: "120px",
+                minHeight: "120px",
                 borderRadius: 10,
               }}
             />
             <div className="div-card-post-left_info">
-              {' '}
+              {" "}
               <Tooltip placement="top" title={props.item.title}>
                 <Typography
                   gutterBottom
                   variant="h6"
                   component="div"
                   sx={{
-                    fontSize: '16px',
+                    fontSize: "16px",
                     margin: 0,
-                    whiteSpace: 'nowrap',
-                    width: '100%',
-                    textOverflow: 'ellipsis',
-                    overflow: 'hidden',
-                    fontWeight: '700',
-                    lineheight: '20px',
-                    color: '#575757',
+                    whiteSpace: "nowrap",
+                    width: "100%",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    fontWeight: "700",
+                    lineheight: "20px",
+                    color: "#575757",
                   }}
                 >
                   {props?.item?.title}
@@ -132,14 +135,14 @@ const JobCardHistory: React.FC<IitemNewJob> = (props) => {
                   variant="h6"
                   component="div"
                   sx={{
-                    fontSize: '12px',
-                    whiteSpace: 'nowrap',
-                    width: '100%',
-                    textOverflow: 'ellipsis',
-                    overflow: 'hidden',
-                    fontWeight: '400',
-                    lineheight: '16px',
-                    color: '#575757',
+                    fontSize: "12px",
+                    whiteSpace: "nowrap",
+                    width: "100%",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    fontWeight: "400",
+                    lineheight: "16px",
+                    color: "#575757",
                   }}
                 >
                   {props?.item?.company_name}
@@ -147,9 +150,9 @@ const JobCardHistory: React.FC<IitemNewJob> = (props) => {
               </Tooltip>
               <div
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-start',
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
                 }}
               >
                 <LocationHomeIcon />
@@ -157,13 +160,13 @@ const JobCardHistory: React.FC<IitemNewJob> = (props) => {
                   variant="body2"
                   color="text.secondary"
                   sx={{
-                    whiteSpace: 'nowrap',
-                    width: '100%',
-                    textOverflow: 'ellipsis',
-                    overflow: 'hidden',
-                    marginLeft: '4px',
-                    fontSize: '12px',
-                    fontWeight: '400',
+                    whiteSpace: "nowrap",
+                    width: "100%",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    marginLeft: "4px",
+                    fontSize: "12px",
+                    fontWeight: "400",
                   }}
                 >
                   {`${props.item.district}, ${props.item.province}`}
@@ -171,9 +174,9 @@ const JobCardHistory: React.FC<IitemNewJob> = (props) => {
               </div>
               <div
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-start',
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
                 }}
               >
                 <DolaIcon />
@@ -181,19 +184,19 @@ const JobCardHistory: React.FC<IitemNewJob> = (props) => {
                   variant="body2"
                   color="text.secondary"
                   sx={{
-                    whiteSpace: 'nowrap',
-                    width: '100%',
-                    textOverflow: 'ellipsis',
-                    overflow: 'hidden',
-                    marginLeft: '4px',
-                    fontSize: '12px',
-                    fontWeight: '400',
+                    whiteSpace: "nowrap",
+                    width: "100%",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    marginLeft: "4px",
+                    fontSize: "12px",
+                    fontWeight: "400",
                   }}
                 >
-                  {new Intl.NumberFormat('en-US').format(props.item.salary_min)}{' '}
-                  {props.item?.money_type_text} -{' '}
-                  {new Intl.NumberFormat('en-US').format(
-                    props.item.salary_max,
+                  {new Intl.NumberFormat("en-US").format(props.item.salary_min)}{" "}
+                  {props.item?.money_type_text} -{" "}
+                  {new Intl.NumberFormat("en-US").format(
+                    props.item.salary_max
                   ) +
                     ` ${props.item?.money_type_text}` +
                     `/${props.item.salary_type}`}
@@ -206,10 +209,10 @@ const JobCardHistory: React.FC<IitemNewJob> = (props) => {
               >
                 <p
                   style={{
-                    color: '#AAAAAA',
-                    fontSize: '12px',
-                    fontStyle: 'italic',
-                    fontWeight: '400',
+                    color: "#AAAAAA",
+                    fontSize: "12px",
+                    fontStyle: "italic",
+                    fontWeight: "400",
                   }}
                 >
                   {props.item.created_at_text}
@@ -219,36 +222,36 @@ const JobCardHistory: React.FC<IitemNewJob> = (props) => {
           </ImageListItem>
           <Box
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              marginTop: '12px',
+              display: "flex",
+              alignItems: "center",
+              marginTop: "12px",
             }}
           >
             <p
               style={{
-                color: '#001424',
-                fontSize: '12px',
-                fontStyle: 'italic',
-                fontWeight: '400',
+                color: "#001424",
+                fontSize: "12px",
+                fontStyle: "italic",
+                fontWeight: "400",
               }}
             >
-              {language?.posted_on}{' '}
+              {language?.posted_on}{" "}
               {props.item?.created_at != null
-                ? moment(props.item?.created_at).format('DD/MM/YYYY') +
-                  ' ' +
-                  moment(new Date(props.item?.created_at)).format('HH:mm')
-                : 'Chưa cập nhật'}
+                ? moment(props.item?.created_at).format("DD/MM/YYYY") +
+                  " " +
+                  moment(new Date(props.item?.created_at)).format("HH:mm")
+                : "Chưa cập nhật"}
             </p>
             {props.item?.application_status === 1 ? (
               <p
                 style={{
-                  background: '#d4a650',
-                  padding: '4px 12px',
-                  borderRadius: '15px',
-                  color: '#ffffff',
-                  marginLeft: '100px',
-                  fontStyle: 'italic',
-                  fontSize: '12px',
+                  background: "#d4a650",
+                  padding: "4px 12px",
+                  borderRadius: "15px",
+                  color: "#ffffff",
+                  marginLeft: "100px",
+                  fontStyle: "italic",
+                  fontSize: "12px",
                 }}
               >
                 {languageApi === 1 ? `Đang tuyển` : `Currently recruiting`}
@@ -256,13 +259,13 @@ const JobCardHistory: React.FC<IitemNewJob> = (props) => {
             ) : props.item?.application_status === 3 ? (
               <p
                 style={{
-                  background: 'red',
-                  padding: '4px 12px',
-                  borderRadius: '15px',
-                  color: '#ffffff',
-                  marginLeft: '100px',
-                  fontStyle: 'italic',
-                  fontSize: '12px',
+                  background: "red",
+                  padding: "4px 12px",
+                  borderRadius: "15px",
+                  color: "#ffffff",
+                  marginLeft: "100px",
+                  fontStyle: "italic",
+                  fontSize: "12px",
                 }}
               >
                 {languageApi === 1 ? `Từ chối` : `Not accepted`}
@@ -270,13 +273,13 @@ const JobCardHistory: React.FC<IitemNewJob> = (props) => {
             ) : props.item?.application_status === 4 ? (
               <p
                 style={{
-                  background: 'rgb(69 141 88)',
-                  padding: '4px 12px',
-                  borderRadius: '15px',
-                  color: '#ffffff',
-                  marginLeft: '100px',
-                  fontStyle: 'italic',
-                  fontSize: '12px',
+                  background: "rgb(69 141 88)",
+                  padding: "4px 12px",
+                  borderRadius: "15px",
+                  color: "#ffffff",
+                  marginLeft: "100px",
+                  fontStyle: "italic",
+                  fontSize: "12px",
                 }}
               >
                 {languageApi === 1 ? `Đã được tuyển` : `Recruited`}
@@ -284,13 +287,13 @@ const JobCardHistory: React.FC<IitemNewJob> = (props) => {
             ) : (
               <p
                 style={{
-                  background: '#aaaaaa',
-                  padding: '4px 12px',
-                  borderRadius: '15px',
-                  color: '#ffffff',
-                  marginLeft: '100px',
-                  fontStyle: 'italic',
-                  fontSize: '12px',
+                  background: "#aaaaaa",
+                  padding: "4px 12px",
+                  borderRadius: "15px",
+                  color: "#ffffff",
+                  marginLeft: "100px",
+                  fontStyle: "italic",
+                  fontSize: "12px",
                 }}
               >
                 {languageApi === 1 ? `Đã đóng` : `Post is closed`}
@@ -300,28 +303,28 @@ const JobCardHistory: React.FC<IitemNewJob> = (props) => {
         </ul>
 
         <Space
-          style={{justifyContent: 'space-between'}}
+          style={{ justifyContent: "space-between" }}
           direction="vertical"
           align="center"
           className="div-card-post-right"
         >
           <div
             style={{
-              display: 'flex',
-              alignItems: 'flex-end',
-              justifyContent: 'center',
-              flexDirection: 'column',
+              display: "flex",
+              alignItems: "flex-end",
+              justifyContent: "center",
+              flexDirection: "column",
             }}
           >
             <div
               onClick={async (e) => {
                 try {
                   e.stopPropagation();
-                  // console.log('props.item ', props.item);
+                  // //console.log('props.item ', props.item);
 
                   if (props.item.bookmarked) {
                     const result = await bookMarkApi.deleteBookMark(
-                      props.item.post_id,
+                      props.item.post_id
                     );
                     props.item.bookmarked = false;
                     if (result) {
@@ -330,7 +333,7 @@ const JobCardHistory: React.FC<IitemNewJob> = (props) => {
                     }
                   } else {
                     const result = await bookMarkApi.createBookMark(
-                      props.item.post_id,
+                      props.item.post_id
                     );
                     props.item.bookmarked = true;
                     if (result) {
@@ -339,7 +342,7 @@ const JobCardHistory: React.FC<IitemNewJob> = (props) => {
                     }
                   }
                 } catch (error) {
-                  console.log(error);
+                  //console.log(error);
                 }
               }}
             >
@@ -356,7 +359,7 @@ const JobCardHistory: React.FC<IitemNewJob> = (props) => {
                   src={
                     props.item.resource.company_icon
                       ? props.item.resource.company_icon
-                      : ''
+                      : ""
                   }
                   alt="ảnh"
                   onError={handleImageError}
@@ -364,7 +367,7 @@ const JobCardHistory: React.FC<IitemNewJob> = (props) => {
               )}
             </div>
           </div>
-          <p style={{fontSize: '12px', color: '#d4a650', fontWeight: 500}}>
+          <p style={{ fontSize: "12px", color: "#d4a650", fontWeight: 500 }}>
             {props.item.job_type.job_type_name}
           </p>
         </Space>

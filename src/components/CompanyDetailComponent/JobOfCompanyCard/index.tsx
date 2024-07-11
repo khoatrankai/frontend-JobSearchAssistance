@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./style.module.scss";
 import Card from "@mui/material/Card";
@@ -14,7 +14,8 @@ import {
   SaveIconFill,
   SaveIconOutline,
 } from "@/icons";
-import ModalLogin from "@/components/ModalLogin/ModalLogin";
+import { toast } from "react-toastify";
+
 interface Iprops {
   item: any;
   accountId: any;
@@ -113,6 +114,18 @@ const JobOfCompanyCard: React.FC<Iprops> = (props) => {
                         setOpenModalLogin(true);
                         return;
                       }
+                      if (!profileInfoV3?.isActive) {
+                        toast.error("Vui lòng xác thực", {
+                          position: "bottom-center",
+                          autoClose: 3000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                        });
+                        return;
+                      }
                       if (props.item?.bookmarked) {
                         const result = await bookMarkApi.deleteBookMark(
                           props.item?.id
@@ -133,7 +146,7 @@ const JobOfCompanyCard: React.FC<Iprops> = (props) => {
                         }
                       }
                     } catch (error) {
-                      console.log(error);
+                      //console.log(error);
                     }
                   }}
                 >
@@ -256,10 +269,6 @@ const JobOfCompanyCard: React.FC<Iprops> = (props) => {
           </ImageListItem>
         </ul>
       </Card>
-      <ModalLogin
-        isOpen={openModalLogin}
-        handleToggleModal={() => setOpenModalLogin(!openModalLogin)}
-      />
     </>
   );
 };

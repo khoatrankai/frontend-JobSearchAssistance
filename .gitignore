@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/next
+/ckeditor
 /.pnp
 .pnp.js
 

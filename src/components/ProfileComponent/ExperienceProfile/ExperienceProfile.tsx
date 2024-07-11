@@ -6,6 +6,7 @@ import ExperienceModal from "./Modal/ExperienceModal";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
 import Validate from "@/util/Validate/Validate";
+import ToastCustom from "@/util/ToastCustom";
 
 type Props = {
   dataInfo: any;
@@ -20,6 +21,7 @@ interface IData {
 const ExperienceProfile = (props: Props) => {
   const { dataInfo, handleUpdateApi } = props;
   const { ModalValidate } = Validate();
+  const { hdError, hdSuccess } = ToastCustom();
   const [checkModal, setCheckModal] = useState<boolean>(false);
   const [idRemove, setIdRemove] = useState<any>();
   const { handleConvertToDate } = TimeStamp();
@@ -37,11 +39,14 @@ const ExperienceProfile = (props: Props) => {
 
   const handleRemove = async (id: number) => {
     const res = (await axiosClient.put(
-      "http://localhost:8888/api/v1/profiles/exp/d",
+      "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/exp/d",
       { experienceId: id }
     )) as unknown as IData;
     if (res && res.code === 200) {
+      hdSuccess("Xóa thông tin thành công");
       handleUpdateApi();
+    } else {
+      hdError("Xóa thông tin không thành công");
     }
   };
   const handleUpdate = (index: number) => {
@@ -75,7 +80,7 @@ const ExperienceProfile = (props: Props) => {
         rsExp
           ? "shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] "
           : "border-transparent"
-      } p-4 rounded-xl mb-8 relative`}
+      } p-4 rounded-xl relative`}
     >
       {checkModal &&
         ModalValidate(

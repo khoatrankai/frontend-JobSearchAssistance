@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import moment from 'moment';
-import Card from '@mui/material/Card';
-import { Box, Typography, Button } from '@mui/material';
-import PersonIcon from '@mui/icons-material/Person';
-import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import './styles.scss';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/reducer';
-import postsApi from '@/api/posts/postsApi';
-import historyRecruiter from '@/api/history/historyRecruiter';
-import JobCardDetailPostedHistory from '../JobCardDetailedHistory';
+import React, { useEffect, useState } from "react";
+import moment from "moment";
+import Card from "@mui/material/Card";
+import { Box, Typography, Button } from "@mui/material";
+import PersonIcon from "@mui/icons-material/Person";
+import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import "./styles.scss";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/reducer";
+import postsApi from "@/api/posts/postsApi";
+import historyRecruiter from "@/api/history/historyRecruiter";
+import JobCardDetailPostedHistory from "../JobCardDetailedHistory";
 
 interface IDetailPosted {
   detailPosted: any;
@@ -18,8 +18,12 @@ interface IDetailPosted {
 
 const DetailPosted: React.FC<IDetailPosted> = (props) => {
   const { detailPosted } = props;
-  const languageRedux = useSelector((state: RootState) => state.changeLaguage.language);
-  const language = useSelector((state: RootState) => state.dataLanguage.languages);
+  const languageRedux = useSelector(
+    (state: RootState) => state.changeLaguage.language
+  );
+  const language = useSelector(
+    (state: RootState) => state.dataLanguage.languages
+  );
   const [dataCandidates, setDadaCandidates] = useState<any>(null);
   const [status, setStatus] = useState(detailPosted?.status);
   const [post, setPost] = React.useState<any>();
@@ -28,7 +32,7 @@ const DetailPosted: React.FC<IDetailPosted> = (props) => {
     try {
       const result = await postsApi.getPostV3(
         detailPosted?.id,
-        languageRedux === 1 ? 'vi' : 'en',
+        languageRedux === 1 ? "vi" : "en"
       );
       if (result) {
         setPost(result.data);
@@ -39,8 +43,8 @@ const DetailPosted: React.FC<IDetailPosted> = (props) => {
   };
 
   useEffect(() => {
-    getPostById()
-  }, [languageRedux])
+    getPostById();
+  }, [languageRedux]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -50,57 +54,57 @@ const DetailPosted: React.FC<IDetailPosted> = (props) => {
     {
       id: 1,
       statusId: 0,
-      statusName: '',
-      background: '#d4a650',
-      position: '0%',
-      borderRadius: '50%',
-      width: '16px',
-      height: '16px',
-      padding: '0px',
+      statusName: "",
+      background: "#d4a650",
+      position: "0%",
+      borderRadius: "50%",
+      width: "16px",
+      height: "16px",
+      padding: "0px",
     },
     {
       id: 2,
       statusId: 1,
-      statusName: 'Đã xem',
-      background: '#aaaaaa',
-      position: '60%',
-      borderRadius: '15px',
-      width: 'unset',
-      height: 'unset',
-      padding: '4px 16px',
+      statusName: "Đã xem",
+      background: "#aaaaaa",
+      position: "60%",
+      borderRadius: "15px",
+      width: "unset",
+      height: "unset",
+      padding: "4px 16px",
     },
     {
       id: 3,
       statusId: 2,
-      statusName: 'Đã được duyệt',
-      background: '#5cb265',
-      position: '60%',
-      borderRadius: '15px',
-      width: 'unset',
-      height: 'unset',
-      padding: '4px 16px',
+      statusName: "Đã được duyệt",
+      background: "#5cb265",
+      position: "60%",
+      borderRadius: "15px",
+      width: "unset",
+      height: "unset",
+      padding: "4px 16px",
     },
     {
       id: 4,
       statusId: 3,
-      statusName: 'Đã từ chối',
-      background: '#BD3131',
-      position: '60%',
-      borderRadius: '15px',
-      width: 'unset',
-      height: 'unset',
-      padding: '4px 16px',
+      statusName: "Đã từ chối",
+      background: "#BD3131",
+      position: "60%",
+      borderRadius: "15px",
+      width: "unset",
+      height: "unset",
+      padding: "4px 16px",
     },
     {
       id: 5,
       statusId: 4,
-      statusName: 'Đã tuyển ứng viên này',
-      background: '#d4a650',
-      position: '60%',
-      borderRadius: '15px',
-      width: 'unset',
-      height: 'unset',
-      padding: '4px 16px',
+      statusName: "Đã tuyển ứng viên này",
+      background: "#d4a650",
+      position: "60%",
+      borderRadius: "15px",
+      width: "unset",
+      height: "unset",
+      padding: "4px 16px",
     },
   ];
 
@@ -110,14 +114,14 @@ const DetailPosted: React.FC<IDetailPosted> = (props) => {
         detailPosted?.post_id,
         5,
         null,
-        languageRedux === 1 ? "vi" : "en",
+        languageRedux === 1 ? "vi" : "en"
       );
 
       if (result) {
         setDadaCandidates(result.data);
       }
     } catch (error) {
-      console.log('error', error);
+      //console.log('error', error);
     }
   };
 
@@ -129,10 +133,10 @@ const DetailPosted: React.FC<IDetailPosted> = (props) => {
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     applicationId: number,
     postId: number,
-    accountId: string,
+    accountId: string
   ) => {
     window.open(
-      `/history-detail-candidate?post-id=${postId}&application_id=${applicationId}&accountId=${accountId}`,
+      `/history-detail-candidate?post-id=${postId}&application_id=${applicationId}&accountId=${accountId}`
     );
   };
 
@@ -147,31 +151,33 @@ const DetailPosted: React.FC<IDetailPosted> = (props) => {
         languageRedux={languageRedux}
       />
       <Box>
-        <h3 style={{ margin: '12px 0' }}>
-          {
-            'Danh sách ứng viên'
-          }
-        </h3>
+        <h3 style={{ margin: "12px 0" }}>{"Danh sách ứng viên"}</h3>
         {dataCandidates?.applications.map((candidate: any, index: number) => (
           <Card
             key={index}
             sx={{
-              minWidth: '100%',
-              display: 'flex',
-              padding: '12px',
-              cursor: 'pointer',
-              '&:hover': {
-                background: '#e5e5fb',
-                transition: 'all 0.3s linear',
+              minWidth: "100%",
+              display: "flex",
+              padding: "12px",
+              cursor: "pointer",
+              "&:hover": {
+                background: "#e5e5fb",
+                transition: "all 0.3s linear",
               },
-              boxShadow: 'none',
-              borderRadius: '5px',
-              margin: '8px 0',
-              background: `${candidate.application_status === 0 ? '#F3F8FB' : '#ffffff'
-                }`,
+              boxShadow: "none",
+              borderRadius: "5px",
+              margin: "8px 0",
+              background: `${
+                candidate.application_status === 0 ? "#F3F8FB" : "#ffffff"
+              }`,
             }}
             onClick={(e) =>
-              handleClickCandidate(e, candidate.id, detailPosted?.id, candidate.account_id)
+              handleClickCandidate(
+                e,
+                candidate.id,
+                detailPosted?.id,
+                candidate.account_id
+              )
             }
           >
             <div className="image-cadidate_wrap">
@@ -185,18 +191,18 @@ const DetailPosted: React.FC<IDetailPosted> = (props) => {
                 <div className="image-cadidate"></div>
               )}
             </div>
-            <Box sx={{ marginLeft: '12px' }}>
+            <Box sx={{ marginLeft: "12px" }}>
               <div
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  position: 'relative',
+                  display: "flex",
+                  alignItems: "center",
+                  position: "relative",
                 }}
               >
                 <Typography
                   variant="h6"
                   color="text.secondary"
-                  sx={{ marginLeft: '12px' }}
+                  sx={{ marginLeft: "12px" }}
                 >
                   {candidate.name}
                 </Typography>
@@ -212,12 +218,12 @@ const DetailPosted: React.FC<IDetailPosted> = (props) => {
                           background: `${statusCandidate.background}`,
                           padding: `${statusCandidate.padding}`,
                           borderRadius: `${statusCandidate.borderRadius}`,
-                          color: '#ffffff',
+                          color: "#ffffff",
                           right: `${statusCandidate.position}`,
                           width: `${statusCandidate.width}`,
                           height: `${statusCandidate.height}`,
-                          marginLeft: '60px',
-                          fontStyle: 'italic  ',
+                          marginLeft: "60px",
+                          fontStyle: "italic  ",
                         }}
                       >
                         {statusCandidate.statusName}
@@ -230,10 +236,8 @@ const DetailPosted: React.FC<IDetailPosted> = (props) => {
               <div className="item-candidate">
                 <PersonIcon fontSize="small" className="icon-candidate" />
                 <p>
-                  {candidate.gender === 0 ?
-                    'Nữ'
-                    : 'Nam'} -{' '}
-                  {moment(candidate.birthday).format('DD/MM/YYYY')}
+                  {candidate.gender === 0 ? "Nữ" : "Nam"} -{" "}
+                  {moment(candidate.birthday).format("DD/MM/YYYY")}
                 </p>
               </div>
               <div className="item-candidate">
@@ -246,9 +250,7 @@ const DetailPosted: React.FC<IDetailPosted> = (props) => {
                   className="icon-candidate"
                 />
                 <p>
-                  {
-                    'Lĩnh vực quan tâm'
-                  }{' '}
+                  {"Lĩnh vực quan tâm"}{" "}
                   {candidate.categories.map((candid: any, index: number) => (
                     <span key={index}> {candid.child_category}, </span>
                   ))}
@@ -259,18 +261,14 @@ const DetailPosted: React.FC<IDetailPosted> = (props) => {
         ))}
         <Box
           sx={{
-            margin: '12px auto',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            margin: "12px auto",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           {dataCandidates?.length > 0 ? (
-            <Button variant="contained">
-              {
-                language?.more
-              }
-            </Button>
+            <Button variant="contained">{language?.more}</Button>
           ) : (
             <></>
           )}

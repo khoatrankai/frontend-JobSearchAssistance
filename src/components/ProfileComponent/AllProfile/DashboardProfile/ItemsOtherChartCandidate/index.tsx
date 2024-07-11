@@ -1,10 +1,10 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import { Col, Row } from "antd";
 import styles from "./style.module.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/reducer";
-import { DataLog, DataLogRecuiter } from "@/app/analytics/typeChart";
+import { DataLog, DataLogRecuiter } from "@/components/Analytics/typeChart";
 import {
   ChartCompanySave,
   ChartCompanyView,
@@ -15,7 +15,10 @@ import {
   SearchedChart,
 } from "@/icons";
 import CustomSkeleton from "@/components/CustomSkeleton";
-import { PropItemOther, PropItemValue } from "@/components/LogChartComponent/typeChart";
+import {
+  PropItemOther,
+  PropItemValue,
+} from "@/components/LogChartComponent/typeChart";
 
 const ItemsOtherChartCandidate: React.FC<{
   dataLog: DataLog | undefined;
@@ -39,8 +42,8 @@ const ItemsOtherChartCandidate: React.FC<{
             ? "Lượt công ty lưu hồ sơ"
             : "Number of companies saved the profile"
           : languageRedux === 1
-            ? "Lượt ứng viên xem công ty"
-            : "Number of candidates viewed the company",
+          ? "Lượt ứng viên xem công ty"
+          : "Number of candidates viewed the company",
         icon: dataLog ? <ChartCompanyView /> : <ChartPerson />,
         total: dataLog
           ? dataLog?.saveYourCompanyLogs
@@ -54,8 +57,8 @@ const ItemsOtherChartCandidate: React.FC<{
             ? "Lượt công ty xem hồ sơ"
             : "Number of companies that viewed the profile"
           : languageRedux === 1
-            ? "Lượt ứng viên theo dõi công ty"
-            : "Number of candidates following the company",
+          ? "Lượt ứng viên theo dõi công ty"
+          : "Number of candidates following the company",
 
         icon: dataLog ? <SearchedChart /> : <ChartCompanySave />,
         total: dataLog
@@ -80,9 +83,7 @@ const ItemsOtherChartCandidate: React.FC<{
     otherBottom: [
       {
         id: 1,
-        title: languageRedux === 1 ?
-          "Bài blog đã tạo"
-          : "createCommunityLogs",
+        title: languageRedux === 1 ? "Bài blog đã tạo" : "createCommunityLogs",
         icon: <ChartPostSave />,
         total: dataLog
           ? dataLog?.createCommunityLogs
@@ -93,10 +94,7 @@ const ItemsOtherChartCandidate: React.FC<{
       },
       {
         id: 2,
-        title: 
-          languageRedux === 1
-            ? "Bài blog đã lưu"
-            : "saveCommunityLogs",
+        title: languageRedux === 1 ? "Bài blog đã lưu" : "saveCommunityLogs",
         icon: <ChartPostCreate />,
         total: dataLog
           ? dataLog?.saveCommunityLogs
@@ -117,33 +115,33 @@ const ItemsOtherChartCandidate: React.FC<{
               ? "Công ty quan tâm đến bạn"
               : "The company cares about you"
             : languageRedux === 1
-              ? "Ứng viên theo dõi công ty của bạn"
-              : "Candidates follow your company"}
+            ? "Ứng viên theo dõi công ty của bạn"
+            : "Candidates follow your company"}
         </h3>
         <Row className={styles.row} align="top">
           {(dataLog && !dataLogRecruiter) || (!dataLog && dataLogRecruiter)
-            ? itemsOther.otherTop.map((other: PropItemValue) => (
-              <Col span={6} className={styles.col} key={""}>
-                <div className={`${styles.col_left} col_left__itemsChart`}>
-                  {other.icon}
-                </div>
-                <div className={styles.col_right}>
-                  <div className={styles.col_right__top}>
-                    <span className={styles.col_right__topValue1}>
-                      {other.total}
-                    </span>
+            ? itemsOther.otherTop.map((other: PropItemValue, index: any) => (
+                <Col span={6} className={styles.col} key={index}>
+                  <div className={`${styles.col_left} col_left__itemsChart`}>
+                    {other.icon}
                   </div>
-                  <div className={styles.col_right__bottom}>
-                    <p className={styles.col_right__bottomText}>
-                      {other.title}
-                    </p>
+                  <div className={styles.col_right}>
+                    <div className={styles.col_right__top}>
+                      <span className={styles.col_right__topValue1}>
+                        {other.total}
+                      </span>
+                    </div>
+                    <div className={styles.col_right__bottom}>
+                      <p className={styles.col_right__bottomText}>
+                        {other.title}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </Col>
-            ))
+                </Col>
+              ))
             : elements.map((value, index: number) => (
-              <CustomSkeleton key={index} />
-            ))}
+                <CustomSkeleton key={index} />
+              ))}
         </Row>
       </div>
       {dataLog && (
@@ -154,37 +152,37 @@ const ItemsOtherChartCandidate: React.FC<{
           <Row className={styles.row} align="top">
             {(dataLog && !dataLogRecruiter) || (!dataLog && dataLogRecruiter)
               ? itemsOther.otherMid.map(
-                (other: PropItemValue, index: number) => (
-                  <Col
-                    key={""}
-                    span={6}
-                    className={styles.col}
-                    pull={index === 1 ? 0 : 12}
-                    offset={index === 1 ? 0 : 12}
-                  >
-                    <div
-                      className={`${styles.col_left} col_left__itemsChart`}
+                  (other: PropItemValue, index: number) => (
+                    <Col
+                      key={""}
+                      span={6}
+                      className={styles.col}
+                      pull={index === 1 ? 0 : 12}
+                      offset={index === 1 ? 0 : 12}
                     >
-                      {other.icon}
-                    </div>
-                    <div className={styles.col_right}>
-                      <div className={styles.col_right__top}>
-                        <span className={styles.col_right__topValue1}>
-                          {other.total}
-                        </span>
+                      <div
+                        className={`${styles.col_left} col_left__itemsChart`}
+                      >
+                        {other.icon}
                       </div>
-                      <div className={styles.col_right__bottom}>
-                        <p className={styles.col_right__bottomText}>
-                          {other.title}
-                        </p>
+                      <div className={styles.col_right}>
+                        <div className={styles.col_right__top}>
+                          <span className={styles.col_right__topValue1}>
+                            {other.total}
+                          </span>
+                        </div>
+                        <div className={styles.col_right__bottom}>
+                          <p className={styles.col_right__bottomText}>
+                            {other.title}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  </Col>
+                    </Col>
+                  )
                 )
-              )
               : elements.map((value, index: number) => (
-                <CustomSkeleton key={index} />
-              ))}
+                  <CustomSkeleton key={index} />
+                ))}
           </Row>
         </div>
       )}
@@ -194,28 +192,28 @@ const ItemsOtherChartCandidate: React.FC<{
         </h3>
         <Row className={styles.row} align="top">
           {(dataLog && !dataLogRecruiter) || (!dataLog && dataLogRecruiter)
-            ? itemsOther.otherBottom.map((other: PropItemValue) => (
-              <Col span={6} className={styles.col} key={""}>
-                <div className={`${styles.col_left} col_left__itemsChart`}>
-                  {other.icon}
-                </div>
-                <div className={styles.col_right}>
-                  <div className={styles.col_right__top}>
-                    <span className={styles.col_right__topValue1}>
-                      {other.total}
-                    </span>
+            ? itemsOther.otherBottom.map((other: PropItemValue, index: any) => (
+                <Col span={6} className={styles.col} key={index}>
+                  <div className={`${styles.col_left} col_left__itemsChart`}>
+                    {other.icon}
                   </div>
-                  <div className={styles.col_right__bottom}>
-                    <p className={styles.col_right__bottomText}>
-                      {other.title}
-                    </p>
+                  <div className={styles.col_right}>
+                    <div className={styles.col_right__top}>
+                      <span className={styles.col_right__topValue1}>
+                        {other.total}
+                      </span>
+                    </div>
+                    <div className={styles.col_right__bottom}>
+                      <p className={styles.col_right__bottomText}>
+                        {other.title}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </Col>
-            ))
+                </Col>
+              ))
             : elements.map((value, index: number) => (
-              <CustomSkeleton key={index} />
-            ))}
+                <CustomSkeleton key={index} />
+              ))}
         </Row>
       </div>
     </div>

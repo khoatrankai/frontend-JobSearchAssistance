@@ -1,7 +1,7 @@
 import axios from 'axios'
 import queryString from 'query-string'
 
-const BASE_URL = `http://localhost:8888/api`
+const BASE_URL = `https://backend-hcmute-nodejs.onrender.com/api`
 
 
 const accessToken = (typeof window !== 'undefined') ? localStorage.getItem('accessToken') : null
@@ -29,7 +29,7 @@ axiosClient.interceptors.request.use(
 )
 
 axiosClient.interceptors.response.use(
-  (response) => {
+  (response:any) => {
     if (response && response.data) {
       return response.data
     }
@@ -56,7 +56,7 @@ axiosClient.interceptors.response.use(
         .post(`${BASE_URL}/v1/reset-access-token`, {
           refreshToken: refreshToken,
         })
-        .then((response) => {
+        .then((response:any) => {
           if (response.status === 200) {
             localStorage.setItem('accessToken', response.data.data.accessToken)
             originalRequest.headers[
@@ -68,6 +68,7 @@ axiosClient.interceptors.response.use(
           }
         })
         .catch((error) => {
+          // localStorage.setItem('err',JSON.stringify(error))
           if (!localStorage.getItem("refreshToken")) {
             localStorage.removeItem("accessToken")
             localStorage.removeItem("refreshToken")

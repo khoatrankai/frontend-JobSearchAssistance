@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import templateApi from "@/api/template/templateApi";
 import { useSrollContext } from "@/context/AppProvider";
@@ -12,23 +14,32 @@ import {
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import CheckPageLogin from "@/util/CheckPageLogin";
 
 type Props = {};
 
 const Page = () => {
+  CheckPageLogin();
+
   const language = useSelector((state: any) => state.changeLaguage.language);
   const [age, setAge] = React.useState("");
-  const [dataTemplate, setDataTemplate] = React.useState([]);
-  const { handleLoadHrefPage } = useSrollContext();
-  const router = useRouter();
-  useEffect(() => {
-    handleLoadHrefPage();
-    const fetchData = async () => {
-      const res = await templateApi.getAllTemplates();
+  const [dataTemplate, setDataTemplate] = React.useState([
+    { name: "Thành đạt" },
+    { name: "Tinh tế" },
+    { name: "Tham vọng" },
+    { name: "Cổ điển" },
+  ]);
+  // const { handleLoadHrefPage } = useSrollContext();
 
-      if (res && res.status === 200) {
-        setDataTemplate(res.data);
-      }
+  const router = useRouter();
+
+  useEffect(() => {
+    // handleLoadHrefPage();
+    const fetchData = async () => {
+      // const res = await templateApi.getAllTemplates();
+      // if (res && res.status === 200) {
+      //   setDataTemplate(res.data);
+      // }
     };
 
     fetchData();
@@ -38,12 +49,12 @@ const Page = () => {
     <div className="justify-center flex py-12 bg-[#f0f0f0]">
       <div className="w-full max-w-6xl ">
         <div className="flex flex-col">
-          <div className="py-3 text-xl font-bold text-[#a18c2b]">
+          <div className="p-3 text-xl font-bold text-blue-500">
             {language === 1
               ? "Danh sách mẫu CV xin việc"
               : "List of job application CV samples"}
           </div>
-          <div className="flex bg-[#fff] rounded-sm p-6 justify-center font-bold text-[#a18c2b] text-lg">
+          <div className="flex bg-[#fff] rounded-sm p-6 justify-center font-bold text-blue-500 text-lg">
             {/* <FormControl sx={{m: 1, minWidth: 120, width: '100%'}}>
               <InputLabel id="demo-simple-select-helper-label">Age</InputLabel>
               <Select
@@ -74,12 +85,12 @@ const Page = () => {
               <div key={index} className=" p-3">
                 <div className="flex flex-col rounded-sm p-3 cursor-pointer">
                   <div
-                    className="flex justify-center w-[200px] h-[300px]"
+                    className="flex justify-center w-[200px] h-[300px] overflow-hidden rounded-md"
                     onClick={() => {
-                      router.push(`/cv/create/template/${item.id - 1}`);
+                      router.push(`/cv/create-v2/${index}/new`);
                     }}
                   >
-                    <img src={item.image} alt="" />
+                    <img src={`/formCV/cv${index + 1}.webp`} alt="" />
                   </div>
                   <div className="flex justify-center mt-2 font-bold">
                     <div className="text-center">{item.name}</div>
@@ -89,7 +100,7 @@ const Page = () => {
             ))}
           </div>
           <div className="flex flex-col w-full h-fit bg-[#fff] my-4 p-5">
-            <div className="text-[#a18c2b] font-bold mb-3">
+            <div className="text-blue-500 font-bold mb-3">
               {language === 1
                 ? "Tạo CV online miễn phí với các mẫu CV được thiết kế sẵn chỉ với 3 bước:"
                 : "Create a free online CV with pre-designed CV templates in just 3 steps:"}
@@ -115,7 +126,7 @@ const Page = () => {
             </div>
           </div>
           <div className="flex flex-col w-full h-fit bg-[#fff] my-4 p-5">
-            <div className="text-[#a18c2b] font-bold mb-3">
+            <div className="text-blue-500 font-bold mb-3">
               {language === 1
                 ? "Tại sao nên tạo CV online trên TKV"
                 : "Why should you create an online CV on TKV?"}

@@ -1,0 +1,9 @@
+.bg-ribbon-intro{
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), 50% 100%, 0 calc(100% - 8px));
+    // clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), 50% calc(100% - 6px), 0 100%);
+    // clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - 8px), 0 100%);
+}
+.bg-profile{
+    background: rgb(255,255,255);
+    background: linear-gradient(225deg, rgba(255,255,255,1) 13%, rgba(37,99,235,1) 80%);
+}

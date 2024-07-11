@@ -1,13 +1,13 @@
-import {Box} from '@mui/material';
-import TextArea from 'antd/es/input/TextArea';
-import React, {useEffect, useState} from 'react';
-import {useSelector} from 'react-redux';
-import styles from './style.module.scss';
-import 'leaflet/dist/leaflet.css';
-import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet';
-import L from 'leaflet';
-import './style.scss';
-import {RootState} from '@/redux/reducer';
+import { Box } from "@mui/material";
+import TextArea from "antd/es/input/TextArea";
+import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import styles from "./style.module.scss";
+import "leaflet/dist/leaflet.css";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
+import "./style.scss";
+import { RootState } from "@/redux/reducer";
 import {
   CameraComunityIcon,
   IconCategory,
@@ -17,82 +17,90 @@ import {
   PhoneDetailPostIcon,
   TaxCodeDetailPostIcon,
   WebDetailPostIcon,
-} from '@/icons';
-import {PersonIcon} from '@/icons/iconCandidate';
+} from "@/icons";
+import { PersonIcon } from "@/icons/iconCandidate";
+import MapComponent from "@/components/MapComponent/MapComponent";
 
 interface IContactInfo {
   company: any;
 }
 
 const ContactInfo: React.FC<IContactInfo> = (props) => {
-  const {company} = props;
+  const { company } = props;
+
   // const location = useLocation();
   const languageRedux = useSelector(
-    (state: RootState) => state.changeLaguage.language,
+    (state: RootState) => state.changeLaguage.language
   );
   const language = useSelector(
-    (state: RootState) => state.dataLanguage.languages,
+    (state: RootState) => state.dataLanguage.languages
   );
   const [position, setPosition] = useState<any>({});
 
   L.Icon.Default.mergeOptions({
-    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-    iconUrl: require('leaflet/dist/images/marker-icon.png'),
-    shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+    iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
+    iconUrl: require("leaflet/dist/images/marker-icon.png"),
+    shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
   });
 
   const handleClickShowMap = () => {
     if (company?.address) {
       window.open(
-        'https://www.google.com/maps/place/' +
+        "https://www.google.com/maps/place/" +
           `${company?.address}, ${
-            company?.companyLocation ? company?.companyLocation.fullName : ''
+            company?.companyLocation ? company?.companyLocation.fullName : ""
           }, ${
             company?.companyLocation?.district
               ? company?.companyLocation?.district?.fullName
-              : ''
+              : ""
           }, ${
             company?.companyLocation?.district?.province
               ? company?.companyLocation?.district?.province?.fullName
-              : ''
-          }`,
+              : ""
+          }`
       );
     }
   };
 
-  const getLocation = async (address: string) => {
-    const apiKey = 'AIzaSyA8gjzoebEdb7Oy7x-StIr214ojMVq25qM';
-    try {
-      const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-          address,
-        )}&key=${apiKey}`,
-      );
+  // const getLocation = async (address: string) => {
+  //   const apiKey = "AIzaSyA8gjzoebEdb7Oy7x-StIr214ojMVq25qM";
+  //   try {
+  //     const response = await fetch(
+  //       `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+  //         address
+  //       )}&key=${apiKey}`
+  //     );
 
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch: ${response.status} ${response.statusText}`,
-        );
-      }
+  //     if (!response.ok) {
+  //       throw new Error(
+  //         `Failed to fetch: ${response.status} ${response.statusText}`
+  //       );
+  //     }
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      if (data.status === 'OK' && data.results.length > 0) {
-        const location = data.results[0].geometry.location;
-        setPosition(location);
-        return location;
-      } else {
-        throw new Error('Không tìm thấy địa điểm.');
-      }
-    } catch (error) {
-      console.error('Error fetching location:', error);
-    }
-  };
+  //     if (data.status === "OK" && data.results.length > 0) {
+  //       const location = data.results[0].geometry.location;
+  //       setPosition(location);
+  //       return location;
+  //     } else {
+  //       throw new Error("Không tìm thấy địa điểm.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching location:", error);
+  //   }
+  // };
 
   useEffect(() => {
     const address = `${company?.address},${company?.wardData}`;
 
-    getLocation(address);
+    // getLocation(address);
+    if (company && company?.latitude) {
+      setPosition({
+        latitude: company?.latitude,
+        longitude: company?.longitude,
+      });
+    }
   }, [company]);
 
   return (
@@ -101,102 +109,111 @@ const ContactInfo: React.FC<IContactInfo> = (props) => {
         <div className={styles.company_information}>
           <div className={styles.company_information_left}>
             <div className={styles.company_information_describe}>
-              <h3>{languageRedux === 1 ? 'Mô tả' : 'Describe'}</h3>
-              <TextArea
-                value={
-                  company?.description
-                    ? company.description
-                    : languageRedux === 1
-                    ? 'Thông tin công ty chưa cập nhật'
-                    : 'Company information not updated yet'
-                }
-                autoSize
+              <h3>{languageRedux === 1 ? "Mô tả" : "Describe"}</h3>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: `${
+                    company?.description
+                      ? company.description
+                      : languageRedux === 1
+                      ? "<p>Thông tin công ty chưa cập nhật</p>"
+                      : "<p>Company information not updated yet</p>"
+                  }`,
+                }}
+                // value={
+                //   company?.description
+                //     ? company.description
+                //     : languageRedux === 1
+                //     ? "Thông tin công ty chưa cập nhật"
+                //     : "Company information not updated yet"
+                // }
+
                 // showCount
               />
             </div>
             <div className={styles.company_information_basic}>
               <h3>
-                {languageRedux === 1 ? 'Thông tin cơ bản' : 'Basic information'}
+                {languageRedux === 1 ? "Thông tin cơ bản" : "Basic information"}
               </h3>
               <ul>
                 <li>
                   <TaxCodeDetailPostIcon />
                   <p>
-                    {languageRedux === 1 ? 'Mã số thuế: ' : 'Tax code: '}
+                    {languageRedux === 1 ? "Mã số thuế: " : "Tax code: "}
                     <span>
                       {company?.taxCode
                         ? company.taxCode
                         : languageRedux === 1
-                        ? 'Thông tin công ty chưa cập nhật'
-                        : 'Company information not updated yet'}
+                        ? "Thông tin công ty chưa cập nhật"
+                        : "Company information not updated yet"}
                     </span>
                   </p>
                 </li>
                 <li>
                   <LocationDetailPostIcon />
                   <p>
-                    {languageRedux === 1 ? 'Địa chỉ: ' : 'Address: '}
+                    {languageRedux === 1 ? "Địa chỉ: " : "Address: "}
                     <span
                       onClick={handleClickShowMap}
-                      style={company?.address ? {cursor: 'pointer'} : {}}
+                      style={company?.address ? { cursor: "pointer" } : {}}
                     >
                       {company?.address
                         ? `${company.address}`
                         : languageRedux === 1
-                        ? 'Thông tin công ty chưa cập nhật'
-                        : 'Company information not updated yet'}
+                        ? "Thông tin công ty chưa cập nhật"
+                        : "Company information not updated yet"}
                     </span>
                   </p>
                 </li>
                 <li>
                   <MailDetailPostIcon />
                   <p>
-                    {'Email: '}
+                    {"Email: "}
                     <span>
                       {company?.email
                         ? company.email
                         : languageRedux === 1
-                        ? 'Thông tin công ty chưa cập nhật'
-                        : 'Company information not updated yet'}
+                        ? "Thông tin công ty chưa cập nhật"
+                        : "Company information not updated yet"}
                     </span>
                   </p>
                 </li>
                 <li>
                   <PhoneDetailPostIcon />
                   <p>
-                    {languageRedux === 1 ? 'Điện thoại: ' : 'Phone: '}
+                    {languageRedux === 1 ? "Điện thoại: " : "Phone: "}
                     <span>
                       {company?.phone
                         ? company.phone
                         : languageRedux === 1
-                        ? 'Thông tin công ty chưa cập nhật'
-                        : 'Company information not updated yet'}
+                        ? "Thông tin công ty chưa cập nhật"
+                        : "Company information not updated yet"}
                     </span>
                   </p>
                 </li>
                 <li>
                   <WebDetailPostIcon />
                   <p>
-                    {languageRedux === 1 ? 'Trang web: ' : 'Website: '}
+                    {languageRedux === 1 ? "Trang web: " : "Website: "}
                     <span>
                       {company?.website
                         ? company.website
                         : languageRedux === 1
-                        ? 'Thông tin công ty chưa cập nhật'
-                        : 'Company information not updated yet'}
+                        ? "Thông tin công ty chưa cập nhật"
+                        : "Company information not updated yet"}
                     </span>
                   </p>
                 </li>
                 <li>
                   <IconCategory />
                   <p>
-                    {languageRedux === 1 ? 'Ngành nghề: ' : 'Category: '}
+                    {languageRedux === 1 ? "Ngành nghề: " : "Category: "}
                     <span>
                       {company?.categoryData
                         ? company.categoryData
                         : languageRedux === 1
-                        ? 'Thông tin công ty chưa cập nhật'
-                        : 'Company information not updated yet'}
+                        ? "Thông tin công ty chưa cập nhật"
+                        : "Company information not updated yet"}
                     </span>
                   </p>
                 </li>
@@ -204,40 +221,27 @@ const ContactInfo: React.FC<IContactInfo> = (props) => {
                   <PersonIcon />
                   <p>
                     {languageRedux === 1
-                      ? 'Quy mô công ty: '
-                      : 'Company size: '}
+                      ? "Quy mô công ty: "
+                      : "Company size: "}
                     <span>
                       {company?.companySizeData
                         ? company?.companySizeData
                         : languageRedux === 1
-                        ? 'Thông tin công ty chưa cập nhật'
-                        : 'Company information not updated yet'}
+                        ? "Thông tin công ty chưa cập nhật"
+                        : "Company information not updated yet"}
                     </span>
                   </p>
                 </li>
               </ul>
             </div>
           </div>
-          <div
-            className={styles.company_information_right}
-          >
+          <div className={styles.company_information_right}>
             {Object.keys(position).length !== 0 ? (
               <>
-                <h3>{languageRedux === 1 ? 'Xem bản đồ' : 'View the map'}</h3>
-                <MapContainer
-                  className="leaf_let_map"
-                  center={[position.lat, position.lng]}
-                  zoom={20}
-                  scrollWheelZoom={true}
-                >
-                  <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  />
-                  <Marker position={[position.lat, position.lng]}>
-                    <Popup>{`${company.address},${company.wardData}`}</Popup>
-                  </Marker>
-                </MapContainer>
+                <h3>{languageRedux === 1 ? "Xem bản đồ" : "View the map"}</h3>
+                <div className="w-full h-96 rounded-lg overflow-hidden">
+                  <MapComponent data={position} />
+                </div>
               </>
             ) : (
               <></>
@@ -246,7 +250,7 @@ const ContactInfo: React.FC<IContactInfo> = (props) => {
         </div>
         <div className={styles.company_image}>
           <h3>
-            {languageRedux === 1 ? 'Hình ảnh công ty' : "Company's images"}
+            {languageRedux === 1 ? "Hình ảnh công ty" : "Company's images"}
           </h3>
 
           {company && company?.id && company.images?.length !== 0 ? (
@@ -255,12 +259,12 @@ const ContactInfo: React.FC<IContactInfo> = (props) => {
               style={{
                 height:
                   company?.images && company?.images?.length > 0
-                    ? 'fit-content'
-                    : '310px',
+                    ? "fit-content"
+                    : "310px",
                 border:
                   company?.images && company?.images?.length > 0
-                    ? 'none'
-                    : '1px solid #ccc',
+                    ? "none"
+                    : "1px solid #ccc",
               }}
             >
               <Box p="0rem 0">
@@ -279,11 +283,11 @@ const ContactInfo: React.FC<IContactInfo> = (props) => {
                           company &&
                           company?.images &&
                           company?.images?.length !== 0
-                            ? 'none'
-                            : 'flex',
+                            ? "none"
+                            : "flex",
                       }}
                     >
-                      {location.pathname === '/profile' ? (
+                      {location.pathname === "/profile" ? (
                         <></>
                       ) : (
                         <CameraComunityIcon />
@@ -292,8 +296,8 @@ const ContactInfo: React.FC<IContactInfo> = (props) => {
                         <NoImageCompany />
                         <p>
                           {languageRedux === 1
-                            ? 'Chưa có hình ảnh về công ty'
-                            : 'No image of the company yet'}
+                            ? "Chưa có hình ảnh về công ty"
+                            : "No image of the company yet"}
                         </p>
                       </div>
                     </div>
@@ -320,15 +324,15 @@ const ContactInfo: React.FC<IContactInfo> = (props) => {
               <NoImageCompany />
               <p>
                 {languageRedux === 1
-                  ? 'Chưa có hình ảnh về công ty'
-                  : 'No image of the company yet'}
+                  ? "Chưa có hình ảnh về công ty"
+                  : "No image of the company yet"}
               </p>
             </div>
           ) : (
             <p>
               {languageRedux === 1
-                ? 'Thông tin công ty chưa cập nhật'
-                : 'Company information not updated yet'}
+                ? "Thông tin công ty chưa cập nhật"
+                : "Company information not updated yet"}
             </p>
           )}
         </div>

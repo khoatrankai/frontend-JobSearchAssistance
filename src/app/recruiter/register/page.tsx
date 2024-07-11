@@ -21,8 +21,10 @@ import { CiCircleInfo } from "react-icons/ci";
 import apiAccount from "@/api/candidate/apiAccount";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import CheckLoginRecruiter from "@/util/CheckLoginRecruiter";
 
 const Page = () => {
+  CheckLoginRecruiter();
   const images = [
     {
       id: 1,
@@ -94,55 +96,54 @@ const Page = () => {
   }, [currentImage, images.length]);
 
   const handleRegister = () => {
-      const dataRegister = new FormData();
-      dataRegister.append("email", email);
-      dataRegister.append("password", password);
-      dataRegister.append("name", dataCompany.name);
-      dataCompany.taxCode && dataRegister.append("taxCode", dataCompany.taxCode);
-      dataRegister.append("companyRoleId", dataCompany.companyRoleInfomation.id)
-      dataRegister.append("website", dataCompany.website);
-      dataRegister.append("phone", dataCompany.phone);
-      dataRegister.append("wardId", dataCompany.companyLocation.id);
-      dataRegister.append("address", dataCompany.address);
-      dataRegister.append("categoryId" , dataCompany.companyCategory.id);
-      dataRegister.append("companySizeId" , dataCompany.companySizeInfomation.id);
-      dataRegister.append("description", dataCompany.description);
-      dataRegister.append("logoFile", dataCompany.logoPath);
+    const dataRegister = new FormData();
+    dataRegister.append("email", email);
+    dataRegister.append("password", password);
+    dataRegister.append("name", dataCompany.name);
+    dataCompany.taxCode && dataRegister.append("taxCode", dataCompany.taxCode);
+    dataRegister.append("companyRoleId", dataCompany.companyRoleInfomation.id);
+    dataRegister.append("website", dataCompany.website);
+    dataRegister.append("phone", dataCompany.phone);
+    dataRegister.append("wardId", dataCompany.companyLocation.id);
+    dataRegister.append("address", dataCompany.address);
+    dataRegister.append("categoryId", dataCompany.companyCategory.id);
+    dataRegister.append("companySizeId", dataCompany.companySizeInfomation.id);
+    dataRegister.append("description", dataCompany.description);
+    dataRegister.append("logoFile", dataCompany.logoPath);
+    dataRegister.append("latitude", dataCompany.latitude);
+    dataRegister.append("longitude", dataCompany.longitude);
+    const fetchResgiter = async () => {
+      const response = await apiAccount.recruiterSignUp(dataRegister);
 
-      const fetchResgiter = async () => {
-        const response = await apiAccount.recruiterSignUp(dataRegister);
+      if (response && response.status === 201) {
+        toast.success("Đăng ký tài khoản thành công", {
+          position: "bottom-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setIsSuccess(true);
 
-        if (response && response.status === 201) {
-          toast.success("Đăng ký tài khoản thành công", {
-            position: "bottom-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-          setIsSuccess(true);
-
-          setTimeout(() => {
-            router.push("/recruiter/login");
-          }, 5000);
-        }
-
-        else {
-          toast.error("Đăng ký tài khoản thất bại", {
-            position: "bottom-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-        }
+        setTimeout(() => {
+          router.push("/recruiter/login");
+        }, 5000);
+      } else {
+        toast.error("Đăng ký tài khoản thất bại", {
+          position: "bottom-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
-      fetchResgiter();
-  }
+    };
+    fetchResgiter();
+  };
 
   return (
     <div className="flex bg-gray-100">
@@ -172,17 +173,18 @@ const Page = () => {
             <div className="basic regulations">Quy định</div>
             <div className="flex flex-col gap-4">
               <div className="basic">
-                Để đảm bảo chất lượng dịch vụ, JOBS <span
-                  className="text-red-color">không cho phép một người
-                  dùng tạo nhiều tài khoản khác nhau.</span>
+                Để đảm bảo chất lượng dịch vụ, JOBS{" "}
+                <span className="text-red-color">
+                  không cho phép một người dùng tạo nhiều tài khoản khác nhau.
+                </span>
               </div>
               <div className="basic text-justify">
-                Nếu phát hiện vi phạm, JOBS sẽ ngừng cung cấp dịch vụ tới tất
-                cả các tài khoản trùng lặp hoặc chặn toàn bộ truy cập tới hệ
-                thống website của JOBS. Đối với trường hợp khách hàng đã sử
-                dụng hết 3 tin tuyển dụng miễn phí, JOBS hỗ trợ kích hoạt đăng
-                tin tuyển dụng không giới hạn sau khi quý doanh nghiệp cung cấp
-                thông tin giấy phép kinh doanh.
+                Nếu phát hiện vi phạm, JOBS sẽ ngừng cung cấp dịch vụ tới tất cả
+                các tài khoản trùng lặp hoặc chặn toàn bộ truy cập tới hệ thống
+                website của JOBS. Đối với trường hợp khách hàng đã sử dụng hết 3
+                tin tuyển dụng miễn phí, JOBS hỗ trợ kích hoạt đăng tin tuyển
+                dụng không giới hạn sau khi quý doanh nghiệp cung cấp thông tin
+                giấy phép kinh doanh.
               </div>
               <div className="basic">
                 Mọi thắc mắc vui lòng liên hệ Hotline CSKH:
@@ -216,16 +218,22 @@ const Page = () => {
                       <MdEmail />
                     </span>
                   }
-                  suffix={isClickEmail && email === "" ? <CiCircleInfo className="text-red-700" /> : ""}
+                  suffix={
+                    isClickEmail && email === "" ? (
+                      <CiCircleInfo className="text-red-700" />
+                    ) : (
+                      ""
+                    )
+                  }
                 />
               </div>
-              {
-                isClickEmail && email === "" && (
-                  <div>
-                    <div className="text-red-700 text-sm mb-3">Vui lòng nhập email</div>
+              {isClickEmail && email === "" && (
+                <div>
+                  <div className="text-red-700 text-sm mb-3">
+                    Vui lòng nhập email
                   </div>
-
-                )}
+                </div>
+              )}
               <div className="basic mt-3 text-red-color text-justify">
                 Trường hợp bạn đăng ký tài khoản bằng email không phải email tên
                 miền công ty, một số dịch vụ trên tài khoản có thể sẽ bị giới
@@ -257,11 +265,11 @@ const Page = () => {
                 />
               </div>
 
-              {
-                isClickPassword && password === "" && (
-                  <div className="text-red-700 text-sm mb-3">Vui lòng nhập mật khẩu</div>
-                )
-              }
+              {isClickPassword && password === "" && (
+                <div className="text-red-700 text-sm mb-3">
+                  Vui lòng nhập mật khẩu
+                </div>
+              )}
             </div>
 
             <div className="verify-password">
@@ -278,7 +286,11 @@ const Page = () => {
                   onChange={(e) => {
                     setVerifyPassword(e.target.value);
                   }}
-                  status={isClickVerifyPassword && verifyPassword === "" ? "error" : ""}
+                  status={
+                    isClickVerifyPassword && verifyPassword === ""
+                      ? "error"
+                      : ""
+                  }
                   size="large"
                   placeholder="Xác nhận mật khẩu"
                   prefix={
@@ -287,16 +299,16 @@ const Page = () => {
                     </span>
                   }
                 />
-                {
-                  isClickVerifyPassword && verifyPassword === "" && (
-                    <div className="text-red-700 text-sm mb-3">Vui lòng xác nhận mật khẩu</div>
-                  )
-                }
-                {
-                  verifyPassword !== password && (
-                    <div className="text-red-700 text-sm mb-3">Mật khẩu không trùng khớp</div>
-                  )
-                }
+                {isClickVerifyPassword && verifyPassword === "" && (
+                  <div className="text-red-700 text-sm mb-3">
+                    Vui lòng xác nhận mật khẩu
+                  </div>
+                )}
+                {verifyPassword !== password && (
+                  <div className="text-red-700 text-sm mb-3">
+                    Mật khẩu không trùng khớp
+                  </div>
+                )}
               </div>
             </div>
             <div className="mt-3 flex flex-col gap-2">
@@ -350,58 +362,79 @@ const Page = () => {
                 Tôi đã đọc và đồng ý với các điều khoản sử dụng của JOBS
               </div>
             </div>
-            {
-              isSuccess && (
-                <div className="text-green-700 text-sm mb-3">Đăng ký tài khoản thành công quay lại trang đăng nhập sau 10s</div>
-              )
-            }
+            {isSuccess && (
+              <div className="text-green-700 text-sm mb-3">
+                Đăng ký tài khoản thành công quay lại trang đăng nhập sau 10s
+              </div>
+            )}
             <Button
               sx={{
-                backgroundColor: "#ffcc00",
+                backgroundColor: "#006dff",
                 color: "black",
                 marginTop: "20px",
                 "&:hover": {
-                  backgroundColor: "#ffcc00",
-                  color: "black",
+                  backgroundColor: "#005ef3",
+                  color: "white",
                 },
               }}
               className="w-full"
-              disabled={!isCheckPolicy || email === "" || password === "" || verifyPassword === "" || verifyPassword !== password || dataCompany.name === "" || dataCompany.companyRoleInfomation === "" || dataCompany.website === "" || dataCompany.phone === "" || dataCompany.address === "" || dataCompany.companyLocation === "" || dataCompany.companyCategory === "" || dataCompany.companySizeInfomation === "" || dataCompany.description === "" || dataCompany.logoPath === ""}
+              disabled={
+                !isCheckPolicy ||
+                email === "" ||
+                password === "" ||
+                verifyPassword === "" ||
+                verifyPassword !== password ||
+                dataCompany.name === "" ||
+                dataCompany.companyRoleInfomation === "" ||
+                dataCompany.website === "" ||
+                dataCompany.phone === "" ||
+                dataCompany.address === "" ||
+                dataCompany.companyLocation === "" ||
+                dataCompany.companyCategory === "" ||
+                dataCompany.companySizeInfomation === "" ||
+                dataCompany.description === "" ||
+                dataCompany.logoPath === ""
+              }
               onClick={handleRegister}
             >
               Hoàn tất
             </Button>
             <div className="mt-3 justify-center flex">
               <div className="basic text-[#6f7882]">
-                Bạn đã có tài khoản? <span className="text-[#00b14f] cursor-pointer" onClick={() => {
-                  router.push("/recruiter/login");
-                }}>Đăng nhập</span>
+                Bạn đã có tài khoản?{" "}
+                <span
+                  className="text-[#00b14f] cursor-pointer"
+                  onClick={() => {
+                    router.push("/recruiter/login");
+                  }}
+                >
+                  Đăng nhập
+                </span>
               </div>
             </div>
           </div>
         </div>
       </div>
-      {
-        !isTablet && (
-          <div className="w-1/3 h-full">
-            <div className="fixed inset-y-0 right-0 left-2/3">
-              {images.map((image, index) => (
-                <motion.div
-                  key={image.id}
-                  className={`h-full flex bg-right ${index === currentImage ? "visible" : "hidden"
-                    }`}
-                  animate={{ x: 0 }}
-                  initial={{ x: index === 0 ? 0 : -1000 }} 
-                  transition={{ duration: 1 }}
-                >
-                  <img src={image.src} alt={`Image ${image.id}`} />
-                </motion.div>
-              ))}
-            </div>
+      {!isTablet && (
+        <div className="w-1/3 h-full">
+          <div className="fixed inset-y-0 right-0 left-2/3">
+            {images.map((image, index) => (
+              <motion.div
+                key={image.id}
+                className={`h-full flex bg-right ${
+                  index === currentImage ? "visible" : "hidden"
+                }`}
+                animate={{ x: 0 }}
+                initial={{ x: index === 0 ? 0 : -1000 }}
+                transition={{ duration: 1 }}
+              >
+                <img src={image.src} alt={`Image ${image.id}`} />
+              </motion.div>
+            ))}
           </div>
-        )
-      }
-    </div >
+        </div>
+      )}
+    </div>
   );
 };
 

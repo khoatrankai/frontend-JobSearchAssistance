@@ -11,7 +11,7 @@ import ContactInfo from "./ContactInfo";
 import ApplyPosition from "./ApplyPosition";
 import { CateIcon, LocationHomeIcon } from "@/icons";
 import ShowCancleSave from "../HistoryComponent/ShowCancelSave";
-import ModalLogin from "../ModalLogin/ModalLogin";
+
 import ReviewCompany from "./ReviewCompany";
 import { useParams } from "next/navigation";
 import searchApi from "@/api/search/apiSearch";
@@ -36,7 +36,8 @@ const DetailCompany = () => {
   const { handleLoadHrefPage } = useSrollContext();
   const searchParams = useParams();
   const companyId = searchParams?.id;
-
+  const profile = useSelector((state: any) => state.profile.profile);
+  //console.log(companyId);
   const getCompanyInfo = async () => {
     try {
       setLoading(true);
@@ -49,12 +50,12 @@ const DetailCompany = () => {
         setCompanyData(result.data);
         setNameCompany(result.data.name);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
-  useEffect(() => {
-    handleLoadHrefPage();
-  }, []);
+  // useEffect(() => {
+  //   handleLoadHrefPage();
+  // }, []);
 
   const getApplicationPositionCount = async () => {
     try {
@@ -97,7 +98,7 @@ const DetailCompany = () => {
         setPostOfCompany(result.data.posts);
         setPage("0");
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -120,7 +121,7 @@ const DetailCompany = () => {
       key: "2",
       label: (
         <p>
-          {languageRedux === 1 ? "Vị trí ứng tuyển" : "Application positions"}
+          {languageRedux === 1 ? "Các công việc" : "All jobs"}
           <span style={{ color: "#0D99FF" }}>
             {" "}
             {"("}
@@ -163,12 +164,26 @@ const DetailCompany = () => {
       });
       return;
     }
+    if (!profile?.isActive) {
+      toast.error("Vui lòng xác thực", {
+        position: "bottom-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
     const fetchFollow = async () => {
       try {
-        const response = await apiCompany.followCompany(+companyId) as any;
+        const response = (await apiCompany.createFollowCompany(
+          +companyId
+        )) as any;
 
         if (response.statusCode === 200) {
-          toast.success(response.message , {
+          toast.success(response.message, {
             position: "bottom-center",
             autoClose: 3000,
             hideProgressBar: false,
@@ -179,16 +194,14 @@ const DetailCompany = () => {
           });
           getCompanyInfo();
         }
-      } catch (error) {
-        
-      }
-    }
+      } catch (error) {}
+    };
 
     fetchFollow();
-  }
+  };
 
   return (
-    <div className={styles.detail_company_container}>
+    <div className={`${styles.detail_company_container} px-5`}>
       <div className={styles.detail_company_content}>
         <div className={styles.detail_company_title}>
           <h3 className="mt-5">
@@ -214,27 +227,31 @@ const DetailCompany = () => {
                   {company?.name
                     ? company.name
                     : languageRedux === 1
-                      ? "Thông tin công ty chưa cập nhật"
-                      : "Company information not updated yet"}
+                    ? "Thông tin công ty chưa cập nhật"
+                    : "Company information not updated yet"}
                 </h3>
 
-                {
-                  company?.isFollowed ? (
-                    <div className="flex items-center gap-1 bg-blue-600 p-2 rounded-lg text-white cursor-pointer" onClick={() => {
-                      handleFollowCompany()
-                    }}>
-                      <FaBell />
-                      <p>{`Đã theo dõi (${company?.countFollowCompany})`}</p>
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-1 bg-red-500 p-2 rounded-lg text-white cursor-pointer" onClick={() => {
-                      handleFollowCompany()
-                    }}>
-                      <CiBellOn />
-                      <p>{`Theo dõi (${company?.countFollowCompany})`}</p>
-                    </div>
-                  )
-                }
+                {company?.isFollowed ? (
+                  <div
+                    className="flex items-center gap-1 bg-blue-600 p-2 rounded-lg text-white cursor-pointer"
+                    onClick={() => {
+                      handleFollowCompany();
+                    }}
+                  >
+                    <FaBell />
+                    <p>{`Đã theo dõi (${company?.countFollowCompany})`}</p>
+                  </div>
+                ) : (
+                  <div
+                    className="flex items-center gap-1 bg-red-500 p-2 rounded-lg text-white cursor-pointer"
+                    onClick={() => {
+                      handleFollowCompany();
+                    }}
+                  >
+                    <CiBellOn />
+                    <p>{`Theo dõi (${company?.countFollowCompany})`}</p>
+                  </div>
+                )}
               </div>
               <div className={styles.company_address}>
                 <div className={styles.address_item}>
@@ -243,8 +260,8 @@ const DetailCompany = () => {
                     {company?.address
                       ? company.address
                       : languageRedux === 1
-                        ? "Thông tin công ty chưa cập nhật"
-                        : "Company information not updated yet"}
+                      ? "Thông tin công ty chưa cập nhật"
+                      : "Company information not updated yet"}
                   </p>
                 </div>
                 <div className={styles.address_item}>
@@ -264,11 +281,7 @@ const DetailCompany = () => {
         </Skeleton>
       </div>
       <ShowCancleSave />
-      <ModalLogin
-        isOpen={openModalLogin}
-        handleToggleModal={setOpenModalLogin}
-      />
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };

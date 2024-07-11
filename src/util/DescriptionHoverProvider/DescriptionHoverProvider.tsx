@@ -1,3 +1,4 @@
+import { useSrollContext } from "@/context/AppProvider";
 import React, { ReactNode, useEffect, useRef, useState } from "react";
 
 type Props = {
@@ -5,6 +6,7 @@ type Props = {
 };
 
 const DescriptionHoverProvider = () => {
+  const { reponsiveMobile } = useSrollContext();
   const [positionHoverJobX, setPositionHoverJobX] = useState<any>("");
   const [positionHoverJobY, setPositionHoverJobY] = useState<any>("");
   const PositionHoverJob = (
@@ -15,7 +17,7 @@ const DescriptionHoverProvider = () => {
     position: any = 1
   ) => {
     const widthScreen = window.innerWidth / 2;
-    const heightScreen = window.innerHeight / 2;
+    const heightScreen = window.innerHeight / 2 + 120;
     if (x < widthScreen && y < heightScreen) {
       return [x + position, y + position];
     }
@@ -37,15 +39,17 @@ const DescriptionHoverProvider = () => {
     const { children } = props;
     return (
       <div
-        className={` transition-all fixed z-50 border-2 p-4 bg-white rounded-2xl shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] `}
+        className={` transition-all fixed z-50 border-2 p-4 bg-white rounded-lg shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] ${
+          reponsiveMobile < 1152 && "hidden invisible"
+        }`}
         onClick={(e: any) => {
           e.preventDefault();
         }}
         style={{
           width: "580px",
-          height: "400px",
+          height: "440px",
           left: `${positionHoverJobX}px`,
-          top: `${positionHoverJobY}px`,
+          top: `${positionHoverJobY - 40}px`,
         }}
       >
         {children}

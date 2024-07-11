@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./page.scss";
 import Image from "next/image";
 import communityApi from "@/api/community/apiCommunity";
@@ -12,50 +12,73 @@ import { ToastContainer, toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
 import { useSrollContext } from "@/context/AppProvider";
+import { FaComment, FaHeart, FaStar, FaUserTie } from "react-icons/fa";
+import { CgDanger } from "react-icons/cg";
+import { BiSolidLike } from "react-icons/bi";
+import { BsEyeFill } from "react-icons/bs";
+import ShortText from "@/util/ShortText";
+import ComunityCreatePost from "@/components/CommunityComponent/CreateCommunityComponent.tsx";
+import { IoClose } from "react-icons/io5";
+import { Button } from "antd";
+import Comunity from "@/components/CommunityComponent/DetailCommunity";
 
 type Props = {};
 
 const page = (props: Props) => {
   const [communityUser, setCommunityUser] = React.useState<any>([]);
+  const { handleShortTextHome, handleConvertText } = ShortText();
+  const profile = useSelector((state: any) => state.profile.profile);
   const [communityAdmin, setCommunityAdmin] = React.useState<any>([]);
+  const [tabModal, setTabModal] = useState<boolean>(false);
+  const [idCommunity, setIdCommunity] = useState<any>();
+  const [tabModalDetail, setTabModalDetail] = useState<boolean>(false);
   const [bookmarked, setBookmarked] = React.useState(false);
   const router = useRouter();
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
-  const { handleLoadHrefPage } = useSrollContext();
+  const { handleLoadHrefPage, reponsiveMobile } = useSrollContext();
+  const fetchData = async () => {
+    const res = await communityApi.getCommunityNews("0", "10", "cm", 1, "vi");
 
+    if (res && res.status === 200) {
+      setCommunityAdmin(res.data.communications);
+    }
+
+    const resUser = await communityApi.getCommunityByAccount(
+      "0",
+      "3",
+      "cm",
+      languageRedux === 1 ? "vi" : "en"
+    );
+
+    if (resUser && resUser.status === 200) {
+      setCommunityUser(resUser.data.communications);
+    }
+  };
   useEffect(() => {
-    handleLoadHrefPage();
-    const fetchData = async () => {
-      const res = await communityApi.getCommunityNews("0", "6", "cm", 0, "vi");
-
-      if (res && res.status === 200) {
-        setCommunityAdmin(res.data.communications);
-      }
-
-      const resUser = await communityApi.getCommunityNews(
-        "0",
-        "6",
-        "cm",
-        1,
-        languageRedux === 1 ? "vi" : "en"
-      );
-
-      if (resUser && resUser.status === 200) {
-        setCommunityUser(resUser.data.communications);
-      }
-    };
+    // handleLoadHrefPage();
 
     fetchData();
-  }, [bookmarked, languageRedux]);
-
+  }, [languageRedux]);
+  const handleUpload = (dt: any) => {
+    fetchData();
+    setTabModal(false);
+  };
   const handleBookmarked = async (id: number) => {
     const fetchData = async () => {
       const res = await communityApi.postCommunityBookmarked(id);
 
       if (res && res.status === 201) {
-        setBookmarked(!bookmarked);
+        // setBookmarked(!bookmarked);
+        setCommunityAdmin(
+          communityAdmin.map((dt: any) => {
+            if (dt.id == id) {
+              return { ...dt, bookmarked: true };
+            }
+            return dt;
+          })
+        );
         toast.success("Save post success", {
           position: "bottom-center",
           autoClose: 2000,
@@ -81,13 +104,54 @@ const page = (props: Props) => {
     };
     fetchData();
   };
-
+  const handleLikeCommunity = async (communicationId: number) => {
+    if (profile?.isActive) {
+      try {
+        const result = await communityApi.postCommunityLike(communicationId);
+        if (result) {
+          result.status === 201
+            ? setCommunityAdmin(
+                communityAdmin.map((dt: any) => {
+                  if (dt.id == communicationId) return { ...dt, liked: true };
+                  return dt;
+                })
+              )
+            : setCommunityAdmin(
+                communityAdmin.map((dt: any) => {
+                  if (dt.id === communicationId) return { ...dt, liked: false };
+                  return dt;
+                })
+              );
+        }
+      } catch (error) {
+        //console.log(error);
+      }
+    } else {
+      toast.error("Vui lòng xác thực", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  };
   const handleDeleteBookmarked = async (id: number) => {
     const fetchData = async () => {
       const res = await communityApi.postCommunityBookmarked(id);
 
       if (res && res.status === 200) {
-        setBookmarked(!bookmarked);
+        setCommunityAdmin(
+          communityAdmin.map((dt: any) => {
+            if (dt.id == id) {
+              return { ...dt, bookmarked: false };
+            }
+            return dt;
+          })
+        );
         toast.success("Unsave post success", {
           position: "bottom-center",
           autoClose: 2000,
@@ -115,252 +179,320 @@ const page = (props: Props) => {
   };
 
   return (
-    <div className="flex justify-center relative">
-      <div className="max-w-6xl w-full">
-        <div className="h-80">
-          <div className="bg-blog transition-all absolute z-0 top-0 inset-x-0 h-80 flex justify-center">
+    <div className="flex justify-center relative bg-blog px-4">
+      <div className="max-w-6xl w-full flex flex-col gap-8 mb-8">
+        <div className="h-40">
+          <div className="bg-black/50 transition-all absolute z-0 top-0 inset-x-0 h-40 flex justify-center ">
             <div className="w-full max-w-6xl relative">
               <div className="absolute inset-x-0 top-8">
                 {/* <MenuBlogComponent /> */}
               </div>
             </div>
-            <h1 className="text-6xl text-white font-bold absolute inset-y-0 flex justify-center items-center pointer-events-none">
+            <h1
+              className={` text-gradient font-bold absolute inset-y-0 inset-x-8 flex justify-center items-center pointer-events-none ${
+                reponsiveMobile < 900 ? "text-2xl" : "text-4xl"
+              }`}
+            >
               {languageRedux === 1
                 ? "Blog - Ý tưởng phát triển sự nghiệp IT của bạn"
                 : "Blog - Your IT career development ideas"}
             </h1>
           </div>
         </div>
-        <div className="my-8 relative">
-          <h1 className="text-2xl font-bold my-4">
-            {languageRedux === 1 ? `Mới nhất` : `Newest`}
-          </h1>
-          <div className="max-w-full">
-            <ul className="-mx-[10.5px] flex flex-wrap justify-around gap-y-16">
-              {communityAdmin &&
-                communityAdmin.map((item: any, index: number) => {
-                  return (
-                    <li
-                      key={index}
-                      className="w-[370px] group cursor-pointer bg-white shadow-[7px_8px_40px_6px_#00000024] mx-[10.5px] rounded-lg overflow-hidden flex flex-col justify-between gap-8"
-                      onClick={(e) => {
-                        router.push(
-                          `/detail-community?post-community=${item.id}&type=0`
-                        );
-                        e.stopPropagation();
-                      }}
-                    >
-                      <div className=" h-52 overflow-hidden">
-                        <Image
-                          className="w-full h-full transition-all duration-500 group-hover:scale-110"
-                          alt=""
-                          width={1920}
-                          height={1080}
-                          src={item?.images[0]?.image}
-                          onError={(e: any) => {
-                            e.target.onerror = null;
-                            e.target.src = "/logo/iphone15.png";
-                          }}
-                        />
-                      </div>
-                      <div className="px-8 flex flex-col gap-4">
-                        <h2 className="font-bold text-lg h-16">{item.title}</h2>
-                        <div className="max-h-20">
-                          <p
-                            className="text-sm max-h-20 overflow-hidden text-ellipsis"
-                            dangerouslySetInnerHTML={{ __html: item?.content }}
-                          />
-                        </div>
-                      </div>
-                      <div className="h-fit p-4 flex gap-x-2 justify-end">
-                        <div className="flex items-center">
-                          <h3 className="text-sm">
-                            {item.communicationLikesCount}
-                          </h3>
-                          <Image
-                            className="w-4"
-                            alt=""
-                            src={"/iconheart.svg"}
-                            width={200}
-                            height={200}
-                          />
-                        </div>
-                        <div className="flex items-center">
-                          <h3 className="text-sm">
-                            {item.communicationCommentsCount}
-                          </h3>
-                          <Image
-                            className="w-4"
-                            alt=""
-                            src={"/iconcomment.svg"}
-                            width={200}
-                            height={200}
-                          />
-                        </div>
 
-                        <div
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (item.bookmarked === true) {
-                              handleDeleteBookmarked(item.id);
-                            } else {
-                              handleBookmarked(item.id);
-                            }
-                          }}
-                          className="flex items-center p-2 rounded-md bg-blue-500 shadow-[7px_8px_40px_6px_#00000024] cursor-pointer ml-4 text-white"
-                        >
-                          {item.bookmarked === true ? (
-                            <>
-                              <SaveIconFill width={22} height={22} />
-                              <h2 className="text-base ml-2">
-                                {" "}
-                                {languageRedux === 1 ? `Đã lưu` : `Saved`}
-                              </h2>
-                            </>
-                          ) : (
-                            <>
-                              <SaveIconOutline width={22} height={22} />
-                              <h2 className="text-base ml-2">
-                                {" "}
-                                {languageRedux === 1 ? `Lưu tin` : `Save news`}
-                              </h2>
-                            </>
-                          )}
+        <div className="flex gap-12 w-full">
+          <div className=" max-w-5xl w-full flex flex-col gap-8 mt-12">
+            <div className="bg-white/50 flex rounded-lg overflow-hidden items-center p-4 gap-2 w-full">
+              <div className="w-10 h-10 rounded-full overflow-hidden">
+                <Image
+                  width={500}
+                  height={500}
+                  alt=""
+                  className=""
+                  src={profile.avatarPath ?? "/goapply.png"}
+                />
+              </div>
+              <div
+                className="px-2 py-4 bg-black/30 font-medium rounded-full flex-1 text-white cursor-pointer"
+                onClick={() => {
+                  setTabModal(true);
+                }}
+              >
+                <p>Bạn ơi, bạn muốn đăng gì ?</p>
+              </div>
+            </div>
+            {communityAdmin.map((dt: any, ikey: any) => {
+              return (
+                <>
+                  <div className="flex flex-col gap-6" key={ikey}>
+                    <div className="bg-white/50 flex flex-col rounded-lg overflow-hidden gap-2">
+                      <div className="flex gap-2 items-center p-4 pb-0">
+                        <div className="w-10 h-10 rounded-full overflow-hidden">
+                          <Image
+                            width={500}
+                            height={500}
+                            alt=""
+                            className=""
+                            src={dt.profileData.avatarPath ?? "/goapply.png"}
+                          />
+                        </div>
+                        <div className="flex flex-col justify-between">
+                          <p className="font-semibold text-black">
+                            {dt.profileData.name ?? "No name"}
+                          </p>
+                          <div className="flex gap-1 items-center">
+                            <p className="text-xs font-semibold text-gray-400">
+                              {dt.createdAtText}
+                            </p>
+                            <FaUserTie className="text-white text-xs" />
+                          </div>
                         </div>
                       </div>
-                    </li>
+                      <div className="px-4">
+                        <p className="text-white">{dt.title}</p>
+                      </div>
+                      <div
+                        className="flex flex-col cursor-pointer"
+                        onClick={() => {
+                          setIdCommunity(dt.id);
+                          setTabModalDetail(true);
+                        }}
+                      >
+                        <Image
+                          className="w-full max-h-[400px] h-[40vw]"
+                          width={2000}
+                          height={2000}
+                          alt=""
+                          src={dt.images[0]?.image ?? "/goapply.png"}
+                        />
+                        <div className="p-4 bg-black/60 text-white/80 font-medium flex w-full justify-between items-center">
+                          <div className="   flex gap-1 items-center">
+                            <CgDanger />
+                            <p className="text-xl overflow-hidden text-wrap text-white">
+                              {handleShortTextHome(
+                                handleConvertText(dt.content),
+                                30
+                              )}
+                            </p>
+                          </div>
+                          <div
+                            className="px-4 py-2 rounded-lg border-2 hover:border-blue-500 hover:text-blue-500 cursor-pointer"
+                            onClick={(e: any) => {
+                              e.stopPropagation();
+                              router.push(
+                                `/detail-community?post-community=${dt.id}&type=0`
+                              );
+                            }}
+                          >
+                            <p>Xem chi tiết</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-2 w-full px-4 py-2">
+                        <div className="border-b-[1px] flex w-full justify-between items-center py-2">
+                          <div className="flex gap-1 items-center">
+                            <div className="p-1 rounded-full bg-blue-400">
+                              <BiSolidLike className="text-xs text-white" />
+                            </div>
+                            <span className="text-white text-sm">
+                              {dt.communicationLikesCount}
+                            </span>
+                          </div>
+                          <div className="flex gap-1">
+                            <div className="flex gap-1 items-center text-white">
+                              <BsEyeFill className=" text-white" />
+                              <span className="text-white text-sm">
+                                {dt.communicationViewsCount}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex w-full gap-1">
+                          <div
+                            className={`flex gap-1 w-full justify-center items-center py-2  ${
+                              dt.liked ? "text-blue-500" : "text-white"
+                            } rounded-lg hover:bg-black/50 cursor-pointer`}
+                            onClick={() => {
+                              handleLikeCommunity(dt.id);
+                            }}
+                          >
+                            <BiSolidLike />
+                            <span>Thích</span>
+                          </div>
+
+                          {/* <div className="flex gap-1 w-full justify-center items-center py-2 text-white rounded-lg hover:bg-black/50 cursor-pointer">
+                      <FaComment />
+                      <span>Bình luận</span>
+                    </div> */}
+                          <div
+                            className={`flex gap-1 w-full justify-center items-center py-2  ${
+                              dt.bookmarked ? "text-yellow-400" : "text-white"
+                            } rounded-lg hover:bg-black/50 cursor-pointer`}
+                            onClick={() => {
+                              if (profile?.isActive) {
+                                if (dt.bookmarked) {
+                                  handleDeleteBookmarked(dt.id);
+                                } else {
+                                  handleBookmarked(dt.id);
+                                }
+                              } else {
+                                toast.error("Vui lòng xác thực", {
+                                  position: "bottom-center",
+                                  autoClose: 2000,
+                                  hideProgressBar: false,
+                                  closeOnClick: true,
+                                  pauseOnHover: true,
+                                  draggable: true,
+                                  progress: undefined,
+                                  theme: "dark",
+                                });
+                              }
+                            }}
+                          >
+                            <FaStar />
+
+                            <span>Lưu</span>
+                          </div>
+                        </div>
+                        {/* <div className="pt-2 border-t-[1px] flex flex-col gap-2">
+                          <div className="flex items-center justify-between w-full">
+                            <div className="font-bold text-white hover:underline cursor-pointer">
+                              Xem thêm
+                            </div>
+                            <div className="flex gap-1 items-center text-white">
+                              <span className=" text-sm">
+                                {dt.communicationCommentsCount}
+                              </span>
+                              <p className="text-sm">bình luận</p>
+                            </div>
+                          </div>
+
+                          <div className="flex gap-2 items-start w-full">
+                            <div className="w-10 h-10 rounded-full overflow-hidden">
+                              <Image
+                                src={"/goapply.png"}
+                                alt=""
+                                width={500}
+                                height={500}
+                              />
+                            </div>
+                            <div className="flex flex-col py-2 px-4 rounded-2xl max-w-96 bg-black/40">
+                              <p className="text-sm font-semibold text-white">
+                                Tran Minh
+                              </p>
+                              <p className="text-xs text-white text-wrap">
+                                Ở đây nói không với học
+                              </p>
+                            </div>
+                          </div>
+                        </div> */}
+                      </div>
+                    </div>
+                  </div>
+                </>
+              );
+            })}
+          </div>
+          {reponsiveMobile > 800 && (
+            <div className="min-w-72 flex-1 flex flex-col gap-4">
+              <p className="text-2xl text-white">Bài viết mới của bạn</p>
+              <div className="flex flex-col gap-3">
+                {communityUser.map((dt: any, ikey: any) => {
+                  return (
+                    <>
+                      <div
+                        className="w-full max-h-72 rounded-lg overflow-hidden relative"
+                        key={ikey}
+                      >
+                        <Image
+                          height={500}
+                          width={500}
+                          alt=""
+                          src={profile.avatarPath ?? "/goapply.png"}
+                        />
+                        <div className="absolute bottom-0 inset-x-0 flex flex-col p-4 bg-black/60">
+                          <p
+                            className="text-white font-bold text-lg cursor-pointer hover:underline"
+                            onClick={() => {
+                              router.push(
+                                `/detail-community?post-community=${dt.id}&type=0`
+                              );
+                            }}
+                          >
+                            {handleShortTextHome(dt.title, 15)}
+                          </p>
+                          <p className="text-sm text-white">
+                            {handleShortTextHome(
+                              handleConvertText(dt.content),
+                              15
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                    </>
                   );
                 })}
-            </ul>
-          </div>
-          <div
-            className="absolute top-0 right-0"
-            onClick={() => {
-              router.push("/blog/see-all-admin");
-            }}
-          >
-            <button className="font-bold text-blue-600 text-lg border-b-4 border-blue-500 hover:text-blue-500">
-              {languageRedux === 1 ? `Xem thêm` : `See more`}
-            </button>
-          </div>
+              </div>
+            </div>
+          )}
         </div>
-
-        <div className="my-8 relative">
-          <h1 className="text-2xl font-bold my-4">
-            {languageRedux === 1 ? `Cẩm nang chia sẻ` : `Sharing handbook`}
-          </h1>
-          <div className="max-w-full">
-            <ul className="-mx-[10.5px] flex flex-wrap justify-around gap-y-16">
-              {communityUser &&
-                communityUser.map((item: any, index: number) => {
-                  return (
-                    <li
-                      key={index}
-                      className="w-[370px] group cursor-pointer bg-white shadow-[7px_8px_40px_6px_#00000024] mx-[10.5px] rounded-lg overflow-hidden flex flex-col justify-between gap-8"
-                      onClick={(e) => {
-                        router.push(
-                          `/detail-community?post-community=${item.id}&type=1`
-                        );
-                        e.stopPropagation();
-                      }}
-                    >
-                      <div className=" h-52 overflow-hidden">
-                        <Image
-                          className="w-full h-full transition-all duration-500 group-hover:scale-110"
-                          alt=""
-                          width={1920}
-                          height={1080}
-                          src={item?.images[0]?.image}
-                          onError={(e: any) => {
-                            e.target.onerror = null;
-                            e.target.src = "/logo/iphone15.png";
-                          }}
-                        />
-                      </div>
-                      <div className="px-8 flex flex-col gap-4">
-                        <h2 className="font-bold text-lg h-16">{item.title}</h2>
-                        <div className="max-h-20">
-                          <p
-                            className="text-sm max-h-20 overflow-hidden text-ellipsis"
-                            dangerouslySetInnerHTML={{ __html: item?.content }}
-                          />
-                          ...
-                        </div>
-                      </div>
-                      <div className="h-fit p-4 flex gap-x-2 justify-end">
-                        <div className="flex items-center">
-                          <h3 className="text-sm">
-                            {item.communicationLikesCount}
-                          </h3>
-                          <Image
-                            className="w-4"
-                            alt=""
-                            src={"/iconheart.svg"}
-                            width={200}
-                            height={200}
-                          />
-                        </div>
-                        <div className="flex items-center">
-                          <h3 className="text-sm">
-                            {item.communicationCommentsCount}
-                          </h3>
-                          <Image
-                            className="w-4"
-                            alt=""
-                            src={"/iconcomment.svg"}
-                            width={200}
-                            height={200}
-                          />
-                        </div>
-
-                        <div
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (item.bookmarked === true) {
-                              handleDeleteBookmarked(item.id);
-                            } else {
-                              handleBookmarked(item.id);
-                            }
-                          }}
-                          className="flex items-center p-2 rounded-md bg-blue-500 shadow-[7px_8px_40px_6px_#00000024] cursor-pointer ml-4 text-white"
-                        >
-                          {item.bookmarked === true ? (
-                            <>
-                              <SaveIconFill width={22} height={22} />
-                              <h2 className="text-base ml-2">
-                                {" "}
-                                {languageRedux === 1 ? `Đã lưu` : `Saved`}
-                              </h2>
-                            </>
-                          ) : (
-                            <>
-                              <SaveIconOutline width={22} height={22} />
-                              <h2 className="text-base ml-2">
-                                {" "}
-                                {languageRedux === 1 ? `Lưu tin` : `Save news`}
-                              </h2>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </li>
-                  );
-                })}
-            </ul>
-          </div>
-          <div
-            className="absolute top-0 right-0"
-            onClick={() => {
-              router.push("/blog/see-all");
-            }}
-          >
-            <button className="font-bold text-blue-600 text-lg border-b-4 border-blue-500 hover:text-blue-500">
-              {languageRedux === 1 ? `Xem thêm` : `See more`}
-            </button>
-          </div>
-        </div>
-        <ToastContainer />
       </div>
+      {tabModal && (
+        <div
+          className="fixed bg-black/50 inset-0 flex justify-center items-center z-50"
+          onClick={() => {
+            setTabModal(false);
+          }}
+        >
+          <div
+            className="p-4 bg-white max-w-[500px] max-h-[428px] rounded-lg overflow-y-scroll relative"
+            onClick={(e: any) => {
+              e.stopPropagation();
+            }}
+          >
+            <div
+              className="absolute p-2 rounded-full top-2 right-2 border-2 text-xl cursor-pointer"
+              onClick={() => {
+                setTabModal(false);
+              }}
+            >
+              <IoClose />
+            </div>
+            {typeof window !== "undefined" &&
+              typeof document !== "undefined" && (
+                <ComunityCreatePost setTab={handleUpload} />
+              )}
+          </div>
+        </div>
+      )}
+      {tabModalDetail && (
+        <div
+          className="fixed bg-black/50 inset-0 flex justify-center items-center z-50"
+          onClick={() => {
+            setTabModalDetail(false);
+          }}
+        >
+          <div
+            className="p-4 bg-white max-w-[90vw] max-h-[90vh] rounded-lg overflow-y-scroll relative"
+            onClick={(e: any) => {
+              e.stopPropagation();
+            }}
+          >
+            <div className="absolute w-full bg-white h-28 z-10">
+              <div
+                className="absolute p-2 rounded-full top-6 right-6 border-2 text-xl cursor-pointer"
+                onClick={() => {
+                  setTabModalDetail(false);
+                }}
+              >
+                <IoClose />
+              </div>
+            </div>
+
+            <Comunity idCommunity={idCommunity} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

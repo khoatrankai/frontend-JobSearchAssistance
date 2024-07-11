@@ -68,7 +68,7 @@ const CardsAppliedApproved: React.FC<ICardsAppliedApproved> = (props) => {
         setLastPostId(result.data[result.data.length - 1].id);
       }
     } catch (error) {
-      console.log("error", error);
+      //console.log("error", error);
     }
   };
 
@@ -120,7 +120,7 @@ const CardsAppliedApproved: React.FC<ICardsAppliedApproved> = (props) => {
           return sortData.sortDataByDate(newOld, array);
         });
       }
-    } catch (error) { }
+    } catch (error) {}
   };
   return (
     <>
@@ -148,7 +148,7 @@ const CardsAppliedApproved: React.FC<ICardsAppliedApproved> = (props) => {
             width: 130,
             height: 40,
             backgroundColor: `#f5f5f5`,
-            marginBottom: '2rem',
+            marginBottom: "2rem",
           }}
           value={newOld}
           onChange={handleChange}

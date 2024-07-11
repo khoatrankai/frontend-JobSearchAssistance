@@ -16,6 +16,7 @@ import SeachAge from "./SearchAge";
 import ItemCadidate from "./ItemCadidate";
 import "./style.scss";
 import { useSrollContext } from "@/context/AppProvider";
+import CheckRoleRecruiter from "@/util/CheckRoleRecruiter";
 
 const CandidatesAll = () => {
   const [listData, setListData] = useState<any>([]);
@@ -32,16 +33,19 @@ const CandidatesAll = () => {
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
-  const { handleLoadHrefPage } = useSrollContext();
+  const { handleLoadHrefPage, setTabAlertCatalog, setSelectProfileRecruiter } =
+    useSrollContext();
   const [hasMore, setHasMore] = React.useState(true);
 
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
-  const profileV3 = useSelector((state: RootState) => state.dataProfileV3.data);
+  const profileV3 = useSelector(
+    (state: RootState) => state.profileRecruiter.profile
+  );
 
-  useEffect(() => {
-    handleLoadHrefPage();
-  }, []);
+  // useEffect(() => {
+  //   handleLoadHrefPage();
+  // }, []);
 
   const getAllCandidates = async () => {
     try {
@@ -73,67 +77,87 @@ const CandidatesAll = () => {
     } catch (error) {}
   };
   React.useEffect(() => {
-    getAllCandidates();
-  }, [languageRedux]);
+    if (
+      profileV3?.companyInfomation?.isActive &&
+      (profileV3?.isV1 || profileV3?.isV2 || profileV3?.isV3 || profileV3?.isV4)
+    ) {
+      getAllCandidates();
+    }
+  }, [languageRedux, profileV3]);
 
   React.useEffect(() => {
-    if (profileV3.length !== 0 && profileV3.typeRoleData === 0) {
-      window.open("/", "_parent");
+    CheckRoleRecruiter();
+    // if (profileV3.length !== 0 && profileV3.typeRoleData === 0) {
+    //   window.open("/recruiter", "_parent");
+    // }
+    if (
+      profileV3 &&
+      profileV3?.companyInfomation?.isActive &&
+      (profileV3?.isV1 || profileV3?.isV2 || profileV3?.isV3 || profileV3?.isV4)
+    ) {
+      setTabAlertCatalog(false);
+    } else {
+      setTabAlertCatalog(true);
     }
   }, [profileV3]);
 
   const [messageApi, contextHolder] = message.useMessage();
   const handleSubmitSearchCandidate = async () => {
-    try {
-      if (ageMin && ageMax && ageMin > ageMax) {
-        message.error("Độ tuổi không hợp lệ!");
-        return;
-      }
-
-      if (
-        (ageMin && ageMax && ageMin < 18) ||
-        (ageMin && ageMax && ageMax < 18)
-      ) {
-        message.error("Độ tuổi không hợp lệ!");
-        return;
-      }
-
-      if (
-        (ageMin && ageMax && ageMin > 60) ||
-        (ageMin && ageMax && ageMax > 60)
-      ) {
-        message.error("Độ tuổi không hợp lệ!");
-        return;
-      }
-      const result = await candidateSearch.getCandidates(
-        addresses,
-        categories,
-        educations,
-        gender,
-        ageMin,
-        ageMax,
-        19,
-        page,
-        "vi"
-      );
-      setPage("0");
-      if (result) {
-        setTotal(result.data.total);
-        setListData(result.data.cvFilters);
-        if (result.data.cvFilters.length < 18) {
-          setHasMore(false);
-          setPage("0");
-        } else if (result.data.cvFilters.length === 0) {
-          setHasMore(false);
-          setPage("0");
-        } else {
-          setHasMore(true);
+    if (
+      profileV3?.companyInfomation?.isActive &&
+      (profileV3?.isV1 || profileV3?.isV2 || profileV3?.isV3 || profileV3?.isV4)
+    ) {
+      try {
+        if (ageMin && ageMax && ageMin > ageMax) {
+          message.error("Độ tuổi không hợp lệ!");
+          return;
         }
+
+        if (
+          (ageMin && ageMax && ageMin < 18) ||
+          (ageMin && ageMax && ageMax < 18)
+        ) {
+          message.error("Độ tuổi không hợp lệ!");
+          return;
+        }
+
+        if (
+          (ageMin && ageMax && ageMin > 60) ||
+          (ageMin && ageMax && ageMax > 60)
+        ) {
+          message.error("Độ tuổi không hợp lệ!");
+          return;
+        }
+        const result = await candidateSearch.getCandidates(
+          addresses,
+          categories,
+          educations,
+          gender,
+          ageMin,
+          ageMax,
+          19,
+          page,
+          "vi"
+        );
+        setPage("0");
+        if (result) {
+          setTotal(result.data.total);
+          setListData(result.data.cvFilters);
+          if (result.data.cvFilters.length < 18) {
+            setHasMore(false);
+            setPage("0");
+          } else if (result.data.cvFilters.length === 0) {
+            setHasMore(false);
+            setPage("0");
+          } else {
+            setHasMore(true);
+          }
+        }
+      } catch (error) {
+        //console.log("error", error);
+        message.error("Lỗi server!");
+        return;
       }
-    } catch (error) {
-      console.log("error", error);
-      message.error("Lỗi server!");
-      return;
     }
   };
 
@@ -148,28 +172,33 @@ const CandidatesAll = () => {
   };
 
   const fetchMoreData = async () => {
-    try {
-      const nextPage = parseInt(page) + 1;
-      const result = await candidateSearch.getCandidates(
-        addresses,
-        categories,
-        educations,
-        gender,
-        ageMin,
-        ageMax,
-        19,
-        nextPage,
-        "vi"
-      );
+    if (
+      profileV3?.companyInfomation?.isActive &&
+      (profileV3?.isV1 || profileV3?.isV2 || profileV3?.isV3 || profileV3?.isV4)
+    ) {
+      try {
+        const nextPage = parseInt(page) + 1;
+        const result = await candidateSearch.getCandidates(
+          addresses,
+          categories,
+          educations,
+          gender,
+          ageMin,
+          ageMax,
+          19,
+          nextPage,
+          "vi"
+        );
 
-      if (result && result.data.cvFilters.length !== 0) {
-        setListData((prev: any) => [...prev, ...result?.data.cvFilters]);
-        setPage(nextPage);
-      } else {
-        setHasMore(false);
-        setPage("0");
-      }
-    } catch (error) {}
+        if (result && result.data.cvFilters.length !== 0) {
+          setListData((prev: any) => [...prev, ...result?.data.cvFilters]);
+          setPage(nextPage);
+        } else {
+          setHasMore(false);
+          setPage("0");
+        }
+      } catch (error) {}
+    }
   };
   return (
     <div className="container-candidate">
@@ -183,7 +212,12 @@ const CandidatesAll = () => {
           </h3>
           <Button
             type="primary"
-            onClick={() => window.open(`/history?candidate=4`, "_parent")}
+            onClick={() => {
+              // setSelectProfileRecruiter(3);
+              localStorage.setItem("selectProfileRecruiter", "4");
+              localStorage.setItem("selectItemProfileUser", "3");
+              window.open(`/recruiter/profile`, "_parent");
+            }}
           >
             {languageRedux === 1
               ? "Danh sách ứng viên đã lưu"

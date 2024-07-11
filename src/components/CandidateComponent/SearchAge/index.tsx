@@ -1,6 +1,5 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-
+import React from "react";
+import { useSelector } from "react-redux";
 
 // import ant
 import {
@@ -12,14 +11,14 @@ import {
   Space,
   Radio,
   Input,
-} from 'antd';
-import type { RadioChangeEvent } from 'antd';
+} from "antd";
+import type { RadioChangeEvent } from "antd";
 
-import './style.scss';
-import { RootState } from '@/redux/reducer';
-import candidateSearch from '@/api/candidate/apiCandidates';
-import { CalendarIcon } from '@/icons/iconCandidate';
-import { ArrowFilterIcon } from '@/icons';
+import "./style.scss";
+import { RootState } from "@/redux/reducer";
+import candidateSearch from "@/api/candidate/apiCandidates";
+import { CalendarIcon } from "@/icons/iconCandidate";
+import { ArrowFilterIcon } from "@/icons";
 
 const CustomOption = ({
   academicType,
@@ -36,8 +35,8 @@ const CustomOption = ({
   const [valueMaxAge, setValueMaxAge] = React.useState(0);
 
   const onChange = ({ target: { value } }: RadioChangeEvent) => {
-    // console.log('valueRender Loai cong viec', valueRender);
-    // console.log('valueRender Loai cong viec value', value);
+    // //console.log('valueRender Loai cong viec', valueRender);
+    // //console.log('valueRender Loai cong viec value', value);
     const valueRender = academicType.find((item: any) => item.id === value);
     if (valueRender) {
       setValueRender(valueRender);
@@ -46,7 +45,7 @@ const CustomOption = ({
   };
 
   const languageRedux = useSelector(
-    (state: RootState) => state.changeLaguage.language,
+    (state: RootState) => state.changeLaguage.language
   );
 
   return (
@@ -91,20 +90,20 @@ const SeachAge: React.FC<ISeachAge> = (props) => {
 
   const [valueRender, setValueRender] = React.useState<any>();
   const languageRedux = useSelector(
-    (state: RootState) => state.changeLaguage.language,
+    (state: RootState) => state.changeLaguage.language
   );
   const profileV3 = useSelector((state: RootState) => state.dataProfileV3.data);
 
   const academicTypesFnc = async () => {
     try {
       const result = await candidateSearch.getAcademicTypes(
-        languageRedux === 1 ? 'vi' : 'en',
+        languageRedux === 1 ? "vi" : "en"
       );
       if (result) {
         setAcademicType(result.data);
       }
     } catch (error) {
-      console.log('error: ' + error);
+      //console.log('error: ' + error);
     }
   };
 
@@ -121,30 +120,32 @@ const SeachAge: React.FC<ISeachAge> = (props) => {
   const [valueMaxAge, setValueMaxAge] = React.useState(0);
   const selectRef = React.useRef<any>(null);
   React.useEffect(() => {
-    const handleOutsideClick = (event: any) => {
-      const element = document.querySelector('.wrap-radio_candidateAge');
-      if (
-        (selectRef.current && !selectRef.current?.contains(event.target)) ||
-        (element && !element.contains(event.target))
-      ) {
-        setIsSelectOpen(false); // Đóng Select khi click bên ngoài
-      }
-      const element1 = document.querySelector('.wrap-radio_candidateAge');
+    if (typeof document !== "undefined") {
+      const handleOutsideClick = (event: any) => {
+        const element = document.querySelector(".wrap-radio_candidateAge");
+        if (
+          (selectRef.current && !selectRef.current?.contains(event.target)) ||
+          (element && !element.contains(event.target))
+        ) {
+          setIsSelectOpen(false); // Đóng Select khi click bên ngoài
+        }
+        const element1 = document.querySelector(".wrap-radio_candidateAge");
 
-      if (
-        (selectRef.current && selectRef.current?.contains(event.target)) ||
-        (element && element.contains(event.target))
-      ) {
-        // Đóng Select khi click bên ngoài
-        setIsSelectOpen(true);
-      }
-    };
+        if (
+          (selectRef.current && selectRef.current?.contains(event.target)) ||
+          (element && element.contains(event.target))
+        ) {
+          // Đóng Select khi click bên ngoài
+          setIsSelectOpen(true);
+        }
+      };
 
-    document.addEventListener('mousedown', handleOutsideClick);
+      document.addEventListener("mousedown", handleOutsideClick);
 
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
+      return () => {
+        document.removeEventListener("mousedown", handleOutsideClick);
+      };
+    }
   }, [isSelectOpen]);
 
   return (
@@ -161,32 +162,32 @@ const SeachAge: React.FC<ISeachAge> = (props) => {
         }
         className=""
         size="large"
-        placeholder={languageRedux === 1 ? 'Độ tuổi' : 'Age'}
+        placeholder={languageRedux === 1 ? "Độ tuổi" : "Age"}
         suffixIcon={<ArrowFilterIcon width={14} height={10} />}
         open={isSelectOpen}
         dropdownRender={(menu) => (
           <div className="wrap-radio_candidateAge">
             {/* {menu} */}
             <div className="title-search_age">
-              <h3>{languageRedux === 1 ? 'Độ tuổi' : 'Age'}</h3>
+              <h3>{languageRedux === 1 ? "Độ tuổi" : "Age"}</h3>
             </div>
 
-            <Divider style={{ margin: '8px 0' }} />
+            <Divider style={{ margin: "8px 0" }} />
             <div
               style={{
-                display: 'flex',
-                gap: '12px',
-                padding: '12px 0',
-                justifyContent: 'center',
+                display: "flex",
+                gap: "12px",
+                padding: "12px 0",
+                justifyContent: "center",
               }}
             >
-              <Space style={{ padding: '0 8px 4px' }}>
+              <Space style={{ padding: "0 8px 4px" }}>
                 <Input
                   placeholder="Please enter item"
                   type="number"
                   style={{
-                    WebkitAppearance: 'none',
-                    MozAppearance: 'textfield',
+                    WebkitAppearance: "none",
+                    MozAppearance: "textfield",
                   }}
                   maxLength={1}
                   value={ageMin ? ageMin : undefined}
@@ -199,13 +200,13 @@ const SeachAge: React.FC<ISeachAge> = (props) => {
                   }}
                 />
               </Space>
-              <Space style={{ padding: '0 8px 4px' }}>
+              <Space style={{ padding: "0 8px 4px" }}>
                 <Input
                   placeholder="Please enter item"
                   type="number"
                   style={{
-                    WebkitAppearance: 'none',
-                    MozAppearance: 'textfield',
+                    WebkitAppearance: "none",
+                    MozAppearance: "textfield",
                   }}
                   // ref={inputRef}
                   value={ageMax ? ageMax : undefined}
@@ -224,8 +225,7 @@ const SeachAge: React.FC<ISeachAge> = (props) => {
             </div>
           </div>
         )}
-      >
-      </Select>
+      ></Select>
     </div>
   );
 };

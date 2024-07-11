@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
+"use client";
 import React, { useState, FormEvent, useEffect } from "react";
-import "global";
 import "./style.scss";
 import imageCompression from "browser-image-compression";
 import { Button, Input, message, Modal } from "antd";
@@ -11,7 +11,7 @@ import type { RcFile } from "antd/es/upload/interface";
 import { useDropzone } from "react-dropzone";
 import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 // @ts-ignore
 import communityApi from "@/api/community/apiCommunity";
 import { RootState } from "@/redux/reducer";
@@ -21,12 +21,16 @@ import RollTop from "@/components/RollTop";
 import { CameraComunityIcon, DeleteImageComunityIcon } from "@/icons";
 import validatePostImages from "@/validations/post/image";
 import { useRouter, useSearchParams } from "next/navigation";
-const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
+// const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useSrollContext } from "@/context/AppProvider";
+import TextEditorCustomBlog from "@/util/TextEditCustom/TextEditorCustomBlog";
+import CheckPageLogin from "@/util/CheckPageLogin";
+import ToastCustom from "@/util/ToastCustom";
 
-const ComunityCreatePost = () => {
+const ComunityCreatePost = ({ setTab }: any) => {
+  CheckPageLogin();
   const language = useSelector(
     (state: RootState) => state.dataLanguage.languages
   );
@@ -53,13 +57,15 @@ const ComunityCreatePost = () => {
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
+  const profile = useSelector((state: RootState) => state.profile.profile);
+  const { hdError } = ToastCustom();
   const [messageApi, contextHolder] = message.useMessage();
   const router = useRouter();
   // useEffect(() => {
   //   setAccountId(localStorage.getItem("accountId"));
   // }, []);
   React.useEffect(() => {
-    handleLoadHrefPage();
+    // handleLoadHrefPage();
     if (typeof localStorage !== undefined) {
       const accountId = localStorage.getItem("accountId");
       if (!accountId) {
@@ -84,7 +90,7 @@ const ComunityCreatePost = () => {
         }
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -140,7 +146,7 @@ const ComunityCreatePost = () => {
             ]);
           }
         } catch (error) {
-          console.log(error);
+          //console.log(error);
         }
       }
     }
@@ -323,11 +329,14 @@ const ComunityCreatePost = () => {
         formData.append("deleteImages", id);
       });
 
-    for (const pair of formData.entries()) {
-    }
-
-    if (formData) {
-      POST_COMMUNITY_ID ? updateCommunity(formData) : createCommunity(formData);
+    if (profile?.isActive) {
+      if (formData) {
+        POST_COMMUNITY_ID
+          ? updateCommunity(formData)
+          : createCommunity(formData);
+      }
+    } else {
+      hdError("Vui lòng xác thực");
     }
   };
 
@@ -357,6 +366,7 @@ const ComunityCreatePost = () => {
               progress: undefined,
             }
           );
+          router.push(`/detail-community?post-community=${result?.data?.id}`);
         } else {
           // messageApi.open({
           //   type: 'error',
@@ -382,9 +392,16 @@ const ComunityCreatePost = () => {
           );
         }
       } else {
-        messageApi.open({
-          type: "error",
-          content: message,
+        console.log(checkForm);
+        toast.error(message, {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+          progress: undefined,
         });
       }
     } catch (error) {}
@@ -407,7 +424,11 @@ const ComunityCreatePost = () => {
             progress: undefined,
             theme: "dark",
           });
-          router.push("/blog");
+          // router.push("/blog");
+          if (setTab) setTab(false);
+          else {
+            router.push(`/detail-community?post-community=${result?.data?.id}`);
+          }
 
           localStorage.setItem("community_success", "true");
         } else {
@@ -423,13 +444,19 @@ const ComunityCreatePost = () => {
           });
         }
       } else {
-        messageApi.open({
-          type: "error",
-          content: message,
+        toast.error(message, {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+          progress: undefined,
         });
       }
     } catch (error) {
-      console.log("Error", error);
+      //console.log("Error", error);
     }
   };
 
@@ -439,7 +466,6 @@ const ComunityCreatePost = () => {
 
   return (
     <div className="comunity-create-post-container">
-      {/* {contextHolder} */}
       <div className="comunity-create-post-content">
         <div className="create-post-header">
           <h3 style={{ fontWeight: "800" }}>
@@ -476,21 +502,9 @@ const ComunityCreatePost = () => {
           </div>
           <div className="create-post-body_input">
             <h3>{languageRedux === 1 ? "2. Nội dung" : "2. Contents"}</h3>
-            <JoditEditor
-              value={valueContent}
-              config={{
-                readonly: false,
-                height: 600,
-                toolbar: true,
-                toolbarButtonSize: "large",
-                showTooltip: true,
-                showTooltipDelay: 0,
-                style: {
-                  background: "white",
-                  color: "black",
-                },
-              }}
-              onBlur={(e) => onBlurValue(e)}
+            <TextEditorCustomBlog
+              dataReq={valueContent}
+              handleChangeData={onBlurValue}
             />
           </div>
           <div className="create-post-body_input">
@@ -587,7 +601,9 @@ const ComunityCreatePost = () => {
           </div>
           <div className="save_btn">
             <Button
-              onClick={handleSaveCommunity}
+              onClick={(e: any) => {
+                handleSaveCommunity(e);
+              }}
               className={
                 valueTitle === "" || valueContent === ""
                   ? "submit"
@@ -605,7 +621,6 @@ const ComunityCreatePost = () => {
           </div>
         </div>
       </div>
-      <RollTop />
       <Modal
         open={previewOpen}
         title={previewTitle}
@@ -614,7 +629,6 @@ const ComunityCreatePost = () => {
       >
         <img alt="example" style={{ width: "100%" }} src={previewImage} />
       </Modal>
-      <ToastContainer />
     </div>
   );
 };

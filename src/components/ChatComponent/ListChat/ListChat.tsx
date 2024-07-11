@@ -105,7 +105,7 @@ const ListChat: React.FC<IOpenListChat> = (props) => {
         setOpenBackdrop(false);
       }
     } catch (error) {
-      console.log("error", error);
+      //console.log("error", error);
     }
   };
 
@@ -116,7 +116,7 @@ const ListChat: React.FC<IOpenListChat> = (props) => {
 
   useEffect(() => {
     if (isConnected === false && !socket.current) {
-      socket.current = io("http://localhost:8888", {
+      socket.current = io("https://backend-hcmute-nodejs.onrender.com", {
         extraHeaders: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -478,7 +478,7 @@ const ListChat: React.FC<IOpenListChat> = (props) => {
                 behavior: "smooth",
                 block: "end",
               });
-              window.scrollTo(0, document.body.scrollHeight);
+              // window.scrollTo(0, document.body.scrollHeight);
               setMessage(e.target.value);
             }}
             onKeyDown={handleKeyPress}

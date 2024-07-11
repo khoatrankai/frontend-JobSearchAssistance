@@ -35,7 +35,7 @@ const page = (props: Props) => {
   const { handleLoadHrefPage } = useSrollContext();
 
   useEffect(() => {
-    handleLoadHrefPage();
+    // handleLoadHrefPage();
   }, []);
 
   const handleUpdatePassword = () => {
@@ -104,7 +104,7 @@ const page = (props: Props) => {
           );
         }
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     };
 
@@ -195,7 +195,7 @@ const page = (props: Props) => {
       >
         {languageRedux !== 1 ? "Update" : "Cập nhật"}
       </Button>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };

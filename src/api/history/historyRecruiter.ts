@@ -1,4 +1,6 @@
 import axiosClient from '@/configs/axiosClient';
+import axiosClientRecruiter from '@/configs/axiosRecruiter';
+import { V1 } from '../linkLocal';
 
 // api/productApi.js
 const historyRecruiter = {
@@ -9,9 +11,9 @@ const historyRecruiter = {
     lang: string,
   ) => {
     const URL = `/v1/history/recruiter/posts?threshold=${page}&limit=${limit}&status=${status}&lang=${lang}`;
-    return axiosClient.get(URL, {
+    return axiosClientRecruiter.get(URL, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
       },
     });
   },
@@ -24,9 +26,9 @@ const historyRecruiter = {
     const URL = `/v1/history/recruiter/${post_id}/applications?${
       threshold ? `threshold=${threshold}` : ''
     }limit=${limit}&lang=${lang}`;
-    return axiosClient.get(URL, {
+    return axiosClientRecruiter.get(URL, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
       },
     });
   },
@@ -37,9 +39,9 @@ const historyRecruiter = {
     lang: string,
   ) => {
     const URL = `/v1/history/recruiter/applications?threshold=${threshold}&limit=${limit}&status=${status}&lang=${lang}`;
-    return axiosClient.get(URL, {
+    return axiosClientRecruiter.get(URL, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
       },
     });
   },
@@ -49,11 +51,40 @@ const historyRecruiter = {
     lang: string,
   ) => {
     const URL = `/v1/history/recruiter/${post_id}/applications/${application_id}?lang=${lang}`;
-    return axiosClient.get(URL, {
+    return axiosClientRecruiter.get(URL, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
       },
     });
+  }
+  ,
+  getApplicationAll:(postId:any)=>{
+    const URL = `v1/history/recruiter/${postId}/applications?page=0&limit=100`
+    return axiosClientRecruiter.get(URL, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
+      },
+    })
   },
+  updateNotification: async (notificationId:any, isRead:any, typeText:any) => {
+    const URL = `${V1}/api/v1/notification/update`
+
+    return await axiosClient.put(URL, {
+        notification_id: notificationId,
+        is_read: isRead,
+        typeText: typeText
+    })
+   
+},
+updateNotificationRecruiter: async (notificationId:any, isRead:any, typeText:any) => {
+  const URL = `${V1}/api/v1/notification/update`
+
+  return await axiosClientRecruiter.put(URL, {
+      notification_id: notificationId,
+      is_read: isRead,
+      typeText: typeText
+  })
+ 
+}
 };
 export default historyRecruiter;

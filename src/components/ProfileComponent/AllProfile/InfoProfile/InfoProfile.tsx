@@ -1,5 +1,5 @@
 import { useSrollContext } from "@/context/AppProvider";
-import React from "react";
+import React, { useRef } from "react";
 import AvatarProfile from "../../AvatarProfile/AvatarProfile";
 import InfoPerson from "../../InfoPerson/InfoPerson";
 import AchivementProfile from "../../AchivementProfile/AchivementProfile";
@@ -9,6 +9,7 @@ import ExperienceProfile from "../../ExperienceProfile/ExperienceProfile";
 import JobProfile from "../../JobProfile/JobProfile";
 import LanguageProfile from "../../LanguageProfile/LanguageProfile";
 import SkillProfile from "../../SkillProfile/SkillProfile";
+import AvatarUpdateProfile from "../../AvatarUpdateProfile/AvatarUpdateProfile";
 
 type Props = {
   dataInfo: any;
@@ -19,16 +20,14 @@ const InfoProfile = (props: Props) => {
   const { reponsiveMobile } = useSrollContext();
   const { dataInfo, handleUpdateApi } = props;
   return (
-    <>
-      {reponsiveMobile < 990 && (
-        <div className="flex justify-center">
-          <AvatarProfile
-            dataInfo={dataInfo}
-            handleUpdateApi={handleUpdateApi}
-            checkUpdate={false}
-          />
-        </div>
-      )}
+    <div className="mt-5 flex flex-col gap-y-4">
+      <div>
+        <AvatarUpdateProfile
+          dataInfo={dataInfo}
+          handleUpdateApi={handleUpdateApi}
+          checkUpdate={false}
+        />
+      </div>
 
       <div>
         <InfoPerson
@@ -86,7 +85,7 @@ const InfoProfile = (props: Props) => {
           checkUpdate={false}
         />
       </div>
-    </>
+    </div>
   );
 };
 

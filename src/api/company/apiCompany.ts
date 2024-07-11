@@ -18,7 +18,7 @@ export interface FormCompanyValues {
 
 const apiCompany = {
   createCampany: (newCompany: FormCompanyValues) => {
-    const URL = `http://localhost:1902/api/v3/companies`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/companies`;
     return axiosClient.post(URL, newCompany, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -27,7 +27,7 @@ const apiCompany = {
     });
   },
   updateCampany: (companyId: number, updateCompany: FormCompanyValues) => {
-    const URL = `http://localhost:1902/api/v3/companies/${companyId}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/companies/${companyId}`;
 
     return axiosClient.patch(URL, updateCompany, {
       headers: {
@@ -37,23 +37,23 @@ const apiCompany = {
     });
   },
   getAllRolesCompany: (lang: string) => {
-    const URL = `http://localhost:1902/api/v3/company-roles?lang=${lang}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/company-roles?lang=${lang}`;
     return axiosClient.get(URL);
   },
   getAllSizesCompany: (lang: string) => {
-    const URL = `http://localhost:1902/api/v3/company-sizes?lang=${lang}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/company-sizes?lang=${lang}`;
     return axiosClient.get(URL);
   },
   getAllCompany: (page: number, limit: number) => {
-    const URL = `http://localhost:1902/api/v3/companies?page=${page}&limit=${limit}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/companies?page=${page}&limit=${limit}`;
     return axiosClient.get(URL);
   },
   getDetailCompany: (id: number, lang: string) => {
-    const URL = `http://localhost:1902/api/v3/companies/${id}?lang=${lang}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/companies/${id}?lang=${lang}`;
     return axiosClient.get(URL);
   },
   postCompanyRating: (companyId: any, star: any, comment: string) => {
-    const URL = `http://localhost:1902/api/v3/company-ratings`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/company-ratings`;
     return axiosClient.post(
       URL,
       {companyId, star, comment},
@@ -65,7 +65,7 @@ const apiCompany = {
     );
   },
   getReviewAccountOfCompany: (id: any, lang: string) => {
-    const URL = `http://localhost:1902/api/v3/company-ratings/account/company/${id}?lang=${lang}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/company-ratings/account/company/${id}?lang=${lang}`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -73,11 +73,12 @@ const apiCompany = {
     });
   },
   getCompanyRating: (id: any, page: any, limit: any, lang: string) => {
-    const URL = `http://localhost:1902/api/v3/company-ratings/company/${id}?lang=${lang}&limit=${limit}&page=${page}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/company-ratings/company/${id}?lang=${lang}&limit=${limit}&page=${page}`;
     return axiosClient.get(URL);
   },
   deleteCompanyReview: (id: any) => {
-    const URL = `http://localhost:1902/api/v3/company-ratings/account/company/${id}`;
+    // //console.log(id)
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/company-ratings/account/company/${id}`;
     return axiosClient.delete(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -93,7 +94,7 @@ const apiCompany = {
     lang: string,
   ) => {
     const URL =
-      `http://localhost:1902/api/v3/companies/search?` +
+      `https://backend-hcmute-nestjs.onrender.com/api/v3/companies/search?` +
       `${page ? `&page=${page}` : `page=0`}` +
       `${limit ? `&limit=${limit}` : ``}` + 
       `${
@@ -116,7 +117,7 @@ const apiCompany = {
     return axiosClient.get(URL);
   },
   createFollowCompany: (companyId: number) => {
-    const URL = `http://localhost:1902/api/v3/follow-companies`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/follow-companies`;
     return axiosClient.post(URL, {companyId}, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -124,7 +125,7 @@ const apiCompany = {
     });
   },
   getFollowCompany: () => {
-    const URL = `http://localhost:1902/api/v3/follow-companies`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/follow-companies`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

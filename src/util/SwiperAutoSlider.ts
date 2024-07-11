@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useState, useEffect, useRef} from 'react';
-const useSwiperAutoSlider = (gap: number = 0, typeSlider: boolean = false) => {
+const useSwiperAutoSlider = (gap: number = 0,delay:number = 4000, typeSlider: boolean = false) => {
   const ref_list_slider = useRef<any>();
   const [checkDown, setCheckDown] = useState<boolean>(false);
   const [positionOld, setPositionOld] = useState<number>(0);
@@ -27,7 +27,17 @@ const useSwiperAutoSlider = (gap: number = 0, typeSlider: boolean = false) => {
       }
     }
   };
-
+  useEffect(()=>{
+    if(ref_list_slider.current){
+      ref_list_slider.current?.addEventListener('mousedown',handleClickDown)
+      ref_list_slider.current?.addEventListener('touchstart',handleClickDownTouch)
+      return()=>{
+        ref_list_slider.current?.removeEventListener('mousedown',handleClickDown)
+        ref_list_slider.current?.removeEventListener('touchstart',handleClickDownTouch)
+      }
+      // //console.log(ref_list_slider)
+    }
+  },[ref_list_slider])
   useEffect(() => {
     if (ref_list_slider.current) {
       ref_list_slider.current.style.transform = `translateX(${position}px)`;
@@ -37,13 +47,21 @@ const useSwiperAutoSlider = (gap: number = 0, typeSlider: boolean = false) => {
   useEffect(() => {
     if (checkDown) {
       const handleMove = (e: any) => {
+        //console.log(e.clientX)
         setPosition(position + e.clientX - positionOld);
         setCheckClick(false);
       };
+      const handleMoveTouch = (e: any) => {
+        setPosition(position + e.touches[0].clientX - positionOld);
+        setCheckClick(false);
+      };
       window.addEventListener('mousemove', handleMove);
+      window.addEventListener('touchmove', handleMoveTouch);
       return () => {
         window.removeEventListener('mousemove', handleMove);
+        window.removeEventListener('touchmove', handleMoveTouch);
       };
+      
     }
   }, [checkDown, positionOld, widthList]);
   const handleUpData = () => {
@@ -58,6 +76,7 @@ const useSwiperAutoSlider = (gap: number = 0, typeSlider: boolean = false) => {
     if (typeSlider) {
       setPosition(0);
     }
+    //console.log(width,ref_list_slider.current)
     setMaxWidth(width);
     setWidthList(
       ref_list_slider.current?.parentElement.getBoundingClientRect().width,
@@ -71,7 +90,7 @@ const useSwiperAutoSlider = (gap: number = 0, typeSlider: boolean = false) => {
         if (-position > maxWidth - widthList) {
           setPosition(-(maxWidth - widthList));
         } else {
-          const list = ref_list_slider.current.querySelectorAll('li');
+          const list = ref_list_slider.current?.querySelectorAll('li');
           let width = 0;
           let check = false;
           list.forEach((dt: any) => {
@@ -96,10 +115,22 @@ const useSwiperAutoSlider = (gap: number = 0, typeSlider: boolean = false) => {
       }
     }
   };
+  useEffect(()=>{
+    if(ref_list_slider){
+      if(!checkDown){
+        ref_list_slider.current?.classList.add(`duration-500`);
+      }else{
+        ref_list_slider.current?.classList.remove(`duration-500`);
+  
+      }
+    }
+   
+  },[checkDown,ref_list_slider])
   useEffect(() => {
     const handleUp = () => {
+      console.log("bam")
       setCheckDown(false);
-      ref_list_slider.current.classList.add(`transition-transform`);
+      ref_list_slider.current?.classList.add(`transition-transform`);
       setTimeout(() => {
         ref_list_slider.current?.classList?.remove(`transition-transform`);
       }, 150);
@@ -107,8 +138,10 @@ const useSwiperAutoSlider = (gap: number = 0, typeSlider: boolean = false) => {
     };
     if (checkDown) {
       window.addEventListener('mouseup', handleUp);
+      window.addEventListener('touchend', handleUp);
       return () => {
         window.removeEventListener('mouseup', handleUp);
+        window.removeEventListener('touchend', handleUp);
       };
     }
   }, [checkDown, position]);
@@ -124,8 +157,13 @@ const useSwiperAutoSlider = (gap: number = 0, typeSlider: boolean = false) => {
     };
   }, []);
   const handleClickDown = (e: any) => {
+    
     setCheckDown(true);
     setPositionOld(e.clientX);
+  };
+  const handleClickDownTouch = (e: any) => {
+    setCheckDown(true);
+    setPositionOld(e.touches[0].clientX);
   };
   const handleNext = () => {
     const list = ref_list_slider.current.querySelectorAll('li');
@@ -136,10 +174,14 @@ const useSwiperAutoSlider = (gap: number = 0, typeSlider: boolean = false) => {
       if (!check) {
         if (maxwidthItem > maxWidth - widthList) {
           setPosition(-(maxWidth - widthList));
-          ref_list_slider.current.classList.add(`transition-transform`);
+          ref_list_slider.current.classList.add(`transition-transform`)
           setTimeout(() => {
             ref_list_slider.current?.classList.remove(`transition-transform`);
+            
+
           }, 150);
+        
+         
           check = true;
         } else {
           if (width === -position) {
@@ -197,6 +239,7 @@ const useSwiperAutoSlider = (gap: number = 0, typeSlider: boolean = false) => {
     checkClick,
     setCheckClick,
     handleUpData,
+    handleClickDownTouch
   };
 };
 

@@ -5,6 +5,8 @@ import TimeStamp from "@/util/TimeStamp/TimeStamp";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
 import Validate from "@/util/Validate/Validate";
+import ToastCustom from "@/util/ToastCustom";
+import { ValidationProfile } from "./validation/validation";
 type Props = {
   type: any;
   dataExperience?: any;
@@ -18,6 +20,7 @@ interface IResquest {
 const ExperienceModal = (props: Props) => {
   const { ModalValidate } = Validate();
   const [checkModal, setCheckModal] = useState<boolean>(false);
+  const { hdError, hdSuccess } = ToastCustom();
   const [valueNotify, setValueNotify] = useState<any>("Bạn chắc chắn không ?");
   const { dataExperience, handleUpdateApi, type, setTabModal } = props;
   const { handleConvertToDate, handleConvertDateToTimestamp } = TimeStamp();
@@ -29,21 +32,28 @@ const ExperienceModal = (props: Props) => {
   const handleUpdateData = async () => {
     if (type === "add") {
       const res = (await axiosClient.put(
-        "http://localhost:8888/api/v1/profiles/exp/c",
+        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/exp/c",
         dataRequest
       )) as unknown as IResquest;
       if (res && res.code === 200) {
+        hdSuccess("Thêm kinh nghiệm mới thành công");
         handleUpdateApi();
         setTabModal(false);
+      } else {
+        hdError("Thêm kinh nghiệm mới không thành công");
       }
     } else {
       const res = (await axiosClient.put(
-        "http://localhost:8888/api/v1/profiles/exp/u",
+        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/exp/u",
         dataRequest
       )) as unknown as IResquest;
       if (res && res.code === 200) {
+        hdSuccess("Cập nhật kinh nghiệm mới thành công");
+
         handleUpdateApi();
         setTabModal(false);
+      } else {
+        hdError("Cập nhật kinh nghiệm mới không thành công");
       }
     }
   };
@@ -60,8 +70,19 @@ const ExperienceModal = (props: Props) => {
   };
 
   const handleYes = () => {
-    handleUpdateData();
-    setCheckModal(false);
+    const checkPost = new ValidationProfile(
+      dataRequest?.companyName ?? "",
+      dataRequest?.title ?? "",
+      dataRequest?.startDate ?? "",
+      dataRequest?.endDate ?? "",
+      dataRequest?.extraInformation ?? ""
+    );
+    const validate = checkPost.validateAllFields();
+    if (validate && !validate.status) {
+      hdError(validate.message);
+    } else {
+      handleUpdateData();
+    }
   };
   const haneleNo = () => {
     setCheckModal(false);
@@ -222,7 +243,7 @@ const ExperienceModal = (props: Props) => {
                     ? "Thêm"
                     : "Add"
                   : languageRedux === 1
-                  ? "Cập nhất"
+                  ? "Cập nhật"
                   : "Update"}
               </button>
               <button

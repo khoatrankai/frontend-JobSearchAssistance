@@ -1,12 +1,10 @@
 import CompanyDetail from "@/components/CompanyDetailComponent";
-import React from "react";
+import React, { useRef } from "react";
 
-type Props = {}
+type Props = {};
 
 const page = (props: Props) => {
-    return (
-        <CompanyDetail/>
-    )
-}
+  return <CompanyDetail />;
+};
 
-export default page
+export default page;

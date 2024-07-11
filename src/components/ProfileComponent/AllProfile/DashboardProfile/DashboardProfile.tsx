@@ -11,7 +11,7 @@ import CustomSkeleton, {
   ImageChangeSkeleton,
 } from "@/components/CustomSkeleton";
 import { useSrollContext } from "@/context/AppProvider";
-import { DataLog, DataLogRecuiter } from "@/app/analytics/typeChart";
+import { DataLog, DataLogRecuiter } from "@/components/Analytics/typeChart";
 import ItemsChartCandidate from "./ItemsChartCandidate";
 import ItemsOtherChartCandidate from "./ItemsOtherChartCandidate";
 import ChartjsCandidate from "./ChartjsCandidate";
@@ -22,9 +22,9 @@ const DashboardProfile = () => {
     DataLogRecuiter | undefined
   >(undefined);
   const { handleLoadHrefPage } = useSrollContext();
-  useEffect(() => {
-    handleLoadHrefPage();
-  }, []);
+  // useEffect(() => {
+  //   handleLoadHrefPage();
+  // }, []);
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
@@ -56,18 +56,26 @@ const DashboardProfile = () => {
             {languageRedux === 1
               ? "Tổng quan hoạt động"
               : languageRedux === 0
-                ? "Activity overview"
-                : "활동 대시보드"}
+              ? "Activity overview"
+              : "활동 대시보드"}
           </h3>
 
-          <ItemsChartCandidate dataLog={dataLog} dataLogRecruiter={dataLogRecruiter} />
-
+          <ItemsChartCandidate
+            dataLog={dataLog}
+            dataLogRecruiter={dataLogRecruiter}
+          />
         </div>
         <div className={styles.chart}>
           {dataLog ? (
-            <ChartjsCandidate dataLog={dataLog} dataLogRecruiter={dataLogRecruiter} />
+            <ChartjsCandidate
+              dataLog={dataLog}
+              dataLogRecruiter={dataLogRecruiter}
+            />
           ) : dataLogRecruiter ? (
-            <ChartjsCandidate dataLog={dataLog} dataLogRecruiter={dataLogRecruiter} />
+            <ChartjsCandidate
+              dataLog={dataLog}
+              dataLogRecruiter={dataLogRecruiter}
+            />
           ) : (
             <div
               style={{

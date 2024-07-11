@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import TypeSkill from "./Types/TypeSkill";
 import TypeInfoPerson from "./Types/TypeInfoPerson";
 import TypeHobby from "./Types/TypeHobby";

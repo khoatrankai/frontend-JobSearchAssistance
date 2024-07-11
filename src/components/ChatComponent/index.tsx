@@ -1,39 +1,43 @@
-'use client';
-import React, {useState, useEffect, useContext} from 'react';
-import './style.scss';
-import {useSelector} from 'react-redux';
-import {useSearchParams} from 'next/navigation';
-import {RootState} from '@/redux/reducer';
-import {ChatContext} from '@/context/ChatProvider';
-import ListUserChat from './ListUser/ListUser';
-import ListChat from './ListChat/ListChat';
-import RollTop from '../RollTop';
-import {useSrollContext} from '@/context/AppProvider';
+"use client";
+import React, { useState, useEffect, useContext } from "react";
+import "./style.scss";
+import { useSelector } from "react-redux";
+import { useRouter, useSearchParams } from "next/navigation";
+import { RootState } from "@/redux/reducer";
+import { ChatContext } from "@/context/ChatProvider";
+import ListUserChat from "./ListUser/ListUser";
+import ListChat from "./ListChat/ListChat";
+import RollTop from "../RollTop";
+import { useSrollContext } from "@/context/AppProvider";
+import CheckPageLogin from "@/util/CheckPageLogin";
 
 const Message = () => {
-  const {handleLoadHrefPage} = useSrollContext();
+  CheckPageLogin();
+  const { handleLoadHrefPage } = useSrollContext();
   const languageRedux = useSelector(
-    (state: RootState) => state.changeLaguage.language,
+    (state: RootState) => state.changeLaguage.language
   );
 
-  const {setApply} = useContext(ChatContext);
+  const { setApply } = useContext(ChatContext);
   const [openListChat, setOpenListChat] = useState(false);
   const language = useSelector(
-    (state: RootState) => state.dataLanguage.languages,
+    (state: RootState) => state.dataLanguage.languages
   );
-  const [innerHeight, setInnerHeight] = useState<string>('100vh');
+  const [innerHeight, setInnerHeight] = useState<string>("100vh");
 
   const searchParams: any = useSearchParams();
 
   useEffect(() => {
-    document.title = languageRedux === 1 ? 'Nhắn tin' : 'Messaging';
+    if (typeof document !== "undefined") {
+      document.title = languageRedux === 1 ? "Nhắn tin" : "Messaging";
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [languageRedux, language]);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
-    handleLoadHrefPage();
+    // handleLoadHrefPage();
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
@@ -43,16 +47,16 @@ const Message = () => {
     setInnerHeight(`${actualHeight}px`);
 
     // Đăng ký sự kiện resize khi component được render
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     // Loại bỏ sự kiện resize khi component unmount
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   React.useEffect(() => {
-    if (searchParams.get('post_id') && windowWidth < 555) {
+    if (searchParams.get("post_id") && windowWidth < 555) {
       setOpenListChat(true);
     } else {
       setOpenListChat(false);
@@ -60,7 +64,7 @@ const Message = () => {
   }, []);
 
   return (
-    <div className="message-page max-h-fit overflow-hidden">
+    <div className="message-page h-full overflow-hidden">
       {windowWidth >= 555 ? (
         <div className="message-page_main">
           <div className="wrap-content_message">
@@ -84,7 +88,7 @@ const Message = () => {
         </div>
       ) : (
         <div className="message-page-main_responsive">
-          <div className="wrap-content-message_responsive">
+          <div className="wrap-content-message_responsive max-h-[80vh]">
             <ListUserChat
               setOpenListChat={setOpenListChat}
               openListChat={openListChat}
@@ -100,7 +104,7 @@ const Message = () => {
         </div>
       )}
 
-      <RollTop />
+      {/* <RollTop /> */}
       {windowWidth > 784 ? <></> : <></>}
     </div>
   );

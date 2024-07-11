@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Cv1 from "./CV1/Cv1";
 import Cv2 from "./CV2/Cv2";
 import Cv3 from "./CV3/Cv3";

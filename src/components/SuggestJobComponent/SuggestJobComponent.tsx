@@ -7,7 +7,6 @@ import { SaveIconFill, SaveIconOutline } from "@/icons";
 import { ToastContainer, toast } from "react-toastify";
 import bookMarkApi from "@/api/bookmarks/bookMarkApi";
 import LoginIcon from "@mui/icons-material/Login";
-import ModalLogin from "../ModalLogin/ModalLogin";
 import ShortText from "@/util/ShortText";
 type Props = {};
 
@@ -25,7 +24,7 @@ const SuggestJobComponent = (props: Props) => {
   const { handleShortTextHome, handleShortValueNumber } = ShortText();
 
   const [pageNewJob, setPageNewJob] = useState<number>(0);
-  const [thresholdNewJob, setThresholdNewJob] = useState<number>(0);
+  // const [thresholdNewJob, setThresholdNewJob] = useState<number>(0);
   const [idPrev, setIdPrev] = useState<number>(0);
   const profile = useSelector((state: any) => state.profile.profile);
   const [bookmarked, setBookmarked] = React.useState(false);
@@ -38,16 +37,8 @@ const SuggestJobComponent = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = (await nearByApi.getNearByJob(
-        profile &&
-          profile?.profileLocations?.length > 0 &&
-          profile?.profileLocations?.map((item: any) => {
-            return item.province.id;
-          }),
-        null,
-        null,
-        11,
-        thresholdNewJob,
-        "vi"
+        15,
+        pageNewJob
       )) as unknown as ISuggestJob;
 
       if (res && res.success) {
@@ -55,16 +46,14 @@ const SuggestJobComponent = (props: Props) => {
       }
     };
     fetchData();
-  }, [thresholdNewJob, bookmarked]);
+  }, [pageNewJob]);
 
   const handleNextNewJob = () => {
-    setIdPrev(listJob[0].id);
-    setThresholdNewJob(listJob[listJob.length - 1].id);
     setPageNewJob(pageNewJob + 1);
   };
 
   const handlePrevNewJob = () => {
-    setThresholdNewJob(idPrev + 1);
+    setPageNewJob(pageNewJob - 1);
   };
 
   const handleBookmarked = (id: number) => {
@@ -73,34 +62,67 @@ const SuggestJobComponent = (props: Props) => {
         const res = (await bookMarkApi.createBookMark(
           id
         )) as unknown as IBookmark;
-
         if (res && res.code === 200) {
-          toast.success("Save post success", {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-          setBookmarked(!bookmarked);
+          toast.success(
+            language === 1 ? "Lưu bài viết thành công" : "Save post success",
+            {
+              position: "bottom-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            }
+          );
+          // //console.log("bam", id, listJob);
+          setListJob(
+            listJob.map((dt: any) => {
+              if (dt.id === id) {
+                return { ...dt, bookmarked: true };
+              }
+              return dt;
+            })
+          );
+          // setBookmarked(!bookmarked);
+        } else {
+          toast.error(
+            language === 1
+              ? "Lưu bài viết không thành công"
+              : "Save post success",
+            {
+              position: "bottom-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            }
+          );
+          // setOpenModalLogin(true);
         }
       };
 
       fetchData();
     } catch (error) {
-      toast.error("You cannot bookmark your own post", {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error(
+        language === 1
+          ? "Bạn không thể đánh dấu bài viết của chính mình"
+          : "You cannot bookmark your own post",
+        {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        }
+      );
     }
   };
 
@@ -112,32 +134,50 @@ const SuggestJobComponent = (props: Props) => {
         )) as unknown as IBookmark;
 
         if (res && res.code === 200) {
-          toast.success("Unsave post success", {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-          setBookmarked(!bookmarked);
+          toast.success(
+            language === 1
+              ? "Bỏ lưu bài đăng thành công"
+              : "Unsave post success",
+            {
+              position: "bottom-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            }
+          );
+          setListJob(
+            listJob.map((dt: any) => {
+              if (dt.id === id) {
+                return { ...dt, bookmarked: false };
+              }
+              return dt;
+            })
+          );
+          // setBookmarked(!bookmarked);
         }
       };
 
       fetchData();
     } catch (error) {
-      toast.error("You cannot delete your own post", {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error(
+        language === 1
+          ? "Bạn không thể xóa bài viết của chính mình"
+          : "You cannot delete your own post",
+        {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        }
+      );
     }
   };
 
@@ -289,7 +329,7 @@ const SuggestJobComponent = (props: Props) => {
           </div>
         )}
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   ) : (
     <>
@@ -317,10 +357,6 @@ const SuggestJobComponent = (props: Props) => {
             </div>
           </div>
         </div>
-        <ModalLogin
-          isOpen={openLogin}
-          handleToggleModal={() => setOpenLogin(!openLogin)}
-        />
       </div>
     </>
   );

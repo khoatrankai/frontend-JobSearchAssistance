@@ -8,6 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/reducer";
 import locationApi from "@/api/location/locationApi";
 import { fetchLocation } from "@/redux/reducer/locationReducer";
+import MapComponent from "@/components/MapComponent/MapComponent";
+import mapApi from "@/api/map/map";
+import DelayCustom from "@/util/DelayCustom";
 const styleLabel = {
   fontWeight: 700,
   color: "#000000",
@@ -23,7 +26,15 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
+  const { useDebounce } = DelayCustom();
+  const [dataLocation, setDataLocation] = useState<any>({
+    address: "",
+    latitude: 10.6,
+    longitude: 107.6,
+    ...props.dataCompany,
+  });
   const { setDataCompany, dataCompany, is_profile } = props;
+  const [tabMap, setTapMap] = useState<boolean>(true);
   const [dataDistricts, setDataDistrict] = useState<any>(null);
   const [dataWards, setDataWard] = useState<any>(null);
   const [selectedProvince, setSelectedProvince] = useState<any>(null);
@@ -107,10 +118,49 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
         }
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
+  const handleSearchLocation = async (data: any) => {
+    setTapMap(false);
+    const dataGet: any = await mapApi.getMapLocation(
+      data +
+        " " +
+        selectedWard?.full_name +
+        " " +
+        selectedDistrict?.full_name +
+        " " +
+        selectedProvince?.province_fullName,
+      "pk.eyJ1IjoiaGJ0b2FuIiwiYSI6ImNsd29tc2h2NjFhOTEyaW54MmFnYWt3ZDQifQ.ljik1w_nZErIaDyhwXh68w"
+    );
 
+    if (dataGet) {
+      const dataOK = dataGet.features.filter((dt: any) => {
+        return dt.id.includes("neighborhood");
+      })[0];
+      if (dataOK) {
+        setTapMap(true);
+
+        setDataLocation({
+          ...dataCompany,
+          address: data ?? dataLocation?.address,
+          latitude: dataOK?.center?.[1],
+          longitude: dataOK?.center?.[0],
+        });
+      } else {
+        setTapMap(true);
+
+        setDataLocation({
+          ...dataCompany,
+          address: data ?? dataLocation?.address,
+
+          latitude: dataGet.features?.[2]?.center?.[1],
+          longitude: dataGet.features?.[2]?.center?.[0],
+        });
+      }
+    }
+  };
+  const handleDebounce = useDebounce(handleSearchLocation, 500);
   // get All ward by ward id
   const getDataWard = async () => {
     try {
@@ -135,7 +185,7 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
         }
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -146,7 +196,9 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
   React.useEffect(() => {
     getDataWard();
   }, [selectedDistrict, languageRedux]);
-
+  useEffect(() => {
+    handleDebounce(undefined);
+  }, [selectedDistrict, selectedProvince, selectedWard]);
   const handleProvinceChange = (event: any, value: any) => {
     setSelectedDistrict(null);
     setSelectedWard(null);
@@ -171,12 +223,18 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
   };
 
   const handleChangeAddress = (e: any) => {
+    handleDebounce(e.target?.value);
+
     setDataCompany((preValue: any) => ({
       ...preValue,
       address: e.target?.value,
     }));
   };
-
+  useEffect(() => {
+    if (dataLocation) {
+      setDataCompany({ ...dataCompany, ...dataLocation });
+    }
+  }, [dataLocation]);
   return (
     <div className="edit-address-company-container">
       <div className="edit-address-company">
@@ -219,20 +277,19 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
             }}
             style={{
               marginTop: "8px",
-              border: isClickProvince && !selectedProvince ? "1px solid red" : "none",
+              border:
+                isClickProvince && !selectedProvince ? "1px solid red" : "none",
               borderRadius: isClickProvince && !selectedProvince ? "5px" : "",
             }}
           />
 
-          {
-            isClickProvince && !selectedProvince && (
-              <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
-                {languageRedux === 1
-                  ? "Vui lòng chọn thành phố"
-                  : "Please select city"}
-              </p>
-            )
-          }
+          {isClickProvince && !selectedProvince && (
+            <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
+              {languageRedux === 1
+                ? "Vui lòng chọn thành phố"
+                : "Please select city"}
+            </p>
+          )}
         </div>
 
         <div className="edit-titleAddress">
@@ -266,19 +323,18 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
             }}
             style={{
               marginTop: "8px",
-              border: isClickDistrict && !selectedDistrict ? "1px solid red" : "none",
+              border:
+                isClickDistrict && !selectedDistrict ? "1px solid red" : "none",
               borderRadius: isClickDistrict && !selectedDistrict ? "5px" : "",
             }}
           />
-          {
-            isClickDistrict && !selectedDistrict && (
-              <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
-                {languageRedux === 1
-                  ? "Vui lòng chọn quận/huyện"
-                  : "Please select district"}
-              </p>
-            )
-          }
+          {isClickDistrict && !selectedDistrict && (
+            <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
+              {languageRedux === 1
+                ? "Vui lòng chọn quận/huyện"
+                : "Please select district"}
+            </p>
+          )}
         </div>
       </div>
       <div className="edit-address-company">
@@ -317,15 +373,13 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
               borderRadius: isClickWard && !selectedWard ? "5px" : "",
             }}
           />
-          {
-            isClickWard && !selectedWard && (
-              <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
-                {languageRedux === 1
-                  ? "Vui lòng chọn phường/xã"
-                  : "Please select ward"}
-              </p>
-            )
-          }
+          {isClickWard && !selectedWard && (
+            <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
+              {languageRedux === 1
+                ? "Vui lòng chọn phường/xã"
+                : "Please select ward"}
+            </p>
+          )}
         </div>
 
         <div className="edit-titleAddress">
@@ -351,9 +405,14 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
               setIsClickAddress(true);
             }}
             sx={{
-              width: "100%", marginTop: "8px",
-              border: isClickAddress && !dataCompany?.address ? "1px solid red" : "none",
-              borderRadius: isClickAddress && !dataCompany?.address ? "5px" : "",
+              width: "100%",
+              marginTop: "8px",
+              border:
+                isClickAddress && !dataCompany?.address
+                  ? "1px solid red"
+                  : "none",
+              borderRadius:
+                isClickAddress && !dataCompany?.address ? "5px" : "",
             }}
             placeholder={
               languageRedux === 1
@@ -362,16 +421,19 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
             }
             disabled={is_profile ? true : false}
           />
-          {
-            isClickAddress && !dataCompany?.address && (
-              <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
-                {languageRedux === 1
-                  ? "Vui lòng nhập địa chỉ"
-                  : "Please enter address"}
-              </p>
-            )
-          }
+          {isClickAddress && !dataCompany?.address && (
+            <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
+              {languageRedux === 1
+                ? "Vui lòng nhập địa chỉ"
+                : "Please enter address"}
+            </p>
+          )}
         </div>
+      </div>
+      <div className="w-full h-96 overflow-hidden rounded-md">
+        {tabMap && (
+          <MapComponent data={dataLocation} setData={setDataLocation} />
+        )}
       </div>
     </div>
   );

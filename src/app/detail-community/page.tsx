@@ -1,7 +1,7 @@
 "use client";
 
 import Comunity from "@/components/CommunityComponent/DetailCommunity";
-import React from "react";
+import React, { useRef } from "react";
 
 type Props = {};
 

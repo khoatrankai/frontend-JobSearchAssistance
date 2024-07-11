@@ -42,6 +42,8 @@ const TypeJob = (props: Props) => {
       const res = (await jobTypeApi.getJobType(
         languageRedux === 1 ? "vi" : "en"
       )) as unknown as IData;
+      console.log(languageRedux);
+
       if (res && res.code === 200 && res.data) {
         setDataTypeJob(res.data);
       }

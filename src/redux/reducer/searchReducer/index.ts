@@ -37,6 +37,8 @@ export const fetchSearchResult = createAsyncThunk(
       salaryType,
       lang,
     } = params;
+    //console.log(q)
+
     const response = (await searchApi.getSearchByQueryV2(
       q,
       page,
@@ -54,7 +56,7 @@ export const fetchSearchResult = createAsyncThunk(
       salaryType,
       'vi',
     )) as unknown as IData;
-    console.log(response)
+    //console.log(response)
     return response.data;
   },
 );

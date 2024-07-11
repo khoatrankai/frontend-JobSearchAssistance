@@ -69,7 +69,7 @@ const TypeSkill = (props: Props) => {
     <>
       <h2 className=" text-lg font-bold mb-4">GIẢI THƯỞNG</h2>
       <ul className="w-full px-[5px] flex flex-col gap-y-2">
-        {data?.moreCvExtraInformations.map((dt: any, i: any) => {
+        {data?.moreCvExtraInformations?.map((dt: any, i: any) => {
           return (
             <li className="relative">
               <div

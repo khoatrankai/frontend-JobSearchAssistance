@@ -1,11 +1,10 @@
-import React from 'react';
+import React from "react";
 import {
   MoreOutlined,
   CloseSquareOutlined,
   EditOutlined,
-} from '@ant-design/icons';
-import postsApi from '@/api/posts/postsApi';
-
+} from "@ant-design/icons";
+import postsApi from "@/api/posts/postsApi";
 
 interface ISubicon {
   postId: number;
@@ -17,7 +16,6 @@ interface ISubicon {
 const SubIcon: React.FC<ISubicon> = (props) => {
   const { postId, setStatus, status, language, languageRedux } = props;
 
-
   const handleClickClosePost = async () => {
     try {
       const result = await postsApi.updateStatusPost(postId, 3);
@@ -25,15 +23,14 @@ const SubIcon: React.FC<ISubicon> = (props) => {
         setStatus(3);
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
   const handleClickEditPost = async () => {
     // const result = await postApi.updateStatusPost(postId, 1);
-    window.open(`/edit-posted?postId=${postId}`, '_parent');
+    window.open(`/edit-posted?postId=${postId}`, "_parent");
   };
-
 
   return (
     <div className="subs-icon_moreOutlined">
@@ -42,20 +39,18 @@ const SubIcon: React.FC<ISubicon> = (props) => {
         onClick={handleClickEditPost}
       >
         <EditOutlined />
-        {
-          'Sửa'
-        }
+        {"Sửa"}
       </div>
 
       <div
         className="sub-icon_moreOutlined sub-close_post"
-        onClick={status !== 3 ? handleClickClosePost : () => { }}
+        onClick={status !== 3 ? handleClickClosePost : () => {}}
         style={
-          status === 3 ? { cursor: 'not-allowed', background: '#aaa' } : {}
+          status === 3 ? { cursor: "not-allowed", background: "#aaa" } : {}
         }
       >
         <CloseSquareOutlined />
-        {status === 3 ? 'Đã đóng' : 'Đóng bài'}
+        {status === 3 ? "Đã đóng" : "Đóng bài"}
       </div>
     </div>
   );

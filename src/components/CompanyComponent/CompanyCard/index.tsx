@@ -1,14 +1,14 @@
-import React from 'react';
-import {useSelector} from 'react-redux';
+import React from "react";
+import { useSelector } from "react-redux";
 //import scss
-import './style.scss';
+import "./style.scss";
 //MUI
-import Card from '@mui/material/Card';
-import Typography from '@mui/material/Typography';
-import ImageListItem from '@mui/material/ImageListItem';
-import {Tooltip} from 'antd';
-import {RootState} from '@/redux/reducer';
-import {CateIcon, LocationHomeIcon} from '@/icons';
+import Card from "@mui/material/Card";
+import Typography from "@mui/material/Typography";
+import ImageListItem from "@mui/material/ImageListItem";
+import { Tooltip } from "antd";
+import { RootState } from "@/redux/reducer";
+import { CateIcon, LocationHomeIcon } from "@/icons";
 interface Iprops {
   item: any;
   key: any;
@@ -16,28 +16,28 @@ interface Iprops {
 
 const CompanyCard: React.FC<Iprops> = (props) => {
   const languageRedux = useSelector(
-    (state: RootState) => state.changeLaguage.language,
+    (state: RootState) => state.changeLaguage.language
   );
   const handleClickItem = (e: React.MouseEvent<HTMLDivElement>, id: number) => {
-    window.open(`/company-detail/${props.item.id}`, '_parent');
+    window.open(`/company-detail/${props.item.id}`, "_parent");
   };
 
   return (
     <>
       <Card
         sx={{
-          minWidth: '100%',
-          display: 'flex',
-          padding: '12px',
-          cursor: 'pointer',
-          '&:hover': {
-            background: '#E7E7ED',
-            transition: 'all 0.3s linear',
+          minWidth: "100%",
+          display: "flex",
+          padding: "12px",
+          cursor: "pointer",
+          "&:hover": {
+            background: "#E7E7ED",
+            transition: "all 0.3s linear",
           },
-          boxShadow: 'none',
-          borderRadius: '5px',
-          justifyContent: 'space-between',
-          overflow: 'unset',
+          boxShadow: "none",
+          borderRadius: "5px",
+          justifyContent: "space-between",
+          overflow: "unset",
         }}
         onClick={(e) => {
           handleClickItem(e, props.item?.id);
@@ -49,18 +49,20 @@ const CompanyCard: React.FC<Iprops> = (props) => {
             key={props.item?.logoPath}
             sx={{
               flex: 1,
-              display: 'flex',
-              gap: '12px',
+              display: "flex",
+              gap: "12px",
             }}
           >
             <img
-              src={props.item?.logoPath ? props.item?.logoPath : 'https://res.cloudinary.com/ddwjnjssj/image/upload/v1701273430/images/mailchimp/ads_mail/uk1usmfh6phaft7eqo8e.jpg'}
-              srcSet={props.item?.logoPath ? props.item?.logoPath : 'https://res.cloudinary.com/ddwjnjssj/image/upload/v1701273430/images/mailchimp/ads_mail/uk1usmfh6phaft7eqo8e.jpg'}
+              src={props.item?.logoPath ? props.item?.logoPath : "/goapply.png"}
+              srcSet={
+                props.item?.logoPath ? props.item?.logoPath : "/goapply.png"
+              }
               alt={props.item?.title}
               loading="lazy"
               style={{
-                width: '76px',
-                height: '76px',
+                width: "76px",
+                height: "76px",
               }}
             />
             <div className="div-card-company_info">
@@ -71,11 +73,11 @@ const CompanyCard: React.FC<Iprops> = (props) => {
                     variant="h6"
                     component="div"
                     sx={{
-                      fontSize: '16px',
+                      fontSize: "16px",
                       margin: 0,
-                      width: '100%',
-                      fontWeight: '700',
-                      lineheight: '20px',
+                      width: "100%",
+                      fontWeight: "700",
+                      lineheight: "20px",
                     }}
                   >
                     {props.item?.name}
@@ -99,12 +101,12 @@ const CompanyCard: React.FC<Iprops> = (props) => {
                       variant="body2"
                       color="text.secondary"
                       sx={{
-                        fontSize: '12px',
-                        whiteSpace: 'nowrap',
-                        width: '100%',
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden',
-                        marginLeft: '4px',
+                        fontSize: "12px",
+                        whiteSpace: "nowrap",
+                        width: "100%",
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                        marginLeft: "4px",
                       }}
                     >
                       {languageRedux === 1
@@ -129,12 +131,12 @@ const CompanyCard: React.FC<Iprops> = (props) => {
                       variant="body2"
                       color="text.secondary"
                       sx={{
-                        fontSize: '12px',
-                        whiteSpace: 'nowrap',
-                        width: '100%',
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden',
-                        marginLeft: '4px',
+                        fontSize: "12px",
+                        whiteSpace: "nowrap",
+                        width: "100%",
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                        marginLeft: "4px",
                       }}
                     >
                       {languageRedux === 1

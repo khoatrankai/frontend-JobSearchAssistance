@@ -1,6 +1,6 @@
 "use client";
 import ComunityCreatePost from "@/components/CommunityComponent/CreateCommunityComponent.tsx";
-import React from "react";
+import React, { useRef } from "react";
 
 type Props = {};
 

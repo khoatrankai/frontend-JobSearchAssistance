@@ -1,16 +1,17 @@
 import axiosClient from "@/configs/axiosClient";
+import axiosClientRecruiter from "@/configs/axiosRecruiter";
 
 const candidateSearch = {
   getAcademicTypes: (lang: string) => {
-    const URL = `http://localhost:1902/api/v3/academic-types?lang=${lang}`
-    return axiosClient.get(URL)
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/academic-types?lang=${lang}`
+    return axiosClientRecruiter.get(URL)
   },
 
 
   getCandidates: (addresses: any, categories: any, educations: number | undefined, gender: number | undefined, ageMin: number | null, ageMax: number | null, limit: number | null, page: number | null, lang: string) => {
 
 
-    const URL = `http://localhost:1902/api/v3/cv-filter/search?` +
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-filter/search?` +
       `${addresses.length !== 0
         ? `&${addresses?.map((n: any, index: number) => `addresses=${n[1]}`).join('&')}`
         : ``
@@ -30,45 +31,45 @@ const candidateSearch = {
       `&${limit ? `limit=${limit}` : ``}` +
       `&${page ? `page=${page}` : ``}` +
       `&${lang ? `lang=${lang}` : ``}`;
-    return axiosClient.get(URL)
+    return axiosClientRecruiter.get(URL)
   },
 
   postBookmarkCandidate: (accountId: string) => {
-    const URL = `http://localhost:1902/api/v3/candidate-bookmarks`
-    return axiosClient.post(
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/candidate-bookmarks`
+    return axiosClientRecruiter.post(
       URL,
       { candidateId: accountId },
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
         },
       }
     )
   },
 
   getBookmarkCandidate: (page: number, limit: number, lang: string) => {
-    const URL = `http://localhost:1902/api/v3/candidate-bookmarks?lang=${lang}&page=${page}&limit=${limit}`
-    return axiosClient.get(URL, {
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/candidate-bookmarks?lang=${lang}&page=${page}&limit=${limit}`
+    return axiosClientRecruiter.get(URL, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
       },
     })
   },
 
   postCountShowCandidate: (accountId: string) => {
-    const URL = `http://localhost:1902/api/v3/view-profiles`
-    return axiosClient.post(
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/view-profiles`
+    return axiosClientRecruiter.post(
       URL,
       { profileId: accountId },
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
         },
       }
     )
   },
   getViewProfile: () => {
-    const URL = `http://localhost:1902/api/v3/view-profiles`
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/view-profiles`
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

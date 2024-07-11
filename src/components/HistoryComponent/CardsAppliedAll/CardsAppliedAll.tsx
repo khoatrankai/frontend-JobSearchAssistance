@@ -1,21 +1,21 @@
-'use client'
-import React, { useEffect, useState } from 'react';
-import Grid from '@mui/material/Grid';
-import { message, Button, Select } from 'antd';
-import { Box, Typography } from '@mui/material';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
-import NoDataComponent from '@/util/NoDataPage';
+"use client";
+import React, { useEffect, useState } from "react";
+import Grid from "@mui/material/Grid";
+import { message, Button, Select } from "antd";
+import { Box, Typography } from "@mui/material";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import NoDataComponent from "@/util/NoDataPage";
 
-import './style.scss';
+import "./style.scss";
 
 // import data
 
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/reducer';
-import historyApplicator from '@/api/history/historyApplicator';
-import sortData from '@/util/SortDataHistory/sortData';
-import JobCardHistory from '../JobCardHistory/JobCardHistory';
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/reducer";
+import historyApplicator from "@/api/history/historyApplicator";
+import sortData from "@/util/SortDataHistory/sortData";
+import JobCardHistory from "../JobCardHistory/JobCardHistory";
 
 interface ICardsAppliedAll {
   activeChild: string;
@@ -23,19 +23,18 @@ interface ICardsAppliedAll {
 
 const CardsAppliedAll: React.FC<ICardsAppliedAll> = (props) => {
   const languageRedux = useSelector(
-    (state: RootState) => state.changeLaguage.language,
+    (state: RootState) => state.changeLaguage.language
   );
   const language = useSelector(
-    (state: RootState) => state.dataLanguage.languages,
+    (state: RootState) => state.dataLanguage.languages
   );
   const [loading, setLoading] = useState<boolean>(true);
   const [dataApplied, setDataApplied] = useState<any>(null);
-  const [newOld, setnewOld] = React.useState('Mới nhất');
+  const [newOld, setnewOld] = React.useState("Mới nhất");
   const [lastPostId, setLastPostId] = useState(0);
   const [uploading, setUploading] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const [isVisible, setIsVisible] = useState(true);
-
 
   const getAllApproved = async () => {
     try {
@@ -43,7 +42,7 @@ const CardsAppliedAll: React.FC<ICardsAppliedAll> = (props) => {
         null,
         10,
         1,
-        languageRedux === 1 ? 'vi' : 'en',
+        languageRedux === 1 ? "vi" : "en"
       );
 
       if (result) {
@@ -51,7 +50,7 @@ const CardsAppliedAll: React.FC<ICardsAppliedAll> = (props) => {
         setLastPostId(result.data[result.data.length - 1].id);
       }
     } catch (error) {
-      console.log('error', error);
+      //console.log("error", error);
     }
   };
 
@@ -76,9 +75,9 @@ const CardsAppliedAll: React.FC<ICardsAppliedAll> = (props) => {
       lastPostId,
       11,
       1,
-      languageRedux === 1 ? 'vi' : 'en',
+      languageRedux === 1 ? "vi" : "en"
     );
-    if (result.data.length <= 10) {
+    if (result?.data.length <= 10) {
       setIsVisible(false);
     }
   };
@@ -100,15 +99,18 @@ const CardsAppliedAll: React.FC<ICardsAppliedAll> = (props) => {
         lastPostId,
         10,
         1,
-        languageRedux === 1 ? 'vi' : 'en',
+        languageRedux === 1 ? "vi" : "en"
       );
       if (result) {
         setUploading(false);
         if (result.data.length === 0) {
           setIsVisible(false);
           messageApi.open({
-            type: 'error',
-            content: languageRedux === 1 ? 'Đã hết công việc để hiển thị' : 'No more jobs to show',
+            type: "error",
+            content:
+              languageRedux === 1
+                ? "Đã hết công việc để hiển thị"
+                : "No more jobs to show",
           });
           return;
         }
@@ -118,7 +120,7 @@ const CardsAppliedAll: React.FC<ICardsAppliedAll> = (props) => {
           return sortData.sortDataByDate(newOld, array);
         });
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   return (
@@ -126,21 +128,21 @@ const CardsAppliedAll: React.FC<ICardsAppliedAll> = (props) => {
       {contextHolder}
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
         <Typography
           sx={{
-            fontWeight: '600',
-            fontSize: '16px',
-            lineHeight: '24px',
-            '@media (max-width: 350px)': {
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              minWidth: '135px',
+            fontWeight: "600",
+            fontSize: "16px",
+            lineHeight: "24px",
+            "@media (max-width: 350px)": {
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              minWidth: "135px",
             },
           }}
         >
@@ -151,7 +153,7 @@ const CardsAppliedAll: React.FC<ICardsAppliedAll> = (props) => {
             width: 130,
             height: 40,
             backgroundColor: `#f5f5f5`,
-            marginBottom: '2rem',
+            marginBottom: "2rem",
           }}
           value={newOld}
           onChange={handleChange}
@@ -167,12 +169,12 @@ const CardsAppliedAll: React.FC<ICardsAppliedAll> = (props) => {
       {/* <Skeleton loading={loading} active> */}
       <Backdrop
         sx={{
-          color: '#d4a650 ',
-          backgroundColor: 'transparent',
+          color: "#d4a650 ",
+          backgroundColor: "transparent",
           zIndex: (theme: any) => theme.zIndex.drawer + 1,
         }}
         open={loading}
-      // onClick={handleClose}
+        // onClick={handleClose}
       >
         <CircularProgress color="inherit" />
       </Backdrop>
@@ -190,10 +192,10 @@ const CardsAppliedAll: React.FC<ICardsAppliedAll> = (props) => {
           </Grid>
           <Box
             sx={{
-              margin: '12px auto',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              margin: "12px auto",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             <Button
@@ -201,10 +203,10 @@ const CardsAppliedAll: React.FC<ICardsAppliedAll> = (props) => {
                 width: 130,
                 height: 40,
                 backgroundColor: `#d4a650`,
-                marginBottom: '2rem',
-                color: '#FFFFFF',
-                fontWeight: 'bold',
-                display: isVisible ? 'block' : 'none',
+                marginBottom: "2rem",
+                color: "#FFFFFF",
+                fontWeight: "bold",
+                display: isVisible ? "block" : "none",
               }}
               loading={uploading}
               onClick={handleClickAddItem}
