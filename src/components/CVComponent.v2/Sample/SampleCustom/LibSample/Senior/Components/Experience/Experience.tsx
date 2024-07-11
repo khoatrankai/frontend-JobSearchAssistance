@@ -60,15 +60,15 @@ const Experience = (props: Props) => {
             return (
               <>
                 <div
-                  className={`flex flex-col duration-500 transition-all border-[1px] relative ${
+                  className={`flex flex-col duration-500 transition-all outline-[1px] outline relative ${
                     handleCheckPass({
                       part: index,
                       col: indexItem,
                       row: item,
                       index: i,
                     })
-                      ? "border-blue-700"
-                      : "hover:border-gray-300 border-transparent"
+                      ? "outline-blue-700"
+                      : "hover:outline-gray-300 outline-transparent"
                   }`}
                   key={i}
                   style={{ padding: dt?.padIndex ? "10px" : "4px" }}

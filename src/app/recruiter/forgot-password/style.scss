@@ -56,9 +56,12 @@
 .back {
   width: 30px;
   height: 30px;
-  background: #ffcc00;
+  background: #006dff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  :hover{
+    color: white;
+  }
 }

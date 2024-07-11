@@ -19,6 +19,7 @@ import {
   WebDetailPostIcon,
 } from "@/icons";
 import { PersonIcon } from "@/icons/iconCandidate";
+import MapComponent from "@/components/MapComponent/MapComponent";
 
 interface IContactInfo {
   company: any;
@@ -61,39 +62,45 @@ const ContactInfo: React.FC<IContactInfo> = (props) => {
     }
   };
 
-  const getLocation = async (address: string) => {
-    const apiKey = "AIzaSyA8gjzoebEdb7Oy7x-StIr214ojMVq25qM";
-    try {
-      const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-          address
-        )}&key=${apiKey}`
-      );
+  // const getLocation = async (address: string) => {
+  //   const apiKey = "AIzaSyA8gjzoebEdb7Oy7x-StIr214ojMVq25qM";
+  //   try {
+  //     const response = await fetch(
+  //       `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+  //         address
+  //       )}&key=${apiKey}`
+  //     );
 
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch: ${response.status} ${response.statusText}`
-        );
-      }
+  //     if (!response.ok) {
+  //       throw new Error(
+  //         `Failed to fetch: ${response.status} ${response.statusText}`
+  //       );
+  //     }
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      if (data.status === "OK" && data.results.length > 0) {
-        const location = data.results[0].geometry.location;
-        setPosition(location);
-        return location;
-      } else {
-        throw new Error("Không tìm thấy địa điểm.");
-      }
-    } catch (error) {
-      console.error("Error fetching location:", error);
-    }
-  };
+  //     if (data.status === "OK" && data.results.length > 0) {
+  //       const location = data.results[0].geometry.location;
+  //       setPosition(location);
+  //       return location;
+  //     } else {
+  //       throw new Error("Không tìm thấy địa điểm.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching location:", error);
+  //   }
+  // };
 
   useEffect(() => {
     const address = `${company?.address},${company?.wardData}`;
 
-    getLocation(address);
+    // getLocation(address);
+    if (company && company?.latitude) {
+      setPosition({
+        latitude: company?.latitude,
+        longitude: company?.longitude,
+      });
+    }
   }, [company]);
 
   return (
@@ -232,20 +239,9 @@ const ContactInfo: React.FC<IContactInfo> = (props) => {
             {Object.keys(position).length !== 0 ? (
               <>
                 <h3>{languageRedux === 1 ? "Xem bản đồ" : "View the map"}</h3>
-                <MapContainer
-                  className="leaf_let_map"
-                  center={[position.lat, position.lng]}
-                  zoom={20}
-                  scrollWheelZoom={true}
-                >
-                  <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  />
-                  <Marker position={[position.lat, position.lng]}>
-                    <Popup>{`${company.address},${company.wardData}`}</Popup>
-                  </Marker>
-                </MapContainer>
+                <div className="w-full h-96 rounded-lg overflow-hidden">
+                  <MapComponent data={position} />
+                </div>
               </>
             ) : (
               <></>

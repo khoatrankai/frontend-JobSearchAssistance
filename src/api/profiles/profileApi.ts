@@ -17,7 +17,7 @@ const profileAPi = {
     return dataRes
   },
   getProfileV3: (lang: string) => {
-    const URL = `http://localhost:1902/api/v3/profiles/me?lang=${lang}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/profiles/me?lang=${lang}`;
 
     return axiosClient.get(URL, {
       headers: {
@@ -28,7 +28,7 @@ const profileAPi = {
 
   getProfileByAccountId: (lang: string, accountId: string) => {
     // unlock=${unclock}&
-    const URL = `http://localhost:1902/api/v3/profiles/${accountId}?lang=${lang}&unlock=false`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/profiles/${accountId}?lang=${lang}&unlock=false`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -36,7 +36,7 @@ const profileAPi = {
     });
   },
   putProfileJobV3: (jobTypeId: number | null, isSearch: number | null) => {
-    const URL = `http://localhost:1902/api/v3/profiles/job`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/profiles/job`;
     return axiosClient.put(
       URL,
       {
@@ -50,12 +50,44 @@ const profileAPi = {
       },
     ); // Truyền email vào body của request
   },
+  putSearchProfileJobV3: (cvIds: any | null, isSearch: number | null) => {
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/profiles/job`;
+    if(cvIds){
+      return axiosClient.put(
+        URL,
+        {
+          cvIds:cvIds,
+          isSearch,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        },
+      );
+    }else{
+      return axiosClient.put(
+        URL,
+        {
+          cvIds:[],
+          isSearch:isSearch,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        },
+      );
+    }
+    // Truyền email vào body của request
+  },
+
   recruitUpdatePassword: (
     newPassword: string,
     oldPassword: string,
     lang: string,
   ) => {
-    const URL = `http://localhost:1902/api/v3/users/recruit/update-password?lang=${lang}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/users/recruit/update-password?lang=${lang}`;
     return axiosClient.post(
       URL,
       {
@@ -87,5 +119,17 @@ const profileAPi = {
       },
     });
   },
+  deleteAccount : (email:any)=>{
+    const URL = `/v1/disable`;
+    return axiosClient.post(URL,
+      {
+        email: email
+      }
+      , {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
+    });
+  }
 };
 export default profileAPi;

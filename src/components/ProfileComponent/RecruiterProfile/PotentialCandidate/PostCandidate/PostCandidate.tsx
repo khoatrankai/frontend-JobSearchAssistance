@@ -24,7 +24,7 @@ const PostCandidate = (props: Props) => {
       </div>
       <div className="flex justify-between">
         <div className="flex text-xs font-semibold">
-          <button className=" px-2">
+          <button>
             Ứng viên tiềm năng<span>(10)</span>
           </button>
         </div>

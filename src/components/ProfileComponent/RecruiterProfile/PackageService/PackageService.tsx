@@ -8,6 +8,7 @@ import { Tabs } from "antd";
 
 import AllPackage from "./AllPackage/AllPackage";
 import HistoryPackage from "./HistoryPackage/HistoryPackage";
+import { useSrollContext } from "@/context/AppProvider";
 
 type Props = {};
 
@@ -15,6 +16,7 @@ const PackageService = (props: Props) => {
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
+  const { selectItemProfileRecruiter } = useSrollContext();
   const items = [
     {
       key: "1",
@@ -39,7 +41,7 @@ const PackageService = (props: Props) => {
         maxHeight: "65.5%",
         overflow: "auto",
       }}
-      defaultActiveKey="1"
+      defaultActiveKey={selectItemProfileRecruiter ?? "1"}
       items={items}
     />
   );

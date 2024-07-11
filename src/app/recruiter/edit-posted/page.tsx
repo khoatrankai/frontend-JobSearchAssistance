@@ -23,6 +23,7 @@ import CheckPageLogin from "@/util/CheckPageLogin";
 import CheckLoginRecruiter from "@/util/CheckLoginRecruiter";
 import CheckRoleRecruiter from "@/util/CheckRoleRecruiter";
 import { useSrollContext } from "@/context/AppProvider";
+import useRouterCustom from "@/util/useRouterCustom/useRouterCustom";
 
 type Props = {};
 
@@ -91,10 +92,11 @@ const EditPostedPage: React.FC<Props> = () => {
   const languageRedux = useSelector(
     (state: any) => state.changeLaguage.language
   );
-  const profile = useSelector((state: any) => state.profile.profile);
+  const { pushRouter } = useRouterCustom();
+  const profile = useSelector((state: any) => state.profileRecruiter.profile);
   useEffect(() => {
     const getPost = async () => {
-      const response = (await postsApi.getPostbyId(
+      const response = (await postsApi.getPostRecruiterbyId(
         Number(searchParams.get("postId")),
         "vi"
       )) as unknown as IPost;
@@ -309,13 +311,44 @@ const EditPostedPage: React.FC<Props> = () => {
 
         return;
       } else {
-        const res = (await postsApi.updatePostedInfo(
-          formData
-        )) as unknown as IUpdatePost;
+        if (profile?.companyInfomation?.isActive === 1) {
+          const res: any = (await postsApi.updatePostedInfo(
+            formData
+          )) as unknown as IUpdatePost;
 
-        if (res && res.code === 200) {
-          handleOffTabLoading();
-          toast.success("Cập nhật bài đăng thành công", {
+          if (res && res.code === 200) {
+            handleOffTabLoading();
+            toast.success("Cập nhật bài đăng thành công", {
+              position: "bottom-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+            // console.log(res);
+            setTimeout(() => {
+              pushRouter(
+                `/recruiter/post-detail/${searchParams.get("postId")}`
+              );
+            }, 200);
+          } else {
+            handleOffTabLoading();
+            toast.error("Cập nhật bài đăng thất bại", {
+              position: "bottom-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+          }
+        } else {
+          toast.error("Vui lòng chờ xác thực trước khi dùng chức năng này", {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: false,
@@ -324,18 +357,6 @@ const EditPostedPage: React.FC<Props> = () => {
             draggable: true,
             progress: undefined,
             theme: "dark",
-          });
-        } else {
-          handleOffTabLoading();
-          toast.error("Cập nhật bài đăng thất bại", {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
           });
         }
       }
@@ -874,7 +895,7 @@ const EditPostedPage: React.FC<Props> = () => {
         </div>
       </div>
       <button
-        className="fixed bottom-14 right-24 p-4 transition-all bg-blue-500 rounded-lg hover:text-black/50 hover:bg-blue-400"
+        className="fixed bottom-0 right-[5vw] p-4 transition-all bg-blue-500 rounded-lg hover:text-black/50 hover:bg-blue-400"
         onClick={handlePost}
       >
         <h2 className="text-xl font-semibold text-white">

@@ -73,16 +73,17 @@
 }
 
 .back-home {
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
-  background-color: #f1c40f;
-  align-items: center;
-  justify-content: center;
+  background-color: #006dff;
   display: flex;
+  justify-content: center;
+  align-items: center;
 
   // hover
   &:hover {
     cursor: pointer;
+    color: white;
   }
 }

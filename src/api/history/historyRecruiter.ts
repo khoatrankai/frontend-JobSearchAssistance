@@ -1,5 +1,6 @@
 import axiosClient from '@/configs/axiosClient';
 import axiosClientRecruiter from '@/configs/axiosRecruiter';
+import { V1 } from '../linkLocal';
 
 // api/productApi.js
 const historyRecruiter = {
@@ -64,6 +65,26 @@ const historyRecruiter = {
         Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
       },
     })
-  }
+  },
+  updateNotification: async (notificationId:any, isRead:any, typeText:any) => {
+    const URL = `${V1}/api/v1/notification/update`
+
+    return await axiosClient.put(URL, {
+        notification_id: notificationId,
+        is_read: isRead,
+        typeText: typeText
+    })
+   
+},
+updateNotificationRecruiter: async (notificationId:any, isRead:any, typeText:any) => {
+  const URL = `${V1}/api/v1/notification/update`
+
+  return await axiosClientRecruiter.put(URL, {
+      notification_id: notificationId,
+      is_read: isRead,
+      typeText: typeText
+  })
+ 
+}
 };
 export default historyRecruiter;

@@ -5,6 +5,8 @@ import BlogRecruiterComponent from "@/components/BlogRecruiterComponent/BlogRecr
 import ServiceRecruiterCompany from "@/components/ServiceRecruiterCompany/ServiceRecruiterCompany";
 import { fetchProfileRecruiter } from "@/redux/reducer/profileReducer/profileSliceRecruiter";
 import CheckRoleRecruiter from "@/util/CheckRoleRecruiter";
+import ShowModal from "@/util/ShowModal/ShowModal";
+import { Button } from "antd";
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -12,7 +14,7 @@ type Props = {};
 
 const page = (props: Props) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  CheckRoleRecruiter();
+  // CheckRoleRecruiter();
   // const dispatch = useDispatch();
   const refService = useRef<any>();
   // dispatch(fetchProfileRecruiter("vi") as any);

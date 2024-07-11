@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import "./styles.scss";
 import { ArrowUpOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+import { useSrollContext } from "@/context/AppProvider";
 
 const RollTop: React.FC = () => {
   const [height, setHeight] = React.useState(0);
   const [reponsiveMobile, setReponsiveMobile] = useState<boolean>(false);
-
+  const { reponsiveMobile: reponsiveMobileCheck } = useSrollContext();
   const handleRollTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -37,9 +38,9 @@ const RollTop: React.FC = () => {
     };
   }, []);
   return (
-    <div className="roll-top-container">
+    <div className="roll-top-container relative z-40">
       <Button
-        className={` ${
+        className={`${reponsiveMobileCheck < 800 ? "hidden" : ""} ${
           reponsiveMobile
             ? "roll-top-btn-mobile bottom-[60px]"
             : "roll-top-btn bottom-[60px]"

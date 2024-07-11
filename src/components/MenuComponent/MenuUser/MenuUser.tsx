@@ -67,6 +67,8 @@ import axiosClient from "@/configs/axiosClient";
 import ModalBG from "@/util/ModalBG/ModalBG";
 import ShortText from "@/util/ShortText";
 import { GoPasskeyFill } from "react-icons/go";
+import CookieCustom from "@/util/CookieCustom";
+import ShowActive from "@/components/ShowActive/ShowActive";
 
 type Props = {
   // scrollPosition: Number;
@@ -90,6 +92,7 @@ interface ITurnOffSerach {
 }
 const MenuComponent = (props: Props) => {
   const location = useLocation();
+  const { signOutUser } = CookieCustom();
   const {
     scrollPosition,
     checkPage,
@@ -132,9 +135,6 @@ const MenuComponent = (props: Props) => {
   const [searchActive, setSearchActive] = useState<boolean>(false);
   const [onMenuAll, setOnMenuAll] = useState<boolean>(false);
   const [selectionMenu, setSelectionMenu] = useState<number>(0);
-  useEffect(() => {
-    //console.log(profile);
-  }, [profile]);
 
   useEffect(() => {
     const funcStopScroll = () => {
@@ -242,13 +242,13 @@ const MenuComponent = (props: Props) => {
     fetchData();
   }, [language]);
 
-  const handleClickNoty = (
+  const handleClickNoty = async (
     postId: number,
     commentId: number,
     applicationId: number,
-    typeText: string
+    typeText: string,
+    notificateId: any
   ) => {
-    console.log("bấm");
     if (typeText === "recruiter") {
       let res;
       const fetchData = async () => {
@@ -259,21 +259,31 @@ const MenuComponent = (props: Props) => {
         )) as unknown as INotification;
 
         if (res && res.code === 200) {
-          window.open(
-            `candidate-detail/${res?.data?.applicationProfile.account_id}?post-id=${postId}&application_id=${applicationId}`,
-            "_parent"
-          );
+          // window.open(
+          //   `candidate-detail/${res?.data?.applicationProfile.account_id}?post-id=${postId}&application_id=${applicationId}`,
+          //   "_parent"
+          // );
         }
       };
 
       fetchData();
     }
     if (typeText === "applicator") {
-      window.open(`post-detail/${postId}`, "_parent");
+      // window.open(`post-detail/${postId}`, "_parent");
+      setSelectItemProfileUser(1);
+      setSelectProfileUser(4);
+      router.push("/profile");
     }
     if (typeText === "communicationComment") {
       window.open(`detail-community?post-community=${commentId}`, "_parent");
     }
+    if (typeText === "follow" || typeText === "keyword") {
+      // navigation.navigate('PostDetail', {
+      //   id: postId
+      // })
+      router.push(`/post-detail/${postId}`);
+    }
+    await historyRecruiter.updateNotification(notificateId, 1, typeText);
   };
 
   const handleRedirect = () => {
@@ -322,7 +332,7 @@ const MenuComponent = (props: Props) => {
 
   React.useEffect(() => {
     if (socket.current === undefined && localStorage.getItem("accessToken")) {
-      socket.current = io("http://localhost:8888", {
+      socket.current = io("https://backend-hcmute-nodejs.onrender.com", {
         extraHeaders: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -414,8 +424,8 @@ const MenuComponent = (props: Props) => {
                               behavior: "smooth",
                             });
                           } else {
-                            router.push("/");
-                            setCheckPage("/");
+                            router.push("/more-new");
+                            setCheckPage("/more-new");
                           }
                         }}
                       >
@@ -428,8 +438,8 @@ const MenuComponent = (props: Props) => {
                               behavior: "smooth",
                             });
                           } else {
-                            router.push("/");
-                            setCheckPage("/");
+                            router.push("/more-topic");
+                            setCheckPage("/more-topic");
                           }
                         }}
                       >
@@ -443,6 +453,15 @@ const MenuComponent = (props: Props) => {
                         }}
                       >
                         <h2 className="hover:text-blue-800">Việc làm đã lưu</h2>
+                      </div>
+                      <div
+                        onClick={() => {
+                          router.push("/search-map");
+                        }}
+                      >
+                        <h2 className="hover:text-blue-800">
+                          Tìm việc theo vị trí
+                        </h2>
                       </div>
                     </div>
                   </div>
@@ -583,6 +602,10 @@ const MenuComponent = (props: Props) => {
                             scrollPositionSearch ? "text-black" : "text-white"
                           }`}
                           onClick={() => {
+                            localStorage.setItem(
+                              "backurl",
+                              window.location.pathname
+                            );
                             window.location.href = "/login";
                             // router.push("/candidate/login");
                           }}
@@ -611,71 +634,75 @@ const MenuComponent = (props: Props) => {
                           }`}
                           fontSize="1.5em"
                         />
-                        {/* {dataNotification.total_is_not_read && (
-                          <div className="flex justify-center items-center w-5 h-5 absolute bottom-full right-0 bg-red-500 text-xs rounded-full translate-y-2">
-                            <p className="text-white">
-                              {dataNotification.total_is_not_read}
-                            </p>
-                          </div>
-                        )} */}
+                        {dataNotification &&
+                          dataNotification?.total_is_not_read !== 0 && (
+                            <div className="flex justify-center items-center w-5 h-5 absolute bottom-full right-0 bg-red-500 text-xs rounded-full translate-y-2">
+                              <p className="text-white">
+                                {dataNotification?.total_is_not_read}
+                              </p>
+                            </div>
+                          )}
                         <div
                           className={`flex flex-col gap-y-4 absolute text-black ${
                             selectionMenu === 1
                               ? "h-fit opacity-100"
                               : "opacity-0 invisible"
-                          } top-full transition-all translate-y-2 right-0 w-96 overflow-hidden duration-300 px-4 py-6 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]`}
+                          } top-full transition-all max-h-64 translate-y-2 right-0 w-96 overflow-hidden duration-300 px-4 py-6 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]`}
                           // onClick={(e: any) => {
                           //   e.stopPropagation();
                           // }}
                         >
-                          {dataNotification &&
-                            dataNotification?.map(
-                              (notificate: any, index: number) => {
-                                return (
-                                  <div
-                                    key={index}
-                                    className={`wrap-notificate_system ${
-                                      notificate.data.isRead === false
-                                        ? `bg-orange-100`
-                                        : ""
-                                    }`}
-                                    onClick={() => {
-                                      handleClickNoty(
-                                        notificate.data.postId,
-                                        notificate.data.communicationId,
-                                        notificate.data.applicationId,
-                                        notificate.data.typeText
-                                      );
-                                    }}
-                                  >
-                                    <h3>{notificate.content_app.title}</h3>
-                                    <h5
-                                      dangerouslySetInnerHTML={{
-                                        __html: notificate.content_app.body,
+                          <div className="max-h-full overflow-y-scroll flex flex-col gap-4">
+                            {dataNotification &&
+                              dataNotification?.map(
+                                (notificate: any, index: number) => {
+                                  return (
+                                    <div
+                                      key={index}
+                                      className={`wrap-notificate_system ${
+                                        notificate.data.isRead === false
+                                          ? `bg-orange-100`
+                                          : ""
+                                      }`}
+                                      onClick={() => {
+                                        handleClickNoty(
+                                          notificate.data.postId,
+                                          notificate.data.communicationId,
+                                          notificate.data.applicationId,
+                                          notificate.data.typeText,
+                                          notificate.data.notificationId
+                                        );
                                       }}
-                                    />
-                                    <div className="wrap-time">
-                                      <p>
-                                        {new Date(
-                                          notificate.data.createdAt
-                                        ).toLocaleTimeString([], {
-                                          hour: "2-digit",
-                                          minute: "2-digit",
-                                        })}
-                                      </p>
-                                      <p>
-                                        {new Date(
-                                          notificate.data.createdAt
-                                        ).toLocaleDateString("en-GB")}
-                                      </p>
+                                    >
+                                      <h3>{notificate.content_app.title}</h3>
+                                      <h5
+                                        dangerouslySetInnerHTML={{
+                                          __html: notificate.content_app.body,
+                                        }}
+                                      />
+                                      <div className="wrap-time">
+                                        <p>
+                                          {new Date(
+                                            notificate.data.createdAt
+                                          ).toLocaleTimeString([], {
+                                            hour: "2-digit",
+                                            minute: "2-digit",
+                                          })}
+                                        </p>
+                                        <p>
+                                          {new Date(
+                                            notificate.data.createdAt
+                                          ).toLocaleDateString("en-GB")}
+                                        </p>
+                                      </div>
                                     </div>
-                                  </div>
-                                );
-                              }
+                                  );
+                                }
+                              )}
+                            {dataNotification === undefined && (
+                              <div>Chưa có thông báo</div>
                             )}
-                          {dataNotification === undefined && (
-                            <div>Chưa có thông báo</div>
-                          )}
+                          </div>
                         </div>
                       </div>
                       <div
@@ -728,11 +755,11 @@ const MenuComponent = (props: Props) => {
                               : "opacity-0 invisible"
                           } top-full transition-all translate-y-2 right-0 w-96 overflow-hidden duration-300 px-4 py-6 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]`}
                         >
-                          <div className="flex items-center justify-between">
+                          <div className="flex items-center justify-between pointer-events-auto">
                             <Image
                               className="shadow-sm rounded-full  w-12 h-12"
                               alt=""
-                              src={profile?.avatarPath}
+                              src={profile?.avatarPath || "/goapply.png"}
                               width={50}
                               height={50}
                             />
@@ -743,6 +770,44 @@ const MenuComponent = (props: Props) => {
                               <p className="text-xs font-medium capitalize text-gray-400 w-36 break-words">
                                 {handleShortTextHome(profile?.email, 12)}
                               </p>
+                              <div
+                                className="flex gap-1 text-xs items-center font-semibold"
+                                onClick={(e: any) => {
+                                  e.stopPropagation();
+                                }}
+                              >
+                                Trạng thái tìm việc:{" "}
+                                {Object.keys(profile).length !== 0 && (
+                                  <Switch
+                                    defaultChecked={
+                                      profile?.isSearch === 1 ? true : false
+                                    }
+                                    onChange={async (e: any) => {
+                                      if (e.target.checked) {
+                                        const cvIds =
+                                          profile?.profilesCvs?.map(
+                                            (dt: any) => {
+                                              return dt?.cvIndex;
+                                            }
+                                          ) ?? [];
+                                        const res =
+                                          await profileAPi.putSearchProfileJobV3(
+                                            cvIds,
+                                            1
+                                          );
+                                        console.log(res);
+                                      } else {
+                                        const res =
+                                          await profileAPi.putSearchProfileJobV3(
+                                            null,
+                                            0
+                                          );
+                                        console.log(res);
+                                      }
+                                    }}
+                                  />
+                                )}
+                              </div>
                             </div>
                             <div
                               className="rounded-xl font-semibold border-blue-700 text-xs text-blue-700 hover:bg-blue-100 p-2 border-[1px] pointer-events-auto"
@@ -832,7 +897,12 @@ const MenuComponent = (props: Props) => {
                               <IoMdSettings />
                               <p className="ml-2">Quản lý tài khoản</p>
                             </div>
-                            <div className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto">
+                            <div
+                              className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
+                              onClick={() => {
+                                signOutUser();
+                              }}
+                            >
                               <CiLogout />
                               <p className="ml-2">Đăng xuất</p>
                             </div>
@@ -861,357 +931,421 @@ const MenuComponent = (props: Props) => {
                     </div>
 
                     <div
-                      className={`bg-white fixed inset-y-0 transition-all duration-300 ${
+                      className={`bg-white fixed inset-y-0 transition-all  duration-300 ${
                         reponsiveMobile > 1152
                           ? onMenuAll
                             ? " left-2/3"
                             : "left-full opacity-0"
                           : reponsiveMobile <= 580
                           ? onMenuAll
-                            ? " left-0"
+                            ? " left-0 max-h-screen overflow-y-scroll min-h-full"
                             : "left-full opacity-0"
                           : onMenuAll
                           ? " left-1/4"
                           : "left-full opacity-0"
                       }  shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] z-[41] right-0`}
                     >
-                      <div className={`flex items-center gap-4 p-4 mt-16`}>
-                        <Image
-                          className="shadow-sm rounded-full"
-                          alt=""
-                          src={profile?.avatarPath || "/goapply.png"}
-                          width={100}
-                          height={100}
-                        />
-                        <div>
-                          <p className="font-semibold text-xl capitalize text-blue-500">
-                            {profile?.name}
-                          </p>
-                        </div>
-                      </div>
-                      <div
-                        className={`px-2 text-black ${
-                          reponsiveMobile > 580 ? "hidden" : ""
-                        }`}
-                      >
-                        <SearchAllComponent />
-                      </div>
-                      <div className={` flex flex-col`}>
-                        <div className="hover:bg-gray-50 overflow-hidden">
-                          <button
-                            className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
-                            onClick={() => {
-                              if (tabMenuChoose === 1) {
-                                setTabMenuChoose(0);
-                              } else {
-                                setTabMenuChoose(1);
-                              }
-                            }}
-                          >
-                            <MdWork />
-                            <p>Việc làm</p>
-                          </button>
-
-                          <div
-                            className={`flex flex-col font-medium bg-black text-white transition-all duration-500 items-start px-5 ${
-                              tabMenuChoose === 1 ? "py-2" : "h-0 opacity-0"
-                            }`}
-                          >
-                            <button
-                              className="py-2 hover:text-blue-500"
-                              onClick={() => {
-                                setOnMenuAll(false);
-                                if (checkPage === "/") {
-                                  positionScrollJob[0].scrollIntoView({
-                                    behavior: "smooth",
-                                  });
-                                } else {
-                                  router.push("/");
-                                  setCheckPage("/");
-                                }
+                      <div className="w-full min-h-fit">
+                        <div className={`flex items-center gap-4 p-4 mt-16`}>
+                          <Image
+                            className="shadow-sm rounded-full h-24 w-24"
+                            alt=""
+                            src={profile?.avatarPath || "/goapply.png"}
+                            width={100}
+                            height={100}
+                          />
+                          <div className="flex flex-col gap-1">
+                            <p className="font-semibold text-xl capitalize text-blue-500">
+                              {profile?.name}
+                            </p>
+                            <div
+                              className="flex gap-1 text-xs items-center font-semibold"
+                              onClick={(e: any) => {
+                                e.stopPropagation();
                               }}
                             >
-                              Ngành nổi bật
-                            </button>
-                            <button
-                              className="py-2 hover:text-blue-500"
-                              onClick={() => {
-                                setOnMenuAll(false);
-                                if (checkPage === "/") {
-                                  positionScrollJob[1].scrollIntoView({
-                                    behavior: "smooth",
-                                  });
-                                } else {
-                                  router.push("/");
-                                  setCheckPage("/");
-                                }
-                              }}
-                            >
-                              Việc làm mới
-                            </button>
-                            <button
-                              className="py-2 hover:text-blue-500"
-                              onClick={() => {
-                                setOnMenuAll(false);
-                                if (checkPage === "/") {
-                                  positionScrollJob[2].scrollIntoView({
-                                    behavior: "smooth",
-                                  });
-                                } else {
-                                  router.push("/");
-                                  setCheckPage("/");
-                                }
-                              }}
-                            >
-                              Theo địa danh
-                            </button>
-                            <button
-                              className="py-2 hover:text-blue-500"
-                              onClick={() => {
-                                setOnMenuAll(false);
-                                setSelectItemProfileUser(2);
-                                setSelectProfileUser(4);
-                                if (checkPage !== "/profile")
-                                  router.push("/profile");
-                              }}
-                            >
-                              Việc làm đã lưu
-                            </button>
+                              Trạng thái tìm việc:{" "}
+                              {Object.keys(profile).length !== 0 && (
+                                <Switch
+                                  defaultChecked={
+                                    profile?.isSearch === 1 ? true : false
+                                  }
+                                  onChange={async (e: any) => {
+                                    if (e.target.checked) {
+                                      const cvIds =
+                                        profile?.profilesCvs?.map((dt: any) => {
+                                          return dt?.cvIndex;
+                                        }) ?? [];
+                                      const res =
+                                        await profileAPi.putSearchProfileJobV3(
+                                          cvIds,
+                                          1
+                                        );
+                                      console.log(res);
+                                    } else {
+                                      const res =
+                                        await profileAPi.putSearchProfileJobV3(
+                                          null,
+                                          0
+                                        );
+                                      console.log(res);
+                                    }
+                                  }}
+                                />
+                              )}
+                            </div>
                           </div>
                         </div>
-                        <div className="hover:bg-gray-50 overflow-hidden">
-                          <button
-                            className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
-                            onClick={() => {
-                              if (tabMenuChoose === 2) {
-                                setTabMenuChoose(0);
-                              } else {
-                                setTabMenuChoose(2);
-                              }
-                            }}
-                          >
-                            <FaBuilding />
-                            <p>Công ty</p>
-                          </button>
-
-                          <div
-                            className={`flex flex-col font-medium bg-black text-white transition-all duration-500 items-start px-5 ${
-                              tabMenuChoose === 2 ? "py-2" : "h-0 opacity-0"
-                            }`}
-                          >
-                            <button
-                              className="py-2 hover:text-blue-500"
-                              onClick={() => {
-                                setOnMenuAll(false);
-                                if (checkPage === "/") {
-                                  window.scrollTo({
-                                    top: 0,
-                                    behavior: "smooth",
-                                  });
-                                } else {
-                                  router.push("/");
-                                  setCheckPage("/");
-                                }
-                              }}
-                            >
-                              Công ty nổi bật
-                            </button>
-                            <button
-                              className="py-2 hover:text-blue-500"
-                              onClick={() => {
-                                setOnMenuAll(false);
-                                router.push("/company-all");
-                                setCheckPage("/company-all");
-                              }}
-                            >
-                              Các công ty
-                            </button>
-                          </div>
+                        <div
+                          className={`px-2 text-black ${
+                            reponsiveMobile > 580 ? "hidden" : ""
+                          }`}
+                        >
+                          <SearchAllComponent setTab={setOnMenuAll} />
                         </div>
-                        <div className="hover:bg-gray-50 overflow-hidden">
-                          <button
-                            className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
-                            onClick={() => {
-                              if (tabMenuChoose === 3) {
-                                setTabMenuChoose(0);
-                              } else {
-                                setTabMenuChoose(3);
-                              }
-                            }}
-                          >
-                            <FaHeart />
-                            <p>Blog</p>
-                          </button>
-
-                          <div
-                            className={`flex flex-col font-medium bg-black text-white transition-all duration-500 items-start px-5 ${
-                              tabMenuChoose === 3 ? "py-2" : "h-0 opacity-0"
-                            }`}
-                          >
-                            <button
-                              className="py-2 hover:text-blue-500"
-                              onClick={() => {
-                                setOnMenuAll(false);
-                                router.push("/blog");
-                                setCheckPage("/blog");
-                              }}
-                            >
-                              Các bài viết
-                            </button>
-                            <button
-                              className="py-2 hover:text-blue-500"
-                              onClick={() => {
-                                setOnMenuAll(false);
-                                router.push("/community-create");
-                                setCheckPage("/community-create");
-                              }}
-                            >
-                              Tạo bài viết
-                            </button>
-                          </div>
-                        </div>
-                        <div className="hover:bg-gray-50 overflow-hidden">
-                          <button
-                            className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
-                            onClick={() => {
-                              if (tabMenuChoose === 4) {
-                                setTabMenuChoose(0);
-                              } else {
-                                setTabMenuChoose(4);
-                              }
-                            }}
-                          >
-                            <IoDocumentText />
-                            <p>Hồ sơ CV</p>
-                          </button>
-
-                          <div
-                            className={`flex flex-col font-medium bg-black text-white transition-all duration-500 items-start px-5 ${
-                              tabMenuChoose === 4 ? "py-2" : "h-0 opacity-0"
-                            }`}
-                          >
-                            <button
-                              className="py-2 hover:text-blue-500"
-                              onClick={() => {
-                                setOnMenuAll(false);
-                                if (profile) {
-                                  router.push("/manage-cv");
-                                  // window.location.href = "/manage-cv";
-                                } else {
-                                  router.push("");
-                                }
-                              }}
-                            >
-                              Quản lý hồ sơ
-                            </button>
-                            <button
-                              className="py-2 hover:text-blue-500"
-                              onClick={() => {
-                                setOnMenuAll(false);
-                                router.push("/cv-all");
-                              }}
-                            >
-                              Tạo mới CV
-                            </button>
-                          </div>
-                        </div>
-                        {Object.keys(profileData).length !== 0 ? (
+                        <button
+                          className="font-extrabold px-4 text-blue-600 hover:text-red-500 uppercase"
+                          onClick={() => {
+                            router.push("/recruiter");
+                          }}
+                        >
+                          Nhà tuyển dụng
+                        </button>
+                        <div className={` flex flex-col `}>
                           <div className="hover:bg-gray-50 overflow-hidden">
                             <button
                               className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
                               onClick={() => {
-                                if (tabMenuChoose === 5) {
+                                if (tabMenuChoose === 1) {
                                   setTabMenuChoose(0);
                                 } else {
-                                  setTabMenuChoose(5);
+                                  setTabMenuChoose(1);
                                 }
                               }}
                             >
-                              <IoMdSettings />
-                              <p>Thông tin cá nhân</p>
+                              <MdWork />
+                              <p>Việc làm</p>
                             </button>
 
                             <div
                               className={`flex flex-col font-medium bg-black text-white transition-all duration-500 items-start px-5 ${
-                                tabMenuChoose === 5 ? "py-2" : "h-0 opacity-0"
+                                tabMenuChoose === 1 ? "py-2" : "h-0 opacity-0"
                               }`}
                             >
                               <button
                                 className="py-2 hover:text-blue-500"
                                 onClick={() => {
                                   setOnMenuAll(false);
-                                  setSelectProfileUser(1);
-                                  if (checkPage !== "/profile")
-                                    router.push("/profile");
+                                  if (checkPage === "/") {
+                                    positionScrollJob[0].scrollIntoView({
+                                      behavior: "smooth",
+                                    });
+                                  } else {
+                                    router.push("/");
+                                    setCheckPage("/");
+                                  }
                                 }}
                               >
-                                Tổng quan
+                                Ngành nổi bật
                               </button>
                               <button
                                 className="py-2 hover:text-blue-500"
                                 onClick={() => {
                                   setOnMenuAll(false);
-                                  setSelectProfileUser(2);
-                                  if (checkPage !== "/profile")
-                                    router.push("/profile");
+                                  if (checkPage === "/") {
+                                    positionScrollJob[1].scrollIntoView({
+                                      behavior: "smooth",
+                                    });
+                                  } else {
+                                    router.push("/");
+                                    setCheckPage("/");
+                                  }
                                 }}
                               >
-                                Hồ sơ cá nhân
+                                Việc làm mới
                               </button>
                               <button
                                 className="py-2 hover:text-blue-500"
                                 onClick={() => {
                                   setOnMenuAll(false);
-                                  setSelectProfileUser(3);
-                                  if (checkPage !== "/profile")
-                                    router.push("/profile");
+                                  if (checkPage === "/") {
+                                    positionScrollJob[2].scrollIntoView({
+                                      behavior: "smooth",
+                                    });
+                                  } else {
+                                    router.push("/");
+                                    setCheckPage("/");
+                                  }
                                 }}
                               >
-                                Công ty của tôi
+                                Theo địa danh
                               </button>
                               <button
                                 className="py-2 hover:text-blue-500"
                                 onClick={() => {
                                   setOnMenuAll(false);
+                                  setSelectItemProfileUser(2);
                                   setSelectProfileUser(4);
                                   if (checkPage !== "/profile")
                                     router.push("/profile");
                                 }}
                               >
-                                Việc làm của tôi
+                                Việc làm đã lưu
                               </button>
                               <button
                                 className="py-2 hover:text-blue-500"
                                 onClick={() => {
                                   setOnMenuAll(false);
-                                  setSelectProfileUser(5);
-                                  if (checkPage !== "/profile")
-                                    router.push("/profile");
+
+                                  router.push("/search-map");
                                 }}
                               >
-                                Quản lý tài khoản
-                              </button>
-                              <button className="py-2 hover:text-blue-500">
-                                Đăng xuất
+                                Tìm việc theo vị trí
                               </button>
                             </div>
                           </div>
-                        ) : (
-                          <>
+                          <div className="hover:bg-gray-50 overflow-hidden">
+                            <button
+                              className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
+                              onClick={() => {
+                                if (tabMenuChoose === 2) {
+                                  setTabMenuChoose(0);
+                                } else {
+                                  setTabMenuChoose(2);
+                                }
+                              }}
+                            >
+                              <FaBuilding />
+                              <p>Công ty</p>
+                            </button>
+
+                            <div
+                              className={`flex flex-col font-medium bg-black text-white transition-all duration-500 items-start px-5 ${
+                                tabMenuChoose === 2 ? "py-2" : "h-0 opacity-0"
+                              }`}
+                            >
+                              <button
+                                className="py-2 hover:text-blue-500"
+                                onClick={() => {
+                                  setOnMenuAll(false);
+                                  if (checkPage === "/") {
+                                    window.scrollTo({
+                                      top: 0,
+                                      behavior: "smooth",
+                                    });
+                                  } else {
+                                    router.push("/");
+                                    setCheckPage("/");
+                                  }
+                                }}
+                              >
+                                Công ty nổi bật
+                              </button>
+                              <button
+                                className="py-2 hover:text-blue-500"
+                                onClick={() => {
+                                  setOnMenuAll(false);
+                                  router.push("/company-all");
+                                  setCheckPage("/company-all");
+                                }}
+                              >
+                                Các công ty
+                              </button>
+                            </div>
+                          </div>
+                          <div className="hover:bg-gray-50 overflow-hidden">
+                            <button
+                              className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
+                              onClick={() => {
+                                if (tabMenuChoose === 3) {
+                                  setTabMenuChoose(0);
+                                } else {
+                                  setTabMenuChoose(3);
+                                }
+                              }}
+                            >
+                              <FaHeart />
+                              <p>Blog</p>
+                            </button>
+
+                            <div
+                              className={`flex flex-col font-medium bg-black text-white transition-all duration-500 items-start px-5 ${
+                                tabMenuChoose === 3 ? "py-2" : "h-0 opacity-0"
+                              }`}
+                            >
+                              <button
+                                className="py-2 hover:text-blue-500"
+                                onClick={() => {
+                                  setOnMenuAll(false);
+                                  router.push("/blog");
+                                  setCheckPage("/blog");
+                                }}
+                              >
+                                Các bài viết
+                              </button>
+                              <button
+                                className="py-2 hover:text-blue-500"
+                                onClick={() => {
+                                  setOnMenuAll(false);
+                                  router.push("/community-create");
+                                  setCheckPage("/community-create");
+                                }}
+                              >
+                                Tạo bài viết
+                              </button>
+                            </div>
+                          </div>
+                          <div className="hover:bg-gray-50 overflow-hidden">
+                            <button
+                              className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
+                              onClick={() => {
+                                if (tabMenuChoose === 4) {
+                                  setTabMenuChoose(0);
+                                } else {
+                                  setTabMenuChoose(4);
+                                }
+                              }}
+                            >
+                              <IoDocumentText />
+                              <p>Hồ sơ CV</p>
+                            </button>
+
+                            <div
+                              className={`flex flex-col font-medium bg-black text-white transition-all duration-500 items-start px-5 ${
+                                tabMenuChoose === 4 ? "py-2" : "h-0 opacity-0"
+                              }`}
+                            >
+                              <button
+                                className="py-2 hover:text-blue-500"
+                                onClick={() => {
+                                  setOnMenuAll(false);
+                                  if (profile) {
+                                    router.push("/manage-cv");
+                                    // window.location.href = "/manage-cv";
+                                  } else {
+                                    router.push("");
+                                  }
+                                }}
+                              >
+                                Quản lý hồ sơ
+                              </button>
+                              <button
+                                className="py-2 hover:text-blue-500"
+                                onClick={() => {
+                                  setOnMenuAll(false);
+                                  router.push("/cv-all");
+                                }}
+                              >
+                                Tạo mới CV
+                              </button>
+                            </div>
+                          </div>
+                          {Object.keys(profileData).length !== 0 ? (
                             <div className="hover:bg-gray-50 overflow-hidden">
                               <button
                                 className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
                                 onClick={() => {
-                                  window.location.href = "/login";
-                                  // router.push("/candidate/login");
+                                  if (tabMenuChoose === 5) {
+                                    setTabMenuChoose(0);
+                                  } else {
+                                    setTabMenuChoose(5);
+                                  }
                                 }}
                               >
-                                <FaUser />
-                                <p>Đăng nhập</p>
+                                <IoMdSettings />
+                                <p>Thông tin cá nhân</p>
                               </button>
+
+                              <div
+                                className={`flex flex-col font-medium bg-black text-white transition-all duration-500 items-start px-5 ${
+                                  tabMenuChoose === 5 ? "py-2" : "h-0 opacity-0"
+                                }`}
+                              >
+                                <button
+                                  className="py-2 hover:text-blue-500"
+                                  onClick={() => {
+                                    setOnMenuAll(false);
+                                    setSelectProfileUser(1);
+                                    if (checkPage !== "/profile")
+                                      router.push("/profile");
+                                  }}
+                                >
+                                  Tổng quan
+                                </button>
+                                <button
+                                  className="py-2 hover:text-blue-500"
+                                  onClick={() => {
+                                    setOnMenuAll(false);
+                                    setSelectProfileUser(2);
+                                    if (checkPage !== "/profile")
+                                      router.push("/profile");
+                                  }}
+                                >
+                                  Hồ sơ cá nhân
+                                </button>
+                                <button
+                                  className="py-2 hover:text-blue-500"
+                                  onClick={() => {
+                                    setOnMenuAll(false);
+                                    setSelectProfileUser(3);
+                                    if (checkPage !== "/profile")
+                                      router.push("/profile");
+                                  }}
+                                >
+                                  Công ty của tôi
+                                </button>
+                                <button
+                                  className="py-2 hover:text-blue-500"
+                                  onClick={() => {
+                                    setOnMenuAll(false);
+                                    setSelectProfileUser(4);
+                                    if (checkPage !== "/profile")
+                                      router.push("/profile");
+                                  }}
+                                >
+                                  Việc làm của tôi
+                                </button>
+                                <button
+                                  className="py-2 hover:text-blue-500"
+                                  onClick={() => {
+                                    setOnMenuAll(false);
+                                    setSelectProfileUser(5);
+                                    if (checkPage !== "/profile")
+                                      router.push("/profile");
+                                  }}
+                                >
+                                  Quản lý tài khoản
+                                </button>
+                                <button
+                                  className="py-2 hover:text-blue-500"
+                                  onClick={() => {
+                                    signOutUser();
+                                  }}
+                                >
+                                  Đăng xuất
+                                </button>
+                              </div>
                             </div>
-                            <div className="hover:bg-gray-50 overflow-hidden">
-                              {/* <button
+                          ) : (
+                            <>
+                              <div className="hover:bg-gray-50 overflow-hidden">
+                                <button
+                                  className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
+                                  onClick={() => {
+                                    localStorage.setItem(
+                                      "backurl",
+                                      window.location.pathname
+                                    );
+                                    window.location.href = "/login";
+                                    // router.push("/candidate/login");
+                                  }}
+                                >
+                                  <FaUser />
+                                  <p>Đăng nhập</p>
+                                </button>
+                              </div>
+                              <div className="hover:bg-gray-50 overflow-hidden">
+                                {/* <button
                             className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
                             onClick={() => {
                             
@@ -1220,9 +1354,10 @@ const MenuComponent = (props: Props) => {
                             <FaUser />
                             <p>Đăng ký</p>
                           </button> */}
-                            </div>
-                          </>
-                        )}
+                              </div>
+                            </>
+                          )}
+                        </div>
                       </div>
                     </div>
                     <div
@@ -1297,6 +1432,8 @@ const MenuComponent = (props: Props) => {
           </div>
         </Modal>
       </div>
+      <ShowActive />
+
       <ModalNoteCreateCompany
         openModalNoteCreateCompany={openModalNoteCreateCompany}
         setOpenModalNoteCreateCompany={setOpenModalNoteCreateCompany}

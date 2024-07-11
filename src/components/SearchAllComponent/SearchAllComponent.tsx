@@ -12,14 +12,17 @@ import { useRouter } from "next/navigation";
 import { fetchSearchResult } from "@/redux/reducer/searchReducer";
 import axiosClientRecruiter from "@/configs/axiosRecruiter";
 import { useSrollContext } from "@/context/AppProvider";
+import DelayCustom from "@/util/DelayCustom";
 
 type Props = {
   setSearchActive?: any;
   DefaultActive?: boolean;
+  setTab?: any;
 };
 
 const SearchAllComponent = (props: Props) => {
-  const { setSearchActive, DefaultActive } = props;
+  const { setSearchActive, DefaultActive, setTab } = props;
+  const { useDebounce, useThrottle } = DelayCustom();
   const { handleShortTextHome, handleShortValueNumber } = ShortText();
   const language = useSelector((state: any) => state.changeLaguage.language);
   const { reponsiveMobile } = useSrollContext();
@@ -42,12 +45,13 @@ const SearchAllComponent = (props: Props) => {
   const handleSearchKey = (data: any) => {
     const fetchData = async () => {
       const res = await axiosClient.get(
-        `http://localhost:1902/api/v3/posts/search/keyword?keyword=${data}`
+        `https://backend-hcmute-nestjs.onrender.com/api/v3/posts/search/keyword?keyword=${data}`
       );
       setKeyAvailability(res.data);
     };
     fetchData();
   };
+  const handleDebounce = useDebounce(handleSearchKey, 500);
   const handleSearch = (keyword?: string) => {
     setKeySearch(keyword);
     if (keyword) {
@@ -72,6 +76,7 @@ const SearchAllComponent = (props: Props) => {
         lang: "vi",
       }) as unknown as any
     ).then(() => {
+      if (setTab) setTab(false);
       router.push("/search-result");
     });
   };
@@ -132,7 +137,7 @@ const SearchAllComponent = (props: Props) => {
           placeholder="Tìm kiếm công việc, kỹ năng, công ty"
           onChange={(e: any) => {
             setKeySearch(e.target.value);
-            handleSearchKey(e.target.value);
+            handleDebounce(e.target.value);
           }}
         />
         <button
@@ -147,7 +152,7 @@ const SearchAllComponent = (props: Props) => {
         </button>
         <div
           className={`absolute inset-0 rounded-xl overflow-y-scroll max-h-[420px]  top-16 transition-all overflow-hidden duration-300 cursor-default bg-white ${
-            activeSearch ? " min-h-32 h-fit" : "h-0"
+            activeSearch ? " min-h-[40vh] h-fit" : "h-0"
           }`}
         >
           <div

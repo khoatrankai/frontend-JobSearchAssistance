@@ -2,7 +2,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { RiMoneyDollarCircleFill } from "react-icons/ri";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { GoPackage } from "react-icons/go";
 import { FaFileCircleExclamation } from "react-icons/fa6";
 import { FaClipboardCheck } from "react-icons/fa";
@@ -11,13 +11,16 @@ import packageServiceApi from "@/api/packageService/packageService";
 import { MdDone } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 import { useSrollContext } from "@/context/AppProvider";
+import { fetchProfileRecruiter } from "@/redux/reducer/profileReducer/profileSliceRecruiter";
 
 type Props = {};
 
 const page = (props: Props) => {
   const { setSelectProfileRecruiter, checkPage } = useSrollContext();
+  const dispatch = useDispatch();
   const router = useRouter();
   const { idPackage } = useParams();
+  // const [infoStatus,setInfoStatus] = useState<any>()
   const [statusPay, setStatusPay] = useState<any>(-1);
   const ChangeNumber = (data: any, type = true) => {
     if (!data) {
@@ -53,7 +56,10 @@ const page = (props: Props) => {
   };
   const handlePay = async () => {
     const data: any = await packageServiceApi.postPayPackage(idPackage);
-    setStatusPay(data.statusCode);
+    setStatusPay(data.status);
+    if (data.status === 200) {
+      dispatch(fetchProfileRecruiter("vi") as any);
+    }
   };
   const [dataPackage, setDataPackage] = useState<any>();
   useEffect(() => {
@@ -96,8 +102,28 @@ const page = (props: Props) => {
                   <span>Gói thanh toán</span>
                 </div>
                 <div>
-                  <div className="min-h-fit h-auto w-96 rounded-lg bg-white shadow-2xl shadow-red-500/20 overflow-hidden">
-                    <p className="text-xl font-bold px-4 py-4 bg-red-600 text-white">
+                  <div
+                    className={`min-h-fit h-auto w-96 rounded-lg bg-white shadow-2xl  overflow-hidden ${
+                      dataPackage?.type === "V1"
+                        ? "shadow-red-500/20"
+                        : dataPackage?.type === "V2"
+                        ? "shadow-yellow-500/20"
+                        : dataPackage?.type === "V3"
+                        ? "shadow-green-500/20"
+                        : "shadow-blue-500/20"
+                    }`}
+                  >
+                    <p
+                      className={`text-xl font-bold px-4 py-4  text-white  ${
+                        dataPackage?.type === "V1"
+                          ? "bg-red-600"
+                          : dataPackage?.type === "V2"
+                          ? "bg-yellow-500"
+                          : dataPackage?.type === "V3"
+                          ? "bg-green-600"
+                          : "bg-blue-600"
+                      }`}
+                    >
                       {dataPackage?.name}
                     </p>
                     <div className="px-4 py-2 flex flex-col gap-4">
@@ -116,30 +142,99 @@ const page = (props: Props) => {
                         <p className="text-gray-600 text-sm font-bold uppercase mb-4">
                           Quyền lợi
                         </p>
-                        <div className="flex flex-col gap-1">
-                          <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
-                            <FaClipboardCheck />
-                            <p>
-                              Đăng{" "}
-                              <span className="text-black font-bold">
-                                không giới hạn
-                              </span>{" "}
-                              tin mỗi ngày
-                            </p>
-                          </div>
-                          <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
-                            <FaClipboardCheck />
-                            <p>Đẩy top 7 lần trong ngày</p>
-                          </div>
-                          <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
-                            <FaClipboardCheck />
-                            <p>Được AI đề xuất CV</p>
-                          </div>
-                          <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
-                            <FaClipboardCheck />
-                            <p>Được đăng info công ty ở banner</p>
-                          </div>
-                        </div>
+                        {dataPackage?.type === "V1" ? (
+                          <>
+                            <div className="flex flex-col gap-1">
+                              <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
+                                <FaClipboardCheck />
+                                <p>
+                                  Đăng{" "}
+                                  <span className="text-black font-bold">
+                                    không giới hạn
+                                  </span>{" "}
+                                  tin mỗi ngày
+                                </p>
+                              </div>
+                              <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
+                                <FaClipboardCheck />
+                                <p>Đẩy top 7 lần trong ngày</p>
+                              </div>
+                              <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
+                                <FaClipboardCheck />
+                                <p>Được AI đề xuất CV</p>
+                              </div>
+                              <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
+                                <FaClipboardCheck />
+                                <p>Được đăng info công ty ở banner</p>
+                              </div>
+                            </div>
+                          </>
+                        ) : dataPackage?.type === "V2" ? (
+                          <>
+                            <div className="flex flex-col gap-1 flex-1">
+                              <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
+                                <FaClipboardCheck />
+                                <p>
+                                  Đăng{" "}
+                                  <span className="text-black font-bold">
+                                    30
+                                  </span>{" "}
+                                  tin mỗi ngày
+                                </p>
+                              </div>
+                              <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
+                                <FaClipboardCheck />
+                                <p>Đẩy top 3 lần trong ngày</p>
+                              </div>
+                              <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
+                                <FaClipboardCheck />
+                                <p>Được AI đề xuất CV</p>
+                              </div>
+                            </div>
+                          </>
+                        ) : dataPackage?.type === "V3" ? (
+                          <>
+                            <div className="flex flex-col gap-1">
+                              <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
+                                <FaClipboardCheck />
+                                <p>
+                                  Đăng{" "}
+                                  <span className="text-black font-bold">
+                                    20
+                                  </span>{" "}
+                                  tin mỗi ngày
+                                </p>
+                              </div>
+                              <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
+                                <FaClipboardCheck />
+                                <p>Đẩy top 1 lần trong ngày</p>
+                              </div>
+                              <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
+                                <FaClipboardCheck />
+                                <p>Được AI đề xuất CV</p>
+                              </div>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="flex flex-col gap-1">
+                              <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
+                                <FaClipboardCheck />
+                                <p>
+                                  Đăng{" "}
+                                  <span className="text-black font-bold">
+                                    3
+                                  </span>{" "}
+                                  tin mỗi ngày
+                                </p>
+                              </div>
+                              <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
+                                <FaClipboardCheck />
+                                <p>Đẩy top 1 lần trong ngày</p>
+                              </div>
+                            </div>
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -222,6 +317,7 @@ const page = (props: Props) => {
                   <p className="font-semibold text-3xl">
                     Đã thanh toán thành công
                   </p>
+                  {/* <p>Mã số nạp của bạn là <span></span></p> */}
                 </div>
               ) : (
                 <div className="flex justify-center items-center flex-col">

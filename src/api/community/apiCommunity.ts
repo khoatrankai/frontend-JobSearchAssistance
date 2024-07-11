@@ -27,7 +27,7 @@ export interface FormPostCommunityComment {
 
 const communityApi = {
   postCommunications: (newCommunity: FormCommunity) => {
-    const URL = `http://localhost:1902/api/v3/communications`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communications`;
     return axiosClient.post(URL, newCommunity, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -36,7 +36,7 @@ const communityApi = {
     });
   },
   postCommunicationsRecruiter: (newCommunity: FormCommunity) => {
-    const URL = `http://localhost:1902/api/v3/communications`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communications`;
     return axiosClientRecruiter.post(URL, newCommunity, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
@@ -46,7 +46,7 @@ const communityApi = {
   },
 
   deleteComent: (postId: any, cmtId: any) => {
-    const URL = `http://localhost:1902/api/v3/communication-comments/${postId}/${cmtId}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communication-comments/${postId}/${cmtId}`;
     return axiosClient.delete(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -55,7 +55,7 @@ const communityApi = {
     });
   },
   deleteCommentRecruiter: (postId: any, cmtId: any) => {
-    const URL = `http://localhost:1902/api/v3/communication-comments/${postId}/${cmtId}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communication-comments/${postId}/${cmtId}`;
     return axiosClientRecruiter.delete(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
@@ -70,7 +70,7 @@ const communityApi = {
     sort: string,
     type: number,
   ) => {
-    const URL = `http://localhost:1902/api/v3/communications?page=${page}&limit=${limit}&sort=${sort}&type=${type}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communications?page=${page}&limit=${limit}&sort=${sort}&type=${type}`;
     return axiosClient.get(URL);
   },
   getCommunitationsRecruiter: (
@@ -79,7 +79,7 @@ const communityApi = {
     sort: string,
     type: number,
   ) => {
-    const URL = `http://localhost:1902/api/v3/communications?page=${page}&limit=${limit}&sort=${sort}&type=${type}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communications?page=${page}&limit=${limit}&sort=${sort}&type=${type}`;
     return axiosClientRecruiter.get(URL);
   },
 
@@ -90,7 +90,7 @@ const communityApi = {
     type: number,
     lang: any,
   ) => {
-    const URL = `http://localhost:1902/api/v3/communications/news?page=${page}&limit=${limit}&sort=${sort}&type=${type}&lang=${lang}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communications/news?page=${page}&limit=${limit}&sort=${sort}&type=${type}&lang=${lang}`;
     return axiosClient.get(URL);
   },
   getCommunityNewsRecruiter: (
@@ -100,21 +100,21 @@ const communityApi = {
     type: number,
     lang: any,
   ) => {
-    const URL = `http://localhost:1902/api/v3/communications/news?page=${page}&limit=${limit}&sort=${sort}&type=${type}&lang=${lang}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communications/news?page=${page}&limit=${limit}&sort=${sort}&type=${type}&lang=${lang}`;
     return axiosClientRecruiter.get(URL);
   },
 
   getCommunityWorkingStory: () => {
-    const URL = `http://localhost:1902/api/v3/communications/working-story`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communications/working-story`;
     return axiosClient.get(URL);
   },
   getCommunityWorkingStoryRecruiter: () => {
-    const URL = `http://localhost:1902/api/v3/communications/working-story`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communications/working-story`;
     return axiosClientRecruiter.get(URL);
   },
 
   getCommunityTodayByAccount: (page: string, limit: string, sort: string) => {
-    const URL = `http://localhost:1902/api/v3/communications/today/by-account?page=${page}&limit=${limit}&sort=${sort}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communications/today/by-account?page=${page}&limit=${limit}&sort=${sort}`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -122,7 +122,7 @@ const communityApi = {
     });
   },
   getCommunityTodayByAccountRecruiter: (page: string, limit: string, sort: string) => {
-    const URL = `http://localhost:1902/api/v3/communications/today/by-account?page=${page}&limit=${limit}&sort=${sort}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communications/today/by-account?page=${page}&limit=${limit}&sort=${sort}`;
     return axiosClientRecruiter.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
@@ -136,7 +136,7 @@ const communityApi = {
     sort: string,
     lang: any,
   ) => {
-    const URL = `http://localhost:1902/api/v3/communications/by-account?page=${page}&limit=${limit}&sort=${sort}&lang=${lang}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communications/by-account?page=${page}&limit=${limit}&sort=${sort}&lang=${lang}`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -149,7 +149,7 @@ const communityApi = {
     sort: string,
     lang: any,
   ) => {
-    const URL = `http://localhost:1902/api/v3/communications/by-account?page=${page}&limit=${limit}&sort=${sort}&lang=${lang}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communications/by-account?page=${page}&limit=${limit}&sort=${sort}&lang=${lang}`;
     return axiosClientRecruiter.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
@@ -158,7 +158,7 @@ const communityApi = {
   },
 
   putCommunityByAccount: (id: number, putCommunity: any) => {
-    const URL = `http://localhost:1902/api/v3/communications/${id}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communications/${id}`;
     return axiosClient.put(URL, putCommunity, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -167,7 +167,7 @@ const communityApi = {
     });
   },
   putCommunityByAccountRecruiter: (id: number, putCommunity: any) => {
-    const URL = `http://localhost:1902/api/v3/communications/${id}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communications/${id}`;
     return axiosClientRecruiter.put(URL, putCommunity, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
@@ -177,12 +177,12 @@ const communityApi = {
   },
 
   getCommunityToday: (page: string, limit: string, sort: string) => {
-    const URL = `http://localhost:1902/api/v3/communications/today?page=${page}&limit=${limit}&sort=${sort}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communications/today?page=${page}&limit=${limit}&sort=${sort}`;
     return axiosClient.get(URL);
   },
 
   getCommunityShareId: (id: string) => {
-    const URL = `http://localhost:1902/api/v3/communications/share/${id}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communications/share/${id}`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -191,16 +191,16 @@ const communityApi = {
   },
 
   getCommunityDetailId: (id: string, lang: any) => {
-    const URL = `http://localhost:1902/api/v3/communications/detail/${id}?lang=${lang}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communications/detail/${id}?lang=${lang}`;
     return axiosClient.get(URL);
   },
   getCommunityDetailRecruiterId: (id: string, lang: any) => {
-    const URL = `http://localhost:1902/api/v3/communications/detail/${id}?lang=${lang}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communications/detail/${id}?lang=${lang}`;
     return axiosClientRecruiter.get(URL);
   },
   // ---------------------------------------------------------------------------------------- ADMIN
   postCommunityByAdmin: (newCommunityAdmin: FormCommunity) => {
-    const URL = `http://localhost:1902/api/v3/communications/by-admin`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communications/by-admin`;
     return axiosClient.post(URL, newCommunityAdmin, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -210,7 +210,7 @@ const communityApi = {
   },
 
   putCommunityByAdmin: (id: number, newCommunityAdmin: FormPutCommunity) => {
-    const URL = `http://localhost:1902/api/v3/communications/by-admin/${id}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communications/by-admin/${id}`;
     return axiosClient.put(URL, newCommunityAdmin, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -222,7 +222,7 @@ const communityApi = {
   // ---------------------------------------------------------------------------------------- lIKE
 
   postCommunityLike: (communicationId: number) => {
-    const URL = `http://localhost:1902/api/v3/communication-likes`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communication-likes`;
     return axiosClient.post(
       URL,
       {
@@ -237,7 +237,7 @@ const communityApi = {
     );
   },
   postCommunityLikeRecruiter: (communicationId: number) => {
-    const URL = `http://localhost:1902/api/v3/communication-likes`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communication-likes`;
     return axiosClientRecruiter.post(
       URL,
       {
@@ -253,7 +253,7 @@ const communityApi = {
   },
 
   getCommunityLike: (id: string) => {
-    const URL = `http://localhost:1902/api/v3/communication-likes/${id}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communication-likes/${id}`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -261,7 +261,7 @@ const communityApi = {
     });
   },
   getCommunityLikeRecruiter: (id: string) => {
-    const URL = `http://localhost:1902/api/v3/communication-likes/${id}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communication-likes/${id}`;
     return axiosClientRecruiter.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
@@ -274,7 +274,7 @@ const communityApi = {
   postCommunityCommentByAdmin: (
     newCommentCommunity: FormPostCommunityComment,
   ) => {
-    const URL = `http://localhost:1902/api/v3/communications/by-admin`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communications/by-admin`;
     return axiosClient.post(URL, newCommentCommunity, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -284,7 +284,7 @@ const communityApi = {
   },
 
   postCommunityComment: (newCommentCommunity: FormPostCommunityComment) => {
-    const URL = `http://localhost:1902/api/v3/communication-comments`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communication-comments`;
     return axiosClient.post(URL, newCommentCommunity, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -293,7 +293,7 @@ const communityApi = {
     });
   },
   postCommunityCommentRecruiter: (newCommentCommunity: FormPostCommunityComment) => {
-    const URL = `http://localhost:1902/api/v3/communication-comments`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communication-comments`;
     return axiosClientRecruiter.post(URL, newCommentCommunity, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
@@ -303,7 +303,7 @@ const communityApi = {
   },
 
   getCommunityComment: (id: string) => {
-    const URL = `http://localhost:1902/api/v3/communication-comments/${id}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communication-comments/${id}`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -311,7 +311,7 @@ const communityApi = {
     });
   },
   getCommunityCommentRecruiter: (id: string) => {
-    const URL = `http://localhost:1902/api/v3/communication-comments/${id}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communication-comments/${id}`;
     return axiosClientRecruiter.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
@@ -324,7 +324,7 @@ const communityApi = {
     commentId: number,
     putCommunityComment: FormPutCommunity,
   ) => {
-    const URL = `http://localhost:1902/api/v3/communication-comments/${communicationId}/${commentId}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communication-comments/${communicationId}/${commentId}`;
     return axiosClient.put(URL, putCommunityComment, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -337,7 +337,7 @@ const communityApi = {
     commentId: number,
     putCommunityComment: FormPutCommunity,
   ) => {
-    const URL = `http://localhost:1902/api/v3/communication-comments/${communicationId}/${commentId}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communication-comments/${communicationId}/${commentId}`;
     return axiosClientRecruiter.put(URL, putCommunityComment, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
@@ -349,7 +349,7 @@ const communityApi = {
   // ---------------------------------------------------------------------------------------- bookmarked
 
   postCommunityBookmarked: (communicationId: number) => {
-    const URL = `http://localhost:1902/api/v3/communication-bookmarked`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communication-bookmarked`;
     return axiosClient.post(
       URL,
       {
@@ -364,7 +364,7 @@ const communityApi = {
     );
   },
   postCommunityBookmarkedRecruiter: (communicationId: number) => {
-    const URL = `http://localhost:1902/api/v3/communication-bookmarked`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communication-bookmarked`;
     return axiosClientRecruiter.post(
       URL,
       {
@@ -380,7 +380,7 @@ const communityApi = {
   },
 
   getCommunityBookmarked: (page: number) => {
-    const URL = `http://localhost:1902/api/v3/communication-bookmarked`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communication-bookmarked`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -388,7 +388,7 @@ const communityApi = {
     });
   },
   getCommunityBookmarkedRecruiter: (page: number) => {
-    const URL = `http://localhost:1902/api/v3/communication-bookmarked?page=${page}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/communication-bookmarked?page=${page}`;
     return axiosClientRecruiter.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,

@@ -17,7 +17,7 @@ const DescriptionHoverProvider = () => {
     position: any = 1
   ) => {
     const widthScreen = window.innerWidth / 2;
-    const heightScreen = window.innerHeight / 2;
+    const heightScreen = window.innerHeight / 2 + 120;
     if (x < widthScreen && y < heightScreen) {
       return [x + position, y + position];
     }

@@ -10,9 +10,9 @@ type Props = {};
 
 const RecruitmentWaitingList = (props: Props) => {
   const [listData, setListData] = useState<any>([]);
-  const { reponsiveMobile } = useSrollContext();
+  const { reponsiveMobile, idPostNotify } = useSrollContext();
   const { pushBlank } = useRouterCustom();
-  const [idPost, setIdPost] = useState<any>(null);
+  const [idPost, setIdPost] = useState<any>(idPostNotify);
   const [listDataFilter, setListDataFilter] = useState<any>([]);
   const [listDataApply, setListDataApply] = useState<any>([]);
   const handleChangeID = (id: any) => {
@@ -52,10 +52,14 @@ const RecruitmentWaitingList = (props: Props) => {
     const fetchData = async () => {
       const data = await postsApi.ownPost();
       setListData(data.data);
-      setIdPost(data.data?.[0]?.post_id);
+      if (idPostNotify) {
+        setIdPost(idPostNotify);
+      } else {
+        setIdPost(data.data?.[0]?.post_id);
+      }
     };
     fetchData();
-  }, []);
+  }, [idPostNotify]);
   useEffect(() => {
     setListDataFilter(listDataApply);
   }, [listDataApply]);
@@ -69,7 +73,7 @@ const RecruitmentWaitingList = (props: Props) => {
         }`}
       >
         <div className="flex text-xs font-semibold gap-2">
-          <button className="border-r-[1px] px-2">
+          <button className="border-r-[1px]">
             Tất cả<span>({listDataFilter.length})</span>
           </button>
           <div className="flex gap-1 items-center">

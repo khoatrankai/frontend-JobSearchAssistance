@@ -11,7 +11,7 @@ type Props = {};
 const ListPost = (props: Props) => {
   const [listStatus, setListStatus] = useState<any>([0, 1]);
   const { setTabAlert, updateHandleAlert, reponsiveMobile } = useSrollContext();
-  const { pushBlank } = useRouterCustom();
+  const { pushRouter } = useRouterCustom();
   const { handleShortTextHome } = ShortText();
   const [listData, setListData] = useState<any>([]);
   const [listDataFilter, setListDataFilter] = useState<any>([]);
@@ -37,7 +37,7 @@ const ListPost = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await postsApi.ownPost();
-      setListData(data.data);
+      setListData(data?.data);
     };
     fetchData();
   }, []);
@@ -51,7 +51,7 @@ const ListPost = (props: Props) => {
         <button
           className="p-2 rounded-lg bg-blue-500 text-white font-semibold text-lg hover:bg-blue-600"
           onClick={() => {
-            pushBlank(`/recruiter/new-post`);
+            pushRouter(`/recruiter/new-post`);
           }}
         >
           Tạo bài viết
@@ -63,7 +63,7 @@ const ListPost = (props: Props) => {
         }`}
       >
         <div className="flex text-xs font-semibold">
-          <button className="px-2">
+          <button>
             Tất cả<span>({listDataFilter.length})</span>
           </button>
           {/* <button className=" px-2">
@@ -89,7 +89,7 @@ const ListPost = (props: Props) => {
           <p className="basis-1/4">Chức năng</p>
         </div>
         <div className="flex flex-col gap-y-2 max-h-[315px] overflow-y-scroll  min-w-[1152px]">
-          {listDataFilter.map((dt: any) => {
+          {listDataFilter?.map((dt: any) => {
             return (
               <>
                 <div className="flex gap-x-2 text-sm font-semibold cursor-pointer  items-center">
@@ -126,7 +126,7 @@ const ListPost = (props: Props) => {
                     <button
                       className="p-2 rounded-md text-blue-500 hover:underline"
                       onClick={() => {
-                        pushBlank(`/recruiter/post-detail/${dt.post_id}`);
+                        pushRouter(`/recruiter/post-detail/${dt.post_id}`);
                       }}
                     >
                       Xem chi tiết
@@ -134,7 +134,7 @@ const ListPost = (props: Props) => {
                     <button
                       className="p-2 rounded-md text-yellow-500 hover:underline"
                       onClick={() => {
-                        pushBlank(
+                        pushRouter(
                           `/recruiter/edit-posted?postId=${dt.post_id}`
                         );
                       }}
@@ -144,7 +144,7 @@ const ListPost = (props: Props) => {
                     <button
                       className="p-2 rounded-md text-green-500 hover:underline"
                       onClick={() => {
-                        pushBlank(
+                        pushRouter(
                           `/recruiter/new-post-availabel/${dt.post_id}`
                         );
                       }}

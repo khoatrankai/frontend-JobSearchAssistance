@@ -8,6 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/reducer";
 import locationApi from "@/api/location/locationApi";
 import { fetchLocation } from "@/redux/reducer/locationReducer";
+import MapComponent from "@/components/MapComponent/MapComponent";
+import mapApi from "@/api/map/map";
+import DelayCustom from "@/util/DelayCustom";
 const styleLabel = {
   fontWeight: 700,
   color: "#000000",
@@ -23,7 +26,15 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
+  const { useDebounce } = DelayCustom();
+  const [dataLocation, setDataLocation] = useState<any>({
+    address: "",
+    latitude: 10.6,
+    longitude: 107.6,
+    ...props.dataCompany,
+  });
   const { setDataCompany, dataCompany, is_profile } = props;
+  const [tabMap, setTapMap] = useState<boolean>(true);
   const [dataDistricts, setDataDistrict] = useState<any>(null);
   const [dataWards, setDataWard] = useState<any>(null);
   const [selectedProvince, setSelectedProvince] = useState<any>(null);
@@ -110,7 +121,46 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
       //console.log(error);
     }
   };
+  const handleSearchLocation = async (data: any) => {
+    setTapMap(false);
+    const dataGet: any = await mapApi.getMapLocation(
+      data +
+        " " +
+        selectedWard?.full_name +
+        " " +
+        selectedDistrict?.full_name +
+        " " +
+        selectedProvince?.province_fullName,
+      "pk.eyJ1IjoiaGJ0b2FuIiwiYSI6ImNsd29tc2h2NjFhOTEyaW54MmFnYWt3ZDQifQ.ljik1w_nZErIaDyhwXh68w"
+    );
 
+    if (dataGet) {
+      const dataOK = dataGet.features.filter((dt: any) => {
+        return dt.id.includes("neighborhood");
+      })[0];
+      if (dataOK) {
+        setTapMap(true);
+
+        setDataLocation({
+          ...dataCompany,
+          address: data ?? dataLocation?.address,
+          latitude: dataOK?.center?.[1],
+          longitude: dataOK?.center?.[0],
+        });
+      } else {
+        setTapMap(true);
+
+        setDataLocation({
+          ...dataCompany,
+          address: data ?? dataLocation?.address,
+
+          latitude: dataGet.features?.[2]?.center?.[1],
+          longitude: dataGet.features?.[2]?.center?.[0],
+        });
+      }
+    }
+  };
+  const handleDebounce = useDebounce(handleSearchLocation, 500);
   // get All ward by ward id
   const getDataWard = async () => {
     try {
@@ -146,7 +196,9 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
   React.useEffect(() => {
     getDataWard();
   }, [selectedDistrict, languageRedux]);
-
+  useEffect(() => {
+    handleDebounce(undefined);
+  }, [selectedDistrict, selectedProvince, selectedWard]);
   const handleProvinceChange = (event: any, value: any) => {
     setSelectedDistrict(null);
     setSelectedWard(null);
@@ -171,12 +223,18 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
   };
 
   const handleChangeAddress = (e: any) => {
+    handleDebounce(e.target?.value);
+
     setDataCompany((preValue: any) => ({
       ...preValue,
       address: e.target?.value,
     }));
   };
-
+  useEffect(() => {
+    if (dataLocation) {
+      setDataCompany({ ...dataCompany, ...dataLocation });
+    }
+  }, [dataLocation]);
   return (
     <div className="edit-address-company-container">
       <div className="edit-address-company">
@@ -371,6 +429,11 @@ const EditAddressCompany: React.FC<IEditPostAddress> = memo((props) => {
             </p>
           )}
         </div>
+      </div>
+      <div className="w-full h-96 overflow-hidden rounded-md">
+        {tabMap && (
+          <MapComponent data={dataLocation} setData={setDataLocation} />
+        )}
       </div>
     </div>
   );

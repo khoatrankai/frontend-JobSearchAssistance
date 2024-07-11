@@ -24,10 +24,15 @@ import { GiSkills } from "react-icons/gi";
 import SkeletonAll from "@/util/SkeletonAll";
 import { useSelector } from "react-redux";
 import cvsApi from "@/api/cvs";
+import { useSrollContext } from "@/context/AppProvider";
+import useRouterCustom from "@/util/useRouterCustom/useRouterCustom";
 
 type Props = { id: any; funcLibrary: any };
 
 const Option = (props: Props) => {
+  const refBGOption = useRef<any>();
+  const { reponsiveMobile } = useSrollContext();
+  const { pushRouter } = useRouterCustom();
   const { id, funcLibrary } = props;
   const {
     dataForm,
@@ -70,17 +75,17 @@ const Option = (props: Props) => {
     { id: 1 },
     { id: 2 },
     { id: 3 },
-    { id: 4 },
-    { id: 5 },
-    { id: 6 },
-    { id: 8 },
-    { id: 9 },
-    { id: 7 },
-    { id: 10 },
-    { id: 11 },
-    { id: 12 },
-    { id: 13 },
-    { id: 14 },
+    // { id: 4 },
+    // { id: 5 },
+    // { id: 6 },
+    // { id: 8 },
+    // { id: 9 },
+    // { id: 7 },
+    // { id: 10 },
+    // { id: 11 },
+    // { id: 12 },
+    // { id: 13 },
+    // { id: 14 },
   ]);
   const [dataType, setDataType] = useState<any>([
     {
@@ -150,19 +155,38 @@ const Option = (props: Props) => {
     };
 
     if (Object.keys(profile).length > 0) {
-      const countId = profile.profilesCvs.filter((dt: any) => {
+      console.log(profile);
+      const countId = profile.profilesCvs?.filter((dt: any) => {
         return dt.cvIndex == id;
       });
-      if (countId.length > 0) {
+      if (countId?.length > 0) {
         fetchData();
       }
     }
   }, [id, profile]);
+  useEffect(() => {
+    const handleBlurTab = (e: any) => {
+      if (refBGOption && !refBGOption.current.contains(e.target)) {
+        setFunc(-1);
+      }
+    };
+    document.addEventListener("click", handleBlurTab);
+    return () => {
+      document.removeEventListener("click", handleBlurTab);
+    };
+  }, []);
   return (
     <>
-      <div className="fixed flex flex-col left-2 top-52 gap-y-4 h-full z-[10] w-24">
+      <div
+        className={`fixed flex flex-col left-2 top-56 gap-y-4 h-full z-[10] ${
+          reponsiveMobile > 850 ? "w-24" : "w-12"
+        }`}
+        ref={refBGOption}
+      >
         <div
-          className={`p-4 w-full  group  flex justify-center items-center cursor-pointer flex-col gap-y-2 rounded-lg  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
+          className={`${
+            reponsiveMobile > 850 ? "p-4" : "py-4"
+          } w-full  group  flex justify-center items-center cursor-pointer flex-col gap-y-2 rounded-lg  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
             func === 0 ? "bg-blue-500" : "bg-white hover:bg-blue-500"
           }`}
           onClick={() => {
@@ -172,21 +196,24 @@ const Option = (props: Props) => {
           }}
         >
           <AiFillContainer
-            className={`text-3xl   ${
+            className={` ${reponsiveMobile > 850 ? "text-3xl" : "text-xl"}  ${
               func === 0 ? "text-white" : "text-blue-500 group-hover:text-white"
             }`}
           />
-          <button
-            className={`font-medium text-xs text-center  ${
-              func === 0 ? "text-white" : "group-hover:text-white"
-            }`}
-          >
-            Đổi mẫu CV
-          </button>
+          {reponsiveMobile > 850 && (
+            <button
+              className={`font-medium text-xs text-center  ${
+                func === 0 ? "text-white" : "group-hover:text-white"
+              }`}
+            >
+              Đổi mẫu CV
+            </button>
+          )}
+
           <div
-            className={`absolute bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] inset-y-0 bottom-8 left-full translate-x-4 rounded-lg w-96 p-2  transition-all ${
-              func === 0 ? "" : "hidden"
-            }`}
+            className={`absolute bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] inset-y-0 bottom-8 left-full translate-x-4 rounded-lg ${
+              reponsiveMobile > 850 ? "w-96" : "w-[325px]"
+            }  p-2  transition-all ${func === 0 ? "" : "hidden"}`}
           >
             <h1 className="font-medium text-xl mb-10">Template</h1>
             <ul className="flex flex-wrap gap-2 overflow-y-scroll">
@@ -219,7 +246,9 @@ const Option = (props: Props) => {
           </div>
         </div>
         <div
-          className={`p-4 w-full group flex justify-center items-center cursor-pointer flex-col gap-y-2 rounded-lg  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
+          className={`${
+            reponsiveMobile > 850 ? "p-4" : "py-4"
+          } w-full group flex justify-center items-center cursor-pointer flex-col gap-y-2 rounded-lg  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
             func === 1 ? "bg-blue-500" : "bg-white hover:bg-blue-500"
           }`}
           onClick={() => {
@@ -229,21 +258,23 @@ const Option = (props: Props) => {
           }}
         >
           <HiDocumentAdd
-            className={`text-3xl   ${
+            className={`${reponsiveMobile > 850 ? "text-3xl" : "text-xl"}   ${
               func === 1 ? "text-white" : "text-blue-500 group-hover:text-white"
             }`}
           />
-          <button
-            className={`font-medium text-xs text-center  ${
-              func === 1 ? "text-white" : "group-hover:text-white"
-            }`}
-          >
-            Thêm mục
-          </button>
+          {reponsiveMobile > 850 && (
+            <button
+              className={`font-medium text-xs text-center  ${
+                func === 1 ? "text-white" : "group-hover:text-white"
+              }`}
+            >
+              Thêm mục
+            </button>
+          )}
           <div
-            className={`absolute bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] top-0 left-full translate-x-4 rounded-lg w-80 h-full p-2 transition-all ${
-              func === 1 ? "" : "hidden"
-            }`}
+            className={`absolute bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] top-0 left-full translate-x-4 rounded-lg  h-full p-2 transition-all ${
+              reponsiveMobile > 850 ? "w-80" : "w-64"
+            } ${func === 1 ? "" : "hidden"}`}
             onClick={(e: any) => {
               e.stopPropagation();
             }}
@@ -422,7 +453,9 @@ const Option = (props: Props) => {
           </div>
         </div>
         <div
-          className={`p-4 w-full flex group justify-center items-center cursor-pointer flex-col gap-y-2 rounded-lg  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
+          className={`${
+            reponsiveMobile > 850 ? "p-4" : "py-4"
+          } w-full flex group justify-center items-center cursor-pointer flex-col gap-y-2 rounded-lg  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
             func === 2 ? "bg-blue-500" : "bg-white hover:bg-blue-500"
           }`}
           onClick={() => {
@@ -432,17 +465,19 @@ const Option = (props: Props) => {
           }}
         >
           <BsBriefcaseFill
-            className={`text-3xl   ${
+            className={`${reponsiveMobile > 850 ? "text-3xl" : "text-xl"}   ${
               func === 2 ? "text-white" : "text-blue-500 group-hover:text-white"
             }`}
           />
-          <button
-            className={`font-medium text-xs text-center  ${
-              func === 2 ? "text-white" : "group-hover:text-white"
-            }`}
-          >
-            Việc làm gợi ý
-          </button>
+          {reponsiveMobile > 850 && (
+            <button
+              className={`font-medium text-xs text-center  ${
+                func === 2 ? "text-white" : "group-hover:text-white"
+              }`}
+            >
+              Việc làm gợi ý
+            </button>
+          )}
           <div
             className={`absolute bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] top-0 left-full translate-x-4 rounded-lg w-80 h-fit p-2 transition-all ${
               func === 2 ? "" : "hidden"
@@ -452,115 +487,17 @@ const Option = (props: Props) => {
               Việc làm phù hợp với CV
             </h1>
             <SkeletonAll data={listJobSuggest} type={4}>
-              <div className="flex flex-col gap-2 h-96 overflow-y-scroll">
+              <div className="flex flex-col gap-2 h-96 overflow-y-scroll pointer-events-auto">
                 {listJobSuggest.map((dt: any) => {
                   return (
                     <>
-                      <div className="w-full p-2 flex gap-x-2 items-center cursor-pointer border-[1px] rounded-md">
-                        <Image
-                          src={dt.image || "/goapply.png"}
-                          alt=""
-                          width={500}
-                          height={500}
-                          className="h-16 w-16 rounded-lg"
-                        />
-                        <div className="flex flex-col h-full justify-around">
-                          <p className="font-semibold text-black text-sm">
-                            {dt.title}
-                          </p>
-                          <p className="font-medium text-xs text-gray-400">
-                            {dt.companyName}
-                          </p>
-                          <p className="font-medium text-xs text-gray-400">
-                            {dt.salaryMax}VNĐ
-                          </p>
-                        </div>
-                      </div>
-                    </>
-                  );
-                })}
-                {listJobSuggest.map((dt: any) => {
-                  return (
-                    <>
-                      <div className="w-full p-2 flex gap-x-2 items-center cursor-pointer border-[1px] rounded-md">
-                        <Image
-                          src={dt.image || "/goapply.png"}
-                          alt=""
-                          width={500}
-                          height={500}
-                          className="h-16 w-16 rounded-lg"
-                        />
-                        <div className="flex flex-col h-full justify-around">
-                          <p className="font-semibold text-black text-sm">
-                            {dt.title}
-                          </p>
-                          <p className="font-medium text-xs text-gray-400">
-                            {dt.companyName}
-                          </p>
-                          <p className="font-medium text-xs text-gray-400">
-                            {dt.salaryMax}VNĐ
-                          </p>
-                        </div>
-                      </div>
-                    </>
-                  );
-                })}
-                {listJobSuggest.map((dt: any) => {
-                  return (
-                    <>
-                      <div className="w-full p-2 flex gap-x-2 items-center cursor-pointer border-[1px] rounded-md">
-                        <Image
-                          src={dt.image || "/goapply.png"}
-                          alt=""
-                          width={500}
-                          height={500}
-                          className="h-16 w-16 rounded-lg"
-                        />
-                        <div className="flex flex-col h-full justify-around">
-                          <p className="font-semibold text-black text-sm">
-                            {dt.title}
-                          </p>
-                          <p className="font-medium text-xs text-gray-400">
-                            {dt.companyName}
-                          </p>
-                          <p className="font-medium text-xs text-gray-400">
-                            {dt.salaryMax}VNĐ
-                          </p>
-                        </div>
-                      </div>
-                    </>
-                  );
-                })}
-                {listJobSuggest.map((dt: any) => {
-                  return (
-                    <>
-                      <div className="w-full p-2 flex gap-x-2 items-center cursor-pointer border-[1px] rounded-md">
-                        <Image
-                          src={dt.image || "/goapply.png"}
-                          alt=""
-                          width={500}
-                          height={500}
-                          className="h-16 w-16 rounded-lg"
-                        />
-                        <div className="flex flex-col h-full justify-around">
-                          <p className="font-semibold text-black text-sm">
-                            {dt.title}
-                          </p>
-                          <p className="font-medium text-xs text-gray-400">
-                            {dt.companyName}
-                          </p>
-                          <p className="font-medium text-xs text-gray-400">
-                            {dt.salaryMax}VNĐ
-                          </p>
-                        </div>
-                      </div>
-                    </>
-                  );
-                })}
-                {listJobSuggest.map((dt: any) => {
-                  return (
-                    <>
-                      <div className="w-full p-2 flex gap-x-2 items-center cursor-pointer border-[1px] rounded-md">
+                      <div
+                        className="w-full p-2 flex gap-x-2 items-center cursor-pointer border-[1px] rounded-md"
+                        onClick={(e: any) => {
+                          e.stopPropagation();
+                          pushRouter(`/post-detail/${dt?.id}`);
+                        }}
+                      >
                         <Image
                           src={dt.image || "/goapply.png"}
                           alt=""
@@ -588,7 +525,9 @@ const Option = (props: Props) => {
           </div>
         </div>
         <div
-          className={`p-4 w-full flex justify-center group items-center cursor-pointer flex-col gap-y-2 rounded-lg  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
+          className={` ${
+            reponsiveMobile > 850 ? "p-4" : "py-4"
+          } w-full flex justify-center group items-center cursor-pointer flex-col gap-y-2 rounded-lg  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
             func === 3 ? "bg-blue-500" : "bg-white hover:bg-blue-500"
           }`}
           onClick={() => {
@@ -598,17 +537,19 @@ const Option = (props: Props) => {
           }}
         >
           <AiFillExclamationCircle
-            className={`text-3xl   ${
+            className={`${reponsiveMobile > 850 ? "text-3xl" : "text-xl"}   ${
               func === 3 ? "text-white" : "text-blue-500 group-hover:text-white"
             }`}
           />
-          <button
-            className={`font-medium text-xs text-center  ${
-              func === 3 ? "text-white" : "group-hover:text-white"
-            }`}
-          >
-            Hướng dẫn sử dụng
-          </button>
+          {reponsiveMobile > 850 && (
+            <button
+              className={`font-medium text-xs text-center  ${
+                func === 3 ? "text-white" : "group-hover:text-white"
+              }`}
+            >
+              Hướng dẫn sử dụng
+            </button>
+          )}
           <div
             className={`absolute bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] top-0 left-full translate-x-4 rounded-lg w-80 h-full p-2 transition-all ${
               func === 3 ? "" : "hidden"

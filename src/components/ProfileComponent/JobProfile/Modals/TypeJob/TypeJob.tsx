@@ -23,7 +23,7 @@ const TypeJob = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        `http://localhost:8888/api/v1/job-types?lang=${
+        `https://backend-hcmute-nodejs.onrender.com/api/v1/job-types?lang=${
           languageRedux === 1 ? "vi" : "en"
         }`
       )) as unknown as IData;

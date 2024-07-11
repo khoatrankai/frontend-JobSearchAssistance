@@ -56,18 +56,22 @@ const HistoryPackage = (props: Props) => {
 
       <div className="flex flex-col gap-y-4 py-2 px-4 rounded-md bg-gray-50 overflow-x-scroll">
         <div className="flex gap-x-2 min-w-[1152px]">
+          <p className="basis-1/6">Mã Order</p>
+
           <p className="basis-1/6">Tên dịch vụ</p>
           <p className="basis-1/6">Giá</p>
           <p className="basis-1/6">Ngày mua</p>
           <p className="basis-1/6">Ngày hết hạn</p>
-          <p className="basis-1/6">Trạng thái</p>
-          <p className="basis-1/6">Chức năng</p>
+          <p className="basis-1/12">Trạng thái</p>
+          <p className="basis-1/12">Chức năng</p>
         </div>
         <div className="flex flex-col gap-y-2 max-h-[315px]  min-w-[1152px] overflow-y-scroll">
           {dataHistory?.map((dt: any, ikey: any) => {
             return (
               <>
                 <div className="flex gap-x-2 text-sm font-semibold cursor-pointer  items-center">
+                  <p className="basis-1/6">{dt.orderId}</p>
+
                   <p className="basis-1/6">{dt.serviceName}</p>
                   <p className="basis-1/6">
                     {ChangeNumber(dt.servicePrice.toString(), false, ",")}
@@ -77,14 +81,14 @@ const HistoryPackage = (props: Props) => {
                     {handleConvertToDate(dt.startDate)}
                   </p>
                   <p className="basis-1/6">{handleConvertToDate(dt.endDate)}</p>
-                  <div className="basis-1/6 ">
+                  <div className="basis-1/12 text-center">
                     {!dt.isValidate ? (
-                      <p className="text-red-500">Hết hạn</p>
+                      <p className="text-red-500 text-start">Hết hạn</p>
                     ) : (
-                      <p className="text-green-500">Còn hạn</p>
+                      <p className="text-green-500 text-start">Còn hạn</p>
                     )}
                   </div>
-                  <div className="basis-1/6 ">
+                  <div className="basis-1/12 ">
                     {!dt.isValidate && (
                       <button
                         className="p-2 rounded-md bg-yellow-500 text-white font-bold hover:bg-yellow-400"

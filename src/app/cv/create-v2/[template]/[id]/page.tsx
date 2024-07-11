@@ -16,13 +16,15 @@ import { FaRunning } from "react-icons/fa";
 import { AiFillLike, AiOutlineAreaChart } from "react-icons/ai";
 import { PiProjectorScreenChartFill, PiStudentFill } from "react-icons/pi";
 import { GiSkills } from "react-icons/gi";
+import { useSrollContext } from "@/context/AppProvider";
 
 type Props = {};
 
 const page = (props: Props) => {
   // CheckPageLogin();
-
+  CheckPageLogin();
   const { id, template } = useParams();
+  const { reponsiveMobile } = useSrollContext();
   const [dataType, setDataType] = useState<any>([
     {
       type: "info_person",
@@ -72,6 +74,7 @@ const page = (props: Props) => {
     dataLoad,
     handleAddType,
     positionAddType,
+    scaleForm,
     setPositionAddType,
   } = funcLibrary;
   const [typeChoose, setTypeChoose] = useState<any>();
@@ -100,12 +103,13 @@ const page = (props: Props) => {
           <div className="basis-1/4 h-full z-30">
             <Option id={id} funcLibrary={funcLibrary} />
           </div>
-          <div className="flex-1 mb-32">
+          <div className={`flex-1 mb-32 min-w-[100vw] overflow-x-scroll`}>
+            <div className="w-[190vw]"></div>
             <Sample id={id} template={template} funcLibrary={funcLibrary} />
           </div>
         </div>
         <div
-          className={`fixed inset-0 bg-black/20 flex justify-center items-center z-[80] ${
+          className={`fixed inset-0 bg-black/50 flex justify-center items-center z-[80] ${
             !positionAddType && "hidden"
           }`}
           onClick={(e: any) => {
@@ -113,7 +117,7 @@ const page = (props: Props) => {
           }}
         >
           <div
-            className="w-full h-full max-w-3xl max-h-96 bg-white rounded-lg p-4 gap-y-8 flex flex-col"
+            className="w-full h-fit max-w-3xl min-h-fit bg-white rounded-lg p-4 gap-y-8 flex flex-col"
             onClick={(e: any) => {
               e.stopPropagation();
             }}
@@ -125,7 +129,7 @@ const page = (props: Props) => {
             <div className="flex flex-wrap gap-x-4">
               <ul className="flex flex-wrap gap-3">
                 <li
-                  className={`px-2 py-3 rounded-lg flex gap-x-2 items-center  text-sm font-bold uppercase ${
+                  className={`px-2 py-3 rounded-lg flex gap-x-2 items-center min-w-fit flex-1  text-sm font-bold uppercase ${
                     handleCheckType(dataType[9].type)
                       ? "bg-black/30 text-blue-500 cursor-not-allowed "
                       : typeChoose == dataType[9].type
@@ -140,7 +144,7 @@ const page = (props: Props) => {
                   <span className="select-none">{dataType[9].name}</span>
                 </li>
                 <li
-                  className={`px-2 py-3 rounded-lg flex gap-x-2 items-center  text-sm font-bold uppercase ${
+                  className={`px-2 py-3 rounded-lg flex gap-x-2 items-center min-w-fit flex-1  text-sm font-bold uppercase ${
                     handleCheckType(dataType[0].type)
                       ? "bg-black/30 text-blue-500 cursor-not-allowed "
                       : typeChoose == dataType[0].type
@@ -155,7 +159,7 @@ const page = (props: Props) => {
                   <span className="select-none">{dataType[0].name}</span>
                 </li>
                 <li
-                  className={`px-2 py-3 rounded-lg flex gap-x-2 items-center  text-sm font-bold uppercase ${
+                  className={`px-2 py-3 rounded-lg flex gap-x-2 items-center min-w-fit flex-1  text-sm font-bold uppercase ${
                     handleCheckType(dataType[1].type)
                       ? "bg-black/30 text-blue-500 cursor-not-allowed "
                       : typeChoose == dataType[1].type
@@ -170,7 +174,7 @@ const page = (props: Props) => {
                   <span className="select-none">{dataType[1].name}</span>
                 </li>
                 <li
-                  className={`px-2 py-3 rounded-lg flex gap-x-2 items-center  text-sm font-bold uppercase ${
+                  className={`px-2 py-3 rounded-lg flex gap-x-2 items-center min-w-fit flex-1  text-sm font-bold uppercase ${
                     handleCheckType(dataType[2].type)
                       ? "bg-black/30 text-blue-500 cursor-not-allowed "
                       : typeChoose == dataType[2].type
@@ -185,7 +189,7 @@ const page = (props: Props) => {
                   <span className="select-none">{dataType[2].name}</span>
                 </li>
                 <li
-                  className={`px-2 py-3 rounded-lg flex gap-x-2 items-center  text-sm font-bold uppercase ${
+                  className={`px-2 py-3 rounded-lg flex gap-x-2 items-center min-w-fit flex-1  text-sm font-bold uppercase ${
                     handleCheckType(dataType[3].type)
                       ? "bg-black/30 text-blue-500 cursor-not-allowed "
                       : typeChoose == dataType[3].type
@@ -200,7 +204,7 @@ const page = (props: Props) => {
                   <span className="select-none">{dataType[3].name}</span>
                 </li>
                 <li
-                  className={`px-2 py-3 rounded-lg flex gap-x-2 items-center  text-sm font-bold uppercase ${
+                  className={`px-2 py-3 rounded-lg flex gap-x-2 items-center min-w-fit flex-1  text-sm font-bold uppercase ${
                     handleCheckType(dataType[4].type)
                       ? "bg-black/30 text-blue-500 cursor-not-allowed "
                       : typeChoose == dataType[4].type
@@ -215,7 +219,7 @@ const page = (props: Props) => {
                   <span className="select-none">{dataType[4].name}</span>
                 </li>
                 <li
-                  className={`px-2 py-3 rounded-lg flex gap-x-2 items-center  text-sm font-bold uppercase ${
+                  className={`px-2 py-3 rounded-lg flex gap-x-2 items-center min-w-fit flex-1  text-sm font-bold uppercase ${
                     handleCheckType(dataType[5].type)
                       ? "bg-black/30 text-blue-500 cursor-not-allowed "
                       : typeChoose == dataType[5].type
@@ -230,7 +234,7 @@ const page = (props: Props) => {
                   <span className="select-none">{dataType[5].name}</span>
                 </li>
                 <li
-                  className={`px-2 py-3 rounded-lg flex gap-x-2 items-center  text-sm font-bold uppercase ${
+                  className={`px-2 py-3 rounded-lg flex gap-x-2 items-center min-w-fit flex-1  text-sm font-bold uppercase ${
                     handleCheckType(dataType[6].type)
                       ? "bg-black/30 text-blue-500 cursor-not-allowed "
                       : typeChoose == dataType[6].type
@@ -245,7 +249,7 @@ const page = (props: Props) => {
                   <span className="select-none">{dataType[6].name}</span>
                 </li>
                 <li
-                  className={`px-2 py-3 rounded-lg flex gap-x-2 items-center  text-sm font-bold uppercase ${
+                  className={`px-2 py-3 rounded-lg flex gap-x-2 items-center min-w-fit flex-1  text-sm font-bold uppercase ${
                     handleCheckType(dataType[7].type)
                       ? "bg-black/30 text-blue-500 cursor-not-allowed "
                       : typeChoose == dataType[7].type
@@ -260,7 +264,7 @@ const page = (props: Props) => {
                   <span className="select-none">{dataType[7].name}</span>
                 </li>
                 <li
-                  className={`px-2 py-3 rounded-lg flex gap-x-2 items-center  text-sm font-bold uppercase ${
+                  className={`px-2 py-3 rounded-lg flex gap-x-2 items-center min-w-fit flex-1  text-sm font-bold uppercase ${
                     handleCheckType(dataType[8].type)
                       ? "bg-black/30 text-blue-500 cursor-not-allowed "
                       : typeChoose == dataType[8].type

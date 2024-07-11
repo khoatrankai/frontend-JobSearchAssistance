@@ -3,30 +3,16 @@ import { fetchProfileRecruiter } from '@/redux/reducer/profileReducer/profileSli
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import useRouterCustom from './useRouterCustom/useRouterCustom';
 
 type Props = {}
 
 const CheckRoleRecruiter = () => {
-    // const profile = useSelector((state: any) => state.profile.profile);
-  //   const dispatch = useDispatch();
-
-  // const profile = useSelector((state: any) => state.profileRecruiter.profile);
-  // useEffect(() => {
-  //   dispatch(fetchProfileRecruiter("vi") as any);
-  // }, []);
-  // useEffect(() => {
-    
-  // }, [profile]);
     const accessToken = localStorage.getItem('accessTokenRecruiter')
-
-    const router = useRouter();
-    useEffect(() => {       
-  //console.log(accessToken)
-       
+    const {pushRouter} = useRouterCustom()       
       if (!accessToken) {
-        router.push("/recruiter/login");
+        pushRouter("/recruiter/login");
       }
-    }, []);
   
 }
 

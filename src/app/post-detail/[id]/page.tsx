@@ -24,7 +24,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { ToastContainer, toast } from "react-toastify";
 import bookMarkApi from "@/api/bookmarks/bookMarkApi";
 import "react-toastify/dist/ReactToastify.css";
-import { ChatIcon } from "@/icons";
+import { ChatIcon, SaveIconFill, SaveIconOutline } from "@/icons";
 import moment from "moment";
 import applicationApi from "@/api/applicationApi";
 import EncodingDescription from "@/util/EncodingDescription/EncodingDescription";
@@ -36,6 +36,8 @@ import axiosClient from "@/configs/axiosClient";
 import ShortText from "@/util/ShortText";
 import ModalApply from "@/components/ModalApply/ModalApply";
 import { TbFilePercent } from "react-icons/tb";
+import searchApi from "@/api/search/apiSearch";
+import { Link } from "react-router-dom";
 
 type Props = {};
 
@@ -56,7 +58,7 @@ interface IApplication {
 
 const page = (props: Props) => {
   const { id } = useParams();
-  const { handleShortTextHome } = ShortText();
+  const { handleShortTextHome, handleShortValueNumber } = ShortText();
   const { handleDecodingDescription } = EncodingDescription();
   const [checkSize, setCheckSize] = useState<boolean>(false);
   const [dataCompany, setDataCompany] = useState<any>();
@@ -66,6 +68,7 @@ const page = (props: Props) => {
   const ref_des = useRef<any>();
   const [postDetail, setPostDetail] = useState<any>({});
   const [list_category, setListCategory] = useState<any>("");
+  const [listSameJob, setListSameJob] = useState<any>([]);
   const [bookmarked, setBookmarked] = React.useState(false);
   const profile = useSelector((state: any) => state.profile.profile);
   const { handleLoadHrefPage, setSoureImage } = useSrollContext();
@@ -94,16 +97,37 @@ const page = (props: Props) => {
       )) as unknown as IPostDetail;
       // //console.log(res.data?.company_name);
       const res2 = (await axiosClient.get(
-        `http://localhost:1902/api/v3/companies/by-name?name=${res?.data?.company_name}`
+        `https://backend-hcmute-nestjs.onrender.com/api/v3/companies/by-name?name=${res?.data?.company_name}`
       )) as unknown as { status: any; data: any };
 
       if (res && (res?.code as any) === 200) {
         setPostDetail(res.data);
+        document.title = res.data?.title;
         const data = res.data.categories.map((item: any) => {
           return item.child_category;
         });
         const dataString = data.join(",");
         setListCategory(dataString);
+        const dataListSame = await searchApi.getSearchByQueryV2(
+          null,
+          0,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          null,
+          null,
+          [],
+          res.data.categories.map((dt: any) => {
+            return dt.child_category_id;
+          }),
+          [res.data.district_id],
+          null,
+          languageRedux === 1 ? "vi" : "en"
+        );
+        setListSameJob(dataListSame.data.posts);
       } else {
         // router.push("/not-found");
       }
@@ -150,13 +174,13 @@ const page = (props: Props) => {
     };
   }, []);
 
-  const handleBookmarked = (id: number) => {
+  const handleBookmarked = (idPost: number) => {
     try {
       const fetchData = async () => {
         const res = (await bookMarkApi.createBookMark(
-          id
+          idPost
         )) as unknown as IBookmark;
-
+        console.log(res);
         if (res && res.code === 200) {
           toast.success(
             languageRedux === 1
@@ -173,7 +197,18 @@ const page = (props: Props) => {
               theme: "dark",
             }
           );
-          setBookmarked(!bookmarked);
+          if (id == idPost.toString()) {
+            setBookmarked(!bookmarked);
+          } else {
+            setListSameJob(
+              listSameJob.map((dt: any) => {
+                if (dt.id == idPost) {
+                  return { ...dt, bookmarked: true };
+                }
+                return dt;
+              })
+            );
+          }
         } else {
           setOpenModalLogin(true);
         }
@@ -199,11 +234,11 @@ const page = (props: Props) => {
     }
   };
 
-  const handleDeleteBookmarked = (id: number) => {
+  const handleDeleteBookmarked = (idPost: number) => {
     try {
       const fetchData = async () => {
         const res = (await bookMarkApi.deleteBookMark(
-          id
+          idPost
         )) as unknown as IBookmark;
 
         if (res && res.code === 200) {
@@ -222,7 +257,18 @@ const page = (props: Props) => {
               theme: "dark",
             }
           );
-          setBookmarked(!bookmarked);
+          if (id == idPost.toString()) {
+            setBookmarked(!bookmarked);
+          } else {
+            setListSameJob(
+              listSameJob.map((dt: any) => {
+                if (dt.id == idPost) {
+                  return { ...dt, bookmarked: false };
+                }
+                return dt;
+              })
+            );
+          }
         }
       };
 
@@ -387,19 +433,46 @@ const page = (props: Props) => {
   };
   const CheckApplyProfile = () => {
     if (Object.keys(profile).length === 0) {
+      localStorage.setItem("backurl", window.location.pathname);
       router.push("/login");
     } else {
-      if (profile.roleData === 0) {
-        setOpenModalApply(true);
+      if (profile?.isActive) {
+        if (profile.roleData === 0) {
+          setOpenModalApply(true);
+        }
+      } else {
+        toast.error("Vui lòng xác thực", {
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+        });
       }
     }
   };
   const handleSendChat = () => {
     if (Object.keys(profile).length === 0) {
+      localStorage.setItem("backurl", window.location.pathname);
       router.push("/login");
     } else {
-      if (profile.roleData === 0 || profile.roleData === 3) {
-        handleToMessage(postDetail.account_id, postDetail.id);
+      if (profile?.isActive === 1) {
+        if (profile.roleData === 0 || profile.roleData === 3) {
+          handleToMessage(postDetail.account_id, postDetail.id);
+        } else {
+          toast.error("Vui lòng xác thực", {
+            position: "bottom-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark",
+          });
+        }
+
         // handleViewPost();
       }
     }
@@ -413,7 +486,7 @@ const page = (props: Props) => {
       <div className="max-w-6xl inline-flex flex-wrap justify-between w-full my-6">
         <div className={`${checkSize ? "mx-7" : "max-w-[780px]"}  w-full`}>
           <div className="rounded-lg bg-white p-6">
-            <h1 className="font-semibold text-3xl text-black/70 capitalize">
+            <h1 className="font-semibold text-lg text-black/70 capitalize">
               {postDetail && postDetail?.title}
             </h1>
             <div
@@ -459,7 +532,7 @@ const page = (props: Props) => {
                   </button>
                 </div>
               )}
-              {checkNext && (
+              {checkNext && postDetail?.images?.length > 1 && (
                 <div className="absolute inset-y-0 right-0 w-14 bg-black/50 flex items-center justify-center group">
                   <button
                     className="bg-white p-2 rounded-full group-hover:translate-x-1 transition-all"
@@ -545,14 +618,29 @@ const page = (props: Props) => {
                 <button className="flex flex-1 px-2 gap-2 text-sm items-center h-10 min-w-[12rem] bg-blue-600/95 hover:bg-blue-600 justify-center rounded-lg  text-white">
                   <BookmarksIcon />
                   {postDetail?.resource?.company_resource_id === 2 ? (
-                    <h2
-                      className="font-semibold"
-                      onClick={() => {
-                        CheckApplyProfile();
-                      }}
-                    >
-                      {languageRedux === 1 ? "Ứng tuyển ngay" : "Apply now"}
-                    </h2>
+                    postDetail?.applied ? (
+                      <h2 className="font-semibold flex gap-1">
+                        {languageRedux === 1 ? "Đã ứng tuyển" : "Apply now"}
+                        {postDetail?.cvApplication && (
+                          <a
+                            href={postDetail?.cvApplication}
+                            target="_blank"
+                            className="underline text-sm"
+                          >
+                            Xem cv
+                          </a>
+                        )}
+                      </h2>
+                    ) : (
+                      <h2
+                        className="font-semibold"
+                        onClick={() => {
+                          CheckApplyProfile();
+                        }}
+                      >
+                        {languageRedux === 1 ? "Ứng tuyển ngay" : "Apply now"}
+                      </h2>
+                    )
                   ) : (
                     <h2
                       className="font-semibold  text-sm"
@@ -569,25 +657,41 @@ const page = (props: Props) => {
                   onClick={() => {
                     handleSendChat();
                   }}
-                  className="flex items-center w-fit text-sm gap-2 px-2  h-10 border-2 border-blue-500/70 hover:border-blue-500 rounded-lg justify-center"
+                  className={`flex items-center text-sm gap-2 px-2  h-10 border-2 border-blue-500/70 hover:border-blue-500 rounded-lg justify-center`}
                 >
                   <ChatIcon width={19} height={18} />
-                  <h2 className="font-bold">
-                    {languageRedux === 1 ? "Nhắn tin" : "Send message"}
-                  </h2>
+                  {reponsiveMobile > 420 && (
+                    <h2 className="font-bold">
+                      {languageRedux === 1 ? "Nhắn tin" : "Send message"}
+                    </h2>
+                  )}
                 </button>
-                {/* )} */}
-
                 {postDetail.account_id !== profile.accountId && (
                   <button
                     onClick={() => {
                       if (Object.keys(profile).length === 0) {
+                        localStorage.setItem(
+                          "backurl",
+                          window.location.pathname
+                        );
                         router.push("/login");
                       } else {
-                        if (postDetail.bookmarked) {
-                          handleDeleteBookmarked(postDetail.id);
+                        if (profile?.isActive) {
+                          if (postDetail.bookmarked) {
+                            handleDeleteBookmarked(postDetail.id);
+                          } else {
+                            handleBookmarked(postDetail.id);
+                          }
                         } else {
-                          handleBookmarked(postDetail.id);
+                          toast.error("Vui lòng xác thực", {
+                            position: "bottom-center",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            theme: "dark",
+                          });
                         }
                       }
                     }}
@@ -608,9 +712,11 @@ const page = (props: Props) => {
                         }}
                       />
                     )}
-                    <h2 className="font-bold text-black  text-sm">
-                      {postDetail.bookmarked ? "Đã lưu" : "Lưu tin"}
-                    </h2>
+                    {reponsiveMobile > 420 && (
+                      <h2 className="font-bold text-black  text-sm">
+                        {postDetail.bookmarked ? "Đã lưu" : "Lưu tin"}
+                      </h2>
+                    )}
                   </button>
                 )}
               </div>
@@ -708,16 +814,17 @@ const page = (props: Props) => {
               <div className="flex gap-x-2">
                 <p className="text-gray-400 text-nowrap">Địa điểm:</p>
                 <p className="text-sm">
-                  {handleShortTextHome(
-                    postDetail.address +
-                      "," +
-                      postDetail?.ward +
-                      "," +
-                      postDetail?.district +
-                      "," +
-                      postDetail?.province,
-                    40
-                  )}
+                  {postDetail?.address &&
+                    handleShortTextHome(
+                      postDetail.address +
+                        "," +
+                        postDetail?.ward +
+                        "," +
+                        postDetail?.district +
+                        "," +
+                        postDetail?.province,
+                      40
+                    )}
                 </p>
               </div>
             </div>
@@ -842,6 +949,94 @@ const page = (props: Props) => {
                   </h2>
                 </div>
               </li>
+            </ul>
+          </div>
+          <div className="rounded-lg bg-white p-6">
+            <div className="flex h-10 items-center mb-8">
+              <div className="h-full w-3 bg-blue-500 mr-4"></div>
+              <h1 className="font-semibold text-xl">
+                {languageRedux === 1 ? "Công việc tương tự" : "Job information"}
+              </h1>
+            </div>
+            <ul className="flex flex-col gap-4">
+              {listSameJob.map((dt: any, ikey: any) => {
+                if (ikey < 5) {
+                  return (
+                    <>
+                      <li
+                        key={ikey}
+                        onClick={() => {
+                          router.push(`/post-detail/${dt?.id}`);
+                        }}
+                      >
+                        <div className="w-full h-fit p-2 rounded-md flex items-center gap-4 cursor-pointer hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] hover:text-blue-500">
+                          <div className="rounded-full overflow-hidden w-16 h-16">
+                            <Image
+                              alt=""
+                              src={dt?.image ?? "/goapply.png"}
+                              width={500}
+                              height={500}
+                            />
+                          </div>
+                          <div className="flex flex-col flex-1">
+                            <div>
+                              <h2 className="text-sm font-bold peer group-hover:drop-shadow-xl  group-hover:text-blue-500 max-w-full w-fit">
+                                {handleShortTextHome(dt?.title, 15)}
+                              </h2>
+                            </div>
+
+                            <div className="my-2 flex flex-col gap-y-1 font-medium">
+                              <div className="flex items-center">
+                                <p className="text-xs text-gray-500  drop-shadow-xl">
+                                  {handleShortTextHome(dt?.company_name, 17)}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="inline-flex flex-wrap justify-start gap-1 font-extrabold">
+                              <h3 className="text-[9px] py-1 px-2 rounded-md min-w-fit bg-blue-50 group-hover:text-blue-500  ">
+                                {handleShortValueNumber(
+                                  dt?.salary_min.toString()
+                                )}{" "}
+                                -{" "}
+                                {handleShortValueNumber(
+                                  dt?.salary_max.toString()
+                                )}{" "}
+                                {dt?.money_type_text}
+                              </h3>
+                              <h3 className="text-[9px] py-1 px-2 rounded-md min-w-fit bg-blue-50 group-hover:text-blue-500  ">
+                                {dt?.district}
+                              </h3>
+                            </div>
+                          </div>
+                          {Object.keys(profile).length > 0 && (
+                            <div className="h-full w-12 flex items-center">
+                              <div
+                                className="cursor-pointer"
+                                onClick={(e: any) => {
+                                  e.stopPropagation();
+                                  // if (profile?.isActive) {
+                                  if (dt?.bookmarked) {
+                                    handleDeleteBookmarked(dt?.id);
+                                  } else {
+                                    handleBookmarked(dt?.id);
+                                  }
+                                  // }
+                                }}
+                              >
+                                {dt?.bookmarked ? (
+                                  <SaveIconFill width={24} height={24} />
+                                ) : (
+                                  <SaveIconOutline width={24} height={24} />
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </li>
+                    </>
+                  );
+                }
+              })}
             </ul>
           </div>
         </div>

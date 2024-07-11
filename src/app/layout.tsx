@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import "./globals.css";
-import "global";
 import { Inter } from "next/font/google";
 import { persistStore } from "redux-persist";
 import { ScrollContext } from "@/context/AppProvider";
@@ -22,6 +21,11 @@ import ChatAIComponent from "@/components/ChatAIComponent/ChatAIComponent";
 import ShowConfirm from "@/util/ShowConfirm/ShowConfirm";
 import { ToastContainer } from "react-toastify";
 import ShowLoading from "@/util/ShowLoading/ShowLoading";
+import ShowModalIf from "@/util/ShowModalIf/ShowModalIf";
+import LoadingPageComponent from "@/components/LoadingPageComponent/LoadingPageComponent";
+import loadingserverApi from "@/api/loadingserver";
+import { SessionProvider } from "next-auth/react";
+import ShowActive from "@/components/ShowActive/ShowActive";
 
 // export const metadata = {
 //   title: "Create Next App",
@@ -34,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   // const persistor = persistStore(store);
-
+  const [loadingServer, setLoadingServer] = useState<boolean>(false);
   const [reponsiveMobile, setReponsiveMobile] = useState<number>(0);
   useEffect(() => {
     window.addEventListener("load", () => {
@@ -56,48 +60,56 @@ export default function RootLayout({
     "/recruiter/register",
     "/recruiter/forgot-password",
     "/login",
+    "/register",
   ];
   const allowedFooter = ["/chat"];
 
   const urlCustom = pathname.split("/").slice(0, -1).join("/");
+  useEffect(() => {
+    const fetchDataLoading = async () => {
+      const res = await loadingserverApi.loading();
+      if (res) {
+        setLoadingServer(true);
+      }
+    };
+    fetchDataLoading();
+  }, []);
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={inter.className}>
         {typeof window !== "undefined" && typeof document !== "undefined" ? (
           <ScrollContext>
             <PersistGate loading={null} persistor={persistor}>
-              {pathname.split("/").length <= 3
-                ? !allowedPath.includes(pathname) && <MenuComponent />
-                : !(urlCustom.trim() === "/candidate/reset-password") && (
-                    <MenuComponent />
-                  )}
-              {/* Alternatively, you can use curly braces */}
-              {/* {router.pathname !== "/login" && <MenuComponent />} */}
-              {/* <div>nice</div> */}
-              {children}
+              <SessionProvider>
+                {loadingServer ? (
+                  <>
+                    {pathname.split("/").length <= 3
+                      ? !allowedPath.includes(pathname) && <MenuComponent />
+                      : !(urlCustom.trim() === "/candidate/reset-password") && (
+                          <MenuComponent />
+                        )}
+                    {children}
+                    <ChangeLanguage />
+                    <ChatRoll />
+                    <RollTop />
+                    <AlertOne />
+                    <ShowConfirm />
+                    <ShowImage />
+                    <ShowModalIf />
+                    {pathname.split("/").length <= 3
+                      ? !allowedPath.includes(pathname) &&
+                        !allowedFooter.includes(pathname) && <FooterComponent />
+                      : !(urlCustom.trim() === "/candidate/reset-password") && (
+                          <FooterComponent />
+                        )}
 
-              {/* {reponsiveMobile >= 1280 ? ( */}
-              <>
-                {/* <ChatAIComponent /> */}
-                <ChangeLanguage />
-                <ChatRoll />
-                <RollTop />
-              </>
-              {/* ) : (
-            ""
-          )} */}
-              <AlertOne />
-              <ShowConfirm />
-              <ShowImage />
-              {pathname.split("/").length <= 3
-                ? !allowedPath.includes(pathname) &&
-                  !allowedFooter.includes(pathname) && <FooterComponent />
-                : !(urlCustom.trim() === "/candidate/reset-password") && (
-                    <FooterComponent />
-                  )}
-
-              <ToastContainer />
-              <ShowLoading />
+                    <ToastContainer />
+                    <ShowLoading />
+                  </>
+                ) : (
+                  <LoadingPageComponent />
+                )}
+              </SessionProvider>
             </PersistGate>
           </ScrollContext>
         ) : (

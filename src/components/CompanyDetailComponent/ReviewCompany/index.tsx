@@ -46,7 +46,9 @@ const ReviewCompany: React.FC<IReviewCompany> = (props) => {
   const [openModalLogin, setOpenModalLogin] = React.useState(false);
   const [status, setStatus] = React.useState("");
   const inputRef = useRef<InputRef>(null);
-
+  const profileInfoV3 = useSelector(
+    (state: RootState) => state.profile.profile
+  );
   const handleGetReviewAccountOfCompany = async () => {
     try {
       if (companyId) {
@@ -210,7 +212,9 @@ const ReviewCompany: React.FC<IReviewCompany> = (props) => {
     getCompanyRating();
     handleGetReviewAccountOfCompany();
   }, [languageRedux, isSuccess]);
-
+  // useEffect(() => {
+  //   console.log(myReview);
+  // }, [myReview]);
   const handleSetStar = (e: any) => {
     setStar(e.target.value);
   };
@@ -218,6 +222,18 @@ const ReviewCompany: React.FC<IReviewCompany> = (props) => {
   const handleSubmitReview = () => {
     if (!localStorage.getItem("accessToken")) {
       setOpenModalLogin(true);
+      return;
+    }
+    if (!profileInfoV3?.isActive) {
+      toast.error("Vui lòng xác thực", {
+        position: "bottom-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
     }
     if (myReview === undefined && (star === 0 || review.trim().length === 0)) {
@@ -450,7 +466,7 @@ const ReviewCompany: React.FC<IReviewCompany> = (props) => {
       <ModalConfirmDelete
         openModalConfirmDelete={openModalConfirmDelete}
         setOpenModalConfirmDelete={setOpenModalConfirmDelete}
-        companyId={companyId}
+        companyId={myReview?.id}
         setOpenBackdrop={setOpenBackdrop}
         setStatus={setStatus}
         setOpenModalPostReviewSuccess={setOpenModalPostReviewSuccess}

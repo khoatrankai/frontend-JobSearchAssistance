@@ -117,7 +117,7 @@ const ListChat: React.FC<IOpenListChat> = (props) => {
 
   useEffect(() => {
     if (isConnected === false && !socket.current) {
-      socket.current = io("http://localhost:8888", {
+      socket.current = io("https://backend-hcmute-nodejs.onrender.com", {
         extraHeaders: {
           Authorization: `Bearer ${localStorage.getItem(
             "accessTokenRecruiter"
@@ -261,7 +261,16 @@ const ListChat: React.FC<IOpenListChat> = (props) => {
               ></span>
             </div>
             <div className="wrap-infoUser_chat">
-              <h4>{userInfoChat.name}</h4>
+              <h4
+                className="cursor-pointer hover:underline"
+                onClick={() => {
+                  router.push(
+                    `/recruiter/candidate-detail/${userInfoChat.user_id}`
+                  );
+                }}
+              >
+                {userInfoChat.name}
+              </h4>
               {userInfoChat.isOnline ? (
                 <span>{languageRedux ? `Đang hoạt động` : `Active`}</span>
               ) : (
@@ -364,7 +373,7 @@ const ListChat: React.FC<IOpenListChat> = (props) => {
             const chatDate = new Date(chat.created_at).toLocaleDateString();
             let showDate = false;
 
-            if (localStorage.getItem("accountId") === chat.sender_id) {
+            if (localStorage.getItem("accountIdRecruiter") === chat.sender_id) {
               return (
                 <div
                   className={`content-chat ${

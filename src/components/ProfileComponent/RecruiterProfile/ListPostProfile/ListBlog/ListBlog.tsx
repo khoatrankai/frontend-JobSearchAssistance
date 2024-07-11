@@ -12,7 +12,7 @@ type Props = {};
 const ListBlog = (props: Props) => {
   const [listStatus, setListStatus] = useState<any>([0, 1]);
   const { setTabAlert, updateHandleAlert, reponsiveMobile } = useSrollContext();
-  const { pushBlank } = useRouterCustom();
+  const { pushBlank, pushRouter } = useRouterCustom();
   const { handleShortTextHome } = ShortText();
   const [listData, setListData] = useState<any>([]);
   const [listDataFilter, setListDataFilter] = useState<any>([]);
@@ -58,7 +58,7 @@ const ListBlog = (props: Props) => {
         <button
           className="p-2 rounded-lg bg-blue-500 text-white font-semibold text-lg hover:bg-blue-600"
           onClick={() => {
-            pushBlank(`/recruiter/community-create`);
+            pushRouter(`/recruiter/community-create`);
           }}
         >
           Tạo bài viết
@@ -70,7 +70,7 @@ const ListBlog = (props: Props) => {
         }`}
       >
         <div className="flex text-xs font-semibold">
-          <button className="px-2">
+          <button>
             Tất cả<span>({listDataFilter.length})</span>
           </button>
           {/* <button className=" px-2">
@@ -133,7 +133,7 @@ const ListBlog = (props: Props) => {
                     <button
                       className="p-2 rounded-md text-blue-500 hover:underline"
                       onClick={() => {
-                        pushBlank(
+                        pushRouter(
                           `/recruiter/detail-community?post-community=${dt.id}`
                         );
                       }}
@@ -143,7 +143,7 @@ const ListBlog = (props: Props) => {
                     <button
                       className="p-2 rounded-md text-yellow-500 hover:underline"
                       onClick={() => {
-                        pushBlank(
+                        pushRouter(
                           `/recruiter/community-create?post-community=${dt.id}`
                         );
                       }}

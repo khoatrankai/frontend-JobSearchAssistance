@@ -14,7 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { IoIosArrowBack } from "react-icons/io";
 import CheckPageLogin from "@/util/CheckPageComLogin";
-
+import { signIn, signOut, useSession, getSession } from "next-auth/react";
 interface AuthReponse {
   accountId: string | null;
   accessToken: string | null;
@@ -28,6 +28,8 @@ interface IReponseSignInCandidate {
 
 const Page = () => {
   CheckPageLogin();
+
+  const { data: session } = useSession();
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
   const [email, setEmail] = useState("");
@@ -74,7 +76,15 @@ const Page = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+  useEffect(() => {
+    if (session) {
+      console.log(session);
 
+      // signOut();
+      fetchDataProfile(session as any);
+      signOut();
+    }
+  }, [session]);
   const handleLogin = async () => {
     const fetchSignIn = async () => {
       const response = (await signInEmailApi.signInCandidate(
@@ -94,9 +104,6 @@ const Page = () => {
           progress: undefined,
         });
         // redirect to home page after 10s
-        setTimeout(() => {
-          router.push("/");
-        }, 5000);
       } else {
         toast.error("Đăng nhập không thành công", {
           position: "bottom-center",
@@ -215,12 +222,12 @@ const Page = () => {
             <p
               className="text-blue-500 hover:underline cursor-pointer text-right basic"
               onClick={() => {
-                router.push("/candidate/forgot-password");
+                router.push("/forgot-password");
               }}
             >
               Quên mật khẩu?
             </p>
-            <p className="or">Hoặc đăng nhập bằng</p>
+            <p className="or">Hoặc đăng nhập bằng {session?.user?.name}</p>
             <div className="flex gap-3">
               <Button
                 sx={{
@@ -231,6 +238,9 @@ const Page = () => {
                   "&:hover": {
                     backgroundColor: "#3b5998",
                   },
+                }}
+                onClick={() => {
+                  signIn("facebook");
                 }}
               >
                 Facebook
@@ -244,6 +254,10 @@ const Page = () => {
                   "&:hover": {
                     backgroundColor: "#ff0000",
                   },
+                }}
+                onClick={() => {
+                  signIn("google");
+                  // signOut();
                 }}
               >
                 Google
@@ -266,7 +280,7 @@ const Page = () => {
               <div
                 className="basic register cursor-pointer"
                 onClick={() => {
-                  router.push("/candidate/sign-up");
+                  router.push("/register");
                 }}
               >
                 Đăng ký
@@ -275,12 +289,12 @@ const Page = () => {
           </div>
           <Button
             sx={{
-              backgroundColor: "#ffcc00",
+              backgroundColor: "#006dff",
               color: "black",
               marginTop: "20px",
               "&:hover": {
-                backgroundColor: "#ffcc00",
-                color: "black",
+                backgroundColor: "#005ef3",
+                color: "white",
               },
             }}
             className="w-full"

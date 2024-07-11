@@ -12,14 +12,17 @@ import { useSrollContext } from "@/context/AppProvider";
 import postsApi from "@/api/posts/postsApi";
 import SkeletonAll from "@/util/SkeletonAll";
 import SkeletonCustom from "@/util/FormSkeleton/SkeletonCustom";
+import useRouterCustom from "@/util/useRouterCustom/useRouterCustom";
 
 type Props = {};
 
 const InfoJobMail = (props: Props) => {
   const { Option } = Select;
   const { handleShortTextHome } = ShortText();
+  const { pushRouter } = useRouterCustom();
   const { reponsiveMobile } = useSrollContext();
   const [selectSalary, setSelectSalary] = useState<any>(0);
+  const dateNow = new Date();
   const [dataSalaryTop, setSalaryTop] = useState<any>();
   const [idTopCategory, setTopCategory] = useState<any>(-1);
   const [listJob, setListJob] = useState<any>([]);
@@ -119,10 +122,10 @@ const InfoJobMail = (props: Props) => {
     const fetch = async () => {
       const data = await analyticsApi.totalApplicationsTop();
       const dataSalary = await analyticsApi.totalSalaryTop();
-      setDataJobApplyTop(data.data);
-      setSalaryTop(dataSalary.data);
+      setDataJobApplyTop(data?.data);
+      setSalaryTop(dataSalary?.data);
       setTopCategory(
-        dataSalary.data.resultWithMinMax?.[0]?.parent_categories_id
+        dataSalary?.data?.resultWithMinMax?.[0]?.parent_categories_id
       );
       //console.log(dataSalary.data);
     };
@@ -131,19 +134,15 @@ const InfoJobMail = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = (await postsApi.getPostHot()) as any;
-      //console.log(res);
 
       if (res && res.status === 200) {
         setListJob(res.data);
-
-        // setCurrentPage(res.currentPage);
-        //console.log(res);
       }
     };
-    if (idTopCategory != -1) {
-      fetchData();
-    }
-  }, [idTopCategory]);
+    // if (idTopCategory != -1) {
+    fetchData();
+    // }
+  }, []);
   useEffect(() => {
     setSalaryChart(
       dataSalaryChart.map((dt: any, ikey: any) => {
@@ -178,7 +177,12 @@ const InfoJobMail = (props: Props) => {
             <div className="px-4 py-2 relative z-10">
               <p className="font-bold text-white text-3xl">
                 Top việc làm{" "}
-                <span className="text-blue-400 drop-shadow-2xl">01/2024</span>
+                <span className="text-blue-400 drop-shadow-2xl">
+                  {dateNow.getMonth().toString().length > 1
+                    ? dateNow.getMonth() + 1
+                    : `0${dateNow.getMonth() + 1}`}
+                  /{dateNow.getFullYear()}
+                </span>
               </p>
             </div>
             <div className="flex flex-col flex-1 items-center">
@@ -196,15 +200,18 @@ const InfoJobMail = (props: Props) => {
                   {listJob.map((dt: any, index: any) => {
                     return (
                       <div
-                        className="basis-1/3 w-full p-2 flex gap-x-2 items-center cursor-pointer"
+                        className="basis-1/3 w-full p-2 flex gap-x-2 items-center cursor-pointer hover:shadow-2xl"
                         key={index}
+                        onClick={() => {
+                          pushRouter(`/post-detail/${dt.id}`);
+                        }}
                       >
                         <Image
                           src={dt.image}
                           alt=""
                           width={500}
                           height={500}
-                          className="h-16 w-16 rounded-lg"
+                          className="h-16 w-16 rounded-full shadow-xl"
                         />
                         <div className="flex flex-col h-full justify-around">
                           <p className="font-semibold text-white text-sm">
@@ -237,12 +244,14 @@ const InfoJobMail = (props: Props) => {
               <div className="bg-black/30 w-full min-h-[120px] rounded-xl pl-4 flex flex-col justify-center text-white">
                 {
                   <SkeletonCustom
-                    data={dataJobApplyTop.resultTotal?.[0].salaryMax}
+                    data={dataJobApplyTop?.resultTotal?.[0].salaryMax}
                     className={"font-bold text-3xl w-16"}
                   >
                     <p className="font-bold text-3xl">
                       $
-                      {ChangeNumber(dataJobApplyTop.resultTotal?.[0].salaryMax)}
+                      {ChangeNumber(
+                        dataJobApplyTop?.resultTotal?.[0].salaryMax
+                      )}
                     </p>
                   </SkeletonCustom>
                 }
@@ -251,12 +260,12 @@ const InfoJobMail = (props: Props) => {
               </div>
               <div className="bg-black/30 w-full min-h-[120px] rounded-xl pl-4 flex flex-col justify-center text-white">
                 <SkeletonCustom
-                  data={dataJobApplyTop.resultTotal?.[0].totalPost}
+                  data={dataJobApplyTop?.resultTotal?.[0].totalPost}
                   className={"font-bold text-3xl w-16"}
                 >
                   <p className="font-bold text-3xl">
                     {ChangeNumber(
-                      dataJobApplyTop.resultTotal?.[0].totalPost,
+                      dataJobApplyTop?.resultTotal?.[0].totalPost,
                       false
                     )}
                   </p>
@@ -266,12 +275,12 @@ const InfoJobMail = (props: Props) => {
               </div>
               <div className="bg-black/30 w-full min-h-[120px] rounded-xl pl-4 flex flex-col justify-center text-white">
                 <SkeletonCustom
-                  data={dataJobApplyTop.resultTotal?.[0].totalParentCategory}
+                  data={dataJobApplyTop?.resultTotal?.[0].totalParentCategory}
                   className={"font-bold text-3xl w-16"}
                 >
                   <p className="font-bold text-3xl">
                     {ChangeNumber(
-                      dataJobApplyTop.resultTotal?.[0].totalParentCategory,
+                      dataJobApplyTop?.resultTotal?.[0].totalParentCategory,
                       false
                     )}
                   </p>
@@ -289,7 +298,7 @@ const InfoJobMail = (props: Props) => {
                 <p className="text-white font-bold">Số lượng ứng tuyển</p>
                 <div className="flex flex-col gap-y-6 justify-end h-full">
                   <div className="flex flex-col">
-                    <SkeletonAll data={dataJobApplyTop.resultTop5} type={5}>
+                    <SkeletonAll data={dataJobApplyTop?.resultTop5} type={5}>
                       <div className="w-full flex gap-x-2 items-end">
                         <div className="w-full relative group">
                           <div className="h-1 bg-green-400 w-full"></div>
@@ -298,13 +307,16 @@ const InfoJobMail = (props: Props) => {
                             style={{
                               height: `${
                                 (160 *
-                                  dataJobApplyTop.resultTop5?.[0].percent) /
+                                  dataJobApplyTop?.resultTop5?.[0].percent) /
                                 100
                               }px`,
                             }}
                           ></div>
                           <p className="absolute bottom-full -translate-y-1 inset-x-0 flex justify-center text-xs font-semibold text-white transition-all duration-500 group-hover:text-green-400">
-                            {dataJobApplyTop.resultTop5?.[0]?.total_application}
+                            {
+                              dataJobApplyTop?.resultTop5?.[0]
+                                ?.total_application
+                            }
                           </p>
                         </div>
                         <div className="w-full relative group">
@@ -314,13 +326,16 @@ const InfoJobMail = (props: Props) => {
                             style={{
                               height: `${
                                 (160 *
-                                  dataJobApplyTop.resultTop5?.[1].percent) /
+                                  dataJobApplyTop?.resultTop5?.[1].percent) /
                                 100
                               }px`,
                             }}
                           ></div>
                           <p className="absolute bottom-full -translate-y-1 inset-x-0 flex justify-center text-xs font-semibold text-white transition-all duration-500 group-hover:text-blue-400">
-                            {dataJobApplyTop.resultTop5?.[1]?.total_application}
+                            {
+                              dataJobApplyTop?.resultTop5?.[1]
+                                ?.total_application
+                            }
                           </p>
                         </div>
                         <div className="w-full relative group">
@@ -330,13 +345,16 @@ const InfoJobMail = (props: Props) => {
                             style={{
                               height: `${
                                 (160 *
-                                  dataJobApplyTop.resultTop5?.[2].percent) /
+                                  dataJobApplyTop?.resultTop5?.[2].percent) /
                                 100
                               }px`,
                             }}
                           ></div>
                           <p className="absolute bottom-full -translate-y-1 inset-x-0 flex justify-center text-xs font-semibold text-white transition-all duration-500 group-hover:text-violet-400">
-                            {dataJobApplyTop.resultTop5?.[2]?.total_application}
+                            {
+                              dataJobApplyTop?.resultTop5?.[2]
+                                ?.total_application
+                            }
                           </p>
                         </div>
                         <div className="w-full relative group">
@@ -347,13 +365,16 @@ const InfoJobMail = (props: Props) => {
                             style={{
                               height: `${
                                 (160 *
-                                  dataJobApplyTop.resultTop5?.[3].percent) /
+                                  dataJobApplyTop?.resultTop5?.[3].percent) /
                                 100
                               }px`,
                             }}
                           ></div>
                           <p className="absolute bottom-full -translate-y-1 inset-x-0 flex justify-center text-xs font-semibold text-white transition-all duration-500 group-hover:text-pink-400">
-                            {dataJobApplyTop.resultTop5?.[3]?.total_application}
+                            {
+                              dataJobApplyTop?.resultTop5?.[3]
+                                ?.total_application
+                            }
                           </p>
                           <div className=" bg-pink-400/30 w-full"></div>
                         </div>
@@ -364,13 +385,16 @@ const InfoJobMail = (props: Props) => {
                             style={{
                               height: `${
                                 (160 *
-                                  dataJobApplyTop.resultTop5?.[4].percent) /
+                                  dataJobApplyTop?.resultTop5?.[4].percent) /
                                 100
                               }px`,
                             }}
                           ></div>
                           <p className="absolute bottom-full -translate-y-1 inset-x-0 flex justify-center text-xs font-semibold text-white transition-all duration-500 group-hover:text-orange-400">
-                            {dataJobApplyTop.resultTop5?.[4]?.total_application}
+                            {
+                              dataJobApplyTop?.resultTop5?.[4]
+                                ?.total_application
+                            }
                           </p>
                         </div>
                         <div className="w-full relative group">
@@ -380,13 +404,16 @@ const InfoJobMail = (props: Props) => {
                             style={{
                               height: `${
                                 (160 *
-                                  dataJobApplyTop.resultTop5?.[5].percent) /
+                                  dataJobApplyTop?.resultTop5?.[5].percent) /
                                 100
                               }px`,
                             }}
                           ></div>
                           <p className="absolute bottom-full -translate-y-1 inset-x-0 flex justify-center text-xs font-semibold text-white transition-all duration-500 group-hover:text-yellow-400">
-                            {dataJobApplyTop.resultTop5?.[5]?.total_application}
+                            {
+                              dataJobApplyTop?.resultTop5?.[5]
+                                ?.total_application
+                            }
                           </p>
                         </div>
                       </div>
@@ -396,7 +423,7 @@ const InfoJobMail = (props: Props) => {
                     <div className="flex gap-x-1 items-center basis-1/3">
                       <SkeletonCustom
                         data={
-                          dataJobApplyTop.resultTop5?.[0]
+                          dataJobApplyTop?.resultTop5?.[0]
                             ?.parent_categories_name
                         }
                         className={"text-xs text-white font-medium w-20"}
@@ -405,7 +432,7 @@ const InfoJobMail = (props: Props) => {
 
                         <p className="text-xs text-white font-medium">
                           {handleShortTextHome(
-                            dataJobApplyTop.resultTop5?.[0]
+                            dataJobApplyTop?.resultTop5?.[0]
                               ?.parent_categories_name,
                             10
                           )}
@@ -415,7 +442,7 @@ const InfoJobMail = (props: Props) => {
                     <div className="flex gap-x-1 items-center  basis-1/3">
                       <SkeletonCustom
                         data={
-                          dataJobApplyTop.resultTop5?.[1]
+                          dataJobApplyTop?.resultTop5?.[1]
                             ?.parent_categories_name
                         }
                         className={"text-xs text-white font-medium w-20"}
@@ -424,7 +451,7 @@ const InfoJobMail = (props: Props) => {
 
                         <p className="text-xs text-white font-medium">
                           {handleShortTextHome(
-                            dataJobApplyTop.resultTop5?.[1]
+                            dataJobApplyTop?.resultTop5?.[1]
                               ?.parent_categories_name,
                             10
                           )}
@@ -434,7 +461,7 @@ const InfoJobMail = (props: Props) => {
                     <div className="flex gap-x-1 items-center  basis-1/3">
                       <SkeletonCustom
                         data={
-                          dataJobApplyTop.resultTop5?.[2]
+                          dataJobApplyTop?.resultTop5?.[2]
                             ?.parent_categories_name
                         }
                         className={"text-xs text-white font-medium w-20"}
@@ -443,7 +470,7 @@ const InfoJobMail = (props: Props) => {
 
                         <p className="text-xs text-white font-medium">
                           {handleShortTextHome(
-                            dataJobApplyTop.resultTop5?.[2]
+                            dataJobApplyTop?.resultTop5?.[2]
                               ?.parent_categories_name,
                             10
                           )}
@@ -453,7 +480,7 @@ const InfoJobMail = (props: Props) => {
                     <div className="flex gap-x-1 items-center  basis-1/3">
                       <SkeletonCustom
                         data={
-                          dataJobApplyTop.resultTop5?.[3]
+                          dataJobApplyTop?.resultTop5?.[3]
                             ?.parent_categories_name
                         }
                         className={"text-xs text-white font-medium w-20"}
@@ -462,7 +489,7 @@ const InfoJobMail = (props: Props) => {
 
                         <p className="text-xs text-white font-medium">
                           {handleShortTextHome(
-                            dataJobApplyTop.resultTop5?.[3]
+                            dataJobApplyTop?.resultTop5?.[3]
                               ?.parent_categories_name,
                             10
                           )}
@@ -472,7 +499,7 @@ const InfoJobMail = (props: Props) => {
                     <div className="flex gap-x-1 items-center  basis-1/3">
                       <SkeletonCustom
                         data={
-                          dataJobApplyTop.resultTop5?.[4]
+                          dataJobApplyTop?.resultTop5?.[4]
                             ?.parent_categories_name
                         }
                         className={"text-xs text-white font-medium w-20"}
@@ -481,7 +508,7 @@ const InfoJobMail = (props: Props) => {
 
                         <p className="text-xs text-white font-medium">
                           {handleShortTextHome(
-                            dataJobApplyTop.resultTop5?.[4]
+                            dataJobApplyTop?.resultTop5?.[4]
                               ?.parent_categories_name,
                             10
                           )}
@@ -492,7 +519,7 @@ const InfoJobMail = (props: Props) => {
                     <div className="flex gap-x-1 items-center  basis-1/3">
                       <SkeletonCustom
                         data={
-                          dataJobApplyTop.resultTop5?.[5]
+                          dataJobApplyTop?.resultTop5?.[5]
                             ?.parent_categories_name
                         }
                         className={"text-xs text-white font-medium w-20"}
@@ -501,7 +528,7 @@ const InfoJobMail = (props: Props) => {
 
                         <p className="text-xs text-white font-medium">
                           {handleShortTextHome(
-                            dataJobApplyTop.resultTop5?.[5]
+                            dataJobApplyTop?.resultTop5?.[5]
                               ?.parent_categories_name,
                             10
                           )}

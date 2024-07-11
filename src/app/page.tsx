@@ -1,5 +1,6 @@
 import Image from "next/image";
 import PageHome from "@/page/Home/Home";
+import MapComponent from "@/components/MapComponent/MapComponent";
 export default function Home() {
   return (
     <>

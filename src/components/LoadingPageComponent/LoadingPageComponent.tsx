@@ -15,7 +15,7 @@ const LoadingPageComponent = (props: Props) => {
           className="w-56 h-56"
         />
       </div>
-      <h2 className="loading-text text-9xl font-semibold opacity-10">
+      <h2 className="loading-text text-[20vw] font-semibold opacity-10">
         <span className="char">L</span>
         <span className="char">o</span>
         <span className="char">a</span>

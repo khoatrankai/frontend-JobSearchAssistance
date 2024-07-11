@@ -3,7 +3,7 @@ import axiosClient from "@/configs/axiosRecruiter";
 
 const profileAPi = {
   getProfileRecruiterV3: (lang: string) => {
-    const URL = `http://localhost:1902/api/v3/profiles/me?lang=${lang}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/profiles/me?lang=${lang}`;
 
     return axiosClientRecruiter.get(URL, {
       headers: {
@@ -14,7 +14,10 @@ const profileAPi = {
 
   getProfileByAccountId: (lang: string, accountId: string) => {
     // unlock=${unclock}&
-    const URL = `http://localhost:1902/api/v3/profiles/${accountId}?lang=${lang}&unlock=false`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/profiles/${accountId}?lang=${lang}&unlock=false`;
+    axiosClientRecruiter.post('https://backend-hcmute-nestjs.onrender.com/api/v3/view-profiles',{
+      "profileId": accountId
+    })
     return axiosClientRecruiter.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
@@ -22,7 +25,7 @@ const profileAPi = {
     });
   },
   putProfileJobV3: (jobTypeId: number | null, isSearch: number | null) => {
-    const URL = `http://localhost:1902/api/v3/profiles/job`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/profiles/job`;
     return axiosClientRecruiter.put(
       URL,
       {
@@ -41,7 +44,7 @@ const profileAPi = {
     oldPassword: string,
     lang: string,
   ) => {
-    const URL = `http://localhost:1902/api/v3/users/recruit/update-password?lang=${lang}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/users/recruit/update-password?lang=${lang}`;
     return axiosClientRecruiter.post(
       URL,
       {

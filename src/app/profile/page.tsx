@@ -127,7 +127,9 @@ const page = (props: Props) => {
                 <p className="font-bold text-white">{dataProfile?.name}</p>
               )}
             </div>
-            <div className="flex flex-col items-center gap-y-3 w-full justify-center">
+            <div
+              className={`flex flex-col items-center gap-y-3 w-full justify-center`}
+            >
               <div
                 className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
                   selectionMenu === 1
@@ -136,7 +138,9 @@ const page = (props: Props) => {
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
                   reponsiveMobile < 950
                     ? `justify-center ${
-                        menuProfile ? "" : "-top-20 opacity-0 -z-10"
+                        menuProfile
+                          ? ""
+                          : "hidden -top-20 opacity-0 invisible -z-10"
                       }`
                     : "pl-6 hover:text-white"
                 }`}
@@ -165,7 +169,7 @@ const page = (props: Props) => {
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
                   reponsiveMobile < 950
                     ? `justify-center ${
-                        menuProfile ? "" : "-top-20 opacity-0 -z-10"
+                        menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
                       }`
                     : "pl-6 hover:text-white"
                 }`}
@@ -195,7 +199,7 @@ const page = (props: Props) => {
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
                   reponsiveMobile < 950
                     ? `justify-center ${
-                        menuProfile ? "" : "-top-20 opacity-0 -z-10"
+                        menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
                       }`
                     : "pl-6 hover:text-white"
                 }`}
@@ -225,7 +229,7 @@ const page = (props: Props) => {
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
                   reponsiveMobile < 950
                     ? `justify-center ${
-                        menuProfile ? "" : "-top-20 opacity-0 -z-10"
+                        menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
                       }`
                     : "pl-6 hover:text-white"
                 }`}
@@ -255,7 +259,7 @@ const page = (props: Props) => {
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
                   reponsiveMobile < 950
                     ? `justify-center ${
-                        menuProfile ? "" : "-top-20 opacity-0 -z-10"
+                        menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
                       }`
                     : "pl-6 hover:text-white"
                 }`}
@@ -285,7 +289,7 @@ const page = (props: Props) => {
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
                   reponsiveMobile < 950
                     ? `justify-center ${
-                        menuProfile ? "" : "-top-20 opacity-0 -z-10"
+                        menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
                       }`
                     : "pl-6 hover:text-white"
                 }`}
@@ -315,7 +319,7 @@ const page = (props: Props) => {
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
                   reponsiveMobile < 950
                     ? `justify-center ${
-                        menuProfile ? "" : "-top-20 opacity-0 -z-10"
+                        menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
                       }`
                     : "pl-6 hover:text-white"
                 }`}
@@ -367,7 +371,7 @@ const page = (props: Props) => {
         </div>
         {menuProfile && (
           <div
-            className="fixed inset-0 bg-black/30"
+            className="fixed inset-0 bg-black/80 z-30"
             onClick={() => {
               setMenuProfile(false);
             }}

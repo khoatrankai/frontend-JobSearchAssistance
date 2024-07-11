@@ -26,8 +26,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useSrollContext } from "@/context/AppProvider";
 import TextEditorCustomBlog from "@/util/TextEditCustom/TextEditorCustomBlog";
+import CheckRoleRecruiter from "@/util/CheckRoleRecruiter";
+import ToastCustom from "@/util/ToastCustom";
 
 const ComunityCreatePostRecruiter = ({ setTab }: any) => {
+  CheckRoleRecruiter();
+
   const language = useSelector(
     (state: RootState) => state.dataLanguage.languages
   );
@@ -45,7 +49,10 @@ const ComunityCreatePostRecruiter = ({ setTab }: any) => {
     }[]
   >([]);
   const { handleLoadHrefPage } = useSrollContext();
-
+  const profile = useSelector(
+    (state: RootState) => state.profileRecruiter.profile
+  );
+  const { hdError } = ToastCustom();
   const searchParams: any = useSearchParams();
   const POST_COMMUNITY_ID = searchParams.get("post-community");
   const [communityPost, setCommunityPost] = React.useState<any>();
@@ -324,8 +331,14 @@ const ComunityCreatePostRecruiter = ({ setTab }: any) => {
         formData.append("deleteImages", id);
       });
 
-    if (formData) {
-      POST_COMMUNITY_ID ? updateCommunity(formData) : createCommunity(formData);
+    if (profile?.companyInfomation?.isActive) {
+      if (formData) {
+        POST_COMMUNITY_ID
+          ? updateCommunity(formData)
+          : createCommunity(formData);
+      }
+    } else {
+      hdError("Vui lòng xác thực");
     }
   };
 
@@ -354,6 +367,9 @@ const ComunityCreatePostRecruiter = ({ setTab }: any) => {
               theme: "dark",
               progress: undefined,
             }
+          );
+          router.push(
+            `/recruiter/detail-community?post-community=${result?.data?.id}`
           );
         } else {
           // messageApi.open({
@@ -414,6 +430,11 @@ const ComunityCreatePostRecruiter = ({ setTab }: any) => {
           });
           // router.push("/blog");
           if (setTab) setTab(false);
+          else {
+            router.push(
+              `/recruiter/detail-community?post-community=${result?.data?.id}`
+            );
+          }
 
           localStorage.setItem("community_success", "true");
         } else {

@@ -89,7 +89,7 @@ const PositionProfile = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        `http://localhost:8888/api/v1/locations?lang=${
+        `https://backend-hcmute-nodejs.onrender.com/api/v1/locations?lang=${
           languageRedux === 1 ? "vi" : "en"
         }`
       )) as unknown as IData;
@@ -113,7 +113,7 @@ const PositionProfile = (props: Props) => {
               return (
                 <li
                   key={dt}
-                  className={`font-serif flex w-fit items-center p-2 border-[1px] rounded-xl ${
+                  className={`font-serif flex min-w-fit flex-1 justify-center items-center p-2 border-[1px] rounded-xl ${
                     rsJob ? "border-dashed border-black/30" : ""
                   }`}
                 >

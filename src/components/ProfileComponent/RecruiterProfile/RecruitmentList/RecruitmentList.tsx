@@ -6,6 +6,7 @@ import { RootState } from "@/redux";
 import RecruitmentRejectList from "./RecruitmentRejectList/RecruitmentRejectList";
 import RecruitmentWaitingList from "./RecruitmentWaitingList/RecruitmentWaitingList";
 import { Tabs } from "antd";
+import { useSrollContext } from "@/context/AppProvider";
 
 type Props = {};
 
@@ -13,6 +14,7 @@ const RecruitmentList = (props: Props) => {
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
+  const { selectItemProfileRecruiter } = useSrollContext();
   const items = [
     {
       key: "1",
@@ -44,7 +46,7 @@ const RecruitmentList = (props: Props) => {
         maxHeight: "65.5%",
         overflow: "auto",
       }}
-      defaultActiveKey="1"
+      defaultActiveKey={selectItemProfileRecruiter.toString() ?? "1"}
       items={items}
     />
   );

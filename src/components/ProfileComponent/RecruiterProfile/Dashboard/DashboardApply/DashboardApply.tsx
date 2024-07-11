@@ -10,7 +10,7 @@ type Props = {};
 const DashboardApply = (props: Props) => {
   const [dataApply, setApply] = useState<any>([]);
   const { handleShortTextHome } = ShortText();
-  const { pushBlank } = useRouterCustom();
+  const { pushBlank, pushRouter } = useRouterCustom();
   const ChangeNumber = (data: any, type = true, typeSpace = ".") => {
     if (!data) {
       return 0;
@@ -205,7 +205,7 @@ const DashboardApply = (props: Props) => {
                         <button
                           className=" hover:text-blue-400 p-1 w-[15%] font-bold rounded-xl text-blue-700 text-nowrap"
                           onClick={() => {
-                            pushBlank(`/recruiter/post-detail/${dt.postId}`);
+                            pushRouter(`/recruiter/post-detail/${dt.postId}`);
                           }}
                         >
                           Xem chi tiết

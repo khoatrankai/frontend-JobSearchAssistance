@@ -2,7 +2,6 @@
 "use client";
 import { ColorPicker } from "antd";
 import React, { useEffect, useState } from "react";
-import jsPDF from "jspdf";
 import {
   FaArrowDown,
   FaCompressArrowsAlt,
@@ -12,11 +11,12 @@ import {
 } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { FaArrowsAlt } from "react-icons/fa";
+import { saveAs } from "file-saver";
 import { useSelector } from "react-redux";
 import { IoMdAdd } from "react-icons/io";
 import { FaArrowUp } from "react-icons/fa";
 import imageCompression from "browser-image-compression";
-
+import html2pdf from "html2pdf.js";
 import axiosClient from "@/configs/axiosClient";
 import { AiOutlineExpandAlt } from "react-icons/ai";
 import AlertOne from "@/util/Alert/AlertOne";
@@ -28,7 +28,11 @@ import { captureElementAsFile } from "@/util/ConvertPdf";
 import TimeStamp from "@/util/TimeStamp/TimeStamp";
 import ToastCustom from "@/util/ToastCustom";
 import CookieCustom from "@/util/CookieCustom";
-import html2canvas from "html2canvas";
+import ConvertImgToPdf from "@/util/ConvertImgToPdf";
+import { Modal } from "@mui/material";
+import { scale } from "pdf-lib";
+import { format } from "path";
+import ConvertBase64ToImg from "@/util/ConvertBase64ToImg";
 
 type Props = {
   cvIndex?: any;
@@ -43,6 +47,8 @@ interface ILoad {
 const LibCvV2 = (props: Props) => {
   const { cvIndex, template } = props;
   const { getCookie } = CookieCustom();
+  const { convertImgtoPdf } = ConvertImgToPdf();
+  const { convertBaseToImg } = ConvertBase64ToImg();
   const { hdError, hdSuccess } = ToastCustom();
   const profile = useSelector((state: any) => state.profile.profile);
   const [checkBlurItem, setCheckBlurItem] = useState<boolean>(false);
@@ -52,6 +58,7 @@ const LibCvV2 = (props: Props) => {
   const [filePdf, setFilePdf] = useState<any>("");
   const [checkAddCategory, setAddCategory] = useState<boolean>(false);
   const [positionAddType, setPositionAddType] = useState<any>();
+  const [scaleForm, setScaleForm] = useState<any>(95);
   const [listRatio, setListRatio] = useState<any>([
     "100",
     "50,50",
@@ -80,6 +87,7 @@ const LibCvV2 = (props: Props) => {
     handleOffTabLoading,
     handlePersistGateLoaded,
     dataDocsCv,
+    reponsiveMobile,
   } = useSrollContext();
   const [dataForm, setDataForm] = useState<any>({
     cvIndex: 0,
@@ -98,12 +106,12 @@ const LibCvV2 = (props: Props) => {
       layout: "35,65",
       colorCol: "#626262,#",
       colorText: "#ffffff,#222228",
-      colorTopic: "#529300,#3B82F6",
+      colorTopic: "#FFB156,#00AFD3,#777777",
       data: "1.9.5.4.2.0,8.3.7.6",
     },
     {
       layout: "100:100:33.33,33.34,33.33",
-      colorTopic: "#529300,#3B82F6",
+      colorTopic: "#529300,#212F3F,#BC4922,#994787,#247796,#595758",
       colorCol: "#:#:#,#,#",
       colorText: "#000000:#000000:#000000,#000000,#000000",
       data: "1:7.8.3.2.0:0,9,5",
@@ -112,7 +120,7 @@ const LibCvV2 = (props: Props) => {
       layout: "25,75",
       colorCol: "#353A3D,#",
       colorText: "#ffffff,#222228",
-      colorTopic: "#529300,#3B82F6",
+      colorTopic: "#EC8F00,#14ABE2",
       data: "1.9.5.4.2.0,8.3.7.6",
     },
     {
@@ -1922,16 +1930,16 @@ const LibCvV2 = (props: Props) => {
   const handleLoadData = async () => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        `http://localhost:1902/api/v3/cv-extra-information/?cvIndex=${cvIndex}`
+        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-extra-information/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const res2 = (await axiosClient.get(
-        `http://localhost:1902/api/v3/cv-project/?cvIndex=${cvIndex}`
+        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-project/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const res3 = (await axiosClient.get(
-        `http://localhost:1902/api/v3/cv-information/?cvIndex=${cvIndex}`
+        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-information/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const res4 = (await axiosClient.get(
-        `http://localhost:1902/api/v3/cv-layout/?cvIndex=${cvIndex}`
+        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-layout/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const dataNew = [...res.data, ...res2.data, res3.data];
       // //console.log(res, res2, res3, res4, profile);
@@ -1939,7 +1947,7 @@ const LibCvV2 = (props: Props) => {
       setDataForm(res4.data);
       setBackNext({
         back: {},
-        present: { dataForm: res4.data, dataLoad: dataNew },
+        present: { template: template, dataForm: res4.data, dataLoad: dataNew },
         next: {},
       });
     };
@@ -1949,28 +1957,33 @@ const LibCvV2 = (props: Props) => {
   const handleLoadBackData = async (cvNew: any) => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        `http://localhost:1902/api/v3/cv-extra-information/?cvIndex=${cvIndex}`
+        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-extra-information/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const res2 = (await axiosClient.get(
-        `http://localhost:1902/api/v3/cv-project/?cvIndex=${cvIndex}`
+        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-project/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const res3 = (await axiosClient.get(
-        `http://localhost:1902/api/v3/cv-information/?cvIndex=${cvIndex}`
+        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-information/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const res4 = (await axiosClient.get(
-        `http://localhost:1902/api/v3/cv-layout/?cvIndex=${cvIndex}`
+        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-layout/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const dataNew = [...res.data, ...res2.data, res3.data];
       //console.log(res, res2, res3, res4, profile, cvNew);
+      const templateIDOld = profile?.profilesCvs?.filter((dt: any) => {
+        return dt.cvIndex == cvIndex;
+      })[0].templateId;
       setDataLoad(
         dataNew.map((dt: any) => {
           return { ...dt, cvIndex: cvNew };
         })
       );
+      setTemplateId(templateIDOld.toString());
       setDataForm({ ...res4.data, cvIndex: cvNew });
       setBackNext({
         back: {},
         present: {
+          template: templateIDOld.toString(),
           dataForm: { ...res4.data, cvIndex: cvNew },
           dataLoad: dataNew.map((dt: any) => {
             return { ...dt, cvIndex: cvNew };
@@ -2358,22 +2371,97 @@ const LibCvV2 = (props: Props) => {
     const iCol = dataRequest[checkActive.part]?.pad[checkActive.col];
     return iCol;
   };
-  const handleBtnSave = async (file: any) => {
-    if (cvIndex === cvID) {
-      //console.log(cvIndex, cvID);
-      setContentAlert({
-        title: "Bạn muốn lưu lại",
-        confirmAgain: "Bạn có chắc muốn cập nhật",
-      });
-    }
+  // const handleBtnSave = async (file: any) => {
+  //   if (cvIndex === cvID) {
+  //     setContentAlert({
+  //       title: "Bạn muốn lưu lại",
+  //       confirmAgain: "Bạn có chắc muốn cập nhật",
+  //     });
+  //   }
 
+  //   const element = document.querySelector(".canvas-pdf");
+  //   const fileName = `${nameCv}.jpg`; // Tên tệp mới
+  //   captureElementAsFile(element, fileName)
+  //     .then((imageFile: any) => {
+  //       const fetchData = async () => {
+  //         handlePersistGateLoaded("Vui lòng chờ AI đang quét");
+  //         const blobPdf = await convertImgtoPdf(imageFile);
+  //         // console.log(blobPdf);
+  //         // saveAs(blobPdf);
+  //         const newData = dataLoad.map((dt: any) => {
+  //           const { id, ...rest } = dt;
+  //           return rest;
+  //         });
+
+  //         const result = await cvsApi.totalPosts(newData, dataForm, cvID);
+  //         if (result) {
+  //           const resultCV = await cvsApi.postCvIndex(
+  //             nameCv,
+  //             cvID,
+  //             templateId,
+  //             blobPdf,
+  //             imageFile,
+  //             1
+  //           );
+  //           const dataAI = await cvsApi.postCV(
+  //             newData,
+  //             cvID,
+  //             profile?.accountId
+  //           );
+  //           if (cvID === cvIndex) {
+  //             if (resultCV && dataAI) {
+  //               // downloadPDF();
+  //               handleOffTabLoading();
+
+  //               hdSuccess("Đã cập nhật thành cập");
+  //               imageFile;
+  //             } else {
+  //               handleOffTabLoading();
+  //               hdError("Cập nhật thất bại");
+  //             }
+  //           } else {
+  //             if (resultCV && dataAI) {
+  //               // downloadPDF();
+  //               handleOffTabLoading();
+  //               hdSuccess("Đã tạo CV thành công");
+  //             } else {
+  //               handleOffTabLoading();
+
+  //               hdError("Tạo CV thất bại");
+  //             }
+  //           }
+  //         }
+  //       };
+  //       if (cvIndex === cvID) {
+  //         updateHandleAlert(fetchData);
+  //       } else {
+  //         fetchData();
+  //       }
+  //     })
+  //     .catch((error: any) => {
+  //       console.error(error);
+  //     });
+  // };
+
+  const handleNewPDFSave = async () => {
+    const opt = {
+      margin: 0,
+      filename: "document.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 1 },
+      jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+    };
     const element = document.querySelector(".canvas-pdf");
-    const fileName = `${nameCv}.jpg`; // Tên tệp mới
-    const imgFile = await file();
-    // //console.log(templateId);
-    // //console.log(imgFile);
-    captureElementAsFile(element, fileName)
-      .then((imageFile: any) => {
+    const pdf = await html2pdf()
+      .from(element)
+      .set(opt)
+      .outputPdf("blob", `${nameCv}.pdf`);
+    await html2pdf()
+      .from(element)
+      .set(opt)
+      .outputImg("img")
+      .then(async (img: any) => {
+        const dataImg = await convertBaseToImg(img.src);
         const fetchData = async () => {
           handlePersistGateLoaded("Vui lòng chờ AI đang quét");
           const newData = dataLoad.map((dt: any) => {
@@ -2387,8 +2475,8 @@ const LibCvV2 = (props: Props) => {
               nameCv,
               cvID,
               templateId,
-              imgFile,
-              imageFile,
+              pdf,
+              dataImg,
               1
             );
             const dataAI = await cvsApi.postCV(
@@ -2400,9 +2488,83 @@ const LibCvV2 = (props: Props) => {
               if (resultCV && dataAI) {
                 // downloadPDF();
                 handleOffTabLoading();
+                saveAs(pdf, `${nameCv}.pdf`);
+                hdSuccess("Đã cập nhật thành công");
+              } else {
+                handleOffTabLoading();
+                hdError("Cập nhật thất bại");
+              }
+            } else {
+              if (resultCV && dataAI) {
+                // downloadPDF();
+                handleOffTabLoading();
+                saveAs(pdf, `${nameCv}.pdf`);
+                hdSuccess("Đã tạo CV thành công");
+              } else {
+                handleOffTabLoading();
 
+                hdError("Tạo CV thất bại");
+              }
+            }
+          }
+        };
+        if (cvIndex === cvID) {
+          setContentAlert({
+            title: "Bạn muốn lưu lại",
+            confirmAgain: "Bạn có chắc muốn cập nhật",
+          });
+          updateHandleAlert(fetchData);
+        } else {
+          fetchData();
+        }
+      });
+  };
+  const handleNewPDF = async () => {
+    const opt = {
+      margin: 0,
+      filename: "document.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 1 },
+      jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+    };
+    const element = document.querySelector(".canvas-pdf");
+    const pdf = await html2pdf()
+      .from(element)
+      .set(opt)
+      .outputPdf("blob", `${nameCv}.pdf`);
+    await html2pdf()
+      .from(element)
+      .set(opt)
+      .outputImg("img")
+      .then(async (img: any) => {
+        const dataImg = await convertBaseToImg(img.src);
+        const fetchData = async () => {
+          handlePersistGateLoaded("Vui lòng chờ AI đang quét");
+          const newData = dataLoad.map((dt: any) => {
+            const { id, ...rest } = dt;
+            return rest;
+          });
+
+          const result = await cvsApi.totalPosts(newData, dataForm, cvID);
+          if (result) {
+            const resultCV = await cvsApi.postCvIndex(
+              nameCv,
+              cvID,
+              templateId,
+              pdf,
+              dataImg,
+              1
+            );
+            const dataAI = await cvsApi.postCV(
+              newData,
+              cvID,
+              profile?.accountId
+            );
+            if (cvID === cvIndex) {
+              if (resultCV && dataAI) {
+                // downloadPDF();
+                handleOffTabLoading();
                 hdSuccess("Đã cập nhật thành cập");
-                imageFile;
               } else {
                 handleOffTabLoading();
                 hdError("Cập nhật thất bại");
@@ -2414,36 +2576,22 @@ const LibCvV2 = (props: Props) => {
                 hdSuccess("Đã tạo CV thành công");
               } else {
                 handleOffTabLoading();
-
                 hdError("Tạo CV thất bại");
               }
             }
           }
         };
         if (cvIndex === cvID) {
+          setContentAlert({
+            title: "Bạn muốn lưu lại",
+            confirmAgain: "Bạn có chắc muốn cập nhật",
+          });
           updateHandleAlert(fetchData);
         } else {
           fetchData();
         }
-      })
-      .catch((error: any) => {
-        console.error(error);
       });
   };
-
-  async function downloadPDF() {
-    const element: any = document.querySelector(".canvas-pdf");
-    const canvas = await html2canvas(element);
-    const imgData = canvas.toDataURL("image/png");
-
-    const pdf = new jsPDF();
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save(`${nameCv}.pdf`);
-  }
   const handleChangeUploadDocs = (cvNew: any) => {
     const data: any = getCookie("cvsDocs") || {};
     localStorage.removeItem("cvsDocs");
@@ -2734,9 +2882,61 @@ const LibCvV2 = (props: Props) => {
       updateHandleAlert(handleUpdateTemplate);
     }
   };
+  const handleUpMobileRow = () => {
+    const newDataLoad = dataLoad.map((dt: any) => {
+      if (
+        dt.part === checkActive.part &&
+        dt.col === checkActive.col &&
+        checkActive.row === dt.row
+      ) {
+        return { ...dt, row: dt.row - 1 };
+      }
+      if (
+        dt.part === checkActive.part &&
+        dt.col === checkActive.col &&
+        checkActive.row - 1 === dt.row
+      ) {
+        return { ...dt, row: dt.row + 1 };
+      }
+      return dt;
+    });
+    setBackNext({
+      back: backNext,
+      present: { ...backNext.present, dataLoad: newDataLoad },
+      next: {},
+    });
+    setDataLoad(newDataLoad);
+  };
+  const handleDownMobileRow = () => {
+    const newDataLoad = dataLoad.map((dt: any) => {
+      if (
+        dt.part === checkActive.part &&
+        dt.col === checkActive.col &&
+        checkActive.row === dt.row
+      ) {
+        return { ...dt, row: dt.row + 1 };
+      }
+      if (
+        dt.part === checkActive.part &&
+        dt.col === checkActive.col &&
+        checkActive.row + 1 === dt.row
+      ) {
+        return { ...dt, row: dt.row - 1 };
+      }
+      return dt;
+    });
+    setBackNext({
+      back: backNext,
+      present: { ...backNext.present, dataLoad: newDataLoad },
+      next: {},
+    });
+    setDataLoad(newDataLoad);
+  };
   useEffect(() => {
-    console.log(backNext, dataForm);
-  }, [dataLoad, dataRequest, dataForm, backNext]);
+    if (reponsiveMobile < 850) {
+      setScaleForm(42);
+    }
+  }, [reponsiveMobile]);
   useEffect(() => {
     const handleCheckCvs = (cvs: any) => {
       let dataCvID = 0;
@@ -2765,18 +2965,35 @@ const LibCvV2 = (props: Props) => {
     if (template === "create-back" && profile) {
       if (handleCheckCvs(cvIndex) === cvIndex) {
         handleLoadBackData(handleCheckCvs("new"));
-        const templateIDOld = profile?.profilesCvs?.filter((dt: any) => {
-          return dt.cvIndex == cvIndex;
-        })[0].templateId;
+        // const templateIDOld = profile?.profilesCvs?.filter((dt: any) => {
+        //   return dt.cvIndex == cvIndex;
+        // })[0].templateId;
         // //console.log(templateIDOld, templateId);
-        setTemplateId(templateIDOld.toString());
+        // setTemplateId(templateIDOld.toString());
       }
     } else {
-      if (template === "upload") {
-        const dataNewLoad = handleChangeUploadDocs(handleCheckCvs("new"));
-        const dataNewForm = handleLoadTempData(2);
+      if (cvIndex === "upload") {
+        const dataNewLoad: any = handleChangeUploadDocs(handleCheckCvs("new"));
+        // console.log(dataNewLoad);
+        const dataNewForm = handleLoadTempData(template);
+        const dataMergeLoad = dataNewForm.data.map((dt: any) => {
+          const dataFilterLoad = dataNewLoad.filter((dtt: any) => {
+            return dt.type === dtt.type;
+          })?.[0];
+          if (dataFilterLoad && dataFilterLoad.type === dt.type) {
+            return {
+              ...dataFilterLoad,
+              part: dt.part,
+              col: dt.col,
+              row: dt.row,
+            };
+          }
+          return dt;
+        });
+
+        // console.log(dataMergeLoad);
         //console.log(dataNewLoad);
-        setDataLoad(dataNewLoad);
+        setDataLoad(dataMergeLoad);
         setDataForm({
           layout: dataNewForm.layout,
           color: dataNewForm.color,
@@ -2790,6 +3007,7 @@ const LibCvV2 = (props: Props) => {
         setBackNext({
           back: {},
           present: {
+            template: template,
             dataForm: {
               layout: dataNewForm.layout,
               color: dataNewForm.color,
@@ -2799,20 +3017,20 @@ const LibCvV2 = (props: Props) => {
               colorTopic: dataNewForm.colorTopic,
               indexTopic: 0,
             },
-            dataLoad: dataNewLoad.map((dt: any) => {
+            dataLoad: dataMergeLoad.map((dt: any) => {
               return { ...dt, cvIndex: handleCheckCvs("new") };
             }),
           },
           next: {},
         });
-        setTemplateId("2");
+        setTemplateId(template);
       } else {
+        // console.log("Vao ne");
         if (Object.keys(profile).length !== 0) {
           if (handleCheckCvs(cvIndex) === cvIndex) {
             handleLoadData();
           } else {
             const dataNew = handleLoadTempData(templateId);
-            //console.log(dataNew);
             setDataForm({
               layout: dataNew.layout,
               color: dataNew.color,
@@ -3042,30 +3260,26 @@ const LibCvV2 = (props: Props) => {
             handleCheckPass({ part: index }) ? "z-20" : "hidden"
           }`}
         >
-          {dataRequest.length > 1 &&
-            !(checkForm === index - 1) &&
-            index != 0 && (
-              <div
-                className="w-8 h-8 flex justify-center items-center  text-white border-blue-700 border-[1px] transition-all  bg-blue-700 text-base rounded-md hover:bg-blue-600 cursor-pointer shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] font-bold"
-                onMouseDown={() => {
-                  handleChangePositionV2(true);
-                }}
-              >
-                <FaArrowUp />
-              </div>
-            )}
-          {dataRequest.length > 1 &&
-            !(checkForm === index + 1) &&
-            index != dataRequest.length - 1 && (
-              <div
-                className="w-8 h-8 flex justify-center items-center  text-white border-blue-700 border-[1px] transition-all  bg-blue-700 text-base rounded-md hover:bg-blue-600 cursor-pointer shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] font-bold"
-                onMouseDown={() => {
-                  handleChangePositionV2(false);
-                }}
-              >
-                <FaArrowDown />
-              </div>
-            )}
+          {index != 0 && (
+            <div
+              className="w-8 h-8 flex justify-center items-center  text-white border-blue-700 border-[1px] transition-all  bg-blue-700 text-base rounded-md hover:bg-blue-600 cursor-pointer shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] font-bold"
+              onMouseDown={() => {
+                handleChangePositionV2(true);
+              }}
+            >
+              <FaArrowUp />
+            </div>
+          )}
+          {dataRequest.length != 1 && dataRequest.length - 1 != index && (
+            <div
+              className="w-8 h-8 flex justify-center items-center  text-white border-blue-700 border-[1px] transition-all  bg-blue-700 text-base rounded-md hover:bg-blue-600 cursor-pointer shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] font-bold"
+              onMouseDown={() => {
+                handleChangePositionV2(false);
+              }}
+            >
+              <FaArrowDown />
+            </div>
+          )}
 
           <div
             className="w-8 h-8 flex justify-center items-center  text-white border-blue-700 border-[1px] transition-all  bg-blue-700 text-base rounded-md hover:bg-blue-600 cursor-pointer shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] font-bold"
@@ -3272,6 +3486,29 @@ const LibCvV2 = (props: Props) => {
             : "hidden"
         }`}
       >
+        {item > 0 && (
+          <button
+            className={`p-2 rounded-md   text-white border-blue-700 border-[1px] transition-all  bg-blue-700 text-base hover:bg-blue-600 `}
+            onMouseDown={(e: any) => {
+              handleUpMobileRow();
+              // blurSave.current.click();
+            }}
+          >
+            <FaArrowUp />
+          </button>
+        )}
+        {dataRequest?.[index]?.data?.[indexItem]?.length - 1 > item && (
+          <button
+            className={`p-2 rounded-md   text-white border-blue-700 border-[1px] transition-all  bg-blue-700 text-base hover:bg-blue-600 `}
+            onMouseDown={(e: any) => {
+              handleDownMobileRow();
+              // blurSave.current.click();
+            }}
+          >
+            <FaArrowDown />
+          </button>
+        )}
+
         <button
           className={`p-2 rounded-md text-white hover:bg-blue-600 bg-blue-700 ${
             dataGhostDrag.part !== -1 && "hidden"
@@ -3425,72 +3662,82 @@ const LibCvV2 = (props: Props) => {
   };
   const BGLayout = () => {
     return (
-      <div
-        className={`fixed inset-0 bg-black/20 flex justify-center items-center z-[80] ${
-          handleCheckPass({ part: checkActive.part }) && checkLayout
-            ? ""
-            : "hidden"
-        }`}
-        onMouseUp={() => {
-          setCheckLayout(false);
-        }}
-        onClick={(e: any) => {
-          e.stopPropagation();
-        }}
-      >
-        <div
-          className="w-full h-full max-w-3xl max-h-96 bg-white rounded-lg p-4 gap-y-4 flex flex-col"
-          onMouseUp={(e: any) => {
-            e.stopPropagation();
-          }}
-        >
-          <p className="font-bold text-xl">Đổi bố cục theo tỉ lệ</p>
-          <p className="text-xs text-red-500">*Click để thay đổi kích thước</p>
-          <div className="flex flex-wrap gap-4 flex-1 overflow-y-scroll">
-            {listRatio.map((dt: any, index: any) => {
-              return (
-                <>
-                  <div
-                    className="p-2 rounded-xl bg-gray-200 cursor-pointer flex flex-col justify-center items-center"
-                    onMouseUp={() => {
-                      handleChangeLayout(checkActive.part, index);
-                      setCheckLayout(false);
-                    }}
-                    key={index}
-                  >
-                    <p className="text-xs font-semibold mb-2">
-                      {dt.replaceAll(/,/g, " x ")}
-                    </p>
-                    <div className="h-12 w-52 flex gap-1">
-                      {dt.split(",").map((dtt: any, i: any) => {
-                        return (
-                          <>
-                            <div
-                              className="h-full bg-blue-200 rounded-xl"
-                              style={{ width: `${dtt}%` }}
-                              key={i}
-                            ></div>
-                          </>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </>
-              );
-            })}
-          </div>
-          <div className="w-full flex justify-end gap-2">
-            <button
-              className="px-2 py-1 rounded-lg bg-slate-200 hover:bg-slate-100 font-bold text-gray-300"
+      <>
+        {handleCheckPass({ part: checkActive.part }) && checkLayout && (
+          <Modal
+            open={handleCheckPass({ part: checkActive.part }) && checkLayout}
+          >
+            <div
+              className={`fixed inset-0 bg-black/50 flex justify-center items-center z-[80] ${
+                handleCheckPass({ part: checkActive.part }) && checkLayout
+                  ? ""
+                  : "hidden"
+              }`}
               onMouseUp={() => {
                 setCheckLayout(false);
               }}
+              onClick={(e: any) => {
+                e.stopPropagation();
+              }}
             >
-              Quay lại
-            </button>
-          </div>
-        </div>
-      </div>
+              <div
+                className="w-full h-full max-w-3xl max-h-72 bg-white rounded-lg p-4 gap-y-4 flex flex-col"
+                onMouseUp={(e: any) => {
+                  e.stopPropagation();
+                }}
+              >
+                <p className="font-bold text-xl">Đổi bố cục theo tỉ lệ</p>
+                <p className="text-xs text-red-500">
+                  *Click để thay đổi kích thước
+                </p>
+                <div className="flex flex-wrap gap-4 flex-1 overflow-y-scroll">
+                  {listRatio.map((dt: any, index: any) => {
+                    return (
+                      <>
+                        <div
+                          className="p-2 rounded-xl bg-gray-200 cursor-pointer flex flex-col justify-center items-center"
+                          onMouseUp={() => {
+                            handleChangeLayout(checkActive.part, index);
+                            setCheckLayout(false);
+                          }}
+                          key={index}
+                        >
+                          <p className="text-xs font-semibold mb-2">
+                            {dt.replaceAll(/,/g, " x ")}
+                          </p>
+                          <div className="h-12 w-52 flex gap-1">
+                            {dt.split(",").map((dtt: any, i: any) => {
+                              return (
+                                <>
+                                  <div
+                                    className="h-full bg-blue-200 rounded-xl"
+                                    style={{ width: `${dtt}%` }}
+                                    key={i}
+                                  ></div>
+                                </>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })}
+                </div>
+                <div className="w-full flex justify-end gap-2">
+                  <button
+                    className="px-2 py-1 rounded-lg bg-slate-200 hover:bg-slate-100 font-bold text-gray-300"
+                    onMouseUp={() => {
+                      setCheckLayout(false);
+                    }}
+                  >
+                    Quay lại
+                  </button>
+                </div>
+              </div>
+            </div>
+          </Modal>
+        )}
+      </>
     );
   };
   return {
@@ -3549,7 +3796,7 @@ const LibCvV2 = (props: Props) => {
     nameCv,
     setTemplateId,
     BGChooseRow,
-    handleBtnSave,
+    // handleBtnSave,
     BGToolType,
     setFilePdf,
     cvID,
@@ -3560,6 +3807,11 @@ const LibCvV2 = (props: Props) => {
     handleChangeTemplate,
     handleChangeColorText,
     listRatio,
+    // handleBtnSavePDF,
+    setScaleForm,
+    scaleForm,
+    handleNewPDF,
+    handleNewPDFSave,
   };
 };
 

@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import axiosClient from "@/configs/axiosClient";
 import { useSelector } from "react-redux";
+import { RiArrowGoBackFill } from "react-icons/ri";
 
 type Props = {
   dataReq: any;
@@ -43,7 +44,7 @@ const PositionPost = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        "http://localhost:8888/api/v1/locations"
+        "https://backend-hcmute-nodejs.onrender.com/api/v1/locations"
       )) as unknown as ILocation;
       if (res && res.code === 200) {
         setDataPosition(res.data);
@@ -81,7 +82,7 @@ const PositionPost = (props: Props) => {
           {languageRedux === 1 ? "Vị trí" : "Position"}
         </h1>
       </div>
-      <div className="flex flex-wrap p-2 relative border-2 gap-2 w-full rounded-md focus-within:border-blue-400">
+      <div className="flex flex-col max-w-[400px] p-2 relative border-2 gap-2 w-full rounded-md focus-within:border-blue-400">
         <label className="mb-1 text-xs text-blue-400 absolute font-semibold -top-3 px-1 left-2 bg-white">
           {languageRedux === 1 ? "Địa chỉ...." : "Enter address..."}
         </label>
@@ -96,9 +97,9 @@ const PositionPost = (props: Props) => {
             }}
           />
         </div>
-        <div className="p-1 border-2 w-fit rounded-md" ref={btn_position}>
+        <div className="p-1 border-2 flex-1 rounded-md" ref={btn_position}>
           <button
-            className="flex items-center justify-between cursor-pointer"
+            className="flex items-center justify-between cursor-pointer w-full"
             onClick={() => {
               setTabPosition(!tabPosition);
             }}
@@ -116,7 +117,7 @@ const PositionPost = (props: Props) => {
               />
             </div>
           </button>
-          {tabPosition && (
+          {/* {tabPosition && (
             <div className="absolute z-20 top-full right-0">
               <div className="relative">
                 <ul
@@ -192,6 +193,130 @@ const PositionPost = (props: Props) => {
                     })}
                   </ul>
                 )}
+              </div>
+            </div>
+          )} */}
+          {tabPosition && (
+            <div className="absolute z-20 top-full inset-0 max-w-[100vw]">
+              <div className="relative bg-white rounded-md shadow-lg p-2">
+                <div className="flex gap-1 font-bold text-lg items-center">
+                  <button
+                    className={`${
+                      checkPosition.province !== -1 ? "" : "hidden"
+                    }`}
+                    onClick={() => {
+                      if (checkPosition.district !== -1) {
+                        setCheckPosition({
+                          ...checkPosition,
+                          district: -1,
+                          ward: -1,
+                        });
+                      } else {
+                        setCheckPosition({
+                          province: -1,
+                          district: -1,
+                          ward: -1,
+                        });
+                      }
+                    }}
+                  >
+                    <RiArrowGoBackFill />
+                  </button>
+
+                  <p>
+                    {checkPosition.province === -1 && "Thành phố"}
+                    {checkPosition.province !== -1 &&
+                      checkPosition.district === -1 &&
+                      "Quận/huyện"}
+                    {checkPosition.province !== -1 &&
+                      checkPosition.district !== -1 &&
+                      "Phường/thị xã"}
+                  </p>
+                </div>
+
+                <ul
+                  className={`h-80 w-full transition-all  overflow-y-hidden hover:overflow-y-scroll overflow-x-hidden ${
+                    checkPosition.province === -1 ? "" : "hidden"
+                  }`}
+                >
+                  {dataPosition.map((dt: any, index: number) => {
+                    return (
+                      <li
+                        key={index}
+                        className={`p-2 cursor-pointer hover:text-blue-400 hover:font-bold ${
+                          index === checkPosition.province
+                            ? "text-blue-400 font-bold"
+                            : ""
+                        }`}
+                        onClick={(e: any) => {
+                          e.stopPropagation();
+                          handleUpdatePos("province", index);
+                        }}
+                      >
+                        <h2>{dt.province_name}</h2>
+                      </li>
+                    );
+                  })}
+                </ul>
+
+                <ul
+                  className={`h-80 w-full transition-all  overflow-y-hidden hover:overflow-y-scroll overflow-x-hidden ${
+                    checkPosition.province !== -1 &&
+                    checkPosition.district === -1
+                      ? ""
+                      : "hidden"
+                  }`}
+                >
+                  {dataPosition[checkPosition.province]?.districts.map(
+                    (dt: any, index: number) => {
+                      return (
+                        <li
+                          key={index}
+                          className={`p-2 cursor-pointer hover:text-blue-400  hover:font-bold ${
+                            index === checkPosition.district
+                              ? "text-blue-400 font-bold"
+                              : ""
+                          }`}
+                          onClick={(e: any) => {
+                            e.stopPropagation();
+                            handleUpdatePos("district", index);
+                          }}
+                        >
+                          <h2>{dt.district}</h2>
+                        </li>
+                      );
+                    }
+                  )}
+                </ul>
+
+                <ul
+                  className={`h-80 w-full transition-all  overflow-y-hidden hover:overflow-y-scroll overflow-x-hidden ${
+                    checkPosition.province !== -1 &&
+                    checkPosition.district !== -1
+                      ? ""
+                      : "hidden"
+                  }`}
+                >
+                  {dataPosition[checkPosition.province]?.districts[
+                    checkPosition.district
+                  ]?.wards.map((dt: any, index: number) => {
+                    return (
+                      <li
+                        key={index}
+                        className={`p-2 cursor-pointer hover:text-blue-400  hover:font-bold ${
+                          dt.id === checkPosition.ward
+                            ? "text-blue-400 font-bold"
+                            : ""
+                        }`}
+                        onClick={() => {
+                          handleUpdatePos("ward", dt.id, dt.full_name);
+                        }}
+                      >
+                        <h2>{dt.full_name}</h2>
+                      </li>
+                    );
+                  })}
+                </ul>
               </div>
             </div>
           )}

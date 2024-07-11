@@ -11,13 +11,15 @@ const InfoHomeCompany = (props: Props) => {
   return (
     <div className="flex justify-center bg-blue-50 py-8">
       <div
-        className={`max-w-6xl w-full  overflow-hidden  h-80 relative ${
+        className={`max-w-6xl w-full  overflow-hidden h-[40vw] max-h-80 relative ${
           reponsiveMobile < 1152 ? "" : "rounded-md"
         }`}
       >
         <button
-          className={`p-4 rounded-lg border-2 text-lg absolute text-white font-semibold bottom-16  hover:bg-white hover:text-black ${
-            reponsiveMobile < 980 ? "right-32" : "right-72"
+          className={` rounded-lg border-2  absolute text-white font-semibold  hover:bg-white hover:text-black ${
+            reponsiveMobile < 980
+              ? "right-[30vw] bottom-[8vw] p-2 text-base"
+              : "right-80 bottom-16 p-4 text-lg"
           }`}
           onClick={() => {
             router.push("/more-suggest");

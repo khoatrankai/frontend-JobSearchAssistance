@@ -41,9 +41,9 @@ const page = (props: Props) => {
   const fetchData = async () => {
     const res = await communityApi.getCommunityNewsRecruiter(
       "0",
-      "6",
+      "20",
       "cm",
-      0,
+      1,
       "vi"
     );
 
@@ -79,7 +79,7 @@ const page = (props: Props) => {
         // setBookmarked(!bookmarked);
         setCommunityAdmin(
           communityAdmin.map((dt: any) => {
-            if (dt.id) {
+            if (dt.id == id) {
               return { ...dt, bookmarked: true };
             }
             return dt;
@@ -141,7 +141,7 @@ const page = (props: Props) => {
       if (res && res.status === 200) {
         setCommunityAdmin(
           communityAdmin.map((dt: any) => {
-            if (dt.id) {
+            if (dt.id == id) {
               return { ...dt, bookmarked: false };
             }
             return dt;
@@ -256,7 +256,7 @@ const page = (props: Props) => {
                         }}
                       >
                         <Image
-                          className="w-full max-h-[20vw]"
+                          className="w-full max-h-[400px] h-[40vw]"
                           width={2000}
                           height={2000}
                           alt=""
@@ -377,46 +377,48 @@ const page = (props: Props) => {
               );
             })}
           </div>
-          <div className="min-w-72 flex-1 flex flex-col gap-4">
-            <p className="text-2xl text-white">Bài viết mới của bạn</p>
-            <div className="flex flex-col gap-3">
-              {communityUser.map((dt: any, ikey: any) => {
-                return (
-                  <>
-                    <div
-                      className="w-full max-h-72 rounded-lg overflow-hidden relative"
-                      key={ikey}
-                    >
-                      <Image
-                        height={500}
-                        width={500}
-                        alt=""
-                        src={profile.avatarPath ?? "/goapply.png"}
-                      />
-                      <div className="absolute bottom-0 inset-x-0 flex flex-col p-4 bg-black/60">
-                        <p
-                          className="text-white font-bold text-lg cursor-pointer hover:underline"
-                          onClick={() => {
-                            router.push(
-                              `/recruiter/detail-community?post-community=${dt.id}&type=0`
-                            );
-                          }}
-                        >
-                          {handleShortTextHome(dt.title, 15)}
-                        </p>
-                        <p className="text-sm text-white">
-                          {handleShortTextHome(
-                            handleConvertText(dt.content),
-                            15
-                          )}
-                        </p>
+          {reponsiveMobile > 800 && (
+            <div className="min-w-72 flex-1 flex flex-col gap-4">
+              <p className="text-2xl text-white">Bài viết mới của bạn</p>
+              <div className="flex flex-col gap-3">
+                {communityUser.map((dt: any, ikey: any) => {
+                  return (
+                    <>
+                      <div
+                        className="w-full max-h-72 rounded-lg overflow-hidden relative"
+                        key={ikey}
+                      >
+                        <Image
+                          height={500}
+                          width={500}
+                          alt=""
+                          src={profile.avatarPath ?? "/goapply.png"}
+                        />
+                        <div className="absolute bottom-0 inset-x-0 flex flex-col p-4 bg-black/60">
+                          <p
+                            className="text-white font-bold text-lg cursor-pointer hover:underline"
+                            onClick={() => {
+                              router.push(
+                                `/recruiter/detail-community?post-community=${dt.id}&type=0`
+                              );
+                            }}
+                          >
+                            {handleShortTextHome(dt.title, 15)}
+                          </p>
+                          <p className="text-sm text-white">
+                            {handleShortTextHome(
+                              handleConvertText(dt.content),
+                              15
+                            )}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  </>
-                );
-              })}
+                    </>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
       {tabModal && (

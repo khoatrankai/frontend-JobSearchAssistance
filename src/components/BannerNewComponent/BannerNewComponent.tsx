@@ -72,12 +72,13 @@ const BannerNewComponent = ({ children, setBannerHome }: Props) => {
             return { image: dt.image };
           })
         );
+        setBgHome(0);
       }
     };
     fetchData();
   }, []);
   return (
-    <div className="w-full h-[850px] relative flex flex-col items-center justify-between pt-16 px-4">
+    <div className="w-full h-[80vh] relative flex flex-col items-center justify-between pt-16 px-4 max-h-[90vh]">
       {children}
 
       <div className="absolute left-[20%] top-1/4 text-white">
@@ -194,7 +195,7 @@ const BannerNewComponent = ({ children, setBannerHome }: Props) => {
         {reponsiveMobile < 1200 && (
           <div className="flex gap-2">
             {dataCompany.map((dt: any, index: any) => {
-              if (index < dataCompany?.length - 1) {
+              if (index < dataCompany?.length) {
                 return (
                   <button
                     key={index}

@@ -18,7 +18,7 @@ const ShortText = () => {
         return truncatedText
     }
     const handleShortValueNumber = (data:any) =>{
-        let truncatedText = data.toString()
+        let truncatedText = data?.toString()
         if(truncatedText){
             if(truncatedText.length>6){
                 truncatedText = truncatedText.substring(0, truncatedText.length-6) + "tr";
@@ -42,7 +42,40 @@ const ShortText = () => {
         var textContent = virtualElement.innerText || virtualElement.textContent;
         return textContent;
       };
- return{handleShortTextHome,handleShortValueNumber,handleConvertText}
+      const ChangeNumber = (data: any, type = true, typeSpace = ".") => {
+        let data2 = data?.toString()
+        if (!data2) {
+          return 0;
+        }
+        if (type) {
+          const numberArray = data2?.split("");
+          if (numberArray.length <= 4) {
+            return data2;
+          }
+          const lengthChange = Math.round(numberArray.length / 3 - 1);
+          let vt = numberArray.length - (lengthChange * 3 + 1);
+          for (let i = 0; i < lengthChange; i++) {
+            numberArray.splice(vt, 0, ".");
+            vt = vt + 4;
+          }
+          return numberArray.join("");
+        } else {
+          const numberArray = data2?.split("");
+          if (numberArray.length <= 3) {
+            return data2;
+          }
+          numberArray.push("");
+          const lengthChange = Math.round(numberArray.length / 3 - 1);
+          let vt = numberArray.length - (lengthChange * 3 + 1);
+          for (let i = 0; i < lengthChange; i++) {
+            numberArray.splice(vt, 0, typeSpace);
+            vt = vt + 4;
+          }
+          numberArray.pop();
+          return numberArray.join("");
+        }
+      };
+ return{handleShortTextHome,handleShortValueNumber,handleConvertText,ChangeNumber}
 }
 
 export default ShortText

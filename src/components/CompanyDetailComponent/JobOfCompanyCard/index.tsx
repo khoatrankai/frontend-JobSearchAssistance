@@ -14,6 +14,7 @@ import {
   SaveIconFill,
   SaveIconOutline,
 } from "@/icons";
+import { toast } from "react-toastify";
 
 interface Iprops {
   item: any;
@@ -111,6 +112,18 @@ const JobOfCompanyCard: React.FC<Iprops> = (props) => {
                       e.stopPropagation();
                       if (!localStorage.getItem("accessToken")) {
                         setOpenModalLogin(true);
+                        return;
+                      }
+                      if (!profileInfoV3?.isActive) {
+                        toast.error("Vui lòng xác thực", {
+                          position: "bottom-center",
+                          autoClose: 3000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                        });
                         return;
                       }
                       if (props.item?.bookmarked) {

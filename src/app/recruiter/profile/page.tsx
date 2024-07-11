@@ -25,6 +25,7 @@ import ListPostProfile from "@/components/ProfileComponent/RecruiterProfile/List
 import RechargePrice from "@/components/ProfileComponent/RecruiterProfile/RechargePrice/RechargePrice";
 import PackageService from "@/components/ProfileComponent/RecruiterProfile/PackageService/PackageService";
 import AvatarRecruiterProfile from "@/components/ProfileComponent/AvatarRecruiterProfile/AvatarProfile";
+import ShortText from "@/util/ShortText";
 
 type Props = {};
 
@@ -33,8 +34,17 @@ const page = (props: Props) => {
   const dataProfile = useSelector(
     (state: RootState) => state.profileRecruiter.profile
   );
-  const { reponsiveMobile, selectProfileUser, selectProfileRecruiter } =
-    useSrollContext();
+  const { ChangeNumber } = ShortText();
+  const {
+    reponsiveMobile,
+    selectProfileUser,
+    selectProfileRecruiter,
+    selectItemProfileUser,
+    setSelectItemProfileUser,
+    setSelectProfileRecruiter,
+    selectItemProfileRecruiter,
+    setSelectItemProfileRecruiter,
+  } = useSrollContext();
   const dispatch = useDispatch();
   const [dataInfo, setDataInfo] = useState<any>();
   const { handleLoadHrefPage } = useSrollContext();
@@ -45,7 +55,23 @@ const page = (props: Props) => {
     dispatch(fetchProfileRecruiter("vi") as any);
   };
   useEffect(() => {
-    setSelectionMenu(selectProfileRecruiter);
+    const dataCook1 = localStorage.getItem("selectProfileRecruiter");
+    const dataCook2 = localStorage.getItem("selectItemProfileUser");
+    console.log(selectProfileRecruiter, dataCook1, dataCook2);
+    if (
+      dataCook1 !== undefined &&
+      dataCook2 !== undefined &&
+      dataCook1 !== null &&
+      dataCook2 !== null
+    ) {
+      // console.log(dataCook1, dataCook2);
+      setSelectProfileRecruiter(Number(dataCook1));
+      setSelectItemProfileRecruiter(Number(dataCook2));
+      localStorage.removeItem("selectProfileRecruiter");
+      localStorage.removeItem("selectItemProfileUser");
+    } else {
+      setSelectionMenu(selectProfileRecruiter);
+    }
   }, [selectProfileRecruiter]);
   useEffect(() => {
     setDataInfo({
@@ -128,10 +154,22 @@ const page = (props: Props) => {
               {reponsiveMobile < 1152 ? (
                 ""
               ) : (
-                <p className="font-bold text-white">{dataInfo?.name}</p>
+                <>
+                  <p className="font-bold text-lg text-white">
+                    {dataInfo?.name}
+                  </p>
+                  <p className="font-semibold capitalize text-sm">
+                    POINT:
+                    <span className="font-boldml-1 text-yellow-500 ml-1">
+                      {ChangeNumber(dataInfo?.point, false, ",")}
+                    </span>
+                  </p>
+                </>
               )}
             </div>
-            <div className="flex flex-col items-center gap-y-3 w-full justify-center">
+            <div
+              className={`flex flex-col items-center gap-y-3 w-full justify-center `}
+            >
               <div
                 className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
                   selectionMenu === 1
@@ -140,12 +178,15 @@ const page = (props: Props) => {
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
                   reponsiveMobile < 1152
                     ? `justify-center ${
-                        menuProfile ? "" : "-top-20 opacity-0 -z-10"
+                        menuProfile
+                          ? ""
+                          : "hidden -top-20 opacity-0 invisible -z-10"
                       }`
                     : "pl-6 hover:text-white"
                 }`}
                 onClick={() => {
                   setSelectionMenu(1);
+                  setSelectProfileRecruiter(1);
                   setMenuProfile(false);
                 }}
               >
@@ -168,12 +209,14 @@ const page = (props: Props) => {
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
                   reponsiveMobile < 1152
                     ? `justify-center ${
-                        menuProfile ? "" : "-top-20 opacity-0 -z-10"
+                        menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
                       }`
                     : "pl-6 hover:text-white"
                 }`}
                 onClick={() => {
                   setSelectionMenu(2);
+                  setSelectProfileRecruiter(2);
+
                   setMenuProfile(false);
                 }}
               >
@@ -196,12 +239,14 @@ const page = (props: Props) => {
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
                   reponsiveMobile < 1152
                     ? `justify-center ${
-                        menuProfile ? "" : "-top-20 opacity-0 -z-10"
+                        menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
                       }`
                     : "pl-6 hover:text-white"
                 }`}
                 onClick={() => {
                   setSelectionMenu(3);
+                  setSelectProfileRecruiter(3);
+
                   setMenuProfile(false);
                 }}
               >
@@ -216,34 +261,44 @@ const page = (props: Props) => {
                   Hồ sơ tuyển dụng
                 </p>
               </div>
-              <div
-                className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
-                  selectionMenu === 4
-                    ? "border-blue-500 bg-blue-200"
-                    : "bg-white"
-                } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
-                  reponsiveMobile < 1152
-                    ? `justify-center ${
-                        menuProfile ? "" : "-top-20 opacity-0 -z-10"
-                      }`
-                    : "pl-6 hover:text-white"
-                }`}
-                onClick={() => {
-                  setSelectionMenu(4);
-                  setMenuProfile(false);
-                }}
-              >
-                <MdWork />
-                <p
-                  className={`${
-                    reponsiveMobile < 1152
-                      ? "absolute left-full text-white translate-x-5 text-nowrap"
-                      : ""
-                  }   `}
-                >
-                  Ứng viên tiềm năng
-                </p>
-              </div>
+              {dataProfile &&
+                (dataProfile?.companyInfomation?.isActive ||
+                  dataProfile?.isV1 ||
+                  dataProfile?.isV2 ||
+                  dataProfile?.isV3 ||
+                  dataProfile?.isV4) && (
+                  <div
+                    className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
+                      selectionMenu === 4
+                        ? "border-blue-500 bg-blue-200"
+                        : "bg-white"
+                    } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
+                      reponsiveMobile < 1152
+                        ? `justify-center ${
+                            menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
+                          }`
+                        : "pl-6 hover:text-white"
+                    }`}
+                    onClick={() => {
+                      setSelectionMenu(4);
+                      setSelectProfileRecruiter(4);
+
+                      setMenuProfile(false);
+                    }}
+                  >
+                    <MdWork />
+                    <p
+                      className={`${
+                        reponsiveMobile < 1152
+                          ? "absolute left-full text-white translate-x-5 text-nowrap"
+                          : ""
+                      }   `}
+                    >
+                      Ứng viên tiềm năng
+                    </p>
+                  </div>
+                )}
+
               <div
                 className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
                   selectionMenu === 5
@@ -252,12 +307,14 @@ const page = (props: Props) => {
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
                   reponsiveMobile < 1152
                     ? `justify-center ${
-                        menuProfile ? "" : "-top-20 opacity-0 -z-10"
+                        menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
                       }`
                     : "pl-6 hover:text-white"
                 }`}
                 onClick={() => {
                   setSelectionMenu(5);
+                  setSelectProfileRecruiter(5);
+
                   setMenuProfile(false);
                 }}
               >
@@ -280,12 +337,14 @@ const page = (props: Props) => {
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
                   reponsiveMobile < 1152
                     ? `justify-center ${
-                        menuProfile ? "" : "-top-20 opacity-0 -z-10"
+                        menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
                       }`
                     : "pl-6 hover:text-white"
                 }`}
                 onClick={() => {
                   setSelectionMenu(6);
+                  setSelectProfileRecruiter(6);
+
                   setMenuProfile(false);
                 }}
               >
@@ -308,12 +367,14 @@ const page = (props: Props) => {
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
                   reponsiveMobile < 1152
                     ? `justify-center ${
-                        menuProfile ? "" : "-top-20 opacity-0 -z-10"
+                        menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
                       }`
                     : "pl-6 hover:text-white"
                 }`}
                 onClick={() => {
                   setSelectionMenu(7);
+                  setSelectProfileRecruiter(7);
+
                   setMenuProfile(false);
                 }}
               >
@@ -336,12 +397,14 @@ const page = (props: Props) => {
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
                   reponsiveMobile < 1152
                     ? `justify-center ${
-                        menuProfile ? "" : "-top-20 opacity-0 -z-10"
+                        menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
                       }`
                     : "pl-6 hover:text-white"
                 }`}
                 onClick={() => {
                   setSelectionMenu(8);
+                  setSelectProfileRecruiter(8);
+
                   setMenuProfile(false);
                 }}
               >
@@ -384,7 +447,7 @@ const page = (props: Props) => {
         </div>
         {menuProfile && (
           <div
-            className="fixed inset-0 bg-black/30"
+            className="fixed inset-0 bg-black/80 z-30"
             onClick={() => {
               setMenuProfile(false);
             }}

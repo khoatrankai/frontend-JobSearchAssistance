@@ -10,7 +10,7 @@ const ShowImage = (props: Props) => {
   const [tabScale, setTabScale] = useState<boolean>(false);
   return (
     <div
-      className={`bg-black/80 flex justify-center items-center fixed inset-0 py-2 z-50 overflow-scroll ${
+      className={`bg-black/80 flex justify-center items-center fixed inset-0 p-8 z-50 overflow-scroll ${
         soureImageShow ? "" : "hidden"
       }`}
       onClick={() => {
@@ -28,15 +28,25 @@ const ShowImage = (props: Props) => {
           e.stopPropagation();
         }}
       />
-      <div
-        className="absolute top-0 right-0 text-white"
-        onClick={(e: any) => {
-          e.stopPropagation();
+      <div className="absolute top-0 right-0 text-white gap-2 flex">
+        <button
+          onClick={(e: any) => {
+            e.stopPropagation();
 
-          setTabScale(!tabScale);
-        }}
-      >
-        <button>Zoom</button>
+            setTabScale(!tabScale);
+          }}
+        >
+          Zoom
+        </button>
+        <button
+          onClick={(e: any) => {
+            e.stopPropagation();
+            setSoureImage(null);
+            setTabScale(false);
+          }}
+        >
+          Tắt
+        </button>
       </div>
     </div>
   );

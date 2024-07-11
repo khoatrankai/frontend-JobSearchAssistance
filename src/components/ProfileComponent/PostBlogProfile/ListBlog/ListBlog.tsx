@@ -67,7 +67,7 @@ const ListBlog = (props: Props) => {
         <button
           className="p-2 rounded-lg bg-blue-500 text-white font-semibold text-lg hover:bg-blue-600"
           onClick={() => {
-            pushBlank(`/community-create`);
+            pushRouter(`/community-create`);
           }}
         >
           Tạo bài viết
@@ -79,7 +79,7 @@ const ListBlog = (props: Props) => {
         }`}
       >
         <div className="flex text-xs font-semibold">
-          <button className="px-2">
+          <button>
             Tất cả<span>({listDataFilter.length})</span>
           </button>
           {/* <button className=" px-2">

@@ -54,15 +54,15 @@ const Achivement = (props: Props) => {
                       <>
                         {" "}
                         <div
-                          className={`flex flex-col gap-y-2 border-[1px] text-sm relative transition-all duration-500 w-full ${
+                          className={`flex flex-col gap-y-2 outline-[1px] outline text-sm relative transition-all duration-500 w-full ${
                             handleCheckPass({
                               part: index,
                               col: indexItem,
                               row: item,
                               index: i,
                             })
-                              ? "border-blue-700"
-                              : "hover:border-gray-300 border-transparent"
+                              ? "outline-blue-700"
+                              : "hover:outline-gray-300 outline-transparent"
                           }`}
                           style={{ padding: dt.padIndex ? "10px" : "4px" }}
                           onClick={(e: any) => {

@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import ModalModifyPassword from "./ModalModifyPassword/page";
 import ModalSettingAccount from "./ModalSettingAccount/page";
+import profileAPi from "@/api/profiles/profileApiRecruiter";
+import ToastCustom from "@/util/ToastCustom";
 
 type Props = {};
 
@@ -26,12 +28,25 @@ const SettingProfile = (props: Props) => {
     useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPasswordSetting, setNewPasswordSetting] = useState("");
-
+  const { hdError, hdSuccess } = ToastCustom();
   const showModalModifyPassword = () => {
     setIsModalOpenModifyPassword(true);
   };
 
-  const handleOkModifyPassword = () => {
+  const handleOkModifyPassword = async () => {
+    const res: any = await profileAPi.recruitUpdatePassword(
+      newPassword,
+      oldPassword,
+      "vi"
+    );
+    if (res && res?.statusCode === 200) {
+      hdSuccess("Đổi mật khẩu thành công");
+      setNewPassword("");
+      setOldPassword("");
+      setConfirmPassword("");
+    } else {
+      hdError("Đổi mật khẩu không thành công");
+    }
     setIsModalOpenModifyPassword(false);
   };
 
@@ -68,14 +83,14 @@ const SettingProfile = (props: Props) => {
         </div>
 
         <div className="flex justify-end font-serif gap-2 text-blue-500">
-          <div
+          {/* <div
             className="cursor-pointer"
             onClick={() => {
               showModalSettingAccount();
             }}
           >
             {languageRedux === 1 ? "Thiết lập tài khoản" : "Account settings"}
-          </div>
+          </div> */}
           <div>|</div>
           <div
             className="cursor-pointer"

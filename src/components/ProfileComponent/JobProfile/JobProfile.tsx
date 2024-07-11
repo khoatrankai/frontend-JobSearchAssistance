@@ -52,15 +52,15 @@ const JobProfile = (props: Props) => {
   const handleUpdateData = () => {
     const fetchData = async () => {
       const resCat = (await axiosClient.put(
-        "http://localhost:8888/api/v1/profiles/cat",
+        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/cat",
         dataRequest
       )) as unknown as IData;
       const resLoc = (await axiosClient.put(
-        "http://localhost:8888/api/v1/profiles/loc",
+        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/loc",
         dataRequest
       )) as unknown as IData;
       const resType = (await axiosClient.put(
-        "http://localhost:8888/api/v1/profiles/per",
+        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/per",
         dataRequest
       )) as unknown as IData;
       const { hdError, hdSuccess } = ToastCustom();
@@ -71,10 +71,7 @@ const JobProfile = (props: Props) => {
         resLoc &&
         resCat.code === 200 &&
         resLoc.code === 200 &&
-        resType.code === 200 &&
-        resCat.data &&
-        resLoc.data &&
-        resType.data
+        resType.code === 200
       ) {
         hdSuccess("Cập nhật thông tin liên hệ thành công");
         handleUpdateApi();

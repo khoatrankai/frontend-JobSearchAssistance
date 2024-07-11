@@ -4,6 +4,7 @@ import Passion from "./Passion/Passion";
 import Image from "next/image";
 import Delicate from "./Delicate/Delicate";
 import SampleCustom from "./SampleCustom/SampleCustom";
+import { useSrollContext } from "@/context/AppProvider";
 
 type Props = {
   id: any;
@@ -12,6 +13,7 @@ type Props = {
 };
 
 const Sample = (props: Props) => {
+  const { reponsiveMobile } = useSrollContext();
   const { id, funcLibrary, template } = props;
   const {
     dataForm,
@@ -42,6 +44,7 @@ const Sample = (props: Props) => {
     BGToolRowItem,
     templateId,
     setTemplateId,
+    scaleForm,
   } = funcLibrary;
   return (
     <>
@@ -49,6 +52,13 @@ const Sample = (props: Props) => {
         className={`flex items-center pt-8 justify-center relative  ${
           dataGhostDrag.part !== -1 && "cursor-pointer"
         }`}
+        style={{
+          scale: `${scaleForm}%`,
+          // transform: `translate(${-(100 - scaleForm) * 10}px,${
+          //   -(100 - scaleForm) * 10
+          // }px)`,
+          transform: `translateX(${61}px)`,
+        }}
       >
         {/* {templateId === "2" && <Passion funcLibrary={funcLibrary} id={id} />}
         {templateId === "1" && <Delicate funcLibrary={funcLibrary} id={id} />} */}

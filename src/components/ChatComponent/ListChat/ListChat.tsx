@@ -116,7 +116,7 @@ const ListChat: React.FC<IOpenListChat> = (props) => {
 
   useEffect(() => {
     if (isConnected === false && !socket.current) {
-      socket.current = io("http://localhost:8888", {
+      socket.current = io("https://backend-hcmute-nodejs.onrender.com", {
         extraHeaders: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },

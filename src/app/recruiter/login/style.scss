@@ -84,7 +84,7 @@
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  background-color: #d38b2c;
+  background-color: #006dff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -92,5 +92,6 @@
   // hover
   &:hover {
     cursor: pointer;
+    color: white;
   }
 }

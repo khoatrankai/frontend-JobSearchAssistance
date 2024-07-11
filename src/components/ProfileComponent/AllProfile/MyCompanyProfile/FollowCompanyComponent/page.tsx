@@ -54,13 +54,13 @@ function CompanyFollowComponent() {
                 }}
               >
                 <div className="flex gap-3">
-                  <div className="flex flex-col">
+                  <div className="flex flex-col h-20 w-20">
                     <img
                       src={item?.companyInfo?.logoPath}
                       alt=""
                       width={70}
                       height={70}
-                      className="rounded-lg shadow-xl"
+                      className="rounded-lg shadow-xl w-full h-full object-cover"
                     />
                   </div>
                   <div>

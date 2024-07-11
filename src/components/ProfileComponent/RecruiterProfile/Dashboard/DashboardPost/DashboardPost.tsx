@@ -14,7 +14,7 @@ const DashboardPost = ({ dataView }: Props) => {
   const [arrayTop, setArrayTop] = useState<any>([
     10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 0, 0,
   ]);
-  const { pushBlank } = useRouterCustom();
+  const { pushBlank, pushRouter } = useRouterCustom();
   const { reponsiveMobile } = useSrollContext();
   const { handleShortTextHome } = ShortText();
   const [maxTop, setMaxTop] = useState<any>(0);
@@ -77,7 +77,11 @@ const DashboardPost = ({ dataView }: Props) => {
           reponsiveMobile < 1392 ? "w-full h-96" : "w-3/4 h-full"
         }`}
       >
-        <div className="flex gap-4 py-4 px-2 !pb-0 absolute inset-0 bottom-0  items-end">
+        <div
+          className={`flex  ${
+            reponsiveMobile <= 840 ? "gap-2" : "gap-4"
+          } py-4 px-2 !pb-0 absolute inset-0 bottom-0  items-end`}
+        >
           {arrayTop.map((dt: any, ikey: any) => {
             return (
               <>
@@ -85,6 +89,12 @@ const DashboardPost = ({ dataView }: Props) => {
                   className="w-full relative group min-h-2"
                   style={{ height: `${dt}%` }}
                 >
+                  {reponsiveMobile <= 840 && (
+                    <p className="absolute bottom-0 inset-x-0 text-xs text-center font-bold -translate-y-2">
+                      T{ikey + 1}
+                    </p>
+                  )}
+
                   <div className="w-full h-2 bg-blue-500 absolute top-0"></div>
                   <div className="w-full h-full bg-blue-500/30"></div>
                   <div
@@ -140,7 +150,7 @@ const DashboardPost = ({ dataView }: Props) => {
                                     <button
                                       className=" hover:text-blue-400 p-1 w-20 font-bold rounded-xl text-blue-700 text-nowrap"
                                       onClick={() => {
-                                        pushBlank(
+                                        pushRouter(
                                           `/recruiter/post-detail/${dt.id}`
                                         );
                                       }}
@@ -170,7 +180,7 @@ const DashboardPost = ({ dataView }: Props) => {
                                     <button
                                       className=" hover:text-blue-400 p-1 w-20 font-bold rounded-xl text-blue-700 text-nowrap"
                                       onClick={() => {
-                                        pushBlank(
+                                        pushRouter(
                                           `/recruiter/post-detail/${dt.id}`
                                         );
                                       }}
@@ -251,20 +261,23 @@ const DashboardPost = ({ dataView }: Props) => {
             );
           })}
         </div>
-        <div className="flex gap-4 text-[10px] text-blue-700 font-semibold absolute inset-x-0 top-full px-2 text-center translate-y-2">
-          <p className="w-full">Tháng 1</p>
-          <p className="w-full">Tháng 2</p>
-          <p className="w-full">Tháng 3</p>
-          <p className="w-full">Tháng 4</p>
-          <p className="w-full">Tháng 5</p>
-          <p className="w-full">Tháng 6</p>
-          <p className="w-full">Tháng 7</p>
-          <p className="w-full">Tháng 8</p>
-          <p className="w-full">Tháng 9</p>
-          <p className="w-full">Tháng 10</p>
-          <p className="w-full">Tháng 11</p>
-          <p className="w-full">Tháng 12</p>
-        </div>
+        {reponsiveMobile > 840 && (
+          <div className="flex gap-4 text-[10px] text-blue-700 font-semibold absolute inset-x-0 top-full px-2 text-center translate-y-2">
+            <p className="w-full">Tháng 1</p>
+            <p className="w-full">Tháng 2</p>
+            <p className="w-full">Tháng 3</p>
+            <p className="w-full">Tháng 4</p>
+            <p className="w-full">Tháng 5</p>
+            <p className="w-full">Tháng 6</p>
+            <p className="w-full">Tháng 7</p>
+            <p className="w-full">Tháng 8</p>
+            <p className="w-full">Tháng 9</p>
+            <p className="w-full">Tháng 10</p>
+            <p className="w-full">Tháng 11</p>
+            <p className="w-full">Tháng 12</p>
+          </div>
+        )}
+
         <div className="flex flex-col gap-4 text-xs font-semibold absolute -bottom-1 -translate-x-2 text-blue-800  inset-y-0 right-full ">
           {myArrayCount.map((dt: any, ikey: any) => {
             return (

@@ -4,22 +4,28 @@ import React, { useEffect, useState } from "react";
 import { RiErrorWarningLine } from "react-icons/ri";
 import "./DashboardPreview.scss";
 import DashboardApi from "@/api/recruiter/dashboard/dashboardApi";
+import { useSrollContext } from "@/context/AppProvider";
 
 type Props = {};
 
 const DashboardPreview = (props: Props) => {
   const [dataPercent, setDataPercent] = useState<any>({});
+  const { reponsiveMobile } = useSrollContext();
   useEffect(() => {
     const fetchData = async () => {
       const data = await DashboardApi.getDetailPercent();
-      setDataPercent(data.data);
+      setDataPercent(data?.data);
     };
     fetchData();
   }, []);
   return (
     <div>
-      <div className="max-w-6xl flex justify-between flex-wrap gap-2 items-center">
-        <div className="w-[250px] h-[250px] p-4 bg-blue-900 rounded-md">
+      <div className="max-w-6xl flex justify-center flex-wrap gap-6 items-center">
+        <div
+          className={` h-[250px] p-4 bg-blue-900 rounded-md ${
+            reponsiveMobile <= 840 ? "w-full" : "min-w-[250px] flex-1"
+          }`}
+        >
           <div>
             <div className="font-semibold flex items-center gap-x-2 text-lg text-white">
               <span>Đánh giá tốt</span>
@@ -58,7 +64,11 @@ const DashboardPreview = (props: Props) => {
             </div>
           </div>
         </div>
-        <div className="w-[250px] h-[250px] p-4 bg-blue-900 rounded-md">
+        <div
+          className={` h-[250px] p-4 bg-blue-900 rounded-md ${
+            reponsiveMobile <= 840 ? "w-full" : "min-w-[250px] flex-1"
+          }`}
+        >
           <div>
             <div className="font-semibold flex items-center gap-x-2 text-lg text-white">
               <span>Chất lượng ứng tuyển</span>
@@ -90,7 +100,11 @@ const DashboardPreview = (props: Props) => {
             </div>
           </div>
         </div>
-        <div className="w-[250px] h-[250px] p-4 bg-blue-900 rounded-md">
+        <div
+          className={` h-[250px] p-4 bg-blue-900 rounded-md ${
+            reponsiveMobile <= 840 ? "w-full" : "min-w-[250px] flex-1"
+          }`}
+        >
           <div>
             <div className="font-semibold flex items-center gap-x-2 text-lg text-white">
               <span>Chất lượng bài viết</span>
@@ -122,7 +136,11 @@ const DashboardPreview = (props: Props) => {
             </div>
           </div>
         </div>
-        <div className="w-[250px] h-[250px] p-4 bg-blue-900 rounded-md">
+        <div
+          className={` h-[250px] p-4 bg-blue-900 rounded-md ${
+            reponsiveMobile <= 840 ? "w-full" : "min-w-[250px] flex-1"
+          }`}
+        >
           <div>
             <div className="font-semibold flex items-center gap-x-2 text-lg text-white">
               <span>Lượt trúng tuyển</span>

@@ -69,7 +69,7 @@ const RecruitmentSuccessList = (props: Props) => {
         }`}
       >
         <div className="flex text-xs font-semibold gap-2">
-          <button className="border-r-[1px] px-2">
+          <button className="border-r-[1px]">
             Tất cả<span>({listDataFilter.length})</span>
           </button>
           <div className="flex gap-1 items-center">

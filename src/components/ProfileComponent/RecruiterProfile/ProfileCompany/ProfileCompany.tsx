@@ -19,6 +19,9 @@ import { TbBorderCorners } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 import { ValidationProfile } from "./validation/validation";
 import ToastCustom from "@/util/ToastCustom";
+import MapComponent from "@/components/MapComponent/MapComponent";
+import mapApi from "@/api/map/map";
+import DelayCustom from "@/util/DelayCustom";
 
 type Props = {
   dataInfo?: any;
@@ -35,28 +38,33 @@ const ProfileCompany = (props: Props) => {
   const { dataInfo, handleUpdateApi } = props;
   const { hdError, hdSuccess } = ToastCustom();
   const refImg = useRef<any>();
+  const [tabMap, setTabMap] = useState<boolean>(true);
   const [dataLocation, setDataLocation] = useState<any>([]);
   const [dataRequest, setDataRequest] = useState<any>();
   const { reponsiveMobile } = useSrollContext();
   const [roleData, setRole] = useState<any>();
   const [sizeData, setSize] = useState<any>();
+  const [checkLoadMap, setCheckLoadMap] = useState<boolean>(true);
+  const [checkLoadData, setCheckLoadData] = useState<boolean>(true);
   const [listBase, setListBase] = useState<any>([]);
   const [listFile, setListFile] = useState<any>([]);
   const [logoShowImg, setLogoShowImg] = useState<any>(null);
   const [logoFileImg, setLogoFileImg] = useState<any>(null);
   const [categoryData, setCategory] = useState<any>();
+  const [dataReqLocation, setDataReqLocation] = useState<any>();
   // const [categoryId,setCategoryId] = useState<any>("3")
   const [provinceData, setProvince] = useState<any>();
-  const [provinceID, setProvinceID] = useState<any>("79");
+  const [provinceID, setProvinceID] = useState<any>();
   const [districtData, setDistrict] = useState<any>();
-  const [districtID, setDistrictID] = useState<any>("");
+  const [districtID, setDistrictID] = useState<any>();
   const [wardData, setWard] = useState<any>();
-  const [wardID, setWardID] = useState<any>("");
+  const [wardID, setWardID] = useState<any>();
   const [listDeleteImg, setDeleteImg] = useState<any>([]);
   const [listImg, setListImg] = useState<any>([]);
   const [listAddImg, setAddImg] = useState<any>([]);
   const [rsInfo, setRSInfo] = useState<boolean>(false);
   const [btnUpdate, setBtnUpdate] = useState<boolean>(false);
+  const { useDebounce } = DelayCustom();
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
@@ -91,22 +99,29 @@ const ProfileCompany = (props: Props) => {
     fetchData();
   }, [districtID]);
   useEffect(() => {
-    setDataRequest(profile?.companyInfomation);
-    setListImg(profile?.companyInfomation?.images);
-    setProvinceID(
-      profile?.companyInfomation?.companyLocation?.district?.province?.id
-    );
-    setDistrictID(profile?.companyInfomation?.companyLocation?.district?.id);
-    setWardID(profile?.companyInfomation?.companyLocation?.id);
-    setLogoShowImg(profile?.companyInfomation?.logoPath);
-    setLogoFileImg(null);
+    if (Object.keys(profile).length !== 0) {
+      setDataRequest(profile?.companyInfomation);
+      setListImg(profile?.companyInfomation?.images);
+      setProvinceID(
+        profile?.companyInfomation?.companyLocation?.district?.province?.id
+      );
+      setDistrictID(profile?.companyInfomation?.companyLocation?.district?.id);
+      setWardID(profile?.companyInfomation?.companyLocation?.id);
+      setLogoShowImg(profile?.companyInfomation?.logoPath);
+      setLogoFileImg(null);
+    }
+
     // setCategoryId(profile?.companyInfomation?.companyCategory?.id);
   }, [profile]);
-  useEffect(() => {}, [dataRequest]);
+
   useEffect(() => {
-    //console.log(dataRequest);
-  }, [dataRequest]);
-  useEffect;
+    if (dataRequest && checkLoadData) {
+      // console.log(checkLoadMap);
+      setDataReqLocation({ ...dataRequest });
+      setCheckLoadData(false);
+    }
+  }, [dataRequest, checkLoadData]);
+
   useEffect(() => {
     if (listBase.length > 0 && listFile.length > 0) {
       setAddImg(
@@ -141,7 +156,7 @@ const ProfileCompany = (props: Props) => {
           if (name === "companyCategory") {
             const value = categoryData.filter((dt: any) => {
               return dt.id == e;
-            });
+            })[0];
 
             setDataRequest({ ...dataRequest, companyCategory: value });
           } else
@@ -183,6 +198,96 @@ const ProfileCompany = (props: Props) => {
       };
     });
   }
+  const handleSearchLocation = async (data: any) => {
+    if (checkLoadMap) {
+      setCheckLoadMap(false);
+    } else {
+      setTabMap(false);
+      if (data) {
+        const dataGet: any = await mapApi.getMapLocation(
+          data +
+            " " +
+            wardData?.find((ward: any) => ward.id === wardID)?.full_name +
+            " " +
+            districtData?.find((dis: any) => dis.id === districtID)?.full_name +
+            " " +
+            provinceData?.find((pro: any) => pro.id === provinceID)?.full_name,
+          "pk.eyJ1IjoiaGJ0b2FuIiwiYSI6ImNsd29tc2h2NjFhOTEyaW54MmFnYWt3ZDQifQ.ljik1w_nZErIaDyhwXh68w"
+        );
+
+        if (dataGet) {
+          const dataOK = dataGet.features.filter((dt: any) => {
+            return dt.id.includes("neighborhood");
+          })[0];
+          if (dataOK) {
+            setTabMap(true);
+
+            setDataReqLocation({
+              ...dataReqLocation,
+              address: data,
+              latitude: dataOK?.center?.[1],
+              longitude: dataOK?.center?.[0],
+            });
+          } else {
+            setTabMap(true);
+
+            setDataReqLocation({
+              ...dataReqLocation,
+              // address: data ?? dataRequest?.address,
+
+              latitude: dataGet.features?.[2]?.center?.[1],
+              longitude: dataGet.features?.[2]?.center?.[0],
+            });
+          }
+        }
+      } else {
+        const dataGet: any = await mapApi.getMapLocation(
+          dataReqLocation?.address +
+            " " +
+            wardData?.find((ward: any) => ward.id === wardID)?.full_name +
+            " " +
+            districtData?.find((dis: any) => dis.id === districtID)?.full_name +
+            " " +
+            provinceData?.find((pro: any) => pro.id === provinceID)?.full_name,
+          "pk.eyJ1IjoiaGJ0b2FuIiwiYSI6ImNsd29tc2h2NjFhOTEyaW54MmFnYWt3ZDQifQ.ljik1w_nZErIaDyhwXh68w"
+        );
+
+        dataReqLocation?.address +
+          " " +
+          wardData?.find((ward: any) => ward.id === wardID)?.full_name +
+          " " +
+          districtData?.find((dis: any) => dis.id === districtID)?.full_name +
+          " " +
+          provinceData?.find((pro: any) => pro.id === provinceID)?.full_name;
+        if (dataGet) {
+          const dataOK = dataGet.features.filter((dt: any) => {
+            return dt.id.includes("neighborhood");
+          })[0];
+          if (dataOK) {
+            setTabMap(true);
+
+            setDataReqLocation({
+              ...dataReqLocation,
+              // address: data ?? dataRequest?.address,
+              latitude: dataOK?.center?.[1],
+              longitude: dataOK?.center?.[0],
+            });
+          } else {
+            setTabMap(true);
+
+            setDataReqLocation({
+              ...dataReqLocation,
+              // address: data ?? dataRequest?.address,
+
+              latitude: dataGet.features?.[2]?.center?.[1],
+              longitude: dataGet.features?.[2]?.center?.[0],
+            });
+          }
+        }
+      }
+    }
+  };
+  const handleDebounce = useDebounce(handleSearchLocation, 500);
   const handleAddImg = (e: any) => {
     setBtnUpdate(true);
     const files = Object.values(e.target.files);
@@ -230,6 +335,8 @@ const ProfileCompany = (props: Props) => {
       logo: logoFileImg,
       images: listFile,
       deleteImages: listDeleteImg,
+      latitude: dataReqLocation?.latitude.toString(),
+      longitude: dataReqLocation?.longitude.toString(),
     };
     const checkPost = new ValidationProfile(newData);
     const validate = checkPost.validateAllFields();
@@ -261,6 +368,11 @@ const ProfileCompany = (props: Props) => {
       postData();
     }
   };
+  useEffect(() => {
+    if (dataRequest && (provinceID || wardID || districtID || provinceData)) {
+      handleDebounce(undefined);
+    }
+  }, [provinceID, wardID, districtID, provinceData, districtData, wardData]);
   return (
     <div className="flex flex-col mt-5">
       <div
@@ -343,8 +455,8 @@ const ProfileCompany = (props: Props) => {
         </div>
         <div className="gap-4 flex flex-wrap ">
           <div
-            className={`flex flex-col ${
-              reponsiveMobile < 700 ? "w-72" : "w-96"
+            className={`flex flex-col flex-1 ${
+              reponsiveMobile < 700 ? "min-w-72" : "min-w-96"
             }`}
           >
             <p className="text-xs font-bold text-blue-500">Tên công ty</p>
@@ -357,8 +469,8 @@ const ProfileCompany = (props: Props) => {
             />
           </div>
           <div
-            className={`flex flex-col ${
-              reponsiveMobile < 700 ? "w-72" : "w-96"
+            className={`flex flex-col flex-1 ${
+              reponsiveMobile < 700 ? "min-w-72" : "min-w-96"
             }`}
           >
             <p className="text-xs font-bold text-blue-500">Số điện thoại</p>
@@ -370,8 +482,8 @@ const ProfileCompany = (props: Props) => {
             />
           </div>
           <div
-            className={`flex flex-col ${
-              reponsiveMobile < 700 ? "w-72" : "w-96"
+            className={`flex flex-col flex-1 ${
+              reponsiveMobile < 700 ? "min-w-72" : "min-w-96"
             }`}
           >
             <p className="text-xs font-bold text-blue-500">Email</p>
@@ -383,8 +495,8 @@ const ProfileCompany = (props: Props) => {
             />
           </div>
           <div
-            className={`flex flex-col ${
-              reponsiveMobile < 700 ? "w-72" : "w-96"
+            className={`flex flex-col flex-1 ${
+              reponsiveMobile < 700 ? "min-w-72" : "min-w-96"
             }`}
           >
             <p className="text-xs font-bold text-blue-500">Website</p>
@@ -396,8 +508,8 @@ const ProfileCompany = (props: Props) => {
             />
           </div>
           <div
-            className={`flex flex-col ${
-              reponsiveMobile < 700 ? "w-72" : "w-96"
+            className={`flex flex-col flex-1 ${
+              reponsiveMobile < 700 ? "min-w-72" : "min-w-96"
             }`}
           >
             <p className="text-xs font-bold text-blue-500">Thuế</p>
@@ -409,8 +521,8 @@ const ProfileCompany = (props: Props) => {
             />
           </div>
           <div
-            className={`flex flex-col ${
-              reponsiveMobile < 700 ? "w-72" : "w-96"
+            className={`flex flex-col flex-1 ${
+              reponsiveMobile < 700 ? "min-w-72" : "min-w-96"
             }`}
           >
             <p className="text-xs font-bold text-blue-500">Vai trò</p>
@@ -423,18 +535,20 @@ const ProfileCompany = (props: Props) => {
                 handleChangeData(e, false, null, "companyRoleInfomation");
               }}
             >
-              {roleData?.map((dt: any) => {
+              {roleData?.map((dt: any, ikey: any) => {
                 return (
                   <>
-                    <Option value={dt.id}>{dt.nameText}</Option>
+                    <Option value={dt.id} key={ikey}>
+                      {dt.nameText}
+                    </Option>
                   </>
                 );
               })}
             </Select>
           </div>
           <div
-            className={`flex flex-col ${
-              reponsiveMobile < 700 ? "w-72" : "w-96"
+            className={`flex flex-col flex-1 ${
+              reponsiveMobile < 700 ? "min-w-72" : "min-w-96"
             }`}
           >
             <p className="text-xs font-bold text-blue-500">Quy mô</p>
@@ -447,18 +561,20 @@ const ProfileCompany = (props: Props) => {
                 handleChangeData(e, false, null, "companySizeInfomation");
               }}
             >
-              {sizeData?.map((dt: any) => {
+              {sizeData?.map((dt: any, ikey: any) => {
                 return (
                   <>
-                    <Option value={dt.id}>{dt.nameText}</Option>
+                    <Option value={dt.id} key={ikey}>
+                      {dt.nameText}
+                    </Option>
                   </>
                 );
               })}
             </Select>
           </div>
           <div
-            className={`flex flex-col ${
-              reponsiveMobile < 700 ? "w-72" : "w-96"
+            className={`flex flex-col flex-1 ${
+              reponsiveMobile < 700 ? "min-w-72" : "min-w-96"
             }`}
           >
             <p className="text-xs font-bold text-blue-500">Danh mục</p>
@@ -472,32 +588,22 @@ const ProfileCompany = (props: Props) => {
                 handleChangeData(e, false, null, "companyCategory");
               }}
             >
-              {categoryData?.map((dt: any) => {
+              {categoryData?.map((dt: any, ikey: any) => {
                 return (
                   <>
-                    <Option value={dt.id}>{dt.name}</Option>
+                    <Option value={dt.id} key={ikey}>
+                      {dt.name}
+                    </Option>
                   </>
                 );
               })}
             </Select>
           </div>
-          <div
-            className={`flex flex-col  ${
-              reponsiveMobile < 450 ? "w-72" : "w-full  max-w-[784px]"
-            }`}
-          >
-            <p className="text-xs font-bold text-blue-500">Số nhà</p>
-            <Input
-              className="rounded-md w-full p-2 font-medium"
-              name="address"
-              value={dataRequest?.address}
-              onChange={handleChangeData}
-            />
-          </div>
+
           <div className="w-full flex gap-4 flex-wrap">
             <div
-              className={`flex flex-col  ${
-                reponsiveMobile < 450 ? "w-72" : "w-full  max-w-[784px]"
+              className={`flex flex-col flex-1 ${
+                reponsiveMobile < 700 ? "min-w-72" : "min-w-96"
               }`}
             >
               <p className="text-xs font-bold text-blue-500">Thành phố</p>
@@ -510,18 +616,20 @@ const ProfileCompany = (props: Props) => {
                   setWardID("");
                 }}
               >
-                {provinceData?.map((dt: any) => {
+                {provinceData?.map((dt: any, ikey: any) => {
                   return (
                     <>
-                      <Option value={dt.id}>{dt.name}</Option>
+                      <Option value={dt.id} key={ikey}>
+                        {dt.name}
+                      </Option>
                     </>
                   );
                 })}
               </Select>
             </div>
             <div
-              className={`flex flex-col ${
-                reponsiveMobile < 700 ? "w-72" : "w-96"
+              className={`flex flex-col flex-1 ${
+                reponsiveMobile < 700 ? "min-w-72" : "min-w-96"
               }`}
             >
               <p className="text-xs font-bold text-blue-500">Quận/huyện</p>
@@ -533,18 +641,20 @@ const ProfileCompany = (props: Props) => {
                   setWardID("");
                 }}
               >
-                {districtData?.map((dt: any) => {
+                {districtData?.map((dt: any, ikey: any) => {
                   return (
                     <>
-                      <Option value={dt.id}>{dt.full_name}</Option>
+                      <Option value={dt.id} key={ikey}>
+                        {dt.full_name}
+                      </Option>
                     </>
                   );
                 })}
               </Select>
             </div>
             <div
-              className={`flex flex-col ${
-                reponsiveMobile < 700 ? "w-72" : "w-96"
+              className={`flex flex-col flex-1 ${
+                reponsiveMobile < 700 ? "min-w-72" : "min-w-96"
               }`}
             >
               <p className="text-xs font-bold text-blue-500">Phường/xã</p>
@@ -556,14 +666,53 @@ const ProfileCompany = (props: Props) => {
                 }}
                 disabled={districtID === "" ? true : false}
               >
-                {wardData?.map((dt: any) => {
+                {wardData?.map((dt: any, ikey: any) => {
                   return (
                     <>
-                      <Option value={dt.id}>{dt.full_name}</Option>
+                      <Option value={dt.id} key={ikey}>
+                        {dt.full_name}
+                      </Option>
                     </>
                   );
                 })}
               </Select>
+            </div>
+            <div
+              className={`flex flex-col flex-1 ${
+                reponsiveMobile < 700 ? "min-w-full" : "min-w-full"
+              }`}
+            >
+              <p className="text-xs font-bold text-blue-500">Số nhà</p>
+              <Input
+                className="rounded-md w-full p-2 font-medium"
+                name="address"
+                value={dataRequest?.address}
+                onChange={(e: any) => {
+                  handleChangeData(e);
+
+                  handleDebounce(e.target.value);
+                }}
+              />
+            </div>
+          </div>
+
+          <div
+            className={`flex flex-col flex-1 ${
+              reponsiveMobile < 700 ? "min-w-full" : "min-w-full"
+            }`}
+          >
+            <p className="text-xs font-bold text-blue-500">Vị trí</p>
+            <div className="w-full min-w-full h-96 rounded-md overflow-hidden">
+              {tabMap && dataReqLocation && (
+                <MapComponent
+                  data={{
+                    longitude: 106.8,
+                    latitude: 10.8,
+                    ...dataReqLocation,
+                  }}
+                  setData={setDataReqLocation}
+                />
+              )}
             </div>
           </div>
         </div>

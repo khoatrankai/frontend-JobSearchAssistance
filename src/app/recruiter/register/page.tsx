@@ -110,7 +110,8 @@ const Page = () => {
     dataRegister.append("companySizeId", dataCompany.companySizeInfomation.id);
     dataRegister.append("description", dataCompany.description);
     dataRegister.append("logoFile", dataCompany.logoPath);
-
+    dataRegister.append("latitude", dataCompany.latitude);
+    dataRegister.append("longitude", dataCompany.longitude);
     const fetchResgiter = async () => {
       const response = await apiAccount.recruiterSignUp(dataRegister);
 
@@ -368,12 +369,12 @@ const Page = () => {
             )}
             <Button
               sx={{
-                backgroundColor: "#ffcc00",
+                backgroundColor: "#006dff",
                 color: "black",
                 marginTop: "20px",
                 "&:hover": {
-                  backgroundColor: "#ffcc00",
-                  color: "black",
+                  backgroundColor: "#005ef3",
+                  color: "white",
                 },
               }}
               className="w-full"

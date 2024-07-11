@@ -116,9 +116,9 @@ const Page = () => {
           });
           fetchDataProfile(response.data);
 
-          setTimeout(() => {
-            router.push("/recruiter");
-          }, 5000);
+          // setTimeout(() => {
+          //   router.push("/recruiter");
+          // }, 5000);
         } else {
           setIsError(true);
         }
@@ -254,12 +254,12 @@ const Page = () => {
             </p>
             <Button
               sx={{
-                backgroundColor: "#ffcc00",
+                backgroundColor: "#006dff",
                 color: "black",
                 marginTop: "20px",
                 "&:hover": {
-                  backgroundColor: "#ffcc00",
-                  color: "black",
+                  backgroundColor: "#005ef3",
+                  color: "white",
                 },
               }}
               className="w-full"

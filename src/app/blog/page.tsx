@@ -39,7 +39,7 @@ const page = (props: Props) => {
   );
   const { handleLoadHrefPage, reponsiveMobile } = useSrollContext();
   const fetchData = async () => {
-    const res = await communityApi.getCommunityNews("0", "6", "cm", 0, "vi");
+    const res = await communityApi.getCommunityNews("0", "10", "cm", 1, "vi");
 
     if (res && res.status === 200) {
       setCommunityAdmin(res.data.communications);
@@ -73,7 +73,7 @@ const page = (props: Props) => {
         // setBookmarked(!bookmarked);
         setCommunityAdmin(
           communityAdmin.map((dt: any) => {
-            if (dt.id === id) {
+            if (dt.id == id) {
               return { ...dt, bookmarked: true };
             }
             return dt;
@@ -105,26 +105,38 @@ const page = (props: Props) => {
     fetchData();
   };
   const handleLikeCommunity = async (communicationId: number) => {
-    try {
-      console.log("bam roi");
-      const result = await communityApi.postCommunityLike(communicationId);
-      if (result) {
-        result.status === 201
-          ? setCommunityAdmin(
-              communityAdmin.map((dt: any) => {
-                if (dt.id === communicationId) return { ...dt, liked: true };
-                return dt;
-              })
-            )
-          : setCommunityAdmin(
-              communityAdmin.map((dt: any) => {
-                if (dt.id === communicationId) return { ...dt, liked: false };
-                return dt;
-              })
-            );
+    if (profile?.isActive) {
+      try {
+        const result = await communityApi.postCommunityLike(communicationId);
+        if (result) {
+          result.status === 201
+            ? setCommunityAdmin(
+                communityAdmin.map((dt: any) => {
+                  if (dt.id == communicationId) return { ...dt, liked: true };
+                  return dt;
+                })
+              )
+            : setCommunityAdmin(
+                communityAdmin.map((dt: any) => {
+                  if (dt.id === communicationId) return { ...dt, liked: false };
+                  return dt;
+                })
+              );
+        }
+      } catch (error) {
+        //console.log(error);
       }
-    } catch (error) {
-      //console.log(error);
+    } else {
+      toast.error("Vui lòng xác thực", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
   const handleDeleteBookmarked = async (id: number) => {
@@ -134,7 +146,7 @@ const page = (props: Props) => {
       if (res && res.status === 200) {
         setCommunityAdmin(
           communityAdmin.map((dt: any) => {
-            if (dt.id === id) {
+            if (dt.id == id) {
               return { ...dt, bookmarked: false };
             }
             return dt;
@@ -247,7 +259,7 @@ const page = (props: Props) => {
                         }}
                       >
                         <Image
-                          className="w-full max-h-[20vw]"
+                          className="w-full max-h-[400px] h-[40vw]"
                           width={2000}
                           height={2000}
                           alt=""
@@ -317,10 +329,23 @@ const page = (props: Props) => {
                               dt.bookmarked ? "text-yellow-400" : "text-white"
                             } rounded-lg hover:bg-black/50 cursor-pointer`}
                             onClick={() => {
-                              if (dt.bookmarked) {
-                                handleDeleteBookmarked(dt.id);
+                              if (profile?.isActive) {
+                                if (dt.bookmarked) {
+                                  handleDeleteBookmarked(dt.id);
+                                } else {
+                                  handleBookmarked(dt.id);
+                                }
                               } else {
-                                handleBookmarked(dt.id);
+                                toast.error("Vui lòng xác thực", {
+                                  position: "bottom-center",
+                                  autoClose: 2000,
+                                  hideProgressBar: false,
+                                  closeOnClick: true,
+                                  pauseOnHover: true,
+                                  draggable: true,
+                                  progress: undefined,
+                                  theme: "dark",
+                                });
                               }
                             }}
                           >
@@ -368,46 +393,48 @@ const page = (props: Props) => {
               );
             })}
           </div>
-          <div className="min-w-72 flex-1 flex flex-col gap-4">
-            <p className="text-2xl text-white">Bài viết mới của bạn</p>
-            <div className="flex flex-col gap-3">
-              {communityUser.map((dt: any, ikey: any) => {
-                return (
-                  <>
-                    <div
-                      className="w-full max-h-72 rounded-lg overflow-hidden relative"
-                      key={ikey}
-                    >
-                      <Image
-                        height={500}
-                        width={500}
-                        alt=""
-                        src={profile.avatarPath ?? "/goapply.png"}
-                      />
-                      <div className="absolute bottom-0 inset-x-0 flex flex-col p-4 bg-black/60">
-                        <p
-                          className="text-white font-bold text-lg cursor-pointer hover:underline"
-                          onClick={() => {
-                            router.push(
-                              `/detail-community?post-community=${dt.id}&type=0`
-                            );
-                          }}
-                        >
-                          {handleShortTextHome(dt.title, 15)}
-                        </p>
-                        <p className="text-sm text-white">
-                          {handleShortTextHome(
-                            handleConvertText(dt.content),
-                            15
-                          )}
-                        </p>
+          {reponsiveMobile > 800 && (
+            <div className="min-w-72 flex-1 flex flex-col gap-4">
+              <p className="text-2xl text-white">Bài viết mới của bạn</p>
+              <div className="flex flex-col gap-3">
+                {communityUser.map((dt: any, ikey: any) => {
+                  return (
+                    <>
+                      <div
+                        className="w-full max-h-72 rounded-lg overflow-hidden relative"
+                        key={ikey}
+                      >
+                        <Image
+                          height={500}
+                          width={500}
+                          alt=""
+                          src={profile.avatarPath ?? "/goapply.png"}
+                        />
+                        <div className="absolute bottom-0 inset-x-0 flex flex-col p-4 bg-black/60">
+                          <p
+                            className="text-white font-bold text-lg cursor-pointer hover:underline"
+                            onClick={() => {
+                              router.push(
+                                `/detail-community?post-community=${dt.id}&type=0`
+                              );
+                            }}
+                          >
+                            {handleShortTextHome(dt.title, 15)}
+                          </p>
+                          <p className="text-sm text-white">
+                            {handleShortTextHome(
+                              handleConvertText(dt.content),
+                              15
+                            )}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  </>
-                );
-              })}
+                    </>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
       {tabModal && (

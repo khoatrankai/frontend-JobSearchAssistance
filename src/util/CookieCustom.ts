@@ -1,30 +1,48 @@
 import React from 'react'
 import { getCookie,setCookie } from '@/cookies'; 
-
+import { signOut } from 'next-auth/react';
+import { fetchProfileRecruiter } from '@/redux/reducer/profileReducer/profileSliceRecruiter';
+import { fetchProfile } from '@/redux/reducer/profileReducer/profileSlice';
+import { useDispatch } from 'react-redux';
+import useRouterCustom from './useRouterCustom/useRouterCustom';
 const CookieCustom = () => {
+    const dispatch = useDispatch()
+    const {pushRouter} = useRouterCustom()
     function setCookieCustom(name:any, value:any) {
 
-        // const date = new Date();
-        // date.setFullYear(date.getFullYear() + 10); // Đặt thời gian hết hạn là 10 năm sau
-        // const expires = "expires=" + date.toUTCString();
-        // document.cookie = name + "=" + (valueJson || "") + ";" + expires + ";path=/";
         localStorage.setItem(name, JSON.stringify(value));
         
     }
     function getCookie(name:any) {
-        // const nameEQ = name + "=";
-        // const ca = document.cookie.split(';');
-        // for (let i = 0; i < ca.length; i++) {
-        //     let c = ca[i];
-        //     while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-        //     if (c.indexOf(nameEQ) === 0) return JSON.parse(c.substring(nameEQ.length, c.length));
-        // }
-        // return null;
+
         const data:any = localStorage.getItem(name);
         return JSON.parse(data)
 
     }
- return {setCookieCustom,getCookie}
+    const removeCookie= (name:any)=>{
+        localStorage.removeItem(name)
+       
+        
+    }
+    const signOutUser= ()=>{
+        localStorage.removeItem('refreshToken')
+        localStorage.removeItem('accountId')
+        localStorage.removeItem('accessToken')
+        signOut()
+        dispatch(fetchProfile("vi") as any);
+        pushRouter('/')
+        
+    }
+    const signOutRecruiter= ()=>{
+        localStorage.removeItem('refreshTokenRecruiter')
+        localStorage.removeItem('accountIdRecruiter')
+        localStorage.removeItem('accessTokenRecruiter')
+        dispatch(fetchProfileRecruiter("vi") as any);
+        pushRouter('/recruiter')
+    
+    }
+   
+ return {setCookieCustom,getCookie,signOutUser,signOutRecruiter,removeCookie}
 }
 
 export default CookieCustom

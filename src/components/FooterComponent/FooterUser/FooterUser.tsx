@@ -9,6 +9,17 @@ import AddLocationIcon from "@mui/icons-material/AddLocation";
 import PersonIcon from "@mui/icons-material/Person";
 import { RootState } from "@/redux";
 import { useSelector } from "react-redux";
+import {
+  FaAppStoreIos,
+  FaFacebookF,
+  FaInstagram,
+  FaLinkedinIn,
+  FaTiktok,
+  FaUserGraduate,
+  FaYoutube,
+} from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+import { IoLogoGooglePlaystore } from "react-icons/io5";
 type Props = {};
 
 const FooterUser = (props: Props) => {
@@ -16,93 +27,110 @@ const FooterUser = (props: Props) => {
     (state: RootState) => state.changeLaguage.language
   );
   return (
-    <div className="flex bottom-0 w-full justify-center px-5 bg-white relative">
-      <div className="w-full h-fit max-w-6xl flex flex-col mb-10">
-        <div>
-          <div className="flex flex-col justify-center items-center text-center ">
-            <Image src="/logo/2023.png" width={200} height={200} alt={""} />
-            <div className="font-bold text-2xl">
-              {languageRedux === 1
-                ? "GIẢI PHÁP QUẢN TRỊ TUYỂN DỤNG HIỆU SUẤT CAO"
-                : "HIGH PERFORMANCE RECRUITMENT MANAGEMENT SOLUTION"}
+    <div className="bg-white pt-4 relative">
+      <div className="w-full flex justify-center  border-t-[1px] text-black pt-16 px-4 relative">
+        <div className="max-w-6xl w-full flex flex-col gap-y-20">
+          <div className="flex justify-between flex-wrap gap-8">
+            <div>
+              <p className="mb-4 font-bold">Thông tin liên hệ</p>
+              <div className="flex flex-col text-sm gap-y-1">
+                <p className="flex gap-1 items-center">
+                  <span>
+                    <FaUserGraduate />
+                  </span>
+                  20110505 - Trần Tấn Khoa
+                </p>
+                <p className="flex gap-1 items-center">
+                  <span>
+                    <FaUserGraduate />
+                  </span>
+                  20161385 - Huỳnh Bảo Toàn
+                </p>
+                <p className="flex gap-1 items-center">
+                  <span>
+                    <MdEmail />
+                  </span>
+                  JobIT2024@gmail.com
+                </p>
+              </div>
             </div>
-            <div className="flex flex-wrap gap-24 mt-5 mb-5 justify-center">
-              <div>
-                <div>
-                  <PhoneIcon
-                    sx={{
-                      color: "#2563eb",
-                    }}
-                  />
+            <div>
+              <p className="mb-4 font-bold">Công ty</p>
+              <div className="flex flex-col text-sm gap-y-1">
+                <div className="hover:text-blue-500 cursor-pointer">
+                  Giới thiệu
                 </div>
-                <div>Hotline</div>
-                <div className="font-bold">0765999xxxx</div>
+                <div className="hover:text-blue-500 cursor-pointer">
+                  Bảo Mật Thông Tin
+                </div>
+                <div className="hover:text-blue-500 cursor-pointer">
+                  Quy Định Sử Dụng
+                </div>
+                <div className="hover:text-blue-500 cursor-pointer">
+                  Hỏi Đáp
+                </div>
               </div>
-              <div>
-                <div>
-                  <EmailIcon
-                    sx={{
-                      color: "#2563eb",
-                    }}
-                  />
-                </div>
-                <div>Email</div>
-                <div className="font-bold">hcmute@gmail.com</div>
+            </div>
+            <div>
+              <p className="mb-4 font-bold">Ứng dụng di động</p>
+              <div className="flex gap-2 flex-col">
+                <button className="flex gap-1 items-center justify-center w-36 h-11 rounded-md border-[1px] group hover:border-t-green-500 hover:border-r-yellow-500 hover:border-b-red-500 hover:border-l-blue-500 hover:font-semibold duration-300 transition-all text-sm">
+                  <IoLogoGooglePlaystore />
+                  <p className="w-[100px]">
+                    <span className="group-hover:text-blue-500 transition-all duration-300">
+                      G
+                    </span>
+                    <span className="group-hover:text-blue-500 transition-all duration-300">
+                      o
+                    </span>
+                    <span className="group-hover:text-red-500 transition-all duration-300">
+                      o
+                    </span>
+                    <span className="group-hover:text-yellow-500 transition-all duration-300">
+                      g
+                    </span>
+                    <span className="group-hover:text-green-500 transition-all duration-300">
+                      l
+                    </span>
+                    <span className="group-hover:text-red-500 transition-all duration-300">
+                      e
+                    </span>{" "}
+                    Store
+                  </p>
+                </button>
+                <button className="flex gap-1 items-center justify-center w-36 h-11 rounded-md border-[1px] group hover:border-blue-400 hover:font-semibold duration-300 transition-all text-sm">
+                  <FaAppStoreIos className="group-hover:text-blue-400 duration-300 transition-all" />
+                  <p className="w-[100px]">App Store</p>
+                </button>
               </div>
-              <div>
-                <div>
-                  <LanguageIcon
-                    sx={{
-                      color: "#2563eb",
-                    }}
-                  />
-                </div>
-                <div>Website</div>
-                <div className="font-bold">https://</div>
+            </div>
+            <div>
+              <p className="mb-4 font-bold">Kết Nối Với JOBIT</p>
+              <div className="flex gap-2 flex-wrap">
+                <button className="flex items-center justify-center w-8 h-8 rounded-full bg-red-600 text-white">
+                  <FaYoutube />
+                </button>
+                <button className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white">
+                  <FaFacebookF />
+                </button>
+                <button className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-700 text-white">
+                  <FaLinkedinIn />
+                </button>
+                <button className="flex items-center justify-center w-8 h-8 rounded-full bg-black text-white">
+                  <FaTiktok />
+                </button>
+                <button
+                  className="flex items-center justify-center w-8 h-8 rounded-full text-white"
+                  style={{ backgroundColor: "#D8225A" }}
+                >
+                  <FaInstagram />
+                </button>
               </div>
             </div>
           </div>
-        </div>
-        <div className="flex flex-wrap justify-between items-center">
-          <div className="flex flex-col gap-2">
-            <div className="text-black text-2xl font-bold mt-10">
-              {languageRedux === 1
-                ? "Công ty TNHH Công nghệ Jobs"
-                : "Jobs Technology Company Limited"}
-            </div>
-            <div className="text-black text-sm">
-              <AddLocationIcon />
-              {languageRedux === 1
-                ? "Địa chỉ: 1 Võ Văn Ngân, Linh Chiểu, Thủ Đức, TP.HCM"
-                : "Address: 1 Vo Van Ngan, Linh Chieu, Thu Duc, Ho Chi Minh City"}
-            </div>
-            <div className="text-black text-sm">
-              <PersonIcon /> 20161385 - Huynh Bao Toan
-            </div>
-            <div className="text-black text-sm">
-              <PersonIcon /> 20110505 - Tran Tan Khoa
-            </div>
-          </div>
-          {/* add QR */}
-          <div className="flex flex-col gap-2">
-            <div className="text-black text-2xl font-bold mt-10">
-              {languageRedux === 1 ? "Tải ứng dụng Jobs" : "Download Jobs app"}
-            </div>
-            <div className="flex flex-row gap-2">
-              <Image
-                src="https://happytime.vn/AppStore.svg"
-                width={100}
-                height={100}
-                alt={""}
-              />
-              <Image
-                src="https://happytime.vn/GooglePlay.svg"
-                width={100}
-                height={100}
-                alt={""}
-              />
-            </div>
-            <div />
+          <div className="w-full border-t-[1px] border-gray-200 py-4 flex flex-col items-center text-xs font-light">
+            <Image alt="" src={"/logo/2023.png"} width={100} height={100} />
+            <p>Bản Quyền © JOB IT K20 SPKT</p>
           </div>
         </div>
       </div>

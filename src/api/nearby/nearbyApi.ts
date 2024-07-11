@@ -12,7 +12,7 @@ const nearByApi = {
     const URL =search ?`/v1/posts/nearby?`+
     `limit=${limit}&page=${page ? page : ''}&search=${search}` :
       `/v1/posts/nearby?`+
-      `limit=${limit}&page=${page ? page : ''}`;
+      `limit=${limit}&page=${page !== null ? page : ''}`;
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

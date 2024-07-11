@@ -184,7 +184,7 @@ const ListUserChat: React.FC<IOpenListChat> = (props) => {
               >
                 <div className="wrap-avatar_userChat">
                   {user?.avatar ? (
-                    <img src={user?.avatar} alt="" />
+                    <img src={user?.image ?? user?.avatar} alt="" />
                   ) : (
                     <div>AVT</div>
                   )}

@@ -29,6 +29,7 @@ import RecuitApplication from "@/components/CandidateDetail/RecuitApplication";
 import CvProfile from "@/components/ProfileComponent/CvProfile/CvProfile";
 import CheckPageLogin from "@/util/CheckPageLogin";
 import { fetchProfileRecruiter } from "@/redux/reducer/profileReducer/profileSliceRecruiter";
+import CheckRoleRecruiter from "@/util/CheckRoleRecruiter";
 
 type Props = {};
 
@@ -38,7 +39,7 @@ interface IBookmark {
 }
 
 const page = (props: Props) => {
-  CheckPageLogin();
+  CheckRoleRecruiter();
   const dispatch = useDispatch();
   const [dataInfo, setDataInfo] = useState<any>();
   const [dataProfile, setDataProfile] = useState<any>({});

@@ -9,7 +9,7 @@ import useRouterCustom from "@/util/useRouterCustom/useRouterCustom";
 type Props = {};
 
 const TopAchivementComponent = (props: Props) => {
-  // const MyComponent = ({ dt, index, pushBlank }: any) => {
+  // const MyComponent = ({ dt, index, pushRouter }: any) => {
   //   return (
 
   //   );
@@ -17,7 +17,7 @@ const TopAchivementComponent = (props: Props) => {
 
   // MyComponent.displayName = "BannerAnimation";
   const [bubbleStyles, setBubbleStyles] = useState<any>([]);
-  const { pushBlank } = useRouterCustom();
+  const { pushRouter } = useRouterCustom();
   const router = useRouter();
   const { reponsiveMobile } = useSrollContext();
 
@@ -111,7 +111,7 @@ const TopAchivementComponent = (props: Props) => {
               }}
               key={index + "vo"}
               onClick={() => {
-                pushBlank(`/company-detail/${dt.id}`);
+                pushRouter(`/company-detail/${dt.id}`);
               }}
             >
               <div className="rounded-full absolute inset-0 flex justify-center items-center">

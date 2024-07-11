@@ -40,6 +40,8 @@ import InfoCV from "@/components/ProfileShow/InfoCV/InfoCV";
 import applicationApi from "@/api/application/applicationApi";
 import { useSrollContext } from "@/context/AppProvider";
 import { TextareaAutosize } from "@mui/material";
+import CheckRoleRecruiter from "@/util/CheckRoleRecruiter";
+import ToastCustom from "@/util/ToastCustom";
 
 type Props = {};
 
@@ -49,7 +51,10 @@ interface IBookmark {
 }
 
 const page = (props: Props) => {
+  CheckRoleRecruiter();
+
   const dispatch = useDispatch();
+  const { hdError, hdSuccess } = ToastCustom();
   const { scrollTopPosition } = useSrollContext();
   const [tabMenu, setTabMenu] = useState<any>(false);
   const [tabModal, setTabModal] = useState<any>(null);
@@ -127,6 +132,14 @@ const page = (props: Props) => {
   // const handleUpdateApi = () => {
   //   dispatch(fetchProfileRecruiter("vi") as any);
   // };
+  const handleCancel = async (id: any, index: any) => {
+    const res: any = await candidateSearch.postBookmarkCandidate(id);
+    if (res && res.status === 200) {
+      hdSuccess("Bỏ lưu thành công");
+    } else {
+      hdSuccess("Lưu thành công");
+    }
+  };
   const handleTabScroll = () => {
     if (ref_Info?.current?.getBoundingClientRect()?.bottom >= 20) {
       return 0;
@@ -316,10 +329,10 @@ const page = (props: Props) => {
                         <FaCheck />
                         Chấp nhận
                       </button>
-                      <button className="p-2 basis-1/3 rounded-md bg-orange-500 flex gap-x-1 items-center justify-center">
+                      {/* <button className="p-2 basis-1/3 rounded-md bg-orange-500 flex gap-x-1 items-center justify-center">
                         <AiFillMessage />
                         Nhắn tin
-                      </button>
+                      </button> */}
                     </>
                   )}
                 {!typeSeen && application_status === 2 && (
@@ -328,13 +341,13 @@ const page = (props: Props) => {
                       <FaCheck />
                       Đã chấp thuận
                     </button>
-                    <button className="p-2 basis-2/4 rounded-md bg-orange-500 flex gap-x-1 items-center justify-center">
+                    {/* <button className="p-2 basis-2/4 rounded-md bg-orange-500 flex gap-x-1 items-center justify-center">
                       <AiFillMessage />
                       Nhắn tin
-                    </button>
+                    </button> */}
                     {dataProfilePOST?.isBookmarked ? (
                       <button
-                        className="p-2 basis-1/4 rounded-md bg-yellow-500 flex gap-x-1 items-center justify-center"
+                        className="p-2 basis-2/4 rounded-md bg-yellow-500 flex gap-x-1 items-center justify-center"
                         onClick={() => {
                           handleDeleteBookmarked(dataProfilePOST?.accountId);
                         }}
@@ -344,7 +357,7 @@ const page = (props: Props) => {
                       </button>
                     ) : (
                       <button
-                        className="p-2 basis-1/4 rounded-md bg-yellow-500 flex gap-x-1 items-center justify-center"
+                        className="p-2 basis-2/4 rounded-md bg-yellow-500 flex gap-x-1 items-center justify-center"
                         onClick={() => {
                           handleBookmarked(dataProfilePOST?.accountId);
                         }}
@@ -361,14 +374,14 @@ const page = (props: Props) => {
                       <FaCheck />
                       Đã từ chối
                     </button>
-                    <button className="p-2 basis-2/4 rounded-md bg-orange-500 flex gap-x-1 items-center justify-center">
+                    {/* <button className="p-2 basis-2/4 rounded-md bg-orange-500 flex gap-x-1 items-center justify-center">
                       <AiFillMessage />
                       Nhắn tin
-                    </button>
+                    </button> */}
 
                     {dataProfilePOST?.isBookmarked ? (
                       <button
-                        className="p-2 basis-1/4 rounded-md bg-yellow-500 flex gap-x-1 items-center justify-center"
+                        className="p-2 basis-2/4 rounded-md bg-yellow-500 flex gap-x-1 items-center justify-center"
                         onClick={() => {
                           handleDeleteBookmarked(dataProfilePOST?.accountId);
                         }}
@@ -378,7 +391,7 @@ const page = (props: Props) => {
                       </button>
                     ) : (
                       <button
-                        className="p-2 basis-1/4 rounded-md bg-yellow-500 flex gap-x-1 items-center justify-center"
+                        className="p-2 basis-2/4 rounded-md bg-yellow-500 flex gap-x-1 items-center justify-center"
                         onClick={() => {
                           handleBookmarked(dataProfilePOST?.accountId);
                         }}
@@ -391,15 +404,32 @@ const page = (props: Props) => {
                 )}
                 {typeSeen && (
                   <>
-                    <button className="p-2 basis-1/2 rounded-md bg-orange-500 flex gap-x-1 items-center justify-center">
+                    {/* <button className="p-2 basis-1/2 rounded-md bg-orange-500 flex gap-x-1 items-center justify-center">
                       <AiFillMessage />
                       Nhắn tin
-                    </button>
+                    </button> */}
 
-                    <button className="p-2 basis-1/2 rounded-md bg-yellow-500 flex gap-x-1 items-center justify-center">
-                      <FaHeart className="text-red-500" />
-                      Lưu
-                    </button>
+                    {dataProfilePOST?.isBookmarked ? (
+                      <button
+                        className="p-2 flex-1 rounded-md bg-yellow-500 flex gap-x-1 items-center justify-center"
+                        onClick={() => {
+                          handleDeleteBookmarked(dataProfilePOST?.accountId);
+                        }}
+                      >
+                        <FaHeart className="text-red-500" />
+                        Lưu
+                      </button>
+                    ) : (
+                      <button
+                        className="p-2 flex-1 rounded-md bg-yellow-500 flex gap-x-1 items-center justify-center"
+                        onClick={() => {
+                          handleBookmarked(dataProfilePOST?.accountId);
+                        }}
+                      >
+                        <FaHeart className="text-white" />
+                        Lưu
+                      </button>
+                    )}
                   </>
                 )}
               </div>
@@ -550,7 +580,7 @@ const page = (props: Props) => {
           ref={ref_Capacity}
         >
           <p className="text-3xl font-bold text-blue-700">Năng lực</p>
-          <div className="px-8 py-12 flex justify-center gap-x-8 flex-wrap w-full">
+          <div className="px-8 py-12 flex justify-center gap-8 flex-wrap w-full">
             <InfoSkill dataProfile={dataProfilePOST} />
             <InfoLanguage dataProfile={dataProfilePOST} />
           </div>

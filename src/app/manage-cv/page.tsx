@@ -42,7 +42,8 @@ interface IDeleteProfileCv {
 
 const page = (props: Props) => {
   CheckPageLogin();
-  const { handleLoadHrefPage, setSoureImage } = useSrollContext();
+  const { handleLoadHrefPage, setSoureImage, reponsiveMobile } =
+    useSrollContext();
   const { setCookieCustom } = CookieCustom();
   const handleConvertDataDocs = (data: any) => {
     const newData = Object.keys(data).map((dt: any) => {
@@ -162,26 +163,35 @@ const page = (props: Props) => {
   };
   return (
     <div className=" flex min-h-[89.5vh] py-16 bg-[#f0f0f0] flex-col items-center gap-8 px-4">
-      <div className="w-full max-w-6xl h-64 bg-blue-400 rounded-xl flex items-center justify-between relative">
+      <div className="w-full max-w-6xl h-[45vw] max-h-64 bg-blue-400 rounded-xl flex items-center justify-between relative">
         <div className="flex flex-col pl-12 justify-center">
-          <p className="font-semibold text-2xl">
+          <p
+            className={`font-semibold  ${
+              reponsiveMobile < 560 ? "text-xl" : "text-2xl"
+            }`}
+          >
             <span className="font-bold">"Bạn đã có CV chưa?"</span>
           </p>
-          <p className="font-medium">
+          <p
+            className={`font-medium ${reponsiveMobile < 560 ? "text-sm" : ""}`}
+          >
             Nếu chưa hãy mau mau tạo ngay để nhà tuyển dụng biết hơn về tài năng
             của bạn !
           </p>
         </div>
         <div className="p-4 -translate-y-5 relative">
-          <img className="h-96 w-96" src="/icon-cv/work-pikbest.png" />
+          <img
+            className="max-h-96 max-w-96 w-[40vw] h-[40vw]"
+            src="/icon-cv/work-pikbest.png"
+          />
           <div className="bg-white rounded-full absolute top-[238px] left-[114px] z-10 icon-bg-manage">
             <img className="w-8" src="/logo/2025.png" />
           </div>
         </div>
       </div>
       <div className="w-full max-w-6xl rounded-xl">
-        <div className="bg-[#fff] h-fit flex flex-col p-5 rounded-xl">
-          <div className="flex flex-wrap justify-between">
+        <div className="bg-[#fff] h-fit flex flex-col p-5 rounded-xl gap-2">
+          <div className="flex flex-wrap justify-between gap-2">
             <div className="text-2xl font-bold">
               {language === 1 ? "CV đã tạo trên Jobs" : "CV created on Jobs"}
             </div>
@@ -229,8 +239,8 @@ const page = (props: Props) => {
           </div>
           <div className="text-sm italic">
             {language === 1
-              ? `Tổng số: ${profileCV?.length} CV`
-              : `Total: ${profileCV?.length} CV`}
+              ? `Tổng số: ${profileCV?.length ?? 0} CV`
+              : `Total: ${profileCV?.length ?? 0} CV`}
           </div>
           <div className="inline-flex flex-wrap w-full gap-2 justify-around my-5">
             {profileCV &&
@@ -558,13 +568,13 @@ const page = (props: Props) => {
       </Modal>
       {tabUploadDocs && (
         <div
-          className={`bg-black/30 flex justify-center items-center fixed inset-0 z-50`}
+          className={`bg-black/50 flex justify-center items-center fixed inset-0 z-50`}
           onClick={() => {
             setTabUploadDocs(false);
           }}
         >
           <div
-            className=" bg-white rounded-lg p-4 flex flex-col gap-y-4"
+            className=" bg-white rounded-lg p-4 flex flex-col gap-y-4 max-w-[100vw]"
             style={{ width: "500px" }}
             onClick={(e: any) => {
               e.stopPropagation();
@@ -1020,7 +1030,7 @@ const page = (props: Props) => {
               <button
                 className="px-2 py-1 text-white hover:bg-blue-400 bg-blue-500 rounded-lg"
                 onClick={() => {
-                  router.push("/cv/create-v2/upload/new");
+                  router.push(`/cv/create-v2/${templateChoose}/upload`);
                 }}
               >
                 Tạo

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import queryString from 'query-string'
 
-const BASE_URL = `http://localhost:8888/api`
+const BASE_URL = `https://backend-hcmute-nodejs.onrender.com/api`
 
 
 const accessToken = (typeof window !== 'undefined') ? localStorage.getItem('accessTokenRecruiter') : null

@@ -35,7 +35,7 @@ const ListUserChat: React.FC<IOpenListChat> = (props) => {
 
   const getPostById = async () => {
     try {
-      const result = await postsApi.getPostV3(
+      const result = await postsApi.getPostV3Recruiter(
         Number(searchParams.get("post_id")),
         languageRedux === 1 ? "vi" : "en"
       );

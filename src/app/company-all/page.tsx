@@ -12,7 +12,8 @@ import { message } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useDispatch, useSelector } from "react-redux";
 // firebase
-// import { getAnalytics, logEvent } from 'firebase/analytics';
+import { getAnalytics, logEvent } from "firebase/analytics";
+import { firebaseConfig } from "@/configs/firebase";
 import { RootState } from "@/redux/reducer";
 import locationApi from "@/api/location/locationApi";
 import { setLocationApi } from "@/redux/reducer/locationReducer";
@@ -23,6 +24,7 @@ import apiCompany from "@/api/company/apiCompany";
 import { useStepContext } from "@mui/material";
 import { useSrollContext } from "@/context/AppProvider";
 import CompanyCard from "@/components/CompanyComponent/CompanyCard";
+import { initializeApp } from "firebase/app";
 
 const CompanyAll = () => {
   const { handleLoadHrefPage } = useSrollContext();
@@ -167,11 +169,9 @@ const CompanyAll = () => {
       document.title =
         languageRedux === 1 ? "Tìm kiếm công ty" : "Search for company";
     }
-
-    // logEvent(analytics, 'screen_view' as string, {
-    //   // screen_name: screenName as string,
-    //   page_title: '/list-company' as string,
-    // });
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    logEvent(analytics, "okeoke" as string);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [languageRedux, document]);
 

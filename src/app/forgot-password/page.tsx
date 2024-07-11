@@ -129,12 +129,12 @@ const Page = () => {
 
             <Button
               sx={{
-                backgroundColor: "#ffcc00",
+                backgroundColor: "#006dff",
                 color: "black",
                 marginTop: "20px",
                 "&:hover": {
-                  backgroundColor: "#ffcc00",
-                  color: "black",
+                  backgroundColor: "#005ef3",
+                  color: "white",
                 },
               }}
               className="w-full"
@@ -149,7 +149,7 @@ const Page = () => {
                 <p
                   className="basic text-sm back-login cursor-pointer"
                   onClick={() => {
-                    router.push("/candidate/login");
+                    router.push("/login");
                   }}
                 >
                   Quay lại đăng nhập
@@ -159,7 +159,7 @@ const Page = () => {
                 <p
                   className="basic text-sm move-register cursor-pointer"
                   onClick={() => {
-                    router.push("/candidate/sign-up");
+                    router.push("/register");
                   }}
                 >
                   Đăng ký tài khoản mới

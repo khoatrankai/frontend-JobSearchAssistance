@@ -64,10 +64,10 @@ const page = (props: Props) => {
           {dataRequest?.map((dt: any, index: any) => {
             return (
               <div
-                className={`border-[1px] p-2  relative ${
+                className={`outline-[1px] p-2  relative ${
                   handleCheckPass({ part: index })
-                    ? " border-blue-700"
-                    : "hover:border-gray-300 border-transparent"
+                    ? " outline-blue-700"
+                    : "hover:outline-gray-300 outline-transparent"
                 } ${checkActive.part === index && ""}`}
                 key={index}
                 onClick={(e: any) => {
@@ -86,10 +86,10 @@ const page = (props: Props) => {
                   {dt.data.map((dtt: any, indexItem: any) => {
                     return (
                       <div
-                        className={` relative p-2 min-h-full border-[1px]  ${
+                        className={` relative p-2 min-h-full outline-[1px]  ${
                           handleCheckPass({ part: index, col: indexItem })
-                            ? "z-20 border-blue-800"
-                            : "hover:border-gray-300 border-transparent"
+                            ? "z-20 outline-blue-800"
+                            : "hover:outline-gray-300 outline-transparent"
                         }`}
                         key={indexItem}
                         style={{
@@ -103,14 +103,14 @@ const page = (props: Props) => {
                           {dtt.map((dttt: any, item: any) => {
                             return (
                               <div
-                                className={`p-2 relative border-[1px] max-w-full z-10 ${
+                                className={`p-2 relative outline-[1px] max-w-full z-10 ${
                                   handleCheckPass({
                                     part: index,
                                     col: indexItem,
                                     row: item,
                                   })
-                                    ? "z-20 border-blue-800"
-                                    : "hover:border-gray-300 border-transparent"
+                                    ? "z-20 outline-blue-800"
+                                    : "hover:outline-gray-300 outline-transparent"
                                 } ${checkGhost(dttt) && "bg-green-300"}`}
                                 onClick={(e: any) => {
                                   // //console.log("click khac");

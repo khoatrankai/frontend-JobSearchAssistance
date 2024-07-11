@@ -11,9 +11,11 @@ import { IoSend } from "react-icons/io5";
 import { SlOptionsVertical } from "react-icons/sl";
 import axios from "axios";
 import axiosClient from "@/configs/axiosClient";
+import { useSrollContext } from "@/context/AppProvider";
 
 const ChatRoll: React.FC = () => {
   const [showButton, setShowButton] = useState(true);
+  const { reponsiveMobile: reponsiveMobileCheck } = useSrollContext();
   const [questionSurvey, setQuestionSurvey] = useState<any>([
     {
       question: "Khi làm việc, bạn có xu hướng",
@@ -107,7 +109,8 @@ const ChatRoll: React.FC = () => {
   const refMess = useRef<any>();
   const router = useRouter();
   const handleScrollMess = () => {
-    if (refMess) refMess.current.scrollTop = refMess.current.scrollHeight;
+    if (refMess && listChat.length > 2)
+      refMess.current.scrollTop = refMess.current.scrollHeight;
   };
   const handleCheckCV = () => {
     let itemMang = "";
@@ -137,10 +140,10 @@ const ChatRoll: React.FC = () => {
     return itemMang + ":" + "http://localhost:3000/cv/create-v2/1/new";
   };
   const handleChatBot = async () => {
-    // const data: any = await axios.pó("https://buildteamv9.pythonanywhere.com/aiJob/");
+    // const data: any = await axios.pó("https://train-django.onrender.com/aiJob/");
     // //console.log(data);
     const dataVip: any = await axiosClient.post(
-      "https://buildteamv9.pythonanywhere.com/aiChat/",
+      "https://train-django.onrender.com/aiChat/",
       {
         id: idChat.toString(),
         content: listChat?.[listChat.length - 1]?.content,
@@ -160,7 +163,7 @@ const ChatRoll: React.FC = () => {
   };
   const handleCreateAI = async () => {
     const dataId = await axiosClient.post(
-      "https://buildteamv9.pythonanywhere.com/aiStartChat/"
+      "https://train-django.onrender.com/aiStartChat/"
     );
     console.log(dataId);
     if (dataId) {
@@ -210,10 +213,12 @@ const ChatRoll: React.FC = () => {
     }
   }, [listAnswer]);
   return (
-    <div className="roll-top-container ">
+    <div className="roll-top-container relative z-40">
       {showButton && (
         <div
           className={`group flex border-4 justify-center items-center rounded-full cursor-pointer ${
+            reponsiveMobileCheck < 800 ? "hidden" : ""
+          } ${
             reponsiveMobile
               ? "roll-chat-btn-mobile bottom-[125px]"
               : "roll-chat-btn bottom-[130px]"
@@ -228,7 +233,7 @@ const ChatRoll: React.FC = () => {
         >
           <SmartToyIcon className="text-white group-hover:text-blue-500" />
           <div className="group-hover:w-80 px-4 group-hover:h-96 max-h-96 h-0 w-0 opacity-0 group-hover:opacity-100 absolute group-hover:right-full right-0 bottom-0 transition-all duration-500">
-            <div className="w-full h-full flex flex-col rounded-md overflow-hidden bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+            <div className="w-full h-full flex flex-col justify-between rounded-md overflow-hidden bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
               <div className="h-12 bg-blue-700 bg-chat flex justify-between px-4  items-center">
                 <SmartToyIcon className="text-white" />
                 <div className="flex items-center gap-2">
@@ -299,26 +304,6 @@ const ChatRoll: React.FC = () => {
                         </div>
                       </div>
                     )}
-                    {/* <div className="w-full flex flex-col justify-end ">
-                      <p className="w-full text-xs text-black/40 font-semibold">
-                        Lựa chọn khảo sát
-                      </p>
-                      <div className="flex gap-2 w-full items-end justify-between py-1">
-                        <div className=" flex-1 items-center flex flex-col w-4/5 justify-end gap-2">
-                          <button className="px-2 text-sm w-full text-start font-medium text-blue-800 break-words text-wrap py-1 hover:bg-blue-800 hover:text-white  border-[1px] border-blue-800 rounded-t-lg rounded-bl-lg">
-                            "Love
-                            myrwewesssssssssssssssssssssssssssssssssssssssssssssssssss"
-                          </button>
-                          <button className="px-2 text-sm w-full text-start font-medium text-blue-800 break-words text-wrap py-1 hover:bg-blue-800 hover:text-white  border-[1px] border-blue-800 rounded-t-lg rounded-bl-lg">
-                            "Love myrwewe"
-                          </button>
-                          <button className="px-2 text-sm font-medium text-start text-blue-800 py-1 break-words text-wrap w-full hover:bg-blue-800 hover:text-white  border-[1px] border-blue-800 rounded-t-lg rounded-bl-lg">
-                            "Love myrwewe"
-                          </button>
-                        </div>
-                        <div className="w-8 h-8 rounded-full bg-black"></div>
-                      </div>
-                    </div> */}
                   </div>
                 </div>
               )}

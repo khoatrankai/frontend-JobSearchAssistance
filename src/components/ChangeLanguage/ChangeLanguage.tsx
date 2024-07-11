@@ -4,6 +4,7 @@ import Image from "next/image";
 import { getCookie, setCookie } from "@/cookies";
 import { useDispatch, useSelector } from "react-redux";
 import { setLanguage } from "@/redux/reducer/changeLanguageReducer/changeLanguage";
+import { useSrollContext } from "@/context/AppProvider";
 
 type Props = {};
 
@@ -12,7 +13,7 @@ const ChangeLanguage = (props: Props) => {
   const dispatch = useDispatch();
   const [bg_language, set_bg_language] = useState(false);
   const [reponsiveMobile, setReponsiveMobile] = useState<boolean>(false);
-
+  const { reponsiveMobile: reponsiveMobileCheck } = useSrollContext();
   const handleOnChangeBackgroundLanguage = () => {
     setCookie("languageId", bg_language ? "2" : "1", 1);
 
@@ -44,6 +45,8 @@ const ChangeLanguage = (props: Props) => {
   return (
     <button
       className={` rounded-full fixed right-4 overflow-hidden border-4 bg-blue-700 hover:bg-black z-40 ${
+        reponsiveMobileCheck < 800 ? "hidden" : ""
+      } ${
         reponsiveMobile
           ? "w-12 h-12 bottom-[190px]"
           : "w-[60px] h-[60px] bottom-[200px]"

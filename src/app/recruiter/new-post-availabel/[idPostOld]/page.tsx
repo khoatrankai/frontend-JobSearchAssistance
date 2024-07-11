@@ -26,6 +26,7 @@ import CheckLoginRecruiter from "@/util/CheckLoginRecruiter";
 import CheckRoleRecruiter from "@/util/CheckRoleRecruiter";
 import { useParams } from "next/navigation";
 import axios from "axios";
+import useRouterCustom from "@/util/useRouterCustom/useRouterCustom";
 type Props = {};
 interface INewPost {
   code: number;
@@ -75,8 +76,10 @@ const page = (props: Props) => {
     jobTypeId: 1,
   });
   const [indexImage, setIndexImage] = useState<any>({ index: 0, count: 0 });
+  const { pushRouter } = useRouterCustom();
   const [typeTimeJob, setTypeTimeJob] = useState<boolean>(false);
-  const { handleLoadHrefPage, handlePersistGateLoaded } = useSrollContext();
+  const { handleLoadHrefPage, handlePersistGateLoaded, handleOffTabLoading } =
+    useSrollContext();
   const handleUpdateDes = (e: any) => {
     setDescription({ ...description, [e.target.name]: e.target.value });
   };
@@ -336,27 +339,43 @@ const page = (props: Props) => {
 
         return;
       } else {
-        const res = (await postsApi.createPost(
-          formData,
-          dataReq.description
-        )) as unknown as INewPost;
+        if (profile?.companyInfomation?.isActive) {
+          const res: any = (await postsApi.createPost(
+            formData,
+            dataReq.description
+          )) as unknown as INewPost;
 
-        if (res && res.code === 200) {
-          // logEvent(analytics, "post_recruiter");
-          handlePersistGateLoaded();
-          toast.success("Tạo bài đăng thành công", {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
+          if (res && res.statusCode === 201) {
+            // logEvent(analytics, "post_recruiter");
+            handleOffTabLoading();
+            toast.success("Tạo bài đăng thành công", {
+              position: "bottom-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+            setTimeout(() => {
+              pushRouter(`/recruiter/post-detail/${res?.postId}`);
+            }, 200);
+          } else {
+            handleOffTabLoading();
+            toast.error("Tạo bài đăng thất bại", {
+              position: "bottom-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+          }
         } else {
-          handlePersistGateLoaded();
-          toast.error("Tạo bài đăng thất bại", {
+          toast.error("Vui lòng chờ xác thực trước khi dùng chức năng này", {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: false,
@@ -880,7 +899,7 @@ const page = (props: Props) => {
         </div>
       </div>
       <button
-        className="fixed bottom-14 right-8 p-4 transition-all bg-blue-500 rounded-lg hover:text-black/50 z-10 hover:bg-blue-400"
+        className="fixed bottom-0 right-[5vw] p-4 transition-all bg-blue-500 rounded-lg hover:text-black/50 z-10 hover:bg-blue-400"
         onClick={handlePost}
       >
         <h2 className="text-xl font-semibold text-white">

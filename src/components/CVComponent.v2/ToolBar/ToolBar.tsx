@@ -9,6 +9,11 @@ import Passion from "../PDF/Sample/Passion/Passion";
 import { usePDFJS } from "@/util/ConvertPdfToImg";
 import { captureElementAsFile } from "@/util/ConvertPdf";
 import { useSrollContext } from "@/context/AppProvider";
+import { Slider } from "antd";
+import { VscSaveAll } from "react-icons/vsc";
+import { FaRegSave } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import ToastCustom from "@/util/ToastCustom";
 
 // import convertImg from "@/util/ConvertPdfToImg";
 
@@ -19,6 +24,7 @@ import { useSrollContext } from "@/context/AppProvider";
 type Props = { id: any; funcLibrary: any };
 
 const ToolBar = (props: Props) => {
+  const { reponsiveMobile } = useSrollContext();
   const { id, funcLibrary } = props;
   const {
     updateHandleAlert,
@@ -29,18 +35,17 @@ const ToolBar = (props: Props) => {
   const [tabColorTopic, setTabColorTopic] = useState<boolean>(false);
   const [urlSave, setUrlSave] = useState<any>("");
   const [pdfExport, setPdfExport] = useState<any>();
-  const handlePdfSave = (blob: any) => {
-    console.log("save cv");
-    setPdfExport(blob);
-    return "Lưu và tải xuống";
-  };
-  const handleSavePdf = async () => {
-    if (dataLoad) {
-      // const blob = await pdf(<Passion funcLibrary={funcLibrary} />).toBlob();
-      // return blob;
-      return pdfExport;
-    }
-  };
+  // const handlePdfSave = (blob: any) => {
+  //   setPdfExport(blob);
+  //   return "Lưu và tải xuống";
+  // };
+  // const handleSavePdf = async () => {
+  //   if (dataLoad) {
+  //     return pdfExport;
+  //   }
+  // };
+  const profile = useSelector((state: any) => state.profile.profile);
+  const { hdError } = ToastCustom();
   const refBtnMenu = useRef<any>();
   const {
     dataForm,
@@ -61,7 +66,8 @@ const ToolBar = (props: Props) => {
     BGPart,
     BGRow,
     BGToolPart,
-    handleBtnSave,
+    // handleBtnSave,
+    // handleBtnSavePDF,
     BGToolRow,
     handleChangeColor,
     handleToolMouseMoveTransRow,
@@ -76,6 +82,10 @@ const ToolBar = (props: Props) => {
     handlePrev,
     backNext,
     setBackNext,
+    setScaleForm,
+    scaleForm,
+    handleNewPDF,
+    handleNewPDFSave,
   } = funcLibrary;
   // useEffect(() => {
   //   if (urlSave !== "") {
@@ -87,8 +97,8 @@ const ToolBar = (props: Props) => {
 
   return (
     <>
-      <div className="fixed top-20 flex justify-between py-6 w-full z-40 gap-x-10 bg-white  px-8">
-        <div className="flex-1">
+      <div className="fixed top-20 flex gap-4 justify-between py-6 w-full z-40 bg-white  px-8 flex-wrap">
+        <div className="flex-1 min-w-52">
           <input
             className="outline-none text-lg font-semibold h-full w-full"
             type="text"
@@ -99,14 +109,17 @@ const ToolBar = (props: Props) => {
             }}
           />
         </div>
-        <div className={`flex w-fit gap-x-4  text-white`} ref={refBtnMenu}>
+        <div
+          className={`flex flex-1 min-w-fit gap-4 flex-wrap  text-white justify-end`}
+          ref={refBtnMenu}
+        >
           <div
-            className="flex gap-x-2 relative items-center p-2 border-r-2 hover:bg-blue-50 cursor-pointer"
+            className="flex gap-x-2 relative items-center p-2 border-r-2 hover:bg-blue-50 cursor-pointer min-w-fit"
             onClick={() => {
               setTabColorTopic(!tabColorTopic);
             }}
           >
-            <p className="text-black">Màu chủ đề</p>
+            {reponsiveMobile > 850 && <p className="text-black">Màu chủ đề</p>}
             <div
               className="rounded-full w-4 h-4"
               style={{
@@ -145,63 +158,100 @@ const ToolBar = (props: Props) => {
               </div>
             </div>
           </div>
-          {true && (
-            <div className="flex gap-x-2 text-black text-3xl  pr-4 border-r-2">
-              <button
-                className={`p-2 rounded-xl  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
-                  false ? "cursor-not-allowed" : " hover:bg-blue-50"
-                }`}
-                onMouseDown={() => {
-                  if (backNext.back != undefined) {
-                    if (Object?.keys(backNext.back).length > 0) {
-                      handlePrev();
-                    }
-                  }
-                }}
-              >
-                <MdKeyboardArrowLeft />
-              </button>
-              <button
-                className={`p-2 rounded-xl  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]  ${
-                  false ? "cursor-not-allowed" : " hover:bg-blue-50"
-                }`}
-                // onClick={handleNext}
-                onMouseDown={() => {
-                  if (backNext.next != undefined) {
-                    if (Object?.keys(backNext.next).length > 0) {
-                      handleNext();
-                    }
-                  }
-                }}
-              >
-                <MdKeyboardArrowRight />
-              </button>
-            </div>
-          )}
 
-          <button
-            className="p-2 font-semibold text-blue-500  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] border-2 hover:bg-blue-500 hover:text-white rounded-lg"
-            // onClick={handleBtnSave}
-            onClick={(e: any) => {}}
-          >
-            <PDFDownloadLink
-              className="href-link-pdf"
-              document={<Passion funcLibrary={funcLibrary} />}
-              fileName={`${nameCv ? nameCv : "CV-old"}-${id}.pdf`}
+          <div className="flex gap-x-2 text-black text-3xl  pr-4 border-r-2 min-w-fit">
+            <button
+              className={`p-2 rounded-xl  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${
+                false ? "cursor-not-allowed" : " hover:bg-blue-50"
+              }`}
+              onMouseDown={() => {
+                if (backNext.back != undefined) {
+                  if (Object?.keys(backNext.back).length > 0) {
+                    handlePrev();
+                  }
+                }
+              }}
             >
-              {({ blob, url, loading, error }) => handlePdfSave(blob)}
-            </PDFDownloadLink>
-          </button>
-          <button
-            className="p-2 font-semibold bg-blue-500 rounded-lg"
-            onClick={() => {
-              handleResetActive();
+              <MdKeyboardArrowLeft />
+            </button>
+            <button
+              className={`p-2 rounded-xl  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]  ${
+                false ? "cursor-not-allowed" : " hover:bg-blue-50"
+              }`}
+              // onClick={handleNext}
+              onMouseDown={() => {
+                if (backNext.next != undefined) {
+                  if (Object?.keys(backNext.next).length > 0) {
+                    handleNext();
+                  }
+                }
+              }}
+            >
+              <MdKeyboardArrowRight />
+            </button>
+          </div>
 
-              handleBtnSave(handleSavePdf);
+          <button
+            className="p-2 font-semibold text-blue-500  shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] border-2 hover:bg-blue-500 hover:text-white rounded-lg min-w-fit flex-1 flex justify-center items-center max-w-20"
+            // onClick={handleBtnSave}
+            onClick={(e: any) => {
+              if (profile?.isActive) {
+                handleResetActive();
+                handleNewPDFSave();
+                // handleBtnSave(handleSavePdf);
+              } else {
+                hdError("Vui lòng xác thực");
+              }
             }}
           >
-            Lưu lại
+            {reponsiveMobile > 1115 ? (
+              // <PDFDownloadLink
+              //   className="href-link-pdf"
+              //   document={<Passion funcLibrary={funcLibrary} />}
+              //   fileName={`${nameCv ? nameCv : "CV-old"}-${id}.pdf`}
+              // >
+              //   {({ blob, url, loading, error }) => handlePdfSave(blob)}
+              // </PDFDownloadLink>
+              <button>Lưu và tải xuống</button>
+            ) : (
+              <VscSaveAll />
+            )}
           </button>
+          <button
+            className="p-2 font-semibold bg-blue-500 rounded-lg  min-w-fit  flex-1 flex justify-center items-center max-w-24"
+            onClick={() => {
+              if (profile?.isActive) {
+                handleResetActive();
+                handleNewPDF();
+                // handleBtnSave(handleSavePdf);
+              } else {
+                hdError("Vui lòng xác thực");
+              }
+            }}
+          >
+            {reponsiveMobile < 1115 ? <FaRegSave /> : <>Lưu lại</>}
+          </button>
+        </div>
+
+        <div className="fixed bottom-14 right-24">
+          <p className="font-semibold text-blue-500 text-sm text-center">
+            {scaleForm}%
+          </p>
+
+          <div
+            className={` py-2  ${
+              reponsiveMobile < 850 ? "h-36" : "px-1 h-40"
+            } rounded-full bg-blue-900 flex justify-center`}
+          >
+            <Slider
+              className="text-white"
+              vertical
+              value={scaleForm}
+              onChange={(e: any) => {
+                setScaleForm(e);
+              }}
+            />
+          </div>
         </div>
       </div>
     </>

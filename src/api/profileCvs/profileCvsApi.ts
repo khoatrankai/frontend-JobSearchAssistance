@@ -2,7 +2,7 @@ import axiosClient from '@/configs/axiosClient';
 
 const profileCvsApi = {
   deleteCvs: async (ids: any[]) => {
-    const URL = `http://localhost:1902/api/v3/profiles-cvs`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/profiles-cvs`;
 
     return axiosClient.delete(URL, {
       data: {
@@ -14,7 +14,7 @@ const profileCvsApi = {
     });
   },
   pushTopCv: async (id: number) => {
-    const URL = `http://localhost:1902/api/v3/profiles-cvs/${id}`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/profiles-cvs/${id}`;
 
     return axiosClient.put(URL, {}, {
         headers: {
@@ -23,7 +23,7 @@ const profileCvsApi = {
     });
   },
   hideCV: async () => {
-    const URL = `http://localhost:1902/api/v3/profiles-cvs/hide`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/profiles-cvs/hide`;
 
     return axiosClient.put(URL, {}, {
         headers: {
@@ -32,7 +32,7 @@ const profileCvsApi = {
     });
   },
   saveCv: async (data : any) => {
-    const URL = `http://localhost:1902/api/v3/profiles-cvs`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/profiles-cvs`;
 
     return axiosClient.post(URL, data, {
         headers: {

@@ -51,7 +51,7 @@ const RecruitmentRejectList = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await postsApi.ownPost();
-      setListData(data.data);
+      setListData(data?.data);
       setIdPost(data.data?.[0]?.post_id);
     };
     fetchData();
@@ -69,7 +69,7 @@ const RecruitmentRejectList = (props: Props) => {
         }`}
       >
         <div className="flex text-xs font-semibold gap-2">
-          <button className="border-r-[1px] px-2">
+          <button className="border-r-[1px]">
             Tất cả<span>({listDataFilter.length})</span>
           </button>
           <div className="flex gap-1 items-center">

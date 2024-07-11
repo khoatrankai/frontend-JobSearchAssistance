@@ -657,7 +657,7 @@ const Page = () => {
                               >
                                 {handleShortTextHome(item.title, 20)}
                               </h2>
-                              <div className="opacity-0 invisible transition-all relative z-50 duration-500 peer-hover:opacity-100 peer-hover:visible hover:visible hover:opacity-100 w-fit h-fit cursor-default">
+                              <div className="opacity-0 invisible transition-all relative z-50 duration-200 peer-hover:opacity-100 peer-hover:visible hover:visible hover:opacity-100 w-fit h-fit cursor-default">
                                 <DescriptionHover>
                                   <div className="flex flex-col gap-y-4 max-h-full">
                                     <div className="flex items-center basis-1/6 gap-x-4">
@@ -781,8 +781,10 @@ const Page = () => {
                                         <div
                                           className="font-bold flex-1 p-2 rounded-xl bg-blue-500 hover:bg-blue-600 flex justify-center items-center text-white"
                                           onClick={() => {
-                                            setPostDetail(item);
-                                            setOpenModalApply(true);
+                                            if (item?.isActive) {
+                                              setPostDetail(item);
+                                              setOpenModalApply(true);
+                                            }
                                           }}
                                         >
                                           Nộp đơn
@@ -821,12 +823,26 @@ const Page = () => {
                           <div className="flex justify-start min-h-[70px] flex-1 relative ">
                             <div
                               className={` py-1 px-2 group-hover:text-white rounded-2xl h-fit transition-all duration-500 ${
-                                index % 2
+                                item?.serviceType == "v2"
                                   ? "bg-red-100 group-hover:bg-red-500 text-red-500"
-                                  : "bg-green-100 group-hover:bg-green-500  text-green-500"
+                                  : item?.serviceType == "v1"
+                                  ? "bg-green-100 group-hover:bg-green-500 text-green-500"
+                                  : item?.serviceType == "v3"
+                                  ? "bg-yellow-100 group-hover:bg-yellow-500 text-yellow-500"
+                                  : item?.serviceType == "v4"
+                                  ? "bg-violet-100 group-hover:bg-violet-500 text-violet-500"
+                                  : "bg-gray-100 group-hover:bg-gray-500  text-gray-500"
                               }   text-xs font-medium `}
                             >
-                              {index % 2 ? "hot" : "new"}
+                              {item?.serviceType == "v2"
+                                ? "hot"
+                                : item?.serviceType == "v1"
+                                ? "new"
+                                : item?.serviceType == "v3"
+                                ? "trending"
+                                : item?.serviceType == "v4"
+                                ? "vip"
+                                : "nor"}
                             </div>
                           </div>
                         </Link>

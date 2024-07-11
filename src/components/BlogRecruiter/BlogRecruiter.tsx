@@ -14,7 +14,7 @@ const BlogRecruiter = (props: Props) => {
   const router = useRouter();
   useEffect(() => {
     const fetchData = async () => {
-      const res = await communityApi.getCommunityNews("0", "6", "cm", 0, "vi");
+      const res = await communityApi.getCommunityNews("0", "4", "cm", 0, "vi");
 
       if (res && res.status === 200) {
         setDataBlog(res.data.communications);
@@ -44,7 +44,7 @@ const BlogRecruiter = (props: Props) => {
                   className={`rounded-xl  flex flex-col   border-[1px] overflow-hidden bg-white group hover:border-blue-500 ${
                     reponsiveMobile < 615
                       ? "w-full h-[500px]"
-                      : "max-w-[276px] min-w-[276px] h-[400px]"
+                      : "flex-1 min-w-[276px] h-[400px]"
                   }`}
                   key={index}
                 >
@@ -84,43 +84,6 @@ const BlogRecruiter = (props: Props) => {
                 </div>
               );
             })}
-            <div
-              className={`rounded-xl  flex flex-col   border-[1px] overflow-hidden bg-white group hover:border-blue-500 ${
-                reponsiveMobile < 615
-                  ? "w-full h-[500px]"
-                  : "max-w-[276px] min-w-[276px] h-[400px]"
-              }`}
-            >
-              <div className=" cursor-pointer">
-                <Image
-                  className={`w-full ${
-                    reponsiveMobile < 615 ? "h-64" : " h-40"
-                  }`}
-                  src={dataBlog?.[0]?.images[0].image}
-                  alt=""
-                  width={1000}
-                  height={1000}
-                />
-              </div>
-              <div className="px-4 pt-4 pb-3 flex flex-col gap-y-4 justify-between flex-1">
-                <p className="text-xl font-bold group-hover:text-blue-500 cursor-pointer h-12">
-                  {handleShortTextHome(dataBlog?.[0]?.title, 20)}
-                </p>
-                <div
-                  dangerouslySetInnerHTML={{ __html: dataBlog?.[0]?.content }}
-                  className="max-h-20 h-full overflow-hidden"
-                ></div>
-                {/* <p className="text-sm">
-                      {handleShortTextHome(dt.content, 130)}
-                    </p> */}
-                <button
-                  className="border-[1px] p-2 rounded-lg font-medium border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white"
-                  onClick={() => {}}
-                >
-                  Đọc thêm
-                </button>
-              </div>
-            </div>
           </div>
         </SkeletonAll>
       </div>

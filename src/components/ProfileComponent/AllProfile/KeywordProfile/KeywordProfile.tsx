@@ -2,6 +2,7 @@ import categoryApi from "@/api/category/categoryApi";
 import keywordNotifyApi from "@/api/keywordNotify/keywordNotifyApi";
 import locationApi from "@/api/location/locationApi";
 import { useSrollContext } from "@/context/AppProvider";
+import { RootState } from "@/redux";
 import ToastCustom from "@/util/ToastCustom";
 import { Button, Input, Select, Switch } from "antd";
 import { text } from "node:stream/consumers";
@@ -10,6 +11,7 @@ import { BiSolidCategory } from "react-icons/bi";
 import { FaSearchLocation } from "react-icons/fa";
 import { IoAddCircle } from "react-icons/io5";
 import { MdDeleteForever } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 type Props = {};
 
@@ -25,6 +27,9 @@ const KeywordProfile = (props: Props) => {
     category_status: 1,
     district_status: 1,
   });
+  const profileInfoV3 = useSelector(
+    (state: RootState) => state.profile.profile
+  );
   const [listDistricts, setListDistricts] = useState<any>([]);
   const [listKeyword, setListKeyword] = useState<any>([]);
   useEffect(() => {
@@ -110,8 +115,12 @@ const KeywordProfile = (props: Props) => {
         <IoAddCircle
           className="text-blue-600 text-4xl cursor-pointer"
           onClick={() => {
-            handleReset();
-            setTabModal(true);
+            if (profileInfoV3?.isActive) {
+              handleReset();
+              setTabModal(true);
+            } else {
+              hdError("Vui lòng xác thực");
+            }
           }}
         />
       </div>
@@ -143,9 +152,9 @@ const KeywordProfile = (props: Props) => {
 
                     <Switch
                       className="bg-black"
-                      defaultValue={dt.status === 1}
+                      defaultChecked={dt.status === 1}
                       onChange={(e: any) => {
-                        handleChange(dt.id, e ? 1 : 0);
+                        handleChange(dt.id, e.target.checked ? 1 : 0);
                       }}
                     />
                   </div>
@@ -160,11 +169,11 @@ const KeywordProfile = (props: Props) => {
                     <span>{dt.category.name}</span>
                   </div>
                 </div>
-                <div className="w-full flex justify-end">
+                {/* <div className="w-full flex justify-end">
                   <div className="text-blue-600 font-semibold text-sm">
                     Xem việc làm
                   </div>
-                </div>
+                </div> */}
               </div>
             </>
           );

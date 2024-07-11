@@ -41,7 +41,7 @@ const signInEmailApi = {
   },
 
   signInEmailRecruit: (email: string) => {
-    const URL = `http://localhost:1902/api/v3/users/sign-up`;
+    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/users/sign-up`;
     return axiosClient.post(URL, {email});
   },
 };

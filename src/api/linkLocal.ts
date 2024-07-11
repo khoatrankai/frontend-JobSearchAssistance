@@ -1,2 +1,2 @@
-export const V1 = "http://localhost:8888"
-export const V3 = "http://localhost:1902"
+export const V1 = "https://backend-hcmute-nodejs.onrender.com"
+export const V3 = "https://backend-hcmute-nestjs.onrender.com"

@@ -1,6 +1,7 @@
 import axiosClient from "@/configs/axiosClient";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
+import { RiArrowGoBackFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
 
 type Props = {
@@ -58,7 +59,7 @@ const CategoryPost = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res2 = (await axiosClient.get(
-        `http://localhost:8888/api/v1/categories?lang=${
+        `https://backend-hcmute-nodejs.onrender.com/api/v1/categories?lang=${
           languageRedux === 1 ? "vi" : "en"
         }`
       )) as unknown as ILocation;
@@ -124,7 +125,7 @@ const CategoryPost = (props: Props) => {
           {dataSaveCategory?.map((dt: any, index: number) => {
             return (
               <li
-                className="p-2 rounded-lg border-2 h-full w-[10rem] flex justify-center items-center"
+                className="p-2 rounded-lg border-2 h-full min-w-fit flex-1 flex justify-center items-center"
                 key={index}
               >
                 <h2>{dt.child_category_name}</h2>
@@ -132,7 +133,7 @@ const CategoryPost = (props: Props) => {
             );
           })}
         </ul>
-        <div className="absolute top-0 right-0 z-20" ref={btn_add_category}>
+        <div className="absolute bottom-0 left-0 z-20">
           <Image
             className="w-6 cursor-pointer"
             src={"/iconadd.svg"}
@@ -143,7 +144,7 @@ const CategoryPost = (props: Props) => {
               setTabCategory(!tabCategory);
             }}
           />
-          {tabCategory && (
+          {/* {tabCategory && (
             <div className="absolute">
               <div className="relative">
                 <ul
@@ -198,8 +199,90 @@ const CategoryPost = (props: Props) => {
                 )}
               </div>
             </div>
-          )}
+          )} */}
         </div>
+        {tabCategory && (
+          <div
+            className="absolute left-0 top-full z-50 max-w-[100vw]"
+            ref={btn_add_category}
+          >
+            <div className="relative p-2 rounded-md bg-white/95 shadow-[-2px_20px_20px_10px_#00000024]">
+              <div className="flex gap-1 font-bold text-lg items-center ">
+                <button
+                  className={`${
+                    positionCategory.parent_category_id !== -1 ? "" : "hidden"
+                  }`}
+                  onClick={() => {
+                    setPositionCategory({ parent_category_id: -1 });
+                  }}
+                >
+                  <RiArrowGoBackFill />
+                </button>
+
+                <p>
+                  {positionCategory.parent_category_id === -1
+                    ? "Danh mục"
+                    : `Danh mục ${
+                        dataCategory[positionCategory.parent_category_id]
+                          .parent_category
+                      }`}
+                </p>
+              </div>
+
+              <ul
+                className={`h-80 transition-all overflow-y-hidden hover:overflow-y-scroll overflow-x-hidden *
+                  ${positionCategory.parent_category_id === -1 ? "" : "hidden"}
+                  `}
+              >
+                {dataCategory.map((dt: any, index: number) => {
+                  return (
+                    <li
+                      key={index}
+                      className={`p-2 cursor-pointer hover:text-blue-400 hover:font-bold ${
+                        index === positionCategory.parent_category_id
+                          ? "text-blue-400 font-bold"
+                          : ""
+                      }`}
+                      onClick={(e: any) => {
+                        e.stopPropagation();
+                        handleUpdatePosCategory(index);
+                      }}
+                    >
+                      <h2>{dt.parent_category}</h2>
+                    </li>
+                  );
+                })}
+              </ul>
+              <ul
+                className={`h-80 transition-all  overflow-y-hidden hover:overflow-y-scroll overflow-x-hidden ${
+                  positionCategory.parent_category_id >= 0 ? "" : "hidden"
+                }`}
+              >
+                {dataCategory[positionCategory.parent_category_id]?.childs.map(
+                  (dt: any, index: number) => {
+                    return (
+                      <li
+                        key={index}
+                        className={`p-2 cursor-pointer flex items-center gap-2 hover:text-blue-400  hover:font-bold`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={handleCheckCategory(dt.id) ?? false}
+                          onChange={(e) => {
+                            e.stopPropagation();
+
+                            handleUpdateCategory(e, dt.id, dt.name);
+                          }}
+                        />
+                        <h2>{dt.name}</h2>
+                      </li>
+                    );
+                  }
+                )}
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

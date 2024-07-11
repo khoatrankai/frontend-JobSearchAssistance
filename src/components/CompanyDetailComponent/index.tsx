@@ -36,7 +36,7 @@ const DetailCompany = () => {
   const { handleLoadHrefPage } = useSrollContext();
   const searchParams = useParams();
   const companyId = searchParams?.id;
-
+  const profile = useSelector((state: any) => state.profile.profile);
   //console.log(companyId);
   const getCompanyInfo = async () => {
     try {
@@ -154,6 +154,18 @@ const DetailCompany = () => {
   const handleFollowCompany = () => {
     if (!localStorage.getItem("accessToken")) {
       toast.error("Vui lòng đăng nhập để theo dõi công ty", {
+        position: "bottom-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
+    if (!profile?.isActive) {
+      toast.error("Vui lòng xác thực", {
         position: "bottom-center",
         autoClose: 3000,
         hideProgressBar: false,

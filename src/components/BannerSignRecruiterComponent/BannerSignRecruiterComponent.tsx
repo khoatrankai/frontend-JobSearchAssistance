@@ -89,7 +89,7 @@ const BannerSignRecruiterComponent = (props: Props) => {
             <button
               className="p-4 rounded-lg border-2 border-blue-500 mt-10 w-fit font-bold text-blue-500 translate-x-32 hover:bg-blue-500 hover:text-white transition-all duration-300 peer"
               onClick={() => {
-                router.push("/recruiter/profile");
+                router.push("/recruiter/candidate");
               }}
             >
               Thông tin ứng viên

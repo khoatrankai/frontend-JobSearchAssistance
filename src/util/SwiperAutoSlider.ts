@@ -128,6 +128,7 @@ const useSwiperAutoSlider = (gap: number = 0,delay:number = 4000, typeSlider: bo
   },[checkDown,ref_list_slider])
   useEffect(() => {
     const handleUp = () => {
+      console.log("bam")
       setCheckDown(false);
       ref_list_slider.current?.classList.add(`transition-transform`);
       setTimeout(() => {
@@ -156,6 +157,7 @@ const useSwiperAutoSlider = (gap: number = 0,delay:number = 4000, typeSlider: bo
     };
   }, []);
   const handleClickDown = (e: any) => {
+    
     setCheckDown(true);
     setPositionOld(e.clientX);
   };

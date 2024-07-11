@@ -18,7 +18,7 @@ const PotentialCandidate = (props: Props) => {
   const items = [
     {
       key: "1",
-      label: languageRedux === 1 ? "Gợi ý ứng viên" : "Employer view profile",
+      label: languageRedux === 1 ? "Ứng viên đã lưu" : "Employer view profile",
       children: <CandidateSuggested />,
     },
     {

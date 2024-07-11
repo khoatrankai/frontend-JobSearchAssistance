@@ -106,7 +106,7 @@ const NavbarComponent = (props: Props) => {
   }, []);
   return (
     <div
-      className="w-full max-w-6xl relative py-4 overflow-hidden"
+      className="w-screen max-w-6xl relative py-4 overflow-hidden"
       ref={ref_nav}
     >
       {checkPrev && (

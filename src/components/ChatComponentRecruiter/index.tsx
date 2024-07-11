@@ -9,10 +9,10 @@ import ListUserChat from "./ListUser/ListUser";
 import ListChat from "./ListChat/ListChat";
 import RollTop from "../RollTop";
 import { useSrollContext } from "@/context/AppProvider";
-import CheckPageLogin from "@/util/CheckPageLogin";
+import CheckRoleRecruiter from "@/util/CheckRoleRecruiter";
 
 const Message = () => {
-  CheckPageLogin();
+  CheckRoleRecruiter();
   const { handleLoadHrefPage } = useSrollContext();
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language

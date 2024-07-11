@@ -30,6 +30,7 @@ const SampleCustom = (props: Props) => {
       <div
         className={className}
         onMouseDown={onClick}
+        onTouchStart={onClick}
         onFocus={handleFocus}
         onBlur={handleBlur}
       >
@@ -83,10 +84,10 @@ const SampleCustom = (props: Props) => {
           return (
             <>
               <div
-                className={`min-h-[100px] w-full relative border-[1px] flex transition-all duration-500  ${
+                className={`min-h-[100px] w-full relative flex outline-1 outline outline-transparent transition-all duration-500  ${
                   handleCheckPass({ part: iPart })
-                    ? "z-20 border-blue-800"
-                    : "hover:border-gray-300 border-transparent"
+                    ? "z-20 outline-blue-800"
+                    : "hover:outline-gray-300 "
                 }`}
                 style={{ padding: dt.padPart ? "10px" : "" }}
               >
@@ -125,14 +126,14 @@ const SampleCustom = (props: Props) => {
                                   padding: dttt.padIndex ? "10px" : "",
                                   // maxWidth: `${dttt.maxWidth}px`,
                                 }}
-                                className={`relative z-10 border-[1px] transition-all duration-500 ${
+                                className={`relative z-10 transition-all outline-1 outline duration-500 ${
                                   handleCheckPass({
                                     part: iPart,
                                     col: iCol,
                                     row: iRow,
                                   })
-                                    ? "z-20 border-blue-800"
-                                    : "hover:border-gray-300 border-transparent"
+                                    ? "z-20 outline-blue-800"
+                                    : "hover:outline-gray-300 outline-transparent"
                                 } ${checkGhost(dttt) && "bg-green-300"}`}
                                 onClick={(e: any) => {
                                   e.stopPropagation();

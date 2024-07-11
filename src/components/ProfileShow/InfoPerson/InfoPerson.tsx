@@ -31,9 +31,8 @@ const InfoPerson = ({ dataProfile }: Props) => {
       <div className="flex gap-x-8 text-white text-2xl font-bold">
         <a
           target="_blank"
-          className="w-12 h-12 flex justify-center items-center rounded-full bg-gray-600"
+          className="w-12 h-12 flex justify-center items-center rounded-full bg-gray-600 cursor-pointer"
           href={dataProfile?.facebook}
-        
         >
           <FaFacebookF />
         </a>
@@ -53,7 +52,7 @@ const InfoPerson = ({ dataProfile }: Props) => {
         </a>
         <a
           target="_blank"
-          className="w-12 h-12 flex justify-center items-center  rounded-full bg-gray-600"
+          className="w-12 h-12 flex justify-center items-center  rounded-full bg-gray-600 cursor-pointer"
           href={dataProfile?.linkedin}
         >
           <g>in</g>

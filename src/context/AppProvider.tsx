@@ -14,6 +14,7 @@ import { store } from "@/redux/store";
 import ChatContextProvider from "./ChatProvider";
 import { BrowserRouter, useLocation } from "react-router-dom";
 import { useRouter } from "next/navigation";
+import CookieCustom from "@/util/CookieCustom";
 type DataFilter = {
   positionJob: Array<{
     province_id: string;
@@ -75,6 +76,13 @@ type ScrollPosition = {
   setTitleIsLoading: any;
   handleOffTabLoading: any;
   setMaxBGHome: any;
+  setTabAlertCatalog: any;
+  tabAlertCatalog: any;
+  setIdToken: any;
+  selectItemProfileRecruiter: any;
+  setSelectItemProfileRecruiter: any;
+  idPostNotify: any;
+  setIdPostNotify: any;
 };
 
 export const Context = createContext<ScrollPosition>({} as ScrollPosition);
@@ -91,9 +99,12 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
   const [checkPage, setCheckPage] = useState<string>("/");
   const [reponsiveMobile, setReponsiveMobile] = useState<number>(0);
   const [positionScrollJob, setPositionScrollJob] = useState<any>([]);
-  const [selectProfileUser, setSelectProfileUser] = useState<any>(0);
-  const [selectProfileRecruiter, setSelectProfileRecruiter] = useState<any>(0);
+  const [selectProfileUser, setSelectProfileUser] = useState<any>(1);
+  const [selectProfileRecruiter, setSelectProfileRecruiter] = useState<any>(1);
   const [selectItemProfileUser, setSelectItemProfileUser] = useState<any>(1);
+  const [selectItemProfileRecruiter, setSelectItemProfileRecruiter] =
+    useState<any>(1);
+  const [idPostNotify, setIdPostNotify] = useState<any>();
   const [handleAlert, setHandleAlert] = useState<any>();
   const [contentAlert, setContentAlert] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -101,6 +112,8 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
   const [titleIsLoading, setTitleIsLoading] = useState<any>();
   const [dataDocsCv, setDataDocsCv] = useState<any>();
   const [tabAlert, setTabAlert] = useState<boolean>(false);
+  const [idToken, setIdToken] = useState<any>();
+  const [tabAlertCatalog, setTabAlertCatalog] = useState<boolean>(false);
   const [listPathTitle, setListPathTitle] = useState<any>([
     {
       path: "/",
@@ -186,9 +199,15 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
       path: "/help-contact",
       title: "Hỗ trợ",
     },
+    {
+      path: "/recruiter/candidate",
+      title: "Tìm kiếm ứng viên",
+    },
   ]);
   const router = useRouter();
-
+  useEffect(() => {
+    console.log(idToken);
+  }, [idToken]);
   const handleLoadHrefPage = () => {
     setCheckPage(pathname);
   };
@@ -213,6 +232,9 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
         document.title = titleDoc[1]?.title;
       }
     }
+    if (document.title == "undefined") {
+      document.title = "JOBIT2024";
+    }
 
     //console.log(pathname);
     // handleLoadHrefPage();
@@ -232,11 +254,13 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
     }
   };
   useEffect(() => {
-    const timeoutID = setTimeout(handleTimeBG, 4000);
-    return () => {
-      clearTimeout(timeoutID);
-    };
-  }, [dataBgHome]);
+    if (pathname === "/") {
+      const timeoutID = setTimeout(handleTimeBG, 4000);
+      return () => {
+        clearTimeout(timeoutID);
+      };
+    }
+  }, [dataBgHome, pathname]);
   const updateHandleAlert = (handle: any) => {
     setHandleAlert([handle]);
   };
@@ -340,6 +364,13 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
               setTitleIsLoading,
               handleOffTabLoading,
               setMaxBGHome,
+              tabAlertCatalog,
+              setTabAlertCatalog,
+              setIdToken,
+              selectItemProfileRecruiter,
+              setSelectItemProfileRecruiter,
+              setIdPostNotify,
+              idPostNotify,
             }}
           >
             {children}

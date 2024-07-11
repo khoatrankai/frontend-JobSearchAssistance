@@ -42,7 +42,7 @@ const EducationModal = (props: Props) => {
   const handleUpdateData = async () => {
     if (type === "add") {
       const res = (await axiosClient.put(
-        "http://localhost:8888/api/v1/profiles/edu/c",
+        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/edu/c",
         dataRequest
       )) as unknown as IResquest;
       if (res && res.code === 200) {
@@ -54,7 +54,7 @@ const EducationModal = (props: Props) => {
       }
     } else {
       const res = (await axiosClient.put(
-        "http://localhost:8888/api/v1/profiles/edu/u",
+        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/edu/u",
         dataRequest
       )) as unknown as IResquest;
       if (res && res.code === 200) {
@@ -99,7 +99,7 @@ const EducationModal = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        "http://localhost:1902/api/v3/academic-types"
+        "https://backend-hcmute-nestjs.onrender.com/api/v3/academic-types"
       )) as unknown as IData;
       if (res && res.status === 200) {
         setDataAcademic(res.data);

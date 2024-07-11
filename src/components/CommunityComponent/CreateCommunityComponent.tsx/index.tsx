@@ -26,8 +26,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useSrollContext } from "@/context/AppProvider";
 import TextEditorCustomBlog from "@/util/TextEditCustom/TextEditorCustomBlog";
+import CheckPageLogin from "@/util/CheckPageLogin";
+import ToastCustom from "@/util/ToastCustom";
 
 const ComunityCreatePost = ({ setTab }: any) => {
+  CheckPageLogin();
   const language = useSelector(
     (state: RootState) => state.dataLanguage.languages
   );
@@ -54,6 +57,8 @@ const ComunityCreatePost = ({ setTab }: any) => {
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
+  const profile = useSelector((state: RootState) => state.profile.profile);
+  const { hdError } = ToastCustom();
   const [messageApi, contextHolder] = message.useMessage();
   const router = useRouter();
   // useEffect(() => {
@@ -324,8 +329,14 @@ const ComunityCreatePost = ({ setTab }: any) => {
         formData.append("deleteImages", id);
       });
 
-    if (formData) {
-      POST_COMMUNITY_ID ? updateCommunity(formData) : createCommunity(formData);
+    if (profile?.isActive) {
+      if (formData) {
+        POST_COMMUNITY_ID
+          ? updateCommunity(formData)
+          : createCommunity(formData);
+      }
+    } else {
+      hdError("Vui lòng xác thực");
     }
   };
 
@@ -355,6 +366,7 @@ const ComunityCreatePost = ({ setTab }: any) => {
               progress: undefined,
             }
           );
+          router.push(`/detail-community?post-community=${result?.data?.id}`);
         } else {
           // messageApi.open({
           //   type: 'error',
@@ -414,6 +426,9 @@ const ComunityCreatePost = ({ setTab }: any) => {
           });
           // router.push("/blog");
           if (setTab) setTab(false);
+          else {
+            router.push(`/detail-community?post-community=${result?.data?.id}`);
+          }
 
           localStorage.setItem("community_success", "true");
         } else {

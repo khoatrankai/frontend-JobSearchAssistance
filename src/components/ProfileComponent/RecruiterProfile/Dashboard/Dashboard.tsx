@@ -10,9 +10,11 @@ import "./Dashboard.scss";
 import DashboardApply from "./DashboardApply/DashboardApply";
 import DashboardPreview from "./DashboardPreview/DashboardPreview";
 import DashboardApi from "@/api/recruiter/dashboard/dashboardApi";
+import { useSrollContext } from "@/context/AppProvider";
 type Props = {};
 
 const Dashboard = (props: Props) => {
+  const { reponsiveMobile } = useSrollContext();
   const [dataAnalystView, setAnalystView] = useState<any>([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -26,7 +28,11 @@ const Dashboard = (props: Props) => {
       <div className="flex flex-col gap-y-4">
         <p className="font-semibold text-2xl">Số liệu thống kê</p>
         <div className="flex flex-wrap gap-4 max-w-6xl justify-center">
-          <div className="basis-[32%] min-w-64  h-36 border-2 rounded-lg relative border-blue-800 flex">
+          <div
+            className={` min-w-64 h-36 border-2 rounded-lg relative border-blue-800 flex ${
+              reponsiveMobile <= 840 ? "w-full" : "basis-[32%]"
+            }`}
+          >
             <div className="text-5xl h-full flex justify-center items-center w-1/4 border-r-2">
               <MdDocumentScanner />
             </div>
@@ -39,7 +45,11 @@ const Dashboard = (props: Props) => {
               </p>
             </div>
           </div>
-          <div className="basis-[32%] min-w-64 h-36 border-2 rounded-lg relative border-blue-800 flex">
+          <div
+            className={` min-w-64 h-36 border-2 rounded-lg relative border-blue-800 flex ${
+              reponsiveMobile <= 840 ? "w-full" : "basis-[32%]"
+            }`}
+          >
             <div className="text-5xl h-full flex justify-center items-center w-1/4 border-r-2">
               <FaUserTie />
             </div>
@@ -50,7 +60,11 @@ const Dashboard = (props: Props) => {
               <p className="h-1/2 text-xl font-medium px-4">Lượt ứng tuyển</p>
             </div>
           </div>
-          <div className="basis-[32%] min-w-64 h-36 border-2 rounded-lg relative border-blue-800 flex">
+          <div
+            className={` min-w-64 h-36 border-2 rounded-lg relative border-blue-800 flex ${
+              reponsiveMobile <= 840 ? "w-full" : "basis-[32%]"
+            }`}
+          >
             <div className="text-5xl h-full flex justify-center items-center w-1/4 border-r-2">
               <ImBlog />
             </div>

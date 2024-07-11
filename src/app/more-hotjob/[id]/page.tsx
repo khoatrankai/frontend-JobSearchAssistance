@@ -30,6 +30,7 @@ import EncodingDescription from "@/util/EncodingDescription/EncodingDescription"
 import ModalApply from "@/components/ModalApply/ModalApply";
 import appplicationApi from "@/api/applicationApi";
 import SkeletonAll from "@/util/SkeletonAll";
+import hotTopicApi from "@/api/topics/hotTopicApi";
 type Props = {};
 
 interface IHotJob {
@@ -51,6 +52,7 @@ const page = (props: Props) => {
   const { handleDecodingDescription } = EncodingDescription();
   const [pageNumber, setPageNumber] = React.useState(0);
   const [listHotJob, setListHotJob] = useState<any[]>([]);
+  const [nameJob, setNameJob] = useState<any>();
   const [total, setTotal] = useState<number>(0);
 
   const [bookmarked, setBookmarked] = React.useState(false);
@@ -188,7 +190,7 @@ const page = (props: Props) => {
   }, []);
   useEffect(() => {
     // handleLoadHrefPage();
-    const url = `http://localhost:1902/api/v3/posts/topic/${id}?a=394,370`;
+    const url = `https://backend-hcmute-nestjs.onrender.com/api/v3/posts/topic/${id}?a=394,370`;
     const fetchData = async () => {
       setListHotJob([]);
       const res = (await hotJobApi.getHotJobById(
@@ -199,9 +201,9 @@ const page = (props: Props) => {
         idFilterProvinces ? idFilterProvinces : null
       )) as unknown as IHotJob;
 
-      setTotal(res.total);
-
       if (res && res.status === 200) {
+        setTotal(res?.total);
+
         setListHotJob(res.data);
       }
     };
@@ -304,7 +306,7 @@ const page = (props: Props) => {
       setLoading(true);
 
       setTimeout(async () => {
-        const url = `http://localhost:1902/api/v3/posts/topic/${id}?a=394,370`;
+        const url = `https://backend-hcmute-nestjs.onrender.com/api/v3/posts/topic/${id}?a=394,370`;
 
         const res = (await hotJobApi.getHotJobById(
           url,
@@ -333,7 +335,23 @@ const page = (props: Props) => {
   const handleChangeFilterJob = (value: string) => {
     setIdFilterProvinces(value);
   };
-
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const reponse = (await hotTopicApi.getAllTopics()) as any;
+        if (reponse && reponse?.status === 200) {
+          setNameJob(
+            reponse.data.filter((dt: any) => {
+              return dt.id == id;
+            })?.[0]?.title
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
   React.useEffect(() => {
     if (provincesData) {
       const newOptionsProvinces = provincesData.map((provinces: any) => {
@@ -370,7 +388,7 @@ const page = (props: Props) => {
         <div className="flex flex-wrap justify-between items-center">
           <h1 className="font-bold text-2xl mb-3">
             {language === 1
-              ? `Tìm thấy ${total} công việc nổi bật`
+              ? `Tìm thấy ${total} công việc ${nameJob}`
               : `Found ${total} featured jobs`}{" "}
           </h1>
 
@@ -437,7 +455,7 @@ const page = (props: Props) => {
                               >
                                 {handleShortTextHome(item.title, 20)}
                               </h2>
-                              <div className="opacity-0 invisible transition-all relative z-50 duration-500 peer-hover:opacity-100 peer-hover:visible hover:visible hover:opacity-100 w-fit h-fit cursor-default">
+                              <div className="opacity-0 invisible transition-all relative z-50 duration-200 peer-hover:opacity-100 peer-hover:visible hover:visible hover:opacity-100 w-fit h-fit cursor-default">
                                 <DescriptionHover>
                                   <div className="flex flex-col gap-y-4 max-h-full">
                                     <div className="flex items-center basis-1/6 gap-x-4">
@@ -561,8 +579,10 @@ const page = (props: Props) => {
                                         <div
                                           className="font-bold flex-1 p-2 rounded-xl bg-blue-500 hover:bg-blue-600 flex justify-center items-center text-white"
                                           onClick={() => {
-                                            setPostDetail(item);
-                                            setOpenModalApply(true);
+                                            if (item?.isActive) {
+                                              setPostDetail(item);
+                                              setOpenModalApply(true);
+                                            }
                                           }}
                                         >
                                           Nộp đơn
@@ -601,12 +621,26 @@ const page = (props: Props) => {
                           <div className="flex justify-start min-h-[70px] flex-1 relative ">
                             <div
                               className={` py-1 px-2 group-hover:text-white rounded-2xl h-fit transition-all duration-500 ${
-                                index % 2
+                                item?.serviceType == "v2"
                                   ? "bg-red-100 group-hover:bg-red-500 text-red-500"
-                                  : "bg-green-100 group-hover:bg-green-500  text-green-500"
+                                  : item?.serviceType == "v1"
+                                  ? "bg-green-100 group-hover:bg-green-500 text-green-500"
+                                  : item?.serviceType == "v3"
+                                  ? "bg-yellow-100 group-hover:bg-yellow-500 text-yellow-500"
+                                  : item?.serviceType == "v4"
+                                  ? "bg-violet-100 group-hover:bg-violet-500 text-violet-500"
+                                  : "bg-gray-100 group-hover:bg-gray-500  text-gray-500"
                               }   text-xs font-medium `}
                             >
-                              {index % 2 ? "hot" : "new"}
+                              {item?.serviceType == "v2"
+                                ? "hot"
+                                : item?.serviceType == "v1"
+                                ? "new"
+                                : item?.serviceType == "v3"
+                                ? "trending"
+                                : item?.serviceType == "v4"
+                                ? "vip"
+                                : "nor"}
                             </div>
                           </div>
                         </Link>
