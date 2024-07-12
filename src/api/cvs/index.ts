@@ -19,13 +19,15 @@ const cvsApi = {
           const delete4 = (await axiosClient.delete(
             `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-layout/${cvIndex}`)) as unknown as any;
         
-        
-        
+          const delete5 =   (await axiosClient.delete(
+            `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-categories`, { data: { cvIndex: cvIndex }})) as unknown as any;
+          
           if (
             delete1?.statusCode === 200 &&
             delete2?.statusCode === 200 &&
             delete3?.statusCode === 200 &&
-            delete4?.statusCode === 200
+            delete4?.statusCode === 200 &&
+            delete5?.statusCode === 200
           ) {
             const dataInfo = dataLoad.filter((dt: any) => {
               return dt.type === "info_person";
