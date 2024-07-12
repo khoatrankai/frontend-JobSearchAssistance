@@ -313,7 +313,9 @@ const EditPostedPage: React.FC<Props> = () => {
       } else {
         if (profile?.companyInfomation?.isActive === 1) {
           const res: any = (await postsApi.updatePostedInfo(
-            formData
+            formData,
+            dataReq?.description,
+            Number(searchParams.get("postId"))
           )) as unknown as IUpdatePost;
 
           if (res && res.code === 200) {
@@ -329,11 +331,11 @@ const EditPostedPage: React.FC<Props> = () => {
               theme: "dark",
             });
             // console.log(res);
-            setTimeout(() => {
-              pushRouter(
-                `/recruiter/post-detail/${searchParams.get("postId")}`
-              );
-            }, 200);
+            // setTimeout(() => {
+            //   pushRouter(
+            //     `/recruiter/post-detail/${searchParams.get("postId")}`
+            //   );
+            // }, 200);
           } else {
             handleOffTabLoading();
             toast.error("Cập nhật bài đăng thất bại", {

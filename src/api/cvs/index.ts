@@ -1,6 +1,7 @@
 import axiosClient from "@/configs/axiosClient"
 import { V1,V3 } from "../linkLocal"
 import axiosClientRecruiter from "@/configs/axiosRecruiter";
+import { content } from "html2canvas/dist/types/css/property-descriptors/content";
 const cvsApi = {
     totalPosts: async(dataLoad:any,dataForm:any,cvIndex:any) => {
         let result = true
@@ -114,6 +115,16 @@ const cvsApi = {
           return result
 
     },
+    checkWarCV : async(dataLoad:any) => {
+       const URL =  `https://train-django.onrender.com/checkWar/`
+       const res = await axiosClientRecruiter.post(URL,{content:dataLoad})
+       if(res?.data == 1){
+        return false
+       }else{
+        return true
+       }
+
+  },
     postCvIndex: async(name:any,cvIndex:any,templateId:any,file:any,images:any = null,type:any = 0)=>{
       const URL =  `${V3}/api/v3/profiles-cvs`
       const formData = new FormData()

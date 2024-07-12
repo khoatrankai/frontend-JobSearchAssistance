@@ -40,6 +40,7 @@ import axiosClientRecruiter from "@/configs/axiosRecruiter";
 import cvsApi from "@/api/cvs";
 import { ImProfile } from "react-icons/im";
 import Link from "next/link";
+import useRouterCustom from "@/util/useRouterCustom/useRouterCustom";
 
 type Props = {};
 
@@ -61,6 +62,7 @@ interface IApplication {
 const page = (props: Props) => {
   const { id } = useParams();
   const { handleShortTextHome } = ShortText();
+  const { pushBlank, pushRouter } = useRouterCustom();
   const { handleDecodingDescription } = EncodingDescription();
   const [checkSize, setCheckSize] = useState<boolean>(false);
   const [dataCompany, setDataCompany] = useState<any>();
@@ -99,7 +101,7 @@ const page = (props: Props) => {
       )) as unknown as IPostDetail;
       //console.log(res.data?.company_name);
       const res2 = (await axiosClientRecruiter.get(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/companies/by-name?name=${res.data?.company_name}`
+        `https://backend-hcmute-nestjs.onrender.com/api/v3/companies/by-name?name=${res?.data?.company_name}`
       )) as unknown as { status: any; data: any };
 
       if (res && (res?.code as any) === 200) {
@@ -119,10 +121,10 @@ const page = (props: Props) => {
         // router.push("/not-found");
       }
       if (postDetail?.account_id === profile?.accountId) {
-        if (profile?.isV2 || profile?.isV3 || profile?.isV4) {
+        if (profile?.isV2 || profile?.isV3 || profile?.isV4 || true) {
           const res3: any = await cvsApi.getCVidPort(id, profile.accountId);
           if (res3 && res3.statusCode === 200) {
-            setListCVPost(res3?.data?.cvsPosts);
+            setListCVPost(res3?.data?.[0]?.cvsPosts);
           }
         }
       }
@@ -838,7 +840,7 @@ const page = (props: Props) => {
               </li>
             </ul>
           </div>
-          {postDetail?.account_id === profile?.accountId && listCVPost && (
+          {postDetail?.account_id == profile?.accountId && listCVPost && (
             <div className="rounded-lg bg-white p-6">
               <div className="flex h-10 items-center mb-8">
                 <div className="h-full w-3 bg-blue-500 mr-4"></div>
@@ -850,11 +852,11 @@ const page = (props: Props) => {
                 {listCVPost?.map((dt: any, ikey: any) => {
                   return (
                     <>
-                      <Link
-                        href={dt?.path}
+                      <div
+                        // href={dt?.path}
                         key={ikey}
                         onClick={() => {
-                          router.push(`/post-detail/${dt?.id}`);
+                          pushBlank(`${dt?.path}`);
                         }}
                       >
                         <div className="w-full h-28 p-2 rounded-md flex items-center gap-4 cursor-pointer hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] hover:text-blue-500">
@@ -889,7 +891,7 @@ const page = (props: Props) => {
                               className="underline text-xs text-black hover:text-green-500"
                               onClick={(e: any) => {
                                 e.stopPropagation();
-                                router.push(
+                                pushBlank(
                                   `/recruiter/candidate-detail/${dt?.accountId}`
                                 );
                               }}
@@ -898,7 +900,7 @@ const page = (props: Props) => {
                             </button>
                           </div>
                         </div>
-                      </Link>
+                      </div>
                     </>
                   );
                 })}
