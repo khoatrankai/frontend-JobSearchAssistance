@@ -96,7 +96,7 @@ const Page = () => {
         });
         // deplay 3s and redirect to login page
         setTimeout(() => {
-          router.push("/login");
+          router.push("/recruiter/login");
         }, 3000);
       }
     };
@@ -230,7 +230,7 @@ const Page = () => {
               <div className="basic mt-3">
                 <span
                   className="text-blue-500 cursor-pointer"
-                  onClick={() => router.push("/login")}
+                  onClick={() => router.push("/recruiter/login")}
                 >
                   Quay lại đăng nhập
                 </span>
@@ -238,7 +238,7 @@ const Page = () => {
               <div className="basic mt-3 ml-auto">
                 <span
                   className="text-blue-500 cursor-pointer"
-                  onClick={() => router.push("/register")}
+                  onClick={() => router.push("/recruiter/register")}
                 >
                   Tạo tài khoản mới
                 </span>

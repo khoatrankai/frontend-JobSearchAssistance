@@ -2468,44 +2468,51 @@ const LibCvV2 = (props: Props) => {
             const { id, ...rest } = dt;
             return rest;
           });
-
-          const result = await cvsApi.totalPosts(newData, dataForm, cvID);
-          if (result) {
-            const resultCV = await cvsApi.postCvIndex(
-              nameCv,
-              cvID,
-              templateId,
-              pdf,
-              dataImg,
-              1
-            );
-            const dataAI = await cvsApi.postCV(
-              newData,
-              cvID,
-              profile?.accountId
-            );
-            if (cvID === cvIndex) {
-              if (resultCV && dataAI) {
-                // downloadPDF();
-                handleOffTabLoading();
-                saveAs(pdf, `${nameCv}.pdf`);
-                hdSuccess("Đã cập nhật thành công");
+          const checkWar = await cvsApi.checkWarCV(newData);
+          if (checkWar) {
+            const result = await cvsApi.totalPosts(newData, dataForm, cvID);
+            if (result) {
+              const resultCV = await cvsApi.postCvIndex(
+                nameCv,
+                cvID,
+                templateId,
+                pdf,
+                dataImg,
+                1
+              );
+              const dataAI = await cvsApi.postCV(
+                newData,
+                cvID,
+                profile?.accountId
+              );
+              if (cvID === cvIndex) {
+                if (resultCV && dataAI) {
+                  // downloadPDF();
+                  handleOffTabLoading();
+                  saveAs(pdf, `${nameCv}.pdf`);
+                  hdSuccess("Đã cập nhật thành công");
+                } else {
+                  handleOffTabLoading();
+                  hdError("Cập nhật thất bại");
+                }
               } else {
-                handleOffTabLoading();
-                hdError("Cập nhật thất bại");
-              }
-            } else {
-              if (resultCV && dataAI) {
-                // downloadPDF();
-                handleOffTabLoading();
-                saveAs(pdf, `${nameCv}.pdf`);
-                hdSuccess("Đã tạo CV thành công");
-              } else {
-                handleOffTabLoading();
+                if (resultCV && dataAI) {
+                  // downloadPDF();
+                  handleOffTabLoading();
+                  saveAs(pdf, `${nameCv}.pdf`);
+                  hdSuccess("Đã tạo CV thành công");
+                } else {
+                  handleOffTabLoading();
 
-                hdError("Tạo CV thất bại");
+                  hdError("Tạo CV thất bại");
+                }
               }
             }
+          } else {
+            hdError(
+              "Vui lòng kiểm tra lại thông tin vì có từ không đúng chuẩn mực"
+            );
+            handleOffTabLoading();
           }
         };
         if (cvIndex === cvID) {
@@ -2544,41 +2551,48 @@ const LibCvV2 = (props: Props) => {
             const { id, ...rest } = dt;
             return rest;
           });
-
-          const result = await cvsApi.totalPosts(newData, dataForm, cvID);
-          if (result) {
-            const resultCV = await cvsApi.postCvIndex(
-              nameCv,
-              cvID,
-              templateId,
-              pdf,
-              dataImg,
-              1
-            );
-            const dataAI = await cvsApi.postCV(
-              newData,
-              cvID,
-              profile?.accountId
-            );
-            if (cvID === cvIndex) {
-              if (resultCV && dataAI) {
-                // downloadPDF();
-                handleOffTabLoading();
-                hdSuccess("Đã cập nhật thành cập");
+          const checkWar = await cvsApi.checkWarCV(newData);
+          if (checkWar) {
+            const result = await cvsApi.totalPosts(newData, dataForm, cvID);
+            if (result) {
+              const resultCV = await cvsApi.postCvIndex(
+                nameCv,
+                cvID,
+                templateId,
+                pdf,
+                dataImg,
+                1
+              );
+              const dataAI = await cvsApi.postCV(
+                newData,
+                cvID,
+                profile?.accountId
+              );
+              if (cvID === cvIndex) {
+                if (resultCV && dataAI) {
+                  // downloadPDF();
+                  handleOffTabLoading();
+                  hdSuccess("Đã cập nhật thành cập");
+                } else {
+                  handleOffTabLoading();
+                  hdError("Cập nhật thất bại");
+                }
               } else {
-                handleOffTabLoading();
-                hdError("Cập nhật thất bại");
-              }
-            } else {
-              if (resultCV && dataAI) {
-                // downloadPDF();
-                handleOffTabLoading();
-                hdSuccess("Đã tạo CV thành công");
-              } else {
-                handleOffTabLoading();
-                hdError("Tạo CV thất bại");
+                if (resultCV && dataAI) {
+                  // downloadPDF();
+                  handleOffTabLoading();
+                  hdSuccess("Đã tạo CV thành công");
+                } else {
+                  handleOffTabLoading();
+                  hdError("Tạo CV thất bại");
+                }
               }
             }
+          } else {
+            hdError(
+              "Vui lòng kiểm tra lại thông tin vì có từ không đúng chuẩn mực"
+            );
+            handleOffTabLoading();
           }
         };
         if (cvIndex === cvID) {
@@ -2937,6 +2951,9 @@ const LibCvV2 = (props: Props) => {
       setScaleForm(42);
     }
   }, [reponsiveMobile]);
+  useEffect(() => {
+    console.log(dataLoad);
+  }, [dataLoad]);
   useEffect(() => {
     const handleCheckCvs = (cvs: any) => {
       let dataCvID = 0;

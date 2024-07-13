@@ -32,13 +32,17 @@ const historyRecruiter = {
       },
     });
   },
+  getallApplicationOk : async()=>{
+    const Url = `${V1}/api/v1/posts/own`
+    return await axiosClientRecruiter.get(Url)
+  },
   GetInformationAndCandidatesCount: (
     threshold: number,
     limit: number,
     status: string,
     lang: string,
   ) => {
-    const URL = `/v1/history/recruiter/applications?threshold=${threshold}&limit=${limit}&status=${status}&lang=${lang}`;
+    const URL = `/v1/history/recruiter/applications?threshold=${threshold}&limit=${limit}&status=${status}&lang=${lang}&type=0`;
     return axiosClientRecruiter.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,

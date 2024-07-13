@@ -78,13 +78,8 @@ const SuggestApplicationComponent = (props: Props) => {
     // handleLoadHrefPage();
     const getAllPosted = async () => {
       try {
-        const result = await historyRecruiter.GetInformationAndCandidatesCount(
-          0,
-          20,
-          "-1",
-          languageRedux === 1 ? "vi" : "en"
-        );
-
+        const result = await historyRecruiter.getallApplicationOk();
+        console.log(result);
         if (result) {
           setDataPost(result.data);
         }
@@ -123,7 +118,12 @@ const SuggestApplicationComponent = (props: Props) => {
             ? "Lưu ý: Nhấn 2 lần vào hàng trong bảng để xem ứng viên gợi ý"
             : "Note: Double click on the row in the table to view the suggested candidate"}
         </Typography>
-        <div style={{ height: 400, width: "100%" }}>
+        <div
+          style={{ height: 400, width: "100%" }}
+          onClick={(e: any) => {
+            e.preventDefault();
+          }}
+        >
           <DataGrid
             className="cursor-pointer"
             rows={dataPost}
@@ -165,7 +165,9 @@ const SuggestApplicationComponent = (props: Props) => {
                     <div className="flex flex-wrap">
                       <div
                         className="item-candidate"
-                        onClick={() => {
+                        onClick={(e: any) => {
+                          e.stopPropagation();
+                          e.preventDefault();
                           handleClickItemCandidate(item.accountId);
                         }}
                       >

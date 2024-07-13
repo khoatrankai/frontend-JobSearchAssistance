@@ -32,6 +32,7 @@ import Image from "next/image";
 import { IoMdDownload } from "react-icons/io";
 import cvsApi from "@/api/cvs";
 import CookieCustom from "@/util/CookieCustom";
+import { createDocument } from "@/util/CreateDocs";
 
 type Props = {};
 
@@ -196,6 +197,21 @@ const page = (props: Props) => {
               {language === 1 ? "CV đã tạo trên Jobs" : "CV created on Jobs"}
             </div>
             <div className="flex gap-2">
+              <div
+                className="flex items-center w-fit h-hit bg-blue-500"
+                style={{
+                  borderRadius: "32px",
+                  padding: "5px 10px",
+                }}
+              >
+                <MdOutlineDriveFolderUpload className="text-white" />
+                <div
+                  className="text-white cursor-pointer"
+                  onClick={createDocument}
+                >
+                  {language === 1 ? "Test" : "Upload CV"}
+                </div>
+              </div>
               <div
                 className="flex items-center w-fit h-hit bg-blue-500"
                 style={{

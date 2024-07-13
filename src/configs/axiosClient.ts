@@ -65,6 +65,10 @@ axiosClient.interceptors.response.use(
             window.location.reload()
 
             return axios(originalRequest)
+          }else{
+            localStorage.removeItem("accessToken")
+            localStorage.removeItem("refreshToken")
+            localStorage.removeItem("accountId")
           }
         })
         .catch((error) => {

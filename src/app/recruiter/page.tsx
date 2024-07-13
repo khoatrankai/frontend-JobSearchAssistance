@@ -3,6 +3,7 @@
 import BannerSignRecruiterComponent from "@/components/BannerSignRecruiterComponent/BannerSignRecruiterComponent";
 import BlogRecruiterComponent from "@/components/BlogRecruiterComponent/BlogRecruiterComponent";
 import ServiceRecruiterCompany from "@/components/ServiceRecruiterCompany/ServiceRecruiterCompany";
+import { useSrollContext } from "@/context/AppProvider";
 import { fetchProfileRecruiter } from "@/redux/reducer/profileReducer/profileSliceRecruiter";
 import CheckRoleRecruiter from "@/util/CheckRoleRecruiter";
 import ShowModal from "@/util/ShowModal/ShowModal";
@@ -19,10 +20,17 @@ const page = (props: Props) => {
   const refService = useRef<any>();
   // dispatch(fetchProfileRecruiter("vi") as any);
   const profile = useSelector((state: any) => state.profileRecruiter.profile);
+  const { setPositionScrollJob } = useSrollContext();
+  useEffect(() => {
+    if (refService) {
+      setPositionScrollJob([refService.current]);
+    }
+  }, [refService]);
+
   return (
     <div>
       <BannerSignRecruiterComponent />
-      <div className="service-recruiter">
+      <div className="service-recruiter" ref={refService}>
         <ServiceRecruiterCompany />
       </div>
       <BlogRecruiterComponent />

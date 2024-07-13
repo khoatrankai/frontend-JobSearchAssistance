@@ -50,17 +50,18 @@ export default function RootLayout({
   }, [reponsiveMobile]);
   const pathname = usePathname();
   const allowedPath = [
-    "/candidate/login",
-    "/candidate/sign-up",
-    "/candidate/reset-password",
-    "/candidate/forgot-password",
-    "/candidate/cofirm-password",
-    "/candidate/page-error",
+    "/login",
+    "/reset-password",
+    "/recruiter/reset-password",
+    "/forgot-password",
+    "/cofirm-password",
+    "/page-error",
+    "/recruiter/page-error",
     "/recruiter/login",
     "/recruiter/register",
     "/recruiter/forgot-password",
-    "/login",
     "/register",
+    "/recruiter/register",
   ];
   const allowedFooter = ["/chat"];
 
@@ -74,6 +75,12 @@ export default function RootLayout({
     };
     fetchDataLoading();
   }, []);
+  const handleCheckPage = () => {
+    const array = allowedPath.filter((dt: any) => {
+      return pathname.includes(dt);
+    });
+    return array.length > 0;
+  };
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={inter.className}>
@@ -84,8 +91,9 @@ export default function RootLayout({
                 {loadingServer ? (
                   <>
                     {pathname.split("/").length <= 3
-                      ? !allowedPath.includes(pathname) && <MenuComponent />
-                      : !(urlCustom.trim() === "/candidate/reset-password") && (
+                      ? !allowedPath.includes(pathname) &&
+                        !handleCheckPage() && <MenuComponent />
+                      : !(urlCustom.trim() === "/reset-password") && (
                           <MenuComponent />
                         )}
                     {children}
@@ -98,8 +106,9 @@ export default function RootLayout({
                     <ShowModalIf />
                     {pathname.split("/").length <= 3
                       ? !allowedPath.includes(pathname) &&
-                        !allowedFooter.includes(pathname) && <FooterComponent />
-                      : !(urlCustom.trim() === "/candidate/reset-password") && (
+                        !allowedFooter.includes(pathname) &&
+                        !handleCheckPage() && <FooterComponent />
+                      : !(urlCustom.trim() === "/reset-password") && (
                           <FooterComponent />
                         )}
 

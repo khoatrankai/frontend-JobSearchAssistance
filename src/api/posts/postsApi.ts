@@ -88,15 +88,36 @@ const postsApi = {
       },
     );
   },
-  updatePostedInfo: (updatePost: any) => {
+  updatePostedInfo: async(updatePost: any,des:any,postId:any) => {
     const URL = `/v1/posts/inf`
+    const deleteRes:any = await axiosClientRecruiter.delete(`${V3}/api/v3/cvs-posts`,{data:{type: 1,postId:postId}})
 
-    return axiosClientRecruiter.put(URL, updatePost, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
-        ' Content-Type': 'multipart/form-data',
-      },
-    })
+    if(deleteRes?.statusCode === 200){
+      const res = await axiosClientRecruiter.put(URL, updatePost, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
+          ' Content-Type': 'multipart/form-data',
+        },
+      })
+      if(res){
+        const listCV = await axiosClientRecruiter.get(`${V3}/api/v3/cvs-posts/cvs?postId=${postId}`)
+        if(listCV){
+          const urlAI = 'https://train-django.onrender.com/aiFilterCV/'
+          const dataFilterCV = await axiosClientRecruiter.post(urlAI,{contentPost: des,listCV: listCV.data.data[0].cvs})
+        
+          if(dataFilterCV){
+            const urlMapLoad = `${V3}/api/v3/cvs-posts`
+            const dataUpdate = await axiosClientRecruiter.post(urlMapLoad,{data: dataFilterCV.data.map((dt:any)=>{
+              return{...dt,type:1,postId:postId}
+            })})
+            return {...dataUpdate,postId:postId,code:200}
+          } 
+        }
+        
+      }
+    }
+    return {code:403}
+   
   },
   createPost: async(newPost: any,des:any) => {
     // //console.log(des)
