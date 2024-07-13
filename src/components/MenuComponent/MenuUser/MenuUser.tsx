@@ -107,6 +107,7 @@ const MenuComponent = (props: Props) => {
   const { handleShortTextHome } = ShortText();
   const ref_btn_notify = useRef<any>();
   const ref_btn_profile = useRef<any>();
+  const [totalNotify, setTotalNotify] = useState<any>();
   let socket = useRef<any>();
   const ref_btn_menu = useRef<any>();
   const ref_menu = useRef<any>();
@@ -226,6 +227,16 @@ const MenuComponent = (props: Props) => {
     //console.log(profile);
     setProfileData(profile);
   }, [profile]);
+  const fetchDataOK = async () => {
+    const res = (await notificationApi.getNotification(
+      language === 1 ? "vi" : "en"
+    )) as unknown as INotification;
+
+    if (res && res.code === 200) {
+      setDataNotification(res.data.notifications);
+      setTotalNotify(res?.data?.total_is_not_read);
+    }
+  };
   useEffect(() => {
     const dataObj = JSON.parse(localStorage.getItem("dataRequest") || "{}");
     setDataRequest({ ...dataRequest, q: dataObj.q || "" });
@@ -236,6 +247,7 @@ const MenuComponent = (props: Props) => {
 
       if (res && res.code === 200) {
         setDataNotification(res.data.notifications);
+        setTotalNotify(res?.data?.total_is_not_read);
       }
     };
 
@@ -284,6 +296,7 @@ const MenuComponent = (props: Props) => {
       router.push(`/post-detail/${postId}`);
     }
     await historyRecruiter.updateNotification(notificateId, 1, typeText);
+    await fetchDataOK();
   };
 
   const handleRedirect = () => {
@@ -634,14 +647,11 @@ const MenuComponent = (props: Props) => {
                           }`}
                           fontSize="1.5em"
                         />
-                        {dataNotification &&
-                          dataNotification?.total_is_not_read !== 0 && (
-                            <div className="flex justify-center items-center w-5 h-5 absolute bottom-full right-0 bg-red-500 text-xs rounded-full translate-y-2">
-                              <p className="text-white">
-                                {dataNotification?.total_is_not_read}
-                              </p>
-                            </div>
-                          )}
+                        {totalNotify !== 0 && totalNotify !== undefined && (
+                          <div className="flex justify-center items-center w-5 h-5 absolute bottom-full right-0 bg-red-500 text-xs rounded-full translate-y-2">
+                            <p className="text-white">{totalNotify}</p>
+                          </div>
+                        )}
                         <div
                           className={`flex flex-col gap-y-4 absolute text-black ${
                             selectionMenu === 1
@@ -722,15 +732,6 @@ const MenuComponent = (props: Props) => {
                           }`}
                           fontSize="1.5em"
                         />
-                        {/* <div
-                          className={`flex flex-col gap-y-4 absolute  pointer-events-none ${
-                            selectionMenu === 2
-                              ? "h-fit opacity-100"
-                              : "opacity-0"
-                          } top-full transition-all translate-y-2 right-0 w-96 overflow-hidden duration-300 px-4 py-6 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]`}
-                        >
-                          Chat
-                        </div> */}
                       </div>
                       <div
                         className={`rounded-full p-2 cursor-pointer transition-all text-black bg-black duration-300 relative  ${
@@ -771,7 +772,7 @@ const MenuComponent = (props: Props) => {
                                 {handleShortTextHome(profile?.email, 12)}
                               </p>
                               <div
-                                className="flex gap-1 text-xs items-center font-semibold"
+                                className="flex gap-1 text-xs items-center font-semibold text-black"
                                 onClick={(e: any) => {
                                   e.stopPropagation();
                                 }}
@@ -959,7 +960,7 @@ const MenuComponent = (props: Props) => {
                               {profile?.name}
                             </p>
                             <div
-                              className="flex gap-1 text-xs items-center font-semibold"
+                              className="flex gap-1 text-xs items-center font-semibold text-black"
                               onClick={(e: any) => {
                                 e.stopPropagation();
                               }}
@@ -994,6 +995,124 @@ const MenuComponent = (props: Props) => {
                                 />
                               )}
                             </div>
+                            {Object.keys(profile).length > 0 && (
+                              <div className="flex-1 flex items-center gap-2">
+                                <div
+                                  className={`rounded-full p-2 bg-black cursor-pointer  ${
+                                    selectionMenu === 1
+                                      ? ""
+                                      : "hover:bg-gray-700"
+                                  }`}
+                                  onClick={() => {
+                                    if (selectionMenu === 1) {
+                                      setSelectionMenu(0);
+                                    } else setSelectionMenu(1);
+                                  }}
+                                >
+                                  <IoMdNotifications
+                                    color={` ${
+                                      selectionMenu === 1 ? "#2563eb" : "white"
+                                    }`}
+                                    fontSize="1.5em"
+                                  />
+                                  <div className="w-full h-full relative">
+                                    {totalNotify !== 0 &&
+                                      totalNotify !== undefined && (
+                                        <div className="flex justify-center items-center w-5 h-5 absolute bottom-full right-0 bg-red-500 text-xs rounded-full translate-y-2">
+                                          <p className="text-white">
+                                            {totalNotify}
+                                          </p>
+                                        </div>
+                                      )}
+                                  </div>
+
+                                  <div
+                                    className={`flex flex-col gap-y-4 absolute text-black ${
+                                      selectionMenu === 1
+                                        ? "h-fit opacity-100"
+                                        : "opacity-0 invisible"
+                                    } top-[206px] transition-all max-h-64 translate-y-2 inset-x-1 overflow-hidden duration-300 px-4 py-6 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] z-50`}
+                                    onClick={(e: any) => {
+                                      e.stopPropagation();
+                                    }}
+                                  >
+                                    <div className="max-h-full overflow-y-scroll flex flex-col gap-4">
+                                      {dataNotification &&
+                                        dataNotification?.map(
+                                          (notificate: any, index: number) => {
+                                            return (
+                                              <div
+                                                key={index}
+                                                className={`wrap-notificate_system ${
+                                                  notificate.data.isRead ===
+                                                  false
+                                                    ? `bg-orange-100`
+                                                    : ""
+                                                }`}
+                                                onClick={() => {
+                                                  handleClickNoty(
+                                                    notificate.data.postId,
+                                                    notificate.data
+                                                      .communicationId,
+                                                    notificate.data
+                                                      .applicationId,
+                                                    notificate.data.typeText,
+                                                    notificate.data
+                                                      .notificationId
+                                                  );
+                                                }}
+                                              >
+                                                <h3>
+                                                  {notificate.content_app.title}
+                                                </h3>
+                                                <h5
+                                                  dangerouslySetInnerHTML={{
+                                                    __html:
+                                                      notificate.content_app
+                                                        .body,
+                                                  }}
+                                                />
+                                                <div className="wrap-time">
+                                                  <p>
+                                                    {new Date(
+                                                      notificate.data.createdAt
+                                                    ).toLocaleTimeString([], {
+                                                      hour: "2-digit",
+                                                      minute: "2-digit",
+                                                    })}
+                                                  </p>
+                                                  <p>
+                                                    {new Date(
+                                                      notificate.data.createdAt
+                                                    ).toLocaleDateString(
+                                                      "en-GB"
+                                                    )}
+                                                  </p>
+                                                </div>
+                                              </div>
+                                            );
+                                          }
+                                        )}
+                                      {dataNotification === undefined && (
+                                        <div>Chưa có thông báo</div>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  className={`rounded-full p-2 bg-black cursor-pointer relative w-fit`}
+                                  onClick={() => {
+                                    setOnMenuAll(false);
+                                    router.push("/chat");
+                                  }}
+                                >
+                                  <AiFillMessage
+                                    color={"white"}
+                                    fontSize="1.5em"
+                                  />
+                                </div>
+                              </div>
+                            )}
                           </div>
                         </div>
                         <div
@@ -1007,15 +1126,18 @@ const MenuComponent = (props: Props) => {
                           className="font-extrabold px-4 text-blue-600 hover:text-red-500 uppercase"
                           onClick={() => {
                             router.push("/recruiter");
+                            setSelectionMenu(0);
                           }}
                         >
                           Nhà tuyển dụng
                         </button>
+
                         <div className={` flex flex-col `}>
                           <div className="hover:bg-gray-50 overflow-hidden">
                             <button
                               className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
                               onClick={() => {
+                                setSelectionMenu(0);
                                 if (tabMenuChoose === 1) {
                                   setTabMenuChoose(0);
                                 } else {
@@ -1035,6 +1157,7 @@ const MenuComponent = (props: Props) => {
                               <button
                                 className="py-2 hover:text-blue-500"
                                 onClick={() => {
+                                  setSelectionMenu(0);
                                   setOnMenuAll(false);
                                   if (checkPage === "/") {
                                     positionScrollJob[0].scrollIntoView({
@@ -1051,6 +1174,7 @@ const MenuComponent = (props: Props) => {
                               <button
                                 className="py-2 hover:text-blue-500"
                                 onClick={() => {
+                                  setSelectionMenu(0);
                                   setOnMenuAll(false);
                                   if (checkPage === "/") {
                                     positionScrollJob[1].scrollIntoView({
@@ -1067,6 +1191,7 @@ const MenuComponent = (props: Props) => {
                               <button
                                 className="py-2 hover:text-blue-500"
                                 onClick={() => {
+                                  setSelectionMenu(0);
                                   setOnMenuAll(false);
                                   if (checkPage === "/") {
                                     positionScrollJob[2].scrollIntoView({
@@ -1083,6 +1208,7 @@ const MenuComponent = (props: Props) => {
                               <button
                                 className="py-2 hover:text-blue-500"
                                 onClick={() => {
+                                  setSelectionMenu(0);
                                   setOnMenuAll(false);
                                   setSelectItemProfileUser(2);
                                   setSelectProfileUser(4);
@@ -1095,6 +1221,7 @@ const MenuComponent = (props: Props) => {
                               <button
                                 className="py-2 hover:text-blue-500"
                                 onClick={() => {
+                                  setSelectionMenu(0);
                                   setOnMenuAll(false);
 
                                   router.push("/search-map");
@@ -1108,6 +1235,7 @@ const MenuComponent = (props: Props) => {
                             <button
                               className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
                               onClick={() => {
+                                setSelectionMenu(0);
                                 if (tabMenuChoose === 2) {
                                   setTabMenuChoose(0);
                                 } else {
@@ -1127,6 +1255,7 @@ const MenuComponent = (props: Props) => {
                               <button
                                 className="py-2 hover:text-blue-500"
                                 onClick={() => {
+                                  setSelectionMenu(0);
                                   setOnMenuAll(false);
                                   if (checkPage === "/") {
                                     window.scrollTo({
@@ -1144,6 +1273,7 @@ const MenuComponent = (props: Props) => {
                               <button
                                 className="py-2 hover:text-blue-500"
                                 onClick={() => {
+                                  setSelectionMenu(0);
                                   setOnMenuAll(false);
                                   router.push("/company-all");
                                   setCheckPage("/company-all");
@@ -1157,6 +1287,7 @@ const MenuComponent = (props: Props) => {
                             <button
                               className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
                               onClick={() => {
+                                setSelectionMenu(0);
                                 if (tabMenuChoose === 3) {
                                   setTabMenuChoose(0);
                                 } else {
@@ -1176,6 +1307,7 @@ const MenuComponent = (props: Props) => {
                               <button
                                 className="py-2 hover:text-blue-500"
                                 onClick={() => {
+                                  setSelectionMenu(0);
                                   setOnMenuAll(false);
                                   router.push("/blog");
                                   setCheckPage("/blog");
@@ -1186,6 +1318,7 @@ const MenuComponent = (props: Props) => {
                               <button
                                 className="py-2 hover:text-blue-500"
                                 onClick={() => {
+                                  setSelectionMenu(0);
                                   setOnMenuAll(false);
                                   router.push("/community-create");
                                   setCheckPage("/community-create");
@@ -1199,6 +1332,7 @@ const MenuComponent = (props: Props) => {
                             <button
                               className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
                               onClick={() => {
+                                setSelectionMenu(0);
                                 if (tabMenuChoose === 4) {
                                   setTabMenuChoose(0);
                                 } else {
@@ -1218,6 +1352,7 @@ const MenuComponent = (props: Props) => {
                               <button
                                 className="py-2 hover:text-blue-500"
                                 onClick={() => {
+                                  setSelectionMenu(0);
                                   setOnMenuAll(false);
                                   if (profile) {
                                     router.push("/manage-cv");
@@ -1232,6 +1367,7 @@ const MenuComponent = (props: Props) => {
                               <button
                                 className="py-2 hover:text-blue-500"
                                 onClick={() => {
+                                  setSelectionMenu(0);
                                   setOnMenuAll(false);
                                   router.push("/cv-all");
                                 }}
@@ -1245,6 +1381,7 @@ const MenuComponent = (props: Props) => {
                               <button
                                 className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
                                 onClick={() => {
+                                  setSelectionMenu(0);
                                   if (tabMenuChoose === 5) {
                                     setTabMenuChoose(0);
                                   } else {
@@ -1264,6 +1401,7 @@ const MenuComponent = (props: Props) => {
                                 <button
                                   className="py-2 hover:text-blue-500"
                                   onClick={() => {
+                                    setSelectionMenu(0);
                                     setOnMenuAll(false);
                                     setSelectProfileUser(1);
                                     if (checkPage !== "/profile")
@@ -1275,6 +1413,7 @@ const MenuComponent = (props: Props) => {
                                 <button
                                   className="py-2 hover:text-blue-500"
                                   onClick={() => {
+                                    setSelectionMenu(0);
                                     setOnMenuAll(false);
                                     setSelectProfileUser(2);
                                     if (checkPage !== "/profile")
@@ -1286,6 +1425,7 @@ const MenuComponent = (props: Props) => {
                                 <button
                                   className="py-2 hover:text-blue-500"
                                   onClick={() => {
+                                    setSelectionMenu(0);
                                     setOnMenuAll(false);
                                     setSelectProfileUser(3);
                                     if (checkPage !== "/profile")
@@ -1297,6 +1437,7 @@ const MenuComponent = (props: Props) => {
                                 <button
                                   className="py-2 hover:text-blue-500"
                                   onClick={() => {
+                                    setSelectionMenu(0);
                                     setOnMenuAll(false);
                                     setSelectProfileUser(4);
                                     if (checkPage !== "/profile")
@@ -1308,6 +1449,7 @@ const MenuComponent = (props: Props) => {
                                 <button
                                   className="py-2 hover:text-blue-500"
                                   onClick={() => {
+                                    setSelectionMenu(0);
                                     setOnMenuAll(false);
                                     setSelectProfileUser(5);
                                     if (checkPage !== "/profile")
@@ -1319,6 +1461,7 @@ const MenuComponent = (props: Props) => {
                                 <button
                                   className="py-2 hover:text-blue-500"
                                   onClick={() => {
+                                    setSelectionMenu(0);
                                     signOutUser();
                                   }}
                                 >

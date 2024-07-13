@@ -432,7 +432,7 @@ const ChatRoll: React.FC = () => {
                   >
                     Trò chuyện với AI
                   </button>
-                  <button
+                  {/* <button
                     className="p-2 rounded-md border-blue-700 w-full flex justify-center break-words text-wrap text-black/70 text-sm font-semibold border-[1px] hover:text-white hover:bg-blue-700"
                     onClick={() => {
                       setTabChoose(2);
@@ -448,7 +448,7 @@ const ChatRoll: React.FC = () => {
                     }}
                   >
                     Khảo sát công việc phù hợp với bạn
-                  </button>
+                  </button> */}
                 </div>
               )}
 

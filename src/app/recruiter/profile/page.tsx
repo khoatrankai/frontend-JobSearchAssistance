@@ -26,6 +26,8 @@ import RechargePrice from "@/components/ProfileComponent/RecruiterProfile/Rechar
 import PackageService from "@/components/ProfileComponent/RecruiterProfile/PackageService/PackageService";
 import AvatarRecruiterProfile from "@/components/ProfileComponent/AvatarRecruiterProfile/AvatarProfile";
 import ShortText from "@/util/ShortText";
+import CompanyBanner from "@/components/ProfileComponent/RecruiterProfile/CompanyBanner/CompanyBanner";
+import { PiFlagBannerFill } from "react-icons/pi";
 
 type Props = {};
 
@@ -50,7 +52,7 @@ const page = (props: Props) => {
   const { handleLoadHrefPage } = useSrollContext();
   //   const [resizePage, setResizePage] = useState<boolean>(false);
   const [menuProfile, setMenuProfile] = useState<boolean>(false);
-  const [selectionMenu, setSelectionMenu] = useState<number>(6);
+  const [selectionMenu, setSelectionMenu] = useState<number>(2);
   const handleUpdateApi = () => {
     dispatch(fetchProfileRecruiter("vi") as any);
   };
@@ -170,37 +172,41 @@ const page = (props: Props) => {
             <div
               className={`flex flex-col items-center gap-y-3 w-full justify-center `}
             >
-              <div
-                className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
-                  selectionMenu === 1
-                    ? "border-blue-500 bg-blue-200"
-                    : "bg-white"
-                } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
-                  reponsiveMobile < 1152
-                    ? `justify-center ${
-                        menuProfile
-                          ? ""
-                          : "hidden -top-20 opacity-0 invisible -z-10"
-                      }`
-                    : "pl-6 hover:text-white"
-                }`}
-                onClick={() => {
-                  setSelectionMenu(1);
-                  setSelectProfileRecruiter(1);
-                  setMenuProfile(false);
-                }}
-              >
-                <AiFillDashboard />
-                <p
-                  className={`${
-                    reponsiveMobile < 1152
-                      ? "absolute left-full text-white translate-x-5 text-nowrap"
-                      : ""
-                  }   `}
-                >
-                  Tổng quan
-                </p>
-              </div>
+              {dataProfile &&
+                dataProfile?.companyInfomation?.isActive === 1 && (
+                  <div
+                    className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
+                      selectionMenu === 1
+                        ? "border-blue-500 bg-blue-200"
+                        : "bg-white"
+                    } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
+                      reponsiveMobile < 1152
+                        ? `justify-center ${
+                            menuProfile
+                              ? ""
+                              : "hidden -top-20 opacity-0 invisible -z-10"
+                          }`
+                        : "pl-6 hover:text-white"
+                    }`}
+                    onClick={() => {
+                      setSelectionMenu(1);
+                      setSelectProfileRecruiter(1);
+                      setMenuProfile(false);
+                    }}
+                  >
+                    <AiFillDashboard />
+                    <p
+                      className={`${
+                        reponsiveMobile < 1152
+                          ? "absolute left-full text-white translate-x-5 text-nowrap"
+                          : ""
+                      }   `}
+                    >
+                      Tổng quan
+                    </p>
+                  </div>
+                )}
+
               <div
                 className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
                   selectionMenu === 2
@@ -231,36 +237,40 @@ const page = (props: Props) => {
                   Thông tin công ty
                 </p>
               </div>
-              <div
-                className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
-                  selectionMenu === 3
-                    ? "border-blue-500 bg-blue-200"
-                    : "bg-white"
-                } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
-                  reponsiveMobile < 1152
-                    ? `justify-center ${
-                        menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
-                      }`
-                    : "pl-6 hover:text-white"
-                }`}
-                onClick={() => {
-                  setSelectionMenu(3);
-                  setSelectProfileRecruiter(3);
+              {dataProfile &&
+                dataProfile?.companyInfomation?.isActive === 1 && (
+                  <div
+                    className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
+                      selectionMenu === 3
+                        ? "border-blue-500 bg-blue-200"
+                        : "bg-white"
+                    } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
+                      reponsiveMobile < 1152
+                        ? `justify-center ${
+                            menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
+                          }`
+                        : "pl-6 hover:text-white"
+                    }`}
+                    onClick={() => {
+                      setSelectionMenu(3);
+                      setSelectProfileRecruiter(3);
 
-                  setMenuProfile(false);
-                }}
-              >
-                <FaBuilding />
-                <p
-                  className={`${
-                    reponsiveMobile < 1152
-                      ? "absolute left-full text-white translate-x-5 text-nowrap"
-                      : ""
-                  }   `}
-                >
-                  Hồ sơ tuyển dụng
-                </p>
-              </div>
+                      setMenuProfile(false);
+                    }}
+                  >
+                    <FaBuilding />
+                    <p
+                      className={`${
+                        reponsiveMobile < 1152
+                          ? "absolute left-full text-white translate-x-5 text-nowrap"
+                          : ""
+                      }   `}
+                    >
+                      Hồ sơ tuyển dụng
+                    </p>
+                  </div>
+                )}
+
               {dataProfile &&
                 (dataProfile?.companyInfomation?.isActive ||
                   dataProfile?.isV1 ||
@@ -298,97 +308,108 @@ const page = (props: Props) => {
                     </p>
                   </div>
                 )}
+              {dataProfile &&
+                dataProfile?.companyInfomation?.isActive === 1 && (
+                  <>
+                    <div
+                      className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
+                        selectionMenu === 5
+                          ? "border-blue-500 bg-blue-200"
+                          : "bg-white"
+                      } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
+                        reponsiveMobile < 1152
+                          ? `justify-center ${
+                              menuProfile
+                                ? ""
+                                : "hidden -top-20 opacity-0 -z-10"
+                            }`
+                          : "pl-6 hover:text-white"
+                      }`}
+                      onClick={() => {
+                        setSelectionMenu(5);
+                        setSelectProfileRecruiter(5);
 
-              <div
-                className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
-                  selectionMenu === 5
-                    ? "border-blue-500 bg-blue-200"
-                    : "bg-white"
-                } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
-                  reponsiveMobile < 1152
-                    ? `justify-center ${
-                        menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
-                      }`
-                    : "pl-6 hover:text-white"
-                }`}
-                onClick={() => {
-                  setSelectionMenu(5);
-                  setSelectProfileRecruiter(5);
+                        setMenuProfile(false);
+                      }}
+                    >
+                      <FaListCheck />
+                      <p
+                        className={`${
+                          reponsiveMobile < 1152
+                            ? "absolute left-full text-white translate-x-5 text-nowrap"
+                            : ""
+                        }   `}
+                      >
+                        Danh sách bài viết
+                      </p>
+                    </div>
+                    <div
+                      className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
+                        selectionMenu === 6
+                          ? "border-blue-500 bg-blue-200"
+                          : "bg-white"
+                      } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
+                        reponsiveMobile < 1152
+                          ? `justify-center ${
+                              menuProfile
+                                ? ""
+                                : "hidden -top-20 opacity-0 -z-10"
+                            }`
+                          : "pl-6 hover:text-white"
+                      }`}
+                      onClick={() => {
+                        setSelectionMenu(6);
+                        setSelectProfileRecruiter(6);
 
-                  setMenuProfile(false);
-                }}
-              >
-                <FaListCheck />
-                <p
-                  className={`${
-                    reponsiveMobile < 1152
-                      ? "absolute left-full text-white translate-x-5 text-nowrap"
-                      : ""
-                  }   `}
-                >
-                  Danh sách bài viết
-                </p>
-              </div>
-              <div
-                className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
-                  selectionMenu === 6
-                    ? "border-blue-500 bg-blue-200"
-                    : "bg-white"
-                } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
-                  reponsiveMobile < 1152
-                    ? `justify-center ${
-                        menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
-                      }`
-                    : "pl-6 hover:text-white"
-                }`}
-                onClick={() => {
-                  setSelectionMenu(6);
-                  setSelectProfileRecruiter(6);
+                        setMenuProfile(false);
+                      }}
+                    >
+                      <RiMoneyDollarCircleFill />
+                      <p
+                        className={`${
+                          reponsiveMobile < 1152
+                            ? "absolute left-full text-white translate-x-5 text-nowrap"
+                            : ""
+                        }   `}
+                      >
+                        Nạp tiền
+                      </p>
+                    </div>
+                    <div
+                      className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
+                        selectionMenu === 7
+                          ? "border-blue-500 bg-blue-200"
+                          : "bg-white"
+                      } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
+                        reponsiveMobile < 1152
+                          ? `justify-center ${
+                              menuProfile
+                                ? ""
+                                : "hidden -top-20 opacity-0 -z-10"
+                            }`
+                          : "pl-6 hover:text-white"
+                      }`}
+                      onClick={() => {
+                        setSelectionMenu(7);
+                        setSelectProfileRecruiter(7);
 
-                  setMenuProfile(false);
-                }}
-              >
-                <RiMoneyDollarCircleFill />
-                <p
-                  className={`${
-                    reponsiveMobile < 1152
-                      ? "absolute left-full text-white translate-x-5 text-nowrap"
-                      : ""
-                  }   `}
-                >
-                  Nạp tiền
-                </p>
-              </div>
-              <div
-                className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
-                  selectionMenu === 7
-                    ? "border-blue-500 bg-blue-200"
-                    : "bg-white"
-                } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
-                  reponsiveMobile < 1152
-                    ? `justify-center ${
-                        menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
-                      }`
-                    : "pl-6 hover:text-white"
-                }`}
-                onClick={() => {
-                  setSelectionMenu(7);
-                  setSelectProfileRecruiter(7);
+                        setMenuProfile(false);
+                      }}
+                    >
+                      <MdOutlineManageHistory />
+                      <p
+                        className={`${
+                          reponsiveMobile < 1152
+                            ? "absolute left-full text-white translate-x-5 text-nowrap"
+                            : ""
+                        }   `}
+                      >
+                        Dịch vụ
+                      </p>
+                    </div>
+                  </>
+                )}
 
-                  setMenuProfile(false);
-                }}
-              >
-                <MdOutlineManageHistory />
-                <p
-                  className={`${
-                    reponsiveMobile < 1152
-                      ? "absolute left-full text-white translate-x-5 text-nowrap"
-                      : ""
-                  }   `}
-                >
-                  Dịch vụ
-                </p>
-              </div>
               <div
                 className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
                   selectionMenu === 8
@@ -419,6 +440,37 @@ const page = (props: Props) => {
                   Quản lý tài khoản
                 </p>
               </div>
+              {dataProfile?.isV1 === true && (
+                <div
+                  className={` w-full hover:font-semibold relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px] ${
+                    selectionMenu === 8
+                      ? "border-blue-500 bg-blue-200"
+                      : "bg-white"
+                  } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
+                    reponsiveMobile < 1152
+                      ? `justify-center ${
+                          menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
+                        }`
+                      : "pl-6 hover:text-white"
+                  }`}
+                  onClick={() => {
+                    setSelectionMenu(9);
+                    setSelectProfileRecruiter(9);
+                    setMenuProfile(false);
+                  }}
+                >
+                  <PiFlagBannerFill />
+                  <p
+                    className={`${
+                      reponsiveMobile < 1152
+                        ? "absolute left-full text-white translate-x-5 text-nowrap"
+                        : ""
+                    }   `}
+                  >
+                    Quản lý Banner
+                  </p>
+                </div>
+              )}
             </div>
           </div>
           <div
@@ -443,6 +495,7 @@ const page = (props: Props) => {
             {selectionMenu === 7 && <PackageService />}
 
             {selectionMenu === 8 && <SettingProfile />}
+            {selectionMenu === 9 && <CompanyBanner />}
           </div>
         </div>
         {menuProfile && (

@@ -11,7 +11,7 @@ const Page = () => {
         <div
           className="bg-icon cursor-pointer"
           onClick={() => {
-            router.push("/");
+            router.push("/recruiter");
           }}
         >
           <IoIosArrowBack color="#2463EB" />

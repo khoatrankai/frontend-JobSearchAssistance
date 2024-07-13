@@ -99,7 +99,14 @@ const BannerNewComponent = ({ children, setBannerHome }: Props) => {
                       className="h-10 w-full max-w-96 flex items-center"
                       key={index}
                     >
-                      {dt.name}
+                      {handleShortTextHome(
+                        dt.name,
+                        reponsiveMobile < 400
+                          ? 10
+                          : reponsiveMobile < 800
+                          ? 15
+                          : 20
+                      )}
                     </p>
                   );
               })}
@@ -118,7 +125,14 @@ const BannerNewComponent = ({ children, setBannerHome }: Props) => {
                 if (index < dataCompany?.length)
                   return (
                     <p className="h-36 w-full max-w-96 pt-2 " key={index}>
-                      {handleShortTextHome(dt.description, 45)}
+                      {handleShortTextHome(
+                        dt.description,
+                        reponsiveMobile < 400
+                          ? 20
+                          : reponsiveMobile < 800
+                          ? 35
+                          : 45
+                      )}
                     </p>
                   );
               })}
@@ -157,11 +171,7 @@ const BannerNewComponent = ({ children, setBannerHome }: Props) => {
                     dataBgHome === index
                       ? ""
                       : "  hover:border-blue-500 hover:bg-black/50 opacity-10"
-                  } ${
-                    reponsiveMobile < 1200 && dataBgHome !== index
-                      ? "hidden"
-                      : ""
-                  }`}
+                  } ${reponsiveMobile < 1200 ? "hidden" : ""}`}
                   onClick={() => {
                     setBgHome(index);
                   }}

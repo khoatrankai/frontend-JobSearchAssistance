@@ -100,7 +100,7 @@ export const ScrollContext = ({ children }: { children: ReactNode }) => {
   const [reponsiveMobile, setReponsiveMobile] = useState<number>(0);
   const [positionScrollJob, setPositionScrollJob] = useState<any>([]);
   const [selectProfileUser, setSelectProfileUser] = useState<any>(1);
-  const [selectProfileRecruiter, setSelectProfileRecruiter] = useState<any>(1);
+  const [selectProfileRecruiter, setSelectProfileRecruiter] = useState<any>(2);
   const [selectItemProfileUser, setSelectItemProfileUser] = useState<any>(1);
   const [selectItemProfileRecruiter, setSelectItemProfileRecruiter] =
     useState<any>(1);

@@ -12,6 +12,7 @@ import {
   MdContactSupport,
   MdEditDocument,
   MdNewReleases,
+  MdOutlineManageHistory,
   MdWork,
 } from "react-icons/md";
 import { FaBuilding, FaHeart, FaUser, FaUserTie } from "react-icons/fa";
@@ -31,6 +32,7 @@ import { FaListCheck } from "react-icons/fa6";
 import CookieCustom from "@/util/CookieCustom";
 import ModalBG from "@/util/ModalBG/ModalBG";
 import ShowActiveRecruiter from "@/components/ShowActiveRecruiter/ShowActiveRecruiter";
+import { PiFlagBannerFill } from "react-icons/pi";
 
 type Props = {};
 interface INotification {
@@ -45,6 +47,7 @@ const MenuRecruiter = (props: Props) => {
     setTabAlertCatalog,
     setSelectItemProfileRecruiter,
     setIdPostNotify,
+    positionScrollJob,
   } = useSrollContext();
   const [selectionMenu, setSelectionMenu] = useState<number>(0);
   const [dataNotification, setDataNotification] = useState<any>([]);
@@ -95,10 +98,20 @@ const MenuRecruiter = (props: Props) => {
       1,
       typeText
     );
+    await fetchDataOK();
   };
   useEffect(() => {
     dispatch(fetchProfileRecruiter("vi") as any);
   }, []);
+  const fetchDataOK = async () => {
+    const res = (await notificationApi.getNotificationRecruiter(
+      "vi"
+    )) as unknown as INotification;
+
+    if (res && res.code === 200) {
+      setDataNotification(res.data);
+    }
+  };
   useEffect(() => {
     const dataObj = JSON.parse(localStorage.getItem("dataRequest") || "{}");
 
@@ -108,7 +121,6 @@ const MenuRecruiter = (props: Props) => {
       )) as unknown as INotification;
 
       if (res && res.code === 200) {
-        //console.log(res);
         setDataNotification(res.data);
       }
     };
@@ -153,7 +165,14 @@ const MenuRecruiter = (props: Props) => {
                 <div
                   className="cursor-pointer"
                   onClick={() => {
-                    router.push("/recruiter");
+                    if (checkPage === "/recruiter") {
+                      positionScrollJob[0]?.scrollIntoView({
+                        behavior: "smooth",
+                      });
+                    } else {
+                      router.push("/recruiter");
+                    }
+                    setSelectionMenu(0);
                   }}
                 >
                   Dịch vụ
@@ -370,17 +389,21 @@ const MenuRecruiter = (props: Props) => {
                         </div>
                       </div>
                       <div className="flex flex-col gap-y-2">
-                        <div
-                          className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
-                          onClick={() => {
-                            setSelectProfileRecruiter(1);
-                            if (checkPage !== "/recruiter/profile")
-                              router.push("/recruiter/profile");
-                          }}
-                        >
-                          <AiFillDashboard />
-                          <p className="ml-2">Tổng quan</p>
-                        </div>
+                        {profile &&
+                          profile?.companyInfomation?.isActive === 1 && (
+                            <div
+                              className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
+                              onClick={() => {
+                                setSelectProfileRecruiter(1);
+                                if (checkPage !== "/recruiter/profile")
+                                  router.push("/recruiter/profile");
+                              }}
+                            >
+                              <AiFillDashboard />
+                              <p className="ml-2">Tổng quan</p>
+                            </div>
+                          )}
+
                         <div
                           className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
                           onClick={() => {
@@ -392,19 +415,27 @@ const MenuRecruiter = (props: Props) => {
                           <MdEditDocument />
                           <p className="ml-2">Thông tin công ty</p>
                         </div>
-                        <div
-                          className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
-                          onClick={() => {
-                            setSelectProfileRecruiter(3);
-                            if (checkPage !== "/recruiter/profile")
-                              router.push("/recruiter/profile");
-                          }}
-                        >
-                          <FaBuilding />
-                          <p className="ml-2">Hồ sơ tuyển dụng</p>
-                        </div>
                         {profile &&
                           profile?.companyInfomation?.isActive === 1 && (
+                            <div
+                              className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
+                              onClick={() => {
+                                setSelectProfileRecruiter(3);
+                                if (checkPage !== "/recruiter/profile")
+                                  router.push("/recruiter/profile");
+                              }}
+                            >
+                              <FaBuilding />
+                              <p className="ml-2">Hồ sơ tuyển dụng</p>
+                            </div>
+                          )}
+
+                        {profile &&
+                          profile?.companyInfomation?.isActive === 1 &&
+                          (profile?.isV1 ||
+                            profile?.isV2 ||
+                            profile?.isV3 ||
+                            profile?.isV4) && (
                             <div
                               className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
                               onClick={() => {
@@ -417,33 +448,49 @@ const MenuRecruiter = (props: Props) => {
                               <p className="ml-2">Ứng viên tiềm năng</p>
                             </div>
                           )}
+                        {profile &&
+                          profile?.companyInfomation?.isActive === 1 && (
+                            <>
+                              <div
+                                className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
+                                onClick={() => {
+                                  setSelectProfileRecruiter(5);
+                                  if (checkPage !== "/recruiter/profile")
+                                    router.push("/recruiter/profile");
+                                }}
+                              >
+                                <FaListCheck />
+                                <p className="ml-2">Danh sách bài viết</p>
+                              </div>
+                              <div
+                                className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
+                                onClick={() => {
+                                  setSelectProfileRecruiter(6);
+                                  if (checkPage !== "/recruiter/profile")
+                                    router.push("/recruiter/profile");
+                                }}
+                              >
+                                <RiMoneyDollarCircleFill />
+                                <p className="ml-2">Nạp tiền</p>
+                              </div>
+                              <div
+                                className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
+                                onClick={() => {
+                                  setSelectProfileRecruiter(7);
+                                  if (checkPage !== "/recruiter/profile")
+                                    router.push("/recruiter/profile");
+                                }}
+                              >
+                                <MdOutlineManageHistory />
+                                <p className="ml-2">Dịch vụ</p>
+                              </div>
+                            </>
+                          )}
 
                         <div
                           className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
                           onClick={() => {
-                            setSelectProfileRecruiter(5);
-                            if (checkPage !== "/recruiter/profile")
-                              router.push("/recruiter/profile");
-                          }}
-                        >
-                          <FaListCheck />
-                          <p className="ml-2">Danh sách bài viết</p>
-                        </div>
-                        <div
-                          className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
-                          onClick={() => {
-                            setSelectProfileRecruiter(6);
-                            if (checkPage !== "/recruiter/profile")
-                              router.push("/recruiter/profile");
-                          }}
-                        >
-                          <RiMoneyDollarCircleFill />
-                          <p className="ml-2">Nạp tiền</p>
-                        </div>
-                        <div
-                          className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
-                          onClick={() => {
-                            setSelectProfileRecruiter(7);
+                            setSelectProfileRecruiter(8);
                             if (checkPage !== "/recruiter/profile")
                               router.push("/recruiter/profile");
                           }}
@@ -451,6 +498,20 @@ const MenuRecruiter = (props: Props) => {
                           <IoMdSettings />
                           <p className="ml-2">Quản lý tài khoản</p>
                         </div>
+                        {profile?.isV1 === true && (
+                          <div
+                            className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
+                            onClick={() => {
+                              setSelectProfileRecruiter(9);
+                              if (checkPage !== "/recruiter/profile")
+                                router.push("/recruiter/profile");
+                            }}
+                          >
+                            <PiFlagBannerFill />
+                            <p className="ml-2">Quản lý Banner</p>
+                          </div>
+                        )}
+
                         <div
                           className="flex items-center py-2 pl-4 transition-all duration-300 w-full border-2 hover:border-blue-600 border-transparent hover:font-semibold hover:bg-blue-100 rounded-lg pointer-events-auto"
                           onClick={() => {
@@ -475,6 +536,7 @@ const MenuRecruiter = (props: Props) => {
                   } p-2 bg-black cursor-pointer relative z-[50] hover:bg-blue-500`}
                   onClick={() => {
                     setOnMenuAll(!onMenuAll);
+                    setSelectionMenu(0);
                   }}
                 >
                   {!onMenuAll ? (
@@ -518,6 +580,111 @@ const MenuRecruiter = (props: Props) => {
                             {ChangeNumber(profile?.point, false, ",")}
                           </span>
                         </p>
+                        {Object.keys(profile).length > 0 && (
+                          <div className="flex-1 flex items-center gap-2">
+                            <div
+                              className={`rounded-full p-2 bg-black cursor-pointer  ${
+                                selectionMenu === 1 ? "" : "hover:bg-gray-700"
+                              }`}
+                              onClick={() => {
+                                if (selectionMenu === 1) {
+                                  setSelectionMenu(0);
+                                } else setSelectionMenu(1);
+                              }}
+                            >
+                              <IoMdNotifications
+                                color={` ${
+                                  selectionMenu === 1 ? "#2563eb" : "white"
+                                }`}
+                                fontSize="1.5em"
+                              />
+                              <div className="w-full h-full relative">
+                                {dataNotification.total_is_not_read > 0 && (
+                                  <div className="flex justify-center items-center w-5 h-5 absolute bottom-full right-0 bg-red-500 text-xs rounded-full translate-y-2">
+                                    <p className="text-white">
+                                      {dataNotification.total_is_not_read}
+                                    </p>
+                                  </div>
+                                )}
+                              </div>
+
+                              <div
+                                className={`flex flex-col gap-y-4 absolute text-black ${
+                                  selectionMenu === 1
+                                    ? "h-fit opacity-100"
+                                    : "opacity-0 invisible"
+                                } top-[206px] transition-all max-h-64 translate-y-2 inset-x-1 overflow-hidden duration-300 px-4 py-6 bg-white rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] z-50`}
+                                onClick={(e: any) => {
+                                  e.stopPropagation();
+                                }}
+                              >
+                                <div className="max-h-full overflow-y-scroll flex flex-col gap-4">
+                                  {dataNotification &&
+                                    dataNotification?.notifications?.map(
+                                      (notificate: any, index: number) => {
+                                        return (
+                                          <div
+                                            key={index}
+                                            className={`wrap-notificate_system ${
+                                              notificate.data.isRead === false
+                                                ? `bg-orange-100`
+                                                : ""
+                                            }`}
+                                            onClick={() => {
+                                              handleClickNoty(
+                                                notificate.data.postId,
+                                                notificate.data.communicationId,
+                                                notificate.data.applicationId,
+                                                notificate.data.typeText,
+                                                notificate.data.notificationId
+                                              );
+                                            }}
+                                          >
+                                            <h3>
+                                              {notificate.content_app.title}
+                                            </h3>
+                                            <h5
+                                              dangerouslySetInnerHTML={{
+                                                __html:
+                                                  notificate.content_app.body,
+                                              }}
+                                            />
+                                            <div className="wrap-time">
+                                              <p>
+                                                {new Date(
+                                                  notificate.data.createdAt
+                                                ).toLocaleTimeString([], {
+                                                  hour: "2-digit",
+                                                  minute: "2-digit",
+                                                })}
+                                              </p>
+                                              <p>
+                                                {new Date(
+                                                  notificate.data.createdAt
+                                                ).toLocaleDateString("en-GB")}
+                                              </p>
+                                            </div>
+                                          </div>
+                                        );
+                                      }
+                                    )}
+                                  {dataNotification === undefined && (
+                                    <div>Chưa có thông báo</div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              className={`rounded-full p-2 bg-black cursor-pointer relative w-fit`}
+                              onClick={() => {
+                                setOnMenuAll(false);
+                                router.push("/chat");
+                              }}
+                            >
+                              <AiFillMessage color={"white"} fontSize="1.5em" />
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className={` flex flex-col`}>
@@ -527,6 +694,7 @@ const MenuRecruiter = (props: Props) => {
                           onClick={() => {
                             router.push("/recruiter");
                             setOnMenuAll(false);
+                            setSelectionMenu(0);
                             // if (tabMenuChoose === 1) {
                             //   setTabMenuChoose(0);
                             // } else {
@@ -544,7 +712,7 @@ const MenuRecruiter = (props: Props) => {
                           onClick={() => {
                             router.push("/recruiter/product-catalog");
                             setOnMenuAll(false);
-
+                            setSelectionMenu(0);
                             // if (tabMenuChoose === 2) {
                             //   setTabMenuChoose(0);
                             // } else {
@@ -565,7 +733,14 @@ const MenuRecruiter = (props: Props) => {
                             // } else {
                             //   setTabMenuChoose(3);
                             // }
-                            router.push("/recruiter");
+                            if (checkPage === "/recruiter") {
+                              positionScrollJob[0]?.scrollIntoView({
+                                behavior: "smooth",
+                              });
+                            } else {
+                              router.push("/recruiter");
+                            }
+                            setSelectionMenu(0);
                             setOnMenuAll(false);
                           }}
                         >
@@ -583,6 +758,7 @@ const MenuRecruiter = (props: Props) => {
                             //   setTabMenuChoose(4);
                             // }
                             router.push("/recruiter/blog");
+                            setSelectionMenu(0);
                             setOnMenuAll(false);
                           }}
                         >
@@ -601,6 +777,7 @@ const MenuRecruiter = (props: Props) => {
                             // }
                             router.push("/recruiter/help-contact");
                             setOnMenuAll(false);
+                            setSelectionMenu(0);
                           }}
                         >
                           <MdContactSupport />
@@ -619,6 +796,7 @@ const MenuRecruiter = (props: Props) => {
                               // }
                               router.push("/recruiter/candidate");
                               setOnMenuAll(false);
+                              setSelectionMenu(0);
                             }}
                           >
                             <FaUserTie />
@@ -632,6 +810,7 @@ const MenuRecruiter = (props: Props) => {
                           <button
                             className="w-full h-16 text-lg font-semibold text-black flex gap-2 items-center justify-start px-5"
                             onClick={() => {
+                              setSelectionMenu(0);
                               if (tabMenuChoose === 5) {
                                 setTabMenuChoose(0);
                               } else {
@@ -651,6 +830,7 @@ const MenuRecruiter = (props: Props) => {
                             <button
                               className="py-2 hover:text-blue-500"
                               onClick={() => {
+                                setSelectionMenu(0);
                                 router.push("/recruiter/profile");
                                 setSelectProfileRecruiter(1);
                                 setOnMenuAll(false);
@@ -665,6 +845,7 @@ const MenuRecruiter = (props: Props) => {
 
                                 setSelectProfileRecruiter(2);
                                 setOnMenuAll(false);
+                                setSelectionMenu(0);
                               }}
                             >
                               Hồ sơ thông tin
@@ -674,6 +855,7 @@ const MenuRecruiter = (props: Props) => {
                               onClick={() => {
                                 setSelectProfileRecruiter(3);
                                 setOnMenuAll(false);
+                                setSelectionMenu(0);
                               }}
                             >
                               Hồ sơ tuyển dụng
@@ -684,7 +866,7 @@ const MenuRecruiter = (props: Props) => {
                                   className="py-2 hover:text-blue-500"
                                   onClick={() => {
                                     router.push("/recruiter/profile");
-
+                                    setSelectionMenu(0);
                                     setSelectProfileRecruiter(4);
                                     setOnMenuAll(false);
                                   }}
@@ -697,7 +879,7 @@ const MenuRecruiter = (props: Props) => {
                               className="py-2 hover:text-blue-500"
                               onClick={() => {
                                 router.push("/recruiter/profile");
-
+                                setSelectionMenu(0);
                                 setSelectProfileRecruiter(5);
                                 setOnMenuAll(false);
                               }}
@@ -708,7 +890,7 @@ const MenuRecruiter = (props: Props) => {
                               className="py-2 hover:text-blue-500"
                               onClick={() => {
                                 router.push("/recruiter/profile");
-
+                                setSelectionMenu(0);
                                 setSelectProfileRecruiter(6);
                                 setOnMenuAll(false);
                               }}
@@ -719,7 +901,7 @@ const MenuRecruiter = (props: Props) => {
                               className="py-2 hover:text-blue-500"
                               onClick={() => {
                                 router.push("/recruiter/profile");
-
+                                setSelectionMenu(0);
                                 setSelectProfileRecruiter(7);
                                 setOnMenuAll(false);
                               }}
@@ -730,6 +912,7 @@ const MenuRecruiter = (props: Props) => {
                               className="py-2 hover:text-blue-500"
                               onClick={() => {
                                 signOutRecruiter();
+                                setSelectionMenu(0);
                               }}
                             >
                               Đăng xuất

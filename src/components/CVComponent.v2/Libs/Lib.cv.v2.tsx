@@ -2952,6 +2952,9 @@ const LibCvV2 = (props: Props) => {
     }
   }, [reponsiveMobile]);
   useEffect(() => {
+    console.log(dataLoad);
+  }, [dataLoad]);
+  useEffect(() => {
     const handleCheckCvs = (cvs: any) => {
       let dataCvID = 0;
       if (profile.profilesCvs?.length > 0) {

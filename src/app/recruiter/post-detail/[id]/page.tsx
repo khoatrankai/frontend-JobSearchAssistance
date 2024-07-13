@@ -703,18 +703,20 @@ const page = (props: Props) => {
               </div>
               <div className="flex gap-x-2">
                 <p className="text-gray-400 text-nowrap">Địa điểm:</p>
-                <p className="text-sm">
-                  {handleShortTextHome(
-                    postDetail.address +
-                      "," +
-                      postDetail?.ward +
-                      "," +
-                      postDetail?.district +
-                      "," +
-                      postDetail?.province,
-                    40
-                  )}
-                </p>
+                {postDetail && postDetail?.address && (
+                  <p className="text-sm">
+                    {handleShortTextHome(
+                      postDetail.address +
+                        "," +
+                        postDetail?.ward +
+                        "," +
+                        postDetail?.district +
+                        "," +
+                        postDetail?.province,
+                      40
+                    )}
+                  </p>
+                )}
               </div>
             </div>
           </div>
