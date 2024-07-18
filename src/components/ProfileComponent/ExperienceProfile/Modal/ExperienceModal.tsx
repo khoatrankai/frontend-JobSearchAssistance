@@ -32,7 +32,7 @@ const ExperienceModal = (props: Props) => {
   const handleUpdateData = async () => {
     if (type === "add") {
       const res = (await axiosClient.put(
-        "https://imagination-trusted-joyce-techniques.trycloudflare.com/api/v1/profiles/exp/c",
+        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/exp/c",
         dataRequest
       )) as unknown as IResquest;
       if (res && res.code === 200) {
@@ -44,7 +44,7 @@ const ExperienceModal = (props: Props) => {
       }
     } else {
       const res = (await axiosClient.put(
-        "https://imagination-trusted-joyce-techniques.trycloudflare.com/api/v1/profiles/exp/u",
+        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/exp/u",
         dataRequest
       )) as unknown as IResquest;
       if (res && res.code === 200) {

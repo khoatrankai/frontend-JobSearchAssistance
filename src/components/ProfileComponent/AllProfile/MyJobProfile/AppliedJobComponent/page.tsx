@@ -134,7 +134,7 @@ function AppliedJobComponent() {
                       item.application_status !== 3 &&
                       item.application_status !== 4 && (
                         <div className="text-yellow-500 font-bold">
-                          {languageRedux === 1 ? "Hết hạn" : "Expired"}
+                          {languageRedux === 1 ? "Đã xem" : "See"}
                         </div>
                       )}
                   </div>

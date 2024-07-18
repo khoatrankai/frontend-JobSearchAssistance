@@ -44,7 +44,7 @@ const PositionPost = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        "https://imagination-trusted-joyce-techniques.trycloudflare.com/api/v1/locations"
+        "https://backend-hcmute-nodejs.onrender.com/api/v1/locations"
       )) as unknown as ILocation;
       if (res && res.code === 200) {
         setDataPosition(res.data);

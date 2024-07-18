@@ -158,7 +158,7 @@ const LanguageProfile = (props: Props) => {
     let check = true;
     if (dt.api) {
       const resUp = (await axiosClient.put(
-        `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/profile-languages/${dt.id}`,
+        `https://backend-hcmute-nestjs.onrender.com/api/v3/profile-languages/${dt.id}`,
         { languageName: dt.languageName, languageLevelId: dt.languageLevelId }
       )) as unknown as IData;
       if (resUp?.statusCode !== 200) {
@@ -176,7 +176,7 @@ const LanguageProfile = (props: Props) => {
   };
   const fetchCreatedata = async (dt: any) => {
     const resUp = (await axiosClient.post(
-      "https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/profile-languages",
+      "https://backend-hcmute-nestjs.onrender.com/api/v3/profile-languages",
       dt,
       {
         headers: {
@@ -194,7 +194,7 @@ const LanguageProfile = (props: Props) => {
       let resRemove = { statusCode: 200, data: [] };
       if (dataRemove.ids.length > 0) {
         resRemove = (await axiosClient.delete(
-          "https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/profile-languages/remove",
+          "https://backend-hcmute-nestjs.onrender.com/api/v3/profile-languages/remove",
           { data: dataRemove }
         )) as unknown as IData;
       }

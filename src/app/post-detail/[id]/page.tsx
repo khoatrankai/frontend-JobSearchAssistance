@@ -38,6 +38,7 @@ import ModalApply from "@/components/ModalApply/ModalApply";
 import { TbFilePercent } from "react-icons/tb";
 import searchApi from "@/api/search/apiSearch";
 import { Link } from "react-router-dom";
+import TimeStamp from "@/util/TimeStamp/TimeStamp";
 
 type Props = {};
 
@@ -61,6 +62,7 @@ const page = (props: Props) => {
   const { handleShortTextHome, handleShortValueNumber } = ShortText();
   const { handleDecodingDescription } = EncodingDescription();
   const [checkSize, setCheckSize] = useState<boolean>(false);
+  const { handleConvertToDate } = TimeStamp();
   const [dataCompany, setDataCompany] = useState<any>();
   const [checkScroll, setCheckScroll] = useState<boolean>(false);
   const { reponsiveMobile } = useSrollContext();
@@ -97,7 +99,7 @@ const page = (props: Props) => {
       )) as unknown as IPostDetail;
       // //console.log(res.data?.company_name);
       const res2 = (await axiosClient.get(
-        `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/companies/by-name?name=${res?.data?.company_name}`
+        `https://backend-hcmute-nestjs.onrender.com/api/v3/companies/by-name?name=${res?.data?.company_name}`
       )) as unknown as { status: any; data: any };
 
       if (res && (res?.code as any) === 200) {
@@ -946,9 +948,7 @@ const page = (props: Props) => {
                   </h2>
                   <h2 className="font-semibold">
                     {postDetail?.expired_date
-                      ? moment
-                          .unix(postDetail.expired_date)
-                          .format("DD/MM/YYYY")
+                      ? handleConvertToDate(postDetail.expired_date)
                       : "Vô thời hạn"}
                   </h2>
                 </div>
@@ -964,7 +964,7 @@ const page = (props: Props) => {
             </div>
             <ul className="flex flex-col gap-4">
               {listSameJob.map((dt: any, ikey: any) => {
-                if (ikey < 5) {
+                if (ikey < 6 && id != dt?.id) {
                   return (
                     <>
                       <li

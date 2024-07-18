@@ -31,7 +31,7 @@ const ContactProfile = (props: Props) => {
   const handleUpdateData = () => {
     const fetchData = async () => {
       const res = (await axiosClient.put(
-        "https://imagination-trusted-joyce-techniques.trycloudflare.com/api/v1/profiles/con",
+        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/con",
         dataRequest
       )) as unknown as IData;
 

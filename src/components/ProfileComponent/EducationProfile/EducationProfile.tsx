@@ -38,7 +38,7 @@ const EducationProfile = (props: Props) => {
   };
   const handleRemove = async (id: number) => {
     const res = (await axiosClient.put(
-      "https://imagination-trusted-joyce-techniques.trycloudflare.com/api/v1/profiles/edu/d",
+      "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/edu/d",
       { educationId: id }
     )) as unknown as IData;
     if (res && res.code === 200) {

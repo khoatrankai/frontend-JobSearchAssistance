@@ -2,7 +2,7 @@ import axiosClient from "@/configs/axiosClient";
 
 export const apiViewJob = {
     createViewJob: (postId: number) => {
-        const URL = `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/view-jobs`;
+        const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/view-jobs`;
         return axiosClient.post(URL, { postId }, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -10,7 +10,7 @@ export const apiViewJob = {
         });
     },
     getAllViewJob: () => {
-        const URL = `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/view-jobs`;
+        const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/view-jobs`;
         return axiosClient.get(URL, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
