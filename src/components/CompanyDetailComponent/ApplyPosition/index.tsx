@@ -32,6 +32,7 @@ const ApplyPosition: React.FC<IApplyPosition> = (props) => {
     page,
     setPage,
     accountId,
+    companyId,
   } = props;
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
@@ -41,46 +42,15 @@ const ApplyPosition: React.FC<IApplyPosition> = (props) => {
 
   const fetchMoreData = async () => {
     try {
-      const nextPage = parseInt(page) + 1;
-      const result = (await searchApi.getSearchByQueryV2(
-        nameCompany,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        [],
-        null,
-        null,
-        null,
-        languageRedux === 1 ? "vi" : "en"
-      )) as any;
-
-      if (result && result.data.posts.length === 20) {
-        setPostOfCompany((prev: any) => [...prev, ...result?.data?.posts]);
-        setPage(nextPage);
-        setHasMore(true);
-      } else if (
-        result &&
-        result.data.posts.length < 20 &&
-        result.data.posts.length > 0
-      ) {
-        setHasMore(false);
-        setPostOfCompany((prev: any) => [...prev, ...result?.data?.posts]);
-        setPage("0");
-      } else {
-        setHasMore(false);
-        setPostOfCompany((prev: any) => [...prev, []]);
-        setPage("0");
-        message.error(
-          languageRedux === 1
-            ? "Không còn công việc để xem"
-            : "No more jobs available"
-        );
+      if (!hasMore) {
+        setLoading(true);
+        const res = await apiCompany.getPostCompany(companyId, 10, page);
+        if (res && res?.status === 200) {
+          setHasMore(res?.data?.postData?.is_over);
+          setPage(page + 1);
+          setPostOfCompany([...postOfCompany, ...res?.data?.postData?.data]);
+          setLoading(false);
+        }
       }
     } catch (error) {
       //console.log('error', error);
@@ -99,7 +69,12 @@ const ApplyPosition: React.FC<IApplyPosition> = (props) => {
           dataLength={postOfCompany?.length}
           next={fetchMoreData}
           hasMore={hasMore}
-          loader={<Spin style={{ width: "100%" }} indicator={antIcon} />}
+          loader={
+            <Spin
+              style={{ width: "100%" }}
+              indicator={loading ? antIcon : <></>}
+            />
+          }
           style={{ overflow: "unset" }}
           scrollableTarget="scrollableDiv"
         >

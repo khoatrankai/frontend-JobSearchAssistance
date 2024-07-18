@@ -101,7 +101,7 @@ const page = (props: Props) => {
       )) as unknown as IPostDetail;
       //console.log(res.data?.company_name);
       const res2 = (await axiosClientRecruiter.get(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/companies/by-name?name=${res?.data?.company_name}`
+        `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/companies/by-name?name=${res?.data?.company_name}`
       )) as unknown as { status: any; data: any };
 
       if (res && (res?.code as any) === 200) {
@@ -121,7 +121,7 @@ const page = (props: Props) => {
         // router.push("/not-found");
       }
       if (postDetail?.account_id === profile?.accountId) {
-        if (profile?.isV2 || profile?.isV3 || profile?.isV4 || true) {
+        if (profile?.isV2 || profile?.isV3 || profile?.isV4) {
           const res3: any = await cvsApi.getCVidPort(id, profile.accountId);
           if (res3 && res3.statusCode === 200) {
             setListCVPost(res3?.data?.[0]?.cvsPosts);
@@ -689,7 +689,11 @@ const page = (props: Props) => {
                   width={500}
                   height={500}
                   className=""
-                  src={postDetail?.images?.[0]?.image}
+                  src={
+                    postDetail?.images?.[0]?.image ??
+                    postDetail?.image ??
+                    "/goapply.png"
+                  }
                 />
               </div>
               <div className="font-semibold text-lg">

@@ -313,7 +313,10 @@ const Page = () => {
                                 <Image
                                   className="group-hover:scale-110 transition-all duration-500"
                                   src={
-                                    item.image ? item.image : "/logo/logo.png"
+                                    item?.companyResourceData?.logo ??
+                                    item.image
+                                      ? item.image
+                                      : "/logo/logo.png"
                                   }
                                   alt="anh"
                                   width={200}

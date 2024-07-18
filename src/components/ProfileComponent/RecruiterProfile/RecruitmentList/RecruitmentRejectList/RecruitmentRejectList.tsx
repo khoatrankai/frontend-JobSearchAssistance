@@ -23,7 +23,7 @@ const RecruitmentRejectList = (props: Props) => {
     if (value !== "") {
       const dataFil = listDataApply.filter((dt: any) => {
         const dataDes = dt.name + dt.name + dt.phone;
-        if (dataDes.includes(value)) {
+        if (dataDes?.toLowerCase().includes(value?.toLowerCase())) {
           return dt;
         }
       });

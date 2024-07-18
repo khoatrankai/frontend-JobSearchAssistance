@@ -91,20 +91,20 @@ const page = (props: Props) => {
         <div className=" w-full flex items-start pb-16 relative">
           <div
             className={`${
-              reponsiveMobile < 950 ? "absolute z-40" : "basis-1/4"
+              reponsiveMobile < 1120 ? "absolute z-40" : "basis-1/4"
             }  rounded-lg flex justify-center gap-y-6  flex-col items-center p-4`}
           >
             <div
               className={`bg-blue-500 rounded-lg w-full h-fit p-4 flex justify-center items-center ${
-                reponsiveMobile > 990 ? " flex-col" : "gap-x-2"
+                reponsiveMobile >= 1120 ? " flex-col" : "gap-x-2"
               }`}
               onClick={() => {
-                if (reponsiveMobile < 950) {
+                if (reponsiveMobile < 1120) {
                   setMenuProfile(!menuProfile);
                 }
               }}
             >
-              {reponsiveMobile > 990 ? (
+              {reponsiveMobile >= 1120 ? (
                 <AvatarProfile
                   dataInfo={dataInfo}
                   handleUpdateApi={handleUpdateApi}
@@ -121,7 +121,7 @@ const page = (props: Props) => {
                   alt={""}
                 />
               )}
-              {reponsiveMobile < 950 ? (
+              {reponsiveMobile < 1120 ? (
                 ""
               ) : (
                 <p className="font-bold text-white">{dataProfile?.name}</p>
@@ -136,7 +136,7 @@ const page = (props: Props) => {
                     ? "border-blue-500 bg-blue-200"
                     : "bg-white"
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
-                  reponsiveMobile < 950
+                  reponsiveMobile < 1120
                     ? `justify-center ${
                         menuProfile
                           ? ""
@@ -153,7 +153,7 @@ const page = (props: Props) => {
                 <AiFillDashboard />
                 <p
                   className={`${
-                    reponsiveMobile < 950
+                    reponsiveMobile < 1120
                       ? "absolute left-full text-white translate-x-5 text-nowrap"
                       : ""
                   }   `}
@@ -167,7 +167,7 @@ const page = (props: Props) => {
                     ? "border-blue-500 bg-blue-200"
                     : "bg-white"
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
-                  reponsiveMobile < 950
+                  reponsiveMobile < 1120
                     ? `justify-center ${
                         menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
                       }`
@@ -183,7 +183,7 @@ const page = (props: Props) => {
                 <MdEditDocument />
                 <p
                   className={`${
-                    reponsiveMobile < 950
+                    reponsiveMobile < 1120
                       ? "absolute left-full text-white translate-x-5 text-nowrap"
                       : ""
                   }   `}
@@ -197,7 +197,7 @@ const page = (props: Props) => {
                     ? "border-blue-500 bg-blue-200"
                     : "bg-white"
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
-                  reponsiveMobile < 950
+                  reponsiveMobile < 1120
                     ? `justify-center ${
                         menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
                       }`
@@ -213,7 +213,7 @@ const page = (props: Props) => {
                 <FaBuilding />
                 <p
                   className={`${
-                    reponsiveMobile < 950
+                    reponsiveMobile < 1120
                       ? "absolute left-full text-white translate-x-5 text-nowrap"
                       : ""
                   }   `}
@@ -227,7 +227,7 @@ const page = (props: Props) => {
                     ? "border-blue-500 bg-blue-200"
                     : "bg-white"
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
-                  reponsiveMobile < 950
+                  reponsiveMobile < 1120
                     ? `justify-center ${
                         menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
                       }`
@@ -243,7 +243,7 @@ const page = (props: Props) => {
                 <MdWork />
                 <p
                   className={`${
-                    reponsiveMobile < 950
+                    reponsiveMobile < 1120
                       ? "absolute left-full text-white translate-x-5 text-nowrap"
                       : ""
                   }   `}
@@ -257,7 +257,7 @@ const page = (props: Props) => {
                     ? "border-blue-500 bg-blue-200"
                     : "bg-white"
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
-                  reponsiveMobile < 950
+                  reponsiveMobile < 1120
                     ? `justify-center ${
                         menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
                       }`
@@ -273,7 +273,7 @@ const page = (props: Props) => {
                 <FaClipboardList />
                 <p
                   className={`${
-                    reponsiveMobile < 950
+                    reponsiveMobile < 1120
                       ? "absolute left-full text-white translate-x-5 text-nowrap"
                       : ""
                   }   `}
@@ -287,7 +287,7 @@ const page = (props: Props) => {
                     ? "border-blue-500 bg-blue-200"
                     : "bg-white"
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
-                  reponsiveMobile < 950
+                  reponsiveMobile < 1120
                     ? `justify-center ${
                         menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
                       }`
@@ -303,7 +303,7 @@ const page = (props: Props) => {
                 <GoPasskeyFill />
                 <p
                   className={`${
-                    reponsiveMobile < 950
+                    reponsiveMobile < 1120
                       ? "absolute left-full text-white translate-x-5 text-nowrap"
                       : ""
                   }   `}
@@ -317,7 +317,7 @@ const page = (props: Props) => {
                     ? "border-blue-500 bg-blue-200"
                     : "bg-white"
                 } hover:border-blue-500   hover:bg-blue-200  cursor-pointer flex items-center gap-x-2  ${
-                  reponsiveMobile < 950
+                  reponsiveMobile < 1120
                     ? `justify-center ${
                         menuProfile ? "" : "hidden -top-20 opacity-0 -z-10"
                       }`
@@ -333,7 +333,7 @@ const page = (props: Props) => {
                 <IoMdSettings />
                 <p
                   className={`${
-                    reponsiveMobile < 950
+                    reponsiveMobile < 1120
                       ? "absolute left-full text-white translate-x-5 text-nowrap"
                       : ""
                   }   `}
@@ -345,13 +345,13 @@ const page = (props: Props) => {
           </div>
           <div
             className={`${
-              reponsiveMobile < 1280
+              reponsiveMobile < 1120
                 ? reponsiveMobile < 992
                   ? "flex-1"
                   : "flex-1 mr-2"
-                : "basis-2/3"
+                : "basis-2/3 overflow-x-scroll"
             } ${
-              reponsiveMobile < 950 ? "mt-16" : ""
+              reponsiveMobile < 1120 ? "mt-16" : ""
             } rounded-lg h-full flex flex-col gap-y-4`}
           >
             {/* bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] */}

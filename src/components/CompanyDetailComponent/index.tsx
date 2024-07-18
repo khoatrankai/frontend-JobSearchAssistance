@@ -25,12 +25,12 @@ const DetailCompany = () => {
   const languageRedux = useSelector(
     (state: RootState) => state.changeLaguage.language
   );
-  const [applyPostitions, setApplyPositions] = useState(0);
+  // const [applyPostitions, setApplyPositions] = useState(0);
   const [company, setCompanyData] = useState<any>();
   const [nameCompany, setNameCompany] = useState<any>();
   const [postOfCompany, setPostOfCompany] = useState<any>([]);
-  const [hasMore, setHasMore] = React.useState(true);
-  const [page, setPage] = React.useState<any>("0");
+  const [hasMore, setHasMore] = React.useState(false);
+  const [page, setPage] = React.useState<any>(1);
   const [loading, setLoading] = React.useState(true);
   const [openModalLogin, setOpenModalLogin] = React.useState(false);
   const { handleLoadHrefPage } = useSrollContext();
@@ -53,52 +53,24 @@ const DetailCompany = () => {
     } catch (error) {}
   };
 
-  // useEffect(() => {
-  //   handleLoadHrefPage();
-  // }, []);
+  useEffect(() => {
+    console.log(postOfCompany);
+  }, [postOfCompany]);
 
   const getApplicationPositionCount = async () => {
     try {
       setLoading(true);
-
-      const result = (await searchApi.getSearchByQueryV2(
-        nameCompany,
-        null,
-        null,
-        null,
-        null,
-        1,
-        null,
-        null,
-        null,
-        null,
-        [],
-        null,
-        null,
-        null,
-        languageRedux === 1 ? "vi" : "en"
-      )) as any;
-
-      if (result.success === true && result.data.posts.length === 20) {
+      const res = await apiCompany.getPostCompany(companyId, 10, page);
+      console.log(res);
+      if (res && res?.status === 200) {
+        setHasMore(res?.data?.postData?.is_over);
+        setPage(page + 1);
+        setPostOfCompany([...postOfCompany, ...res?.data?.postData?.data]);
         setLoading(false);
-        setApplyPositions(result.data.total);
-        setPostOfCompany(result.data.posts);
-        setHasMore(true);
-      } else if (
-        result.data.posts.length < 20 &&
-        result.data.posts.length > 0
-      ) {
-        setHasMore(false);
-        setApplyPositions(result.data.total);
-        setPostOfCompany(result.data.posts);
-        setPage("0");
-      } else {
-        setHasMore(false);
-        setApplyPositions(result.data.total);
-        setPostOfCompany(result.data.posts);
-        setPage("0");
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   useEffect(() => {
@@ -107,8 +79,10 @@ const DetailCompany = () => {
 
   useEffect(() => {
     getApplicationPositionCount();
-  }, [languageRedux, companyId, company, nameCompany]);
-
+  }, []);
+  useEffect(() => {
+    console.log(loading);
+  }, [loading]);
   const items: TabsProps["items"] = [
     {
       key: "1",
@@ -125,7 +99,7 @@ const DetailCompany = () => {
           <span style={{ color: "#0D99FF" }}>
             {" "}
             {"("}
-            {applyPostitions}
+            {postOfCompany?.length}
             {")"}
           </span>
         </p>
@@ -268,8 +242,8 @@ const DetailCompany = () => {
                   <CateIcon />
                   <p>
                     {languageRedux === 1
-                      ? `${applyPostitions} vị trí ứng tuyển`
-                      : `${applyPostitions} application positions`}
+                      ? `${postOfCompany?.length} vị trí ứng tuyển`
+                      : `${postOfCompany?.length} application positions`}
                   </p>
                 </div>
               </div>

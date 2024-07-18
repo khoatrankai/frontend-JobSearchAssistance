@@ -45,7 +45,7 @@ const SearchAllComponent = (props: Props) => {
   const handleSearchKey = (data: any) => {
     const fetchData = async () => {
       const res = await axiosClient.get(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/posts/search/keyword?keyword=${data}`
+        `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/posts/search/keyword?keyword=${data}`
       );
       setKeyAvailability(res.data);
     };

@@ -91,7 +91,7 @@ const CategoryProfile = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        `https://backend-hcmute-nodejs.onrender.com/api/v1/categories?lang=${
+        `https://imagination-trusted-joyce-techniques.trycloudflare.com/api/v1/categories?lang=${
           languageRedux === 1 ? "vi" : "en"
         }`
       )) as unknown as IData;

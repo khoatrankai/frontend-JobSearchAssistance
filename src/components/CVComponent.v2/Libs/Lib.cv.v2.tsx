@@ -1930,16 +1930,16 @@ const LibCvV2 = (props: Props) => {
   const handleLoadData = async () => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-extra-information/?cvIndex=${cvIndex}`
+        `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/cv-extra-information/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const res2 = (await axiosClient.get(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-project/?cvIndex=${cvIndex}`
+        `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/cv-project/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const res3 = (await axiosClient.get(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-information/?cvIndex=${cvIndex}`
+        `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/cv-information/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const res4 = (await axiosClient.get(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-layout/?cvIndex=${cvIndex}`
+        `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/cv-layout/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const dataNew = [...res.data, ...res2.data, res3.data];
       // //console.log(res, res2, res3, res4, profile);
@@ -1957,16 +1957,16 @@ const LibCvV2 = (props: Props) => {
   const handleLoadBackData = async (cvNew: any) => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-extra-information/?cvIndex=${cvIndex}`
+        `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/cv-extra-information/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const res2 = (await axiosClient.get(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-project/?cvIndex=${cvIndex}`
+        `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/cv-project/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const res3 = (await axiosClient.get(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-information/?cvIndex=${cvIndex}`
+        `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/cv-information/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const res4 = (await axiosClient.get(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-layout/?cvIndex=${cvIndex}`
+        `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/cv-layout/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const dataNew = [...res.data, ...res2.data, res3.data];
       //console.log(res, res2, res3, res4, profile, cvNew);
@@ -2991,56 +2991,70 @@ const LibCvV2 = (props: Props) => {
     } else {
       if (cvIndex === "upload") {
         const dataNewLoad: any = handleChangeUploadDocs(handleCheckCvs("new"));
-        // console.log(dataNewLoad);
-        const dataNewForm = handleLoadTempData(template);
-        const dataMergeLoad = dataNewForm.data.map((dt: any) => {
-          const dataFilterLoad = dataNewLoad.filter((dtt: any) => {
-            return dt.type === dtt.type;
-          })?.[0];
-          if (dataFilterLoad && dataFilterLoad.type === dt.type) {
-            return {
-              ...dataFilterLoad,
-              part: dt.part,
-              col: dt.col,
-              row: dt.row,
-            };
-          }
-          return dt;
-        });
+        if (dataNewLoad?.length > 0) {
+          const dataNewMerch: any = dataNewLoad.filter((dt: any) => {
+            if (dt?.type === "info_person") {
+              return dt;
+            } else {
+              if (dt?.type === "info_project") {
+                if (dt?.moreCvProjects?.length > 0) {
+                  return dt;
+                }
+              } else {
+                if (dt?.moreCvExtraInformations?.length > 0) {
+                  return dt;
+                }
+              }
+            }
+          });
+          const dataNewForm = handleLoadTempData(template);
+          const dataMergeLoad = dataNewForm.data.map((dt: any) => {
+            const dataFilterLoad = dataNewMerch.filter((dtt: any) => {
+              return dt.type === dtt.type;
+            })?.[0];
+            if (dataFilterLoad && dataFilterLoad.type === dt.type) {
+              return {
+                ...dataFilterLoad,
+                part: dt.part,
+                col: dt.col,
+                row: dt.row,
+              };
+            }
+            return dt;
+          });
 
-        // console.log(dataMergeLoad);
-        //console.log(dataNewLoad);
-        setDataLoad(dataMergeLoad);
-        setDataForm({
-          layout: dataNewForm.layout,
-          color: dataNewForm.color,
-          colorText: dataNewForm.colorText,
-          pad: dataNewForm.pad,
-          padPart: dataNewForm.padPart,
-          cvIndex: handleCheckCvs("new"),
-          colorTopic: dataNewForm.colorTopic,
-          indexTopic: 0,
-        });
-        setBackNext({
-          back: {},
-          present: {
-            template: template,
-            dataForm: {
-              layout: dataNewForm.layout,
-              color: dataNewForm.color,
-              pad: dataNewForm.pad,
-              padPart: dataNewForm.padPart,
-              cvIndex: handleCheckCvs("new"),
-              colorTopic: dataNewForm.colorTopic,
-              indexTopic: 0,
+          setDataLoad(dataMergeLoad);
+          setDataForm({
+            layout: dataNewForm.layout,
+            color: dataNewForm.color,
+            colorText: dataNewForm.colorText,
+            pad: dataNewForm.pad,
+            padPart: dataNewForm.padPart,
+            cvIndex: handleCheckCvs("new"),
+            colorTopic: dataNewForm.colorTopic,
+            indexTopic: 0,
+          });
+          setBackNext({
+            back: {},
+            present: {
+              template: template,
+              dataForm: {
+                layout: dataNewForm.layout,
+                color: dataNewForm.color,
+                pad: dataNewForm.pad,
+                padPart: dataNewForm.padPart,
+                cvIndex: handleCheckCvs("new"),
+                colorTopic: dataNewForm.colorTopic,
+                indexTopic: 0,
+              },
+              dataLoad: dataMergeLoad.map((dt: any) => {
+                return { ...dt, cvIndex: handleCheckCvs("new") };
+              }),
             },
-            dataLoad: dataMergeLoad.map((dt: any) => {
-              return { ...dt, cvIndex: handleCheckCvs("new") };
-            }),
-          },
-          next: {},
-        });
-        setTemplateId(template);
+            next: {},
+          });
+          setTemplateId(template);
+        }
       } else {
         // console.log("Vao ne");
         if (Object.keys(profile).length !== 0) {
@@ -3646,15 +3660,17 @@ const LibCvV2 = (props: Props) => {
               <FaCompressArrowsAlt />
             )}
           </div>
-          <div
-            className="w-max p-2 h-8 flex gap-x-2 justify-center items-center bg-black text-red-500 border-red-700 border-[1px] transition-all hover:text-white hover:bg-red-700 text-base rounded-md cursor-pointer shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] font-bold"
-            onMouseDown={() => {
-              setTabAlert(true);
-              updateHandleAlert(handleRemove);
-            }}
-          >
-            <FaRegTrashCan />
-          </div>
+          {maxData?.length > 1 && (
+            <div
+              className="w-max p-2 h-8 flex gap-x-2 justify-center items-center bg-black text-red-500 border-red-700 border-[1px] transition-all hover:text-white hover:bg-red-700 text-base rounded-md cursor-pointer shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] font-bold"
+              onMouseDown={() => {
+                setTabAlert(true);
+                updateHandleAlert(handleRemove);
+              }}
+            >
+              <FaRegTrashCan />
+            </div>
+          )}
         </>
         {/* )} */}
       </div>

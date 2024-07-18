@@ -62,7 +62,7 @@ const InfoPerson = (props: Props) => {
   const handleUpdateData = () => {
     const fetchData = async () => {
       const res = (await axiosClient.put(
-        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/per",
+        "https://imagination-trusted-joyce-techniques.trycloudflare.com/api/v1/profiles/per",
         dataRequest
       )) as unknown as ILocation;
       const { hdError, hdSuccess } = ToastCustom();
@@ -82,7 +82,7 @@ const InfoPerson = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        "https://backend-hcmute-nodejs.onrender.com/api/v1/locations/p"
+        "https://imagination-trusted-joyce-techniques.trycloudflare.com/api/v1/locations/p"
       )) as unknown as ILocation;
       if (res && res.code === 200) {
         setDataLocation(res.data);

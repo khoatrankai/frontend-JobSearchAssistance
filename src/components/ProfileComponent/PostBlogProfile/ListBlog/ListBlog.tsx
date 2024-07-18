@@ -4,7 +4,7 @@ import { useSrollContext } from "@/context/AppProvider";
 import ShortText from "@/util/ShortText";
 import ToastCustom from "@/util/ToastCustom";
 import useRouterCustom from "@/util/useRouterCustom/useRouterCustom";
-import { Select } from "antd";
+import { Button, Modal, Select } from "antd";
 import { Option } from "antd/es/mentions";
 import React, { useEffect, useState } from "react";
 
@@ -18,6 +18,8 @@ const ListBlog = (props: Props) => {
   const { handleShortTextHome } = ShortText();
   const [listData, setListData] = useState<any>([]);
   const [listDataFilter, setListDataFilter] = useState<any>([]);
+  const [idDelete, setIdDelete] = useState<any>();
+  const [modalConfirm, setModalConfirm] = useState<any>(false);
   const handleUpdateStatus = async (id: any, status: any) => {
     const formData = new FormData();
     formData.append("status", status);
@@ -28,13 +30,28 @@ const ListBlog = (props: Props) => {
       hdError("Lỗi không thể cập nhật");
     }
   };
-  const handleRemovePost = (id: any) => {};
+  const handleDeletePost = async () => {
+    if (idDelete) {
+      const res: any = await communityApi.deleteCommunity(idDelete);
+      if (res && res?.statusCode === 200) {
+        setListData(
+          listData?.filter((dt: any) => {
+            return dt?.id != idDelete;
+          })
+        );
+        hdSuccess("Xoá bài viết thành công");
+        setModalConfirm(false);
+      } else {
+        hdError("Xóa bài viết thất bại");
+      }
+    }
+  };
   const handleSearch = (e: any) => {
     const value = e.target.value;
     if (value !== "") {
       const dataFil = listData.filter((dt: any) => {
         const dataDes = dt.post_id + dt.title;
-        if (dataDes.includes(value)) {
+        if (dataDes?.toLowerCase().includes(value?.toLowerCase())) {
           return dt;
         }
       });
@@ -149,16 +166,15 @@ const ListBlog = (props: Props) => {
                     >
                       Chỉnh sửa
                     </button>
-                    {/* <button
-                      className="p-2 rounded-md text-green-500 hover:underline"
+                    <button
+                      className="p-2 rounded-md text-red-500 hover:underline"
                       onClick={() => {
-                        pushBlank(
-                          `/recruiter/new-post-availabel/${dt.post_id}`
-                        );
+                        setIdDelete(dt?.id);
+                        setModalConfirm(true);
                       }}
                     >
-                      Đăng lại
-                    </button> */}
+                      Xóa
+                    </button>
                     {/* <button className="p-2 rounded-md text-red-500 hover:underline">
                       Xóa
                     </button> */}
@@ -169,6 +185,63 @@ const ListBlog = (props: Props) => {
           })}
         </div>
       </div>
+      <Modal
+        width={500}
+        centered
+        title={
+          <h3
+            style={{
+              fontFamily: "Roboto",
+              fontSize: "24px",
+              lineHeight: "24px",
+              letterSpacing: "0em",
+              textAlign: "center",
+            }}
+          >
+            {true ? "Xác nhận xóa bài viết" : "Confirm deletion of post"}
+          </h3>
+        }
+        footer={null}
+        open={modalConfirm}
+        onCancel={() => {
+          setModalConfirm(false);
+        }}
+      >
+        <p
+          style={{
+            fontFamily: "Roboto",
+            fontSize: "16px",
+            fontWeight: "400",
+            lineHeight: "24px",
+            letterSpacing: "0.5px",
+            textAlign: "center",
+          }}
+        >
+          {true
+            ? "Bạn có chắc xoá bài viết này ?"
+            : "Are you sure to delete this post?"}
+        </p>
+        <div className="text-center">
+          <Button
+            type="text"
+            shape="round"
+            onClick={() => handleDeletePost()}
+            className="border-red-500 bg-red-500 mr-3 mt-2"
+          >
+            {true ? "Xóa" : "Delete"}
+          </Button>
+          <Button
+            type="text"
+            shape="round"
+            onClick={() => {
+              setModalConfirm(false);
+            }}
+            className="bg-slate-300"
+          >
+            {true ? "Hủy" : "Cancel"}
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 };

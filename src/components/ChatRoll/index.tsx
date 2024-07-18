@@ -140,10 +140,10 @@ const ChatRoll: React.FC = () => {
     return itemMang + ":" + "http://localhost:3000/cv/create-v2/1/new";
   };
   const handleChatBot = async () => {
-    // const data: any = await axios.pó("https://train-django.onrender.com/aiJob/");
+    // const data: any = await axios.pó("https://aitraining.onrender.com/aiJob/");
     // //console.log(data);
     const dataVip: any = await axiosClient.post(
-      "https://train-django.onrender.com/aiChat/",
+      "https://aitraining.onrender.com/aiChat/",
       {
         id: idChat.toString(),
         content: listChat?.[listChat.length - 1]?.content,
@@ -163,7 +163,7 @@ const ChatRoll: React.FC = () => {
   };
   const handleCreateAI = async () => {
     const dataId = await axiosClient.post(
-      "https://train-django.onrender.com/aiStartChat/"
+      "https://aitraining.onrender.com/aiStartChat/"
     );
     console.log(dataId);
     if (dataId) {

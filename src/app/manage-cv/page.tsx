@@ -33,6 +33,9 @@ import { IoMdDownload } from "react-icons/io";
 import cvsApi from "@/api/cvs";
 import CookieCustom from "@/util/CookieCustom";
 import { createDocument } from "@/util/CreateDocs";
+import axiosClient from "@/configs/axiosClient";
+import { SiDocsdotrs } from "react-icons/si";
+import ToastCustom from "@/util/ToastCustom";
 
 type Props = {};
 
@@ -42,6 +45,7 @@ interface IDeleteProfileCv {
 }
 
 const page = (props: Props) => {
+  const { hdSuccess, hdError } = ToastCustom();
   CheckPageLogin();
   const { handleLoadHrefPage, setSoureImage, reponsiveMobile } =
     useSrollContext();
@@ -127,8 +131,11 @@ const page = (props: Props) => {
       ])) as unknown as IDeleteProfileCv;
 
       if (res && res.statusCode === 200) {
+        hdSuccess("Xoá CV thành công");
         setOpenModalConfirmDelete(false);
         dispatch(fetchProfile(language ? "vi" : "en") as any);
+      } else {
+        hdError("Xóa CV thất bại");
       }
     };
 
@@ -161,6 +168,24 @@ const page = (props: Props) => {
     };
 
     fetchData();
+  };
+  const fetchData = async (cvIndex: any) => {
+    const res = (await axiosClient.get(
+      `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/cv-extra-information/?cvIndex=${cvIndex}`
+    )) as unknown as any;
+    const res2 = (await axiosClient.get(
+      `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/cv-project/?cvIndex=${cvIndex}`
+    )) as unknown as any;
+    const res3 = (await axiosClient.get(
+      `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/cv-information/?cvIndex=${cvIndex}`
+    )) as unknown as any;
+    const res4 = (await axiosClient.get(
+      `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/cv-layout/?cvIndex=${cvIndex}`
+    )) as unknown as any;
+    const dataNew = [...res.data, ...res2.data, res3.data];
+    //console.log(res, res2, res3, res4, profile, cvNew);
+
+    return dataNew;
   };
   return (
     <div className=" flex min-h-[89.5vh] py-16 bg-[#f0f0f0] flex-col items-center gap-8 px-4">
@@ -197,21 +222,6 @@ const page = (props: Props) => {
               {language === 1 ? "CV đã tạo trên Jobs" : "CV created on Jobs"}
             </div>
             <div className="flex gap-2">
-              <div
-                className="flex items-center w-fit h-hit bg-blue-500"
-                style={{
-                  borderRadius: "32px",
-                  padding: "5px 10px",
-                }}
-              >
-                <MdOutlineDriveFolderUpload className="text-white" />
-                <div
-                  className="text-white cursor-pointer"
-                  onClick={createDocument}
-                >
-                  {language === 1 ? "Test" : "Upload CV"}
-                </div>
-              </div>
               <div
                 className="flex items-center w-fit h-hit bg-blue-500"
                 style={{
@@ -350,6 +360,7 @@ const page = (props: Props) => {
                             style={{
                               backgroundColor: "rgba(0, 16, 0, 0.3)",
                             }}
+                            about="Tải CV xuống"
                           >
                             <div>
                               <DownloadIcon
@@ -371,18 +382,32 @@ const page = (props: Props) => {
                           </div>
                           <div
                             className="cursor-pointer"
+                            about="Tạo lại theo CV"
                             onClick={(e: any) => {
                               e.stopPropagation();
                               window.open(
                                 `/cv/create-v2/create-back/${item.cvIndex}`,
                                 "_blank"
                               );
+                            }}
+                          >
+                            <IoCopy className="text-black text-2xl" />
+                          </div>
+                          <div
+                            className="cursor-pointer"
+                            onClick={async (e: any) => {
+                              e.stopPropagation();
+                              const res = await fetchData(item?.cvIndex);
+                              if (res) {
+                                createDocument(res);
+                              }
                               // router.push(
                               //   `/cv/create-v2/create-back/${item.cvIndex}`
                               // );
                             }}
+                            about="Tải file tái tạo"
                           >
-                            <IoCopy className="text-black text-2xl" />
+                            <SiDocsdotrs className="text-black text-2xl" />
                           </div>
                           <div
                             onClick={(e: any) => {
@@ -390,6 +415,7 @@ const page = (props: Props) => {
                               setIdDelete(item.id);
                               setOpenModalConfirmDelete(true);
                             }}
+                            about="Xóa CV"
                           >
                             <DeleteIcon
                               sx={{
@@ -411,6 +437,7 @@ const page = (props: Props) => {
                             `/cv/create-v2/${item?.templateId}/${item?.cvIndex}`
                           );
                         }}
+                        about="Chỉnh sửa CV"
                       >
                         <EditIcon />
                       </div>

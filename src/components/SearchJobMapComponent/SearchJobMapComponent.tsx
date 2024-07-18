@@ -349,7 +349,11 @@ const SearchJobMapComponent: React.FC<Props> = (props) => {
                             <div className="w-16 h-16 rounded-full overflow-hidden group-hover:shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]  object-cover">
                               <Image
                                 className="group-hover:scale-110 transition-all duration-500"
-                                src={item.image ? item.image : "/logo/logo.png"}
+                                src={
+                                  item?.companyResourceData?.logo ?? item.image
+                                    ? item.image
+                                    : "/logo/logo.png"
+                                }
                                 alt="anh"
                                 width={200}
                                 height={200}

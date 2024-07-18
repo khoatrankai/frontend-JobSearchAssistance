@@ -1,26 +1,27 @@
 import { Document, Packer, Paragraph, TextRun } from "docx";
 import { saveAs } from "file-saver";
-
-export const createDocument = async () => {
-    const dataOK = [ { "id": 1630, "accountId": "94f2b685-9ee6-45af-9e52-d34925cfc497", "type": "info_skill", "row": 1, "part": 0, "col": 0, "cvIndex": 1, "padIndex": 1, "moreCvExtraInformations": [ { "position": "", "time": "", "company": "", "description": "", "index": 0, "padIndex": 1 } ] }, { "id": 1631, "accountId": "94f2b685-9ee6-45af-9e52-d34925cfc497", "type": "info_achivement", "row": 2, "part": 0, "col": 0, "cvIndex": 1, "padIndex": 1, "moreCvExtraInformations": [ { "position": "ok", "time": "", "company": "", "description": "", "index": 0, "padIndex": 1 } ] }, { "id": 1632, "accountId": "94f2b685-9ee6-45af-9e52-d34925cfc497", "type": "info_hobby", "row": 3, "part": 0, "col": 0, "cvIndex": 1, "padIndex": 1, "moreCvExtraInformations": [ { "position": "", "time": "", "company": "", "description": "", "index": 0, "padIndex": 1 } ] }, { "id": 1633, "accountId": "94f2b685-9ee6-45af-9e52-d34925cfc497", "type": "info_award", "row": 4, "part": 0, "col": 0, "cvIndex": 1, "padIndex": 1, "moreCvExtraInformations": [ { "position": "", "time": "", "company": "", "description": "", "index": 0, "padIndex": 1 } ] }, { "id": 1634, "accountId": "94f2b685-9ee6-45af-9e52-d34925cfc497", "type": "info_more", "row": 5, "part": 0, "col": 0, "cvIndex": 1, "padIndex": 1, "moreCvExtraInformations": [ { "position": "", "time": "", "company": "", "description": "", "index": 0, "padIndex": 1 } ] }, { "id": 1635, "accountId": "94f2b685-9ee6-45af-9e52-d34925cfc497", "type": "info_experience", "row": 0, "part": 0, "col": 1, "cvIndex": 1, "padIndex": 1, "moreCvExtraInformations": [ { "position": "", "time": "", "company": "", "description": "", "index": 0, "padIndex": 1 } ] }, { "id": 1636, "accountId": "94f2b685-9ee6-45af-9e52-d34925cfc497", "type": "info_activate", "row": 1, "part": 0, "col": 1, "cvIndex": 1, "padIndex": 1, "moreCvExtraInformations": [ { "position": "", "time": "", "company": "", "description": "", "index": 0, "padIndex": 1 } ] }, { "id": 1637, "accountId": "94f2b685-9ee6-45af-9e52-d34925cfc497", "type": "info_study", "row": 2, "part": 0, "col": 1, "cvIndex": 1, "padIndex": 1, "moreCvExtraInformations": [ { "position": "", "time": "", "company": "", "description": "", "index": 0, "padIndex": 1 } ] }, { "id": 262, "accountId": "94f2b685-9ee6-45af-9e52-d34925cfc497", "type": "info_project", "row": 3, "part": 0, "col": 1, "cvIndex": 1, "padIndex": 1, "moreCvProjects": [ { "name": "", "time": "", "link": "", "participant": "", "position": "", "functionality": "", "technology": "", "index": 0, "padIndex": 1 } ] }, { "id": 309, "email": "khoanono963@gmail.com", "name": "Tran Tan Khoa", "phone": "a857454545", "address": "undefined", "intent": "01/01/1970", "type": "info_person", "avatar": null, "link": "null", "row": 0, "part": 0, "col": 0, "cvIndex": 1, "padIndex": 1, "moreCvInformations": [] } ]
+const text = ")"
+export const createDocument = async (dataOk:any) => {
+    const dataOK = dataOk
+    console.log(dataOK)
     const createInfo_person = (data:any,index:any)=>{
         return new Paragraph({
             children:[
-                createTextRunTitle(`${index}. Thông tin chung:`),
+                createTextRunTitle(`${data?.count}${text} Thông tin chung:`),
                 createSpaceN(),
-                createTextRunTitle(`Địa chỉ: ${data?.address}`),
+                createTextRunTitle(`Địa chỉ: “${data?.address ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Avatar: ${data?.avatar}`),
+                createTextRunTitle(`Avatar: “${data?.avatar ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Email: ${data?.email}`),
+                createTextRunTitle(`Email: “${data?.email ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Mục tiêu: ${data?.intent}`),
+                createTextRunTitle(`Mục tiêu: “${data?.intent ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Link cá nhân: ${data?.link}`),
+                createTextRunTitle(`Link cá nhân: “${data?.link ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Tên: ${data?.name}`),
+                createTextRunTitle(`Tên: “${data?.name ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Số điện thoại: ${data?.phone}`),
+                createTextRunTitle(`Số điện thoại: “${data?.phone ??""}”`),
                 createSpaceN(),
                 createSpaceN(),
 
@@ -30,21 +31,21 @@ export const createDocument = async () => {
     const createInfo_project = (data:any,index:any,i:any)=>{
         return new Paragraph({
             children:[
-                createTextRunTitle(`${i+index}. Dự án ${i+1}:`),
+                createTextRunTitle(`${data?.count}${text}  Dự án ${i+1}:`),
                 createSpaceN(),
-                createTextRunTitle(`Tên dự án: ${data?.name}`),
+                createTextRunTitle(`Tên dự án: “${data?.name ??""}`),
                 createSpaceN(),
-                createTextRunTitle(`Vị trí: ${data?.position}`),
+                createTextRunTitle(`Vị trí: “${data?.position ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Link: ${data?.link}`),
+                createTextRunTitle(`Link: “${data?.link ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Thời gian: ${data?.time}`),
+                createTextRunTitle(`Thời gian: “${data?.time ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Số lượng người tham gia: ${data?.participant}`),
+                createTextRunTitle(`Số lượng người tham gia: “${data?.participant ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Chức năng: ${data?.functionality}`),
+                createTextRunTitle(`Chức năng: “${data?.functionality ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Công nghệ sử dụng: ${data?.technology}`),
+                createTextRunTitle(`Công nghệ sử dụng: “${data?.technology ??""}”`),
                 createSpaceN(),
                 createSpaceN(),
                 
@@ -54,15 +55,15 @@ export const createDocument = async () => {
     const createInfo_exp = (data:any,index:any,i:any)=>{
         return new Paragraph({
             children:[
-                createTextRunTitle(`${i+index}. Kinh nghiệm ${i+1}:`),
+                createTextRunTitle(`${data?.count}${text}  Kinh nghiệm ${i+1}:`),
                 createSpaceN(),
-                createTextRunTitle(`Vị trí: ${data?.position}`),
+                createTextRunTitle(`Vị trí: “${data?.position ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Công ty: ${data?.company}`),
+                createTextRunTitle(`Công ty: “${data?.company ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Thời gian: ${data?.time}`),
+                createTextRunTitle(`Thời gian: “${data?.time ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Mô tả: ${data?.description}`),
+                createTextRunTitle(`Mô tả: “${data?.description ??""}”`),
                 createSpaceN(),
                 createSpaceN(),
 
@@ -72,15 +73,15 @@ export const createDocument = async () => {
     const createInfo_activate = (data:any,index:any,i:any)=>{
         return new Paragraph({
             children:[
-                createTextRunTitle(`${i+index}. Hoạt động ${i+1}:`),
+                createTextRunTitle(`${data?.count}${text}  Hoạt động ${i+1}:`),
                 createSpaceN(),
-                createTextRunTitle(`Vị trí: ${data?.position}`),
+                createTextRunTitle(`Vị trí: “${data?.position ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Tổ chức: ${data?.company}`),
+                createTextRunTitle(`Tổ chức: “${data?.company ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Thời gian: ${data?.time}`),
+                createTextRunTitle(`Thời gian: “${data?.time ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Mô tả: ${data?.description}`),
+                createTextRunTitle(`Mô tả: “${data?.description ??""}”`),
                 createSpaceN(),
                 createSpaceN(),
 
@@ -90,15 +91,15 @@ export const createDocument = async () => {
     const createInfo_edu = (data:any,index:any,i:any)=>{
         return new Paragraph({
             children:[
-                createTextRunTitle(`${i+index}. Học vấn ${i+1}:`),
+                createTextRunTitle(`${data?.count}${text}  Học vấn ${i+1}:`),
                 createSpaceN(),
-                createTextRunTitle(`Chuyên ngành: ${data?.position}`),
+                createTextRunTitle(`Chuyên ngành: “${data?.position ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Trường: ${data?.company}`),
+                createTextRunTitle(`Trường: “${data?.company ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Thời gian: ${data?.time}`),
+                createTextRunTitle(`Thời gian: “${data?.time ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Mô tả: ${data?.description}`),
+                createTextRunTitle(`Mô tả: “${data?.description ??""}”`),
                 createSpaceN(),
                 createSpaceN(),
 
@@ -108,11 +109,11 @@ export const createDocument = async () => {
     const createInfo_skill = (data:any,index:any,i:any)=>{
         return new Paragraph({
             children:[
-                createTextRunTitle(`${i+index}. Kỹ năng ${i+1}:`),
+                createTextRunTitle(`${data?.count}${text}  Kỹ năng ${i+1}:`),
                 createSpaceN(),
-                createTextRunTitle(`Tên kỹ năng: ${data?.company}`),
+                createTextRunTitle(`Tên kỹ năng: “${data?.company ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Mô tả: ${data?.description}`),
+                createTextRunTitle(`Mô tả: “${data?.description ??""}”`),
                 createSpaceN(),
                 createSpaceN(),
 
@@ -122,11 +123,11 @@ export const createDocument = async () => {
     const createInfo_achivement = (data:any,index:any,i:any)=>{
         return new Paragraph({
             children:[
-                createTextRunTitle(`${i+index}. Hoạt động ${i+1}:`),
+                createTextRunTitle(`${data?.count}${text}  Hoạt động ${i+1}:`),
                 createSpaceN(),
-                createTextRunTitle(`Thời gian: ${data?.time}`),
+                createTextRunTitle(`Thời gian: “${data?.time ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Mô tả: ${data?.description}`),
+                createTextRunTitle(`Mô tả: “${data?.description ??""}”`),
                 createSpaceN(),
                 createSpaceN(),
 
@@ -136,9 +137,21 @@ export const createDocument = async () => {
     const createInfo_hobby = (data:any,index:any,i:any)=>{
         return new Paragraph({
             children:[
-                createTextRunTitle(`${i+index}. Sở thích ${i+1}:`),
+                createTextRunTitle(`${data?.count}${text}  Sở thích ${i+1}:`),
                 createSpaceN(),
-                createTextRunTitle(`Mô tả sở thích: ${data?.description}`),
+                createTextRunTitle(`Mô tả sở thích: “${data?.description ??""}”`),
+                createSpaceN(),
+                createSpaceN(),
+
+            ]
+        })
+    }
+    const createInfo_more = (data:any,index:any,i:any)=>{
+        return new Paragraph({
+            children:[
+                createTextRunTitle(`${data?.count}${text}  Thông tin thêm ${i+1}:`),
+                createSpaceN(),
+                createTextRunTitle(`Mô tả: “${data?.description ??""}”`),
                 createSpaceN(),
                 createSpaceN(),
 
@@ -148,11 +161,11 @@ export const createDocument = async () => {
     const createInfo_award = (data:any,index:any,i:any)=>{
         return new Paragraph({
             children:[
-                createTextRunTitle(`${i+index}. Giải thưởng ${i+1}:`),
+                createTextRunTitle(`${data?.count}${text}  Giải thưởng ${i+1}:`),
                 createSpaceN(),
-                createTextRunTitle(`Thời gian: ${data?.time}`),
+                createTextRunTitle(`Thời gian: “${data?.time ??""}”`),
                 createSpaceN(),
-                createTextRunTitle(`Mô tả: ${data?.description}`),
+                createTextRunTitle(`Mô tả: “${data?.description ??""}”`),
                 createSpaceN(),
                 createSpaceN(),
 
@@ -175,64 +188,115 @@ export const createDocument = async () => {
            
     }
     const createParagraph = ()=>{
-        const dataRen:any = dataOK.map((dt:any,index:any)=>{
+        let count = 0
+        const dataMap = dataOK?.map((dt:any)=>{
+            if(dt?.type === 'info_person'){
+                count = count + 1
+                return {...dt,count}
+            }else{
+                if(dt?.type === 'info_project'){
+                    const moreCvProjects = dt?.moreCvProjects?.map((dtt:any)=>{
+                        count = count + 1
+                        return {...dtt,count}
+                    })
+                    return {...dt,moreCvProjects}
+
+                }else{
+                    const moreCvExtraInformations = dt?.moreCvExtraInformations?.map((dtt:any)=>{
+                        count = count + 1
+                        return {...dtt,count}
+                    })
+                    return {...dt,moreCvExtraInformations}
+                }
+            }
+        })
+        const dataRen:any = dataMap.map((dt:any,index:any)=>{
             if(dt?.type === "info_person"){
-                return createInfo_person(dt,index+1)
+                console.log(index)
+                return createInfo_person(dt,index)
             }
             if(dt?.type === 'info_award'){
+                console.log(index)
                 const moreCvExtraInformations :any = dt?.moreCvExtraInformations?.map((dtt:any,i:any)=>{
-                    return createInfo_award(dtt,index+1,i)
+                    if((dtt?.time && dtt?.time!== "") || (dtt?.description && dtt?.description !== ""))
+                    return createInfo_award(dtt,index,i)
                         
                 })
                 return moreCvExtraInformations
             }
             if(dt?.type === 'info_activate'){
+                console.log(index)
                 const moreCvExtraInformations :any = dt?.moreCvExtraInformations?.map((dtt:any,i:any)=>{
-                    return createInfo_activate(dtt,index+1,i)
+                    if((dtt?.time && dtt?.time!== "" )|| (dtt?.description && dtt?.description !== "" )|| (dtt?.company && dtt?.company !== "")|| (dtt?.position && dtt?.position !== ""))
+
+                    return createInfo_activate(dtt,index,i)
 
                 })
                 return moreCvExtraInformations
                 
             }
             if(dt?.type === 'info_hobby'){
+                console.log(index)
                 const moreCvExtraInformations :any = dt?.moreCvExtraInformations?.map((dtt:any,i:any)=>{
-                    return createInfo_hobby(dtt,index+1,i)
+                    if(dtt?.description && dtt?.description !== "")
+
+                    return createInfo_hobby(dtt,index,i)
                            
                 })
                 return moreCvExtraInformations
                 
             }
             if(dt?.type === 'info_achivement'){
+                console.log(index)
                 const moreCvExtraInformations :any = dt?.moreCvExtraInformations?.map((dtt:any,i:any)=>{
-                    return createInfo_achivement(dtt,index+1,i)
+                    if((dtt?.time && dtt?.time!== "") || (dtt?.description && dtt?.description !== ""))
+
+                    return createInfo_achivement(dtt,index,i)
                             
                 })
                 return moreCvExtraInformations
             
             }
+            if(dt?.type === 'info_more'){
+                console.log(index)
+                const moreCvExtraInformations :any = dt?.moreCvExtraInformations?.map((dtt:any,i:any)=>{
+                    if( dtt?.description && dtt?.description !== "")
+
+                    return createInfo_more(dtt,index,i)
+                })
+                return moreCvExtraInformations
+            }
             if(dt?.type === 'info_project'){
+                console.log(index)
                 const moreCvProjects :any = dt?.moreCvProjects?.map((dtt:any,i:any)=>{
-                    return createInfo_project(dtt,index+1,i)
+                    if((dtt?.time && dtt?.time!== "" )||( dtt?.participant && dtt?.participant !== "" )||(dtt?.name && dtt?.name !== "")||( dtt?.position && dtt?.position !== "") ||(dtt?.functionality && dtt?.functionality !== "")||(dtt?.link && dtt?.link !== "")||(dtt?.technology && dtt?.technology !== ""))
+                    return createInfo_project(dtt,index,i)
                 })
                 return moreCvProjects
             
             }
             if(dt?.type === 'info_study'){
+                console.log(index)
                 const moreCvExtraInformations :any = dt?.moreCvExtraInformations?.map((dtt:any,i:any)=>{
-                    return createInfo_edu(dtt,index+1,i)
+                    if((dtt?.time && dtt?.time!== "" )|| (dtt?.description && dtt?.description !== "" )|| (dtt?.company && dtt?.company !== "")|| (dtt?.position && dtt?.position !== ""))
+                    return createInfo_edu(dtt,index,i)
                 })
                 return moreCvExtraInformations
             }
-            if(dt?.type === 'info_experiment'){
+            if(dt?.type === 'info_experience'){
+                console.log(index)
                 const moreCvExtraInformations :any = dt?.moreCvExtraInformations?.map((dtt:any,i:any)=>{
-                    return createInfo_exp(dtt,index+1,i)
+                    if((dtt?.time && dtt?.time!== "" )|| (dtt?.description && dtt?.description !== "" )|| (dtt?.company && dtt?.company !== "")|| (dtt?.position && dtt?.position !== ""))
+                    return createInfo_exp(dtt,index,i)
                 })
                 return moreCvExtraInformations
                 
             }
             if(dt?.type === 'info_skill'){
+                console.log(index)
                 const moreCvExtraInformations :any = dt?.moreCvExtraInformations?.map((dtt:any,i:any)=>{
-                    return createInfo_skill(dtt,index+1,i)
+                    if((dtt?.description && dtt?.description !== "" )|| (dtt?.company && dtt?.company !== ""))
+                    return createInfo_skill(dtt,index,i)
                 })
                 return moreCvExtraInformations
            

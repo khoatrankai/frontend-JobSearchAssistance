@@ -247,7 +247,6 @@ const EditPostedPage: React.FC<Props> = () => {
     }
   };
   const handlePost = () => {
-    handlePersistGateLoaded();
     const formData = new FormData();
     for (let i in dataReq) {
       if (i === "categoryIds" || i === "images") {
@@ -312,42 +311,88 @@ const EditPostedPage: React.FC<Props> = () => {
         return;
       } else {
         if (profile?.companyInfomation?.isActive === 1) {
-          const res: any = (await postsApi.updatePostedInfo(
-            formData,
-            dataReq?.description,
-            Number(searchParams.get("postId"))
-          )) as unknown as IUpdatePost;
+          if (
+            profile?.isV2 === true ||
+            profile?.isV3 === true ||
+            profile?.isV4 === true
+          ) {
+            handlePersistGateLoaded();
+            const res: any = (await postsApi.updatePostedInfo(
+              formData,
+              dataReq?.description,
+              Number(searchParams.get("postId"))
+            )) as unknown as IUpdatePost;
 
-          if (res && res.code === 200) {
-            handleOffTabLoading();
-            toast.success("Cập nhật bài đăng thành công", {
-              position: "bottom-center",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "dark",
-            });
-            // console.log(res);
-            // setTimeout(() => {
-            //   pushRouter(
-            //     `/recruiter/post-detail/${searchParams.get("postId")}`
-            //   );
-            // }, 200);
+            if (res && res.code === 200) {
+              handleOffTabLoading();
+              toast.success("Cập nhật bài đăng thành công", {
+                position: "bottom-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
+
+              setTimeout(() => {
+                pushRouter(
+                  `/recruiter/post-detail/${searchParams.get("postId")}`
+                );
+              }, 200);
+            } else {
+              handleOffTabLoading();
+              toast.error("Cập nhật bài đăng thất bại", {
+                position: "bottom-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+              });
+            }
           } else {
-            handleOffTabLoading();
-            toast.error("Cập nhật bài đăng thất bại", {
-              position: "bottom-center",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "colored",
-            });
+            handlePersistGateLoaded("Vui lòng chờ trong giây lát");
+            const res: any = (await postsApi.updatePostedInfoNoAI(
+              formData,
+              dataReq?.description,
+              Number(searchParams.get("postId"))
+            )) as unknown as IUpdatePost;
+
+            if (res && res.code === 200) {
+              handleOffTabLoading();
+              toast.success("Cập nhật bài đăng thành công", {
+                position: "bottom-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
+
+              setTimeout(() => {
+                pushRouter(
+                  `/recruiter/post-detail/${searchParams.get("postId")}`
+                );
+              }, 200);
+            } else {
+              handleOffTabLoading();
+              toast.error("Cập nhật bài đăng thất bại", {
+                position: "bottom-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+              });
+            }
           }
         } else {
           toast.error("Vui lòng chờ xác thực trước khi dùng chức năng này", {
