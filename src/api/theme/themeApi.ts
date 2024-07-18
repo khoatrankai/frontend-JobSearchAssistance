@@ -3,7 +3,7 @@ import axios from "axios"
 import { V3 } from "../linkLocal"
 const themeApi = {
     getThemesEnable: (lang: string) => {
-        const URL = `https://imagination-trusted-joyce-techniques.trycloudflare.com/api/v1/themes/enabled?lang=${lang}`
+        const URL = `https://backend-hcmute-nodejs.onrender.com/api/v1/themes/enabled?lang=${lang}`
         return axios.get(URL)
     },
     getThemeHome:() => {

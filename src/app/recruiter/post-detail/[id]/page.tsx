@@ -92,16 +92,18 @@ const page = (props: Props) => {
     handleUpData,
     ref_list_slider,
   } = useSwiperAutoSlider(0);
+
   useEffect(() => {
     const fetchData = async () => {
       // handleLoadHrefPage();
+
       const res = (await postsApi.getPostRecruiterbyId(
         id as any,
         languageRedux === 1 ? "vi" : "en"
       )) as unknown as IPostDetail;
       //console.log(res.data?.company_name);
       const res2 = (await axiosClientRecruiter.get(
-        `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/companies/by-name?name=${res?.data?.company_name}`
+        `https://backend-hcmute-nestjs.onrender.com/api/v3/companies/by-name?name=${res?.data?.company_name}`
       )) as unknown as { status: any; data: any };
 
       if (res && (res?.code as any) === 200) {
@@ -120,7 +122,8 @@ const page = (props: Props) => {
       } else {
         // router.push("/not-found");
       }
-      if (postDetail?.account_id === profile?.accountId) {
+
+      if (res.data?.account_id == profile?.accountId) {
         if (profile?.isV2 || profile?.isV3 || profile?.isV4) {
           const res3: any = await cvsApi.getCVidPort(id, profile.accountId);
           if (res3 && res3.statusCode === 200) {
@@ -130,7 +133,7 @@ const page = (props: Props) => {
       }
     };
     fetchData();
-  }, [bookmarked, languageRedux]);
+  }, [bookmarked, languageRedux, profile]);
   const handleResize = () => {
     handleUpData();
     const widthMaxSlide = ref_slider.current.getBoundingClientRect().width;

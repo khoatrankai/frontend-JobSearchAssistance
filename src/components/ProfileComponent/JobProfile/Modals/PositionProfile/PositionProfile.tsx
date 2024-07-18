@@ -89,7 +89,7 @@ const PositionProfile = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        `https://imagination-trusted-joyce-techniques.trycloudflare.com/api/v1/locations?lang=${
+        `https://backend-hcmute-nodejs.onrender.com/api/v1/locations?lang=${
           languageRedux === 1 ? "vi" : "en"
         }`
       )) as unknown as IData;

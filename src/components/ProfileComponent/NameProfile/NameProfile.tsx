@@ -29,7 +29,7 @@ const NameProfile = (props: Props) => {
   const handleUpdateData = () => {
     const fetchData = async () => {
       const res = (await axios.put(
-        "https://imagination-trusted-joyce-techniques.trycloudflare.com/api/v1/profiles/per",
+        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/per",
         dataName,
         {
           headers: {

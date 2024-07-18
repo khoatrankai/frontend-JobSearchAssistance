@@ -98,7 +98,7 @@ const page = (props: Props) => {
           setDataProfile(res.data);
 
           if (res.data.applicationProfile?.application_status === 0) {
-            handleUpdateStatus(listData?.[0], 0);
+            handleUpdateStatus(listData?.[0], 2);
           } else {
             setStatus(res.data.applicationProfile?.application_status);
           }
@@ -311,7 +311,7 @@ const page = (props: Props) => {
 
               <div className="flex gap-x-2 w-full text-xs font-semibold text-white">
                 {!typeSeen &&
-                  (application_status === 0 || application_status === 1) && (
+                  (application_status === 2 || application_status === 1) && (
                     <>
                       <button
                         className="p-2 basis-1/3 rounded-md bg-red-500 flex gap-x-1 items-center justify-center"
@@ -325,7 +325,7 @@ const page = (props: Props) => {
                       <button
                         className="p-2 basis-1/3 rounded-md bg-green-500 flex gap-x-1 items-center justify-center"
                         onClick={() => {
-                          handleUpdateStatus(applicationId, 2);
+                          handleUpdateStatus(applicationId, 4);
                         }}
                       >
                         <FaCheck />
@@ -337,7 +337,7 @@ const page = (props: Props) => {
                       </button> */}
                     </>
                   )}
-                {!typeSeen && application_status === 2 && (
+                {!typeSeen && application_status === 4 && (
                   <>
                     <button className="p-2 basis-2/4 rounded-md bg-green-500 flex gap-x-1 items-center justify-center">
                       <FaCheck />

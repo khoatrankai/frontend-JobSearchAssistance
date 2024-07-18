@@ -104,7 +104,7 @@ const ReviewCompany: React.FC<IReviewCompany> = (props) => {
         return;
       }
       setOpenBackdrop(true);
-      const result = await apiCompany.postCompanyRating(
+      const result: any = await apiCompany.postCompanyRating(
         companyId,
         star,
         review
@@ -117,6 +117,23 @@ const ReviewCompany: React.FC<IReviewCompany> = (props) => {
         inputRef.current!.focus({
           cursor: "end",
         });
+      } else {
+        setOpenBackdrop(false);
+        toast.warning(
+          languageRedux === 1
+            ? "Chỉ có thể đánh giá khi đã ứng tuyển"
+            : "Please rate and review",
+          {
+            position: "bottom-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          }
+        );
+        return;
       }
     } catch (error) {
       //console.log(error);

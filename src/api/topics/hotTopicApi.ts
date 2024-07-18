@@ -2,7 +2,7 @@ import axiosClient from '@/configs/axiosClient';
 
 const hotTopicApi = {
   getAllTopics: () => {
-    const url = `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/topics`;
+    const url = `https://backend-hcmute-nestjs.onrender.com/api/v3/topics`;
 
     return axiosClient.get(url);
   },
