@@ -277,7 +277,9 @@ const page = (props: Props) => {
       });
     }
   };
-
+  useEffect(() => {
+    console.log(dataProfile, dataProfilePOST);
+  }, [dataProfile, dataProfilePOST]);
   return (
     <div className="flex gap-x-2 w-full min-h-96 overflow-scroll">
       <div
@@ -294,14 +296,14 @@ const page = (props: Props) => {
             <div
               className={`bg-blue-500 rounded-lg w-full h-fit px-4 py-6 flex flex-col gap-y-4 justify-center items-center`}
             >
-              <div className="flex w-full justify-between items-center  gap-x-4">
-                <div className="flex justify-center">
+              <div className="flex w-full justify-between items-center  gap-x-4 px-8">
+                <div className="flex justify-center w-36 h-36">
                   <Image
                     src={dataProfilePOST?.avatarPath ?? "/goapply.png"}
                     alt=""
                     width={150}
                     height={150}
-                    className="rounded-full"
+                    className="rounded-full w-full h-full"
                   />
                 </div>
                 <p className="font-bold text-white">{dataProfilePOST?.name}</p>
@@ -452,98 +454,109 @@ const page = (props: Props) => {
                 <FaClipboardUser />
                 <p>Thông tin cá nhân</p>
               </div>
+              {dataProfile?.profilesEducations?.length > 0 && (
+                <div
+                  className={` w-full  relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px]  flex items-center gap-x-1 pl-6 cursor-pointer ${
+                    positionScroll === 1
+                      ? "bg-black text-white"
+                      : "hover:text-white hover:bg-black bg-white hover:font-semibold"
+                  }`}
+                  onClick={() => {
+                    ref_Study.current.scrollIntoView({
+                      behavior: "smooth",
+                    });
+                  }}
+                >
+                  <MdCastForEducation />
+                  <p>Trình độ học vấn</p>
+                </div>
+              )}
+              {dataProfile?.profilesExperiences?.length > 0 && (
+                <div
+                  className={` w-full  relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px]  flex items-center gap-x-1 pl-6 cursor-pointer ${
+                    positionScroll === 2
+                      ? "bg-black text-white"
+                      : "hover:text-white hover:bg-black bg-white hover:font-semibold"
+                  }`}
+                  onClick={() => {
+                    ref_Experience.current.scrollIntoView({
+                      behavior: "smooth",
+                    });
+                  }}
+                >
+                  <RiVipDiamondFill />
+                  <p>Kinh nghiệm làm việc</p>
+                </div>
+              )}
+              {dataProfile?.profileAwards?.length > 0 && (
+                <div
+                  className={` w-full  relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px]  flex items-center gap-x-1 pl-6 cursor-pointer ${
+                    positionScroll === 3
+                      ? "bg-black text-white"
+                      : "hover:text-white hover:bg-black bg-white hover:font-semibold"
+                  }`}
+                  onClick={() => {
+                    ref_Award.current.scrollIntoView({
+                      behavior: "smooth",
+                    });
+                  }}
+                >
+                  <FaAward />
+                  <p>Giải thưởng</p>
+                </div>
+              )}
+              {dataProfile?.profilesSkills?.length > 0 && (
+                <div
+                  className={` w-full  relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px]  flex items-center gap-x-1 pl-6 cursor-pointer ${
+                    positionScroll === 4
+                      ? "bg-black text-white"
+                      : "hover:text-white hover:bg-black bg-white hover:font-semibold"
+                  }`}
+                  onClick={() => {
+                    ref_Capacity.current.scrollIntoView({
+                      behavior: "smooth",
+                    });
+                  }}
+                >
+                  <GiSkills />
+                  <p>Kỹ năng</p>
+                </div>
+              )}
 
-              <div
-                className={` w-full  relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px]  flex items-center gap-x-1 pl-6 cursor-pointer ${
-                  positionScroll === 1
-                    ? "bg-black text-white"
-                    : "hover:text-white hover:bg-black bg-white hover:font-semibold"
-                }`}
-                onClick={() => {
-                  ref_Study.current.scrollIntoView({
-                    behavior: "smooth",
-                  });
-                }}
-              >
-                <MdCastForEducation />
-                <p>Trình độ học vấn</p>
-              </div>
-              <div
-                className={` w-full  relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px]  flex items-center gap-x-1 pl-6 cursor-pointer ${
-                  positionScroll === 2
-                    ? "bg-black text-white"
-                    : "hover:text-white hover:bg-black bg-white hover:font-semibold"
-                }`}
-                onClick={() => {
-                  ref_Experience.current.scrollIntoView({
-                    behavior: "smooth",
-                  });
-                }}
-              >
-                <RiVipDiamondFill />
-                <p>Kinh nghiệm làm việc</p>
-              </div>
-              <div
-                className={` w-full  relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px]  flex items-center gap-x-1 pl-6 cursor-pointer ${
-                  positionScroll === 3
-                    ? "bg-black text-white"
-                    : "hover:text-white hover:bg-black bg-white hover:font-semibold"
-                }`}
-                onClick={() => {
-                  ref_Award.current.scrollIntoView({
-                    behavior: "smooth",
-                  });
-                }}
-              >
-                <FaAward />
-                <p>Giải thưởng</p>
-              </div>
-              <div
-                className={` w-full  relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px]  flex items-center gap-x-1 pl-6 cursor-pointer ${
-                  positionScroll === 4
-                    ? "bg-black text-white"
-                    : "hover:text-white hover:bg-black bg-white hover:font-semibold"
-                }`}
-                onClick={() => {
-                  ref_Capacity.current.scrollIntoView({
-                    behavior: "smooth",
-                  });
-                }}
-              >
-                <GiSkills />
-                <p>Kỹ năng</p>
-              </div>
-
-              <div
-                className={` w-full  relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px]  flex items-center gap-x-1 pl-6 cursor-pointer ${
-                  positionScroll === 4
-                    ? "bg-black text-white"
-                    : "hover:text-white hover:bg-black bg-white hover:font-semibold"
-                }`}
-                onClick={() => {
-                  ref_Capacity.current.scrollIntoView({
-                    behavior: "smooth",
-                  });
-                }}
-              >
-                <FaLanguage />
-                <p>Ngoại ngữ</p>
-              </div>
-              <div
-                className={` w-full  relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px]  flex items-center gap-x-1 pl-6 cursor-pointer ${
-                  positionScroll === 5
-                    ? "bg-black text-white"
-                    : "hover:text-white hover:bg-black bg-white hover:font-semibold"
-                }`}
-                onClick={() => {
-                  ref_CV.current.scrollIntoView({
-                    behavior: "smooth",
-                  });
-                }}
-              >
-                <HiMiniClipboardDocumentList />
-                <p>Thông tin CV</p>
-              </div>
+              {dataProfile?.profilesLanguages?.length > 0 && (
+                <div
+                  className={` w-full  relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px]  flex items-center gap-x-1 pl-6 cursor-pointer ${
+                    positionScroll === 4
+                      ? "bg-black text-white"
+                      : "hover:text-white hover:bg-black bg-white hover:font-semibold"
+                  }`}
+                  onClick={() => {
+                    ref_Capacity.current.scrollIntoView({
+                      behavior: "smooth",
+                    });
+                  }}
+                >
+                  <FaLanguage />
+                  <p>Ngoại ngữ</p>
+                </div>
+              )}
+              {dataProfile?.profilesCvs?.length > 0 && (
+                <div
+                  className={` w-full  relative  text-lg py-4 rounded-md transition-all duration-500 border-[1px]  flex items-center gap-x-1 pl-6 cursor-pointer ${
+                    positionScroll === 5
+                      ? "bg-black text-white"
+                      : "hover:text-white hover:bg-black bg-white hover:font-semibold"
+                  }`}
+                  onClick={() => {
+                    ref_CV.current.scrollIntoView({
+                      behavior: "smooth",
+                    });
+                  }}
+                >
+                  <HiMiniClipboardDocumentList />
+                  <p>Thông tin CV</p>
+                </div>
+              )}
             </div>
           </div>
           <div
@@ -566,28 +579,44 @@ const page = (props: Props) => {
         <div ref={ref_Info} className="py-4">
           <InfoPerson dataProfile={dataProfilePOST} />
         </div>
-        <div ref={ref_Study} className="py-4">
-          <InfoEducation dataProfile={dataProfilePOST} />
-        </div>
-        <div ref={ref_Experience} className="py-4">
-          <InfoExperience dataProfile={dataProfilePOST} />
-        </div>
-        <div ref={ref_Award} className="py-4">
-          <InfoAward dataProfile={dataProfilePOST} />
-        </div>
-        <div
-          className=" pb-12 pt-20 flex flex-col justify-center items-center"
-          ref={ref_Capacity}
-        >
-          <p className="text-3xl font-bold text-blue-700">Năng lực</p>
-          <div className="px-8 py-12 flex justify-center gap-8 flex-wrap w-full">
-            <InfoSkill dataProfile={dataProfilePOST} />
-            <InfoLanguage dataProfile={dataProfilePOST} />
+        {dataProfile?.profilesEducations?.length > 0 && (
+          <div ref={ref_Study} className="py-4">
+            <InfoEducation dataProfile={dataProfilePOST} />
           </div>
-        </div>
-        <div ref={ref_CV} className="py-8">
-          <InfoCV dataProfile={dataProfilePOST} />
-        </div>
+        )}
+        {dataProfile?.profilesExperiences?.length > 0 && (
+          <div ref={ref_Experience} className="py-4">
+            <InfoExperience dataProfile={dataProfilePOST} />
+          </div>
+        )}
+        {dataProfile?.profileAwards?.length > 0 && (
+          <div ref={ref_Award} className="py-4">
+            <InfoAward dataProfile={dataProfilePOST} />
+          </div>
+        )}
+        {(dataProfile?.profilesLanguages?.length > 0 ||
+          dataProfile?.profilesSkills?.length > 0) && (
+          <div
+            className=" pb-12 pt-20 flex flex-col justify-center items-center"
+            ref={ref_Capacity}
+          >
+            <p className="text-3xl font-bold text-blue-700">Năng lực</p>
+            <div className="px-8 py-12 flex justify-center gap-8 flex-wrap w-full">
+              {dataProfile?.profilesLanguages?.length > 0 && (
+                <InfoLanguage dataProfile={dataProfilePOST} />
+              )}
+              {dataProfile?.profilesSkills?.length > 0 && (
+                <InfoSkill dataProfile={dataProfilePOST} />
+              )}
+            </div>
+          </div>
+        )}
+
+        {dataProfile?.profilesCvs?.length > 0 && (
+          <div ref={ref_CV} className="py-8">
+            <InfoCV dataProfile={dataProfilePOST} />
+          </div>
+        )}
       </div>
       {/* <ToastContainer /> */}
       {tabModal && (

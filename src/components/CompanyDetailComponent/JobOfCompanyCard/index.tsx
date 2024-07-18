@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./style.module.scss";
 import Card from "@mui/material/Card";
@@ -15,6 +15,7 @@ import {
   SaveIconOutline,
 } from "@/icons";
 import { toast } from "react-toastify";
+import ToastCustom from "@/util/ToastCustom";
 
 interface Iprops {
   item: any;
@@ -30,7 +31,7 @@ const JobOfCompanyCard: React.FC<Iprops> = (props) => {
   const [checkBookMark, setCheckBookMark] = React.useState(true);
   const [error, setError] = React.useState(false);
   const [openModalLogin, setOpenModalLogin] = React.useState(false);
-
+  const { hdError, hdSuccess } = ToastCustom();
   const handleClickItem = (e: React.MouseEvent<HTMLDivElement>, id: number) => {
     window.open(`/post-detail/${id}`);
   };
@@ -38,7 +39,11 @@ const JobOfCompanyCard: React.FC<Iprops> = (props) => {
   const handleImageError = () => {
     setError(true);
   };
-
+  useEffect(() => {
+    if (props?.item) {
+      setCheckBookMark(props.item.bookmarked);
+    }
+  }, [props.item]);
   return (
     <>
       <Card
@@ -126,31 +131,35 @@ const JobOfCompanyCard: React.FC<Iprops> = (props) => {
                         });
                         return;
                       }
-                      if (props.item?.bookmarked) {
+                      if (checkBookMark) {
                         const result = await bookMarkApi.deleteBookMark(
                           props.item?.id
                         );
-                        props.item.bookmarked = false;
+                        // props.item.bookmarked = false;
                         if (result) {
-                          setCheckBookMark(!checkBookMark);
-                          dispatch<any>(setAlertCancleSave(true));
+                          setCheckBookMark(false);
+                          hdSuccess("Bỏ lưu thành công");
+                          // dispatch<any>(setAlertCancleSave(true));
                         }
                       } else {
                         const result = await bookMarkApi.createBookMark(
                           props.item?.id
                         );
-                        props.item.bookmarked = true;
+                        // props.item.bookmarked = true;
                         if (result) {
-                          dispatch<any>(setAlertSave(true));
-                          setCheckBookMark(!checkBookMark);
+                          // dispatch<any>(setAlertSave(true));
+                          hdSuccess("Lưu thành công");
+
+                          setCheckBookMark(true);
                         }
                       }
                     } catch (error) {
                       //console.log(error);
+                      hdError("Lỗi");
                     }
                   }}
                 >
-                  {props.item?.bookmarked ? (
+                  {checkBookMark ? (
                     <SaveIconFill width={24} height={24} />
                   ) : (
                     <SaveIconOutline width={24} height={24} />
@@ -212,8 +221,8 @@ const JobOfCompanyCard: React.FC<Iprops> = (props) => {
                     marginLeft: "4px",
                   }}
                 >
-                  {`${props.item?.ward}, 
-                                    ${props.item?.district}`}
+                  {`${props.item?.location?.ward?.fullName}, 
+                                    ${props.item?.location?.district?.fullName}`}
                 </Typography>
               </div>
               <div
@@ -236,13 +245,11 @@ const JobOfCompanyCard: React.FC<Iprops> = (props) => {
                     marginLeft: "4px",
                   }}
                 >
+                  {new Intl.NumberFormat("en-US").format(props.item?.salaryMin)}{" "}
+                  {props?.item?.moneyType} -{" "}
                   {new Intl.NumberFormat("en-US").format(
-                    props.item?.salary_min
-                  )}{" "}
-                  {props?.item?.moneyTypeData} -{" "}
-                  {new Intl.NumberFormat("en-US").format(
-                    props.item?.salary_max
-                  ) + ` ${props?.item?.money_type_text}`}
+                    props.item?.salaryMax
+                  ) + ` ${props?.item?.moneyType}`}
                 </Typography>
               </div>
               <div
@@ -262,7 +269,7 @@ const JobOfCompanyCard: React.FC<Iprops> = (props) => {
                   {props.item?.createdAtText}
                 </p>
                 <p style={{ fontSize: 13, color: "#d4a650" }}>
-                  {props.item?.job_type?.job_type_name}
+                  {props.item?.jobType?.name}
                 </p>
               </div>
             </div>

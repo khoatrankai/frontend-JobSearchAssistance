@@ -2,7 +2,7 @@ import axiosClient from "@/configs/axiosClient"
 import { V1,V3 } from "../linkLocal"
 const analyticsApi = {
     totalPosts: () => {
-        const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/posts/total-post`
+        const URL = `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/posts/total-post`
 
         return axiosClient.get(URL, {
             headers: {

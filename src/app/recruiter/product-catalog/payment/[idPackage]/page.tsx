@@ -142,7 +142,7 @@ const page = (props: Props) => {
                         <p className="text-gray-600 text-sm font-bold uppercase mb-4">
                           Quyền lợi
                         </p>
-                        {dataPackage?.type === "V1" ? (
+                        {dataPackage?.type === "V4" ? (
                           <>
                             <div className="flex flex-col gap-1">
                               <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
@@ -155,10 +155,10 @@ const page = (props: Props) => {
                                   tin mỗi ngày
                                 </p>
                               </div>
-                              <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
+                              {/* <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
                                 <FaClipboardCheck />
                                 <p>Đẩy top 7 lần trong ngày</p>
-                              </div>
+                              </div> */}
                               <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
                                 <FaClipboardCheck />
                                 <p>Được AI đề xuất CV</p>
@@ -169,7 +169,7 @@ const page = (props: Props) => {
                               </div>
                             </div>
                           </>
-                        ) : dataPackage?.type === "V2" ? (
+                        ) : dataPackage?.type === "V3" ? (
                           <>
                             <div className="flex flex-col gap-1 flex-1">
                               <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
@@ -182,17 +182,17 @@ const page = (props: Props) => {
                                   tin mỗi ngày
                                 </p>
                               </div>
-                              <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
+                              {/* <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
                                 <FaClipboardCheck />
                                 <p>Đẩy top 3 lần trong ngày</p>
-                              </div>
+                              </div> */}
                               <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
                                 <FaClipboardCheck />
                                 <p>Được AI đề xuất CV</p>
                               </div>
                             </div>
                           </>
-                        ) : dataPackage?.type === "V3" ? (
+                        ) : dataPackage?.type === "V2" ? (
                           <>
                             <div className="flex flex-col gap-1">
                               <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
@@ -205,10 +205,10 @@ const page = (props: Props) => {
                                   tin mỗi ngày
                                 </p>
                               </div>
-                              <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
+                              {/* <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
                                 <FaClipboardCheck />
                                 <p>Đẩy top 1 lần trong ngày</p>
-                              </div>
+                              </div> */}
                               <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
                                 <FaClipboardCheck />
                                 <p>Được AI đề xuất CV</p>
@@ -223,15 +223,15 @@ const page = (props: Props) => {
                                 <p>
                                   Đăng{" "}
                                   <span className="text-black font-bold">
-                                    3
+                                    10
                                   </span>{" "}
                                   tin mỗi ngày
                                 </p>
                               </div>
-                              <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
+                              {/* <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
                                 <FaClipboardCheck />
                                 <p>Đẩy top 1 lần trong ngày</p>
-                              </div>
+                              </div> */}
                             </div>
                           </>
                         )}

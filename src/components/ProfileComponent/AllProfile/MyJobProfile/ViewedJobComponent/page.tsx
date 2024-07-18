@@ -126,19 +126,19 @@ function ViewedJobComponent() {
                     </div>
                   </div>
                   <div
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleBookmark(
-                        item.postData.id,
-                        item?.postData.bookmarks
-                      );
-                    }}
+                  // onClick={(e) => {
+                  //   e.stopPropagation();
+                  //   handleBookmark(
+                  //     item.postData.id,
+                  //     item?.postData.bookmarks
+                  //   );
+                  // }}
                   >
-                    {item?.postData.bookmarks.length > 0 ? (
+                    {/* {item?.postData.bookmarks.length > 0 ? (
                       <SaveIconFill width={24} height={24} />
                     ) : (
                       <SaveIconOutline width={24} height={24} />
-                    )}
+                    )} */}
                   </div>
                 </div>
               );

@@ -97,7 +97,7 @@ const page = (props: Props) => {
       )) as unknown as IPostDetail;
       // //console.log(res.data?.company_name);
       const res2 = (await axiosClient.get(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/companies/by-name?name=${res?.data?.company_name}`
+        `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/companies/by-name?name=${res?.data?.company_name}`
       )) as unknown as { status: any; data: any };
 
       if (res && (res?.code as any) === 200) {
@@ -799,7 +799,11 @@ const page = (props: Props) => {
                   width={500}
                   height={500}
                   className=""
-                  src={postDetail?.images?.[0]?.image || "/goapply.png"}
+                  src={
+                    postDetail?.images?.[0]?.image ??
+                    postDetail?.image ??
+                    "/goapply.png"
+                  }
                 />
               </div>
               <div className="font-semibold text-lg">

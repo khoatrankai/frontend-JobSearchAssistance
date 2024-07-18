@@ -35,12 +35,28 @@ const Project = (props: Props) => {
   return (
     <>
       <div className="flex flex-col">
-        <div className="relative pl-8">
-          <div className="p-2 rounded-lg border-[1px] w-fit relative z-10 bg-white">
+        <div
+          className="relative pl-8"
+          style={{
+            maxWidth: `${data.maxWidth}px`,
+          }}
+        >
+          <div
+            className="p-2 rounded-lg border-[1px] w-fit relative z-10 bg-white"
+            style={{
+              borderColor: dataForm.colorTopic?.split(",")[dataForm.indexTopic],
+            }}
+          >
             <p className="uppercase">Dự án</p>
           </div>
           <div className="absolute inset-0 flex items-center z">
-            <div className="h-[1px] w-full bg-black "></div>
+            <div
+              className="h-[1px] w-full "
+              style={{
+                backgroundColor:
+                  dataForm.colorTopic?.split(",")[dataForm.indexTopic],
+              }}
+            ></div>
           </div>
         </div>
         <div className="flex flex-col gap-1">
@@ -225,6 +241,18 @@ const Project = (props: Props) => {
                   >
                     {dt.functionality}
                   </TextEditorOne>
+                  <BGToolRowItem
+                    index={index}
+                    indexItem={indexItem}
+                    item={item}
+                    i={i}
+                  />
+                  <BGToolType
+                    iPart={index}
+                    iCol={indexItem}
+                    iRow={item}
+                    index={i}
+                  />
                 </div>
               </>
             );

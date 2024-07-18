@@ -89,7 +89,8 @@ const page = (props: Props) => {
   const profile = useSelector((state: any) => state.profileRecruiter.profile);
   useEffect(() => {
     //console.log(dataReq);
-  }, [dataReq]);
+    console.log(profile);
+  }, [profile]);
 
   const blobToBase64 = async (blob: any) => {
     const fileReader = new FileReader();
@@ -340,39 +341,80 @@ const page = (props: Props) => {
         return;
       } else {
         if (profile?.companyInfomation?.isActive) {
-          const res: any = (await postsApi.createPost(
-            formData,
-            dataReq.description
-          )) as unknown as INewPost;
+          if (
+            profile?.isV2 === true ||
+            profile?.isV3 === true ||
+            profile?.isV4 === true
+          ) {
+            handlePersistGateLoaded();
+            const res = (await postsApi.createPost(
+              formData,
+              dataReq.description
+            )) as unknown as any;
 
-          if (res && res.statusCode === 201) {
-            // logEvent(analytics, "post_recruiter");
-            handleOffTabLoading();
-            toast.success("Tạo bài đăng thành công", {
-              position: "bottom-center",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "dark",
-            });
-            setTimeout(() => {
-              pushRouter(`/recruiter/post-detail/${res?.postId}`);
-            }, 200);
+            if (res && res.statusCode === 201) {
+              handleOffTabLoading();
+              toast.success("Tạo bài đăng thành công", {
+                position: "bottom-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
+              setTimeout(() => {
+                pushRouter(`/recruiter/post-detail/${res?.postId}`);
+              }, 200);
+            } else {
+              handleOffTabLoading();
+              toast.error("Tạo bài đăng thất bại", {
+                position: "bottom-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
+            }
           } else {
-            handleOffTabLoading();
-            toast.error("Tạo bài đăng thất bại", {
-              position: "bottom-center",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "dark",
-            });
+            handlePersistGateLoaded("Vui lòng chờ giây lát");
+            const res: any = (await postsApi.createPostNoAI(
+              formData,
+              dataReq.description
+            )) as unknown as any;
+
+            if (res && res.code === 200) {
+              handleOffTabLoading();
+              toast.success("Tạo bài đăng thành công", {
+                position: "bottom-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
+              setTimeout(() => {
+                pushRouter(`/recruiter/post-detail/${res?.postId}`);
+              }, 200);
+            } else {
+              handleOffTabLoading();
+              toast.error("Tạo bài đăng thất bại", {
+                position: "bottom-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
+            }
           }
         } else {
           toast.error("Vui lòng chờ xác thực trước khi dùng chức năng này", {

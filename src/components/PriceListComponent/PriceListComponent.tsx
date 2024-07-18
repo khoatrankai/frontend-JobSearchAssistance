@@ -80,7 +80,7 @@ const PriceListComponent = (props: Props) => {
           </div>
           <div className="flex gap-6 flex-wrap justify-center">
             {listService?.map((dt: any) => {
-              if (dt.type === "V1") {
+              if (dt.type === "V4") {
                 return (
                   <>
                     <div className="min-h-fit h-auto w-64 rounded-lg bg-white shadow-2xl shadow-red-500/20 overflow-hidden flex flex-col">
@@ -99,9 +99,9 @@ const PriceListComponent = (props: Props) => {
                               <span className="text-sm font-extrabold">
                                 VNĐ
                               </span>
-                              <span className="text-gray-400 font-semibold">
+                              {/* <span className="text-gray-400 font-semibold">
                                 /Hot
-                              </span>{" "}
+                              </span>{" "} */}
                             </p>
                             <p className="text-xs">
                               * Giá trên chưa bao gồm VAT
@@ -158,10 +158,10 @@ const PriceListComponent = (props: Props) => {
                                   tin mỗi ngày
                                 </p>
                               </div>
-                              <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
+                              {/* <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
                                 <FaClipboardCheck />
                                 <p>Đẩy top 7 lần trong ngày</p>
-                              </div>
+                              </div> */}
                               <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
                                 <FaClipboardCheck />
                                 <p>Được AI đề xuất CV</p>
@@ -209,7 +209,7 @@ const PriceListComponent = (props: Props) => {
                   </>
                 );
               }
-              if (dt.type === "V2") {
+              if (dt.type === "V3") {
                 return (
                   <>
                     <div className="min-h-fit h-auto w-64 rounded-lg bg-white shadow-2xl shadow-yellow-500/20 overflow-hidden">
@@ -229,9 +229,9 @@ const PriceListComponent = (props: Props) => {
                               <span className="text-sm font-extrabold">
                                 VNĐ
                               </span>
-                              <span className="text-gray-400 font-semibold">
+                              {/* <span className="text-gray-400 font-semibold">
                                 /30 tin
-                              </span>{" "}
+                              </span>{" "} */}
                             </p>
                             <p className="text-xs">
                               * Giá trên chưa bao gồm VAT
@@ -286,10 +286,10 @@ const PriceListComponent = (props: Props) => {
                                   tin mỗi ngày
                                 </p>
                               </div>
-                              <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
+                              {/* <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
                                 <FaClipboardCheck />
                                 <p>Đẩy top 3 lần trong ngày</p>
-                              </div>
+                              </div> */}
                               <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
                                 <FaClipboardCheck />
                                 <p>Được AI đề xuất CV</p>
@@ -333,7 +333,7 @@ const PriceListComponent = (props: Props) => {
                   </>
                 );
               }
-              if (dt.type === "V3") {
+              if (dt.type === "V2") {
                 return (
                   <>
                     <div className="min-h-fit h-auto w-64 rounded-lg bg-white border-[1px] shadow-2xl shadow-green-500/20 overflow-hidden">
@@ -353,9 +353,9 @@ const PriceListComponent = (props: Props) => {
                               <span className="text-sm font-extrabold">
                                 VNĐ
                               </span>
-                              <span className="text-gray-400 font-semibold">
+                              {/* <span className="text-gray-400 font-semibold">
                                 /20 tin
-                              </span>{" "}
+                              </span>{" "} */}
                             </p>
                             <p className="text-xs">
                               * Giá trên chưa bao gồm VAT
@@ -405,15 +405,15 @@ const PriceListComponent = (props: Props) => {
                                 <p>
                                   Đăng{" "}
                                   <span className="text-black font-bold">
-                                    20
+                                    15
                                   </span>{" "}
                                   tin mỗi ngày
                                 </p>
                               </div>
-                              <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
+                              {/* <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
                                 <FaClipboardCheck />
                                 <p>Đẩy top 1 lần trong ngày</p>
-                              </div>
+                              </div> */}
                               <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
                                 <FaClipboardCheck />
                                 <p>Được AI đề xuất CV</p>
@@ -457,7 +457,7 @@ const PriceListComponent = (props: Props) => {
                   </>
                 );
               }
-              if (dt.type === "V4") {
+              if (dt.type === "V1") {
                 return (
                   <>
                     <div className="min-h-fit h-auto w-64 rounded-lg bg-white border-[1px] shadow-2xl shadow-blue-500/20 overflow-hidden">
@@ -477,9 +477,9 @@ const PriceListComponent = (props: Props) => {
                               <span className="text-sm font-extrabold">
                                 VNĐ
                               </span>
-                              <span className="text-gray-400 font-semibold">
+                              {/* <span className="text-gray-400 font-semibold">
                                 /3 tin
-                              </span>{" "}
+                              </span>{" "} */}
                             </p>
                             <p className="text-xs">
                               * Giá trên chưa bao gồm VAT
@@ -529,15 +529,15 @@ const PriceListComponent = (props: Props) => {
                                 <p>
                                   Đăng{" "}
                                   <span className="text-black font-bold">
-                                    3
+                                    10
                                   </span>{" "}
                                   tin mỗi ngày
                                 </p>
                               </div>
-                              <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
+                              {/* <div className="flex gap-2 items-center text-sm text-blue-500 font-medium">
                                 <FaClipboardCheck />
                                 <p>Đẩy top 1 lần trong ngày</p>
-                              </div>
+                              </div> */}
                             </div>
                           </div>
                         </div>
@@ -639,9 +639,10 @@ const PriceListComponent = (props: Props) => {
       <Modal
         onClose={() => {
           setTabPay(undefined);
-
-          setSelectProfileRecruiter(7);
-          setSelectItemProfileRecruiter(2);
+          localStorage.setItem("selectProfileRecruiter", "7");
+          localStorage.setItem("selectItemProfileUser", "2");
+          // setSelectProfileRecruiter(7);
+          // setSelectItemProfileRecruiter(2);
           pushRouter("/recruiter/profile");
         }}
         open={tabPay !== undefined ? true : false}

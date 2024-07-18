@@ -11,7 +11,7 @@ const mapApi = {
     );
   },
   getSearchMapLocation: async(dataReq:any,dataLocation: any,page:any) => {
-    const URL = `${V3}/api/v3/posts/post/gps?latitude=${dataLocation?.latitude}&longitude=${dataLocation?.longitude}&maxRadius=${dataLocation?.radius+0.5 ?? null}&salary_min=${dataReq?.salary_min ?? null}&salary_max=${dataReq?.salary_max??null}&money_type=${dataReq?.money_type??null}&jobTypeId=${dataReq.jobTypeId}${dataReq.category_ids === undefined ?'': dataReq?.category_ids?.map((dt:any)=>{
+    const URL = `${V3}/api/v3/posts/post/gps?latitude=${dataLocation?.latitude}&longitude=${dataLocation?.longitude}&maxRadius=${dataLocation?.radius+3.5 ?? null}&salary_min=${dataReq?.salary_min ?? null}&salary_max=${dataReq?.salary_max??null}&money_type=${dataReq?.money_type??null}&jobTypeId=${dataReq.jobTypeId}${dataReq.category_ids === undefined ?'': dataReq?.category_ids?.map((dt:any)=>{
       return `&category_ids=${dt}`
     }).join("")}&page=${page??1}&limit=12`;
     return await axiosClient.get(

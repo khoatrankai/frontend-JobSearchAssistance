@@ -324,10 +324,7 @@ const RechargeInfo = (props: Props) => {
                     }}
                   >
                     <div className="w-6 flex items-center">
-                      <input
-                        defaultChecked={checkValue === ikey}
-                        type="radio"
-                      />
+                      <input checked={checkValue === ikey} type="radio" />
                     </div>
                     <p className="w-40">
                       {ChangeNumber(dt.toString(), false, ",")}
@@ -352,7 +349,7 @@ const RechargeInfo = (props: Props) => {
               >
                 <div className="w-6 flex items-center">
                   <input
-                    checked={checkValue === dataPrice.length}
+                    checked={checkValue == dataPrice.length}
                     type="radio"
                   />
                 </div>

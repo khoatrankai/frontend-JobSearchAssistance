@@ -316,10 +316,10 @@ const MenuRecruiter = (props: Props) => {
                               );
                             }
                           )}
-                        {dataNotification === undefined ||
-                          (dataNotification.length === 0 && (
-                            <div>Chưa có thông báo</div>
-                          ))}
+                        {(dataNotification === undefined ||
+                          dataNotification?.length === 0) && (
+                          <div>Chưa có thông báo</div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -668,7 +668,8 @@ const MenuRecruiter = (props: Props) => {
                                         );
                                       }
                                     )}
-                                  {dataNotification === undefined && (
+                                  {(dataNotification === undefined ||
+                                    dataNotification?.length === 0) && (
                                     <div>Chưa có thông báo</div>
                                   )}
                                 </div>
@@ -678,7 +679,7 @@ const MenuRecruiter = (props: Props) => {
                               className={`rounded-full p-2 bg-black cursor-pointer relative w-fit`}
                               onClick={() => {
                                 setOnMenuAll(false);
-                                router.push("/chat");
+                                router.push("/recruiter/chat");
                               }}
                             >
                               <AiFillMessage color={"white"} fontSize="1.5em" />

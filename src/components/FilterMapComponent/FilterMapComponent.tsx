@@ -145,8 +145,8 @@ const FilterMapComponent = (props: Props) => {
     };
   }, [tabSuggest]);
   useEffect(() => {
-    console.log(dataLocation);
-  }, [dataLocation]);
+    console.log(listJob);
+  }, [listJob]);
 
   useEffect(() => {
     const handleResizeNav = () => {

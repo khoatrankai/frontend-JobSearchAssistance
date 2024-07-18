@@ -288,7 +288,7 @@ const Option = (props: Props) => {
             }}
           >
             <h1 className="font-medium text-xl mb-10">Mục lục chức năng</h1>
-            <ul className="flex flex-col gap-y-3">
+            <ul className="flex flex-col gap-y-3 max-h-96 overflow-y-scroll">
               <li
                 className={`px-2 py-3 rounded-lg flex gap-x-2 items-center  text-sm font-bold uppercase ${
                   handleCheckType(dataType[9].type)

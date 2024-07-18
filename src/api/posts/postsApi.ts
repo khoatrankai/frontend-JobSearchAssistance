@@ -15,7 +15,7 @@ const postsApi = {
   ) => {
     // //console.log(page)
     const URL =
-      `https://backend-hcmute-nestjs.onrender.com/api/v3/posts/newest?` +
+      `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/posts/newest?` +
       `${
         childrenCategoryId
           ? `${childrenCategoryId
@@ -69,11 +69,11 @@ const postsApi = {
   },
 
   getPostV3: (id: number, lang: string) => {
-    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/posts/${id}?lang=${lang}`;
+    const URL = `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/posts/${id}?lang=${lang}`;
     return axiosClient.get(URL);
   },
   getPostV3Recruiter: (id: number, lang: string) => {
-    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/posts/${id}?lang=${lang}`;
+    const URL = `https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/posts/${id}?lang=${lang}`;
     return axiosClientRecruiter.get(URL);
   },
   updateStatusPost: (id: number, status: number) => {
@@ -102,7 +102,7 @@ const postsApi = {
       if(res){
         const listCV = await axiosClientRecruiter.get(`${V3}/api/v3/cvs-posts/cvs?postId=${postId}`)
         if(listCV){
-          const urlAI = 'https://train-django.onrender.com/aiFilterCV/'
+          const urlAI = 'https://aitraining.onrender.com/aiFilterCV/'
           const dataFilterCV = await axiosClientRecruiter.post(urlAI,{contentPost: des,listCV: listCV.data.data[0].cvs})
         
           if(dataFilterCV){
@@ -119,6 +119,25 @@ const postsApi = {
     return {code:403}
    
   },
+  updatePostedInfoNoAI: async(updatePost: any,des:any,postId:any) => {
+    const URL = `/v1/posts/inf`
+    const deleteRes:any = await axiosClientRecruiter.delete(`${V3}/api/v3/cvs-posts`,{data:{type: 1,postId:postId}})
+
+    if(deleteRes?.statusCode === 200){
+      const res = await axiosClientRecruiter.put(URL, updatePost, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
+          ' Content-Type': 'multipart/form-data',
+        },
+      })
+      return res
+    }
+    return {code:403}
+      
+    
+
+   
+  },
   createPost: async(newPost: any,des:any) => {
     // //console.log(des)
     const URL = `v1/posts`
@@ -132,7 +151,7 @@ const postsApi = {
       const listCV = await axiosClientRecruiter.get(`${V3}/api/v3/cvs-posts/cvs?postId=${dataPost.data.postId}`)
       if(listCV){
         // //console.log(listCV)
-        const urlAI = 'https://train-django.onrender.com/aiFilterCV/'
+        const urlAI = 'https://aitraining.onrender.com/aiFilterCV/'
         // //console.log(des,listCV.data.data.cvs)
         const dataFilterCV = await axiosClientRecruiter.post(urlAI,{contentPost: des,listCV: listCV.data.data[0].cvs})
         if(dataFilterCV){
@@ -146,6 +165,18 @@ const postsApi = {
       }
       
     }
+    // return 0
+  },
+  createPostNoAI : async(newPost: any,des:any) => {
+    // //console.log(des)
+    const URL = `v1/posts`
+    const dataPost:any = await axiosClientRecruiter.post(URL, newPost, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    return dataPost
     // return 0
   },
   ownPost: ()=>{
@@ -164,8 +195,15 @@ const postsApi = {
         Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`
       },
     })
+  },
+  deletePost: (id:any)=>{
+    const URL = `${V3}/api/v3/posts/by-user/${id}`
+    return axiosClientRecruiter.delete(URL,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`
+      },
+    })
   }
-
 };
 
 export default postsApi;

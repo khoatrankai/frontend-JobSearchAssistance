@@ -36,7 +36,7 @@ const AchivementProfile = (props: Props) => {
   );
   const handleRemove = async (id: number) => {
     const res = (await axiosClient.delete(
-      "https://backend-hcmute-nestjs.onrender.com/api/v3/profiles-awards/remove",
+      "https://apr-mentioned-accompanied-katrina.trycloudflare.com/api/v3/profiles-awards/remove",
       {
         data: { ids: [id] },
       }

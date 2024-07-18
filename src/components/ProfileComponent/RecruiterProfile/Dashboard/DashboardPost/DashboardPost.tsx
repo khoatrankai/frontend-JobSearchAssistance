@@ -39,6 +39,7 @@ const DashboardPost = ({ dataView }: Props) => {
           if (!total || !dataTotal) {
             return 0;
           }
+          console.log(dataTotal, total);
           return dataTotal / total;
         })
       );
@@ -87,7 +88,7 @@ const DashboardPost = ({ dataView }: Props) => {
               <>
                 <div
                   className="w-full relative group min-h-2"
-                  style={{ height: `${dt}%` }}
+                  style={{ height: `${dt * 100}%` }}
                 >
                   {reponsiveMobile <= 840 && (
                     <p className="absolute bottom-0 inset-x-0 text-xs text-center font-bold -translate-y-2">
@@ -99,7 +100,7 @@ const DashboardPost = ({ dataView }: Props) => {
                   <div className="w-full h-full bg-blue-500/30"></div>
                   <div
                     className={`absolute w-max h-fit flex flex-col gap-y-4 px-8 py-6 rounded-lg  z-10 bottom-0 opacity-0 invisible group-hover:opacity-100 group-hover:bg-white/90 group-hover:visible  -translate-y-2 bg-transparent transition-all duration-500  ${
-                      ikey > 7 ? "right-1/4" : "left-1/4"
+                      ikey > 6 ? "right-1/4" : "left-1/4"
                     }`}
                   >
                     <div className="flex justify-between rounded-md p-2 hover:bg-white group cursor-pointer items-center">
@@ -120,7 +121,7 @@ const DashboardPost = ({ dataView }: Props) => {
                         <p className="w-28">Trạng thái</p>
                         <div className="w-20 h-full"></div>
                       </div>
-                      <div className="flex flex-col gap-y-2">
+                      <div className="flex flex-col gap-y-2 max-h-48 overflow-y-scroll">
                         {arrayPost?.[ikey]?.data?.map((dt: any, keyy: any) => {
                           if (keyy < 6) {
                             return (
@@ -134,11 +135,11 @@ const DashboardPost = ({ dataView }: Props) => {
                                       width={300}
                                       height={300}
                                       alt=""
-                                      src={"/goapply.png"}
+                                      src={dt?.image ?? "/goapply.png"}
                                       className="w-8 h-8 rounded-full overflow-hidden "
                                     />
                                     <p className="w-max flex-1 text-blue-500">
-                                      10,012
+                                      {dt?.totalViewJob}
                                     </p>
                                     <p className="w-32 h-">
                                       {handleShortTextHome(dt.title, 15)}
@@ -164,11 +165,11 @@ const DashboardPost = ({ dataView }: Props) => {
                                       width={300}
                                       height={300}
                                       alt=""
-                                      src={"/goapply.png"}
+                                      src={dt?.image ?? "/goapply.png"}
                                       className="w-8 h-8 rounded-full overflow-hidden "
                                     />
                                     <p className="w-max flex-1 text-blue-500">
-                                      10,012
+                                      {dt?.totalViewJob}
                                     </p>
                                     <p className="w-32 h-">
                                       {handleShortTextHome(dt.title, 15)}
@@ -250,11 +251,11 @@ const DashboardPost = ({ dataView }: Props) => {
                         </div> */}
                       </div>
                     </div>
-                    <div className="flex justify-center">
+                    {/* <div className="flex justify-center">
                       <button className="font-semibold text-sm text-blue-700 hover:text-blue-400">
                         Xem thêm
                       </button>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </>
@@ -314,16 +315,19 @@ const DashboardPost = ({ dataView }: Props) => {
               return (
                 <>
                   <div
-                    className="flex gap-x-4 border-[1px] border-transparent rounded-md p-2 hover:bg-white group cursor-pointer"
+                    className="flex gap-x-4 justify-between border-[1px] border-transparent rounded-md p-2 hover:bg-white group cursor-pointer"
                     key={ikey}
                   >
-                    <p className="text-white font-semibold  group-hover:text-blue-800">
-                      #{ikey + 1}
-                    </p>
+                    <div className="flex gap-4">
+                      <p className="text-white font-semibold  group-hover:text-blue-800">
+                        #{ikey + 1}
+                      </p>
 
-                    <p className="text-white group-hover:text-blue-700 ">
-                      {handleShortTextHome(dt.post_title, 20)}
-                    </p>
+                      <p className="text-white group-hover:text-blue-700 ">
+                        {handleShortTextHome(dt.post_title, 20)}
+                      </p>
+                    </div>
+
                     {dt.status === "up" ? (
                       <div className="flex text-green-400 items-center gap-x-1 group-hover:text-green-700">
                         <FaArrowUp />

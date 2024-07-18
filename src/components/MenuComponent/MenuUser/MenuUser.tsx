@@ -345,11 +345,14 @@ const MenuComponent = (props: Props) => {
 
   React.useEffect(() => {
     if (socket.current === undefined && localStorage.getItem("accessToken")) {
-      socket.current = io("https://backend-hcmute-nodejs.onrender.com", {
-        extraHeaders: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      socket.current = io(
+        "https://imagination-trusted-joyce-techniques.trycloudflare.com",
+        {
+          extraHeaders: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
 
       socket.current.on("connect", () => {
         // //console.log('ket noi thanh cong');
@@ -709,7 +712,8 @@ const MenuComponent = (props: Props) => {
                                   );
                                 }
                               )}
-                            {dataNotification === undefined && (
+                            {(dataNotification?.length === 0 ||
+                              dataNotification === undefined) && (
                               <div>Chưa có thông báo</div>
                             )}
                           </div>
@@ -922,6 +926,7 @@ const MenuComponent = (props: Props) => {
                       } p-2 bg-black cursor-pointer relative z-[50] hover:bg-blue-500`}
                       onClick={() => {
                         setOnMenuAll(!onMenuAll);
+                        setSelectionMenu(0);
                       }}
                     >
                       {!onMenuAll ? (
@@ -1093,7 +1098,8 @@ const MenuComponent = (props: Props) => {
                                             );
                                           }
                                         )}
-                                      {dataNotification === undefined && (
+                                      {(dataNotification?.length === 0 ||
+                                        dataNotification === undefined) && (
                                         <div>Chưa có thông báo</div>
                                       )}
                                     </div>

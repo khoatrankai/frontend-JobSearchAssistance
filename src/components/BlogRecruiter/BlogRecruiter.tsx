@@ -53,7 +53,7 @@ const BlogRecruiter = (props: Props) => {
                       className={`w-full ${
                         reponsiveMobile < 615 ? "h-64" : " h-40"
                       }`}
-                      src={dt.images[0].image}
+                      src={dt.images?.[0]?.image}
                       alt=""
                       width={1000}
                       height={1000}

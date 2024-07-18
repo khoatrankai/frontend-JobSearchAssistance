@@ -240,6 +240,18 @@ const Project = (props: Props) => {
                   >
                     {dt.functionality}
                   </TextEditorOne>
+                  <BGToolRowItem
+                    index={index}
+                    indexItem={indexItem}
+                    item={item}
+                    i={i}
+                  />
+                  <BGToolType
+                    iPart={index}
+                    iCol={indexItem}
+                    iRow={item}
+                    index={i}
+                  />
                 </div>
               </>
             );

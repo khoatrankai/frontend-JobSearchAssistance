@@ -188,7 +188,7 @@ const DashboardApply = (props: Props) => {
                         className="flex gap-x-4 items-center justify-between font-medium text-xs w-full"
                         key={ikey}
                       >
-                        <p className="w-8 pl-2">1</p>
+                        <p className="w-8 pl-2">{ikey + 1}</p>
                         <p className="w-2/12 text-blue-500 pl-2">
                           {ChangeNumber(dt.seen, false, ",")}
                         </p>

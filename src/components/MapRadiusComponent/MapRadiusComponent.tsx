@@ -14,6 +14,7 @@ import "./styles.scss";
 import Image from "next/image";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import useRouterCustom from "@/util/useRouterCustom/useRouterCustom";
+import ShortText from "@/util/ShortText";
 
 type Props = {
   setData: any;
@@ -24,12 +25,15 @@ type Props = {
 const MapRadiusComponent = (props: Props) => {
   const { pushBlank } = useRouterCustom();
   const listMarkerMap = props.listMarker;
+  const { handleShortTextHome } = ShortText();
   const [viewChoose, setViewChoose] = useState<any>(undefined);
+  const [listChoose, setListChoose] = useState<any>([]);
   const [viewport, setViewport] = useState<any>({
     latitude: props.data.latitude,
     longitude: props.data.longitude,
     zoom: 10,
   });
+  const [itemChoose, setItemChoose] = useState<any>();
   const [radius, setRadius] = useState<any>(props.data.radius * 1000);
   const handleChange = (e: any) => {
     props.setData({
@@ -53,6 +57,19 @@ const MapRadiusComponent = (props: Props) => {
       units: "kilometers",
     });
   }, [radius, viewport]);
+  useEffect(() => {
+    const dataNew = listMarkerMap?.filter((dt: any) => {
+      return (
+        viewChoose?.longitude == dt?.longitude &&
+        viewChoose?.latitude == dt?.latitude
+      );
+    });
+    if (dataNew?.length > 1) {
+      setListChoose(dataNew);
+    } else {
+      setListChoose([]);
+    }
+  }, [viewChoose]);
   return (
     <>
       <div className="w-full h-full relative transi">
@@ -92,16 +109,20 @@ const MapRadiusComponent = (props: Props) => {
                           latitude: Number(dt.latitude),
                           zoom: 17,
                         });
+                        setItemChoose(ikey);
                       }}
                     />
                   )}
                   {viewChoose?.latitude == dt.latitude &&
-                    viewChoose?.longitude == dt.longitude && (
+                    viewChoose?.longitude == dt.longitude &&
+                    itemChoose === ikey && (
                       <Popup
                         closeOnClick={false}
                         closeButton={false}
                         longitude={dt.longitude}
                         latitude={dt.latitude}
+                        className="flex flex-col"
+                        style={{ width: "384px" }}
                       >
                         <div className="w-full text-end ">
                           <button
@@ -113,35 +134,86 @@ const MapRadiusComponent = (props: Props) => {
                             <IoIosCloseCircleOutline className="text-2xl" />
                           </button>
                         </div>
-                        <div
-                          className="flex gap-2 items-center cursor-pointer hover:shadow-xl rounded-lg"
-                          onClick={() => {
-                            pushBlank(`/post-detail/${dt.id}`);
-                          }}
-                        >
-                          <div className="rounded-full overflow-hidden">
-                            <Image
-                              alt=""
-                              src={"/goapply.png"}
-                              width={50}
-                              height={50}
-                            />
-                          </div>
-                          <div>
-                            <p className="text-base font-bold">{dt.title}</p>
-                            <p className=" font-medium text-gray-500">
-                              Lương :
-                              <span className="font-bold text-blue-500">
-                                {dt.salary_max} {dt.money_type_text}
-                              </span>
-                            </p>
-                            <p className="font-medium text-gray-500">
-                              Địa chỉ :
-                              <span className="font-bold text-blue-500">
-                                {dt.address}
-                              </span>
-                            </p>
-                          </div>
+                        <div className="flex-1 flex flex-col max-h-28 overflow-y-scroll gap-4">
+                          {listChoose?.length > 1 ? (
+                            <>
+                              {listChoose?.map((dtt: any, i: any) => {
+                                return (
+                                  <>
+                                    <div
+                                      className="flex gap-2 items-center cursor-pointer hover:shadow-xl rounded-lg"
+                                      key={i}
+                                      onClick={() => {
+                                        pushBlank(`/post-detail/${dtt.id}`);
+                                      }}
+                                    >
+                                      <div className="rounded-full overflow-hidden w-14 h-14">
+                                        <Image
+                                          className="w-full h-full"
+                                          alt=""
+                                          src={dtt?.image ?? "/goapply.png"}
+                                          width={70}
+                                          height={70}
+                                        />
+                                      </div>
+                                      <div>
+                                        <p className="text-sm font-bold">
+                                          {handleShortTextHome(dtt.title, 30)}
+                                        </p>
+                                        <p className=" font-medium text-gray-500">
+                                          Lương :
+                                          <span className="font-bold text-blue-500">
+                                            {dtt.salary_max}{" "}
+                                            {dtt.money_type_text}
+                                          </span>
+                                        </p>
+                                        <p className="font-medium text-gray-500">
+                                          Địa chỉ :
+                                          <span className="font-bold text-blue-500">
+                                            {dtt.address}
+                                          </span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </>
+                                );
+                              })}
+                            </>
+                          ) : (
+                            <div
+                              className="flex gap-2 items-center cursor-pointer hover:shadow-xl rounded-lg"
+                              onClick={() => {
+                                pushBlank(`/post-detail/${dt.id}`);
+                              }}
+                            >
+                              <div className="rounded-full overflow-hidden w-14 h-14">
+                                <Image
+                                  className="w-full h-full"
+                                  alt=""
+                                  src={dt?.image ?? "/goapply.png"}
+                                  width={70}
+                                  height={70}
+                                />
+                              </div>
+                              <div>
+                                <p className="text-sm font-bold">
+                                  {handleShortTextHome(dt.title, 30)}
+                                </p>
+                                <p className=" font-medium text-gray-500">
+                                  Lương :
+                                  <span className="font-bold text-blue-500">
+                                    {dt.salary_max} {dt.money_type_text}
+                                  </span>
+                                </p>
+                                <p className="font-medium text-gray-500">
+                                  Địa chỉ :
+                                  <span className="font-bold text-blue-500">
+                                    {dt.address}
+                                  </span>
+                                </p>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </Popup>
                     )}

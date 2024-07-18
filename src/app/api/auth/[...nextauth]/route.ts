@@ -49,9 +49,14 @@ const handler = NextAuth({
         const idToken = account?.access_token ?? "";
         if(idToken){
         console.log(token, user, account, profile)
-
+          console.log("token day nè",idToken)
           const resdata:any =  await signInEmailApi.signInFacebook(idToken)
+          console.log("tim ra roi",resdata)
+
           if (resdata && resdata.code === 200 && resdata.data) {
+            
+          console.log("tim ra roi",resdata)
+
             return {
               ...token,
               accountId: resdata.data.accountId,
