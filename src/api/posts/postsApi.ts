@@ -15,7 +15,7 @@ const postsApi = {
   ) => {
     // //console.log(page)
     const URL =
-      `https://backend-hcmute-nestjs.onrender.com/api/v3/posts/newest?` +
+      `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/posts/newest?` +
       `${
         childrenCategoryId
           ? `${childrenCategoryId
@@ -69,11 +69,11 @@ const postsApi = {
   },
 
   getPostV3: (id: number, lang: string) => {
-    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/posts/${id}?lang=${lang}`;
+    const URL = `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/posts/${id}?lang=${lang}`;
     return axiosClient.get(URL);
   },
   getPostV3Recruiter: (id: number, lang: string) => {
-    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/posts/${id}?lang=${lang}`;
+    const URL = `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/posts/${id}?lang=${lang}`;
     return axiosClientRecruiter.get(URL);
   },
   updateStatusPost: (id: number, status: number) => {

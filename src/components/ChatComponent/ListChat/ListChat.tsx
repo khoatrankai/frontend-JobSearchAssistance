@@ -116,11 +116,14 @@ const ListChat: React.FC<IOpenListChat> = (props) => {
 
   useEffect(() => {
     if (isConnected === false && !socket.current) {
-      socket.current = io("https://backend-hcmute-nodejs.onrender.com", {
-        extraHeaders: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      socket.current = io(
+        "https://welcome-unlimited-summaries-formerly.trycloudflare.com",
+        {
+          extraHeaders: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
 
       socket.current.on("disconnect", (reason: any) => {
         setIsConnected(false);

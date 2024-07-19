@@ -41,7 +41,7 @@ const signInEmailApi = {
   },
 
   signInEmailRecruit: (email: string) => {
-    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/users/sign-up`;
+    const URL = `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/users/sign-up`;
     return axiosClient.post(URL, {email});
   },
 };

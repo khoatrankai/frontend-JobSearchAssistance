@@ -171,16 +171,16 @@ const page = (props: Props) => {
   };
   const fetchData = async (cvIndex: any) => {
     const res = (await axiosClient.get(
-      `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-extra-information/?cvIndex=${cvIndex}`
+      `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-extra-information/?cvIndex=${cvIndex}`
     )) as unknown as any;
     const res2 = (await axiosClient.get(
-      `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-project/?cvIndex=${cvIndex}`
+      `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-project/?cvIndex=${cvIndex}`
     )) as unknown as any;
     const res3 = (await axiosClient.get(
-      `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-information/?cvIndex=${cvIndex}`
+      `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-information/?cvIndex=${cvIndex}`
     )) as unknown as any;
     const res4 = (await axiosClient.get(
-      `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-layout/?cvIndex=${cvIndex}`
+      `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-layout/?cvIndex=${cvIndex}`
     )) as unknown as any;
     const dataNew = [...res.data, ...res2.data, res3.data];
     //console.log(res, res2, res3, res4, profile, cvNew);

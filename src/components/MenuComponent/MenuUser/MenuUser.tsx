@@ -345,11 +345,14 @@ const MenuComponent = (props: Props) => {
 
   React.useEffect(() => {
     if (socket.current === undefined && localStorage.getItem("accessToken")) {
-      socket.current = io("https://backend-hcmute-nodejs.onrender.com", {
-        extraHeaders: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      socket.current = io(
+        "https://welcome-unlimited-summaries-formerly.trycloudflare.com",
+        {
+          extraHeaders: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
 
       socket.current.on("connect", () => {
         // //console.log('ket noi thanh cong');

@@ -3,7 +3,7 @@ import axiosClientRecruiter from "@/configs/axiosRecruiter";
 
 const candidateSearch = {
   getAcademicTypes: (lang: string) => {
-    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/academic-types?lang=${lang}`
+    const URL = `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/academic-types?lang=${lang}`
     return axiosClientRecruiter.get(URL)
   },
 
@@ -11,7 +11,7 @@ const candidateSearch = {
   getCandidates: (addresses: any, categories: any, educations: number | undefined, gender: number | undefined, ageMin: number | null, ageMax: number | null, limit: number | null, page: number | null, lang: string) => {
 
 
-    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-filter/search?` +
+    const URL = `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-filter/search?` +
       `${addresses.length !== 0
         ? `&${addresses?.map((n: any, index: number) => `addresses=${n[1]}`).join('&')}`
         : ``
@@ -35,7 +35,7 @@ const candidateSearch = {
   },
 
   postBookmarkCandidate: (accountId: string) => {
-    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/candidate-bookmarks`
+    const URL = `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/candidate-bookmarks`
     return axiosClientRecruiter.post(
       URL,
       { candidateId: accountId },
@@ -48,7 +48,7 @@ const candidateSearch = {
   },
 
   getBookmarkCandidate: (page: number, limit: number, lang: string) => {
-    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/candidate-bookmarks?lang=${lang}&page=${page}&limit=${limit}`
+    const URL = `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/candidate-bookmarks?lang=${lang}&page=${page}&limit=${limit}`
     return axiosClientRecruiter.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessTokenRecruiter')}`,
@@ -57,7 +57,7 @@ const candidateSearch = {
   },
 
   postCountShowCandidate: (accountId: string) => {
-    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/view-profiles`
+    const URL = `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/view-profiles`
     return axiosClientRecruiter.post(
       URL,
       { profileId: accountId },
@@ -69,7 +69,7 @@ const candidateSearch = {
     )
   },
   getViewProfile: () => {
-    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/view-profiles`
+    const URL = `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/view-profiles`
     return axiosClient.get(URL, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

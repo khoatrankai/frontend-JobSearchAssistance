@@ -39,7 +39,7 @@ const ExperienceProfile = (props: Props) => {
 
   const handleRemove = async (id: number) => {
     const res = (await axiosClient.put(
-      "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/exp/d",
+      "https://welcome-unlimited-summaries-formerly.trycloudflare.com/api/v1/profiles/exp/d",
       { experienceId: id }
     )) as unknown as IData;
     if (res && res.code === 200) {

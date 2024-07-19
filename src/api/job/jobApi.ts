@@ -2,7 +2,7 @@ import axiosClient from "../../configs/axiosClient";
 
 const jobApi = {
     getTotalJob: (lang: string) => {
-        const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/site/jobs?lang=${lang}`
+        const URL = `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/site/jobs?lang=${lang}`
         return axiosClient.get(URL)
     },  
 }

@@ -190,7 +190,7 @@ const page = (props: Props) => {
   }, []);
   useEffect(() => {
     // handleLoadHrefPage();
-    const url = `https://backend-hcmute-nestjs.onrender.com/api/v3/posts/topic/${id}?a=394,370`;
+    const url = `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/posts/topic/${id}?a=394,370`;
     const fetchData = async () => {
       setListHotJob([]);
       const res = (await hotJobApi.getHotJobById(
@@ -306,7 +306,7 @@ const page = (props: Props) => {
       setLoading(true);
 
       setTimeout(async () => {
-        const url = `https://backend-hcmute-nestjs.onrender.com/api/v3/posts/topic/${id}?a=394,370`;
+        const url = `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/posts/topic/${id}?a=394,370`;
 
         const res = (await hotJobApi.getHotJobById(
           url,

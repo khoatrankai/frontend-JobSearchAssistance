@@ -2,7 +2,7 @@ import axios from "axios"
 
 const appplicationApi = {
   updateApplication: (id: number, status: number) => {
-    const URL = `https://backend-hcmute-nodejs.onrender.com/api/v1/application/update`
+    const URL = `https://welcome-unlimited-summaries-formerly.trycloudflare.com/api/v1/application/update`
 
     return axios.put(
       URL,
@@ -15,7 +15,7 @@ const appplicationApi = {
     )
   },
   applyAplication: (data: FormData) => {
-    const URL = `https://backend-hcmute-nodejs.onrender.com/api/v1/application/create`
+    const URL = `https://welcome-unlimited-summaries-formerly.trycloudflare.com/api/v1/application/create`
     return axios.post(URL, data, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
