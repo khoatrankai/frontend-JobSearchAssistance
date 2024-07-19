@@ -42,7 +42,7 @@ const Project = (props: Props) => {
           }}
         >
           <div
-            className="p-2 rounded-lg border-[1px] w-fit relative z-10 bg-white"
+            className="p-2 rounded-lg border-[1px] w-fit relative z-10"
             style={{
               borderColor: dataForm.colorTopic?.split(",")[dataForm.indexTopic],
             }}
