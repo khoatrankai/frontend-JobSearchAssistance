@@ -2920,6 +2920,7 @@ const LibCvV2 = (props: Props) => {
       next: {},
     });
     setDataLoad(newDataLoad);
+    setCheckActive({ ...checkActive, col: checkActive.col - 1 });
   };
   const handleDownMobileRow = () => {
     const newDataLoad = dataLoad.map((dt: any) => {
@@ -2945,6 +2946,7 @@ const LibCvV2 = (props: Props) => {
       next: {},
     });
     setDataLoad(newDataLoad);
+    setCheckActive({ ...checkActive, col: checkActive.col + 1 });
   };
   useEffect(() => {
     if (reponsiveMobile < 850) {
