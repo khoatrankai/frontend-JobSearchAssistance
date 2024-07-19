@@ -102,7 +102,7 @@ const postsApi = {
       if(res){
         const listCV = await axiosClientRecruiter.get(`${V3}/api/v3/cvs-posts/cvs?postId=${postId}`)
         if(listCV){
-          const urlAI = 'https://aitraining.onrender.com/aiFilterCV/'
+          const urlAI = 'https://jeffrey-diverse-writers-vsnet.trycloudflare.com/aiFilterCV/'
           const dataFilterCV = await axiosClientRecruiter.post(urlAI,{contentPost: des,listCV: listCV.data.data[0].cvs})
         
           if(dataFilterCV){
@@ -151,7 +151,7 @@ const postsApi = {
       const listCV = await axiosClientRecruiter.get(`${V3}/api/v3/cvs-posts/cvs?postId=${dataPost.data.postId}`)
       if(listCV){
         // //console.log(listCV)
-        const urlAI = 'https://aitraining.onrender.com/aiFilterCV/'
+        const urlAI = 'https://jeffrey-diverse-writers-vsnet.trycloudflare.com/aiFilterCV/'
         // //console.log(des,listCV.data.data.cvs)
         const dataFilterCV = await axiosClientRecruiter.post(urlAI,{contentPost: des,listCV: listCV.data.data[0].cvs})
         if(dataFilterCV){

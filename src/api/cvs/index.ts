@@ -116,7 +116,7 @@ const cvsApi = {
 
     },
     checkWarCV : async(dataLoad:any) => {
-       const URL =  `https://aitraining.onrender.com/checkWar/`
+       const URL =  `https://jeffrey-diverse-writers-vsnet.trycloudflare.com/checkWar/`
        const res = await axiosClientRecruiter.post(URL,{content:dataLoad})
        if(res?.data == 1){
         return false
@@ -146,7 +146,7 @@ const cvsApi = {
       return res3
     },
     postCV: async(dataCV:any,cvId:any,accountId:any)=>{
-      const urlFilterAI = 'https://aitraining.onrender.com/jobFit/'
+      const urlFilterAI = 'https://jeffrey-diverse-writers-vsnet.trycloudflare.com/jobFit/'
       // //console.log(dataCV)
       const dataFilterAI = await axiosClient.post(urlFilterAI,{content:dataCV})
       if(dataFilterAI){
@@ -159,7 +159,7 @@ const cvsApi = {
           const dataPost = await axiosClient.get(urlV3 +`?cvIndex=${cvId}`)
           if(dataPost){
             // //console.log(dataCV,dataPost)
-            const dataFilterPost = await axiosClient.post('https://aitraining.onrender.com/aiFilterPOST/',{contentCV: dataCV,listPost: dataPost.data})
+            const dataFilterPost = await axiosClient.post('https://jeffrey-diverse-writers-vsnet.trycloudflare.com/aiFilterPOST/',{contentCV: dataCV,listPost: dataPost.data})
             if(dataFilterPost){
               // //console.log(dataFilterPost)
               const updateDataFilter = await axiosClient.post(`${V3}/api/v3/cvs-posts`,{data: dataFilterPost.data.map((dt:any)=>{
