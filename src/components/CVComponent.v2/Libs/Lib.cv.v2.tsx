@@ -1930,16 +1930,16 @@ const LibCvV2 = (props: Props) => {
   const handleLoadData = async () => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-extra-information/?cvIndex=${cvIndex}`
+        `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-extra-information/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const res2 = (await axiosClient.get(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-project/?cvIndex=${cvIndex}`
+        `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-project/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const res3 = (await axiosClient.get(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-information/?cvIndex=${cvIndex}`
+        `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-information/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const res4 = (await axiosClient.get(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-layout/?cvIndex=${cvIndex}`
+        `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-layout/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const dataNew = [...res.data, ...res2.data, res3.data];
       // //console.log(res, res2, res3, res4, profile);
@@ -1957,16 +1957,16 @@ const LibCvV2 = (props: Props) => {
   const handleLoadBackData = async (cvNew: any) => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-extra-information/?cvIndex=${cvIndex}`
+        `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-extra-information/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const res2 = (await axiosClient.get(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-project/?cvIndex=${cvIndex}`
+        `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-project/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const res3 = (await axiosClient.get(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-information/?cvIndex=${cvIndex}`
+        `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-information/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const res4 = (await axiosClient.get(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-layout/?cvIndex=${cvIndex}`
+        `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-layout/?cvIndex=${cvIndex}`
       )) as unknown as ILoad;
       const dataNew = [...res.data, ...res2.data, res3.data];
       //console.log(res, res2, res3, res4, profile, cvNew);
@@ -2920,6 +2920,7 @@ const LibCvV2 = (props: Props) => {
       next: {},
     });
     setDataLoad(newDataLoad);
+    setCheckActive({ ...checkActive, row: checkActive.row - 1 });
   };
   const handleDownMobileRow = () => {
     const newDataLoad = dataLoad.map((dt: any) => {
@@ -2945,6 +2946,7 @@ const LibCvV2 = (props: Props) => {
       next: {},
     });
     setDataLoad(newDataLoad);
+    setCheckActive({ ...checkActive, row: checkActive.row + 1 });
   };
   useEffect(() => {
     if (reponsiveMobile < 850) {

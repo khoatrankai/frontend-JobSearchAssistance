@@ -41,6 +41,7 @@ import cvsApi from "@/api/cvs";
 import { ImProfile } from "react-icons/im";
 import Link from "next/link";
 import useRouterCustom from "@/util/useRouterCustom/useRouterCustom";
+import TimeStamp from "@/util/TimeStamp/TimeStamp";
 
 type Props = {};
 
@@ -62,6 +63,7 @@ interface IApplication {
 const page = (props: Props) => {
   const { id } = useParams();
   const { handleShortTextHome } = ShortText();
+  const { handleConvertToDate } = TimeStamp();
   const { pushBlank, pushRouter } = useRouterCustom();
   const { handleDecodingDescription } = EncodingDescription();
   const [checkSize, setCheckSize] = useState<boolean>(false);
@@ -103,7 +105,7 @@ const page = (props: Props) => {
       )) as unknown as IPostDetail;
       //console.log(res.data?.company_name);
       const res2 = (await axiosClientRecruiter.get(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/companies/by-name?name=${res?.data?.company_name}`
+        `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/companies/by-name?name=${res?.data?.company_name}`
       )) as unknown as { status: any; data: any };
 
       if (res && (res?.code as any) === 200) {
@@ -840,9 +842,7 @@ const page = (props: Props) => {
                   </h2>
                   <h2 className="font-semibold">
                     {postDetail?.expired_date
-                      ? moment
-                          .unix(postDetail.expired_date)
-                          .format("DD/MM/YYYY")
+                      ? handleConvertToDate(postDetail.expired_date)
                       : "Vô thời hạn"}
                   </h2>
                 </div>

@@ -37,7 +37,7 @@ const RecruitmentSuccessList = (props: Props) => {
       const data = await historyRecruiter.getApplicationAll(idPost);
       if (data) {
         const dataFil = data.data.applications.filter((dt: any) => {
-          if (dt.application_status === 2) {
+          if (dt.application_status === 4) {
             return dt;
           }
         });

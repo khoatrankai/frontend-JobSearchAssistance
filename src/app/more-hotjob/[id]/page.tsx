@@ -190,7 +190,7 @@ const page = (props: Props) => {
   }, []);
   useEffect(() => {
     // handleLoadHrefPage();
-    const url = `https://backend-hcmute-nestjs.onrender.com/api/v3/posts/topic/${id}?a=394,370`;
+    const url = `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/posts/topic/${id}?a=394,370`;
     const fetchData = async () => {
       setListHotJob([]);
       const res = (await hotJobApi.getHotJobById(
@@ -306,7 +306,7 @@ const page = (props: Props) => {
       setLoading(true);
 
       setTimeout(async () => {
-        const url = `https://backend-hcmute-nestjs.onrender.com/api/v3/posts/topic/${id}?a=394,370`;
+        const url = `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/posts/topic/${id}?a=394,370`;
 
         const res = (await hotJobApi.getHotJobById(
           url,
@@ -625,24 +625,24 @@ const page = (props: Props) => {
                           <div className="flex justify-start min-h-[70px] flex-1 relative ">
                             <div
                               className={` py-1 px-2 group-hover:text-white rounded-2xl h-fit transition-all duration-500 ${
-                                item?.serviceType == "v2"
+                                item?.serviceType == "V2"
                                   ? "bg-red-100 group-hover:bg-red-500 text-red-500"
-                                  : item?.serviceType == "v1"
+                                  : item?.serviceType == "V1"
                                   ? "bg-green-100 group-hover:bg-green-500 text-green-500"
-                                  : item?.serviceType == "v3"
+                                  : item?.serviceType == "V3"
                                   ? "bg-yellow-100 group-hover:bg-yellow-500 text-yellow-500"
-                                  : item?.serviceType == "v4"
+                                  : item?.serviceType == "V4"
                                   ? "bg-violet-100 group-hover:bg-violet-500 text-violet-500"
                                   : "bg-gray-100 group-hover:bg-gray-500  text-gray-500"
                               }   text-xs font-medium `}
                             >
-                              {item?.serviceType == "v2"
+                              {item?.serviceType == "V2"
                                 ? "hot"
-                                : item?.serviceType == "v1"
+                                : item?.serviceType == "V1"
                                 ? "new"
-                                : item?.serviceType == "v3"
+                                : item?.serviceType == "V3"
                                 ? "trending"
-                                : item?.serviceType == "v4"
+                                : item?.serviceType == "V4"
                                 ? "vip"
                                 : "nor"}
                             </div>

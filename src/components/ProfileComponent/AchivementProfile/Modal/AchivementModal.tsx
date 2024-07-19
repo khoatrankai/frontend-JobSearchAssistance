@@ -32,7 +32,7 @@ const AchivementModal = (props: Props) => {
   const handleUpdateData = async () => {
     if (type === "add") {
       const res = (await axiosClient.post(
-        "https://backend-hcmute-nestjs.onrender.com/api/v3/profiles-awards",
+        "https://lending-advantage-pale-xp.trycloudflare.com/api/v3/profiles-awards",
         dataRequest
       )) as unknown as IResquest;
       if (res && res.statusCode === 201) {
@@ -44,7 +44,7 @@ const AchivementModal = (props: Props) => {
       }
     } else {
       const res = (await axiosClient.put(
-        `https://backend-hcmute-nestjs.onrender.com/api/v3/profiles-awards/${dataRequest.id}`,
+        `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/profiles-awards/${dataRequest.id}`,
         {
           title: dataRequest?.title,
           description: dataRequest?.description,

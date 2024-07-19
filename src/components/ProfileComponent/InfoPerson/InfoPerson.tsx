@@ -62,7 +62,7 @@ const InfoPerson = (props: Props) => {
   const handleUpdateData = () => {
     const fetchData = async () => {
       const res = (await axiosClient.put(
-        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/per",
+        "https://welcome-unlimited-summaries-formerly.trycloudflare.com/api/v1/profiles/per",
         dataRequest
       )) as unknown as ILocation;
       const { hdError, hdSuccess } = ToastCustom();
@@ -82,7 +82,7 @@ const InfoPerson = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        "https://backend-hcmute-nodejs.onrender.com/api/v1/locations/p"
+        "https://welcome-unlimited-summaries-formerly.trycloudflare.com/api/v1/locations/p"
       )) as unknown as ILocation;
       if (res && res.code === 200) {
         setDataLocation(res.data);
@@ -288,6 +288,23 @@ const InfoPerson = (props: Props) => {
                   rsInfo ? "border-dashed border-black/30" : "bg-transparent"
                 }`}
                 name="jobTypeName"
+                onChange={handleUpdate}
+                disabled={!rsInfo}
+                type="text"
+              />
+            </div>
+          </div>
+          <div className="flex min-w-fit items-center">
+            <label className="basis-1/3 font-serif">
+              {languageRedux === 1 ? "Mô tả bản thân" : "Description"}
+            </label>
+            <div className="basis-2/3 font-bold">
+              <Input
+                value={dataRequest?.introduction ?? ""}
+                className={`font-serif outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${
+                  rsInfo ? "border-dashed border-black/30" : "bg-transparent"
+                }`}
+                name="introduction"
                 onChange={handleUpdate}
                 disabled={!rsInfo}
                 type="text"

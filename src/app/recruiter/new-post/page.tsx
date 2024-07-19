@@ -232,20 +232,32 @@ const page = (props: Props) => {
                 theme: "dark",
               });
               setTimeout(() => {
-                pushRouter(`/recruiter/post-detail/${res?.postId}`);
+                pushRouter(`/recruiter/post-detail/${res?.data?.postId}`);
               }, 200);
             } else {
               handleOffTabLoading();
-              toast.error("Tạo bài đăng thất bại", {
-                position: "bottom-center",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-              });
+              if (res && res.code === 400) {
+                toast.warning("Bạn đã hết lượt tạo bài", {
+                  position: "bottom-center",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "dark",
+                });
+              } else
+                toast.error("Tạo bài đăng thất bại", {
+                  position: "bottom-center",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "dark",
+                });
             }
           } else {
             handlePersistGateLoaded("Vui lòng chờ giây lát");
@@ -267,20 +279,32 @@ const page = (props: Props) => {
                 theme: "dark",
               });
               setTimeout(() => {
-                pushRouter(`/recruiter/post-detail/${res?.postId}`);
+                pushRouter(`/recruiter/post-detail/${res?.data?.postId}`);
               }, 200);
             } else {
               handleOffTabLoading();
-              toast.error("Tạo bài đăng thất bại", {
-                position: "bottom-center",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-              });
+              if (res && res.code === 400) {
+                toast.warning("Bạn đã hết lượt tạo bài", {
+                  position: "bottom-center",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "dark",
+                });
+              } else
+                toast.error("Tạo bài đăng thất bại", {
+                  position: "bottom-center",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "dark",
+                });
             }
           }
         } else {

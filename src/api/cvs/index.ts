@@ -6,22 +6,22 @@ const cvsApi = {
     totalPosts: async(dataLoad:any,dataForm:any,cvIndex:any) => {
         let result = true
         const delete1 = (await axiosClient.delete(
-            "https://backend-hcmute-nestjs.onrender.com/api/v3/cv-information",
+            "https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-information",
             { data: { cvindex: cvIndex } } as any
           )) as unknown as any;
           const delete2 = (await axiosClient.delete(
-            "https://backend-hcmute-nestjs.onrender.com/api/v3/cv-extra-information",
+            "https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-extra-information",
             { data: { cvindex: cvIndex } } as any
           )) as unknown as any;
           const delete3 = (await axiosClient.delete(
-            "https://backend-hcmute-nestjs.onrender.com/api/v3/cv-project",
+            "https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-project",
             { data: { cvindex: cvIndex } } as any
           )) as unknown as any;
           const delete4 = (await axiosClient.delete(
-            `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-layout/${cvIndex}`)) as unknown as any;
+            `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-layout/${cvIndex}`)) as unknown as any;
         
           const delete5 =   (await axiosClient.delete(
-            `https://backend-hcmute-nestjs.onrender.com/api/v3/cv-categories`, { data: { cvIndex: cvIndex }})) as unknown as any;
+            `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-categories`, { data: { cvIndex: cvIndex }})) as unknown as any;
           
           if (
             delete1?.statusCode === 200 &&
@@ -56,7 +56,7 @@ const cvsApi = {
                 }
               }
               const res3 = (await axiosClient.post(
-                "https://backend-hcmute-nestjs.onrender.com/api/v3/cv-information",
+                "https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-information",
                 formData,
                 {
                   headers: {
@@ -68,7 +68,7 @@ const cvsApi = {
               if (res3 && res3.statusCode === 201) {
                 if (dataMoreInfo.length > 0) {
                   const res4 = (await axiosClient.post(
-                    "https://backend-hcmute-nestjs.onrender.com/api/v3/cv-more-information",
+                    "https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-more-information",
                     { data: dataMoreInfo }
                   )) as any;
                   if (!res4 || !(res4.statusCode === 201)) {
@@ -84,7 +84,7 @@ const cvsApi = {
             });
             if (dataExtraInfo.length > 0) {
               const res = (await axiosClient.post(
-                "https://backend-hcmute-nestjs.onrender.com/api/v3/cv-extra-information",
+                "https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-extra-information",
                 { data: dataExtraInfo }
               )) as unknown as any;
               if(!res || !(res.statusCode === 201)){
@@ -96,7 +96,7 @@ const cvsApi = {
             });
             if (dataProject.length > 0) {
               const res2 = (await axiosClient.post(
-                "https://backend-hcmute-nestjs.onrender.com/api/v3/cv-project",
+                "https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cv-project",
                 { data: dataProject }
               )) as unknown as any;
               if(!res2 || !(res2.statusCode === 201)){
@@ -116,7 +116,7 @@ const cvsApi = {
 
     },
     checkWarCV : async(dataLoad:any) => {
-       const URL =  `https://aitraining.onrender.com/checkWar/`
+       const URL =  `https://jeffrey-diverse-writers-vsnet.trycloudflare.com/checkWar/`
        const res = await axiosClientRecruiter.post(URL,{content:dataLoad})
        if(res?.data == 1){
         return false
@@ -146,7 +146,7 @@ const cvsApi = {
       return res3
     },
     postCV: async(dataCV:any,cvId:any,accountId:any)=>{
-      const urlFilterAI = 'https://aitraining.onrender.com/jobFit/'
+      const urlFilterAI = 'https://jeffrey-diverse-writers-vsnet.trycloudflare.com/jobFit/'
       // //console.log(dataCV)
       const dataFilterAI = await axiosClient.post(urlFilterAI,{content:dataCV})
       if(dataFilterAI){
@@ -159,7 +159,7 @@ const cvsApi = {
           const dataPost = await axiosClient.get(urlV3 +`?cvIndex=${cvId}`)
           if(dataPost){
             // //console.log(dataCV,dataPost)
-            const dataFilterPost = await axiosClient.post('https://aitraining.onrender.com/aiFilterPOST/',{contentCV: dataCV,listPost: dataPost.data})
+            const dataFilterPost = await axiosClient.post('https://jeffrey-diverse-writers-vsnet.trycloudflare.com/aiFilterPOST/',{contentCV: dataCV,listPost: dataPost.data})
             if(dataFilterPost){
               // //console.log(dataFilterPost)
               const updateDataFilter = await axiosClient.post(`${V3}/api/v3/cvs-posts`,{data: dataFilterPost.data.map((dt:any)=>{
@@ -197,7 +197,7 @@ const cvsApi = {
       }
     },
     getCVidPort: async(postId:any,accountId:any)=>{
-     const res = await axiosClientRecruiter.get(`https://backend-hcmute-nestjs.onrender.com/api/v3/cvs-posts?accountId=${accountId}&type=${1}&postId=${postId}`)
+     const res = await axiosClientRecruiter.get(`https://lending-advantage-pale-xp.trycloudflare.com/api/v3/cvs-posts?accountId=${accountId}&type=${1}&postId=${postId}`)
      return res
     },
     

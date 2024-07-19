@@ -42,7 +42,7 @@ const EducationModal = (props: Props) => {
   const handleUpdateData = async () => {
     if (type === "add") {
       const res = (await axiosClient.put(
-        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/edu/c",
+        "https://welcome-unlimited-summaries-formerly.trycloudflare.com/api/v1/profiles/edu/c",
         dataRequest
       )) as unknown as IResquest;
       if (res && res.code === 200) {
@@ -54,7 +54,7 @@ const EducationModal = (props: Props) => {
       }
     } else {
       const res = (await axiosClient.put(
-        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/edu/u",
+        "https://welcome-unlimited-summaries-formerly.trycloudflare.com/api/v1/profiles/edu/u",
         dataRequest
       )) as unknown as IResquest;
       if (res && res.code === 200) {
@@ -99,7 +99,7 @@ const EducationModal = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = (await axiosClient.get(
-        "https://backend-hcmute-nestjs.onrender.com/api/v3/academic-types"
+        "https://lending-advantage-pale-xp.trycloudflare.com/api/v3/academic-types"
       )) as unknown as IData;
       if (res && res.status === 200) {
         setDataAcademic(res.data);

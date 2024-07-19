@@ -52,15 +52,15 @@ const JobProfile = (props: Props) => {
   const handleUpdateData = () => {
     const fetchData = async () => {
       const resCat = (await axiosClient.put(
-        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/cat",
+        "https://welcome-unlimited-summaries-formerly.trycloudflare.com/api/v1/profiles/cat",
         dataRequest
       )) as unknown as IData;
       const resLoc = (await axiosClient.put(
-        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/loc",
+        "https://welcome-unlimited-summaries-formerly.trycloudflare.com/api/v1/profiles/loc",
         dataRequest
       )) as unknown as IData;
       const resType = (await axiosClient.put(
-        "https://backend-hcmute-nodejs.onrender.com/api/v1/profiles/per",
+        "https://welcome-unlimited-summaries-formerly.trycloudflare.com/api/v1/profiles/per",
         dataRequest
       )) as unknown as IData;
       const { hdError, hdSuccess } = ToastCustom();

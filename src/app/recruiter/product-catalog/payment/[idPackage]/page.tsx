@@ -104,22 +104,22 @@ const page = (props: Props) => {
                 <div>
                   <div
                     className={`min-h-fit h-auto w-96 rounded-lg bg-white shadow-2xl  overflow-hidden ${
-                      dataPackage?.type === "V1"
+                      dataPackage?.type === "V4"
                         ? "shadow-red-500/20"
-                        : dataPackage?.type === "V2"
-                        ? "shadow-yellow-500/20"
                         : dataPackage?.type === "V3"
+                        ? "shadow-yellow-500/20"
+                        : dataPackage?.type === "V2"
                         ? "shadow-green-500/20"
                         : "shadow-blue-500/20"
                     }`}
                   >
                     <p
                       className={`text-xl font-bold px-4 py-4  text-white  ${
-                        dataPackage?.type === "V1"
+                        dataPackage?.type === "V4"
                           ? "bg-red-600"
-                          : dataPackage?.type === "V2"
-                          ? "bg-yellow-500"
                           : dataPackage?.type === "V3"
+                          ? "bg-yellow-500"
+                          : dataPackage?.type === "V2"
                           ? "bg-green-600"
                           : "bg-blue-600"
                       }`}

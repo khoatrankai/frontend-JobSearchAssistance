@@ -15,7 +15,7 @@ const postsApi = {
   ) => {
     // //console.log(page)
     const URL =
-      `https://backend-hcmute-nestjs.onrender.com/api/v3/posts/newest?` +
+      `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/posts/newest?` +
       `${
         childrenCategoryId
           ? `${childrenCategoryId
@@ -69,11 +69,11 @@ const postsApi = {
   },
 
   getPostV3: (id: number, lang: string) => {
-    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/posts/${id}?lang=${lang}`;
+    const URL = `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/posts/${id}?lang=${lang}`;
     return axiosClient.get(URL);
   },
   getPostV3Recruiter: (id: number, lang: string) => {
-    const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/posts/${id}?lang=${lang}`;
+    const URL = `https://lending-advantage-pale-xp.trycloudflare.com/api/v3/posts/${id}?lang=${lang}`;
     return axiosClientRecruiter.get(URL);
   },
   updateStatusPost: (id: number, status: number) => {
@@ -102,7 +102,7 @@ const postsApi = {
       if(res){
         const listCV = await axiosClientRecruiter.get(`${V3}/api/v3/cvs-posts/cvs?postId=${postId}`)
         if(listCV){
-          const urlAI = 'https://aitraining.onrender.com/aiFilterCV/'
+          const urlAI = 'https://jeffrey-diverse-writers-vsnet.trycloudflare.com/aiFilterCV/'
           const dataFilterCV = await axiosClientRecruiter.post(urlAI,{contentPost: des,listCV: listCV.data.data[0].cvs})
         
           if(dataFilterCV){
@@ -151,7 +151,7 @@ const postsApi = {
       const listCV = await axiosClientRecruiter.get(`${V3}/api/v3/cvs-posts/cvs?postId=${dataPost.data.postId}`)
       if(listCV){
         // //console.log(listCV)
-        const urlAI = 'https://aitraining.onrender.com/aiFilterCV/'
+        const urlAI = 'https://jeffrey-diverse-writers-vsnet.trycloudflare.com/aiFilterCV/'
         // //console.log(des,listCV.data.data.cvs)
         const dataFilterCV = await axiosClientRecruiter.post(urlAI,{contentPost: des,listCV: listCV.data.data[0].cvs})
         if(dataFilterCV){

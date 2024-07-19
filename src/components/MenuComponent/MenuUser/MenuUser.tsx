@@ -345,11 +345,14 @@ const MenuComponent = (props: Props) => {
 
   React.useEffect(() => {
     if (socket.current === undefined && localStorage.getItem("accessToken")) {
-      socket.current = io("https://backend-hcmute-nodejs.onrender.com", {
-        extraHeaders: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      socket.current = io(
+        "https://welcome-unlimited-summaries-formerly.trycloudflare.com",
+        {
+          extraHeaders: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
 
       socket.current.on("connect", () => {
         // //console.log('ket noi thanh cong');
@@ -789,7 +792,7 @@ const MenuComponent = (props: Props) => {
                                         const cvIds =
                                           profile?.profilesCvs?.map(
                                             (dt: any) => {
-                                              return dt?.cvIndex;
+                                              return dt?.id;
                                             }
                                           ) ?? [];
                                         const res =
@@ -977,7 +980,7 @@ const MenuComponent = (props: Props) => {
                                     if (e.target.checked) {
                                       const cvIds =
                                         profile?.profilesCvs?.map((dt: any) => {
-                                          return dt?.cvIndex;
+                                          return dt?.id;
                                         }) ?? [];
                                       const res =
                                         await profileAPi.putSearchProfileJobV3(
