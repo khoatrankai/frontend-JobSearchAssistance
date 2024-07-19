@@ -2,7 +2,7 @@ import axios from "axios"
 
 const apiAccount = {
     forGotPassword: (email : string) => {
-        const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/forgot-password`
+        const URL = `https://backend-hcmute-nestjs.onrender.com/api/v3/forgot-password?type=0`
         return axios.post(URL, { email })
     },
     candidateResetPassword: (password : string, token : string, confirmPassword : string) => {

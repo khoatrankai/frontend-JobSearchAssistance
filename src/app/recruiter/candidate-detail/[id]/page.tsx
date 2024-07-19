@@ -76,12 +76,11 @@ const page = (props: Props) => {
   const ref_Award = useRef<any>();
   const ref_Capacity = useRef<any>();
   const ref_CV = useRef<any>();
+  const dataId: any = useSearchParams.id.toString();
+  const listData = dataId.split("POST");
 
   useEffect(() => {
-    const dataId: any = useSearchParams.id.toString();
-
     const fetchData = async () => {
-      const listData = dataId.split("POST");
       setAccountId(localStorage.getItem("accountIdRecruiter"));
       // //console.log(listData);
       if (listData.length === 2) {
@@ -172,6 +171,9 @@ const page = (props: Props) => {
     ref_Experience,
     ref_Study,
   ]);
+  useEffect(() => {
+    console.log(dataProfile);
+  }, [dataProfile]);
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1152) {
@@ -612,10 +614,16 @@ const page = (props: Props) => {
           </div>
         )}
 
-        {dataProfile?.profilesCvs?.length > 0 && (
+        {listData?.length > 1 ? (
           <div ref={ref_CV} className="py-8">
-            <InfoCV dataProfile={dataProfilePOST} />
+            <InfoCV dataApply={dataProfile} />
           </div>
+        ) : (
+          dataProfilePOST?.profilesCvs?.length > 0 && (
+            <div ref={ref_CV} className="py-8">
+              <InfoCV dataProfile={dataProfilePOST} />
+            </div>
+          )
         )}
       </div>
       {/* <ToastContainer /> */}

@@ -67,7 +67,7 @@ const PriceListComponent = (props: Props) => {
     console.log(profile);
   }, [profile]);
   return (
-    <div className="w-full flex justify-center max-h-[55vh] overflow-y-scroll">
+    <div className="w-full flex justify-center overflow-y-scroll">
       <div className="max-w-6xl w-full ">
         <div className="p-4 bg-slate-50 my-4 rounded-md">
           <div className="mb-6">

@@ -294,6 +294,23 @@ const InfoPerson = (props: Props) => {
               />
             </div>
           </div>
+          <div className="flex min-w-fit items-center">
+            <label className="basis-1/3 font-serif">
+              {languageRedux === 1 ? "Mô tả bản thân" : "Description"}
+            </label>
+            <div className="basis-2/3 font-bold">
+              <Input
+                value={dataRequest?.introduction ?? ""}
+                className={`font-serif outline-none focus-within:bg-black/5 border-[1px] w-full rounded-lg p-1 ${
+                  rsInfo ? "border-dashed border-black/30" : "bg-transparent"
+                }`}
+                name="introduction"
+                onChange={handleUpdate}
+                disabled={!rsInfo}
+                type="text"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

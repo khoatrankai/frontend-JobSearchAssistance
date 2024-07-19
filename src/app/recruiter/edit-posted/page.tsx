@@ -75,8 +75,9 @@ const EditPostedPage: React.FC<Props> = () => {
     handleDecodingDescription,
     handleUpdateDescription,
   } = EncodingDescription();
-  const { handleConvertToTimestamp } = TimeStamp();
-  const [dataPost, setDataPost] = useState<any>({});
+  const { handleConvertToTimestamp, handleConvertToDate } = TimeStamp();
+  const [dataPostOk, setDataPost] = useState<any>({});
+  const [nameWard, setNameWard] = useState<any>();
   const [countImg, setCountImg] = useState<number>(0);
   const ref_image = useRef<any>();
   const [checkResize, setCheckResize] = useState<boolean>(false);
@@ -96,13 +97,14 @@ const EditPostedPage: React.FC<Props> = () => {
   const profile = useSelector((state: any) => state.profileRecruiter.profile);
   useEffect(() => {
     const getPost = async () => {
-      const response = (await postsApi.getPostRecruiterbyId(
+      const response: any = (await postsApi.getPostRecruiterbyId(
         Number(searchParams.get("postId")),
         "vi"
       )) as unknown as IPost;
 
       if (response && response.code === 200) {
         const dataPost = response.data;
+        setNameWard(dataPost?.ward);
         setDataPost(dataPost);
         setDataReq({
           address: dataPost?.address,
@@ -227,8 +229,8 @@ const EditPostedPage: React.FC<Props> = () => {
         })
       );
       setDataPost({
-        ...dataPost,
-        images: dataPost.images.filter((dt: any, i: number) => {
+        ...dataPostOk,
+        images: dataPostOk.images.filter((dt: any, i: number) => {
           return i != index;
         }),
       });
@@ -238,7 +240,7 @@ const EditPostedPage: React.FC<Props> = () => {
         deletedImages: [
           ...dataReq.deletedImages,
           {
-            id: dataPost.images.filter((dt: any, i: number) => {
+            id: dataPostOk.images.filter((dt: any, i: number) => {
               return i === index;
             })[0].id,
           },
@@ -268,7 +270,7 @@ const EditPostedPage: React.FC<Props> = () => {
       }
     }
 
-    formData.append("id", dataPost.id);
+    formData.append("id", dataPostOk.id);
 
     const fetchData = async () => {
       const checkPost = new ValidationPost(
@@ -790,7 +792,7 @@ const EditPostedPage: React.FC<Props> = () => {
                   <input
                     name="phoneNumber"
                     type="tel"
-                    defaultValue={dataPost?.phone_contact}
+                    defaultValue={dataPostOk?.phone_contact}
                     className="font-bold p-2 w-full focus-within:border-black/30 outline-none border-dashed border-2"
                     placeholder={
                       languageRedux === 1
@@ -836,7 +838,11 @@ const EditPostedPage: React.FC<Props> = () => {
             </div>
           </div>
           <TypeJob dataReq={dataReq} setDataReq={setDataReq} />
-          <PositionPost dataReq={dataReq} setDataReq={setDataReq} />
+          <PositionPost
+            dataReq={dataReq}
+            setDataReq={setDataReq}
+            fullnameWard={nameWard}
+          />
           <div className="rounded-lg bg-white shadow-[7px_8px_40px_6px_#00000024] p-4">
             <div className="flex h-10 items-center mb-8">
               <div className="h-full w-3 bg-blue-500 mr-4"></div>
@@ -928,9 +934,7 @@ const EditPostedPage: React.FC<Props> = () => {
                   <input
                     name="expiredDate"
                     type="date"
-                    defaultValue={moment(dataReq?.expiredDate).format(
-                      "YYYY-MM-DD"
-                    )}
+                    value={moment(dataReq?.expiredDate).format("YYYY-MM-DD")}
                     placeholder="Ngày bắt đầu"
                     className="w-full p-2 border-2 rounded-sm font-semibold"
                     onChange={handleUpdateData}

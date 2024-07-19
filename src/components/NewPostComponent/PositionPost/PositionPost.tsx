@@ -8,6 +8,7 @@ import { RiArrowGoBackFill } from "react-icons/ri";
 type Props = {
   dataReq: any;
   setDataReq: any;
+  fullnameWard?: any;
 };
 interface ILocation {
   code: number;
@@ -23,13 +24,18 @@ const PositionPost = (props: Props) => {
   });
   const [nameWard, setNameWard] = useState<string>("Vị trí");
   const [tabPosition, setTabPosition] = useState<boolean>(false);
-  const { dataReq } = props;
+  const { dataReq, fullnameWard } = props;
   const languageRedux = useSelector(
     (state: any) => state.changeLaguage.language
   );
   useEffect(() => {
     setNameWard(languageRedux === 1 ? "Vị trí" : "Position");
   }, [languageRedux]);
+  useEffect(() => {
+    if (fullnameWard) {
+      setNameWard(fullnameWard);
+    }
+  }, [fullnameWard]);
   useEffect(() => {
     const handleBlurTab = (e: any) => {
       if (tabPosition && !btn_position.current.contains(e.target)) {

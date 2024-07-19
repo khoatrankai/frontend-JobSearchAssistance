@@ -6,7 +6,7 @@ import axiosClientRecruiter from '@/configs/axiosRecruiter';
 
 const apiPayment = {
   createPay: async(money:any) => {
-    const URL = `${V3}/api/v3/vnpay-models/create_payment_url`;
+    const URL = `${V3}/api/v3/vnpay-models/create_payment_url?type=0`;
     return await axiosClientRecruiter.post(URL, { "amount": money,
       "bankCode": "",
       "language": "vn"},{
@@ -17,7 +17,7 @@ const apiPayment = {
   },
 
   createPayMomo: async(money:any) => {
-    const URL = `${V3}/api/v3/momo/createPayment`;
+    const URL = `${V3}/api/v3/momo/createPayment?type=0`;
     return await axiosClientRecruiter.post(URL, {
       "amount": money.toString(),
       "extraData": "Thanh toan MOMO"

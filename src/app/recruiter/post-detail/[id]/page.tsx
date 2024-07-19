@@ -41,6 +41,7 @@ import cvsApi from "@/api/cvs";
 import { ImProfile } from "react-icons/im";
 import Link from "next/link";
 import useRouterCustom from "@/util/useRouterCustom/useRouterCustom";
+import TimeStamp from "@/util/TimeStamp/TimeStamp";
 
 type Props = {};
 
@@ -62,6 +63,7 @@ interface IApplication {
 const page = (props: Props) => {
   const { id } = useParams();
   const { handleShortTextHome } = ShortText();
+  const { handleConvertToDate } = TimeStamp();
   const { pushBlank, pushRouter } = useRouterCustom();
   const { handleDecodingDescription } = EncodingDescription();
   const [checkSize, setCheckSize] = useState<boolean>(false);
@@ -840,9 +842,7 @@ const page = (props: Props) => {
                   </h2>
                   <h2 className="font-semibold">
                     {postDetail?.expired_date
-                      ? moment
-                          .unix(postDetail.expired_date)
-                          .format("DD/MM/YYYY")
+                      ? handleConvertToDate(postDetail.expired_date)
                       : "Vô thời hạn"}
                   </h2>
                 </div>

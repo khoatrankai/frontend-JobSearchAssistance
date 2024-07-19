@@ -27,6 +27,7 @@ import CheckRoleRecruiter from "@/util/CheckRoleRecruiter";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import useRouterCustom from "@/util/useRouterCustom/useRouterCustom";
+import moment from "moment";
 type Props = {};
 interface INewPost {
   code: number;
@@ -44,6 +45,7 @@ const page = (props: Props) => {
   const ref_image = useRef<any>();
   const [checkResize, setCheckResize] = useState<boolean>(false);
   const [dataImage, setDataImage] = useState<any>([]);
+  const [nameWard, setNameWard] = useState<any>();
   const [listImgOld, setListImgOld] = useState<any>([]);
   const [listImgOld2, setListImgOld2] = useState<any>([]);
   const [description, setDescription] = useState<any>({
@@ -156,6 +158,7 @@ const page = (props: Props) => {
               index: imageBlobs.length - 1,
               count: imageBlobs.length,
             });
+            setNameWard(dataOld?.ward);
             setDataReq({
               address: dataOld?.address,
               wardId: dataOld?.ward_id,
@@ -365,20 +368,32 @@ const page = (props: Props) => {
                 theme: "dark",
               });
               setTimeout(() => {
-                pushRouter(`/recruiter/post-detail/${res?.postId}`);
+                pushRouter(`/recruiter/post-detail/${res?.data?.postId}`);
               }, 200);
             } else {
               handleOffTabLoading();
-              toast.error("Tạo bài đăng thất bại", {
-                position: "bottom-center",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-              });
+              if (res && res.statusCode === 400) {
+                toast.warning("Bạn đã hết lượt tạo bài", {
+                  position: "bottom-center",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "dark",
+                });
+              } else
+                toast.error("Tạo bài đăng thất bại", {
+                  position: "bottom-center",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "dark",
+                });
             }
           } else {
             handlePersistGateLoaded("Vui lòng chờ giây lát");
@@ -400,20 +415,32 @@ const page = (props: Props) => {
                 theme: "dark",
               });
               setTimeout(() => {
-                pushRouter(`/recruiter/post-detail/${res?.postId}`);
+                pushRouter(`/recruiter/post-detail/${res?.data?.postId}`);
               }, 200);
             } else {
               handleOffTabLoading();
-              toast.error("Tạo bài đăng thất bại", {
-                position: "bottom-center",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-              });
+              if (res && res.code === 400) {
+                toast.warning("Bạn đã hết lượt tạo bài", {
+                  position: "bottom-center",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "dark",
+                });
+              } else
+                toast.error("Tạo bài đăng thất bại", {
+                  position: "bottom-center",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "dark",
+                });
             }
           }
         } else {
@@ -843,7 +870,11 @@ const page = (props: Props) => {
             </div>
           </div>
           <TypeJob dataReq={dataReq} setDataReq={setDataReq} />
-          <PositionPost dataReq={dataReq} setDataReq={setDataReq} />
+          <PositionPost
+            fullnameWard={nameWard}
+            dataReq={dataReq}
+            setDataReq={setDataReq}
+          />
           <div className="rounded-lg bg-white shadow-[7px_8px_40px_6px_#00000024] p-4">
             <div className="flex h-10 items-center mb-8">
               <div className="h-full w-3 bg-blue-500 mr-4"></div>
@@ -929,7 +960,7 @@ const page = (props: Props) => {
                   <input
                     name="expiredDate"
                     type="date"
-                    value={handleConvertToDate(dataReq?.expiredDate)}
+                    value={moment(dataReq?.expiredDate).format("YYYY-MM-DD")}
                     placeholder="Ngày bắt đầu"
                     className="w-full p-2 border-2 rounded-sm font-semibold"
                     onChange={handleUpdateData}

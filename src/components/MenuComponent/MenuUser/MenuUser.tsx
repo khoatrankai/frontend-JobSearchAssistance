@@ -789,7 +789,7 @@ const MenuComponent = (props: Props) => {
                                         const cvIds =
                                           profile?.profilesCvs?.map(
                                             (dt: any) => {
-                                              return dt?.cvIndex;
+                                              return dt?.id;
                                             }
                                           ) ?? [];
                                         const res =
@@ -977,7 +977,7 @@ const MenuComponent = (props: Props) => {
                                     if (e.target.checked) {
                                       const cvIds =
                                         profile?.profilesCvs?.map((dt: any) => {
-                                          return dt?.cvIndex;
+                                          return dt?.id;
                                         }) ?? [];
                                       const res =
                                         await profileAPi.putSearchProfileJobV3(
